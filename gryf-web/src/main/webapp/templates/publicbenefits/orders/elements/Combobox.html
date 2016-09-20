@@ -1,0 +1,26 @@
+<div class="grid-100">
+    <div class="grid-60"  gryf-mandatory-flag="{{item.flags}}">
+        <strong class="label">
+            {{item.name}}
+        </strong>
+        <select ng-options="s as s.name for s in item.items track by s.id"
+                ng-model="item.selectedItem"
+                gryf-data-modification-flags="{{item.flags}}"
+                gryf-privilege="{{item.privilege}}"></select>
+
+        <gryf-validation-msg path="{{item.orderFlowElementId}}"/>
+    </div>
+    <div class="grid-20">
+        <strong class="label">
+            Data wymagana danych
+        </strong>
+        {{item.requiredDate | date:'yyyy-MM-dd'}}
+    </div>
+    <div class="grid-20">
+        <strong class="label">
+            Data uzupełnienia danych
+        </strong>
+        {{item.completedDate | date:'yyyy-MM-dd HH:mm:ss'}}
+    </div>
+</div>
+

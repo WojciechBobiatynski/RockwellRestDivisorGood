@@ -1,0 +1,174 @@
+<div>
+    <header id="header">
+        <h1>Wyszukiwanie wniosków</h1>
+        <ul>
+            <li><a href="#/modify/" class="button button-new">Nowy wniosek</a></li>
+            <li><a ng-click="clear()" class="button button-refresh">wyczyść</a></li>
+        </ul>
+    </header>
+
+    <div class="one-column">
+        <section class="overflow-x-auto">
+            <table class="table table-condensed">
+                <thead>
+                <tr>
+                    <th class="sortable" ng-class="getSortingTypeClass('id')">
+                        <div ng-click="getSortedBy('id')"> Id</div>
+                        <input placeholder="ID" type="text"
+                               ng-model="searchDTO.entity.id">
+                    </th>
+
+                    <th class="sortable" ng-class="getSortingTypeClass('status.id')">
+                        <div ng-click="getSortedBy('status.id')">Status wniosku</div>
+                        <select
+                                ng-options="v.id as v.name for v in statuses"
+                                ng-model="searchDTO.entity.statusId">
+                            <option value="">-wybierz-</option>
+                        </select>
+                    </th>
+
+                    <th class="sortable" ng-class="getSortingTypeClass('enterprise.id')">
+                        <div ng-click="getSortedBy('enterprise.id')">Id przedsiębiorstwa</div>
+                        <input placeholder="Id przedsiębiorstwa"
+                               ng-model="searchDTO.entity.enterpriseId">
+                    </th>
+
+                    <th class="sortable" ng-class="getSortingTypeClass('basicData.enterpriseName')">
+                        <div ng-click="getSortedBy('basicData.enterpriseName')">
+                            Nazwa przedsiębiorstwa
+                        </div>
+                        <input placeholder="Nazwa przedsiębiorstwa"
+                               ng-model="searchDTO.entity.enterpriseName">
+                    </th>
+
+                    <th class="sortable"
+                        ng-class="getSortingTypeClass('basicData.vatRegNum')">
+                        <div ng-click="getSortedBy('basicData.vatRegNum')">
+                            NIP
+                        </div>
+                        <input placeholder="NIP"
+                               ng-model="searchDTO.entity.vatRegNum">
+                    </th>
+
+                    <th class="sortable"
+                        ng-class="getSortingTypeClass('basicData.addressInvoice')">
+                        <div ng-click="getSortedBy('basicData.addressInvoice')">
+                            Adres siedziby
+                        </div>
+                        <input placeholder="Adres siedziby"
+                               ng-model="searchDTO.entity.addresInvoice">
+                    </th>
+
+                    <th class="sortable" ng-class="getSortingTypeClass('basicData.zipCodeInvoice.zipCode')">
+                        <div ng-click="getSortedBy('basicData.zipCodeInvoice.zipCode')">
+                            Kod pocztowy
+                        </div>
+                        <input placeholder="Kod pocztowy"
+                               ng-model="searchDTO.entity.zipCodeInvoiceCode">
+                    </th>
+
+                    <th class="sortable"
+                        ng-class="getSortingTypeClass('basicData.zipCodeInvoice.cityName')">
+                        <div ng-click="getSortedBy('basicData.zipCodeInvoice.cityName')">
+                            Miejscowość
+                        </div>
+                        <input placeholder="Miejscowość"
+                               ng-model="searchDTO.entity.zipCodeInvoiceCity">
+                    </th>
+
+                    <th class="sortable"
+                        ng-class="getSortingTypeClass('applyDate')">
+                        <div ng-click="getSortedBy('applyDate')">
+                            Data złożenia wniosku
+                        </div>
+                        <input type="text"
+                               placeholder="Data od"
+                               ng-model="searchDTO.entity.applyDateFrom"
+                               datepicker-popup="yyyy-MM-dd"
+                               is-open="datepicker.applyFromOpened"
+                               close-text="Zamknij"
+                               clear-text="Czyść"
+                               current-text="Dziś"
+                               ng-click="openDatepicker('applyFromOpened')"/>
+                        <input type="text"
+                               placeholder="Data do"
+                               ng-model="searchDTO.entity.applyDateTo"
+                               datepicker-popup="yyyy-MM-dd"
+                               is-open="datepicker.applyToOpened"
+                               close-text="Zamknij"
+                               clear-text="Czyść"
+                               current-text="Dziś"
+                               ng-click="openDatepicker('applyToOpened')"/>
+                    </th>
+
+                    <th class="sortable"
+                        ng-class="getSortingTypeClass('considerationDate')">
+                        <div ng-click="getSortedBy('considerationDate')">
+                            Data rozpatrzenia wniosku
+                        </div>
+                        <input type="text"
+                               placeholder="Data od"
+                               ng-model="searchDTO.entity.considerationDateFrom"
+                               datepicker-popup="yyyy-MM-dd"
+                               is-open="datepicker.considerationFromOpened"
+                               close-text="Zamknij"
+                               clear-text="Czyść"
+                               current-text="Dziś"
+                               ng-click="openDatepicker('considerationFromOpened')"/>
+                        <input type="text"
+                               placeholder="Data do"
+                               ng-model="searchDTO.entity.considerationDateTo"
+                               datepicker-popup="yyyy-MM-dd"
+                               is-open="datepicker.considerationToOpened"
+                               close-text="Zamknij"
+                               clear-text="Czyść"
+                               current-text="Dziś"
+                               ng-click="openDatepicker('considerationToOpened')"/>
+                    </th>
+                    <th>
+                        <a ng-click="findApplications()"
+                           class="button button-search">szukaj</a>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in searchDTO.searchResultList | limitTo: searchResultOptions.displayLimit">
+                    <td>{{::item.id}}</td>
+                    <td>{{::item.status.name}}</td>
+                    <td>{{::item.enterpriseId}}</td>
+                    <td>{{::item.enterpriseName}}</td>
+                    <td>{{::item.vatRegNum}}</td>
+                    <td>{{::item.addressInvoice}}</td>
+                    <td>{{::item.zipCodeInvoice.zipCode}}</td>
+                    <td>{{::item.zipCodeInvoice.cityName}}</td>
+                    <td>{{::item.applyDate | date:'yyyy-MM-dd'}}</td>
+                    <td>{{::item.considerationDate | date:'yyyy-MM-dd'}}</td>
+                    <td>
+                        <ul class="buttons">
+                            <li><a ng-href="#/modify/{{item.id}}"
+                                   class="button button-go">szczegóły</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div ng-show="searchResultOptions.overflow" class="centered-ul">
+                <ul>
+                    <li><a href="#/" ng-click="loadMore()"
+                           class="button button-infinity">wczytaj więcej wyników</a></li>
+                </ul>
+            </div>
+            <div class="" ng-show="model.zipCodesArray.length===0">
+                Brak wyników
+            </div>
+            <div class="msg msg-error" ng-show="searchResultOptions.badQuery">
+                <p>Błąd kryteriów zapytania - niepoprawny format</p>
+            </div>
+        </section>
+
+    </div>
+</div>
+
+
+

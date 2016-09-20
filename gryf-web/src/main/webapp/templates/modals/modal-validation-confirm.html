@@ -1,0 +1,18 @@
+<div id="modal-validation">
+    <div class="modal-header">
+        <h3 class="modal-title">Walidacja warunkowa</h3>
+    </div>
+    <div class="modal-body text">
+        <ul>
+            <li ng-repeat="v in violations">
+               {{ v.message}}<span ng-if="v.invalidValue"> (wartość: {{ v.invalidValue}})</span>
+            </li>
+        </ul>
+    </div>
+    <div class="modal-footer">
+        <button class="button button-ok" ng-click="$close('force')">Kontynuuj mimo błędów</button>
+        <span class="text-right">
+            <button class="button btn-warning" ng-click="$dismiss()">Anuluj</button>
+        </span>
+    </div>
+</div>

@@ -1,0 +1,57 @@
+<div class="width-100" ng-if="orderStatus.loaded">
+    <div class="grid-100">
+        <header>
+            <h2>{{item.name}}</h2>
+        </header>
+    </div>
+
+    <div class="grid-100" ng-controller="ComplexTypeBasicGrantAppInfoController">
+        <div class="grid-20">
+            <a ng-href="{{getGrantAppLinkFor(item.applicationId)}}"> 
+                <strong class="label">Id wniosku &UpperRightArrow; </strong>
+            </a> 
+            <input type="text" ng-model="item.applicationId"
+                   readonly="readonly">
+        </div>
+
+        <div class="grid-20">
+            <strong class="label">Data wpłynięcia wniosku</strong>
+            <input type="text"
+                   ng-model="item.receiptDate"
+                   datepicker-popup="yyyy-MM-dd"
+                   close-text="Zamknij"
+                   clear-text="Czyść"
+                   current-text="Dziś"
+                   readonly="readonly">
+
+        </div>
+
+        <div class="grid-20">
+            <strong class="label">Data złożenia</strong>
+            <input type="text"
+                   ng-model="item.applyDate"
+                   datepicker-popup="yyyy-MM-dd"
+                   close-text="Zamknij"
+                   clear-text="Czyść"
+                   current-text="Dziś"
+                   readonly="readonly">
+        </div>
+
+        <div class="grid-20">
+            <strong class="label">Data rozpatrzenia</strong>
+            <input type="text"
+                   ng-model="item.considerationDate"
+                   datepicker-popup="yyyy-MM-dd"
+                   close-text="Zamknij"
+                   clear-text="Czyść"
+                   current-text="Dziś"
+                   readonly="readonly">
+        </div>
+
+        <div class="grid-20">
+            <strong class="label">Operator wniosku </strong>
+            <input type="text" ng-model="item.operator"
+                   readonly="readonly">
+        </div>
+    </div>
+</div>
