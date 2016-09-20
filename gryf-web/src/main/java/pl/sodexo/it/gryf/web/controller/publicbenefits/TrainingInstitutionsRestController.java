@@ -32,21 +32,21 @@ public class TrainingInstitutionsRestController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public TrainingInstitution getTrainingInstitutionById() {
-        securityCheckerService.assertFormPrivilege(Privileges.GRF_TRAINING_INSTITUTIONS);
+        securityCheckerService.assertServicePrivilege(Privileges.GRF_TRAINING_INSTITUTIONS);
         return trainingInstitutionService.createTrainingInstitution();
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public Long saveTrainingInstitution(@RequestParam(value = "checkVatRegNumDup", required = false, defaultValue = "true") boolean checkVatRegNumDup,
                                         @RequestBody TrainingInstitution trainingInstitution) {
-        securityCheckerService.assertFormPrivilege(Privileges.GRF_TRAINING_INSTITUTION_MOD);
+        securityCheckerService.assertServicePrivilege(Privileges.GRF_TRAINING_INSTITUTION_MOD);
         trainingInstitution = trainingInstitutionService.saveTrainingInstitution(trainingInstitution, checkVatRegNumDup);
         return trainingInstitution.getId();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public TrainingInstitution getTrainingInstitutionById(@PathVariable Long id) {
-        securityCheckerService.assertFormPrivilege(Privileges.GRF_TRAINING_INSTITUTIONS);
+        securityCheckerService.assertServicePrivilege(Privileges.GRF_TRAINING_INSTITUTIONS);
         return trainingInstitutionService.findTrainingInstitution(id);
     }
 
@@ -63,7 +63,7 @@ public class TrainingInstitutionsRestController {
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public List<TrainingInstitutionSearchResultDTO> findTrainingInstitutions(TrainingInstitutionSearchQueryDTO dto) {
-        securityCheckerService.assertFormPrivilege(Privileges.GRF_TRAINING_INSTITUTIONS);
+        securityCheckerService.assertServicePrivilege(Privileges.GRF_TRAINING_INSTITUTIONS);
         return trainingInstitutionService.findTrainingInstitutions(dto);
 
     }

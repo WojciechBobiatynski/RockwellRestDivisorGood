@@ -32,21 +32,21 @@ public class EnterprisesRestController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public Enterprise getNewEnterprise() {
-        securityCheckerService.assertFormPrivilege(Privileges.GRF_ENTERPRISES);
+        securityCheckerService.assertServicePrivilege(Privileges.GRF_ENTERPRISES);
         return enterpriseService.createEnterprise();
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public Long saveEnterprise(@RequestParam(value = "checkVatRegNumDup", required = false, defaultValue = "true") boolean checkVatRegNumDup,
                                @RequestBody Enterprise enterprise) {
-        securityCheckerService.assertFormPrivilege(Privileges.GRF_ENTERPRISE_MOD);
+        securityCheckerService.assertServicePrivilege(Privileges.GRF_ENTERPRISE_MOD);
         enterprise = enterpriseService.saveEnterprise(enterprise, checkVatRegNumDup);
         return enterprise.getId();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Enterprise getEnterprise(@PathVariable Long id) {
-        securityCheckerService.assertFormPrivilege(Privileges.GRF_ENTERPRISES);
+        securityCheckerService.assertServicePrivilege(Privileges.GRF_ENTERPRISES);
         return enterpriseService.findEnterprise(id);
     }
 
@@ -63,7 +63,7 @@ public class EnterprisesRestController {
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public List<EnterpriseSearchResultDTO> findEnterprises(EnterpriseSearchQueryDTO dto) {
-        securityCheckerService.assertFormPrivilege(Privileges.GRF_ENTERPRISES);
+        securityCheckerService.assertServicePrivilege(Privileges.GRF_ENTERPRISES);
         return enterpriseService.findEnterprises(dto);
 
     }

@@ -40,21 +40,21 @@ public class DictionariesRestController {
     @RequestMapping(value = "/zipCode/", method = RequestMethod.GET)
     @ResponseBody
     public ZipCode getZipCodeById() {
-        securityCheckerService.assertFormPrivilege(Privileges.GRF_ZIP_CODES);
+        securityCheckerService.assertServicePrivilege(Privileges.GRF_ZIP_CODES);
         return zipCodeService.createZipCode();
     }
 
     @RequestMapping(value = "/zipCode/{id}", method = RequestMethod.GET)
     @ResponseBody
     public ZipCode getZipCodeById(@PathVariable Long id) {
-        securityCheckerService.assertFormPrivilege(Privileges.GRF_ZIP_CODES);
+        securityCheckerService.assertServicePrivilege(Privileges.GRF_ZIP_CODES);
         return zipCodeService.findZipCode(id);
     }
 
     @RequestMapping(value = "zipCodes", method = RequestMethod.GET)
     @ResponseBody
     public List<ZipCodeSearchResultDTO> findZipCodes(ZipCodeSearchQueryDTO zipCode) {
-        securityCheckerService.assertFormPrivilege(Privileges.GRF_ZIP_CODES);
+        securityCheckerService.assertServicePrivilege(Privileges.GRF_ZIP_CODES);
         return zipCodeService.findZipCodes(zipCode);
 
     }
@@ -71,7 +71,7 @@ public class DictionariesRestController {
     @RequestMapping(value = "/zipCode", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity saveZipCode(@RequestBody ZipCode zipCode) {
-        securityCheckerService.assertFormPrivilege(Privileges.GRF_ZIP_CODES_MOD);
+        securityCheckerService.assertServicePrivilege(Privileges.GRF_ZIP_CODES_MOD);
         zipCodeService.saveZipCode(zipCode);
         return ResponseEntity.noContent().build();
     }

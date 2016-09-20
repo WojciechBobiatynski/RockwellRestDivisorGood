@@ -1,16 +1,16 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
     <modelVersion>4.0.0</modelVersion>
+    
     <artifactId>gryf-web</artifactId>
-    <version>1.0-TRN-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>gryf-web</name>
 
     <parent>
         <groupId>pl.sodexo.it</groupId>
         <artifactId>gryf-parent</artifactId>
-        <version>1.0-TRN-SNAPSHOT</version>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
 
     <properties>
@@ -18,39 +18,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>jstl</groupId>
-            <artifactId>jstl</artifactId>
-            <version>1.2</version>
-        </dependency>
-        <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-web-api</artifactId>
-            <version>7.0</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-config</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>commons-fileupload</groupId>
-            <artifactId>commons-fileupload</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>pl.sodexo.it</groupId>
-            <artifactId>gryf-service</artifactId>
-        </dependency>
-    </dependencies>
     <build>
         <plugins>
             <plugin>
@@ -89,4 +56,66 @@
         </plugins>
     </build>
 
+    <dependencies>
+        <!--PROJECT -->
+        <dependency>
+            <groupId>pl.sodexo.it</groupId>
+            <artifactId>gryf-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>pl.sodexo.it</groupId>
+            <artifactId>gryf-service-api</artifactId>
+        </dependency>
+
+        <!-- TODO tymczasowa zaleznosc -->
+        <dependency>
+            <groupId>pl.sodexo.it</groupId>
+            <artifactId>gryf-service-impl</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>pl.sodexo.it</groupId>
+            <artifactId>gryf-model</artifactId>
+        </dependency>
+
+        <!--PROJECT - RUNTIME -->
+        <dependency>
+            <groupId>pl.sodexo.it</groupId>
+            <artifactId>gryf-dao-impl</artifactId>
+        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>pl.sodexo.it</groupId>-->
+            <!--<artifactId>gryf-service-impl</artifactId>-->
+        <!--</dependency>-->
+        
+        <!-- OLD -->
+        <dependency>
+            <groupId>jstl</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-web-api</artifactId>
+            <version>7.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+        </dependency>
+    </dependencies>
+    
 </project>

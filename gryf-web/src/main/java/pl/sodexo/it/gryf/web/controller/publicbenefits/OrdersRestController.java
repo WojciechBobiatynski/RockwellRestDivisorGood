@@ -13,7 +13,7 @@ import pl.sodexo.it.gryf.dto.publicbenefits.orders.detailsform.action.IncomingOr
 import pl.sodexo.it.gryf.dto.publicbenefits.orders.searchform.OrderSearchQueryDTO;
 import pl.sodexo.it.gryf.dto.publicbenefits.orders.searchform.OrderSearchResultDTO;
 import pl.sodexo.it.gryf.root.service.SecurityCheckerService;
-import pl.sodexo.it.gryf.root.service.publicbenefits.orders.OrderParser;
+import pl.sodexo.it.gryf.root.service.impl.publicbenefits.orders.OrderParser;
 import pl.sodexo.it.gryf.root.service.publicbenefits.orders.OrderService;
 import pl.sodexo.it.gryf.web.controller.ControllersUrls;
 import pl.sodexo.it.gryf.web.utils.WebUtils;
