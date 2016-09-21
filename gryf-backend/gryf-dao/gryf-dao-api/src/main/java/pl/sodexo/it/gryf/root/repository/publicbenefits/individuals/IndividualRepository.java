@@ -1,6 +1,6 @@
 package pl.sodexo.it.gryf.root.repository.publicbenefits.individuals;
 
-import pl.sodexo.it.gryf.dto.publicbenefits.individuals.searchform.IndividualSearchQueryDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.searchform.IndividualSearchQueryDTO;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
 import pl.sodexo.it.gryf.root.repository.GenericRepository;
 

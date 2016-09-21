@@ -5,7 +5,7 @@
  */
 package pl.sodexo.it.gryf.web.response;
 
-import pl.sodexo.it.gryf.exception.EntityConstraintViolation;
+import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 
 import java.util.List;
 

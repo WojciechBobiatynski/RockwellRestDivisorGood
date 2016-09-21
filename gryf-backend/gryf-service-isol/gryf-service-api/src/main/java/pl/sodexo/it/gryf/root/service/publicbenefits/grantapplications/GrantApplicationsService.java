@@ -1,11 +1,12 @@
 package pl.sodexo.it.gryf.root.service.publicbenefits.grantapplications;
 
-import pl.sodexo.it.gryf.dto.DictionaryDTO;
-import pl.sodexo.it.gryf.dto.FileDTO;
-import pl.sodexo.it.gryf.dto.publicbenefits.MailAttachmentDTO;
-import pl.sodexo.it.gryf.dto.publicbenefits.grantapplications.detailsform.GrantApplicationVersionDictionaryDTO;
-import pl.sodexo.it.gryf.dto.publicbenefits.grantapplications.searchform.GrantApplicationSearchQueryDTO;
-import pl.sodexo.it.gryf.dto.publicbenefits.grantapplications.searchform.GrantApplicationSearchResultDTO;
+import pl.sodexo.it.gryf.common.dto.DictionaryDTO;
+import pl.sodexo.it.gryf.common.dto.FileDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.MailAttachmentDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.grantapplications.detailsform.GrantApplicationVersionDictionaryDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.grantapplications.searchform.GrantApplicationSearchQueryDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.grantapplications.searchform.GrantApplicationSearchResultDTO;
+import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication;
 
 import java.util.List;
@@ -64,7 +65,7 @@ public interface GrantApplicationsService {
 
     /**
      * Funkcja zwraca zbiór adresów e-mail odbiorców przypisanych do przekazanego Wniosku. Tak zwrócony zbiór można sformatować przy pomocy funkcji
-     * {@link pl.sodexo.it.gryf.utils.GryfUtils#formatEmailRecipientsSet GryfUtils.formatEmailRecipientsSet}
+     * {@link GryfUtils#formatEmailRecipientsSet GryfUtils.formatEmailRecipientsSet}
      * @param grantApplication przekazany obiekt wniosku
      * @param existingRecipientsSet istniejący wcześniej zbiór kontaktów email do uzupełnienia (może być null wtedy zostanie stworzony i zwrócony nowy zbiór)
      * @return Zbiór uzupełniony kontaktami przekazanego wniosku

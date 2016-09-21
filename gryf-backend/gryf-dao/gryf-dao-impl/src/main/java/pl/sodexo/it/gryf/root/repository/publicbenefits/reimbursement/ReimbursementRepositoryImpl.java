@@ -1,13 +1,13 @@
 package pl.sodexo.it.gryf.root.repository.publicbenefits.reimbursement;
 
 import org.springframework.stereotype.Repository;
-import pl.sodexo.it.gryf.dto.publicbenefits.reimbursement.searchform.ReimbursementSearchQueryDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.searchform.ReimbursementSearchQueryDTO;
+import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.Reimbursement;
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementDelivery;
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementStatus;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstitution;
 import pl.sodexo.it.gryf.root.repository.GenericRepositoryImpl;
-import pl.sodexo.it.gryf.utils.StringUtils;
 
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;

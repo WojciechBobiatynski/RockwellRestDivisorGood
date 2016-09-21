@@ -6,8 +6,8 @@
 package pl.sodexo.it.gryf.model.publicbenefits.orders;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.model.GryfEntity;
-import pl.sodexo.it.gryf.utils.StringUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

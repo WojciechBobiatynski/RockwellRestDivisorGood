@@ -4,13 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import pl.sodexo.it.gryf.Privileges;
-import pl.sodexo.it.gryf.dto.publicbenefits.individuals.searchform.IndividualSearchQueryDTO;
-import pl.sodexo.it.gryf.dto.publicbenefits.individuals.searchform.IndividualSearchResultDTO;
+import pl.sodexo.it.gryf.common.Privileges;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.searchform.IndividualSearchQueryDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.searchform.IndividualSearchResultDTO;
+import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
 import pl.sodexo.it.gryf.root.service.SecurityCheckerService;
 import pl.sodexo.it.gryf.root.service.publicbenefits.individuals.IndividualService;
-import pl.sodexo.it.gryf.utils.GryfUtils;
 import pl.sodexo.it.gryf.web.controller.ControllersUrls;
 
 import java.util.List;

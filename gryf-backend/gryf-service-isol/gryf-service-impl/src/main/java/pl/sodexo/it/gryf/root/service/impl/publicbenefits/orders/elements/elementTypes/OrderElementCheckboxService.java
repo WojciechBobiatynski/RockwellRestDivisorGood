@@ -1,9 +1,9 @@
 package pl.sodexo.it.gryf.root.service.impl.publicbenefits.orders.elements.elementTypes;
 
 import org.springframework.stereotype.Service;
-import pl.sodexo.it.gryf.dto.publicbenefits.orders.detailsform.elements.OrderElementCheckboxDTO;
-import pl.sodexo.it.gryf.dto.publicbenefits.orders.detailsform.elements.OrderElementDTOBuilder;
-import pl.sodexo.it.gryf.exception.EntityConstraintViolation;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementCheckboxDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementDTOBuilder;
+import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
 import pl.sodexo.it.gryf.root.service.impl.publicbenefits.orders.elements.OrderElementBaseService;
 

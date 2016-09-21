@@ -1,7 +1,8 @@
 package pl.sodexo.it.gryf.root.service.publicbenefits.individuals;
 
-import pl.sodexo.it.gryf.dto.publicbenefits.individuals.searchform.IndividualSearchQueryDTO;
-import pl.sodexo.it.gryf.dto.publicbenefits.individuals.searchform.IndividualSearchResultDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.searchform.IndividualSearchQueryDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.searchform.IndividualSearchResultDTO;
+import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public interface IndividualService {
 
     /**
      * Funkcja zwraca zbiór adresów e-mail odbiorców przypisanych do przekazanej Osoby fizycznej. Tak zwrócony zbiór można sformatować np przy pomocy funkcji
-     * {@link pl.sodexo.it.gryf.utils.GryfUtils#formatEmailRecipientsSet GryfUtils.formatEmailRecipientsSet}
+     * {@link GryfUtils#formatEmailRecipientsSet GryfUtils.formatEmailRecipientsSet}
      * @param individual przekazany obiekt osoby fizycznej
      * @param existingRecipientsSet istniejący wcześniej zbiór kontaktów email do uzupełnienia (może być null wtedy zostanie stworzony i zwrócony nowy zbiór)
      * @return Zbiór uzupełniony kontaktami przekazanej osoby fizycznej

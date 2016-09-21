@@ -1,6 +1,6 @@
 package pl.sodexo.it.gryf.root.service.local;
 
-import pl.sodexo.it.gryf.dto.FileDTO;
+import pl.sodexo.it.gryf.common.dto.FileDTO;
 import pl.sodexo.it.gryf.model.AuditableEntity;
 import pl.sodexo.it.gryf.model.FileType;
 

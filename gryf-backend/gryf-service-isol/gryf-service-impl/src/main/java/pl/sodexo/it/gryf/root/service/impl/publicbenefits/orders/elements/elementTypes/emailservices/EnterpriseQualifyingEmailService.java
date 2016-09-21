@@ -7,16 +7,16 @@ package pl.sodexo.it.gryf.root.service.impl.publicbenefits.orders.elements.eleme
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.sodexo.it.gryf.dto.MailDTO;
-import pl.sodexo.it.gryf.dto.publicbenefits.orders.detailsform.elements.OrderElementDTOBuilder;
+import pl.sodexo.it.gryf.common.dto.MailDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementDTOBuilder;
+import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.model.mail.EmailTemplate;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 import pl.sodexo.it.gryf.root.service.local.MailService;
-import pl.sodexo.it.gryf.root.service.publicbenefits.grantapplications.MailPlaceholders;
 import pl.sodexo.it.gryf.root.service.local.publicbenefits.orders.elements.elementTypes.emailservices.EmailDTOService;
-import pl.sodexo.it.gryf.root.service.publicbenefits.orders.OrderService;
 import pl.sodexo.it.gryf.root.service.publicbenefits.grantapplications.GrantApplicationsService;
-import pl.sodexo.it.gryf.utils.GryfUtils;
+import pl.sodexo.it.gryf.root.service.publicbenefits.grantapplications.MailPlaceholders;
+import pl.sodexo.it.gryf.root.service.publicbenefits.orders.OrderService;
 
 import java.text.NumberFormat;
 

@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import pl.sodexo.it.gryf.Privileges;
+import pl.sodexo.it.gryf.common.Privileges;
 import pl.sodexo.it.gryf.root.service.SecurityCheckerService;
 
 import static pl.sodexo.it.gryf.web.ViewResolverAttributes.DEFAULT_VIEW;

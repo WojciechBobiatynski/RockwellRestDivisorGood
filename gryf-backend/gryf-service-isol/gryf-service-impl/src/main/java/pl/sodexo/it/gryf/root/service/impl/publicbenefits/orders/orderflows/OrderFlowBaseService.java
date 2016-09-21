@@ -1,6 +1,7 @@
 package pl.sodexo.it.gryf.root.service.impl.publicbenefits.orders.orderflows;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import pl.sodexo.it.gryf.common.utils.LoginUtils;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationBasicData;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgramProduct;
@@ -10,7 +11,6 @@ import pl.sodexo.it.gryf.root.repository.publicbenefits.grantprograms.GrantProgr
 import pl.sodexo.it.gryf.root.repository.publicbenefits.orders.OrderRepository;
 import pl.sodexo.it.gryf.root.service.local.ValidateService;
 import pl.sodexo.it.gryf.root.service.local.publicbenefits.orders.orderflows.OrderFlowService;
-import pl.sodexo.it.gryf.utils.LoginUtils;
 
 import java.util.Date;
 import java.util.List;

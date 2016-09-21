@@ -1,11 +1,11 @@
 package pl.sodexo.it.gryf.root.repository.dictionaries;
 
 import org.springframework.stereotype.Repository;
-import pl.sodexo.it.gryf.dto.dictionaries.zipcodes.searchform.ZipCodeSearchQueryDTO;
+import pl.sodexo.it.gryf.common.dto.dictionaries.zipcodes.searchform.ZipCodeSearchQueryDTO;
+import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.model.dictionaries.State;
 import pl.sodexo.it.gryf.model.dictionaries.ZipCode;
 import pl.sodexo.it.gryf.root.repository.GenericRepositoryImpl;
-import pl.sodexo.it.gryf.utils.StringUtils;
 
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;

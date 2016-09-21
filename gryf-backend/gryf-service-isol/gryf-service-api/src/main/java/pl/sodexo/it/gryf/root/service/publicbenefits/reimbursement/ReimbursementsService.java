@@ -1,8 +1,8 @@
 package pl.sodexo.it.gryf.root.service.publicbenefits.reimbursement;
 
-import pl.sodexo.it.gryf.dto.FileDTO;
-import pl.sodexo.it.gryf.dto.publicbenefits.reimbursement.searchform.ReimbursementSearchQueryDTO;
-import pl.sodexo.it.gryf.dto.publicbenefits.reimbursement.searchform.ReimbursementSearchResultDTO;
+import pl.sodexo.it.gryf.common.dto.FileDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.searchform.ReimbursementSearchQueryDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.searchform.ReimbursementSearchResultDTO;
 
 import java.util.List;
 

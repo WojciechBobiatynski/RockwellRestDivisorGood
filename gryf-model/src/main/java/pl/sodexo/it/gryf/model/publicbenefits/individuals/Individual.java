@@ -4,8 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.eclipse.persistence.annotations.OptimisticLocking;
 import org.hibernate.validator.constraints.NotEmpty;
+import pl.sodexo.it.gryf.common.validation.PeselFormat;
 import pl.sodexo.it.gryf.model.VersionableEntity;
 import pl.sodexo.it.gryf.model.dictionaries.ZipCode;
+import pl.sodexo.it.gryf.model.publicbenefits.enterprises.Enterprise;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 
 import javax.persistence.*;
@@ -16,8 +18,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import pl.sodexo.it.gryf.model.publicbenefits.enterprises.Enterprise;
-import pl.sodexo.it.gryf.validation.PeselFormat;
 
 /**
  * Created by michal.szymczyk on 2016-02-26.

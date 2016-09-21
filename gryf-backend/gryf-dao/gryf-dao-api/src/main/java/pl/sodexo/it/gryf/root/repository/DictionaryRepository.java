@@ -1,6 +1,6 @@
 package pl.sodexo.it.gryf.root.repository;
 
-import pl.sodexo.it.gryf.dto.DictionaryDTO;
+import pl.sodexo.it.gryf.common.dto.DictionaryDTO;
 import pl.sodexo.it.gryf.model.DictionaryEntity;
 
 import java.util.List;

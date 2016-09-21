@@ -3,12 +3,12 @@ package pl.sodexo.it.gryf.root.service.impl.publicbenefits.orders.elements.eleme
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
-import pl.sodexo.it.gryf.dto.publicbenefits.orders.detailsform.elements.OrderElementComplexTypeEmailDTO;
-import pl.sodexo.it.gryf.dto.publicbenefits.orders.detailsform.elements.OrderElementDTOBuilder;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementComplexTypeEmailDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementDTOBuilder;
+import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowElement;
 import pl.sodexo.it.gryf.root.service.impl.publicbenefits.orders.elements.OrderElementBaseClobService;
 import pl.sodexo.it.gryf.root.service.local.publicbenefits.orders.elements.elementTypes.emailservices.EmailDTOService;
-import pl.sodexo.it.gryf.utils.GryfUtils;
 
 /**
  * Created by tomasz.bilski.ext on 2015-09-18.

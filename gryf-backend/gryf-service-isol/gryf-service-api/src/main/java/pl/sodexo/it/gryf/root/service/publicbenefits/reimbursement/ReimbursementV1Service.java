@@ -1,6 +1,6 @@
 package pl.sodexo.it.gryf.root.service.publicbenefits.reimbursement;
 
-import pl.sodexo.it.gryf.dto.publicbenefits.reimbursement.detailsform.ReimbursementDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.detailsform.ReimbursementDTO;
 
 /**
  * Created by jbentyn on 2016-09-20.

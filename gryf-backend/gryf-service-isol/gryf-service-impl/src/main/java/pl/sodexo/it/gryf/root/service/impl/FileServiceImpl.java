@@ -3,13 +3,13 @@ package pl.sodexo.it.gryf.root.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.sodexo.it.gryf.dto.FileDTO;
+import pl.sodexo.it.gryf.common.dto.FileDTO;
+import pl.sodexo.it.gryf.common.utils.GryfUtils;
+import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.model.AuditableEntity;
 import pl.sodexo.it.gryf.model.FileType;
 import pl.sodexo.it.gryf.root.service.ApplicationParametersService;
 import pl.sodexo.it.gryf.root.service.local.FileService;
-import pl.sodexo.it.gryf.utils.GryfUtils;
-import pl.sodexo.it.gryf.utils.StringUtils;
 
 import java.io.*;
 import java.util.Date;

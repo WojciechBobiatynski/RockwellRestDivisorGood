@@ -1,6 +1,6 @@
 package pl.sodexo.it.gryf.web.response.publicbenefits;
 
-import pl.sodexo.it.gryf.exception.EntityConstraintViolation;
+import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.web.response.ResponseType;
 
 import java.util.List;

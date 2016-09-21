@@ -1,7 +1,7 @@
 package pl.sodexo.it.gryf.root.service.impl.publicbenefits.orders.actions;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import pl.sodexo.it.gryf.exception.EntityConstraintViolation;
+import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 import pl.sodexo.it.gryf.root.service.local.ValidateService;
 import pl.sodexo.it.gryf.root.service.local.publicbenefits.orders.actions.ActionService;

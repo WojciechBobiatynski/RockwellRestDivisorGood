@@ -1,6 +1,6 @@
 package pl.sodexo.it.gryf.root.service;
 
-import pl.sodexo.it.gryf.Privileges;
+import pl.sodexo.it.gryf.common.Privileges;
 
 import java.lang.reflect.Field;
 

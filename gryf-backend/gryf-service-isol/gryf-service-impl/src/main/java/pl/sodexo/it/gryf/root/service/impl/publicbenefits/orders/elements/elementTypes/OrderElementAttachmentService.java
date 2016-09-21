@@ -2,19 +2,19 @@ package pl.sodexo.it.gryf.root.service.impl.publicbenefits.orders.elements.eleme
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.sodexo.it.gryf.dto.FileDTO;
-import pl.sodexo.it.gryf.dto.publicbenefits.orders.detailsform.elements.OrderElementAttachmentDTO;
-import pl.sodexo.it.gryf.dto.publicbenefits.orders.detailsform.elements.OrderElementDTOBuilder;
-import pl.sodexo.it.gryf.exception.EntityConstraintViolation;
+import pl.sodexo.it.gryf.common.dto.FileDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementAttachmentDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementDTOBuilder;
+import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
+import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.model.FileType;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowElement;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowElementInStatus;
 import pl.sodexo.it.gryf.root.service.ApplicationParametersService;
-import pl.sodexo.it.gryf.root.service.local.FileService;
 import pl.sodexo.it.gryf.root.service.impl.publicbenefits.orders.elements.OrderElementBaseService;
-import pl.sodexo.it.gryf.utils.StringUtils;
+import pl.sodexo.it.gryf.root.service.local.FileService;
 
 import java.util.Date;
 import java.util.List;

@@ -2,15 +2,15 @@ package pl.sodexo.it.gryf.root.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.sodexo.it.gryf.dto.FileContainerDTO;
-import pl.sodexo.it.gryf.dto.FileDTO;
-import pl.sodexo.it.gryf.exception.EntityConstraintViolation;
-import pl.sodexo.it.gryf.exception.EntityValidationException;
-import pl.sodexo.it.gryf.exception.publicbenefits.grantapplications.EntityValidationWithConfirmException;
+import pl.sodexo.it.gryf.common.dto.FileContainerDTO;
+import pl.sodexo.it.gryf.common.dto.FileDTO;
+import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
+import pl.sodexo.it.gryf.common.exception.EntityValidationException;
+import pl.sodexo.it.gryf.common.exception.publicbenefits.grantapplications.EntityValidationWithConfirmException;
+import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.root.service.ApplicationParametersService;
 import pl.sodexo.it.gryf.root.service.SecurityCheckerService;
 import pl.sodexo.it.gryf.root.service.local.ValidateService;
-import pl.sodexo.it.gryf.utils.StringUtils;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;

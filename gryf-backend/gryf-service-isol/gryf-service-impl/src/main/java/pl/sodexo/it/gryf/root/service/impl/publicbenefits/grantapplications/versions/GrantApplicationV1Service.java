@@ -2,7 +2,7 @@ package pl.sodexo.it.gryf.root.service.impl.publicbenefits.grantapplications.ver
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.sodexo.it.gryf.dto.publicbenefits.grantapplications.detailsform.versions.GrantApplicationV1DTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.grantapplications.detailsform.versions.GrantApplicationV1DTO;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationRepData;
 import pl.sodexo.it.gryf.root.service.impl.publicbenefits.grantapplications.GrantApplicationV0BaseService;
 

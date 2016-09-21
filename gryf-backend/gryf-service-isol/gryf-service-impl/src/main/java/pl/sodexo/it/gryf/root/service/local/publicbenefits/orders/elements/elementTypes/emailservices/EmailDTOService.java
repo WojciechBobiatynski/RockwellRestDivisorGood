@@ -5,8 +5,8 @@
  */
 package pl.sodexo.it.gryf.root.service.local.publicbenefits.orders.elements.elementTypes.emailservices;
 
-import pl.sodexo.it.gryf.dto.MailDTO;
-import pl.sodexo.it.gryf.dto.publicbenefits.orders.detailsform.elements.OrderElementDTOBuilder;
+import pl.sodexo.it.gryf.common.dto.MailDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementDTOBuilder;
 
 /**
  *

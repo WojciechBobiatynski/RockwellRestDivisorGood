@@ -1,6 +1,6 @@
 package pl.sodexo.it.gryf.root.repository.publicbenefits.orders;
 
-import pl.sodexo.it.gryf.dto.publicbenefits.orders.detailsform.elements.OrderElementDTOBuilder;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementDTOBuilder;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
 import pl.sodexo.it.gryf.root.repository.GenericRepository;
 

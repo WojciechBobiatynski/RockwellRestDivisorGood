@@ -1,7 +1,7 @@
 package pl.sodexo.it.gryf.root.service.local.publicbenefits.grantapplications;
 
-import pl.sodexo.it.gryf.dto.publicbenefits.MailAttachmentDTO;
-import pl.sodexo.it.gryf.dto.publicbenefits.grantapplications.detailsform.GrantApplicationDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.MailAttachmentDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.grantapplications.detailsform.GrantApplicationDTO;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication;
 import pl.sodexo.it.gryf.root.service.publicbenefits.grantapplications.MailPlaceholders;
 

@@ -22,7 +22,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import pl.sodexo.it.gryf.utils.JsonMapperUtils;
+import pl.sodexo.it.gryf.common.utils.JsonMapperUtils;
 import pl.sodexo.it.gryf.web.formatter.DateFormatter;
 
 import java.util.List;

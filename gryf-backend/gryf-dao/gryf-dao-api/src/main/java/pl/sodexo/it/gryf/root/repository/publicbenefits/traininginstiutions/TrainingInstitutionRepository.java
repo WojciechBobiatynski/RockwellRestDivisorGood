@@ -1,6 +1,6 @@
 package pl.sodexo.it.gryf.root.repository.publicbenefits.traininginstiutions;
 
-import pl.sodexo.it.gryf.dto.publicbenefits.traininginstiutions.searchform.TrainingInstitutionSearchQueryDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingInstitutionSearchQueryDTO;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstitution;
 import pl.sodexo.it.gryf.root.repository.GenericRepository;
 

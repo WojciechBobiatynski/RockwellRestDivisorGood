@@ -8,17 +8,17 @@ package pl.sodexo.it.gryf.model.publicbenefits.orders;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.eclipse.persistence.annotations.OptimisticLocking;
+import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.model.VersionableEntity;
 import pl.sodexo.it.gryf.model.publicbenefits.enterprises.Enterprise;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication;
+import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
 import pl.sodexo.it.gryf.model.stock.products.Product;
-import pl.sodexo.it.gryf.utils.GryfUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.*;
-import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
 
 /**
  * Główna encja przetrzymująca dane dla zamówienia. Wyjątkowo nazwa klasy jest inna niż nazwa encji.

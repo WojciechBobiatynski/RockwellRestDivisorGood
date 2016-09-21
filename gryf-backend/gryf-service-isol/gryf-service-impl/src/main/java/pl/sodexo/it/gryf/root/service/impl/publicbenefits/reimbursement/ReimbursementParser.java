@@ -1,8 +1,8 @@
 package pl.sodexo.it.gryf.root.service.impl.publicbenefits.reimbursement;
 
-import pl.sodexo.it.gryf.dto.FileDTO;
-import pl.sodexo.it.gryf.dto.publicbenefits.reimbursement.detailsform.*;
-import pl.sodexo.it.gryf.utils.JsonMapperUtils;
+import pl.sodexo.it.gryf.common.dto.FileDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.detailsform.*;
+import pl.sodexo.it.gryf.common.utils.JsonMapperUtils;
 
 import java.util.List;
 

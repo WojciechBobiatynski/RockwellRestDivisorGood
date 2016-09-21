@@ -1,9 +1,9 @@
 package pl.sodexo.it.gryf.root.service.impl.publicbenefits.orders;
 
-import pl.sodexo.it.gryf.dto.publicbenefits.orders.detailsform.action.IncomingOrderElementDTO;
-import pl.sodexo.it.gryf.dto.publicbenefits.orders.detailsform.elements.OrderElementDTO;
-import pl.sodexo.it.gryf.utils.JsonMapperUtils;
-import pl.sodexo.it.gryf.utils.StringUtils;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.action.IncomingOrderElementDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementDTO;
+import pl.sodexo.it.gryf.common.utils.JsonMapperUtils;
+import pl.sodexo.it.gryf.common.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;

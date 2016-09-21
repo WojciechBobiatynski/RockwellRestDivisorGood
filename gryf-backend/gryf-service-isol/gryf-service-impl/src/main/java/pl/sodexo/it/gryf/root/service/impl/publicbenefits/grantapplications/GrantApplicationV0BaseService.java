@@ -1,17 +1,20 @@
 package pl.sodexo.it.gryf.root.service.impl.publicbenefits.grantapplications;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import pl.sodexo.it.gryf.dto.DictionaryDTO;
-import pl.sodexo.it.gryf.dto.FileDTO;
-import pl.sodexo.it.gryf.dto.dictionaries.zipcodes.searchform.ZipCodeSearchResultDTO;
-import pl.sodexo.it.gryf.dto.publicbenefits.MailAttachmentDTO;
-import pl.sodexo.it.gryf.dto.publicbenefits.enterprises.searchform.EnterpriseSearchResultDTO;
-import pl.sodexo.it.gryf.dto.publicbenefits.grantapplications.detailsform.*;
-import pl.sodexo.it.gryf.dto.publicbenefits.reimbursement.detailsform.ReimbursementDTO;
-import pl.sodexo.it.gryf.exception.EntityConstraintViolation;
-import pl.sodexo.it.gryf.exception.EntityValidationException;
-import pl.sodexo.it.gryf.exception.StaleDataException;
-import pl.sodexo.it.gryf.exception.publicbenefits.VatRegNumTrainingInstitutionExistException;
+import pl.sodexo.it.gryf.common.dto.DictionaryDTO;
+import pl.sodexo.it.gryf.common.dto.FileDTO;
+import pl.sodexo.it.gryf.common.dto.dictionaries.zipcodes.searchform.ZipCodeSearchResultDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.MailAttachmentDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.enterprises.searchform.EnterpriseSearchResultDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.grantapplications.detailsform.*;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.detailsform.ReimbursementDTO;
+import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
+import pl.sodexo.it.gryf.common.exception.EntityValidationException;
+import pl.sodexo.it.gryf.common.exception.StaleDataException;
+import pl.sodexo.it.gryf.common.exception.publicbenefits.VatRegNumTrainingInstitutionExistException;
+import pl.sodexo.it.gryf.common.utils.GryfUtils;
+import pl.sodexo.it.gryf.common.utils.StringUtils;
+import pl.sodexo.it.gryf.common.validation.publicbenefits.grantapplication.*;
 import pl.sodexo.it.gryf.model.FileType;
 import pl.sodexo.it.gryf.model.dictionaries.ZipCode;
 import pl.sodexo.it.gryf.model.mail.EmailSourceType;
@@ -42,9 +45,6 @@ import pl.sodexo.it.gryf.root.service.publicbenefits.enterprises.EnterpriseServi
 import pl.sodexo.it.gryf.root.service.publicbenefits.grantapplications.GrantApplicationsService;
 import pl.sodexo.it.gryf.root.service.publicbenefits.grantapplications.MailPlaceholders;
 import pl.sodexo.it.gryf.root.service.publicbenefits.orders.OrderService;
-import pl.sodexo.it.gryf.utils.GryfUtils;
-import pl.sodexo.it.gryf.utils.StringUtils;
-import pl.sodexo.it.gryf.validation.publicbenefits.grantapplication.*;
 
 import javax.mail.Session;
 import java.util.*;

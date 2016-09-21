@@ -41,7 +41,7 @@ public class OrderFlowElementType extends GryfEntity {
     }
     
     //STATIC FIELDS - COMPONENT NAME FIELDS
-    private static final String ORDER_ELEMENT_DTO_PACKAGE_PREFIX = "pl.sodexo.it.gryf.dto.publicbenefits.orders.detailsform.elements.";
+    private static final String ORDER_ELEMENT_DTO_PACKAGE_PREFIX = "pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.";
     private static final String ORDER_ELEMENT_DTO_QUALIFIED_CLASS_PREFIX = "OrderElement";
     private static final String ORDER_ELEMENT_DTO_QUALIFIED_CLASS_SUFFIX = "DTO";
     private static final String ORDER_ELEMENT_SERVICE_PREFIX = "orderElement";

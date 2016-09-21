@@ -5,7 +5,7 @@
  */
 package pl.sodexo.it.gryf.model.publicbenefits.reimbursement;
 
-import pl.sodexo.it.gryf.dto.YesNo;
+import pl.sodexo.it.gryf.common.dto.YesNo;
 import pl.sodexo.it.gryf.model.AuditableEntity;
 
 import javax.persistence.*;

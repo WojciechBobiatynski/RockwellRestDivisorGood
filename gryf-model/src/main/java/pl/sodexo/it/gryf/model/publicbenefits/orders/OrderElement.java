@@ -7,7 +7,6 @@ package pl.sodexo.it.gryf.model.publicbenefits.orders;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import pl.sodexo.it.gryf.model.AuditableEntity;
-import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationFormData;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -24,7 +23,7 @@ import java.util.Objects;
 @Table(name = "ORDER_ELEMENTS", schema = "APP_PBE")
 @NamedQueries({
         @NamedQuery(name = OrderElement.FIND_DTO_FACTORY_BY_ORDER_TO_MODIFY, query =
-                "SELECT distinct new pl.sodexo.it.gryf.dto.publicbenefits.orders.detailsform.elements.OrderElementDTOBuilder (o, e, fe, eis) " +
+                "SELECT distinct new pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementDTOBuilder (o, e, fe, eis) " +
                 "FROM OrderEntity o " +
                 "JOIN o.orderElements e " +
                 "JOIN e.orderFlowElement fe " +
@@ -33,7 +32,7 @@ import java.util.Objects;
                 "AND o.id = :id " +
                 "ORDER by eis.pos"),
         @NamedQuery(name = OrderElement.FIND_DTO_FACTORY_BY_ORDER_TO_PREVIEW, query =
-                "SELECT distinct new pl.sodexo.it.gryf.dto.publicbenefits.orders.detailsform.elements.OrderElementDTOBuilder (o, e, fe) " +
+                "SELECT distinct new pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementDTOBuilder (o, e, fe) " +
                 "FROM OrderEntity o " +
                 "JOIN o.orderElements e " +
                 "JOIN e.orderFlowElement fe " +

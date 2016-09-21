@@ -1,7 +1,7 @@
 package pl.sodexo.it.gryf.web.response.publicbenefits;
 
 
-import pl.sodexo.it.gryf.dto.publicbenefits.enterprises.searchform.EnterpriseSearchResultDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.enterprises.searchform.EnterpriseSearchResultDTO;
 
 import java.util.List;
 

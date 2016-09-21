@@ -1,6 +1,6 @@
 package pl.sodexo.it.gryf.root.service;
 
-import pl.sodexo.it.gryf.ReportTemplateCode;
+import pl.sodexo.it.gryf.common.ReportTemplateCode;
 import pl.sodexo.it.gryf.model.FileType;
 
 import java.util.Map;

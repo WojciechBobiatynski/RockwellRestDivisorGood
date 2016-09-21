@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import pl.sodexo.it.gryf.dto.DictionaryDTO;
+import pl.sodexo.it.gryf.common.dto.DictionaryDTO;
 import pl.sodexo.it.gryf.model.publicbenefits.ContactType;
 import pl.sodexo.it.gryf.root.service.DictionaryService;
 import pl.sodexo.it.gryf.root.service.dictionaries.ContactTypeService;

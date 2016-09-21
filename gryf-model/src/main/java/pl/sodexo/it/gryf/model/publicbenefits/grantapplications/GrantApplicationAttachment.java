@@ -1,8 +1,8 @@
 package pl.sodexo.it.gryf.model.publicbenefits.grantapplications;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.model.AuditableEntity;
-import pl.sodexo.it.gryf.utils.StringUtils;
 
 import javax.persistence.*;
 import java.util.Objects;

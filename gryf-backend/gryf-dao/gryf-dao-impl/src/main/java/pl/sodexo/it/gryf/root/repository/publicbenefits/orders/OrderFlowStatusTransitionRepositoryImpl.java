@@ -1,7 +1,7 @@
 package pl.sodexo.it.gryf.root.repository.publicbenefits.orders;
 
 import org.springframework.stereotype.Repository;
-import pl.sodexo.it.gryf.dto.publicbenefits.orders.detailsform.transitions.OrderFlowTransitionDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.transitions.OrderFlowTransitionDTO;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowStatusTransition;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowStatusTransitionPK;
 import pl.sodexo.it.gryf.root.repository.GenericRepositoryImpl;

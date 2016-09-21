@@ -4,14 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import pl.sodexo.it.gryf.Privileges;
-import pl.sodexo.it.gryf.dto.FileDTO;
+import pl.sodexo.it.gryf.common.Privileges;
+import pl.sodexo.it.gryf.common.dto.FileDTO;
+import pl.sodexo.it.gryf.common.utils.GryfUtils;
+import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.root.service.SecurityCheckerService;
 import pl.sodexo.it.gryf.root.service.publicbenefits.grantapplications.GrantApplicationsService;
 import pl.sodexo.it.gryf.root.service.publicbenefits.orders.OrderService;
 import pl.sodexo.it.gryf.root.service.publicbenefits.reimbursement.ReimbursementsService;
-import pl.sodexo.it.gryf.utils.GryfUtils;
-import pl.sodexo.it.gryf.utils.StringUtils;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;

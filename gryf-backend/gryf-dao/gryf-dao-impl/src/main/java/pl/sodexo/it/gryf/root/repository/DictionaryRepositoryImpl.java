@@ -1,10 +1,10 @@
 package pl.sodexo.it.gryf.root.repository;
 
 import org.springframework.stereotype.Repository;
-import pl.sodexo.it.gryf.dto.DictionaryDTO;
+import pl.sodexo.it.gryf.common.dto.DictionaryDTO;
+import pl.sodexo.it.gryf.common.utils.GryfUtils;
+import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.model.DictionaryEntity;
-import pl.sodexo.it.gryf.utils.GryfUtils;
-import pl.sodexo.it.gryf.utils.StringUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

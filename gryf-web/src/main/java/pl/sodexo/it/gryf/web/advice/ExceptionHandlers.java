@@ -14,26 +14,18 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import pl.sodexo.it.gryf.exception.AuthAssertionFailureException;
-import pl.sodexo.it.gryf.exception.AuthAssertionFailureFormException;
-import pl.sodexo.it.gryf.exception.EntityValidationException;
-import pl.sodexo.it.gryf.exception.StaleDataException;
-import pl.sodexo.it.gryf.exception.publicbenefits.grantapplications.EntityValidationWithConfirmException;
+import pl.sodexo.it.gryf.common.exception.*;
+import pl.sodexo.it.gryf.common.exception.publicbenefits.grantapplications.EntityValidationWithConfirmException;
 import pl.sodexo.it.gryf.root.service.ApplicationParametersService;
-import pl.sodexo.it.gryf.web.response.GeneralExceptionResponse;
-import pl.sodexo.it.gryf.web.response.StaleDataResponse;
-import pl.sodexo.it.gryf.web.response.UnauthorizedResponse;
-import pl.sodexo.it.gryf.web.response.ValidationErrorResponse;
+import pl.sodexo.it.gryf.web.response.*;
 import pl.sodexo.it.gryf.web.response.publicbenefits.ValidationErrorWithConfirmResponse;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import pl.sodexo.it.gryf.exception.InvalidObjectIdException;
 
 import static pl.sodexo.it.gryf.web.ViewResolverAttributes.DEFAULT_VIEW;
 import static pl.sodexo.it.gryf.web.ViewResolverAttributes.MAIN_CONTENT_PARAM_NAME;
 import static pl.sodexo.it.gryf.web.controller.ControllersUrls.PAGES_PREFIX;
-import pl.sodexo.it.gryf.web.response.InvalidObjectIdExceptionResponse;
 
 /**
  *

@@ -1,10 +1,10 @@
 package pl.sodexo.it.gryf.root.service.impl.publicbenefits.grantapplications;
 
-import pl.sodexo.it.gryf.dto.FileDTO;
-import pl.sodexo.it.gryf.dto.publicbenefits.grantapplications.detailsform.GrantApplicationAttachmentDTO;
-import pl.sodexo.it.gryf.dto.publicbenefits.grantapplications.detailsform.GrantApplicationDTO;
-import pl.sodexo.it.gryf.utils.JsonMapperUtils;
-import pl.sodexo.it.gryf.utils.StringUtils;
+import pl.sodexo.it.gryf.common.dto.FileDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.grantapplications.detailsform.GrantApplicationAttachmentDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.grantapplications.detailsform.GrantApplicationDTO;
+import pl.sodexo.it.gryf.common.utils.JsonMapperUtils;
+import pl.sodexo.it.gryf.common.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -1,6 +1,6 @@
 package pl.sodexo.it.gryf.root.repository.publicbenefits.reimbursement;
 
-import pl.sodexo.it.gryf.dto.publicbenefits.reimbursement.searchform.ReimbursementDeliverySearchQueryDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.searchform.ReimbursementDeliverySearchQueryDTO;
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementDelivery;
 import pl.sodexo.it.gryf.root.repository.GenericRepository;
 

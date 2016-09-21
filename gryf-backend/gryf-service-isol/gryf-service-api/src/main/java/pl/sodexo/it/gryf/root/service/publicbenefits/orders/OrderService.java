@@ -1,9 +1,9 @@
 package pl.sodexo.it.gryf.root.service.publicbenefits.orders;
 
-import pl.sodexo.it.gryf.dto.FileDTO;
-import pl.sodexo.it.gryf.dto.publicbenefits.orders.detailsform.action.IncomingOrderElementDTO;
-import pl.sodexo.it.gryf.dto.publicbenefits.orders.searchform.OrderSearchQueryDTO;
-import pl.sodexo.it.gryf.dto.publicbenefits.orders.searchform.OrderSearchResultDTO;
+import pl.sodexo.it.gryf.common.dto.FileDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.action.IncomingOrderElementDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.searchform.OrderSearchQueryDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.searchform.OrderSearchResultDTO;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 

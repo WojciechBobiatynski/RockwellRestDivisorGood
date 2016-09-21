@@ -5,15 +5,15 @@ package pl.sodexo.it.gryf.root.service.impl.publicbenefits.orders.elements;
  */
 
 import org.springframework.beans.factory.annotation.Autowired;
-import pl.sodexo.it.gryf.dto.publicbenefits.orders.detailsform.elements.OrderElementDTO;
-import pl.sodexo.it.gryf.exception.EntityConstraintViolation;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementDTO;
+import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
+import pl.sodexo.it.gryf.common.utils.JsonMapperUtils;
+import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElementClob;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowElementInStatus;
 import pl.sodexo.it.gryf.root.service.SecurityCheckerService;
 import pl.sodexo.it.gryf.root.service.local.publicbenefits.orders.elements.OrderElementService;
-import pl.sodexo.it.gryf.utils.JsonMapperUtils;
-import pl.sodexo.it.gryf.utils.StringUtils;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.List;

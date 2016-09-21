@@ -1,9 +1,9 @@
 package pl.sodexo.it.gryf.root.service.publicbenefits.reimbursement;
 
-import pl.sodexo.it.gryf.dto.DictionaryDTO;
-import pl.sodexo.it.gryf.dto.publicbenefits.reimbursement.detailsform.ReimbursementDeliveryDTO;
-import pl.sodexo.it.gryf.dto.publicbenefits.reimbursement.searchform.ReimbursementDeliverySearchQueryDTO;
-import pl.sodexo.it.gryf.dto.publicbenefits.reimbursement.searchform.ReimbursementDeliverySearchResultDTO;
+import pl.sodexo.it.gryf.common.dto.DictionaryDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.detailsform.ReimbursementDeliveryDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.searchform.ReimbursementDeliverySearchQueryDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.searchform.ReimbursementDeliverySearchResultDTO;
 
 import java.util.List;
 

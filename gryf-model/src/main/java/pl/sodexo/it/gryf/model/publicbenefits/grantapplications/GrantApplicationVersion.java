@@ -36,7 +36,7 @@ public class GrantApplicationVersion extends GryfEntity implements DictionaryEnt
 
     //STATIC FIELDS - COMPONENT NAME FIELDS
 
-    private static final String APPLICATION_DTO_PACKAGE_PREFIX = "pl.sodexo.it.gryf.dto.publicbenefits.grantapplications.detailsform.versions.";
+    private static final String APPLICATION_DTO_PACKAGE_PREFIX = "pl.sodexo.it.gryf.common.dto.publicbenefits.grantapplications.detailsform.versions.";
     private static final String APPLICATION_DTO_QUALIFIED_CLASS_PREFIX = "GrantApplication";
     private static final String APPLICATION_DTO_QUALIFIED_CLASS_SUFFIX = "DTO";
     private static final String APPLICATION_SERVICE_SUFFIX = "Service";

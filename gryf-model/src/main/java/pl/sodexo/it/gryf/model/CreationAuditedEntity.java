@@ -1,6 +1,6 @@
 package pl.sodexo.it.gryf.model;
 
-import pl.sodexo.it.gryf.utils.LoginUtils;
+import pl.sodexo.it.gryf.common.utils.LoginUtils;
 
 import javax.persistence.*;
 import java.util.Date;

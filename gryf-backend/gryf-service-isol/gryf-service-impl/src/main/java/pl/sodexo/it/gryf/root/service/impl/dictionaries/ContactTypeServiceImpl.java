@@ -3,12 +3,12 @@ package pl.sodexo.it.gryf.root.service.impl.dictionaries;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.sodexo.it.gryf.dto.publicbenefits.ContactDataValidationDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.ContactDataValidationDTO;
+import pl.sodexo.it.gryf.common.utils.StringUtils;
+import pl.sodexo.it.gryf.common.validation.dictionaries.ContactDataValidator;
 import pl.sodexo.it.gryf.model.publicbenefits.ContactType;
 import pl.sodexo.it.gryf.root.repository.dictionaries.ContactTypeRepository;
 import pl.sodexo.it.gryf.root.service.dictionaries.ContactTypeService;
-import pl.sodexo.it.gryf.utils.StringUtils;
-import pl.sodexo.it.gryf.validation.dictionaries.ContactDataValidator;
 
 import java.util.List;
 

@@ -3,7 +3,7 @@ package pl.sodexo.it.gryf.root.service.impl.publicbenefits.reimbursement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.sodexo.it.gryf.dto.publicbenefits.reimbursement.detailsform.ReimbursementPatternDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.detailsform.ReimbursementPatternDTO;
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementPattern;
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementPatternParam;
 import pl.sodexo.it.gryf.root.repository.publicbenefits.reimbursement.ReimbursementPatternParamRepository;

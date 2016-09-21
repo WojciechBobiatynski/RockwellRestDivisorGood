@@ -1,9 +1,10 @@
 package pl.sodexo.it.gryf.root.repository.publicbenefits.orders;
 
 import org.springframework.stereotype.Repository;
-import pl.sodexo.it.gryf.dto.SearchDto;
-import pl.sodexo.it.gryf.dto.SortType;
-import pl.sodexo.it.gryf.dto.publicbenefits.orders.searchform.OrderSearchQueryDTO;
+import pl.sodexo.it.gryf.common.dto.SearchDto;
+import pl.sodexo.it.gryf.common.dto.SortType;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.searchform.OrderSearchQueryDTO;
+import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.model.publicbenefits.enterprises.Enterprise;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
@@ -11,7 +12,6 @@ import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowStatus;
 import pl.sodexo.it.gryf.root.repository.GenericRepositoryImpl;
-import pl.sodexo.it.gryf.utils.StringUtils;
 
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;

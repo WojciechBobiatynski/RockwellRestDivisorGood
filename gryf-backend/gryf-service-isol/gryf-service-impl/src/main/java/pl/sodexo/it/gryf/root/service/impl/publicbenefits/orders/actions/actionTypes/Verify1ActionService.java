@@ -1,7 +1,7 @@
 package pl.sodexo.it.gryf.root.service.impl.publicbenefits.orders.actions.actionTypes;
 
 import org.springframework.stereotype.Service;
-import pl.sodexo.it.gryf.exception.EntityConstraintViolation;
+import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 import pl.sodexo.it.gryf.root.service.impl.publicbenefits.orders.actions.ActionBaseService;
 import pl.sodexo.it.gryf.root.service.impl.publicbenefits.orders.actions.common.VerifyOrderHelper;

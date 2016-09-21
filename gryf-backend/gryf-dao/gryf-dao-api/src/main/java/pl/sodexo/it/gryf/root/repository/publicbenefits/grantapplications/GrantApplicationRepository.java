@@ -1,6 +1,6 @@
 package pl.sodexo.it.gryf.root.repository.publicbenefits.grantapplications;
 
-import pl.sodexo.it.gryf.dto.publicbenefits.grantapplications.searchform.GrantApplicationSearchQueryDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.grantapplications.searchform.GrantApplicationSearchQueryDTO;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication;
 import pl.sodexo.it.gryf.root.repository.GenericRepository;
 

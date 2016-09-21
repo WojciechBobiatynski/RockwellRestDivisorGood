@@ -24,7 +24,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "ORDER_FLOW_STATUS_TRANSITIONS", schema = "APP_PBE")
 @NamedQueries({
-        @NamedQuery(name = OrderFlowStatusTransition.FIND_DTO_BY_ORDER, query = "SELECT new pl.sodexo.it.gryf.dto.publicbenefits.orders.detailsform.transitions.OrderFlowTransitionDTO (ofst, ofs) " +
+        @NamedQuery(name = OrderFlowStatusTransition.FIND_DTO_BY_ORDER, query = "SELECT new pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.transitions.OrderFlowTransitionDTO (ofst, ofs) " +
                                                                                 "FROM OrderEntity o " +
                                                                                 "JOIN o.status ofs " +
                                                                                 "JOIN ofs.orderFlowStatusTransitions ofst " +

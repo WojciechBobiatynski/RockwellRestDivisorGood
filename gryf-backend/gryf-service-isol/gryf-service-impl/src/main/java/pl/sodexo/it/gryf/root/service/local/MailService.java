@@ -1,7 +1,7 @@
 package pl.sodexo.it.gryf.root.service.local;
 
-import pl.sodexo.it.gryf.dto.MailDTO;
-import pl.sodexo.it.gryf.dto.publicbenefits.MailAttachmentDTO;
+import pl.sodexo.it.gryf.common.dto.MailDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.MailAttachmentDTO;
 import pl.sodexo.it.gryf.model.mail.EmailInstance;
 import pl.sodexo.it.gryf.model.mail.EmailSourceType;
 import pl.sodexo.it.gryf.root.service.publicbenefits.grantapplications.MailPlaceholders;

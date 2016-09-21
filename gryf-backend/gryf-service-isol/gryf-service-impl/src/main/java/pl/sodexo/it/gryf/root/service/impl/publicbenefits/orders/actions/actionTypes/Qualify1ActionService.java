@@ -2,20 +2,20 @@ package pl.sodexo.it.gryf.root.service.impl.publicbenefits.orders.actions.action
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.sodexo.it.gryf.dto.publicbenefits.MailAttachmentDTO;
-import pl.sodexo.it.gryf.dto.publicbenefits.orders.detailsform.elements.OrderElementComplexTypeEmailDTO;
-import pl.sodexo.it.gryf.exception.EntityConstraintViolation;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.MailAttachmentDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementComplexTypeEmailDTO;
+import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
+import pl.sodexo.it.gryf.common.utils.JsonMapperUtils;
+import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
 import pl.sodexo.it.gryf.root.service.ApplicationParametersService;
+import pl.sodexo.it.gryf.root.service.impl.publicbenefits.orders.actions.ActionBaseService;
+import pl.sodexo.it.gryf.root.service.impl.publicbenefits.orders.elements.elementTypes.OrderElementAttrDService;
 import pl.sodexo.it.gryf.root.service.local.MailService;
 import pl.sodexo.it.gryf.root.service.local.ValidateService;
 import pl.sodexo.it.gryf.root.service.publicbenefits.grantapplications.GrantApplicationsService;
-import pl.sodexo.it.gryf.root.service.impl.publicbenefits.orders.actions.ActionBaseService;
-import pl.sodexo.it.gryf.root.service.impl.publicbenefits.orders.elements.elementTypes.OrderElementAttrDService;
-import pl.sodexo.it.gryf.utils.JsonMapperUtils;
-import pl.sodexo.it.gryf.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Date;

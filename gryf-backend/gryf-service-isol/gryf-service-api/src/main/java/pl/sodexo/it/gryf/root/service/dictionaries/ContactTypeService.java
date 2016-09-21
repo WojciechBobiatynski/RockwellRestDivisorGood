@@ -1,6 +1,6 @@
 package pl.sodexo.it.gryf.root.service.dictionaries;
 
-import pl.sodexo.it.gryf.dto.publicbenefits.ContactDataValidationDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.ContactDataValidationDTO;
 import pl.sodexo.it.gryf.model.publicbenefits.ContactType;
 
 import java.util.List;
