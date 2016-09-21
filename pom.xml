@@ -23,7 +23,7 @@
         <flyway.version>4.0.3</flyway.version>
         <oracle.version>11.2.0</oracle.version>
 
-        <gryf.model.version>1.0-TRN-SNAPSHOT</gryf.model.version>
+        <gryf.model.version>1.0.0-SNAPSHOT</gryf.model.version>
         <!--<gryf.repository.version>1.0-TRN-SNAPSHOT</gryf.repository.version>-->
         <!--<gryf.service.version>1.0-TRN-SNAPSHOT</gryf.service.version>-->
     </properties>
@@ -268,8 +268,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.1</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
         </plugins>

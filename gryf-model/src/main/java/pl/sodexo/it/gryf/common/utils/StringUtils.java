@@ -79,9 +79,13 @@ public abstract class StringUtils{
         StringBuilder sb = new StringBuilder(word.length());
         for (int i = 0; i < word.length(); i++) {
             char c = word.charAt(i);
-            sb.append(polishReplacementMap.containsKey(c) ? polishReplacementMap.get(c) : c);
+            sb.append(polishReplacedCharIfPossible(c));
         }
         return sb.toString();
+    }
+
+    private static char polishReplacedCharIfPossible(char c) {
+        return polishReplacementMap.containsKey(c) ? polishReplacementMap.get(c) : c;
     }
 
     /**
