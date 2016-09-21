@@ -16,6 +16,7 @@ import pl.sodexo.it.gryf.common.exception.StaleDataException;
 import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.*;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
+import pl.sodexo.it.gryf.parsers.GrantApplicationParser;
 import pl.sodexo.it.gryf.root.repository.publicbenefits.grantapplications.GrantApplicationAttachmentRepository;
 import pl.sodexo.it.gryf.root.repository.publicbenefits.grantapplications.GrantApplicationRepository;
 import pl.sodexo.it.gryf.root.repository.publicbenefits.grantapplications.GrantApplicationVersionRepository;

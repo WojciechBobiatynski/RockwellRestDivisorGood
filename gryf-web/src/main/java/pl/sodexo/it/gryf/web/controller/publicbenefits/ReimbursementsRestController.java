@@ -26,7 +26,6 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(value = ControllersUrls.PUBLIC_BENEFITS_REST + "/reimbursements", produces = "application/json;charset=UTF-8")
-@Transactional(propagation = Propagation.NOT_SUPPORTED)
 public class ReimbursementsRestController {
 
     //FIELDS

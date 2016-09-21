@@ -1,8 +1,6 @@
 package pl.sodexo.it.gryf.web.controller.publicbenefits;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import pl.sodexo.it.gryf.common.Privileges;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.searchform.IndividualSearchQueryDTO;
@@ -18,7 +16,6 @@ import java.util.List;
 @RestController
 @RequestMapping(value = ControllersUrls.PUBLIC_BENEFITS_REST + "/individual",
         produces = "application/json;charset=UTF-8")
-@Transactional(propagation = Propagation.NOT_SUPPORTED)
 public class IndividualsRestController {
 
     @Autowired

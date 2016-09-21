@@ -3,15 +3,13 @@ package pl.sodexo.it.gryf.web.controller.publicbenefits;
 import org.eclipse.persistence.exceptions.OptimisticLockException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.jpa.JpaOptimisticLockingFailureException;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pl.sodexo.it.gryf.common.Privileges;
 import pl.sodexo.it.gryf.common.dto.FileDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.detailsform.ReimbursementDTO;
 import pl.sodexo.it.gryf.root.service.SecurityCheckerService;
-import pl.sodexo.it.gryf.root.service.impl.publicbenefits.reimbursement.ReimbursementParser;
+import pl.sodexo.it.gryf.parsers.ReimbursementParser;
 import pl.sodexo.it.gryf.root.service.publicbenefits.reimbursement.ReimbursementV1Service;
 import pl.sodexo.it.gryf.web.controller.ControllersUrls;
 import pl.sodexo.it.gryf.web.utils.WebUtils;
@@ -24,7 +22,6 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(value = ControllersUrls.PUBLIC_BENEFITS_REST + "/reimbursements/v1", produces = "application/json;charset=UTF-8")
-@Transactional(propagation = Propagation.NOT_SUPPORTED)
 public class ReimbursementV1RestController {
 
     //FIELDS

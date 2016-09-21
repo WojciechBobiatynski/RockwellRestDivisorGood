@@ -2,8 +2,6 @@ package pl.sodexo.it.gryf.web.controller.publicbenefits;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,7 +18,6 @@ import java.util.List;
  */
 @Controller
 @RequestMapping(value = "/rest/publicBenefits", produces = "application/json;charset=UTF-8")
-@Transactional(propagation = Propagation.NOT_SUPPORTED)
 public class PublicBenefitsRestController {
 
     @Autowired

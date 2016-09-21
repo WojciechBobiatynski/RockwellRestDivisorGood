@@ -27,6 +27,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.enterprises.EnterpriseSize;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.*;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgramParam;
+import pl.sodexo.it.gryf.parsers.GrantApplicationParser;
 import pl.sodexo.it.gryf.root.repository.dictionaries.ContactTypeRepository;
 import pl.sodexo.it.gryf.root.repository.dictionaries.ZipCodeRepository;
 import pl.sodexo.it.gryf.root.repository.publicbenefits.enterprises.EnterpriseEntityTypeRepository;
@@ -164,7 +165,7 @@ public abstract class GrantApplicationV0BaseService<T extends GrantApplicationV0
         GrantApplicationVersion applicationVersion = application.getApplicationVersion();
         GrantApplicationFormData applicationFormData = application.getFormData();
 
-        T dto = (T)GrantApplicationParser.readApplicationData(applicationVersion.getDtoClassName(), applicationFormData.getFormData());
+        T dto = (T) GrantApplicationParser.readApplicationData(applicationVersion.getDtoClassName(), applicationFormData.getFormData());
         dto = fillApplicationDto(dto, application);
 
         return GrantApplicationParser.writeApplicationData(dto);

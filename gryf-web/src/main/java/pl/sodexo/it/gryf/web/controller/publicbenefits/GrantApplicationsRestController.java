@@ -3,8 +3,6 @@ package pl.sodexo.it.gryf.web.controller.publicbenefits;
 import org.eclipse.persistence.exceptions.OptimisticLockException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.jpa.JpaOptimisticLockingFailureException;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pl.sodexo.it.gryf.common.Privileges;
@@ -14,7 +12,7 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.grantapplications.detailsform
 import pl.sodexo.it.gryf.common.dto.publicbenefits.grantapplications.searchform.GrantApplicationSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.grantapplications.searchform.GrantApplicationSearchResultDTO;
 import pl.sodexo.it.gryf.root.service.SecurityCheckerService;
-import pl.sodexo.it.gryf.root.service.impl.publicbenefits.grantapplications.GrantApplicationParser;
+import pl.sodexo.it.gryf.parsers.GrantApplicationParser;
 import pl.sodexo.it.gryf.root.service.publicbenefits.grantapplications.GrantApplicationsService;
 import pl.sodexo.it.gryf.web.controller.ControllersUrls;
 import pl.sodexo.it.gryf.web.utils.WebUtils;
@@ -27,7 +25,6 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(value = ControllersUrls.PUBLIC_BENEFITS_REST + "/grantapplication", produces = "application/json;charset=UTF-8")
-@Transactional(propagation = Propagation.NOT_SUPPORTED)
 public class GrantApplicationsRestController {
 
     @Autowired

@@ -1,7 +1,6 @@
 package pl.sodexo.it.gryf;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
-import pl.sodexo.it.gryf.root.BaseContext;
 import pl.sodexo.it.gryf.web.SessionListener;
 import pl.sodexo.it.gryf.web.WebContext;
 import pl.sodexo.it.gryf.web.security.SecurityConfig;
