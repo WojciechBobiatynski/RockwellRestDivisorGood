@@ -17,6 +17,7 @@ public class OrderFlow1Service extends OrderFlowBaseService{
     //FIELDS
 
     @Autowired
+    //FIXME wstrzykniecie klasy
     private OrderElementComplexTypeGrantedVouchersInfoService orderElementComplexTypeGrantedVouchersInfoService;
 
     //PUBLIC METHODS

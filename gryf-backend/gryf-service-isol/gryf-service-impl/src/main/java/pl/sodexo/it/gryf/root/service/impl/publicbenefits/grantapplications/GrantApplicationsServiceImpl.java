@@ -199,6 +199,6 @@ public class GrantApplicationsServiceImpl implements GrantApplicationsService {
     //PRIVATE METHODS
 
     private GrantApplicationService findGrantApplicationService(String serviceBeanName) {
-        return  (GrantApplicationV0BaseService) BeanUtils.findBean(context, serviceBeanName);
+        return  (GrantApplicationService) BeanUtils.findBean(context, serviceBeanName);
     }
 }

@@ -1,5 +1,7 @@
 package pl.sodexo.it.gryf.root.service.impl.publicbenefits.orders.elements.elementTypes;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementAttrDDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementDTOBuilder;
@@ -15,6 +17,7 @@ import java.util.Objects;
  * Created by Michal.CHWEDCZUK.ext on 2015-07-23.
  */
 @Service
+@Scope( proxyMode = ScopedProxyMode.TARGET_CLASS )
 public class OrderElementAttrDService extends OrderElementBaseService<OrderElementAttrDDTO> {
 
     @Override

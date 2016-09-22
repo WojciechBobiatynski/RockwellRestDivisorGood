@@ -1,10 +1,7 @@
 package pl.sodexo.it.gryf.root.service.aspect;
 
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
 import org.eclipse.persistence.exceptions.OptimisticLockException;
-import org.springframework.core.annotation.Order;
 import org.springframework.orm.jpa.JpaOptimisticLockingFailureException;
 import pl.sodexo.it.gryf.common.exception.GryfOptimisticLockRuntimeException;
 
@@ -14,13 +11,12 @@ import pl.sodexo.it.gryf.common.exception.GryfOptimisticLockRuntimeException;
  *
  * Created by jbentyn on 2016-09-21.
  */
-@Aspect
-@Order(1)
-//TODO właczyć gdy będą interfejsy  dla serwisów pl.sodexo.it.gryf.root.service.impl.publicbenefits.orders.elements.elementTypes
-//@Component
+//TODO na razie wyłaczam
+//@Aspect
+//@Order(1)
 public class HandleExceptionAspect {
 
-    @Around("execution(* pl.sodexo.it.gryf.root.service.impl..*.*(..))")
+//    @Around("execution(* pl.sodexo.it.gryf.root.service.impl..*.*(..))")
     public Object handle(ProceedingJoinPoint pjp) throws Throwable { // NOSONAR
         try {
             return pjp.proceed();

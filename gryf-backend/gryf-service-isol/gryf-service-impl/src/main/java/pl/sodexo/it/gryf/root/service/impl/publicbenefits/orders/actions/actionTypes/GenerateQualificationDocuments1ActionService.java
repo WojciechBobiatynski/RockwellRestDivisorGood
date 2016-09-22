@@ -26,6 +26,7 @@ public class GenerateQualificationDocuments1ActionService extends ActionBaseServ
     private ReportService reportService;
 
     @Autowired
+    //FIXME wstrzykniecie klasy
     private OrderElementAttachmentService orderElementAttachmentService;
 
     //ACTION
