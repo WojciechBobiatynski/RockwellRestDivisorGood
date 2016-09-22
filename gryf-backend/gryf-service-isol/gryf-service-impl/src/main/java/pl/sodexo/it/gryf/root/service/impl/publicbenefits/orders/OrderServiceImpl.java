@@ -24,10 +24,11 @@ import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationVersion;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.*;
-import pl.sodexo.it.gryf.parsers.OrderParser;
+import pl.sodexo.it.gryf.common.parsers.OrderParser;
 import pl.sodexo.it.gryf.root.repository.GryfPLSQLRepository;
 import pl.sodexo.it.gryf.root.repository.publicbenefits.orders.*;
 import pl.sodexo.it.gryf.root.service.SecurityCheckerService;
+import pl.sodexo.it.gryf.root.service.impl.BeanUtils;
 import pl.sodexo.it.gryf.root.service.local.FileService;
 import pl.sodexo.it.gryf.root.service.local.ValidateService;
 import pl.sodexo.it.gryf.root.service.local.publicbenefits.orders.actions.ActionService;
@@ -128,7 +129,7 @@ public class OrderServiceImpl implements OrderService {
         GrantApplicationVersion grantApplicationVersion = grantApplication.getApplicationVersion();
         OrderFlow orderFlow = findOrderFlow(grantApplicationVersion.getId());
 
-        OrderFlowService orderFlowService = (OrderFlowService)GryfUtils.findBean(context, orderFlow.getServiceBeanName());
+        OrderFlowService orderFlowService = (OrderFlowService) BeanUtils.findBean(context, orderFlow.getServiceBeanName());
         Order order = orderFlowService.createOrder(grantApplication, orderFlow);
         addElementsByOrderStatus(order);
         return order;
@@ -168,7 +169,7 @@ public class OrderServiceImpl implements OrderService {
 
             //EXECUTE ACTION
             if (!StringUtils.isEmpty(statusTransition.getActionBeanName())) {
-                ActionService actionService = (ActionService) GryfUtils.findBean(context, statusTransition.getActionBeanName());
+                ActionService actionService = (ActionService) BeanUtils.findBean(context, statusTransition.getActionBeanName());
                 actionService.execute(order, acceptedViolations);
             }
 
@@ -301,7 +302,7 @@ public class OrderServiceImpl implements OrderService {
             OrderFlowElement ofe = builder.getOrderFlowElement();
             OrderFlowElementType ofet = ofe.getOrderFlowElementType();
 
-            OrderElementService service = (OrderElementService)GryfUtils.findBean(context, ofet.getServiceBeanName());
+            OrderElementService service = (OrderElementService) BeanUtils.findBean(context, ofet.getServiceBeanName());
             elements.add(service.createElement(builder));
         }
 
@@ -388,7 +389,7 @@ public class OrderServiceImpl implements OrderService {
         //LISTA PO DTO (DLA KAŻDEGO ODPALANEI WALIDACJI)
         for (OrderElementDTO elementDTO : elementDtoList) {
             String serviceName = OrderFlowElementType.getServiceBeanName(elementDTO.getElementTypeComponentName());
-            OrderElementService service = (OrderElementService)GryfUtils.findBean(context,  serviceName);
+            OrderElementService service = (OrderElementService) BeanUtils.findBean(context,  serviceName);
 
             //POBRANIE "ELEMENTU W STATUSIE" DLA DANEGO DTO
             OrderFlowElementInStatus ofeis = ofeisMap.get(elementDTO.getOrderFlowElementId());
@@ -432,7 +433,7 @@ public class OrderServiceImpl implements OrderService {
 
             //AKTUALIZACJIA WARTOSCI
             if(dto != null){
-                OrderElementService orderElementService = (OrderElementService)GryfUtils.findBean(context, ofet.getServiceBeanName());
+                OrderElementService orderElementService = (OrderElementService) BeanUtils.findBean(context, ofet.getServiceBeanName());
                 orderElementService.updateValue(element, dto);
             }
         }

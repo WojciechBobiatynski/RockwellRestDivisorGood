@@ -13,14 +13,15 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.grantapplications.detailsform
 import pl.sodexo.it.gryf.common.dto.publicbenefits.grantapplications.searchform.GrantApplicationSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.grantapplications.searchform.GrantApplicationSearchResultDTO;
 import pl.sodexo.it.gryf.common.exception.StaleDataException;
+import pl.sodexo.it.gryf.common.parsers.GrantApplicationParser;
 import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.*;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
-import pl.sodexo.it.gryf.parsers.GrantApplicationParser;
 import pl.sodexo.it.gryf.root.repository.publicbenefits.grantapplications.GrantApplicationAttachmentRepository;
 import pl.sodexo.it.gryf.root.repository.publicbenefits.grantapplications.GrantApplicationRepository;
 import pl.sodexo.it.gryf.root.repository.publicbenefits.grantapplications.GrantApplicationVersionRepository;
 import pl.sodexo.it.gryf.root.repository.publicbenefits.grantprograms.GrantProgramRepository;
+import pl.sodexo.it.gryf.root.service.impl.BeanUtils;
 import pl.sodexo.it.gryf.root.service.local.FileService;
 import pl.sodexo.it.gryf.root.service.local.publicbenefits.grantapplications.GrantApplicationService;
 import pl.sodexo.it.gryf.root.service.publicbenefits.grantapplications.GrantApplicationsService;
@@ -198,13 +199,6 @@ public class GrantApplicationsServiceImpl implements GrantApplicationsService {
     //PRIVATE METHODS
 
     private GrantApplicationService findGrantApplicationService(String serviceBeanName) {
-        GrantApplicationV0BaseService service = (GrantApplicationV0BaseService) context.getBean(serviceBeanName);
-        if (service == null) {
-            throw new RuntimeException("Nie udało się pobrać serwisu o nazwie " + serviceBeanName);
-        }
-        return service;
+        return  (GrantApplicationV0BaseService) BeanUtils.findBean(context, serviceBeanName);
     }
-
-    
-            
 }

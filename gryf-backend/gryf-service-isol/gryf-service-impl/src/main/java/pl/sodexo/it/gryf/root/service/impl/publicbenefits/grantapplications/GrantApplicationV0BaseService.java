@@ -27,7 +27,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.enterprises.EnterpriseSize;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.*;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgramParam;
-import pl.sodexo.it.gryf.parsers.GrantApplicationParser;
+import pl.sodexo.it.gryf.common.parsers.GrantApplicationParser;
 import pl.sodexo.it.gryf.root.repository.dictionaries.ContactTypeRepository;
 import pl.sodexo.it.gryf.root.repository.dictionaries.ZipCodeRepository;
 import pl.sodexo.it.gryf.root.repository.publicbenefits.enterprises.EnterpriseEntityTypeRepository;

@@ -1,5 +1,7 @@
 package pl.sodexo.it.gryf.root.service.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,8 +16,6 @@ import pl.sodexo.it.gryf.root.service.local.FileService;
 import java.io.*;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Created by tomasz.bilski.ext on 2015-07-09.
@@ -24,6 +24,7 @@ import java.util.logging.Logger;
 @Transactional
 public class FileServiceImpl implements FileService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(FileService.class);
     //FIELDS
 
     @Autowired
@@ -66,7 +67,7 @@ public class FileServiceImpl implements FileService {
                 try {
                     deleteFile(file.getFileLocation());
                 }catch(RuntimeException e){
-                    Logger.getLogger(FileServiceImpl.class.getSimpleName()).log(Level.SEVERE, e.getMessage(), e);
+                    LOGGER.error(e.getMessage(), e);
                 }
             }
         }

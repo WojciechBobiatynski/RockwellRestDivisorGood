@@ -5,6 +5,8 @@
  */
 package pl.sodexo.it.gryf.web.advice;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -20,9 +22,6 @@ import pl.sodexo.it.gryf.root.service.ApplicationParametersService;
 import pl.sodexo.it.gryf.web.response.*;
 import pl.sodexo.it.gryf.web.response.publicbenefits.ValidationErrorWithConfirmResponse;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import static pl.sodexo.it.gryf.web.ViewResolverAttributes.DEFAULT_VIEW;
 import static pl.sodexo.it.gryf.web.ViewResolverAttributes.MAIN_CONTENT_PARAM_NAME;
 import static pl.sodexo.it.gryf.web.controller.ControllersUrls.PAGES_PREFIX;
@@ -34,6 +33,9 @@ import static pl.sodexo.it.gryf.web.controller.ControllersUrls.PAGES_PREFIX;
 @ControllerAdvice
 @Order(Ordered.LOWEST_PRECEDENCE)
 public class ExceptionHandlers {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExceptionHandlers.class);
+
     @Autowired
     ApplicationParametersService aps;
     
@@ -80,7 +82,7 @@ public class ExceptionHandlers {
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public ResponseEntity<GeneralExceptionResponse> generalException(Exception sde) {
-        Logger.getLogger(ExceptionHandlers.class.getSimpleName()).log(Level.SEVERE, sde.getMessage(), sde);
+        LOGGER.error(sde.getMessage(), sde);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new GeneralExceptionResponse(sde.getMessage()));
     }
     

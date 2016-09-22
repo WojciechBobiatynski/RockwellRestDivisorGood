@@ -15,25 +15,17 @@
     </parent>
 
     <dependencies>
-
+        <!--PROJECT -->
         <dependency>
             <groupId>pl.sodexo.it</groupId>
             <artifactId>gryf-service-api</artifactId>
         </dependency>
-
         <dependency>
             <groupId>pl.sodexo.it</groupId>
             <artifactId>gryf-dao-api</artifactId>
         </dependency>
 
-        <!-- TODO tymczasowa zaleznosc -->
-        <dependency>
-            <groupId>pl.sodexo.it</groupId>
-            <artifactId>gryf-dao-impl</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        
-        <!-- OLD -->
+        <!-- SPRING -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
@@ -43,6 +35,7 @@
             <artifactId>spring-orm</artifactId>
         </dependency>
 
+        <!-- MAIL -->
         <dependency>
             <groupId>javax.mail</groupId>
             <artifactId>mail</artifactId>
@@ -51,6 +44,36 @@
             <groupId>javax.mail</groupId>
             <artifactId>javax.mail-api</artifactId>
         </dependency>
+
+        <!-- JASPER -->
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports</artifactId>
+        </dependency>
+
+        <!--ASPECTJ -->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+        </dependency>
+
+
+        <!-- LOG -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.janino</groupId>
+            <artifactId>janino</artifactId>
+        </dependency>
     </dependencies>
-    
 </project>

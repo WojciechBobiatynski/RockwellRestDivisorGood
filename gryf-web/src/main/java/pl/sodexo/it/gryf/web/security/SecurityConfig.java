@@ -29,7 +29,7 @@ import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.List;
 
-
+//TODO: przenieść do gryf-security.xml
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {

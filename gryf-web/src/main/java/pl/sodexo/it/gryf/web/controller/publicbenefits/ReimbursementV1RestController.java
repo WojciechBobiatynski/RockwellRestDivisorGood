@@ -9,7 +9,7 @@ import pl.sodexo.it.gryf.common.Privileges;
 import pl.sodexo.it.gryf.common.dto.FileDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.detailsform.ReimbursementDTO;
 import pl.sodexo.it.gryf.root.service.SecurityCheckerService;
-import pl.sodexo.it.gryf.parsers.ReimbursementParser;
+import pl.sodexo.it.gryf.common.parsers.ReimbursementParser;
 import pl.sodexo.it.gryf.root.service.publicbenefits.reimbursement.ReimbursementV1Service;
 import pl.sodexo.it.gryf.web.controller.ControllersUrls;
 import pl.sodexo.it.gryf.web.utils.WebUtils;

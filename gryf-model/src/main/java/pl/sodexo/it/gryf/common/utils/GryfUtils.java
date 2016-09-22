@@ -1,6 +1,5 @@
 package pl.sodexo.it.gryf.common.utils;
 
-import org.springframework.context.ApplicationContext;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.common.exception.EntityValidationException;
 import pl.sodexo.it.gryf.common.exception.publicbenefits.VatRegNumTrainingInstitutionExistException;
@@ -108,14 +107,6 @@ public abstract class GryfUtils {
             v.setMessage(s + v.getMessage());
         }
         throw new EntityValidationException(e.getViolations());
-    }
-
-    public static Object findBean(ApplicationContext context, String beanName) {
-        Object service = context.getBean(beanName);
-        if (service == null) {
-            throw new RuntimeException("Nie udało się pobrać bean springowego o nazwie " + beanName);
-        }
-        return service;
     }
 
     public static String amountToString(BigDecimal value){

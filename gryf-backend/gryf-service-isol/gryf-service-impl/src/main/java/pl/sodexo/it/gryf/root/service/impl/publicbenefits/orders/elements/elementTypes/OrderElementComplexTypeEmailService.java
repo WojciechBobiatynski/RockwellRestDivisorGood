@@ -5,8 +5,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementComplexTypeEmailDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementDTOBuilder;
-import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowElement;
+import pl.sodexo.it.gryf.root.service.impl.BeanUtils;
 import pl.sodexo.it.gryf.root.service.impl.publicbenefits.orders.elements.OrderElementBaseClobService;
 import pl.sodexo.it.gryf.root.service.local.publicbenefits.orders.elements.elementTypes.emailservices.EmailDTOService;
 
@@ -38,7 +38,7 @@ public class OrderElementComplexTypeEmailService extends OrderElementBaseClobSer
             throw new RuntimeException("Niewłaściwie uzupełniony parametr " + OrderFlowElement.EMAIL_SERVICE_BEAN +
                                     " dla elementu APP_PBE.ORDER_FLOW_ELEMENTS " + builder.getOrderFlowElement().getElementId());
         }
-        EmailDTOService emailDTOService = (EmailDTOService) GryfUtils.findBean(context, emailServiceBeanName);
+        EmailDTOService emailDTOService = (EmailDTOService) BeanUtils.findBean(context, emailServiceBeanName);
         return new OrderElementComplexTypeEmailDTO(builder, emailDTOService.createMailDTO(builder));
     }
 

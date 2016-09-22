@@ -19,6 +19,5 @@
         <module>gryf-dao</module>
         <module>gryf-integration</module>
     </modules>
-
     
 </project>

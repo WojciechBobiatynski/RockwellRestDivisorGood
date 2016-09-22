@@ -1,4 +1,4 @@
-package pl.sodexo.it.gryf.parsers;
+package pl.sodexo.it.gryf.common.parsers;
 
 import pl.sodexo.it.gryf.common.dto.FileDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.grantapplications.detailsform.GrantApplicationAttachmentDTO;

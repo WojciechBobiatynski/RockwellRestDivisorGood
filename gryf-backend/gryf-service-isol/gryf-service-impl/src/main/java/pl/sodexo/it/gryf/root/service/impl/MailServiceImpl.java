@@ -1,5 +1,7 @@
 package pl.sodexo.it.gryf.root.service.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -31,8 +33,7 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 /**
  * Created by tomasz.bilski.ext on 2015-08-19.
@@ -42,7 +43,7 @@ public class MailServiceImpl implements MailService {
 
     //STATIC FIELDS
 
-    private static final Logger LOG = Logger.getLogger(MailServiceImpl.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(MailServiceImpl.class);
 
     //FIELDS
 
@@ -177,7 +178,7 @@ public class MailServiceImpl implements MailService {
 
         //POBRANIE INSTANCJI MAILA
         List<EmailInstance> emails = emailInstanceRepository.findByStatus(EmailInstance.STATUS_PENDING);
-        LOG.log(Level.INFO, String.format("Uruchominie zadania wysyłajacego maile ilość mail do wysłnia [%s]", emails.size()));
+        LOGGER.info("Uruchominie zadania wysyłajacego maile. Ilość maili do wysłania [{}]", emails.size());
 
         //WYSLANIE MAILI
         for (EmailInstance email : emails) {
@@ -185,7 +186,7 @@ public class MailServiceImpl implements MailService {
             mailService.sendMail(email);
         }
 
-        LOG.log(Level.INFO, "Zakończenie zadania wysyłajacego maile");
+        LOGGER.info("Zakończenie zadania wysyłajacego maile");
     }
 
     @Override
@@ -225,7 +226,7 @@ public class MailServiceImpl implements MailService {
 
         } catch (MessagingException | RuntimeException e) {
             fillAfterSend(email, EmailInstance.STATUS_ERROR, mailSession, e.getMessage());
-            LOG.log(Level.SEVERE, "Wystapił bład przy wysyłce maila dla id = " + email.getId(), e);
+            LOGGER.error("Wystapił bład przy wysyłce maila dla id = {}", email.getId(), e);
         }
 
         emailInstanceRepository.update(email, email.getId());

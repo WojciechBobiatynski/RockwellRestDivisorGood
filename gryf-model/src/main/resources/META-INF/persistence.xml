@@ -1,65 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-  <persistence-unit name="gryf_PU" transaction-type="RESOURCE_LOCAL">
-    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <non-jta-data-source>java:comp/env/jdbc/srvee</non-jta-data-source>
-    <class>pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowStatusTransSql</class>
-    <shared-cache-mode>NONE</shared-cache-mode>
-    <validation-mode>NONE</validation-mode>
-    <properties>
-      <!--property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@10.48.0.20:1521:WARE"/>
-      <property name="javax.persistence.jdbc.user" value="eagle"/>
-      <property name="javax.persistence.jdbc.password" value="eagle"/-->
-      <property name="javax.persistence.jdbc.driver" value="oracle.jdbc.OracleDriver"/>
-      <property name="eclipselink.logging.level.sql" value="FINE"/>
-      <property name="eclipselink.logging.parameters" value="true"/>
-    </properties>
-  </persistence-unit>
-  <!--<persistence-unit name="test" transaction-type="RESOURCE_LOCAL">
-    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <class>pl.sodexo.it.gryf.model.publicbenefits.ContactType</class>
-    <class>pl.sodexo.it.gryf.model.dictionaries.State</class>
-    <class>pl.sodexo.it.gryf.model.dictionaries.ZipCode</class>
-    <class>pl.sodexo.it.gryf.model.publicbenefits.enterprises.Enterprise</class>
-    <class>pl.sodexo.it.gryf.model.publicbenefits.enterprises.EnterpriseContact</class>
-    <class>pl.sodexo.it.gryf.model.publicbenefits.enterprises.EnterpriseEntityType</class>
-    <class>pl.sodexo.it.gryf.model.publicbenefits.enterprises.EnterpriseSize</class>
-    <class>pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication</class>
-    <class>pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationAttachment</class>
-    <class>pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationAttachmentRequired</class>
-    <class>pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationBasicData</class>
-    <class>pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationContactData</class>
-    <class>pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationFormData</class>
-    <class>pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationInProgram</class>
-    <class>pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationPkd</class>
-    <class>pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationRepData</class>
-    <class>pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationRepHeader</class>
-    <class>pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationStatus</class>
-    <class>pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationVersion</class>
-    <class>pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantOwner</class>
-    <class>pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram</class>
-    <class>pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgramLimit</class>
-    <class>pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgramParam</class>
-    <class>pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgramParamType</class>
-    <class>pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgramProduct</class>
-    <class>pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlow</class>
-    <class>pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowElement</class>
-    <class>pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowElementType</class>
-    <class>pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowElementInStatus</class>
-    <class>pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowElementInStatusPK</class>
-    <class>pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowStatus</class>
-    <class>pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowStatusTransition</class>
-    <class>pl.sodexo.it.gryf.model.publicbenefits.orders.Order</class>
-    <class>pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement</class>
-    <class>pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstitution</class>
-    <class>pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstitutionContact</class>
-    <shared-cache-mode>NONE</shared-cache-mode>
-    <validation-mode>NONE</validation-mode>
-    <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@10.48.0.20:1521:WARE"/>
-      <property name="javax.persistence.jdbc.user" value="eagle"/>
-      <property name="javax.persistence.jdbc.driver" value="oracle.jdbc.OracleDriver"/>
-      <property name="javax.persistence.jdbc.password" value="eagle"/>
-    </properties>
-  </persistence-unit>-->
+<persistence version="2.1" 
+             xmlns="http://xmlns.jcp.org/xml/ns/persistence" 
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+    
+    <persistence-unit name="gryf_PU" transaction-type="RESOURCE_LOCAL">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <non-jta-data-source>java:comp/env/jdbc/srvee</non-jta-data-source>
+        <class>pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowStatusTransSql</class>
+        <shared-cache-mode>NONE</shared-cache-mode>
+        <validation-mode>NONE</validation-mode>
+        <properties>
+            <property name="javax.persistence.jdbc.driver" value="oracle.jdbc.OracleDriver"/>
+            <property name="eclipselink.logging.level.sql" value="FINE"/>
+            <property name="eclipselink.logging.parameters" value="true"/>
+        </properties>
+    </persistence-unit>
 </persistence>
