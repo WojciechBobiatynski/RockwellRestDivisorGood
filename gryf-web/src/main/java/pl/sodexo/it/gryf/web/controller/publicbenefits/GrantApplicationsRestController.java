@@ -12,8 +12,8 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.grantapplications.detailsform
 import pl.sodexo.it.gryf.common.dto.publicbenefits.grantapplications.searchform.GrantApplicationSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.grantapplications.searchform.GrantApplicationSearchResultDTO;
 import pl.sodexo.it.gryf.common.parsers.GrantApplicationParser;
-import pl.sodexo.it.gryf.root.service.SecurityCheckerService;
-import pl.sodexo.it.gryf.root.service.publicbenefits.grantapplications.GrantApplicationsService;
+import pl.sodexo.it.gryf.service.api.SecurityCheckerService;
+import pl.sodexo.it.gryf.service.api.publicbenefits.grantapplications.GrantApplicationsService;
 import pl.sodexo.it.gryf.web.controller.ControllersUrls;
 import pl.sodexo.it.gryf.web.utils.WebUtils;
 

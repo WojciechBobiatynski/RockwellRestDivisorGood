@@ -10,9 +10,9 @@ import pl.sodexo.it.gryf.common.dto.dictionaries.zipcodes.searchform.ZipCodeSear
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.model.dictionaries.State;
 import pl.sodexo.it.gryf.model.dictionaries.ZipCode;
-import pl.sodexo.it.gryf.root.service.SecurityCheckerService;
-import pl.sodexo.it.gryf.root.service.dictionaries.StateService;
-import pl.sodexo.it.gryf.root.service.dictionaries.ZipCodeService;
+import pl.sodexo.it.gryf.service.api.SecurityCheckerService;
+import pl.sodexo.it.gryf.service.api.dictionaries.StateService;
+import pl.sodexo.it.gryf.service.api.dictionaries.ZipCodeService;
 import pl.sodexo.it.gryf.web.controller.ControllersUrls;
 
 import java.util.List;

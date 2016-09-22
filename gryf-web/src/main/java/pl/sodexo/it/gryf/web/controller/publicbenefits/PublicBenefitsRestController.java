@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import pl.sodexo.it.gryf.common.dto.DictionaryDTO;
 import pl.sodexo.it.gryf.model.publicbenefits.ContactType;
-import pl.sodexo.it.gryf.root.service.DictionaryService;
-import pl.sodexo.it.gryf.root.service.dictionaries.ContactTypeService;
+import pl.sodexo.it.gryf.service.api.DictionaryService;
+import pl.sodexo.it.gryf.service.api.dictionaries.ContactTypeService;
 
 import java.util.List;
 

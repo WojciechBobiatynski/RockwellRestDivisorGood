@@ -13,7 +13,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import pl.sodexo.it.gryf.root.service.ApplicationParametersService;
+import pl.sodexo.it.gryf.service.api.ApplicationParametersService;
 
 import java.util.Collection;
 import java.util.HashMap;

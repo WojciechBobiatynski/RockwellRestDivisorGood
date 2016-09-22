@@ -19,7 +19,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import pl.sodexo.it.gryf.root.service.ApplicationParametersService;
+import pl.sodexo.it.gryf.service.api.ApplicationParametersService;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

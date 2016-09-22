@@ -17,7 +17,7 @@
     <mvc:default-servlet-handler/>
 
     <aop:aspectj-autoproxy />
-    <bean id="processExceptionAspect" class="pl.sodexo.it.gryf.root.service.aspect.HandleExceptionAspect"/>
+    <bean id="processExceptionAspect" class="pl.sodexo.it.gryf.service.aspect.HandleExceptionAspect"/>
 
     <import resource="classpath*:dao-context.xml" />
     <import resource="classpath*:service-context.xml" />
