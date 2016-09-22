@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.model.dictionaries.State;
-import pl.sodexo.it.gryf.root.repository.dictionaries.StateRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.dictionaries.StateRepository;
 import pl.sodexo.it.gryf.root.service.dictionaries.StateService;
 
 import java.util.List;

@@ -4,10 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.detailsform.ReimbursementPatternDTO;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.reimbursement.ReimbursementPatternParamRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.reimbursement.ReimbursementPatternRepository;
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementPattern;
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementPatternParam;
-import pl.sodexo.it.gryf.root.repository.publicbenefits.reimbursement.ReimbursementPatternParamRepository;
-import pl.sodexo.it.gryf.root.repository.publicbenefits.reimbursement.ReimbursementPatternRepository;
 import pl.sodexo.it.gryf.root.service.publicbenefits.reimbursement.ReimbursementPatternService;
 
 import java.util.Date;

@@ -12,7 +12,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.enterprises.Enterprise;
 import pl.sodexo.it.gryf.model.publicbenefits.enterprises.EnterpriseContact;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstitution;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstitutionContact;
-import pl.sodexo.it.gryf.root.repository.publicbenefits.traininginstiutions.TrainingInstitutionRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstitutionRepository;
 import pl.sodexo.it.gryf.root.service.ApplicationParametersService;
 import pl.sodexo.it.gryf.root.service.dictionaries.ContactTypeService;
 import pl.sodexo.it.gryf.root.service.local.ValidateService;

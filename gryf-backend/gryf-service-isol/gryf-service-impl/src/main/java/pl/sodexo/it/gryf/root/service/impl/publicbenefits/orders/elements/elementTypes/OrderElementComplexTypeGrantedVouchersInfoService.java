@@ -9,9 +9,9 @@ import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgramLimit;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
-import pl.sodexo.it.gryf.root.repository.publicbenefits.grantprograms.GrantProgramLimitRepository;
-import pl.sodexo.it.gryf.root.repository.publicbenefits.orders.OrderElementRepository;
-import pl.sodexo.it.gryf.root.repository.publicbenefits.orders.OrderRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.grantprograms.GrantProgramLimitRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderElementRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderRepository;
 import pl.sodexo.it.gryf.root.service.impl.publicbenefits.orders.elements.OrderElementBaseService;
 import pl.sodexo.it.gryf.root.service.publicbenefits.orders.OrderService;
 

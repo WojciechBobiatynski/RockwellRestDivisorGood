@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.dto.DictionaryDTO;
 import pl.sodexo.it.gryf.model.DictionaryCode;
 import pl.sodexo.it.gryf.model.DictionaryEntity;
-import pl.sodexo.it.gryf.root.repository.DictionaryRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.DictionaryRepository;
 import pl.sodexo.it.gryf.root.service.DictionaryService;
 
 import java.util.Arrays;

@@ -25,8 +25,8 @@ import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationVersion;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.*;
 import pl.sodexo.it.gryf.common.parsers.OrderParser;
-import pl.sodexo.it.gryf.root.repository.GryfPLSQLRepository;
-import pl.sodexo.it.gryf.root.repository.publicbenefits.orders.*;
+import pl.sodexo.it.gryf.dao.api.crud.repository.GryfPLSQLRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.*;
 import pl.sodexo.it.gryf.root.service.SecurityCheckerService;
 import pl.sodexo.it.gryf.root.service.impl.BeanUtils;
 import pl.sodexo.it.gryf.root.service.local.FileService;

@@ -9,7 +9,7 @@ import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowElement;
-import pl.sodexo.it.gryf.root.repository.DictionaryRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.DictionaryRepository;
 import pl.sodexo.it.gryf.root.service.impl.publicbenefits.orders.elements.OrderElementBaseService;
 
 import java.util.ArrayList;

@@ -7,12 +7,10 @@ import pl.sodexo.it.gryf.common.dto.FileDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.searchform.ReimbursementSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.searchform.ReimbursementSearchResultDTO;
 import pl.sodexo.it.gryf.common.utils.StringUtils;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.reimbursement.*;
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.Reimbursement;
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementAttachment;
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementTraineeAttachment;
-import pl.sodexo.it.gryf.root.repository.publicbenefits.reimbursement.ReimbursementAttachmentRepository;
-import pl.sodexo.it.gryf.root.repository.publicbenefits.reimbursement.ReimbursementRepository;
-import pl.sodexo.it.gryf.root.repository.publicbenefits.reimbursement.ReimbursementTraineeAttachmentRepository;
 import pl.sodexo.it.gryf.root.service.local.FileService;
 import pl.sodexo.it.gryf.root.service.publicbenefits.reimbursement.ReimbursementsService;
 

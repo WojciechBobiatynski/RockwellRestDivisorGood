@@ -7,7 +7,7 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.ContactDataValidationDTO;
 import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.common.validation.dictionaries.ContactDataValidator;
 import pl.sodexo.it.gryf.model.publicbenefits.ContactType;
-import pl.sodexo.it.gryf.root.repository.dictionaries.ContactTypeRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.dictionaries.ContactTypeRepository;
 import pl.sodexo.it.gryf.root.service.dictionaries.ContactTypeService;
 
 import java.util.List;

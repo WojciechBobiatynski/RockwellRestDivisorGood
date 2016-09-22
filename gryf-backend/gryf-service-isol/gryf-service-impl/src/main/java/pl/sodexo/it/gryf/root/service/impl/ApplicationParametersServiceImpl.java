@@ -8,7 +8,7 @@ package pl.sodexo.it.gryf.root.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.sodexo.it.gryf.model.mail.EmailTemplate;
-import pl.sodexo.it.gryf.root.repository.mail.EmailTemplateRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.mail.EmailTemplateRepository;
 import pl.sodexo.it.gryf.root.service.ApplicationParametersService;
 
 import javax.annotation.PostConstruct;
