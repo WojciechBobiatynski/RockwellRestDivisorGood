@@ -21,7 +21,7 @@
         <javax.mail.mail.version>1.4.7</javax.mail.mail.version>
         <javax.mail.mail-api.version>1.5.4</javax.mail.mail-api.version>
         <flyway.version>4.0.3</flyway.version>
-        <oracle.version>11.2.0</oracle.version>
+        <oracle.version>11.2.0.4</oracle.version>
 
         <gryf.model.version>1.0.0-SNAPSHOT</gryf.model.version>
         <!--<gryf.repository.version>1.0-TRN-SNAPSHOT</gryf.repository.version>-->
