@@ -46,7 +46,6 @@
             <artifactId>mybatis-spring</artifactId>
         </dependency>
 
-
         <!-- LOG -->
         <dependency>
             <groupId>org.slf4j</groupId>

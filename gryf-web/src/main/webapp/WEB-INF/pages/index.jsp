@@ -1,5 +1,5 @@
-<%@page pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@page pageEncoding="UTF-8" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html prefix="og: http://ogp.me/ns#" lang="pl">
 <head>
@@ -235,6 +235,7 @@
                    itemprop="copyrightHolder" href="http://www.sodexo.pl/">
                     Sodexo Benefits and Rewards Services Polska Sp.&nbsp;z&nbsp;o.o.
                 </a>
+                <br/>##BUILD_NUMBER
             </p>
         </div>
     </div>

@@ -56,8 +56,7 @@
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
         </dependency>
-
-
+        
         <!-- LOG -->
         <dependency>
             <groupId>org.slf4j</groupId>
