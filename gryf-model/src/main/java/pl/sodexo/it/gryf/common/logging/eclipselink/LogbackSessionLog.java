@@ -10,6 +10,8 @@ import java.util.Map;
 
 /**
  * Klasa przekazująca logi generowane przez Eclipselinka do Logbacka
+ *
+ * Created by adziobek on 22.09.2016.
  */
 public class LogbackSessionLog extends AbstractSessionLog {
 
@@ -18,9 +20,8 @@ public class LogbackSessionLog extends AbstractSessionLog {
     private Map<String, Integer> categoryLogLevelMap;
 
     public LogbackSessionLog() {
-        this.categoryLogLevelMap = new HashMap();
-        for (int i = 0; i < loggerCatagories.length; ++i) {
-            String loggerCategory = loggerCatagories[i];
+        this.categoryLogLevelMap = new HashMap<>();
+        for (String loggerCategory : loggerCatagories) {
             this.categoryLogLevelMap.put(loggerCategory, null);
         }
     }
@@ -30,18 +31,22 @@ public class LogbackSessionLog extends AbstractSessionLog {
         if (category == null) {
             this.level = level;
         } else {
-            if (this.categoryLogLevelMap.containsKey(category)) {
-                this.categoryLogLevelMap.put(category, Integer.valueOf(level));
-            }
+            assignLevelToCategory(level, category);
+        }
+    }
+
+    private void assignLevelToCategory(int level, String category) {
+        if (this.categoryLogLevelMap.containsKey(category)) {
+            this.categoryLogLevelMap.put(category, level);
         }
     }
 
     @Override
     public int getLevel(String category) {
-        if (category == null) {
-            return super.getLevel(category);
-        }
-        Integer level = (Integer) this.categoryLogLevelMap.get(category);
+        if (category == null)
+            return super.getLevel(null);
+
+        Integer level = this.categoryLogLevelMap.get(category);
         if (level != null) {
             return level;
         }
