@@ -42,7 +42,7 @@
             </c:if>
 
             <section class="form form-login">
-                <form name="loginForm" action="${pageContext.request.contextPath}/login" method="POST">
+                <form name="loginForm" action="j_spring_security_check" method="POST">
                     <fieldset>
                         <div class="field input input-short required">
                             <div class="label">

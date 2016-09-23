@@ -1,9 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans:beans
-        xmlns:beans="http://www.springframework.org/schema/beans"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.springframework.org/schema/beans    http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
-                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+                http://www.springframework.org/schema/security
+                http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
+    <security:global-method-security
+            secured-annotations="enabled" />
 
-</beans:beans>
+    <security:http use-expressions="true">
+        <security:intercept-url pattern="/resource/**" access="permitAll" />
+        <security:form-login login-page="/login"
+                             default-target-url="/login"
+                             password-parameter="password"
+                             username-parameter="username"/>
+        <security:intercept-url pattern="/login" access="permitAll" />
+        <security:logout logout-url="/logout"
+                         logout-success-url="/login?logout"/>
+        <security:intercept-url pattern="/logout" access="permitAll" />
+        <security:intercept-url pattern="/**" access="isAuthenticated()" />
+        <security:http-basic/>
+        <security:csrf/>
+    </security:http>
+
+    <security:authentication-manager>
+        <security:authentication-provider ref="gryfAuthenticationProvider"/>
+    </security:authentication-manager>
+
+</beans>
