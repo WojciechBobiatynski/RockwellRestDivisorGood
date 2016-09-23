@@ -5,12 +5,11 @@ import org.eclipse.persistence.logging.SessionLogEntry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by adziobek on 22.09.2016.
+ * Klasa przekazująca logi generowane przez Eclipselinka do Logbacka
  */
 public class LogbackSessionLog extends AbstractSessionLog {
 
@@ -26,42 +25,45 @@ public class LogbackSessionLog extends AbstractSessionLog {
         }
     }
 
+    @Override
     public void setLevel(int level, String category) {
         if (category == null) {
             this.level = level;
-        } else if (this.categoryLogLevelMap.containsKey(category)) {
-            this.categoryLogLevelMap.put(category, Integer.valueOf(level));
+        } else {
+            if (this.categoryLogLevelMap.containsKey(category)) {
+                this.categoryLogLevelMap.put(category, Integer.valueOf(level));
+            }
         }
     }
 
+    @Override
     public int getLevel(String category) {
-        if (category != null) {
-            Integer level = (Integer) this.categoryLogLevelMap.get(category);
-            if (level != null) {
-                return level.intValue();
-            }
+        if (category == null) {
+            return super.getLevel(category);
+        }
+        Integer level = (Integer) this.categoryLogLevelMap.get(category);
+        if (level != null) {
+            return level;
         }
         return super.getLevel(category);
     }
 
+    @Override
     public boolean shouldLog(int level, String category) {
         return this.getLevel(category) <= level;
     }
 
-    protected void initialize() {
-        this.setShouldPrintSession(true);
-        this.setShouldPrintConnection(true);
-    }
-
+    @Override
     public void log(SessionLogEntry entry) {
-        if (shouldLog(entry)) {
-            synchronized (this) {
-                if (entry.hasMessage()) {
-                    logMessage(entry);
-                }
-                if (entry.hasException()) {
-                    logException(entry);
-                }
+        if (!shouldLog(entry)) {
+            return;
+        }
+        synchronized (this) {
+            if (entry.hasMessage()) {
+                logMessage(entry);
+            }
+            if (entry.hasException()) {
+                logException(entry);
             }
         }
     }
@@ -75,34 +77,33 @@ public class LogbackSessionLog extends AbstractSessionLog {
     }
 
     private void logException(SessionLogEntry entry) {
+        Throwable ex = entry.getException();
         if (this.shouldLogExceptionStackTrace()) {
-            entry.getException().printStackTrace(new PrintWriter(this.getWriter()));
+            LOGGER.error(ex.getMessage(), ex);
         } else {
-            LOGGER.error(entry.getException().toString(), entry.getException());
+            LOGGER.error(ex.getMessage());
         }
     }
 
     private void logWithProperLevel(int level, String message) {
         switch (level) {
-            case 0:
-            case 1:
-            case 2:
+            case AbstractSessionLog.ALL:
+            case AbstractSessionLog.FINEST:
+            case AbstractSessionLog.FINER:
                 LOGGER.trace(message);
                 break;
-            case 3:
-            case 4:
+            case AbstractSessionLog.FINE:
+            case AbstractSessionLog.CONFIG:
                 LOGGER.debug(message);
                 break;
-            case 5:
+            case AbstractSessionLog.INFO:
                 LOGGER.info(message);
                 break;
-            case 6:
+            case AbstractSessionLog.WARNING:
                 LOGGER.warn(message);
                 break;
-            case 7:
+            case AbstractSessionLog.SEVERE:
                 LOGGER.error(message);
-                break;
-            case 8:
                 break;
             default:
                 break;
