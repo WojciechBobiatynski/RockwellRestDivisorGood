@@ -18,6 +18,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(value = ControllersUrls.PUBLIC_BENEFITS_REST + "/trainingInstitution", produces = "application/json;charset=UTF-8")
+//TODO uzycie encji
 public class TrainingInstitutionsRestController {
 
     @Autowired

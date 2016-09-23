@@ -3,12 +3,14 @@ package pl.sodexo.it.gryf.service.impl.dictionaries;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.sodexo.it.gryf.common.dto.dictionaries.zipcodes.detailsform.ZipCodeDto;
 import pl.sodexo.it.gryf.common.dto.dictionaries.zipcodes.searchform.ZipCodeSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.dictionaries.zipcodes.searchform.ZipCodeSearchResultDTO;
 import pl.sodexo.it.gryf.model.dictionaries.ZipCode;
 import pl.sodexo.it.gryf.dao.api.crud.repository.dictionaries.ZipCodeRepository;
 import pl.sodexo.it.gryf.service.api.dictionaries.ZipCodeService;
 import pl.sodexo.it.gryf.service.local.api.ValidateService;
+import pl.sodexo.it.gryf.service.mapping.entityToDto.dictionaries.ZipCodeEntityMapper;
 
 import java.util.List;
 
@@ -24,11 +26,15 @@ public class ZipCodeServiceImpl implements ZipCodeService {
     @Autowired
     private ZipCodeRepository zipCodeRepository;
 
+    @Autowired
+    private ZipCodeEntityMapper zipCodeEntityMapper;
+
     //PUBLIC METHODS
 
     @Override
-    public ZipCode findZipCode(Long id) {
-        return zipCodeRepository.get(id);
+    public ZipCodeDto findZipCode(Long id) {
+        ZipCode zipCode = zipCodeRepository.get(id);
+        return zipCodeEntityMapper.convert(zipCode);
     }
 
     @Override
@@ -38,10 +44,10 @@ public class ZipCodeServiceImpl implements ZipCodeService {
     }
 
     @Override
-    public ZipCode createZipCode() {
+    public ZipCodeDto createZipCode() {
         ZipCode zipCode = new ZipCode();
         zipCode.setActive(Boolean.TRUE);
-        return zipCode;
+        return  zipCodeEntityMapper.convert(zipCode);
     }
 
     @Override

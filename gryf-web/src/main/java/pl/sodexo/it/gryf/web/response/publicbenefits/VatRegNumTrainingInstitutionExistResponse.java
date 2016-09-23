@@ -4,7 +4,7 @@ package pl.sodexo.it.gryf.web.response.publicbenefits;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstitution;
 
 import java.util.List;
-
+//TODO uzycie encji
 public class VatRegNumTrainingInstitutionExistResponse {
 
     //FIELDS

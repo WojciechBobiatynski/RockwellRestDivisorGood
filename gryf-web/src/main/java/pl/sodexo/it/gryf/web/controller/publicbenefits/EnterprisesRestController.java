@@ -19,6 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = ControllersUrls.PUBLIC_BENEFITS_REST + "/enterprise",
         produces = "application/json;charset=UTF-8")
+ //TODO uzycie encji
 public class EnterprisesRestController {
 
     @Autowired

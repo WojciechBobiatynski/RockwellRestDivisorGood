@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import pl.sodexo.it.gryf.common.Privileges;
+import pl.sodexo.it.gryf.common.dto.dictionaries.zipcodes.detailsform.ZipCodeDto;
 import pl.sodexo.it.gryf.common.dto.dictionaries.zipcodes.searchform.ZipCodeSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.dictionaries.zipcodes.searchform.ZipCodeSearchResultDTO;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
@@ -22,6 +23,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping(value = ControllersUrls.DICTIONARIES_REST, produces = "application/json;charset=UTF-8")
+//TODO uzycie encji
 public class DictionariesRestController {
 
     //PRIVATE FIELDS
@@ -39,14 +41,14 @@ public class DictionariesRestController {
 
     @RequestMapping(value = "/zipCode/", method = RequestMethod.GET)
     @ResponseBody
-    public ZipCode getZipCodeById() {
+    public ZipCodeDto getZipCodeById() {
         securityCheckerService.assertServicePrivilege(Privileges.GRF_ZIP_CODES);
         return zipCodeService.createZipCode();
     }
 
     @RequestMapping(value = "/zipCode/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public ZipCode getZipCodeById(@PathVariable Long id) {
+    public ZipCodeDto getZipCodeById(@PathVariable Long id) {
         securityCheckerService.assertServicePrivilege(Privileges.GRF_ZIP_CODES);
         return zipCodeService.findZipCode(id);
     }
