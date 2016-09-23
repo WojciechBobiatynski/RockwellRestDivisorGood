@@ -45,13 +45,7 @@
     </appender>
 
     <logger name="pl.sodexo.it.gryf" level="DEBUG"/>
-    <logger name="org.springframework" level="INFO">
-        <if condition='property("devMode").equalsIgnoreCase("true")'>
-            <then>
-                <appender-ref ref="STDOUT"/>
-            </then>
-        </if>
-    </logger>
+    <logger name="org.springframework" level="INFO"/>
     <logger name="pl.sodexo.it.gryf.common.logging.eclipselink" level="DEBUG" additivity="false">
         <if condition='property("devMode").equalsIgnoreCase("true")'>
             <then>
