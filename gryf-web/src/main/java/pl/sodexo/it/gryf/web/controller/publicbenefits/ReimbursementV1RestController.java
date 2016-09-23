@@ -1,15 +1,14 @@
 package pl.sodexo.it.gryf.web.controller.publicbenefits;
 
-import org.eclipse.persistence.exceptions.OptimisticLockException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.jpa.JpaOptimisticLockingFailureException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pl.sodexo.it.gryf.common.Privileges;
 import pl.sodexo.it.gryf.common.dto.FileDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.detailsform.ReimbursementDTO;
-import pl.sodexo.it.gryf.service.api.SecurityCheckerService;
+import pl.sodexo.it.gryf.common.exception.GryfOptimisticLockRuntimeException;
 import pl.sodexo.it.gryf.common.parsers.ReimbursementParser;
+import pl.sodexo.it.gryf.service.api.SecurityCheckerService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.reimbursement.ReimbursementV1Service;
 import pl.sodexo.it.gryf.web.controller.ControllersUrls;
 import pl.sodexo.it.gryf.web.utils.WebUtils;
@@ -53,7 +52,7 @@ public class ReimbursementV1RestController {
 
         try {
             return reimbursementV1Service.saveReimbursement(dto);
-        } catch (JpaOptimisticLockingFailureException | OptimisticLockException | javax.persistence.OptimisticLockException o) {
+        } catch (GryfOptimisticLockRuntimeException e) {
             reimbursementV1Service.manageLocking(dto.getId());
         }
         return null;
@@ -68,7 +67,7 @@ public class ReimbursementV1RestController {
 
         try {
             return reimbursementV1Service.correctReimbursement(dto);
-        } catch (JpaOptimisticLockingFailureException | OptimisticLockException | javax.persistence.OptimisticLockException o) {
+        } catch (GryfOptimisticLockRuntimeException e) {
             reimbursementV1Service.manageLocking(dto.getId());
         }
         return null;
@@ -83,7 +82,7 @@ public class ReimbursementV1RestController {
 
         try {
             return reimbursementV1Service.verifyReimbursement(dto);
-        } catch (JpaOptimisticLockingFailureException | OptimisticLockException | javax.persistence.OptimisticLockException o) {
+        } catch (GryfOptimisticLockRuntimeException e) {
             reimbursementV1Service.manageLocking(dto.getId());
         }
         return null;
@@ -98,7 +97,7 @@ public class ReimbursementV1RestController {
 
         try {
             return reimbursementV1Service.settleReimbursement(dto);
-        } catch (JpaOptimisticLockingFailureException | OptimisticLockException | javax.persistence.OptimisticLockException o) {
+        } catch (GryfOptimisticLockRuntimeException e) {
             reimbursementV1Service.manageLocking(dto.getId());
         }
         return null;
@@ -113,7 +112,7 @@ public class ReimbursementV1RestController {
 
         try {
             return reimbursementV1Service.completeReimbursement(dto);
-        } catch (JpaOptimisticLockingFailureException | OptimisticLockException | javax.persistence.OptimisticLockException o) {
+        } catch (GryfOptimisticLockRuntimeException e) {
             reimbursementV1Service.manageLocking(dto.getId());
         }
         return null;
@@ -125,7 +124,7 @@ public class ReimbursementV1RestController {
 
         try {
             return reimbursementV1Service.cancelReimbursement(dto);
-        } catch (JpaOptimisticLockingFailureException | OptimisticLockException | javax.persistence.OptimisticLockException o) {
+        } catch (GryfOptimisticLockRuntimeException e) {
             reimbursementV1Service.manageLocking(dto.getId());
         }
         return null;
@@ -137,7 +136,7 @@ public class ReimbursementV1RestController {
 
         try {
             return reimbursementV1Service.generateConfirmationReimbursement(dto);
-        } catch (JpaOptimisticLockingFailureException | OptimisticLockException | javax.persistence.OptimisticLockException o) {
+        } catch (GryfOptimisticLockRuntimeException e) {
             reimbursementV1Service.manageLocking(dto.getId());
         }
         return null;

@@ -1,8 +1,6 @@
 package pl.sodexo.it.gryf.web.controller.publicbenefits;
 
-import org.eclipse.persistence.exceptions.OptimisticLockException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.jpa.JpaOptimisticLockingFailureException;
 import org.springframework.web.bind.annotation.*;
 import pl.sodexo.it.gryf.common.Privileges;
 import pl.sodexo.it.gryf.common.dto.DictionaryDTO;
@@ -11,6 +9,7 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.searchform.Reim
 import pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.searchform.ReimbursementDeliverySearchResultDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.searchform.ReimbursementSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.searchform.ReimbursementSearchResultDTO;
+import pl.sodexo.it.gryf.common.exception.GryfOptimisticLockRuntimeException;
 import pl.sodexo.it.gryf.service.api.SecurityCheckerService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.reimbursement.ReimbursementDeliveryService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.reimbursement.ReimbursementPatternService;
@@ -66,7 +65,7 @@ public class ReimbursementsRestController {
         securityCheckerService.assertServicePrivilege(Privileges.GRF_PBE_DELIVERIES_MOD);
         try {
             return reimbursementDeliveryService.saveReimbursementDelivery(dto);
-        } catch (JpaOptimisticLockingFailureException | OptimisticLockException | javax.persistence.OptimisticLockException o) {
+        } catch (GryfOptimisticLockRuntimeException e) {
             reimbursementDeliveryService.manageLocking(dto.getId());
         }
         return null;
@@ -77,7 +76,7 @@ public class ReimbursementsRestController {
         securityCheckerService.assertServicePrivilege(Privileges.GRF_PBE_DELIVERIES_REIMB);
         try {
             return reimbursementDeliveryService.settleReimbursementDelivery(dto);
-        } catch (JpaOptimisticLockingFailureException | OptimisticLockException | javax.persistence.OptimisticLockException o) {
+        } catch (GryfOptimisticLockRuntimeException e) {
             reimbursementDeliveryService.manageLocking(dto.getId());
         }
         return null;
@@ -88,7 +87,7 @@ public class ReimbursementsRestController {
         securityCheckerService.assertServicePrivilege(Privileges.GRF_PBE_DELIVERIES_CANCEL);
         try {
             return reimbursementDeliveryService.cancelReimbursementDelivery(dto);
-        } catch (JpaOptimisticLockingFailureException | OptimisticLockException | javax.persistence.OptimisticLockException o) {
+        } catch (GryfOptimisticLockRuntimeException e) {
             reimbursementDeliveryService.manageLocking(dto.getId());
         }
         return null;

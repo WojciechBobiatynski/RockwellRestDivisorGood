@@ -5,7 +5,8 @@ package pl.sodexo.it.gryf.common.exception;
  *
  * Created by jbentyn on 2016-09-21.
  */
-public abstract class GryfRuntimeException extends RuntimeException{
+public abstract class GryfRuntimeException extends RuntimeException {
+
     protected String message;
 
     public GryfRuntimeException(String message) {

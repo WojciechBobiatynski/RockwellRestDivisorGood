@@ -1,8 +1,6 @@
 package pl.sodexo.it.gryf.web.controller.publicbenefits;
 
-import org.eclipse.persistence.exceptions.OptimisticLockException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.jpa.JpaOptimisticLockingFailureException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pl.sodexo.it.gryf.common.Privileges;
@@ -10,6 +8,7 @@ import pl.sodexo.it.gryf.common.dto.FileDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.action.IncomingOrderElementDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.searchform.OrderSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.searchform.OrderSearchResultDTO;
+import pl.sodexo.it.gryf.common.exception.GryfOptimisticLockRuntimeException;
 import pl.sodexo.it.gryf.service.api.SecurityCheckerService;
 import pl.sodexo.it.gryf.common.parsers.OrderParser;
 import pl.sodexo.it.gryf.service.api.publicbenefits.orders.OrderService;
@@ -68,7 +67,7 @@ public class OrdersRestController {
         List<String> acceptedViolations = OrderParser.readAcceptedViolations(acceptedViolationsParam);
         try {
             orderService.executeAction(orderId, actionId, version, incomingOrderElements, fileDtoList, acceptedViolations);
-        } catch (JpaOptimisticLockingFailureException | OptimisticLockException | javax.persistence.OptimisticLockException o) {
+        } catch (GryfOptimisticLockRuntimeException e) {
             orderService.manageLocking(orderId);
         }
         return orderId;

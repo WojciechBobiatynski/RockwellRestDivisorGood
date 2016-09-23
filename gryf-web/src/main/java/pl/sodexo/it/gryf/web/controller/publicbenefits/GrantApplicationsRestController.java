@@ -1,8 +1,6 @@
 package pl.sodexo.it.gryf.web.controller.publicbenefits;
 
-import org.eclipse.persistence.exceptions.OptimisticLockException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.jpa.JpaOptimisticLockingFailureException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pl.sodexo.it.gryf.common.Privileges;
@@ -11,6 +9,7 @@ import pl.sodexo.it.gryf.common.dto.FileDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.grantapplications.detailsform.GrantApplicationVersionDictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.grantapplications.searchform.GrantApplicationSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.grantapplications.searchform.GrantApplicationSearchResultDTO;
+import pl.sodexo.it.gryf.common.exception.GryfOptimisticLockRuntimeException;
 import pl.sodexo.it.gryf.common.parsers.GrantApplicationParser;
 import pl.sodexo.it.gryf.service.api.SecurityCheckerService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.grantapplications.GrantApplicationsService;
@@ -67,7 +66,7 @@ public class GrantApplicationsRestController {
             List<FileDTO> fileDtoList = WebUtils.createFileDtoList(files);
             return grantApplicationsService.updateApplication(versionId, data, fileDtoList);
 
-        } catch (JpaOptimisticLockingFailureException | OptimisticLockException | javax.persistence.OptimisticLockException o) {
+        } catch (GryfOptimisticLockRuntimeException e) {
             grantApplicationsService.manageLocking(id);
         }
         return null;
@@ -99,9 +98,7 @@ public class GrantApplicationsRestController {
             List<String> acceptedViolations = GrantApplicationParser.readAcceptedViolations(acceptedViolationsParam);
             return grantApplicationsService.applyApplication(versionId, data, fileDtoList, acceptedViolations);
 
-        } catch (JpaOptimisticLockingFailureException | OptimisticLockException o) {
-            grantApplicationsService.manageLocking(id);
-        } catch (javax.persistence.OptimisticLockException e) {
+        } catch (GryfOptimisticLockRuntimeException e) {
             grantApplicationsService.manageLocking(id);
         }
         return null;
@@ -117,7 +114,7 @@ public class GrantApplicationsRestController {
             List<FileDTO> fileDtoList = WebUtils.createFileDtoList(files);
             return grantApplicationsService.executeApplication(id, data, fileDtoList, checkVatRegNumDup);
 
-        } catch (JpaOptimisticLockingFailureException | OptimisticLockException | javax.persistence.OptimisticLockException o) {
+        } catch (GryfOptimisticLockRuntimeException e) {
             grantApplicationsService.manageLocking(id, "Wystąpił konflikt przy zapisywaniu wniosku lub MŚP");
         }
         return null;
@@ -133,7 +130,7 @@ public class GrantApplicationsRestController {
             List<FileDTO> fileDtoList = WebUtils.createFileDtoList(files);
             return grantApplicationsService.rejectApplication(id, data, fileDtoList);
 
-        } catch (JpaOptimisticLockingFailureException | OptimisticLockException | javax.persistence.OptimisticLockException o) {
+        } catch (GryfOptimisticLockRuntimeException e) {
             grantApplicationsService.manageLocking(id, "Wystąpił konflikt przy zapisywaniu wniosku lub MŚP");
         }
         return null;
