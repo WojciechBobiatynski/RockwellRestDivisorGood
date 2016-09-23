@@ -162,6 +162,12 @@
             <artifactId>jstl</artifactId>
         </dependency>
 
+        <!-- GUAVA -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+
         <!-- COMMONS -->
         <dependency>
             <groupId>commons-fileupload</groupId>
