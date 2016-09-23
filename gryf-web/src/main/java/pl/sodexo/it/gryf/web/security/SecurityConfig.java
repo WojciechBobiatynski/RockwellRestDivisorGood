@@ -14,8 +14,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -26,6 +24,7 @@ import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,28 +45,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     @Bean
     protected AuthenticationManager authenticationManager() throws Exception {
-        return new AuthenticationManager() {
- 
-            @Override
-            public Authentication authenticate(Authentication a) throws AuthenticationException {
+        return a -> {
+            UsernamePasswordAuthenticationToken upat = (UsernamePasswordAuthenticationToken) a;
+            String login = upat.getPrincipal().toString().toUpperCase();
+            String password = (String)upat.getCredentials();
+            
+            try (Connection dsConnection = dataSource.getConnection(); Connection conn = DriverManager.getConnection(dsConnection.getMetaData().getURL(), login, password)){
+                List<String> augids = em.createNativeQuery("select aug_id from EAGLE.ADM_USER_IN_ROLES natural left join EAGLE.ADM_GROUPS_IN_ROLES where upper(aur_id) = upper(?) and aug_id is not null")
+                        .setParameter(1, login)
+                        .getResultList();
                 
-                UsernamePasswordAuthenticationToken upat = (UsernamePasswordAuthenticationToken) a;
-                String login = (String)upat.getPrincipal().toString().toUpperCase();
-                String password = (String)upat.getCredentials();
-                try (Connection conn = DriverManager.getConnection(dataSource.getConnection().getMetaData().getURL(), login, password)){
-                    List<String> augids = em.createNativeQuery("select aug_id from EAGLE.ADM_USER_IN_ROLES natural left join EAGLE.ADM_GROUPS_IN_ROLES where upper(aur_id) = upper(?) and aug_id is not null")
-                            .setParameter(1, login) 
-                           .getResultList();
-                    
-                    List<GrantedAuthority> authorities = new ArrayList<>();
-                    for (String augid : augids) {
-                        authorities.add(new SimpleGrantedAuthority(augid));
-                    }
-                    return new UsernamePasswordAuthenticationToken(login, upat.getCredentials(), authorities);
-                    
-                } catch (Exception ex) {
-                    throw new BadCredentialsException("wrong credentials or a db problem (" + ex.getMessage() + ")");
+                List<GrantedAuthority> authorities = new ArrayList<>();
+                for (String augid : augids) {
+                    authorities.add(new SimpleGrantedAuthority(augid));
                 }
+                return new UsernamePasswordAuthenticationToken(login, upat.getCredentials(), authorities);
+            } catch (SQLException e) {
+                throw new RuntimeException("Nie udało się nazwiazać połączenia przy autentykacji", e);
+            } catch (Exception ex) {
+                throw new BadCredentialsException("wrong credentials or a db problem (" + ex.getMessage() + ")");
             }
         };
     }

@@ -17,6 +17,7 @@ import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
@@ -53,19 +54,21 @@ public class ReportServiceImpl implements ReportService {
                                                                    applicationParametersService.getPathReportTemplates() +
                                                                    applicationParametersService.getPathReportImages());
 
-            //GENERATE REPORT
-            String templatePath = fileService.findPath(FileType.REPORT_TEMPLATES) + templateCode.getFileName();
-            InputStream templateInputStream = fileService.getInputStream(templatePath);
-            JasperPrint jasperPrint = JasperFillManager.fillReport(templateInputStream, parameters, dataSource.getConnection());
-            templateInputStream.close();
-
-            //OUTPUT TO PDF
-            String reportPath = fileService.findPath(fileType) + reportFileName;
-            OutputStream reportOutputStream = fileService.getOutputStream(reportPath);
-            JasperExportManager.exportReportToPdfStream(jasperPrint, reportOutputStream);
-            reportOutputStream.close();
-
-            return reportPath;
+            try (Connection connection = dataSource.getConnection()){
+                //GENERATE REPORT
+                String templatePath = fileService.findPath(FileType.REPORT_TEMPLATES) + templateCode.getFileName();
+                InputStream templateInputStream = fileService.getInputStream(templatePath);
+                JasperPrint jasperPrint = JasperFillManager.fillReport(templateInputStream, parameters, connection);
+                templateInputStream.close();
+    
+                //OUTPUT TO PDF
+                String reportPath = fileService.findPath(fileType) + reportFileName;
+                OutputStream reportOutputStream = fileService.getOutputStream(reportPath);
+                JasperExportManager.exportReportToPdfStream(jasperPrint, reportOutputStream);
+                reportOutputStream.close();
+    
+                return reportPath;
+            }
         }catch(IOException e){
             throw new RuntimeException("Wystapił błąd pliku", e);
         }catch(SQLException e){
