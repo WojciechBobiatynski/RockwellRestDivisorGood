@@ -29,6 +29,7 @@
         <slf4j.version>1.7.21</slf4j.version>
         <logback.version>1.1.7</logback.version>
         <janino.version>3.0.6</janino.version>
+        <lombok.version>1.16.10</lombok.version>
 
         <gryf.model.version>1.0.0-SNAPSHOT</gryf.model.version>
     </properties>
@@ -467,6 +468,14 @@
                 <artifactId>janino</artifactId>
                 <version>${janino.version}</version>
             </dependency>
+
+            <!-- LOMBOK-->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 </project>

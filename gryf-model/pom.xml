@@ -86,4 +86,10 @@
             <artifactId>janino</artifactId>
         </dependency>
     </dependencies>
+
+    <!-- LOMBOK-->
+    <dependency>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok</artifactId>
+    </dependency>
 </project>
