@@ -18,7 +18,7 @@ public class ZipCodeDtoMapper extends VersionableDtoMapper<ZipCodeDto, ZipCode> 
     private StateDtoMapper stateDtoMapper;
 
     @Override
-    protected ZipCode initEntity() {
+    protected ZipCode initDestination() {
         return new ZipCode();
     }
 

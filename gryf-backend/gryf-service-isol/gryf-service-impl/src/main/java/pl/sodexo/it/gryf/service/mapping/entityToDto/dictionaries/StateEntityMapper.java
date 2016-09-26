@@ -14,7 +14,7 @@ import pl.sodexo.it.gryf.service.mapping.entityToDto.GryfEntityMapper;
 public class StateEntityMapper extends GryfEntityMapper<State, StateDto> {
 
     @Override
-    protected StateDto initDto() {
+    protected StateDto initDestination() {
         return new StateDto();
     }
 

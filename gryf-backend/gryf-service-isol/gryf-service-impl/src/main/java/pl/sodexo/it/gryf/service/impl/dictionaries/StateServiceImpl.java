@@ -3,9 +3,10 @@ package pl.sodexo.it.gryf.service.impl.dictionaries;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.sodexo.it.gryf.model.dictionaries.State;
+import pl.sodexo.it.gryf.common.dto.dictionaries.zipcodes.detailsform.StateDto;
 import pl.sodexo.it.gryf.dao.api.crud.repository.dictionaries.StateRepository;
 import pl.sodexo.it.gryf.service.api.dictionaries.StateService;
+import pl.sodexo.it.gryf.service.mapping.entityToDto.dictionaries.StateEntityMapper;
 
 import java.util.List;
 
@@ -25,10 +26,13 @@ public class StateServiceImpl implements StateService {
     @Autowired
     private StateRepository stateRepository;
 
+    @Autowired
+    private StateEntityMapper stateEntityMapper;
+
     //PUBLIC METHODS
 
     @Override
-    public List<State> findStatesInPoland(){
-        return stateRepository.findByCountry(COUNTRY_POLAND);
+    public List<StateDto> findStatesInPoland(){
+        return stateEntityMapper.convert(stateRepository.findByCountry(COUNTRY_POLAND));
     }
 }

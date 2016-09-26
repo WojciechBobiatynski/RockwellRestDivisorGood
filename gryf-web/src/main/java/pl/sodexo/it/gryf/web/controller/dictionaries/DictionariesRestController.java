@@ -5,11 +5,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import pl.sodexo.it.gryf.common.Privileges;
+import pl.sodexo.it.gryf.common.dto.dictionaries.zipcodes.detailsform.StateDto;
 import pl.sodexo.it.gryf.common.dto.dictionaries.zipcodes.detailsform.ZipCodeDto;
 import pl.sodexo.it.gryf.common.dto.dictionaries.zipcodes.searchform.ZipCodeSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.dictionaries.zipcodes.searchform.ZipCodeSearchResultDTO;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
-import pl.sodexo.it.gryf.model.dictionaries.State;
 import pl.sodexo.it.gryf.service.api.SecurityCheckerService;
 import pl.sodexo.it.gryf.service.api.dictionaries.StateService;
 import pl.sodexo.it.gryf.service.api.dictionaries.ZipCodeService;
@@ -81,7 +81,7 @@ public class DictionariesRestController {
 
     @RequestMapping(value = "states", method = RequestMethod.GET)
     @ResponseBody
-    public List<State> findStates() {
+    public List<StateDto> findStates() {
         return stateService.findStatesInPoland();
     }
 

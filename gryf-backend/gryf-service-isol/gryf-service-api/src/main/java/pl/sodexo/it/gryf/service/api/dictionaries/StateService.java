@@ -1,6 +1,6 @@
 package pl.sodexo.it.gryf.service.api.dictionaries;
 
-import pl.sodexo.it.gryf.model.dictionaries.State;
+import pl.sodexo.it.gryf.common.dto.dictionaries.zipcodes.detailsform.StateDto;
 
 import java.util.List;
 
@@ -9,5 +9,5 @@ import java.util.List;
  */
 public interface StateService {
 
-    List<State> findStatesInPoland();
+    List<StateDto> findStatesInPoland();
 }
