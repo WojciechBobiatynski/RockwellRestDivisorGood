@@ -23,9 +23,9 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.grantprograms.Gr
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.*;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
 import pl.sodexo.it.gryf.service.api.publicbenefits.grantapplications.GrantApplicationsService;
-import pl.sodexo.it.gryf.service.impl.BeanUtils;
 import pl.sodexo.it.gryf.service.local.api.FileService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.grantapplications.GrantApplicationService;
+import pl.sodexo.it.gryf.service.utils.BeanUtils;
 
 import java.util.Date;
 import java.util.HashSet;

@@ -10,7 +10,7 @@ import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
-import pl.sodexo.it.gryf.service.api.ApplicationParametersService;
+import pl.sodexo.it.gryf.service.api.other.ApplicationParametersService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.grantapplications.GrantApplicationsService;
 import pl.sodexo.it.gryf.service.local.api.MailService;
 import pl.sodexo.it.gryf.service.local.api.ValidateService;

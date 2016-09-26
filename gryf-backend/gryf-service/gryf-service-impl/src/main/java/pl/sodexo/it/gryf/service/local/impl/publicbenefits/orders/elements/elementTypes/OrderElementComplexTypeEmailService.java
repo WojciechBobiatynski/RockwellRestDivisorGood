@@ -6,9 +6,9 @@ import org.springframework.stereotype.Service;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementComplexTypeEmailDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementDTOBuilder;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowElement;
-import pl.sodexo.it.gryf.service.impl.BeanUtils;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.elements.elementTypes.emailservices.EmailDTOService;
 import pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.elements.OrderElementBaseClobService;
+import pl.sodexo.it.gryf.service.utils.BeanUtils;
 
 /**
  * Created by tomasz.bilski.ext on 2015-09-18.

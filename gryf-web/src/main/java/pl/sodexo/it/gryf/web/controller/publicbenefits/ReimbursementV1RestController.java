@@ -8,8 +8,8 @@ import pl.sodexo.it.gryf.common.dto.FileDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.detailsform.ReimbursementDTO;
 import pl.sodexo.it.gryf.common.exception.GryfOptimisticLockRuntimeException;
 import pl.sodexo.it.gryf.common.parsers.ReimbursementParser;
-import pl.sodexo.it.gryf.service.api.SecurityCheckerService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.reimbursement.ReimbursementV1Service;
+import pl.sodexo.it.gryf.service.api.security.SecurityCheckerService;
 import pl.sodexo.it.gryf.web.controller.ControllersUrls;
 import pl.sodexo.it.gryf.web.utils.WebUtils;
 

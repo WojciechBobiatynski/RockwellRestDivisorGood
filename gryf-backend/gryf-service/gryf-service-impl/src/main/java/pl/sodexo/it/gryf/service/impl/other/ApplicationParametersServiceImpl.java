@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pl.sodexo.it.gryf.service.impl;
+package pl.sodexo.it.gryf.service.impl.other;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.sodexo.it.gryf.dao.api.crud.repository.mail.EmailTemplateRepository;
 import pl.sodexo.it.gryf.model.mail.EmailTemplate;
-import pl.sodexo.it.gryf.service.api.ApplicationParametersService;
+import pl.sodexo.it.gryf.service.api.other.ApplicationParametersService;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;

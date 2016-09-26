@@ -1,8 +1,8 @@
-package pl.sodexo.it.gryf.web;
+package pl.sodexo.it.gryf.web.listener;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
-import pl.sodexo.it.gryf.service.api.ApplicationParametersService;
+import pl.sodexo.it.gryf.service.api.other.ApplicationParametersService;
 
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;

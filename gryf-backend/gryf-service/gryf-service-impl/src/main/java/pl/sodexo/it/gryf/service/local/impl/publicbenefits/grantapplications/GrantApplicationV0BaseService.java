@@ -38,7 +38,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.enterprises.EnterpriseSize;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.*;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgramParam;
-import pl.sodexo.it.gryf.service.api.ApplicationParametersService;
+import pl.sodexo.it.gryf.service.api.other.ApplicationParametersService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.enterprises.EnterpriseService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.grantapplications.GrantApplicationsService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.orders.OrderService;

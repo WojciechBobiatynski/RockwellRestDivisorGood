@@ -1,4 +1,4 @@
-package pl.sodexo.it.gryf.service.impl;
+package pl.sodexo.it.gryf.service.impl.other;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 import pl.sodexo.it.gryf.common.ReportTemplateCode;
 import pl.sodexo.it.gryf.model.FileType;
 import pl.sodexo.it.gryf.model.ReportParameter;
-import pl.sodexo.it.gryf.service.api.ApplicationParametersService;
-import pl.sodexo.it.gryf.service.api.ReportService;
+import pl.sodexo.it.gryf.service.api.other.ApplicationParametersService;
+import pl.sodexo.it.gryf.service.api.other.ReportService;
 import pl.sodexo.it.gryf.service.local.api.FileService;
 
 import javax.sql.DataSource;

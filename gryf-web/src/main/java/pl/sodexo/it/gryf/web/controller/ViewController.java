@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import pl.sodexo.it.gryf.service.api.SecurityCheckerService;
+import pl.sodexo.it.gryf.service.api.security.SecurityCheckerService;
 
 import static pl.sodexo.it.gryf.web.ViewResolverAttributes.*;
 import static pl.sodexo.it.gryf.web.controller.ControllersUrls.PAGES_PREFIX;

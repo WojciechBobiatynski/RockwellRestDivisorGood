@@ -1,4 +1,4 @@
-package pl.sodexo.it.gryf.service.impl;
+package pl.sodexo.it.gryf.service.utils;
 
 import org.springframework.context.ApplicationContext;
 

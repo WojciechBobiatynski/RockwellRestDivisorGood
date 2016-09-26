@@ -17,7 +17,7 @@ import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.common.validation.publicbenefits.reimbursement.ValidationGroupDeliverReimbursementDelivery;
 import pl.sodexo.it.gryf.common.validation.publicbenefits.reimbursement.ValidationGroupRegisterReimbursementDelivery;
 import pl.sodexo.it.gryf.common.validation.publicbenefits.reimbursement.ValidationGroupSecondaryReimbursementDelivery;
-import pl.sodexo.it.gryf.dao.api.crud.repository.GryfPLSQLRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.other.GryfPLSQLRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.reimbursement.ReimbursementDeliveryRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.reimbursement.ReimbursementDeliveryStatusRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.reimbursement.ReimbursementPatternRepository;
@@ -26,9 +26,9 @@ import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementDeliver
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementDeliveryStatus;
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementPattern;
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementPatternParam;
-import pl.sodexo.it.gryf.service.api.SecurityCheckerService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.reimbursement.ReimbursementDeliveryService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.reimbursement.ReimbursementPatternService;
+import pl.sodexo.it.gryf.service.api.security.SecurityCheckerService;
 import pl.sodexo.it.gryf.service.local.api.ValidateService;
 
 import java.util.ArrayList;

@@ -7,7 +7,7 @@ import pl.sodexo.it.gryf.model.FileType;
 import pl.sodexo.it.gryf.model.ReportParameter;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
-import pl.sodexo.it.gryf.service.api.ReportService;
+import pl.sodexo.it.gryf.service.api.other.ReportService;
 import pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.actions.ActionBaseService;
 import pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.elements.elementTypes.OrderElementAttachmentService;
 

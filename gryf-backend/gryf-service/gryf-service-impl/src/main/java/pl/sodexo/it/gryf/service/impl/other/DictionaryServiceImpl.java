@@ -1,13 +1,13 @@
-package pl.sodexo.it.gryf.service.impl;
+package pl.sodexo.it.gryf.service.impl.other;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.dto.DictionaryDTO;
-import pl.sodexo.it.gryf.dao.api.crud.repository.DictionaryRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.other.DictionaryRepository;
 import pl.sodexo.it.gryf.model.DictionaryCode;
 import pl.sodexo.it.gryf.model.DictionaryEntity;
-import pl.sodexo.it.gryf.service.api.DictionaryService;
+import pl.sodexo.it.gryf.service.api.other.DictionaryService;
 
 import java.util.Arrays;
 import java.util.List;

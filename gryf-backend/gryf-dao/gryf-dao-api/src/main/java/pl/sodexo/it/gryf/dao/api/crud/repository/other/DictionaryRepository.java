@@ -1,4 +1,4 @@
-package pl.sodexo.it.gryf.dao.api.crud.repository;
+package pl.sodexo.it.gryf.dao.api.crud.repository.other;
 
 import pl.sodexo.it.gryf.common.dto.DictionaryDTO;
 import pl.sodexo.it.gryf.model.DictionaryEntity;

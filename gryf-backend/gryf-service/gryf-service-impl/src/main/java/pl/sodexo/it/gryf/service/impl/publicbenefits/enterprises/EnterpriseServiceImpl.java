@@ -14,10 +14,10 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.enterprises.Ente
 import pl.sodexo.it.gryf.model.publicbenefits.ContactType;
 import pl.sodexo.it.gryf.model.publicbenefits.enterprises.Enterprise;
 import pl.sodexo.it.gryf.model.publicbenefits.enterprises.EnterpriseContact;
-import pl.sodexo.it.gryf.service.api.ApplicationParametersService;
-import pl.sodexo.it.gryf.service.api.SecurityCheckerService;
 import pl.sodexo.it.gryf.service.api.dictionaries.ContactTypeService;
+import pl.sodexo.it.gryf.service.api.other.ApplicationParametersService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.enterprises.EnterpriseService;
+import pl.sodexo.it.gryf.service.api.security.SecurityCheckerService;
 import pl.sodexo.it.gryf.service.local.api.ValidateService;
 
 import java.util.HashSet;

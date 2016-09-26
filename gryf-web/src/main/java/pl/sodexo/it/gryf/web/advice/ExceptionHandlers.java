@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import pl.sodexo.it.gryf.common.exception.*;
 import pl.sodexo.it.gryf.common.exception.publicbenefits.grantapplications.EntityValidationWithConfirmException;
-import pl.sodexo.it.gryf.service.api.ApplicationParametersService;
+import pl.sodexo.it.gryf.service.api.other.ApplicationParametersService;
 import pl.sodexo.it.gryf.web.response.*;
 import pl.sodexo.it.gryf.web.response.publicbenefits.ValidationErrorWithConfirmResponse;
 

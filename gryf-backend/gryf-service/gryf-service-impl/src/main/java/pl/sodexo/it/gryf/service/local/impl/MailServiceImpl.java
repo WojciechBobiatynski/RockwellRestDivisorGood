@@ -20,7 +20,7 @@ import pl.sodexo.it.gryf.model.mail.EmailInstance;
 import pl.sodexo.it.gryf.model.mail.EmailInstanceAttachment;
 import pl.sodexo.it.gryf.model.mail.EmailSourceType;
 import pl.sodexo.it.gryf.model.mail.EmailTemplate;
-import pl.sodexo.it.gryf.service.api.ApplicationParametersService;
+import pl.sodexo.it.gryf.service.api.other.ApplicationParametersService;
 import pl.sodexo.it.gryf.service.local.api.MailService;
 
 import javax.activation.DataHandler;

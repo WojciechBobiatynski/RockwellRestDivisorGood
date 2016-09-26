@@ -1,8 +1,8 @@
-package pl.sodexo.it.gryf.dao.impl.crud.repository;
+package pl.sodexo.it.gryf.dao.impl.crud.repository.other;
 
 import org.springframework.stereotype.Repository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.other.GryfPLSQLRepository;
 import pl.sodexo.it.gryf.model.DayType;
-import pl.sodexo.it.gryf.dao.api.crud.repository.GryfPLSQLRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

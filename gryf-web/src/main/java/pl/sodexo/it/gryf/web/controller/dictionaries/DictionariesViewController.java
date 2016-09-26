@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.sodexo.it.gryf.common.Privileges;
-import pl.sodexo.it.gryf.service.api.SecurityCheckerService;
+import pl.sodexo.it.gryf.service.api.security.SecurityCheckerService;
 
 import static pl.sodexo.it.gryf.web.ViewResolverAttributes.DEFAULT_VIEW;
 import static pl.sodexo.it.gryf.web.ViewResolverAttributes.MAIN_CONTENT_PARAM_NAME;

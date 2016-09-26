@@ -6,7 +6,7 @@ import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowElementInStatus;
-import pl.sodexo.it.gryf.service.api.SecurityCheckerService;
+import pl.sodexo.it.gryf.service.api.security.SecurityCheckerService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.elements.OrderElementService;
 
 import java.util.List;

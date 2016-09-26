@@ -42,7 +42,7 @@
         <listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
     </listener>
     <listener>
-        <listener-class>pl.sodexo.it.gryf.web.SessionListener</listener-class>
+        <listener-class>pl.sodexo.it.gryf.web.listener.SessionListener</listener-class>
     </listener>
 
 </web-app>

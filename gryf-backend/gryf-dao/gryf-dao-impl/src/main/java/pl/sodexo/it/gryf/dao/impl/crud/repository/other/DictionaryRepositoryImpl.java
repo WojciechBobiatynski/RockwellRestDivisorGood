@@ -1,11 +1,11 @@
-package pl.sodexo.it.gryf.dao.impl.crud.repository;
+package pl.sodexo.it.gryf.dao.impl.crud.repository.other;
 
 import org.springframework.stereotype.Repository;
 import pl.sodexo.it.gryf.common.dto.DictionaryDTO;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.common.utils.StringUtils;
+import pl.sodexo.it.gryf.dao.api.crud.repository.other.DictionaryRepository;
 import pl.sodexo.it.gryf.model.DictionaryEntity;
-import pl.sodexo.it.gryf.dao.api.crud.repository.DictionaryRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

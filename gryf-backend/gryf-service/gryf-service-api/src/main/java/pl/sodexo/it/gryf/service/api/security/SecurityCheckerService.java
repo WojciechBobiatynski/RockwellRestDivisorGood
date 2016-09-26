@@ -1,4 +1,4 @@
-package pl.sodexo.it.gryf.service.api;
+package pl.sodexo.it.gryf.service.api.security;
 
 import pl.sodexo.it.gryf.common.Privileges;
 

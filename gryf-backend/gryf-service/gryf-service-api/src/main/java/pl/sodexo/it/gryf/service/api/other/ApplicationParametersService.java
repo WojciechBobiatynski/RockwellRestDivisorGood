@@ -1,4 +1,4 @@
-package pl.sodexo.it.gryf.service.api;
+package pl.sodexo.it.gryf.service.api.other;
 
 import pl.sodexo.it.gryf.model.mail.EmailTemplate;
 

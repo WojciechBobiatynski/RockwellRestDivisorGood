@@ -1,7 +1,7 @@
 package pl.sodexo.it.gryf.common.exception;
 
 /**
- * Klasa wspólna dla wyjątków aplikacji Gryf
+ * Klasa wspólna dla wyjątków aplikacji Gryf.
  *
  * Created by jbentyn on 2016-09-21.
  */
