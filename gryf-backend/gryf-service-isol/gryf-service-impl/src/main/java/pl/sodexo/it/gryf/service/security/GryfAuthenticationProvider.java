@@ -14,6 +14,7 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.SecurityRepository;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,10 +36,13 @@ public class GryfAuthenticationProvider implements AuthenticationProvider{
         UsernamePasswordAuthenticationToken upat = (UsernamePasswordAuthenticationToken) authentication;
         String login = upat.getPrincipal().toString().toUpperCase();
         String password = (String)upat.getCredentials();
-        try (Connection conn = DriverManager.getConnection(dataSource.getConnection().getMetaData().getURL(), login, password)){
+
+        try (Connection dsConnection = dataSource.getConnection(); Connection conn = DriverManager.getConnection(dsConnection.getMetaData().getURL(), login, password)){
             List<GrantedAuthority> authorities = getGrantedAuthorities(login);
             return new UsernamePasswordAuthenticationToken(login, upat.getCredentials(), authorities);
 
+        } catch (SQLException e) {
+            throw new RuntimeException("Nie udało się nazwiazać połączenia przy autentykacji", e);
         } catch (Exception ex) {
             throw new BadCredentialsException("wrong credentials or a db problem (" + ex.getMessage() + ")");
         }
