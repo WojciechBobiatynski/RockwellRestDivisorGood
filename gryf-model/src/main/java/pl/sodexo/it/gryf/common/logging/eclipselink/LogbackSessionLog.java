@@ -36,20 +36,16 @@ public class LogbackSessionLog extends AbstractSessionLog {
     }
 
     private void assignLevelToCategory(int level, String category) {
-        if (this.categoryLogLevelMap.containsKey(category)) {
-            this.categoryLogLevelMap.put(category, level);
-        }
+        if (!this.categoryLogLevelMap.containsKey(category)) return;
+        this.categoryLogLevelMap.put(category, level);
     }
 
     @Override
     public int getLevel(String category) {
-        if (category == null)
-            return super.getLevel(null);
+        if (category == null) return super.getLevel(null);
 
         Integer level = this.categoryLogLevelMap.get(category);
-        if (level != null) {
-            return level;
-        }
+        if (level != null) return level;
         return super.getLevel(category);
     }
 
@@ -64,12 +60,8 @@ public class LogbackSessionLog extends AbstractSessionLog {
             return;
         }
         synchronized (this) {
-            if (entry.hasMessage()) {
-                logMessage(entry);
-            }
-            if (entry.hasException()) {
-                logException(entry);
-            }
+            if (entry.hasMessage()) logMessage(entry);
+            if (entry.hasException()) logException(entry);
         }
     }
 
@@ -92,22 +84,22 @@ public class LogbackSessionLog extends AbstractSessionLog {
 
     private void logWithProperLevel(int level, String message) {
         switch (level) {
-            case AbstractSessionLog.ALL:
-            case AbstractSessionLog.FINEST:
-            case AbstractSessionLog.FINER:
+            case ALL:
+            case FINEST:
+            case FINER:
                 LOGGER.trace(message);
                 break;
-            case AbstractSessionLog.FINE:
-            case AbstractSessionLog.CONFIG:
+            case FINE:
+            case CONFIG:
                 LOGGER.debug(message);
                 break;
-            case AbstractSessionLog.INFO:
+            case INFO:
                 LOGGER.info(message);
                 break;
-            case AbstractSessionLog.WARNING:
+            case WARNING:
                 LOGGER.warn(message);
                 break;
-            case AbstractSessionLog.SEVERE:
+            case SEVERE:
                 LOGGER.error(message);
                 break;
             default:
