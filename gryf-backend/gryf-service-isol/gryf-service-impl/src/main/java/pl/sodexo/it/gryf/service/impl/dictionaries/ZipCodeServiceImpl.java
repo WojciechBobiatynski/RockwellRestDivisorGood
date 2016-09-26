@@ -10,6 +10,7 @@ import pl.sodexo.it.gryf.model.dictionaries.ZipCode;
 import pl.sodexo.it.gryf.dao.api.crud.repository.dictionaries.ZipCodeRepository;
 import pl.sodexo.it.gryf.service.api.dictionaries.ZipCodeService;
 import pl.sodexo.it.gryf.service.local.api.ValidateService;
+import pl.sodexo.it.gryf.service.mapping.dtoToEntity.dictionaries.ZipCodeDtoMapper;
 import pl.sodexo.it.gryf.service.mapping.entityToDto.dictionaries.ZipCodeEntityMapper;
 
 import java.util.List;
@@ -28,6 +29,9 @@ public class ZipCodeServiceImpl implements ZipCodeService {
 
     @Autowired
     private ZipCodeEntityMapper zipCodeEntityMapper;
+
+    @Autowired
+    private ZipCodeDtoMapper zipCodeDtoMapper;
 
     //PUBLIC METHODS
 
@@ -51,14 +55,16 @@ public class ZipCodeServiceImpl implements ZipCodeService {
     }
 
     @Override
-    public void saveZipCode(ZipCode zipCode) {
+    public void saveZipCode(ZipCodeDto zipCodeDto) {
+        ZipCode zipCode = zipCodeDtoMapper.convert(zipCodeDto);
         validateService.validate(zipCode);
         toUpperCityName(zipCode);
         zipCodeRepository.save(zipCode);
     }
 
     @Override
-    public void updateZipCode(ZipCode zipCode) {
+    public void updateZipCode(ZipCodeDto zipCodeDto) {
+        ZipCode zipCode = zipCodeDtoMapper.convert(zipCodeDto);
         validateService.validate(zipCode);
         toUpperCityName(zipCode);
         zipCodeRepository.update(zipCode, zipCode.getId());

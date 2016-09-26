@@ -10,7 +10,6 @@ import pl.sodexo.it.gryf.common.dto.dictionaries.zipcodes.searchform.ZipCodeSear
 import pl.sodexo.it.gryf.common.dto.dictionaries.zipcodes.searchform.ZipCodeSearchResultDTO;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.model.dictionaries.State;
-import pl.sodexo.it.gryf.model.dictionaries.ZipCode;
 import pl.sodexo.it.gryf.service.api.SecurityCheckerService;
 import pl.sodexo.it.gryf.service.api.dictionaries.StateService;
 import pl.sodexo.it.gryf.service.api.dictionaries.ZipCodeService;
@@ -62,19 +61,19 @@ public class DictionariesRestController {
     }
 
     @RequestMapping(value = "/zipCode/{id}", method = RequestMethod.PUT, consumes = "application/json")
-    public ResponseEntity updateZipCode(@PathVariable Long id, @RequestBody ZipCode zipCode) {
+    public ResponseEntity updateZipCode(@PathVariable Long id, @RequestBody ZipCodeDto zipCodeDto) {
         securityCheckerService.assertServicePrivilege(Privileges.GRF_ZIP_CODES_MOD);
-        GryfUtils.checkForUpdate(id, zipCode.getId());
+        GryfUtils.checkForUpdate(id, zipCodeDto.getId());
 
-        zipCodeService.updateZipCode(zipCode);
+        zipCodeService.updateZipCode(zipCodeDto);
         return ResponseEntity.noContent().build();
     }
 
     @RequestMapping(value = "/zipCode", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity saveZipCode(@RequestBody ZipCode zipCode) {
+    public ResponseEntity saveZipCode(@RequestBody ZipCodeDto zipCodeDto) {
         securityCheckerService.assertServicePrivilege(Privileges.GRF_ZIP_CODES_MOD);
-        zipCodeService.saveZipCode(zipCode);
+        zipCodeService.saveZipCode(zipCodeDto);
         return ResponseEntity.noContent().build();
     }
 

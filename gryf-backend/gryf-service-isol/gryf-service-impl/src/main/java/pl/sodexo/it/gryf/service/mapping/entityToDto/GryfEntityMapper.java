@@ -29,9 +29,7 @@ public abstract class GryfEntityMapper<Entity extends GryfEntity, Dto extends Gr
 
     public List<Dto> convert(List<Entity> enities) {
         List<Dto> result = new ArrayList<>();
-        for (Entity entity : enities) {
-            result.add(convert(entity));
-        }
+        enities.forEach( entity -> result.add(convert(entity)));
         return result;
     }
 }

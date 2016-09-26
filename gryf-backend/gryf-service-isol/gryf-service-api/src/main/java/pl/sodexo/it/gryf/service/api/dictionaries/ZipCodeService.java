@@ -3,7 +3,6 @@ package pl.sodexo.it.gryf.service.api.dictionaries;
 import pl.sodexo.it.gryf.common.dto.dictionaries.zipcodes.detailsform.ZipCodeDto;
 import pl.sodexo.it.gryf.common.dto.dictionaries.zipcodes.searchform.ZipCodeSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.dictionaries.zipcodes.searchform.ZipCodeSearchResultDTO;
-import pl.sodexo.it.gryf.model.dictionaries.ZipCode;
 
 import java.util.List;
 
@@ -18,7 +17,7 @@ public interface ZipCodeService {
 
     ZipCodeDto createZipCode();
 
-    void saveZipCode(ZipCode zipCode);
+    void saveZipCode(ZipCodeDto zipCodeDto);
 
-    void updateZipCode(ZipCode zipCode);
+    void updateZipCode(ZipCodeDto zipCodeDto);
 }
