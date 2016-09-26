@@ -15,7 +15,6 @@
 
     <mvc:default-servlet-handler/>
 
-
     <import resource="classpath*:dao-context.xml" />
     <import resource="classpath*:service-context.xml" />
 
@@ -37,14 +36,7 @@
             <bean id="resourceHttpMessageConverter" class="org.springframework.http.converter.ResourceHttpMessageConverter"/>
             <bean id="sourceHttpMessageConverter" class="org.springframework.http.converter.xml.SourceHttpMessageConverter"/>
             <bean id="allEncompassingFormHttpMessageConverter" class="org.springframework.http.converter.support.AllEncompassingFormHttpMessageConverter"/>
-            <!--TODO: przenieść poniższy zapis javowy na konfigurację XML
-            ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json().applicationContext(ctx).build();
-
-            SimpleModule mod = new SimpleModule().addDeserializer(Object.class, JsonMapperUtils.createUntypedNumberDeserializer());
-            objectMapper.registerModule(mod);
-
-            messageConverters.add(new MappingJackson2HttpMessageConverter(objectMapper));
-            -->
+            <bean id="MappingJackson2HttpMessageConverter" class="pl.sodexo.it.gryf.web.config.CustomMappingJackson2HttpMessageConverter"/>
         </mvc:message-converters>
     </mvc:annotation-driven>
 
