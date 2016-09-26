@@ -13,16 +13,17 @@
     <security:http use-expressions="true">
         <security:intercept-url pattern="/resource/**" access="permitAll" />
         <security:form-login login-page="/login"
-                             default-target-url="/login"
+                             authentication-failure-url="/login?error"
+                             default-target-url="/"
                              password-parameter="password"
                              username-parameter="username"/>
+        <security:logout logout-success-url="/"
+                         logout-url="/logout"
+                         invalidate-session="true"/>
         <security:intercept-url pattern="/login" access="permitAll" />
-        <security:logout logout-url="/logout"
-                         logout-success-url="/login?logout"/>
         <security:intercept-url pattern="/logout" access="permitAll" />
         <security:intercept-url pattern="/**" access="isAuthenticated()" />
         <security:http-basic/>
-        <security:csrf/>
     </security:http>
 
     <security:authentication-manager>
