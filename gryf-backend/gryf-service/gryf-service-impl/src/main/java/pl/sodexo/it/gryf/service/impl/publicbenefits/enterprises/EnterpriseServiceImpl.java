@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.Privileges;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.ContactDataValidationDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.enterprises.detailsform.EnterpriseDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.enterprises.searchform.EnterpriseSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.enterprises.searchform.EnterpriseSearchResultDTO;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
@@ -19,6 +20,8 @@ import pl.sodexo.it.gryf.service.api.other.ApplicationParametersService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.enterprises.EnterpriseService;
 import pl.sodexo.it.gryf.service.api.security.SecurityCheckerService;
 import pl.sodexo.it.gryf.service.local.api.ValidateService;
+import pl.sodexo.it.gryf.service.mapping.dtoToEntity.publicbenefits.enterprises.EnterpriseDtoMapper;
+import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.enterprises.EnterpriseEntityMapper;
 
 import java.util.HashSet;
 import java.util.List;
@@ -49,11 +52,18 @@ public class EnterpriseServiceImpl implements EnterpriseService {
     @Autowired
     private SecurityCheckerService securityCheckerService;
 
+    @Autowired
+    private EnterpriseEntityMapper enterpriseEntityMapper;
+
+    @Autowired
+    private EnterpriseDtoMapper enterpriseDtoMapper;
+
     //PUBLIC METHODS
 
     @Override
-    public Enterprise findEnterprise(Long id) {
-        return enterpriseRepository.getForUpdate(id);
+    public EnterpriseDto findEnterprise(Long id) {
+        EnterpriseDto dto = enterpriseEntityMapper.convert( enterpriseRepository.getForUpdate(id));
+        return dto;
     }
 
     @Override
@@ -63,9 +73,14 @@ public class EnterpriseServiceImpl implements EnterpriseService {
     }
 
     @Override
-    public Enterprise createEnterprise() {
-        Enterprise enterprise = new Enterprise();
-        return enterprise;
+    public EnterpriseDto createEnterprise() {
+        return new EnterpriseDto();
+    }
+
+    @Override
+    public EnterpriseDto saveEnterpriseDto(EnterpriseDto enterpriseDto, boolean checkVatRegNumDup) {
+        Enterprise enterprise = saveEnterprise(enterpriseDtoMapper.convert(enterpriseDto),checkVatRegNumDup);
+        return enterpriseEntityMapper.convert(enterprise);
     }
 
     @Override
@@ -98,6 +113,11 @@ public class EnterpriseServiceImpl implements EnterpriseService {
             }
         } 
         return set;
+    }
+
+    @Override
+    public void updateEnterpriseDto(EnterpriseDto enterpriseDto, boolean checkVatRegNumDup) {
+        updateEnterprise(enterpriseDtoMapper.convert(enterpriseDto),checkVatRegNumDup);
     }
 
     @Override

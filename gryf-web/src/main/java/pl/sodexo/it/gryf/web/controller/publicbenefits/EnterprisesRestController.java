@@ -3,10 +3,10 @@ package pl.sodexo.it.gryf.web.controller.publicbenefits;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.sodexo.it.gryf.common.Privileges;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.enterprises.detailsform.EnterpriseDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.enterprises.searchform.EnterpriseSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.enterprises.searchform.EnterpriseSearchResultDTO;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
-import pl.sodexo.it.gryf.model.publicbenefits.enterprises.Enterprise;
 import pl.sodexo.it.gryf.service.api.publicbenefits.enterprises.EnterpriseService;
 import pl.sodexo.it.gryf.service.api.security.SecurityCheckerService;
 import pl.sodexo.it.gryf.web.controller.ControllersUrls;
@@ -29,21 +29,21 @@ public class EnterprisesRestController {
     private SecurityCheckerService securityCheckerService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public Enterprise getNewEnterprise() {
+    public EnterpriseDto getNewEnterprise() {
         securityCheckerService.assertServicePrivilege(Privileges.GRF_ENTERPRISES);
         return enterpriseService.createEnterprise();
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public Long saveEnterprise(@RequestParam(value = "checkVatRegNumDup", required = false, defaultValue = "true") boolean checkVatRegNumDup,
-                               @RequestBody Enterprise enterprise) {
+                               @RequestBody EnterpriseDto enterpriseDto) {
         securityCheckerService.assertServicePrivilege(Privileges.GRF_ENTERPRISE_MOD);
-        enterprise = enterpriseService.saveEnterprise(enterprise, checkVatRegNumDup);
-        return enterprise.getId();
+        enterpriseDto = enterpriseService.saveEnterpriseDto(enterpriseDto, checkVatRegNumDup);
+        return enterpriseDto.getId();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Enterprise getEnterprise(@PathVariable Long id) {
+    public EnterpriseDto getEnterprise(@PathVariable Long id) {
         securityCheckerService.assertServicePrivilege(Privileges.GRF_ENTERPRISES);
         return enterpriseService.findEnterprise(id);
     }
@@ -51,12 +51,12 @@ public class EnterprisesRestController {
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json")
     public Long updateEnterprise(@PathVariable Long id,
                                  @RequestParam(value = "checkVatRegNumDup", required = false, defaultValue = "true") boolean checkVatRegNumDup,
-                                 @RequestBody Enterprise enterprise) {
+                                 @RequestBody EnterpriseDto enterpriseDto) {
         securityCheckerService.assertServicePrivilege(Privileges.GRF_ENTERPRISE_MOD);
-        GryfUtils.checkForUpdate(id, enterprise.getId());
+        GryfUtils.checkForUpdate(id, enterpriseDto.getId());
 
-        enterpriseService.updateEnterprise(enterprise, checkVatRegNumDup);
-        return enterprise.getId();
+        enterpriseService.updateEnterpriseDto(enterpriseDto, checkVatRegNumDup);
+        return enterpriseDto.getId();
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)

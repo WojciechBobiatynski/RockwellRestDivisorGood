@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.service.api.publicbenefits.enterprises;
 
+import pl.sodexo.it.gryf.common.dto.publicbenefits.enterprises.detailsform.EnterpriseDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.enterprises.searchform.EnterpriseSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.enterprises.searchform.EnterpriseSearchResultDTO;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
@@ -13,12 +14,15 @@ import java.util.Set;
  */
 public interface EnterpriseService {
 
-    Enterprise findEnterprise(Long id);
+    EnterpriseDto findEnterprise(Long id);
 
     List<EnterpriseSearchResultDTO> findEnterprises(EnterpriseSearchQueryDTO enterprise);
 
-    Enterprise createEnterprise();
+    EnterpriseDto createEnterprise();
 
+    EnterpriseDto saveEnterpriseDto(EnterpriseDto enterpriseDto, boolean checkVatRegNumDup);
+
+    // TODO zmienic nazwe i przeniesc do serwisu lokalnego
     Enterprise saveEnterprise(Enterprise enterprise, boolean checkVatRegNumDup);
 
     /**
@@ -28,7 +32,10 @@ public interface EnterpriseService {
      * @param existingRecipientsSet istniejący wcześniej zbiór kontaktów email do uzupełnienia (może być null wtedy zostanie stworzony i zwrócony nowy zbiór)
      * @return Zbiór uzupełniony kontaktami przekazanego przedsiębiorstwa
      */
+    //TODO przenieść do serwisu lokalneo
     Set<String> getEmailRecipients(Enterprise enterprise, Set<String> existingRecipientsSet);
 
+    void updateEnterpriseDto(EnterpriseDto enterpriseDto, boolean checkVatRegNumDup);
+    //TODO przenieść do serwisu lokalnego
     void updateEnterprise(Enterprise enterprise, boolean checkVatRegNumDup);
 }

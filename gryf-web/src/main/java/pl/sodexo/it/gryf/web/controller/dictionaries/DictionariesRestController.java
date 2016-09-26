@@ -22,7 +22,6 @@ import java.util.List;
  */
 @Controller
 @RequestMapping(value = ControllersUrls.DICTIONARIES_REST, produces = "application/json;charset=UTF-8")
-//TODO uzycie encji
 public class DictionariesRestController {
 
     //PRIVATE FIELDS

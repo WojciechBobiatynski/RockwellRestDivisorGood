@@ -27,7 +27,9 @@ public abstract class GenericMapper<Source, Destination> {
     public List<Destination> convert(List<Source> sourceList) {
         List<Destination> result = new ArrayList<>();
         if (sourceList != null) {
-            sourceList.forEach(source -> result.add(convert(source)));
+            for(Source source:sourceList){
+                result.add(convert(source));
+            }
         }
         return result;
     }
