@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    
+
     <artifactId>gryf-model</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
@@ -37,33 +37,6 @@
 
     <dependencies>
         <!-- BOTH dependencies -->
-        
-        <!-- JACKSON -->
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-        </dependency>
-        
-        <!-- VALIDATIONS -->
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
-        </dependency>
-        
-        <!-- MODEL dependencies -->
-
-        <!-- SPRING SECURITY -->
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-core</artifactId>
-        </dependency>
-        
-        <!-- ECLIPSE LINK  -->
-        <dependency>
-            <groupId>org.eclipse.persistence</groupId>
-            <artifactId>eclipselink</artifactId>
-        </dependency>
-
         <!-- LOG -->
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -86,13 +59,38 @@
             <artifactId>janino</artifactId>
         </dependency>
 
-
         <!-- LOMBOK -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
-    </dependencies>
 
+        <!-- JACKSON -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+
+        <!-- VALIDATIONS -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+        </dependency>
+
+        <!-- MODEL dependencies -->
+
+        <!-- SPRING SECURITY -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+        </dependency>
+
+        <!-- ECLIPSE LINK  -->
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>eclipselink</artifactId>
+        </dependency>
+
+    </dependencies>
 
 </project>
