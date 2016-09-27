@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.model.publicbenefits.enterprises;
 
+import lombok.ToString;
 import pl.sodexo.it.gryf.model.DictionaryEntity;
 import pl.sodexo.it.gryf.model.GryfEntity;
 
@@ -13,6 +14,7 @@ import java.util.Objects;
  *
  * @author tomasz.bilski.ext
  */
+@ToString
 @Entity
 @Table(name = "ENTERPRISE_SIZES", schema = "APP_PBE")
 public class EnterpriseSize extends GryfEntity implements DictionaryEntity {

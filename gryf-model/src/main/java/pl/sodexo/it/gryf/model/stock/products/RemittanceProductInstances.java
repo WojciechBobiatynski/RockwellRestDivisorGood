@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.model.stock.products;
 
+import lombok.ToString;
 import pl.sodexo.it.gryf.model.GryfEntity;
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementTraining;
 
@@ -10,6 +11,7 @@ import java.sql.Timestamp;
 /**
  * Created by tomasz.bilski.ext on 2015-09-15.
  */
+@ToString
 @Entity
 @Table(name = "REMITTANCE_PRODUCT_INSTANCES", schema = "APP_RMB")
 public class RemittanceProductInstances extends GryfEntity{

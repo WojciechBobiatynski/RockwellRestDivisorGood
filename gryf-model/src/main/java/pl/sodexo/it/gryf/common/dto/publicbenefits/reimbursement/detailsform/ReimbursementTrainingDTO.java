@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.detailsform;
 
+import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
 import pl.sodexo.it.gryf.common.validation.publicbenefits.reimbursement.ValidationGroupReimbursementSettleAndVerify;
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementTraining;
@@ -15,6 +16,7 @@ import java.util.List;
 /**
  * Created by tomasz.bilski.ext on 2015-09-07.
  */
+@ToString
 public class ReimbursementTrainingDTO {
 
 

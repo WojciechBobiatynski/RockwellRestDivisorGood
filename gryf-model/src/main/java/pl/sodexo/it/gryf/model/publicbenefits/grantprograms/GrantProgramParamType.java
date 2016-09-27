@@ -1,6 +1,7 @@
 package pl.sodexo.it.gryf.model.publicbenefits.grantprograms;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.ToString;
 import pl.sodexo.it.gryf.model.GryfEntity;
 
 import javax.persistence.*;
@@ -13,6 +14,7 @@ import java.util.Objects;
  *
  * @author tomasz.bilski.ext
  */
+@ToString
 @Entity
 @Table(name = "GRANT_PROGRAM_PARAM_TYPES", schema = "APP_PBE")
 public class GrantProgramParamType extends GryfEntity {

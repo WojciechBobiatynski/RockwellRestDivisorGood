@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.common.dto.publicbenefits.grantapplications.searchform;
 
+import lombok.ToString;
 import pl.sodexo.it.gryf.common.dto.DictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.dictionaries.zipcodes.searchform.ZipCodeSearchResultDTO;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication;
@@ -12,6 +13,7 @@ import java.util.List;
 /**
  * Created by tomasz.bilski.ext on 2015-06-30.
  */
+@ToString
 public class GrantApplicationSearchResultDTO {
 
     //FIELDS

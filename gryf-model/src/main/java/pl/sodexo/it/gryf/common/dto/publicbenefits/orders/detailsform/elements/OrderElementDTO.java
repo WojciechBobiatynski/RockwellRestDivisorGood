@@ -1,11 +1,14 @@
 package pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements;
 
+import lombok.ToString;
+
 import java.util.Date;
 
 /**
  * Basic class for Element DTO. Celem klasy (klas dziedziczących) jest przekazywanie danych elementu zamówienia z backendu do frontu  
  * Created by Michal.CHWEDCZUK.ext on 2015-07-24.
  */
+@ToString
 public abstract class OrderElementDTO {
 
     //FIELDS

@@ -1,10 +1,12 @@
 package pl.sodexo.it.gryf.common.dto.dictionaries.zipcodes.searchform;
 
+import lombok.ToString;
 import pl.sodexo.it.gryf.common.dto.SearchDto;
 
 /**
  * Created by tomasz.bilski.ext on 2015-06-17.
  */
+@ToString
 public class ZipCodeSearchQueryDTO extends SearchDto {
 
     //FIELDS

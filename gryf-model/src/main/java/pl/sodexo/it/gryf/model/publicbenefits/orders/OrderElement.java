@@ -6,6 +6,7 @@
 package pl.sodexo.it.gryf.model.publicbenefits.orders;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.ToString;
 import pl.sodexo.it.gryf.model.AuditableEntity;
 
 import javax.persistence.*;

@@ -1,6 +1,7 @@
 package pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.detailsform;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
 import pl.sodexo.it.gryf.common.dto.DictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.FileContainerDTO;
@@ -17,6 +18,7 @@ import java.util.List;
 /**
  * Created by tomasz.bilski.ext on 2015-09-07.
  */
+@ToString
 public class ReimbursementAttachmentDTO  implements FileContainerDTO {
 
     //FIELDS

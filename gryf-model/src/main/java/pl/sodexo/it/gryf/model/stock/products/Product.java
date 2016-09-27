@@ -5,6 +5,7 @@
  */
 package pl.sodexo.it.gryf.model.stock.products;
 
+import lombok.ToString;
 import pl.sodexo.it.gryf.model.GryfEntity;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantOwnerAidProduct;
 
@@ -19,6 +20,7 @@ import java.util.Objects;
  *
  * @author Marcel.GOLUNSKI
  */
+@ToString
 @Entity
 @Table(name = "PRODUCTS", schema = "APP_STC")
 public class Product extends GryfEntity {
@@ -397,10 +399,4 @@ public class Product extends GryfEntity {
         }
         return Objects.equals(id, ((Product) o).id);
     }
-    
-    @Override
-    public String toString() {
-        return "pl.sodexo.it.gryf.model.stock.products.Product[ id=" + id + " ]";
-    }
-    
 }

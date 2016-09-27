@@ -1,5 +1,7 @@
 package pl.sodexo.it.gryf.common.dto.basic;
 
+import lombok.ToString;
+
 import java.util.Date;
 
 /**
@@ -7,6 +9,7 @@ import java.util.Date;
  *
  * Created by jbentyn on 2016-09-23.
  */
+@ToString
 public class AuditableDto extends CreationAuditedDto {
 
     private String modifiedUser;

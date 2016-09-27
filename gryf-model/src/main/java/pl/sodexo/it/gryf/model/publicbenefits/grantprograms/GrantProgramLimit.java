@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.model.publicbenefits.grantprograms;
 
+import lombok.ToString;
 import pl.sodexo.it.gryf.model.GryfEntity;
 import pl.sodexo.it.gryf.model.publicbenefits.enterprises.EnterpriseSize;
 
@@ -12,6 +13,7 @@ import java.util.Objects;
  *
  * @author tomasz.bilski.ext
  */
+@ToString
 @Entity
 @Table(name = "GRANT_PROGRAM_LIMITS", schema = "APP_PBE")
 @NamedQueries(

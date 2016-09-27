@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.common.dto.publicbenefits.orders.searchform;
 
+import lombok.ToString;
 import pl.sodexo.it.gryf.common.dto.DictionaryDTO;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 
@@ -12,6 +13,7 @@ import java.util.List;
  *
  * Created by Michal.CHWEDCZUK.ext on 2015-07-28.
  */
+@ToString
 public class OrderSearchResultDTO {
 
     //PRIVATE FIELDS

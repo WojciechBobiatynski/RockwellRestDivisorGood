@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements;
 
+import lombok.ToString;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationBasicData;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationContactData;
@@ -12,6 +13,7 @@ import java.util.List;
 /**
  * Created by tomasz.bilski.ext on 2015-09-17.
  */
+@ToString
 public class OrderElementComplexTypeGrantApplicationContactDataDTO extends OrderElementDTO {
 
     //FIELDS

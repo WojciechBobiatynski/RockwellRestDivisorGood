@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.model.publicbenefits;
 
+import lombok.ToString;
 import pl.sodexo.it.gryf.model.GryfEntity;
 
 import javax.persistence.Column;
@@ -11,6 +12,7 @@ import java.util.Objects;
 /**
  * Created by tomasz.bilski.ext on 2015-06-19.
  */
+@ToString
 @Entity
 @Table(name = "CONTACT_TYPES", schema = "APP_PBE")
 public class ContactType extends GryfEntity {

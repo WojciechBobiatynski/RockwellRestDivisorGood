@@ -1,6 +1,7 @@
 package pl.sodexo.it.gryf.model.dictionaries;
 
 
+import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
 import pl.sodexo.it.gryf.model.VersionableEntity;
 
@@ -11,6 +12,7 @@ import java.util.Objects;
 /**
  * Created by tomasz.bilski.ext on 2015-06-15.
  */
+@ToString
 @Entity
 @Table(name = "ZIP_CODES", schema = "EAGLE")
 public class ZipCode extends VersionableEntity {

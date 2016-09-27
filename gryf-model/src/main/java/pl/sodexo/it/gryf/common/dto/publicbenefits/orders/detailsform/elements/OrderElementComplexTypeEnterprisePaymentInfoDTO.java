@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements;
 
+import lombok.ToString;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 
 import java.math.BigDecimal;
@@ -9,6 +10,7 @@ import java.math.BigDecimal;
  *
  * @author Marcel.GOLUNSKI
  */
+@ToString
 public class OrderElementComplexTypeEnterprisePaymentInfoDTO extends OrderElementDTO {
 
     //FIELDS

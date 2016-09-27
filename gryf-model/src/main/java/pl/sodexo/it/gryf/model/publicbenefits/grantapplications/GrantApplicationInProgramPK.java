@@ -1,5 +1,7 @@
 package pl.sodexo.it.gryf.model.publicbenefits.grantapplications;
 
+import lombok.ToString;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
@@ -9,6 +11,7 @@ import java.util.Objects;
  *
  * @author tomasz.bilski.ext
  */
+@ToString
 @Embeddable
 public class GrantApplicationInProgramPK implements Serializable {
 

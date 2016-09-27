@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.model.mail;
 
+import lombok.ToString;
 import pl.sodexo.it.gryf.model.CreationAuditedEntity;
 
 import javax.persistence.*;
@@ -11,6 +12,7 @@ import java.util.Objects;
 /**
  * Created by tomasz.bilski.ext on 2015-08-20.
  */
+@ToString
 @Entity
 @Table(name = "EMAIL_INSTANCES", schema = "APP_PBE")
 @NamedQueries({

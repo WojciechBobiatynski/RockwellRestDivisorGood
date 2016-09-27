@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.detailsform;
 
+import lombok.ToString;
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementPattern;
 
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.List;
 /**
  * Created by tomasz.bilski.ext on 2015-09-09.
  */
+@ToString
 public class ReimbursementPatternDTO {
 
     //FIELDS

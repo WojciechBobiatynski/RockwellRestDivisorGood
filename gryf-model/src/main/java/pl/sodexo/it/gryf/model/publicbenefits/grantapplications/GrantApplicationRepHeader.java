@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.model.publicbenefits.grantapplications;
 
+import lombok.ToString;
 import pl.sodexo.it.gryf.model.GryfEntity;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import java.util.Objects;
  *
  * @author tomasz.bilski.ext
  */
+@ToString
 @Entity
 @Table(name = "GRANT_APPLICATION_REP_HEADERS", schema = "APP_PBE")
 public class GrantApplicationRepHeader extends GryfEntity {

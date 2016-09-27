@@ -1,6 +1,7 @@
 package pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.ToString;
 import org.eclipse.persistence.annotations.OptimisticLocking;
 import org.hibernate.validator.constraints.NotEmpty;
 import pl.sodexo.it.gryf.common.validation.VatRegNumFormat;
@@ -18,6 +19,7 @@ import java.util.Objects;
 /**
  * Created by tomasz.bilski.ext on 2015-06-22.
  */
+@ToString
 @Entity
 @Table(name = "TRAINING_INSTITUTIONS", schema = "APP_PBE")
 @SequenceGenerator(name="trin_seq", schema = "eagle", sequenceName = "trin_seq", allocationSize = 1)

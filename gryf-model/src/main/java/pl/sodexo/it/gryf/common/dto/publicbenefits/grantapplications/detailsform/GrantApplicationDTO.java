@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.common.dto.publicbenefits.grantapplications.detailsform;
 
+import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
 import pl.sodexo.it.gryf.common.dto.DictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.enterprises.searchform.EnterpriseSearchResultDTO;
@@ -16,6 +17,7 @@ import java.util.List;
 /**
  * Created by tomasz.bilski.ext on 2015-06-25.
  */
+@ToString
 public class GrantApplicationDTO {
 
     //STATIC FIELDS

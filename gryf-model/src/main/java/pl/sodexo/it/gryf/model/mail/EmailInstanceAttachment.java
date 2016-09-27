@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.model.mail;
 
+import lombok.ToString;
 import pl.sodexo.it.gryf.model.GryfEntity;
 
 import javax.persistence.*;
@@ -8,6 +9,7 @@ import java.util.Objects;
 /**
  * Created by tomasz.bilski.ext on 2015-09-18.
  */
+@ToString
 @Entity
 @Table(name = "EMAIL_INSTANCE_ATTACHMENTS", schema = "APP_PBE")
 public class EmailInstanceAttachment extends GryfEntity{

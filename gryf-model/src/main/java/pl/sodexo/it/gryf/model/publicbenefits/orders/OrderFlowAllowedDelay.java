@@ -5,6 +5,7 @@
  */
 package pl.sodexo.it.gryf.model.publicbenefits.orders;
 
+import lombok.ToString;
 import pl.sodexo.it.gryf.model.DayType;
 import pl.sodexo.it.gryf.model.GryfEntity;
 

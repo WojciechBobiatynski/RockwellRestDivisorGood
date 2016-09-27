@@ -3,6 +3,7 @@ package pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
 import pl.sodexo.it.gryf.model.AuditableEntity;
 import pl.sodexo.it.gryf.model.publicbenefits.ContactType;
@@ -14,6 +15,7 @@ import java.util.Objects;
 /**
  * Created by tomasz.bilski.ext on 2015-07-10.
  */
+@ToString
 @Entity
 @Table(name = "TRAINING_INSTITUTION_CONTACTS", schema = "APP_PBE")
 public class TrainingInstitutionContact extends AuditableEntity {

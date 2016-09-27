@@ -1,10 +1,13 @@
 package pl.sodexo.it.gryf.common.dto;
 
+import lombok.ToString;
+
 import java.util.List;
 
 /**
  * Created by tomasz.bilski.ext on 2015-06-17.
  */
+@ToString
 public abstract class SearchDto {
 
     //FIELDS

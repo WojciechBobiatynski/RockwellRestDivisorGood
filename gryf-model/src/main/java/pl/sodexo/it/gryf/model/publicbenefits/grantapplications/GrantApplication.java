@@ -2,6 +2,7 @@ package pl.sodexo.it.gryf.model.publicbenefits.grantapplications;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.ToString;
 import pl.sodexo.it.gryf.model.VersionableEntity;
 import pl.sodexo.it.gryf.model.publicbenefits.enterprises.Enterprise;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
@@ -14,6 +15,7 @@ import java.util.*;
  *
  * @author tomasz.bilski.ext
  */
+@ToString
 @Entity
 @Table(name = "GRANT_APPLICATIONS", schema = "APP_PBE")
 @SequenceGenerator(name="ga_seq", schema = "eagle", sequenceName = "ga_seq", allocationSize = 1)

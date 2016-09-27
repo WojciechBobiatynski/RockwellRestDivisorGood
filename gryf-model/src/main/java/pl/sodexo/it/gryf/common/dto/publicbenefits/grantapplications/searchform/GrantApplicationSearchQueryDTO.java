@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.common.dto.publicbenefits.grantapplications.searchform;
 
+import lombok.ToString;
 import pl.sodexo.it.gryf.common.dto.SearchDto;
 
 import java.util.Date;
@@ -7,6 +8,7 @@ import java.util.Date;
 /**
  * Created by tomasz.bilski.ext on 2015-06-30.
  */
+@ToString
 public class GrantApplicationSearchQueryDTO extends SearchDto {
 
     //FIELDS

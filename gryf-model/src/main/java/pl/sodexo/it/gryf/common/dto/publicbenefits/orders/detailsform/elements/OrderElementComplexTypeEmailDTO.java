@@ -1,11 +1,13 @@
 package pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements;
 
+import lombok.ToString;
 import pl.sodexo.it.gryf.common.dto.MailDTO;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowElement;
 
 /**
  * Created by tomasz.bilski.ext on 2015-09-18.
  */
+@ToString
 public class OrderElementComplexTypeEmailDTO extends OrderElementDTO {
 
     //FIELDS

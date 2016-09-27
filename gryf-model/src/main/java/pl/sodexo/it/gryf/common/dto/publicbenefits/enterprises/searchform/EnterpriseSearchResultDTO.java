@@ -1,6 +1,7 @@
 package pl.sodexo.it.gryf.common.dto.publicbenefits.enterprises.searchform;
 
 
+import lombok.ToString;
 import pl.sodexo.it.gryf.common.dto.dictionaries.zipcodes.searchform.ZipCodeSearchResultDTO;
 import pl.sodexo.it.gryf.model.publicbenefits.enterprises.Enterprise;
 
@@ -10,6 +11,7 @@ import java.util.List;
 /**
  * Created by tomasz.bilski.ext on 2015-08-10.
  */
+@ToString
 public class EnterpriseSearchResultDTO {
 
     //PRIVATE FIELDS

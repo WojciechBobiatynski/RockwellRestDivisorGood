@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.detailsform;
 
+import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
 import pl.sodexo.it.gryf.common.Privileges;
 import pl.sodexo.it.gryf.common.dto.DictionaryDTO;
@@ -19,6 +20,7 @@ import java.util.List;
 /**
  * Created by tomasz.bilski.ext on 2015-09-02.
  */
+@ToString
 public class ReimbursementDeliveryDTO {
 
     //STATIC FIELDS - ATRIBUTES

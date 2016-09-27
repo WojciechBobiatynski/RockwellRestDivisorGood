@@ -1,8 +1,11 @@
 package pl.sodexo.it.gryf.common.dto.publicbenefits;
 
+import lombok.ToString;
+
 /**
  * Created by tomasz.bilski.ext on 2015-09-18.
  */
+@ToString
 public class MailAttachmentDTO {
 
     //FIELDS

@@ -1,10 +1,12 @@
 package pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform;
 
+import lombok.ToString;
 import pl.sodexo.it.gryf.common.dto.SearchDto;
 
 /**
  * Created by tomasz.bilski.ext on 2015-08-10.
  */
+@ToString
 public class TrainingInstitutionSearchQueryDTO extends SearchDto {
 
     //FIELDS

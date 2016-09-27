@@ -1,6 +1,7 @@
 package pl.sodexo.it.gryf.model.publicbenefits.grantapplications;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.ToString;
 import pl.sodexo.it.gryf.model.GryfEntity;
 
 import javax.persistence.*;
@@ -8,6 +9,7 @@ import javax.persistence.*;
 /**
  * Created by tomasz.bilski.ext on 2015-07-13.
  */
+@ToString
 @Entity
 @Table(name = "GRANT_APPLICATION_ATTACH_REQ", schema = "APP_PBE")
 public class GrantApplicationAttachmentRequired extends GryfEntity {

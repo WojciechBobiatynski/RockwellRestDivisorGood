@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.model.publicbenefits.grantapplications;
 
+import lombok.ToString;
 import pl.sodexo.it.gryf.model.DictionaryEntity;
 import pl.sodexo.it.gryf.model.GryfEntity;
 
@@ -13,6 +14,7 @@ import java.util.Objects;
  *
  * @author tomasz.bilski.ext
  */
+@ToString
 @Entity
 @Table(name = "GRANT_APPLICATION_STATUSES", schema = "APP_PBE")
 public class GrantApplicationStatus extends GryfEntity implements DictionaryEntity {

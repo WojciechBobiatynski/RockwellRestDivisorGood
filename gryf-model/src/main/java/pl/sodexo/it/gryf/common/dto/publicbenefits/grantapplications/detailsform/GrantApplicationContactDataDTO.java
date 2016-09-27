@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.common.dto.publicbenefits.grantapplications.detailsform;
 
+import lombok.ToString;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import pl.sodexo.it.gryf.common.validation.publicbenefits.grantapplication.ValidationGroupApplyOptionalApplication;
@@ -10,6 +11,7 @@ import javax.validation.constraints.Size;
 /**
  * Created by tomasz.bilski.ext on 2015-07-02.
  */
+@ToString
 public class GrantApplicationContactDataDTO {
 
     //FIELDS

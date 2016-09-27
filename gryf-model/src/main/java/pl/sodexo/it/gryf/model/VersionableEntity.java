@@ -1,5 +1,7 @@
 package pl.sodexo.it.gryf.model;
 
+import lombok.ToString;
+
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Version;
@@ -7,6 +9,7 @@ import javax.persistence.Version;
 /**
  * Created by Tomasz.Bilski on 2015-06-09.
  */
+@ToString
 @MappedSuperclass
 public class VersionableEntity extends AuditableEntity{
 

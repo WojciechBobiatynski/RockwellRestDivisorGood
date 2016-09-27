@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.model.dictionaries;
 
+import lombok.ToString;
 import pl.sodexo.it.gryf.model.GryfEntity;
 
 import javax.persistence.*;
@@ -8,6 +9,7 @@ import java.util.Objects;
 /**
  * Created by tomasz.bilski.ext on 2015-06-15.
  */
+@ToString
 @Entity
 @Table(name = "STATES", schema = "EAGLE")
 @NamedQueries({

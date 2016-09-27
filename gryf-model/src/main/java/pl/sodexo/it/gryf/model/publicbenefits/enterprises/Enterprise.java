@@ -2,6 +2,7 @@ package pl.sodexo.it.gryf.model.publicbenefits.enterprises;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.ToString;
 import org.eclipse.persistence.annotations.OptimisticLocking;
 import org.hibernate.validator.constraints.NotEmpty;
 import pl.sodexo.it.gryf.common.validation.VatRegNumFormat;
@@ -21,6 +22,7 @@ import java.util.Objects;
 /**
  * Created by tomasz.bilski.ext on 2015-06-22.
  */
+@ToString
 @Entity
 @Table(name = "ENTERPRISES", schema = "APP_PBE")
 @SequenceGenerator(name="ent_seq", schema = "eagle", sequenceName = "ent_seq", allocationSize = 1)

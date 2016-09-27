@@ -1,6 +1,7 @@
 package pl.sodexo.it.gryf.model.publicbenefits.grantapplications;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.ToString;
 import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.model.AuditableEntity;
 
@@ -11,6 +12,7 @@ import java.util.Objects;
  *
  * @author tomasz.bilski.ext
  */
+@ToString
 @Entity
 @Table(name = "GRANT_APPLICATION_ATTACHMENTS", schema = "APP_PBE")
 public class GrantApplicationAttachment extends AuditableEntity {

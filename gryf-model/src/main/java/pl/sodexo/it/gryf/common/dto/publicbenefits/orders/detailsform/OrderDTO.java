@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform;
 
+import lombok.ToString;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.transitions.OrderFlowTransitionDTO;
 
@@ -8,6 +9,7 @@ import java.util.List;
 /**
  * Created by Michal.CHWEDCZUK.ext on 2015-07-22.
  */
+@ToString
 public class OrderDTO {
 
     //PRIVATE FIELDS

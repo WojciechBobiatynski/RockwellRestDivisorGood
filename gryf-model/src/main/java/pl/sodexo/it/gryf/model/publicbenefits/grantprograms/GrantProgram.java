@@ -1,6 +1,7 @@
 package pl.sodexo.it.gryf.model.publicbenefits.grantprograms;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.ToString;
 import pl.sodexo.it.gryf.model.DictionaryEntity;
 import pl.sodexo.it.gryf.model.GryfEntity;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationInProgram;
@@ -12,6 +13,7 @@ import java.util.*;
  *
  * @author tomasz.bilski.ext
  */
+@ToString
 @Entity
 @Table(name = "GRANT_PROGRAMS", schema = "APP_PBE")
 @NamedQueries({

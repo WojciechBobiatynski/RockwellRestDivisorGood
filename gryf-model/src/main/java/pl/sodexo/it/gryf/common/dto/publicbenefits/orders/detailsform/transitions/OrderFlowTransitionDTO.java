@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.transitions;
 
+import lombok.ToString;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowStatus;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowStatusTransition;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowStatusTransitionPK;
@@ -9,6 +10,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowStatusTransitionPK
  *
  * Created by Michal.CHWEDCZUK.ext on 2015-07-22.
  */
+@ToString
 public class OrderFlowTransitionDTO {
     private String actionName;
     private OrderFlowStatusTransitionPK id;

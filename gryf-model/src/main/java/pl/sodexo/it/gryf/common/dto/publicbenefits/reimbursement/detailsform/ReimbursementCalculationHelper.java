@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.detailsform;
 
+import lombok.ToString;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementTraining;
 
@@ -8,6 +9,7 @@ import java.math.BigDecimal;
 /**
  * Created by tomasz.bilski.ext on 2015-09-15.
  */
+@ToString
 public class ReimbursementCalculationHelper {
 
     //PUBLIC METHODS - LINIE SZKOLEN

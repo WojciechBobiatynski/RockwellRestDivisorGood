@@ -1,10 +1,13 @@
 package pl.sodexo.it.gryf.common.dto;
 
+import lombok.ToString;
+
 import java.io.InputStream;
 
 /**
  * Created by tomasz.bilski.ext on 2015-07-08.
  */
+@ToString
 public class FileDTO {
 
     //FIELDS

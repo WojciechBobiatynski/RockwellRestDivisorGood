@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.common.dto;
 
+import lombok.ToString;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.MailAttachmentDTO;
 import pl.sodexo.it.gryf.model.mail.EmailSourceType;
 
@@ -8,6 +9,7 @@ import java.util.List;
 /**
  * Created by tomasz.bilski.ext on 2015-09-18.
  */
+@ToString
 public class MailDTO {
 
     //FIELDS

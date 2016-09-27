@@ -1,6 +1,7 @@
 package pl.sodexo.it.gryf.common.dto.publicbenefits.grantapplications.detailsform;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
 import pl.sodexo.it.gryf.common.dto.FileContainerDTO;
 import pl.sodexo.it.gryf.common.dto.FileDTO;
@@ -13,6 +14,7 @@ import javax.validation.constraints.AssertTrue;
 /**
  * Created by tomasz.bilski.ext on 2015-07-07.
  */
+@ToString
 public class GrantApplicationAttachmentDTO implements FileContainerDTO {
 
     //FIELDS

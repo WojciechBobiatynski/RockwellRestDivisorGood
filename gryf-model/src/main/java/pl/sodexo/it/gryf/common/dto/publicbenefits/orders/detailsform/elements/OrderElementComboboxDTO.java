@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements;
 
+import lombok.ToString;
 import pl.sodexo.it.gryf.common.dto.DictionaryDTO;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
 
@@ -9,6 +10,7 @@ import java.util.List;
  * DTO for element type Combobox
  * Created by Michal.CHWEDCZUK.ext on 2015-07-23.
  */
+@ToString
 public class OrderElementComboboxDTO extends OrderElementDTO {
 
     //FIELDS
