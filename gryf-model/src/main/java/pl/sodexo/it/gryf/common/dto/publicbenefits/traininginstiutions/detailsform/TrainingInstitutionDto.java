@@ -1,4 +1,4 @@
-package pl.sodexo.it.gryf.common.dto.publicbenefits.individuals;
+package pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,12 +9,10 @@ import pl.sodexo.it.gryf.common.dto.dictionaries.zipcodes.detailsform.ZipCodeDto
 import java.util.List;
 
 /**
- * Dto dla encji Individuals
- *
  * Created by jbentyn on 2016-09-27.
  */
 @ToString
-public class IndividualDto extends VersionableDto {
+public class TrainingInstitutionDto extends VersionableDto {
 
     @Getter
     @Setter
@@ -26,35 +24,11 @@ public class IndividualDto extends VersionableDto {
 
     @Getter
     @Setter
-    private String accountPayment;
+    private String name;
 
     @Getter
     @Setter
-    private String accountRepayment;
-
-    @Getter
-    @Setter
-    private String firstName;
-
-    @Getter
-    @Setter
-    private String lastName;
-
-    @Getter
-    @Setter
-    private String pesel;
-
-    @Getter
-    @Setter
-    private String sex;
-
-    @Getter
-    @Setter
-    private String documentType;
-
-    @Getter
-    @Setter
-    private String documentNumber;
+    private String vatRegNum;
 
     @Getter
     @Setter
@@ -78,5 +52,6 @@ public class IndividualDto extends VersionableDto {
 
     @Getter
     @Setter
-    private List<IndividualContactDto> contacts;
+    private List<TrainingInstitutionContactDto> contacts;
+
 }

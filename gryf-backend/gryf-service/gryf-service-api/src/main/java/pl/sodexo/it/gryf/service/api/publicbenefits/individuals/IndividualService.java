@@ -1,6 +1,6 @@
 package pl.sodexo.it.gryf.service.api.publicbenefits.individuals;
 
-import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.IndividualDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.detailsForm.IndividualDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.searchform.IndividualSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.searchform.IndividualSearchResultDTO;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;

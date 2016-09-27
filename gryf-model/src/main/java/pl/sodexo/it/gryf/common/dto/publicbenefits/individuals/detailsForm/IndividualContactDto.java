@@ -1,4 +1,4 @@
-package pl.sodexo.it.gryf.common.dto.publicbenefits.individuals;
+package pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.detailsForm;
 
 import lombok.Getter;
 import lombok.Setter;

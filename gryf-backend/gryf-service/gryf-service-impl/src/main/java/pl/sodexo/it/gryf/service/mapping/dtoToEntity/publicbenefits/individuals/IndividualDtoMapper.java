@@ -2,8 +2,8 @@ package pl.sodexo.it.gryf.service.mapping.dtoToEntity.publicbenefits.individuals
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.IndividualContactDto;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.IndividualDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.detailsForm.IndividualContactDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.detailsForm.IndividualDto;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
 import pl.sodexo.it.gryf.service.mapping.dtoToEntity.VersionableDtoMapper;
 import pl.sodexo.it.gryf.service.mapping.dtoToEntity.dictionaries.ZipCodeDtoMapper;

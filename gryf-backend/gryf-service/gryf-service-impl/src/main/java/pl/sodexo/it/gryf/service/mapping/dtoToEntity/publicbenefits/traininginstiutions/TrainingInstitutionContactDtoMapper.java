@@ -2,7 +2,7 @@ package pl.sodexo.it.gryf.service.mapping.dtoToEntity.publicbenefits.trainingins
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.TrainingInstitutionContactDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingInstitutionContactDto;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstitutionContact;
 import pl.sodexo.it.gryf.service.mapping.dtoToEntity.AuditableDtoMapper;
 import pl.sodexo.it.gryf.service.mapping.dtoToEntity.publicbenefits.enterprises.ContactTypeDtoMapper;

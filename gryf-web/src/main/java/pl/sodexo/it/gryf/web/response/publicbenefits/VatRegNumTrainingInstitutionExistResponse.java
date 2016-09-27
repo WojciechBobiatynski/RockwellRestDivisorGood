@@ -1,7 +1,7 @@
 package pl.sodexo.it.gryf.web.response.publicbenefits;
 
 
-import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstitution;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingInstitutionDto;
 
 import java.util.List;
 //TODO uzycie encji
@@ -11,11 +11,11 @@ public class VatRegNumTrainingInstitutionExistResponse {
     private final PublicBenefitsResponseType responseType = PublicBenefitsResponseType.VAT_REG_NUM_TRAINING_INSTITUTION_CONFLICT;
     private final String message;
 
-    private final List<TrainingInstitution> trainingInstitutions;
+    private final List<TrainingInstitutionDto> trainingInstitutions;
 
     //CONSTRUCTORS
 
-    public VatRegNumTrainingInstitutionExistResponse(String message, List<TrainingInstitution> trainingInstitutions) {
+    public VatRegNumTrainingInstitutionExistResponse(String message, List<TrainingInstitutionDto> trainingInstitutions) {
         this.message = message;
         this.trainingInstitutions = trainingInstitutions;
     }
@@ -26,7 +26,7 @@ public class VatRegNumTrainingInstitutionExistResponse {
         return message;
     }
 
-    public List<TrainingInstitution> getTrainingInstitutions() {
+    public List<TrainingInstitutionDto> getTrainingInstitutions() {
         return trainingInstitutions;
     }
 

@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.ContactDataValidationDTO;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.TrainingInstitutionDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingInstitutionDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingInstitutionSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingInstitutionSearchResultDTO;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
@@ -102,7 +102,7 @@ public class TrainingInstitutionServiceImpl implements TrainingInstitutionServic
         //VAT REG NUM EXIST - VALIDATION
         if(checkVatRegNumDup) {
             List<TrainingInstitution> trainingInstitutionList = trainingInstitutionRepository.findByVatRegNum(trainingInstitution.getVatRegNum());
-            validateVatRegNumExist(trainingInstitutionList, trainingInstitution);
+            validateVatRegNumExist(trainingInstitutionEntityMapper.convert(trainingInstitutionList), trainingInstitution);
         }
     }
 
@@ -128,8 +128,8 @@ public class TrainingInstitutionServiceImpl implements TrainingInstitutionServic
         }
     }
 
-    private void validateVatRegNumExist(List<TrainingInstitution> trainingInstitutions, TrainingInstitution trainingInstitution){
-        trainingInstitutions.remove(trainingInstitution);
+    private void validateVatRegNumExist(List<TrainingInstitutionDto> trainingInstitutions, TrainingInstitution trainingInstitution){
+        trainingInstitutions.removeIf(dto ->trainingInstitution.getId().equals(dto.getId()));
         if(trainingInstitutions.size() > 0){
             throw new VatRegNumTrainingInstitutionExistException("W systemie istnieja zapisane podmioty o danym numerze NIP", trainingInstitutions);
         }
