@@ -30,6 +30,8 @@
         <logback.version>1.1.7</logback.version>
         <janino.version>3.0.6</janino.version>
         <lombok.version>1.16.10</lombok.version>
+        <junit.version>4.11</junit.version>
+        <mockito.version>1.9.5</mockito.version>
 
         <gryf.model.version>1.0.0-SNAPSHOT</gryf.model.version>
     </properties>
@@ -244,6 +246,11 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-tx</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-test</artifactId>
                 <version>${spring.version}</version>
             </dependency>
             <!-- SPRING SECURITY -->
@@ -476,6 +483,19 @@
                 <version>${lombok.version}</version>
             </dependency>
 
+            <!-- TEST -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>${mockito.version}</version>
+                <scope>test</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 </project>
