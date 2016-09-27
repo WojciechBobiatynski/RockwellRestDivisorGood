@@ -112,13 +112,7 @@
             <groupId>pl.sodexo.it</groupId>
             <artifactId>gryf-service-api</artifactId>
         </dependency>
-        
-        <!-- TODO tymczasowa zaleznosc -->
-        <dependency>
-            <groupId>pl.sodexo.it</groupId>
-            <artifactId>gryf-model</artifactId>
-        </dependency>
-        
+
         <!--PROJECT - RUNTIME -->
         <dependency>
             <groupId>pl.sodexo.it</groupId>
@@ -134,11 +128,6 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
         </dependency>
-        <!-- TODO tymczasowa zaleznosc -->
-        <!--<dependency>-->
-            <!--<groupId>org.springframework</groupId>-->
-            <!--<artifactId>spring-orm</artifactId>-->
-        <!--</dependency>-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-tx</artifactId>
@@ -192,6 +181,12 @@
         <dependency>
             <groupId>org.codehaus.janino</groupId>
             <artifactId>janino</artifactId>
+        </dependency>
+
+        <!-- JACKSON -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
         </dependency>
     </dependencies>
 </project>
