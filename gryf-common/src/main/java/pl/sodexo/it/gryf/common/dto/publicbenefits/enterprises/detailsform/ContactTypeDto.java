@@ -6,6 +6,8 @@ import lombok.ToString;
 import pl.sodexo.it.gryf.common.dto.basic.GryfDto;
 
 /**
+ * Dto dla encji ContactType
+ *
  * Created by jbentyn on 2016-09-26.
  */
 @ToString

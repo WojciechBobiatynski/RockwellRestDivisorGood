@@ -3,7 +3,6 @@ package pl.sodexo.it.gryf.service.mapping.dtoToEntity.publicbenefits.enterprises
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.enterprises.detailsform.EnterpriseContactDto;
-import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.enterprises.EnterpriseRepository;
 import pl.sodexo.it.gryf.model.publicbenefits.enterprises.EnterpriseContact;
 import pl.sodexo.it.gryf.service.mapping.dtoToEntity.AuditableDtoMapper;
 
@@ -18,9 +17,6 @@ public class EnterpriseContactDtoMapper  extends AuditableDtoMapper<EnterpriseCo
     @Autowired
     private ContactTypeDtoMapper contactTypeDtoMapper;
 
-    @Autowired
-    private EnterpriseRepository enterpriseRepository;
-
     @Override
     protected EnterpriseContact initDestination() {
         return new EnterpriseContact();
@@ -30,10 +26,8 @@ public class EnterpriseContactDtoMapper  extends AuditableDtoMapper<EnterpriseCo
     protected void map(EnterpriseContactDto dto, EnterpriseContact entity) {
         super.map(dto, entity);
         entity.setId(dto.getId());
-        entity.setContactType(contactTypeDtoMapper.convert(dto.getContactType()));
+        entity.setContactType(dto.getContactType() == null ? null : contactTypeDtoMapper.convert(dto.getContactType()));
         entity.setContactData(dto.getContactData());
         entity.setRemarks(dto.getRemarks());
-        //FIXME
-//        entity.setEnterprise(enterpriseRepository.getForUpdate(dto.getEnterpriseId()));
     }
 }

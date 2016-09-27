@@ -29,6 +29,5 @@ public class EnterpriseContactEntityMapper extends AuditableEntityMapper<Enterpr
         dto.setContactType(contactTypeEntityMapper.convert(entity.getContactType()));
         dto.setContactData(entity.getContactData());
         dto.setRemarks(entity.getRemarks());
-        dto.setEnterpriseId(entity.getEnterprise().getId());
     }
 }

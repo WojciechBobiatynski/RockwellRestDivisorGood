@@ -1,34 +1,36 @@
 package pl.sodexo.it.gryf.service.api.publicbenefits.individuals;
 
+import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.IndividualDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.searchform.IndividualSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.searchform.IndividualSearchResultDTO;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
-import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
 
 import java.util.List;
 import java.util.Set;
 
 /**
+ * Serwis do obdługi osób fizycznych
+ *
  * Created by jbentyn on 2016-09-20.
  */
 public interface IndividualService {
 
-    Individual findIndividual(Long id);
+    IndividualDto findIndividual(Long id);
 
     List<IndividualSearchResultDTO> findIndividuals(IndividualSearchQueryDTO individual);
 
-    Individual createIndividual();
+    IndividualDto createIndividual();
 
-    Individual saveIndividual(Individual individual, boolean checkPeselDup);
+    IndividualDto saveIndividual(IndividualDto individualDto, boolean checkPeselDup);
 
     /**
      * Funkcja zwraca zbiór adresów e-mail odbiorców przypisanych do przekazanej Osoby fizycznej. Tak zwrócony zbiór można sformatować np przy pomocy funkcji
      * {@link GryfUtils#formatEmailRecipientsSet GryfUtils.formatEmailRecipientsSet}
-     * @param individual przekazany obiekt osoby fizycznej
+     * @param individualDto przekazany obiekt osoby fizycznej
      * @param existingRecipientsSet istniejący wcześniej zbiór kontaktów email do uzupełnienia (może być null wtedy zostanie stworzony i zwrócony nowy zbiór)
      * @return Zbiór uzupełniony kontaktami przekazanej osoby fizycznej
      */
-    Set<String> getEmailRecipients(Individual individual, Set<String> existingRecipientsSet);
+    Set<String> getEmailRecipients(IndividualDto individualDto, Set<String> existingRecipientsSet);
 
-    void updateIndividual(Individual individual, boolean checkPeselDup);
+    void updateIndividual(IndividualDto individualDto, boolean checkPeselDup);
 }

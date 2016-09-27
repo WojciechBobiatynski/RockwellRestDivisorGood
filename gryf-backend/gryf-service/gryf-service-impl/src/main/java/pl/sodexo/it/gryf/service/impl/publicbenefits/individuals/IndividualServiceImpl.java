@@ -5,6 +5,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.Privileges;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.ContactDataValidationDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.enterprises.detailsform.ContactTypeDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.IndividualContactDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.IndividualDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.searchform.IndividualSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.searchform.IndividualSearchResultDTO;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
@@ -19,6 +22,8 @@ import pl.sodexo.it.gryf.service.api.other.ApplicationParametersService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.individuals.IndividualService;
 import pl.sodexo.it.gryf.service.api.security.SecurityCheckerService;
 import pl.sodexo.it.gryf.service.local.api.ValidateService;
+import pl.sodexo.it.gryf.service.mapping.dtoToEntity.publicbenefits.individuals.IndividualDtoMapper;
+import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.individuals.IndividualEntityMapper;
 
 import java.util.HashSet;
 import java.util.List;
@@ -46,11 +51,17 @@ public class IndividualServiceImpl implements IndividualService {
     @Autowired
     private SecurityCheckerService securityCheckerService;
 
+    @Autowired
+    private IndividualEntityMapper individualEntityMapper;
+
+    @Autowired
+    private IndividualDtoMapper individualDtoMapper;
+
     //PUBLIC METHODS
 
     @Override
-    public Individual findIndividual(Long id) {
-        return individualRepository.getForUpdate(id);
+    public IndividualDto findIndividual(Long id) {
+        return individualEntityMapper.convert(individualRepository.getForUpdate(id));
     }
 
     @Override
@@ -60,23 +71,23 @@ public class IndividualServiceImpl implements IndividualService {
     }
 
     @Override
-    public Individual createIndividual() {
-        Individual individual = new Individual();
-        return individual;
+    public IndividualDto createIndividual() {
+        return new IndividualDto();
     }
 
     @Override
-    public Individual saveIndividual(Individual individual, boolean checkPeselDup) {
+    public IndividualDto saveIndividual(IndividualDto individualDto, boolean checkPeselDup) {
+        Individual individual = individualDtoMapper.convert(individualDto);
         validateIndividual(individual, checkPeselDup);
         individual = individualRepository.save(individual);
 
         individual.setCode(generateCode(individual.getId()));
         individualRepository.update(individual, individual.getId());
-        return individual;
+        return individualEntityMapper.convert(individual);
     }
     
     @Override
-    public Set<String> getEmailRecipients(Individual individual, Set<String> existingRecipientsSet){
+    public Set<String> getEmailRecipients(IndividualDto individualDto, Set<String> existingRecipientsSet) {
         Set<String> set;
         if (existingRecipientsSet == null){
             set = new HashSet<>();
@@ -84,9 +95,9 @@ public class IndividualServiceImpl implements IndividualService {
         else {
             set = existingRecipientsSet;
         }
-        if (individual != null) {
-            for (IndividualContact contact : individual.getContacts()) {
-                ContactType contactType = contact.getContactType();
+        if (individualDto != null) {
+            for (IndividualContactDto contact : individualDto.getContacts()) {
+                ContactTypeDto contactType = contact.getContactType();
                 if (ContactType.TYPE_EMAIL.equals(contactType.getType())) {
                     if (!StringUtils.isEmpty(contact.getContactData())) {
                         set.add(contact.getContactData());
@@ -98,7 +109,8 @@ public class IndividualServiceImpl implements IndividualService {
     }
 
     @Override
-    public void updateIndividual(Individual individual, boolean checkPeselDup) {
+    public void updateIndividual(IndividualDto individualDto, boolean checkPeselDup) {
+        Individual individual = individualDtoMapper.convert(individualDto);
         validateIndividual(individual, checkPeselDup);
         individualRepository.update(individual, individual.getId());
     }

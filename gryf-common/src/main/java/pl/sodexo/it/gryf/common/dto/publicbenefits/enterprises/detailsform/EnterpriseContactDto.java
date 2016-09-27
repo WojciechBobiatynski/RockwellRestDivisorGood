@@ -9,6 +9,8 @@ import pl.sodexo.it.gryf.common.dto.basic.AuditableDto;
 import javax.validation.constraints.NotNull;
 
 /**
+ * Dto dla encji EnterpriseContact
+ *
  * Created by jbentyn on 2016-09-26.
  */
 @ToString
@@ -31,15 +33,5 @@ public class EnterpriseContactDto extends AuditableDto {
     @Getter
     @Setter
     private String remarks;
-
-    @Getter
-    @Setter
-    private Long enterpriseId;
-
-//    @Getter
-//    @Setter
-//    //    @JsonBackReference(Enterprise.CONTACTS_ATTR_NAME)
-//    @NotNull(message = "MŚP nie może być puste")
-//    private Enterprise enterprise;
 
 }
