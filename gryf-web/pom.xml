@@ -66,6 +66,7 @@
                             <goal>war</goal>
                         </goals>
                         <configuration>
+                            <webXml>src/main/webapp/WEB-INF/web.xml</webXml>
                             <warSourceDirectory>
                                 ${project.build.directory}/${project.build.finalName}
                             </warSourceDirectory>

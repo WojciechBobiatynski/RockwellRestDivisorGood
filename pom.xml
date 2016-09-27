@@ -12,6 +12,7 @@
     <properties>
         <gryf.version>2.0.0-SNAPSHOT</gryf.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <gryf.datasource.jndiName>java:comp/env/jdbc/srvee</gryf.datasource.jndiName>
         
         <spring.version>4.1.5.RELEASE</spring.version>
         <eclipselink.version>2.5.2</eclipselink.version>
