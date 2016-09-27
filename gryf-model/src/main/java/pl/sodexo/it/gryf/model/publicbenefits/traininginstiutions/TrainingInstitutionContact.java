@@ -1,6 +1,8 @@
 package pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.validator.constraints.NotEmpty;
 import pl.sodexo.it.gryf.model.AuditableEntity;
 import pl.sodexo.it.gryf.model.publicbenefits.ContactType;
@@ -23,58 +25,39 @@ public class TrainingInstitutionContact extends AuditableEntity {
 
     //PRIVATE FIELDS
 
+
     @Id
     @Column(name = "ID")
     @GeneratedValue(generator = "pk_seq")
+    @Getter
+    @Setter
     private Long id;
 
     @ManyToOne
     @JoinColumn(name = "CONTACT_TYPE")
     @NotNull(message = "Typ kontaktu nie może być pusty")
+    @Getter
+    @Setter
     private ContactType contactType;
 
     @Column(name = "CONTACT_DATA")
     @NotEmpty(message = "Dane kontaktowe nie mogą być puste")
+    @Getter
+    @Setter
     private String contactData;
 
     @Column(name = "REMARKS")
+    @Getter
+    @Setter
     private String remarks;
 
     @ManyToOne
     @JoinColumn(name = "TRAINING_INSTITUTION_ID")
     @JsonBackReference(TrainingInstitution.CONTACTS_ATTR_NAME)
     @NotNull(message = "IS nie może być puste")
+    @Getter
+    @Setter
     private TrainingInstitution trainingInstitution;
-
-    //GETTERS & SETTERS
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public ContactType getContactType() {
-        return contactType;
-    }
-
-    public String getContactData() {
-        return contactData;
-    }
-
-    public String getRemarks() {
-        return remarks;
-    }
-
-    public TrainingInstitution getTrainingInstitution() {
-        return trainingInstitution;
-    }
-
-    public void setTrainingInstitution(TrainingInstitution trainingInstitution) {
-        this.trainingInstitution = trainingInstitution;
-    }
 
     //EQUALS & HASH CODE
 

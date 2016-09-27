@@ -1,8 +1,8 @@
 package pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions;
 
+import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.TrainingInstitutionDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingInstitutionSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingInstitutionSearchResultDTO;
-import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstitution;
 
 import java.util.List;
 
@@ -11,13 +11,13 @@ import java.util.List;
  */
 public interface TrainingInstitutionService {
 
-    TrainingInstitution findTrainingInstitution(Long id);
+    TrainingInstitutionDto findTrainingInstitution(Long id);
 
     List<TrainingInstitutionSearchResultDTO> findTrainingInstitutions(TrainingInstitutionSearchQueryDTO trainingInstitution);
 
-    TrainingInstitution createTrainingInstitution();
+    TrainingInstitutionDto createTrainingInstitution();
 
-    TrainingInstitution saveTrainingInstitution(TrainingInstitution trainingInstitution, boolean checkVatRegNumDup);
+    TrainingInstitutionDto saveTrainingInstitution(TrainingInstitutionDto trainingInstitutionDto, boolean checkVatRegNumDup);
 
-    void updateTrainingInstitution(TrainingInstitution trainingInstitution, boolean checkVatRegNumDup);
+    void updateTrainingInstitution(TrainingInstitutionDto trainingInstitutionDto, boolean checkVatRegNumDup);
 }

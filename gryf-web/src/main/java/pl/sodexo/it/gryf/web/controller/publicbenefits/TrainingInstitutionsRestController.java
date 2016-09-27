@@ -3,10 +3,10 @@ package pl.sodexo.it.gryf.web.controller.publicbenefits;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.sodexo.it.gryf.common.Privileges;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.TrainingInstitutionDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingInstitutionSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingInstitutionSearchResultDTO;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
-import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstitution;
 import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.TrainingInstitutionService;
 import pl.sodexo.it.gryf.service.api.security.SecurityCheckerService;
 import pl.sodexo.it.gryf.web.controller.ControllersUrls;
@@ -18,7 +18,6 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(value = ControllersUrls.PUBLIC_BENEFITS_REST + "/trainingInstitution", produces = "application/json;charset=UTF-8")
-//TODO uzycie encji
 public class TrainingInstitutionsRestController {
 
     @Autowired
@@ -29,21 +28,21 @@ public class TrainingInstitutionsRestController {
 
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public TrainingInstitution getTrainingInstitutionById() {
+    public TrainingInstitutionDto getTrainingInstitutionById() {
         securityCheckerService.assertServicePrivilege(Privileges.GRF_TRAINING_INSTITUTIONS);
         return trainingInstitutionService.createTrainingInstitution();
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public Long saveTrainingInstitution(@RequestParam(value = "checkVatRegNumDup", required = false, defaultValue = "true") boolean checkVatRegNumDup,
-                                        @RequestBody TrainingInstitution trainingInstitution) {
+            @RequestBody TrainingInstitutionDto trainingInstitutionDto) {
         securityCheckerService.assertServicePrivilege(Privileges.GRF_TRAINING_INSTITUTION_MOD);
-        trainingInstitution = trainingInstitutionService.saveTrainingInstitution(trainingInstitution, checkVatRegNumDup);
-        return trainingInstitution.getId();
+        trainingInstitutionDto = trainingInstitutionService.saveTrainingInstitution(trainingInstitutionDto, checkVatRegNumDup);
+        return trainingInstitutionDto.getId();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public TrainingInstitution getTrainingInstitutionById(@PathVariable Long id) {
+    public TrainingInstitutionDto getTrainingInstitutionById(@PathVariable Long id) {
         securityCheckerService.assertServicePrivilege(Privileges.GRF_TRAINING_INSTITUTIONS);
         return trainingInstitutionService.findTrainingInstitution(id);
     }
@@ -51,12 +50,12 @@ public class TrainingInstitutionsRestController {
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json")
     public Long updateTrainingInstitution(@PathVariable Long id,
                                           @RequestParam(value = "checkVatRegNumDup", required = false, defaultValue = "true") boolean checkVatRegNumDup,
-                                          @RequestBody TrainingInstitution trainingInstitution) {
+            @RequestBody TrainingInstitutionDto trainingInstitutionDto) {
         securityCheckerService.assertServicePrivilege(Privileges.GRF_TRAINING_INSTITUTION_MOD);
-        GryfUtils.checkForUpdate(id, trainingInstitution.getId());
+        GryfUtils.checkForUpdate(id, trainingInstitutionDto.getId());
 
-        trainingInstitutionService.updateTrainingInstitution(trainingInstitution, checkVatRegNumDup);
-        return trainingInstitution.getId();
+        trainingInstitutionService.updateTrainingInstitution(trainingInstitutionDto, checkVatRegNumDup);
+        return trainingInstitutionDto.getId();
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)

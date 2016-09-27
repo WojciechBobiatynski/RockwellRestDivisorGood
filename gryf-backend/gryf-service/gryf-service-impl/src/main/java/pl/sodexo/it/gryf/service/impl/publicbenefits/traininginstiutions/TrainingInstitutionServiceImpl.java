@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.ContactDataValidationDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.TrainingInstitutionDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingInstitutionSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingInstitutionSearchResultDTO;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
@@ -17,6 +18,8 @@ import pl.sodexo.it.gryf.service.api.dictionaries.ContactTypeService;
 import pl.sodexo.it.gryf.service.api.other.ApplicationParametersService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.TrainingInstitutionService;
 import pl.sodexo.it.gryf.service.local.api.ValidateService;
+import pl.sodexo.it.gryf.service.mapping.dtoToEntity.publicbenefits.traininginstiutions.TrainingInstitutionDtoMapper;
+import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.traininginstiutions.TrainingInstitutionEntityMapper;
 
 import java.util.List;
 
@@ -41,11 +44,17 @@ public class TrainingInstitutionServiceImpl implements TrainingInstitutionServic
     @Autowired
     private ApplicationParametersService applicationParametersService;
 
+    @Autowired
+    private TrainingInstitutionEntityMapper trainingInstitutionEntityMapper;
+
+    @Autowired
+    private TrainingInstitutionDtoMapper trainingInstitutionDtoMapper;
+
     //PUBLIC METHODS
 
     @Override
-    public TrainingInstitution findTrainingInstitution(Long id) {
-        return trainingInstitutionRepository.getForUpdate(id);
+    public TrainingInstitutionDto findTrainingInstitution(Long id) {
+        return trainingInstitutionEntityMapper.convert(trainingInstitutionRepository.getForUpdate(id));
     }
 
     @Override
@@ -55,23 +64,24 @@ public class TrainingInstitutionServiceImpl implements TrainingInstitutionServic
     }
 
     @Override
-    public TrainingInstitution createTrainingInstitution() {
-        TrainingInstitution trainingInstitution = new TrainingInstitution();
-        return trainingInstitution;
+    public TrainingInstitutionDto createTrainingInstitution() {
+        return new TrainingInstitutionDto();
     }
 
     @Override
-    public TrainingInstitution saveTrainingInstitution(TrainingInstitution trainingInstitution, boolean checkVatRegNumDup) {
+    public TrainingInstitutionDto saveTrainingInstitution(TrainingInstitutionDto trainingInstitutionDto, boolean checkVatRegNumDup) {
+        TrainingInstitution trainingInstitution = trainingInstitutionDtoMapper.convert(trainingInstitutionDto);
         validateTrainingInstitution(trainingInstitution, checkVatRegNumDup);
         trainingInstitution = trainingInstitutionRepository.save(trainingInstitution);
 
         trainingInstitution.setCode(generateCode(trainingInstitution.getId()));
         trainingInstitutionRepository.update(trainingInstitution, trainingInstitution.getId());
-        return trainingInstitution;
+        return trainingInstitutionEntityMapper.convert(trainingInstitution);
     }
 
     @Override
-    public void updateTrainingInstitution(TrainingInstitution trainingInstitution, boolean checkVatRegNumDup) {
+    public void updateTrainingInstitution(TrainingInstitutionDto trainingInstitutionDto, boolean checkVatRegNumDup) {
+        TrainingInstitution trainingInstitution = trainingInstitutionDtoMapper.convert(trainingInstitutionDto);
         validateTrainingInstitution(trainingInstitution, checkVatRegNumDup);
         trainingInstitutionRepository.update(trainingInstitution, trainingInstitution.getId());
     }
