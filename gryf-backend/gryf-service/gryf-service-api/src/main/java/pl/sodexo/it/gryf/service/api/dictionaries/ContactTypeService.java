@@ -1,6 +1,7 @@
 package pl.sodexo.it.gryf.service.api.dictionaries;
 
 import pl.sodexo.it.gryf.common.dto.publicbenefits.ContactDataValidationDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.enterprises.detailsform.ContactTypeDto;
 import pl.sodexo.it.gryf.model.publicbenefits.ContactType;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
  */
 public interface ContactTypeService {
 
-    List<ContactType> findContactTypes();
+    List<ContactTypeDto> findContactTypes();
 
     ContactDataValidationDTO validateContractData(ContactType contactType, String value);
 }

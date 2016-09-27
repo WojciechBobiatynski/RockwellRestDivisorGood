@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import pl.sodexo.it.gryf.common.dto.DictionaryDTO;
-import pl.sodexo.it.gryf.model.publicbenefits.ContactType;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.enterprises.detailsform.ContactTypeDto;
 import pl.sodexo.it.gryf.service.api.dictionaries.ContactTypeService;
 import pl.sodexo.it.gryf.service.api.other.DictionaryService;
 
@@ -18,7 +18,6 @@ import java.util.List;
  */
 @Controller
 @RequestMapping(value = "/rest/publicBenefits", produces = "application/json;charset=UTF-8")
-//TODO uzycie encji
 public class PublicBenefitsRestController {
 
     @Autowired
@@ -31,7 +30,7 @@ public class PublicBenefitsRestController {
 
     @RequestMapping(value = "/contactTypes", method = RequestMethod.GET)
     @ResponseBody
-    public List<ContactType> findContactTypes() {
+    public List<ContactTypeDto> findContactTypes() {
         return contactTypeService.findContactTypes();
     }
 

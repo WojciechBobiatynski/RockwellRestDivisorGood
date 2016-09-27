@@ -4,11 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.ContactDataValidationDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.enterprises.detailsform.ContactTypeDto;
 import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.common.validation.dictionaries.ContactDataValidator;
 import pl.sodexo.it.gryf.dao.api.crud.repository.dictionaries.ContactTypeRepository;
 import pl.sodexo.it.gryf.model.publicbenefits.ContactType;
 import pl.sodexo.it.gryf.service.api.dictionaries.ContactTypeService;
+import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.enterprises.ContactTypeEntityMapper;
 
 import java.util.List;
 
@@ -24,10 +26,15 @@ public class ContactTypeServiceImpl implements ContactTypeService {
     @Autowired
     private ContactTypeRepository contactTypeRepository;
 
+    @Autowired
+    private ContactTypeEntityMapper contactTypeEntityMapper;
+
     //PUBLIC METHODS
 
-    @Override public List<ContactType> findContactTypes(){
-        return contactTypeRepository.findAll();
+    @Override
+    public List<ContactTypeDto> findContactTypes() {
+        List<ContactType> contactTypes = contactTypeRepository.findAll();
+        return contactTypeEntityMapper.convert(contactTypes);
     }
 
     @Override public ContactDataValidationDTO validateContractData(ContactType contactType, String value){
