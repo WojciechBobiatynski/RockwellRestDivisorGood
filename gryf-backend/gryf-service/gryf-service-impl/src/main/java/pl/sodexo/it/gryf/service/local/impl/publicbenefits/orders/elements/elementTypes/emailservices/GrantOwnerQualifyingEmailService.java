@@ -12,8 +12,6 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.O
 import pl.sodexo.it.gryf.common.mail.MailPlaceholders;
 import pl.sodexo.it.gryf.model.mail.EmailTemplate;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
-import pl.sodexo.it.gryf.service.api.publicbenefits.grantapplications.GrantApplicationsService;
-import pl.sodexo.it.gryf.service.api.publicbenefits.orders.OrderService;
 import pl.sodexo.it.gryf.service.local.api.MailService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.elements.elementTypes.emailservices.EmailDTOService;
 
@@ -26,13 +24,7 @@ public class GrantOwnerQualifyingEmailService implements EmailDTOService {
 
     @Autowired
     private MailService mailService;
-    
-    @Autowired
-    private OrderService orderService;
-    
-    @Autowired
-    private GrantApplicationsService grantApplicationsService;
-    
+
     @Override
     public MailDTO createMailDTO(OrderElementDTOBuilder builder) {
         Order order = builder.getOrder();

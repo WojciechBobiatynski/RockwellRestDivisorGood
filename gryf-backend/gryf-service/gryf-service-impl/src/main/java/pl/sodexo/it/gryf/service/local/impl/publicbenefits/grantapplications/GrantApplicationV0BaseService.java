@@ -39,13 +39,13 @@ import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.*;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgramParam;
 import pl.sodexo.it.gryf.service.api.other.ApplicationParametersService;
-import pl.sodexo.it.gryf.service.api.publicbenefits.enterprises.EnterpriseService;
-import pl.sodexo.it.gryf.service.api.publicbenefits.grantapplications.GrantApplicationsService;
-import pl.sodexo.it.gryf.service.api.publicbenefits.orders.OrderService;
 import pl.sodexo.it.gryf.service.local.api.FileService;
 import pl.sodexo.it.gryf.service.local.api.MailService;
 import pl.sodexo.it.gryf.service.local.api.ValidateService;
+import pl.sodexo.it.gryf.service.local.api.publicbenefits.enterprises.EnterpriseServiceLocal;
+import pl.sodexo.it.gryf.service.local.api.publicbenefits.grantapplications.GrantApplicationEmailService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.grantapplications.GrantApplicationService;
+import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.OrderServiceLocal;
 
 import javax.mail.Session;
 import java.util.*;
@@ -73,13 +73,13 @@ public abstract class GrantApplicationV0BaseService<T extends GrantApplicationV0
     protected ApplicationParametersService applicationParametersService;
 
     @Autowired
-    protected EnterpriseService enterpriseService;
+    protected EnterpriseServiceLocal enterpriseServiceLocal;
 
     @Autowired
-    protected OrderService orderService;
+    protected OrderServiceLocal orderServiceLocal;
     
     @Autowired
-    protected GrantApplicationsService grantApplicationsService;
+    protected GrantApplicationEmailService grantApplicationEmailService;
 
     @Autowired
     protected MailService mailService;
@@ -247,7 +247,7 @@ public abstract class GrantApplicationV0BaseService<T extends GrantApplicationV0
         saveOrUpdateEnterprise(grantApplication, dto, checkVatRegNumDup);
         updateFormData(grantApplication, dto);
 
-        orderService.createOrder(grantApplication);
+        orderServiceLocal.createOrder(grantApplication);
 
         return grantApplication;
     }
@@ -514,7 +514,7 @@ public abstract class GrantApplicationV0BaseService<T extends GrantApplicationV0
             saveEnterpriseContacts(enterprise, dto);
 
             try {
-                enterprise = enterpriseService.saveEnterprise(enterprise, checkVatRegNumDup);
+                enterprise = enterpriseServiceLocal.saveEnterprise(enterprise, checkVatRegNumDup);
             } catch (VatRegNumTrainingInstitutionExistException e) {
                 GryfUtils.rethrowException(e, "Wystapił błąd przy zapisie danych do MŚP: ");
             } catch (EntityValidationException e) {
@@ -544,7 +544,7 @@ public abstract class GrantApplicationV0BaseService<T extends GrantApplicationV0
         updateEnterpriseContacts(enterprise, dto);
 
         try {
-            enterpriseService.updateEnterprise(enterprise, checkVatRegNumDup);
+            enterpriseServiceLocal.updateEnterprise(enterprise, checkVatRegNumDup);
         }catch (VatRegNumTrainingInstitutionExistException e){
             GryfUtils.rethrowException(e, "Wystapił błąd przy zapisie danych do MŚP: ");
         }catch(EntityValidationException e){
@@ -1130,8 +1130,8 @@ public abstract class GrantApplicationV0BaseService<T extends GrantApplicationV0
      * @return emaile oddzielone przecinkiem
      */
     protected String findEmailAddressToSend(GrantApplication grantApplication) {
-        Set<String> set = grantApplicationsService.getEmailRecipients(grantApplication, null);
-        set = enterpriseService.getEmailRecipients(grantApplication.getEnterprise(), set);
+        Set<String> set = grantApplicationEmailService.getEmailRecipients(grantApplication, null);
+        set = enterpriseServiceLocal.getEmailRecipients(grantApplication.getEnterprise(), set);
         return GryfUtils.formatEmailRecipientsSet(set);
     }
 

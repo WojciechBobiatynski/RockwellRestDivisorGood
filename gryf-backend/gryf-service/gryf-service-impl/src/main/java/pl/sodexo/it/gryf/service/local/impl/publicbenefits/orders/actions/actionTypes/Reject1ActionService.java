@@ -10,8 +10,8 @@ import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
-import pl.sodexo.it.gryf.service.api.publicbenefits.grantapplications.GrantApplicationsService;
 import pl.sodexo.it.gryf.service.local.api.MailService;
+import pl.sodexo.it.gryf.service.local.api.publicbenefits.grantapplications.GrantApplicationEmailService;
 import pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.actions.ActionBaseService;
 
 import java.util.Date;
@@ -26,7 +26,7 @@ public class Reject1ActionService extends ActionBaseService {
     private MailService mailService;
 
     @Autowired
-    private GrantApplicationsService grantApplicationsService;
+    private GrantApplicationEmailService grantApplicationEmailService;
 
     @Autowired
     private GrantApplicationStatusRepository grantApplicationStatusRepository;
@@ -48,7 +48,7 @@ public class Reject1ActionService extends ActionBaseService {
         OrderElement oeAddress = order.loadElement("REJEMAIL1");
         MailPlaceholders mailPlaceholders = mailService.createPlaceholders("rejectionReason", oeReason.getValueVarchar())
                                                                                     .add("grantProgramName", program.getProgramName());
-        grantApplicationsService.sendPublicGrantProgramEmail(application, EmailTemplate.GA_REJECT, mailPlaceholders, oeAddress.getValueVarchar(), null);
+        grantApplicationEmailService.sendPublicGrantProgramEmail(application, EmailTemplate.GA_REJECT, mailPlaceholders, oeAddress.getValueVarchar(), null);
     }
 
 }

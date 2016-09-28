@@ -43,6 +43,7 @@ public interface ApplicationParametersService {
 
     int getGryfTrainingInstitutionCodeZeroCount();
 
+    //TODO przenieść do serwisu lokalnego
     EmailTemplate getStdEmailTemplate();
 
     String getStdEmailBodyTemplate();

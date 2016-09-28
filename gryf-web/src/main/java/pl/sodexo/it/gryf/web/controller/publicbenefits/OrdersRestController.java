@@ -10,6 +10,7 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.searchform.OrderSearch
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.searchform.OrderSearchResultDTO;
 import pl.sodexo.it.gryf.common.exception.GryfOptimisticLockRuntimeException;
 import pl.sodexo.it.gryf.common.parsers.OrderParser;
+import pl.sodexo.it.gryf.service.api.publicbenefits.orders.OrderActionService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.orders.OrderService;
 import pl.sodexo.it.gryf.service.api.security.SecurityCheckerService;
 import pl.sodexo.it.gryf.web.controller.ControllersUrls;
@@ -32,6 +33,9 @@ public class OrdersRestController {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private OrderActionService orderActionService;
 
     //PUBLIC METHODS
 
@@ -66,7 +70,7 @@ public class OrdersRestController {
         List<IncomingOrderElementDTO> incomingOrderElements = OrderParser.readIncomingOrderElements(incomingOrderElementsParam);
         List<String> acceptedViolations = OrderParser.readAcceptedViolations(acceptedViolationsParam);
         try {
-            orderService.executeAction(orderId, actionId, version, incomingOrderElements, fileDtoList, acceptedViolations);
+            orderActionService.executeAction(orderId, actionId, version, incomingOrderElements, fileDtoList, acceptedViolations);
         } catch (GryfOptimisticLockRuntimeException e) {
             orderService.manageLocking(orderId);
         }

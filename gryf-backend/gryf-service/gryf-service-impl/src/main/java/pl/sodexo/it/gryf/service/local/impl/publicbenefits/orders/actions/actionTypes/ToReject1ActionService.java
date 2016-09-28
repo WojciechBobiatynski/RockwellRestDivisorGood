@@ -7,8 +7,8 @@ import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowElement;
-import pl.sodexo.it.gryf.service.api.publicbenefits.grantapplications.GrantApplicationsService;
-import pl.sodexo.it.gryf.service.api.publicbenefits.orders.OrderService;
+import pl.sodexo.it.gryf.service.local.api.publicbenefits.grantapplications.GrantApplicationEmailService;
+import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.orderflows.OrderFlowElementService;
 import pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.actions.ActionBaseService;
 
 import java.util.List;
@@ -23,10 +23,10 @@ public class ToReject1ActionService extends ActionBaseService {
     //FIELDS
 
     @Autowired
-    private OrderService orderService;
+    private OrderFlowElementService orderFlowElementService;
 
     @Autowired
-    private GrantApplicationsService grantApplicationsService;
+    private GrantApplicationEmailService grantApplicationEmailService;
 
     //PUBLIC METHODS
 
@@ -34,16 +34,16 @@ public class ToReject1ActionService extends ActionBaseService {
     protected void executeAction(Order order){
 
         //ADDRESSES
-        Set<String> addresses = grantApplicationsService.getEmailRecipients(order.getApplication(), null);
+        Set<String> addresses = grantApplicationEmailService.getEmailRecipients(order.getApplication(), null);
         if(!GryfUtils.isEmpty(addresses)){
             String addressesStr = StringUtils.substring(GryfUtils.formatEmailRecipientsSet(addresses), 0, 500);
-            orderService.addElementVarcharValue(order, "REJEMAIL1", addressesStr);
+            orderFlowElementService.addElementVarcharValue(order, "REJEMAIL1", addressesStr);
         }
 
         //REJECT REASON
         String reason = generateReason(order.getElements("CONFCHKBOX"));
         if(!StringUtils.isEmpty(reason)){
-            orderService.addElementVarcharValue(order, "REJREASON1", reason);
+            orderFlowElementService.addElementVarcharValue(order, "REJREASON1", reason);
         }
     }
 

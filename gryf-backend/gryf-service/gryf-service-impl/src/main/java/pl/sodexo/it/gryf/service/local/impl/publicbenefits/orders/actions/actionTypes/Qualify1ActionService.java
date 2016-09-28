@@ -10,10 +10,8 @@ import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
-import pl.sodexo.it.gryf.service.api.other.ApplicationParametersService;
-import pl.sodexo.it.gryf.service.api.publicbenefits.grantapplications.GrantApplicationsService;
-import pl.sodexo.it.gryf.service.local.api.MailService;
 import pl.sodexo.it.gryf.service.local.api.ValidateService;
+import pl.sodexo.it.gryf.service.local.api.publicbenefits.grantapplications.GrantApplicationEmailService;
 import pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.actions.ActionBaseService;
 import pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.elements.elementTypes.OrderElementAttrDService;
 
@@ -30,19 +28,13 @@ public class Qualify1ActionService extends ActionBaseService {
     //FIELDS
 
     @Autowired
-    private MailService mailService;
-
-    @Autowired
     private ValidateService validateService;
-
-    @Autowired
-    private ApplicationParametersService applicationParametersService;
 
     @Autowired
     private OrderElementAttrDService orderElementAttrDService;
 
     @Autowired
-    private GrantApplicationsService grantApplicationsService;
+    private GrantApplicationEmailService grantApplicationEmailService;
 
     //PUBLIC METHODS
 
@@ -108,7 +100,7 @@ public class Qualify1ActionService extends ActionBaseService {
     }
 
     private void sendMail(Order order, OrderElementComplexTypeEmailDTO dto, List<MailAttachmentDTO> attachments){
-        grantApplicationsService.sendPublicGrantProgramEmail(order.getApplication(), dto.getEmailTemplateId(),
+        grantApplicationEmailService.sendPublicGrantProgramEmail(order.getApplication(), dto.getEmailTemplateId(),
                                                                 dto.getSubject(), dto.getBody(), dto.getAddressesTo(),
                                                                 attachments);
     }

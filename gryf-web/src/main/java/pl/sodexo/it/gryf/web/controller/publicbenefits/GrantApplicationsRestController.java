@@ -11,7 +11,7 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.grantapplications.searchform.
 import pl.sodexo.it.gryf.common.dto.publicbenefits.grantapplications.searchform.GrantApplicationSearchResultDTO;
 import pl.sodexo.it.gryf.common.exception.GryfOptimisticLockRuntimeException;
 import pl.sodexo.it.gryf.common.parsers.GrantApplicationParser;
-import pl.sodexo.it.gryf.service.api.publicbenefits.grantapplications.GrantApplicationsService;
+import pl.sodexo.it.gryf.service.api.publicbenefits.grantapplications.GrantApplicationActionService;
 import pl.sodexo.it.gryf.service.api.security.SecurityCheckerService;
 import pl.sodexo.it.gryf.web.controller.ControllersUrls;
 import pl.sodexo.it.gryf.web.utils.WebUtils;
@@ -30,20 +30,20 @@ public class GrantApplicationsRestController {
     private SecurityCheckerService securityCheckerService;
 
     @Autowired
-    private GrantApplicationsService grantApplicationsService;
+    private GrantApplicationActionService grantApplicationActionService;
 
     //PUBLIC METHODS
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public List<GrantApplicationSearchResultDTO> findApplication(GrantApplicationSearchQueryDTO searchDTO) {
         securityCheckerService.assertServicePrivilege(Privileges.GRF_PBE_APPLICATIONS);
-        return grantApplicationsService.findApplications(searchDTO);
+        return grantApplicationActionService.findApplications(searchDTO);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String getApplicationFormDataById(@PathVariable Long id) {
         securityCheckerService.assertServicePrivilege(Privileges.GRF_PBE_APPLICATIONS);
-        return grantApplicationsService.findApplicationFormData(id);
+        return grantApplicationActionService.findApplicationFormData(id);
     }
 
     @RequestMapping(value = "/save/{versionId}", method = RequestMethod.POST)
@@ -53,7 +53,7 @@ public class GrantApplicationsRestController {
         securityCheckerService.assertServicePrivilege(Privileges.GRF_PBE_APPLICATION_MOD);
 
         List<FileDTO> fileDtoList = WebUtils.createFileDtoList(files);
-        return grantApplicationsService.saveApplication(versionId, data, fileDtoList);
+        return grantApplicationActionService.saveApplication(versionId, data, fileDtoList);
     }
 
     @RequestMapping(value = "/update/{versionId}/{id}", method = RequestMethod.POST)
@@ -64,10 +64,10 @@ public class GrantApplicationsRestController {
         securityCheckerService.assertServicePrivilege(Privileges.GRF_PBE_APPLICATION_MOD);
         try {
             List<FileDTO> fileDtoList = WebUtils.createFileDtoList(files);
-            return grantApplicationsService.updateApplication(versionId, data, fileDtoList);
+            return grantApplicationActionService.updateApplication(versionId, data, fileDtoList);
 
         } catch (GryfOptimisticLockRuntimeException e) {
-            grantApplicationsService.manageLocking(id);
+            grantApplicationActionService.manageLocking(id);
         }
         return null;
     }
@@ -83,7 +83,7 @@ public class GrantApplicationsRestController {
         List<FileDTO> fileDtoList = WebUtils.createFileDtoList(files);
         List<String> acceptedViolations = GrantApplicationParser.readAcceptedViolations(grantApplicationApplyParams);
 
-        return grantApplicationsService.applyApplication(versionId, data, fileDtoList, acceptedViolations);
+        return grantApplicationActionService.applyApplication(versionId, data, fileDtoList, acceptedViolations);
     }
 
     @RequestMapping(value = "/apply/{versionId}/{id}", method = RequestMethod.POST)
@@ -96,10 +96,10 @@ public class GrantApplicationsRestController {
         try {
             List<FileDTO> fileDtoList = WebUtils.createFileDtoList(files);
             List<String> acceptedViolations = GrantApplicationParser.readAcceptedViolations(acceptedViolationsParam);
-            return grantApplicationsService.applyApplication(versionId, data, fileDtoList, acceptedViolations);
+            return grantApplicationActionService.applyApplication(versionId, data, fileDtoList, acceptedViolations);
 
         } catch (GryfOptimisticLockRuntimeException e) {
-            grantApplicationsService.manageLocking(id);
+            grantApplicationActionService.manageLocking(id);
         }
         return null;
     }
@@ -112,10 +112,10 @@ public class GrantApplicationsRestController {
         securityCheckerService.assertServicePrivilege(Privileges.GRF_PBE_APPLICATION_PROC);
         try {
             List<FileDTO> fileDtoList = WebUtils.createFileDtoList(files);
-            return grantApplicationsService.executeApplication(id, data, fileDtoList, checkVatRegNumDup);
+            return grantApplicationActionService.executeApplication(id, data, fileDtoList, checkVatRegNumDup);
 
         } catch (GryfOptimisticLockRuntimeException e) {
-            grantApplicationsService.manageLocking(id, "Wystąpił konflikt przy zapisywaniu wniosku lub MŚP");
+            grantApplicationActionService.manageLocking(id, "Wystąpił konflikt przy zapisywaniu wniosku lub MŚP");
         }
         return null;
     }
@@ -128,10 +128,10 @@ public class GrantApplicationsRestController {
 
         try {
             List<FileDTO> fileDtoList = WebUtils.createFileDtoList(files);
-            return grantApplicationsService.rejectApplication(id, data, fileDtoList);
+            return grantApplicationActionService.rejectApplication(id, data, fileDtoList);
 
         } catch (GryfOptimisticLockRuntimeException e) {
-            grantApplicationsService.manageLocking(id, "Wystąpił konflikt przy zapisywaniu wniosku lub MŚP");
+            grantApplicationActionService.manageLocking(id, "Wystąpił konflikt przy zapisywaniu wniosku lub MŚP");
         }
         return null;
     }
@@ -142,14 +142,14 @@ public class GrantApplicationsRestController {
     @ResponseBody
     public List<DictionaryDTO> findGrantProgramsDictionaries() {
         securityCheckerService.assertServicePrivilege(Privileges.GRF_PBE_APPLICATIONS);
-        return grantApplicationsService.FindGrantProgramsDictionaries();
+        return grantApplicationActionService.FindGrantProgramsDictionaries();
     }
 
     @RequestMapping(value = "/grantApplicationVersionsDictionaries/{grantProgramId}", method = RequestMethod.GET)
     @ResponseBody
     public List<GrantApplicationVersionDictionaryDTO> findGrantApplicationVersionsDictionaries(@PathVariable Long grantProgramId) {
         securityCheckerService.assertServicePrivilege(Privileges.GRF_PBE_APPLICATIONS);
-        return grantApplicationsService.findGrantApplicationVersionsDictionaries(grantProgramId);
+        return grantApplicationActionService.findGrantApplicationVersionsDictionaries(grantProgramId);
     }
 
 }

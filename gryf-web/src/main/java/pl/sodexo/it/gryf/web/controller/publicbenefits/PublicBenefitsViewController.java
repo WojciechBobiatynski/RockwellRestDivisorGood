@@ -8,7 +8,7 @@ import pl.sodexo.it.gryf.common.Privileges;
 import pl.sodexo.it.gryf.common.dto.FileDTO;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.common.utils.StringUtils;
-import pl.sodexo.it.gryf.service.api.publicbenefits.grantapplications.GrantApplicationsService;
+import pl.sodexo.it.gryf.service.api.publicbenefits.grantapplications.GrantApplicationActionService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.orders.OrderService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.reimbursement.ReimbursementsService;
 import pl.sodexo.it.gryf.service.api.security.SecurityCheckerService;
@@ -34,7 +34,7 @@ public class PublicBenefitsViewController {
     private SecurityCheckerService securityCheckerService;
 
     @Autowired
-    private GrantApplicationsService grantApplicationsService;
+    private GrantApplicationActionService grantApplicationActionService;
 
     @Autowired
     private OrderService orderService;
@@ -96,7 +96,7 @@ public class PublicBenefitsViewController {
         if(!StringUtils.isEmpty(idParam)) {
             Long attachmentId = Long.valueOf(idParam);
 
-            FileDTO file = grantApplicationsService.getApplicationAttachmentFile(attachmentId);
+            FileDTO file = grantApplicationActionService.getApplicationAttachmentFile(attachmentId);
             writeFile(request, response, file.getInputStream(), file.getName());
         }
     }

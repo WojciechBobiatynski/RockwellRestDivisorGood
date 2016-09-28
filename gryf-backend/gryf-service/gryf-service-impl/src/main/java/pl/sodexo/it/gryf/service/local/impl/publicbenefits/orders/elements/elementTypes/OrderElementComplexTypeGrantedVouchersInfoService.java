@@ -12,7 +12,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgramLimit;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
-import pl.sodexo.it.gryf.service.api.publicbenefits.orders.OrderService;
+import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.orderflows.OrderFlowElementService;
 import pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.elements.OrderElementBaseService;
 
 import java.math.BigDecimal;
@@ -59,7 +59,7 @@ public class OrderElementComplexTypeGrantedVouchersInfoService extends OrderElem
     //FIELDS
 
     @Autowired
-    private OrderService orderService;
+    private OrderFlowElementService orderFlowElementService;
         
     @Autowired
     private OrderElementRepository orderElementRepository;
@@ -114,11 +114,11 @@ public class OrderElementComplexTypeGrantedVouchersInfoService extends OrderElem
 
         /* wyznacz przysługującą ilość bonów dla przedsiębiorstwa */
         Long entitledVouchNumber = getEntitledVouchersNumber(order, application);
-                
-        orderService.addElementNumberValue(order, ENTITLED_VOUCHERS_NUMBER_ELEM_ID, new BigDecimal(entitledVouchNumber));
-        orderService.addElementNumberValue(order, ENTITLED_PLN_AMOUNT_ELEM_ID,  order.getProduct().getPbeAidValue().multiply(new BigDecimal(entitledVouchNumber)));
-        orderService.addElementNumberValue(order, LIMIT_EUR_AMOUNT_ELEM_ID, null);
-        orderService.addElementNumberValue(order, EXCHANGE_ELEM_ID, null);
+
+        orderFlowElementService.addElementNumberValue(order, ENTITLED_VOUCHERS_NUMBER_ELEM_ID, new BigDecimal(entitledVouchNumber));
+        orderFlowElementService.addElementNumberValue(order, ENTITLED_PLN_AMOUNT_ELEM_ID,  order.getProduct().getPbeAidValue().multiply(new BigDecimal(entitledVouchNumber)));
+        orderFlowElementService.addElementNumberValue(order, LIMIT_EUR_AMOUNT_ELEM_ID, null);
+        orderFlowElementService.addElementNumberValue(order, EXCHANGE_ELEM_ID, null);
     }
 
     

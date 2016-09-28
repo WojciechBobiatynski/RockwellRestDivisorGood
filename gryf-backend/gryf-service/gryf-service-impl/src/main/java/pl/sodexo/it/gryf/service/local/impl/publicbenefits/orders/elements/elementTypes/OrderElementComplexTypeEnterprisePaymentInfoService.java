@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementComplexTypeEnterprisePaymentInfoDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementDTOBuilder;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
-import pl.sodexo.it.gryf.service.api.publicbenefits.orders.OrderService;
+import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.OrderServiceLocal;
 import pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.elements.OrderElementBaseService;
 
 /**
@@ -16,13 +16,13 @@ import pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.elements.Order
 public class OrderElementComplexTypeEnterprisePaymentInfoService extends OrderElementBaseService<OrderElementComplexTypeEnterprisePaymentInfoDTO> {
 
     @Autowired
-    private OrderService orderService;
+    private OrderServiceLocal orderServiceLocal;
     
     //PUBLIC METHODS
 
     @Override
     public OrderElementComplexTypeEnterprisePaymentInfoDTO createElement(OrderElementDTOBuilder builder) {
-        return new OrderElementComplexTypeEnterprisePaymentInfoDTO(builder, orderService.getPaymentAmount(builder.getOrder()));
+        return new OrderElementComplexTypeEnterprisePaymentInfoDTO(builder, orderServiceLocal.getPaymentAmount(builder.getOrder()));
     }
 
     @Override
