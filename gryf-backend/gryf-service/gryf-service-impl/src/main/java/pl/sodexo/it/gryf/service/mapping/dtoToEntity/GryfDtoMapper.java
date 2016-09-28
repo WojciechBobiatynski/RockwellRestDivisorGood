@@ -11,23 +11,4 @@ import pl.sodexo.it.gryf.service.mapping.GenericMapper;
  */
 public abstract class GryfDtoMapper<Dto extends GryfDto, Entity extends GryfEntity> extends GenericMapper<Dto, Entity> {
 
-//    protected abstract Entity initEntity();
-//
-//    protected void map(Dto dto, Entity entity){
-//
-//    }
-//
-//    public Entity convert(Dto dto) {
-//        Entity entity = initEntity();
-//        if (dto != null) {
-//            map(dto, entity);
-//        }
-//        return entity;
-//    }
-//
-//    public List<Entity> convert( List<Dto> dtoList) {
-//        List<Entity> result = new ArrayList<>();
-//        dtoList.forEach(dto -> result.add(convert(dto)));
-//        return result;
-//    }
 }
