@@ -13,10 +13,10 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.enterprises.Ente
 import pl.sodexo.it.gryf.model.publicbenefits.ContactType;
 import pl.sodexo.it.gryf.model.publicbenefits.enterprises.Enterprise;
 import pl.sodexo.it.gryf.model.publicbenefits.enterprises.EnterpriseContact;
-import pl.sodexo.it.gryf.service.api.dictionaries.ContactTypeService;
 import pl.sodexo.it.gryf.service.api.other.ApplicationParametersService;
 import pl.sodexo.it.gryf.service.api.security.SecurityCheckerService;
 import pl.sodexo.it.gryf.service.local.api.ValidateService;
+import pl.sodexo.it.gryf.service.local.api.dictionaries.ContactTypeValidationService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.enterprises.EnterpriseServiceLocal;
 
 import java.util.HashSet;
@@ -36,7 +36,7 @@ public class EnterpriseServiceLocalImpl implements EnterpriseServiceLocal {
     private ValidateService validateService;
 
     @Autowired
-    private ContactTypeService contactTypeService;
+    private ContactTypeValidationService contactTypeValidationService;
 
     @Autowired
     private ApplicationParametersService applicationParametersService;
@@ -136,7 +136,7 @@ public class EnterpriseServiceLocalImpl implements EnterpriseServiceLocal {
         EnterpriseContact[] contactTab = contacts.toArray(new EnterpriseContact[contactsSize]);
         for (int i = 0; i < contactTab.length; i++) {
 
-            ContactDataValidationDTO validContractData = contactTypeService.validateContractData(contactTab[i].getContactType(), contactTab[i].getContactData());
+            ContactDataValidationDTO validContractData = contactTypeValidationService.validateContractData(contactTab[i].getContactType(), contactTab[i].getContactData());
             if (!validContractData.isValid()) {
 
                 String path = String.format("%s[%s].%s", Enterprise.CONTACTS_ATTR_NAME, i, EnterpriseContact.CONTACT_DATA_ATTR_NAME);
