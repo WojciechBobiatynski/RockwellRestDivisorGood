@@ -6,6 +6,7 @@
 package pl.sodexo.it.gryf.model.publicbenefits.orders;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.ToString;
 import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.model.GryfEntity;
 
@@ -18,6 +19,7 @@ import java.util.Objects;
  *
  * @author Michal.CHWEDCZUK.ext
  */
+@ToString(exclude = {"orderFlowAllowedDelayType", "orderFlowElement", "status"})
 @Entity
 @Table(name = "ORDER_FLOW_ELEMENTS_IN_STATUS", schema = "APP_PBE")
 @NamedQueries({
@@ -159,10 +161,4 @@ public class OrderFlowElementInStatus extends GryfEntity {
         }
         return Objects.equals(id, ((OrderFlowElementInStatus) o).id);
     }
-
-    @Override
-    public String toString() {
-        return "pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowElementInStatus[ id=" + id + " ]";
-    }
-    
 }

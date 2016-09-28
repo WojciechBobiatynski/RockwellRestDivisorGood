@@ -10,7 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
-@ToString
+@ToString(exclude = "individual")
 @Entity
 @Table(name = "INDIVIDUAL_CONTACTS", schema = "APP_PBE")
 public class IndividualContact  extends AuditableEntity {

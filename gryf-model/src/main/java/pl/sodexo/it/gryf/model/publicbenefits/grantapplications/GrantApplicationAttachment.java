@@ -12,7 +12,7 @@ import java.util.Objects;
  *
  * @author tomasz.bilski.ext
  */
-@ToString
+@ToString(exclude = "application")
 @Entity
 @Table(name = "GRANT_APPLICATION_ATTACHMENTS", schema = "APP_PBE")
 public class GrantApplicationAttachment extends AuditableEntity {

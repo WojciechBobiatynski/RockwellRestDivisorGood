@@ -11,7 +11,7 @@ import java.util.Objects;
  *
  * @author tomasz.bilski.ext
  */
-@ToString
+@ToString(exclude = {"contactType", "applicationBasic"})
 @Entity
 @Table(name = "GRANT_APPLICATION_CONTACT_DATA", schema = "APP_PBE")
 public class GrantApplicationContactData extends AuditableEntity {

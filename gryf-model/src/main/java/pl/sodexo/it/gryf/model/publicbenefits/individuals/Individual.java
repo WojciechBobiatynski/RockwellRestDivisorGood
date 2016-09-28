@@ -23,7 +23,7 @@ import java.util.Objects;
 /**
  * Created by michal.szymczyk on 2016-02-26.
  */
-@ToString
+@ToString(exclude = {"zipCodeInvoice", "zipCodeCorr", "enterprise", "contacts", "orders"})
 @Entity
 @Table(name = "INDIVIDUALS", schema = "APP_PBE")
 @SequenceGenerator(name="ind_seq", schema = "eagle", sequenceName = "ind_seq", allocationSize = 1)

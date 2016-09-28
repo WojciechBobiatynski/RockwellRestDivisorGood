@@ -20,7 +20,7 @@ import java.util.Objects;
  *
  * @author Marcel.GOLUNSKI
  */
-@ToString
+@ToString(exclude = "grantOwnerAidProduct")
 @Entity
 @Table(name = "PRODUCTS", schema = "APP_STC")
 public class Product extends GryfEntity {

@@ -7,6 +7,7 @@ package pl.sodexo.it.gryf.model.publicbenefits.orders;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.ToString;
 import pl.sodexo.it.gryf.model.GryfEntity;
 
 import javax.persistence.*;
@@ -21,6 +22,7 @@ import java.util.Objects;
  *
  * @author Michal.CHWEDCZUK.ext
  */
+@ToString(exclude = {"orderFlow", "nextStatus", "status", "orderFlowStatusTransSqlList"})
 @Entity
 @Table(name = "ORDER_FLOW_STATUS_TRANSITIONS", schema = "APP_PBE")
 @NamedQueries({
@@ -187,13 +189,4 @@ public class OrderFlowStatusTransition extends GryfEntity {
         }
         return Objects.equals(id, ((OrderFlowStatusTransition) o).id);
     }
-
-    @Override
-    public String toString() {
-        return "pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowStatusTransition[ id=" + id + " ]";
-    }
-
-
-    
-    
 }

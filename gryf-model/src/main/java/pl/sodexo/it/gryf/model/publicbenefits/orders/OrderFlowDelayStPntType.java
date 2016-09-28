@@ -5,6 +5,7 @@
  */
 package pl.sodexo.it.gryf.model.publicbenefits.orders;
 
+import lombok.ToString;
 import pl.sodexo.it.gryf.model.GryfEntity;
 
 import javax.persistence.*;
@@ -16,6 +17,7 @@ import java.util.Objects;
  *
  * @author Marcel.GOLUNSKI
  */
+@ToString
 @Entity
 @Table(name = "ORDER_FLOW_DELAY_ST_PNT_TYPES", schema = "APP_PBE")
 public class OrderFlowDelayStPntType extends GryfEntity {
@@ -107,9 +109,4 @@ public class OrderFlowDelayStPntType extends GryfEntity {
         }
         return Objects.equals(id, ((OrderFlowDelayStPntType) o).id);
     }
-    @Override
-    public String toString() {
-        return "pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowDelayStPntType[ id=" + id + " ]";
-    }
-    
 }

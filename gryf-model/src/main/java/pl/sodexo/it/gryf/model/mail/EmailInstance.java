@@ -12,7 +12,7 @@ import java.util.Objects;
 /**
  * Created by tomasz.bilski.ext on 2015-08-20.
  */
-@ToString
+@ToString(exclude = {"emailTemplate", "sourceType", "attachments"})
 @Entity
 @Table(name = "EMAIL_INSTANCES", schema = "APP_PBE")
 @NamedQueries({

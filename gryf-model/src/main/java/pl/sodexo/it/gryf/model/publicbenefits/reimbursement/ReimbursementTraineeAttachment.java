@@ -5,6 +5,7 @@
  */
 package pl.sodexo.it.gryf.model.publicbenefits.reimbursement;
 
+import lombok.ToString;
 import pl.sodexo.it.gryf.common.dto.YesNo;
 import pl.sodexo.it.gryf.model.AuditableEntity;
 
@@ -17,6 +18,7 @@ import java.util.Objects;
  *
  * @author Michal.CHWEDCZUK.ext
  */
+@ToString(exclude = {"reimbursementTrainee", "attachmentType"})
 @Entity
 @Table(name = "REIMBURSEMENT_TRAINEE_ATTACH", schema = "APP_PBE")
 public class ReimbursementTraineeAttachment extends AuditableEntity {
@@ -144,10 +146,4 @@ public class ReimbursementTraineeAttachment extends AuditableEntity {
         }
         return Objects.equals(id, ((ReimbursementTraineeAttachment) o).id);
     }
-
-    @Override
-    public String toString() {
-        return "pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementTraineeAttach[ id=" + id + " ]";
-    }
-    
 }

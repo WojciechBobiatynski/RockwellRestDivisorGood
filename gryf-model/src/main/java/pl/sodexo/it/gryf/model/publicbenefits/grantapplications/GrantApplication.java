@@ -15,7 +15,8 @@ import java.util.*;
  *
  * @author tomasz.bilski.ext
  */
-@ToString
+@ToString(exclude = {"program", "applicationVersion", "enterprise", "status", "basicData", "formData", "reportData"
+                    ,"attachments", "order"})
 @Entity
 @Table(name = "GRANT_APPLICATIONS", schema = "APP_PBE")
 @SequenceGenerator(name="ga_seq", schema = "eagle", sequenceName = "ga_seq", allocationSize = 1)

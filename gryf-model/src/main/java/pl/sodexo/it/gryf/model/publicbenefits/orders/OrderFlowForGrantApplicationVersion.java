@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.model.publicbenefits.orders;
 
+import lombok.ToString;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationVersion;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import java.util.Objects;
 /**
  * Created by tomasz.bilski.ext on 2015-08-19.
  */
+@ToString(exclude = {"grantApplicationVersion", "orderFlow"})
 @Entity
 @Table(name = "ORDER_FLOWS_FOR_GAPP_VERSIONS", schema = "APP_PBE")
 public class OrderFlowForGrantApplicationVersion {
@@ -92,10 +94,5 @@ public class OrderFlowForGrantApplicationVersion {
             return false;
         }
         return Objects.equals(id, ((OrderFlowForGrantApplicationVersion) o).id);
-    }
-
-    @Override
-    public String toString() {
-        return "pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowForGrantApplicationVersion[ id=" + id + " ]";
     }
 }

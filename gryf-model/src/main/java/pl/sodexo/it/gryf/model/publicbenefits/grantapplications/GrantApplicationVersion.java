@@ -15,7 +15,7 @@ import java.util.Objects;
  *
  * @author tomasz.bilski.ext
  */
-@ToString
+@ToString(exclude = {"applications", "applicationsInProgram", "attachmentRequiredList"})
 @Entity
 @Table(name = "GRANT_APPLICATION_VERSIONS", schema = "APP_PBE")
 @NamedQueries({

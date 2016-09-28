@@ -17,7 +17,7 @@ import java.util.Objects;
  *
  * @author Michal.CHWEDCZUK.ext
  */
-@ToString
+@ToString(exclude = {"reimbursementPattern", "attachmentType"})
 @Entity
 @Table(name = "REIMBURSEMENT_TRAINEE_ATT_REQ", schema = "APP_PBE")
 public class ReimbursementTraineeAttachmentRequired extends GryfEntity {

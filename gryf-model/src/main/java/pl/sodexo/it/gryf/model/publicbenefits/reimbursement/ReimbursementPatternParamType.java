@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.model.publicbenefits.reimbursement;
 
+import lombok.ToString;
 import pl.sodexo.it.gryf.model.GryfEntity;
 
 import javax.persistence.Column;
@@ -11,6 +12,7 @@ import java.util.Objects;
 /**
  * Created by tomasz.bilski.ext on 2015-09-02.
  */
+@ToString
 @Entity
 @Table(name = "REIMB_PATTERN_PARAM_TYPES", schema = "APP_PBE")
 public class ReimbursementPatternParamType extends GryfEntity{
@@ -41,10 +43,5 @@ public class ReimbursementPatternParamType extends GryfEntity{
             return false;
         }
         return Objects.equals(id, ((ReimbursementPatternParamType) o).id);
-    }
-
-    @Override
-    public String toString() {
-        return "pl.sodexo.it.gryf.model.publicbenefits.delivery.ReimbursementPatternParamType[ id=" + id + " ]";
     }
 }

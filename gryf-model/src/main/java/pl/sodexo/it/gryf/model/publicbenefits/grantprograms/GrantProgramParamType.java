@@ -14,7 +14,7 @@ import java.util.Objects;
  *
  * @author tomasz.bilski.ext
  */
-@ToString
+@ToString(exclude = "params")
 @Entity
 @Table(name = "GRANT_PROGRAM_PARAM_TYPES", schema = "APP_PBE")
 public class GrantProgramParamType extends GryfEntity {

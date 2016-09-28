@@ -5,6 +5,7 @@
  */
 package pl.sodexo.it.gryf.model.publicbenefits.reimbursement;
 
+import lombok.ToString;
 import pl.sodexo.it.gryf.model.DictionaryEntity;
 import pl.sodexo.it.gryf.model.GryfEntity;
 
@@ -20,6 +21,7 @@ import java.util.Objects;
  *
  * @author Michal.CHWEDCZUK.ext
  */
+@ToString
 @Entity
 @Table(name = "REIMBURSEMENT_STATUSES", schema = "APP_PBE")
 public class ReimbursementStatus extends GryfEntity implements DictionaryEntity {
@@ -119,10 +121,4 @@ public class ReimbursementStatus extends GryfEntity implements DictionaryEntity 
         }
         return Objects.equals(statusId, ((ReimbursementStatus) o).statusId);
     }
-
-    @Override
-    public String toString() {
-        return "pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementStatus[ statusId=" + statusId + " ]";
-    }
-    
 }

@@ -12,7 +12,7 @@ import java.util.Objects;
  *
  * @author tomasz.bilski.ext
  */
-@ToString
+@ToString(exclude = {"grantProgram", "paramType"})
 @Entity
 @Table(name = "GRANT_PROGRAM_PARAMS", schema = "APP_PBE")
 @NamedQueries(

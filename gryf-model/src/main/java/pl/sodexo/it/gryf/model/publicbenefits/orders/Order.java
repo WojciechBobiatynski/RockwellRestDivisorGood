@@ -26,6 +26,7 @@ import java.util.*;
  * Encja nie moze nazywać sie order, ponieważ jest to słow kluczowe w jpql.
  * @author Michal.CHWEDCZUK.ext
  */
+@ToString(exclude = {"orderFlow", "application", "enterprise", "individual", "status", "product", "orderElements", "orderElementMap"})
 @Entity(name = "OrderEntity")
 @Table(name = "ORDERS", schema = "APP_PBE")
 @NamedQueries({
@@ -339,10 +340,4 @@ public class Order extends VersionableEntity {
         }
         return Objects.equals(id, ((Order) o).id);
     }
-
-    @Override
-    public String toString() {
-        return "pl.sodexo.it.gryf.model.publicbenefits.orders.Order[ id=" + id + " ]";
-    }
-    
 }

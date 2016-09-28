@@ -20,6 +20,7 @@ import java.util.Objects;
  * Instances of attributes for orders
  * @author Michal.CHWEDCZUK.ext
  */
+@ToString(exclude = {"order", "orderFlowElement", "clob"})
 @Entity
 @Table(name = "ORDER_ELEMENTS", schema = "APP_PBE")
 @NamedQueries({
@@ -201,10 +202,4 @@ public class OrderElement extends AuditableEntity {
         }
         return Objects.equals(id, ((OrderElement) o).id);
     }
-
-    @Override
-    public String toString() {
-        return "pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement[ id=" + id + " ]";
-    }
-
 }

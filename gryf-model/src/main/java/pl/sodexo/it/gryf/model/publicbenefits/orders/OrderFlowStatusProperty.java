@@ -5,6 +5,7 @@
  */
 package pl.sodexo.it.gryf.model.publicbenefits.orders;
 
+import lombok.ToString;
 import pl.sodexo.it.gryf.model.GryfEntity;
 
 import javax.persistence.*;
@@ -16,6 +17,7 @@ import java.util.Objects;
  *
  * @author Marcel.GOLUNSKI
  */
+@ToString(exclude = {"orderFlow", "status"})
 @Entity
 @Table(name = "ORDER_FLOW_STATUS_PROPERTIES", schema = "APP_PBE")
 public class OrderFlowStatusProperty extends GryfEntity {
@@ -94,10 +96,4 @@ public class OrderFlowStatusProperty extends GryfEntity {
         }
         return Objects.equals(id, ((OrderFlowStatusProperty) o).id);
     }
-
-    @Override
-    public String toString() {
-        return "pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowStatusProperty[ id=" + id + " ]";
-    }
-    
 }

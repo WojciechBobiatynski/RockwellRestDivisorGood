@@ -6,6 +6,7 @@
 package pl.sodexo.it.gryf.model.publicbenefits.orders;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.ToString;
 import pl.sodexo.it.gryf.model.GryfEntity;
 
 import javax.persistence.*;
@@ -20,12 +21,13 @@ import java.util.Objects;
  *
  * @author Michal.CHWEDCZUK.ext
  */
+@ToString(exclude = "orderFlowElements")
 @Entity
 @Table(name = "ORDER_FLOW_ELEMENT_TYPES", schema = "APP_PBE")
 public class OrderFlowElementType extends GryfEntity {
 
     /**
-     * enum zawiera wybrane typy elementów niezbędne do sprawdzania po ID przy procesowaniu zamówień 
+     * enum zawiera wybrane typy elementów niezbędne do sprawdzania po ID przy procesowaniu zamówień
      */
     public enum ElementType{
         /**
@@ -37,9 +39,9 @@ public class OrderFlowElementType extends GryfEntity {
         //CONSTRUCTORS
         private ElementType(String label){
             this.label = label;
-        }    
+        }
     }
-    
+
     //STATIC FIELDS - COMPONENT NAME FIELDS
     private static final String ORDER_ELEMENT_DTO_PACKAGE_PREFIX = "pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.";
     private static final String ORDER_ELEMENT_DTO_QUALIFIED_CLASS_PREFIX = "OrderElement";
@@ -142,10 +144,4 @@ public class OrderFlowElementType extends GryfEntity {
         }
         return Objects.equals(id, ((OrderFlowElementType) o).id);
     }
-
-    @Override
-    public String toString() {
-        return "pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowElementType[ id=" + id + " ]";
-    }
-
 }

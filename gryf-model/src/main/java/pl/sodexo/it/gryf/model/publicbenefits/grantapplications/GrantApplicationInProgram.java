@@ -13,7 +13,7 @@ import java.util.Objects;
  *
  * @author tomasz.bilski.ext
  */
-@ToString
+@ToString(exclude = {"applicationVersion", "grantProgram"})
 @Entity
 @Table(name = "GRANT_APPLICATIONS_IN_PROGRAMS", schema = "APP_PBE")
 public class GrantApplicationInProgram extends GryfEntity {

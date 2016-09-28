@@ -20,7 +20,7 @@ import java.util.*;
  *
  * @author Michal.CHWEDCZUK.ext
  */
-@ToString
+@ToString(exclude = {"reimbursement", "grantOwnerAidProduct", "reimbursementTrainees", "remittanceProductInstances"})
 @Entity
 @Table(name = "REIMBURSEMENT_TRAININGS", schema = "APP_PBE")
 public class ReimbursementTraining extends AuditableEntity {

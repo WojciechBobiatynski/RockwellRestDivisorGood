@@ -13,7 +13,7 @@ import java.util.Objects;
  *
  * @author tomasz.bilski.ext
  */
-@ToString
+@ToString(exclude = {"limitType", "enterpriseSize", "program"})
 @Entity
 @Table(name = "GRANT_PROGRAM_LIMITS", schema = "APP_PBE")
 @NamedQueries(

@@ -9,7 +9,7 @@ import java.util.Objects;
 /**
  * Created by tomasz.bilski.ext on 2015-09-18.
  */
-@ToString
+@ToString(exclude = {"orderElement", "valueClob"})
 @Entity
 @Table(name = "ORDER_ELEMENT_CLOBS", schema = "APP_PBE")
 public class OrderElementClob extends GryfEntity{

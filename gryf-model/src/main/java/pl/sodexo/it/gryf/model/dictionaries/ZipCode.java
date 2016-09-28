@@ -12,7 +12,7 @@ import java.util.Objects;
 /**
  * Created by tomasz.bilski.ext on 2015-06-15.
  */
-@ToString
+@ToString(exclude = "state")
 @Entity
 @Table(name = "ZIP_CODES", schema = "EAGLE")
 public class ZipCode extends VersionableEntity {

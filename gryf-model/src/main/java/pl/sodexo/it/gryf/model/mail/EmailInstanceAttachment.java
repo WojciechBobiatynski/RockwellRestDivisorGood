@@ -9,7 +9,7 @@ import java.util.Objects;
 /**
  * Created by tomasz.bilski.ext on 2015-09-18.
  */
-@ToString
+@ToString(exclude = "emailInstance")
 @Entity
 @Table(name = "EMAIL_INSTANCE_ATTACHMENTS", schema = "APP_PBE")
 public class EmailInstanceAttachment extends GryfEntity{

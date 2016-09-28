@@ -5,6 +5,7 @@
  */
 package pl.sodexo.it.gryf.model.publicbenefits.reimbursement;
 
+import lombok.ToString;
 import pl.sodexo.it.gryf.model.GryfEntity;
 
 import javax.persistence.*;
@@ -16,6 +17,7 @@ import java.util.Objects;
  *
  * @author Michal.CHWEDCZUK.ext
  */
+@ToString(exclude = {"reimbursementPattern", "attachmentType"})
 @Entity
 @Table(name = "REIMBURSEMENT_ATTACHMENTS_REQ", schema = "APP_PBE")
 public class ReimbursementAttachmentRequired extends GryfEntity {
@@ -91,10 +93,4 @@ public class ReimbursementAttachmentRequired extends GryfEntity {
         }
         return Objects.equals(id, ((ReimbursementAttachmentRequired) o).id);
     }
-
-    @Override
-    public String toString() {
-        return "pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementAttachmentRequired[ id=" + id + " ]";
-    }
-    
 }

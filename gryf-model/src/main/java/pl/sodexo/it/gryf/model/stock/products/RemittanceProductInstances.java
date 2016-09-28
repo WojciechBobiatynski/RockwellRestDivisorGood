@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 /**
  * Created by tomasz.bilski.ext on 2015-09-15.
  */
-@ToString
+@ToString(exclude = "reimbursementTraining")
 @Entity
 @Table(name = "REMITTANCE_PRODUCT_INSTANCES", schema = "APP_RMB")
 public class RemittanceProductInstances extends GryfEntity{

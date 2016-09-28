@@ -7,6 +7,7 @@ package pl.sodexo.it.gryf.model.publicbenefits.orders;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.ToString;
 import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.model.GryfEntity;
 
@@ -19,6 +20,7 @@ import java.util.*;
  * Type of elements available for orders
  * @author Michal.CHWEDCZUK.ext
  */
+@ToString(exclude = {"orderFlowElementType", "orderElements", "orderFlowElementInStatuses", "elementTypeParamMap"})
 @Entity
 @Table(name = "ORDER_FLOW_ELEMENTS", schema = "APP_PBE")
 public class OrderFlowElement extends GryfEntity {
@@ -187,12 +189,4 @@ public class OrderFlowElement extends GryfEntity {
         }
         return Objects.equals(elementId, ((OrderFlowElement) o).elementId);
     }
-
-    @Override
-    public String toString() {
-        return "pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowElement[ elementId=" + elementId + " ]";
-    }
-
-
-    
 }

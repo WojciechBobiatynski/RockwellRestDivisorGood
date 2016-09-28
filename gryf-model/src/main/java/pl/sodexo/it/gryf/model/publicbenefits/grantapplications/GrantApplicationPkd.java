@@ -11,7 +11,7 @@ import java.util.Objects;
  *
  * @author tomasz.bilski.ext
  */
-@ToString
+@ToString(exclude = "applicationBasic")
 @Entity
 @Table(name = "GRANT_APPLICATION_PKD", schema = "APP_PBE")
 public class GrantApplicationPkd extends AuditableEntity {

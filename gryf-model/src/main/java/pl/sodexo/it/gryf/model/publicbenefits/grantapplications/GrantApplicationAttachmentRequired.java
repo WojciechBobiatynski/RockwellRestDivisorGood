@@ -9,7 +9,7 @@ import javax.persistence.*;
 /**
  * Created by tomasz.bilski.ext on 2015-07-13.
  */
-@ToString
+@ToString(exclude = "applicationVersion")
 @Entity
 @Table(name = "GRANT_APPLICATION_ATTACH_REQ", schema = "APP_PBE")
 public class GrantApplicationAttachmentRequired extends GryfEntity {

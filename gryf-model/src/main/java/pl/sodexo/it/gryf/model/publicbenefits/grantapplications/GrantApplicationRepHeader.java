@@ -10,7 +10,7 @@ import java.util.Objects;
  *
  * @author tomasz.bilski.ext
  */
-@ToString
+@ToString(exclude = "applicationVersion")
 @Entity
 @Table(name = "GRANT_APPLICATION_REP_HEADERS", schema = "APP_PBE")
 public class GrantApplicationRepHeader extends GryfEntity {

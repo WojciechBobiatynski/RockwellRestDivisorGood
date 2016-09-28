@@ -5,6 +5,7 @@
  */
 package pl.sodexo.it.gryf.model.publicbenefits.orders;
 
+import lombok.ToString;
 import pl.sodexo.it.gryf.model.GryfEntity;
 
 import javax.persistence.*;
@@ -16,6 +17,7 @@ import java.util.Objects;
  *
  * @author Marcel.GOLUNSKI
  */
+@ToString(exclude = "delayStartingPointType")
 @Entity
 @Table(name = "ORDER_FLOW_ALLOWED_DELAY_TYPES", schema = "APP_PBE")
 public class OrderFlowAllowedDelayType extends GryfEntity {
@@ -83,10 +85,4 @@ public class OrderFlowAllowedDelayType extends GryfEntity {
         }
         return Objects.equals(id, ((OrderFlowAllowedDelayType) o).id);
     }
-
-    @Override
-    public String toString() {
-        return "pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowAllowedDelayType[ id=" + id + " ]";
-    }
-    
 }

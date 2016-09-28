@@ -5,6 +5,7 @@
  */
 package pl.sodexo.it.gryf.model.publicbenefits.reimbursement;
 
+import lombok.ToString;
 import org.eclipse.persistence.annotations.OptimisticLocking;
 import pl.sodexo.it.gryf.model.VersionableEntity;
 import pl.sodexo.it.gryf.model.publicbenefits.enterprises.Enterprise;
@@ -19,6 +20,7 @@ import java.util.*;
  *
  * @author Michal.CHWEDCZUK.ext
  */
+@ToString(exclude = {"reimbursementDelivery", "status", "enterprise", "reimbursementAttachments", "reimbursementTrainings"})
 @Entity
 @Table(name = "REIMBURSEMENTS", schema = "APP_PBE")
 @SequenceGenerator(name="pbe_reimb_seq", schema = "eagle", sequenceName = "pbe_reimb_seq", allocationSize = 1)
@@ -325,10 +327,4 @@ public class Reimbursement extends VersionableEntity {
         }
         return Objects.equals(id, ((Reimbursement) o).id);
     }
-
-    @Override
-    public String toString() {
-        return "pl.sodexo.it.gryf.model.publicbenefits.reimbursement.Reimbursements[ id=" + id + " ]";
-    }
-    
 }

@@ -5,6 +5,7 @@
  */
 package pl.sodexo.it.gryf.model.publicbenefits.grantprograms;
 
+import lombok.ToString;
 import pl.sodexo.it.gryf.model.DictionaryEntity;
 import pl.sodexo.it.gryf.model.GryfEntity;
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementTraining;
@@ -21,6 +22,7 @@ import java.util.Objects;
  *
  * @author Michal.CHWEDCZUK.ext
  */
+@ToString(exclude = {"grantOwner", "reimbursementTrainings"})
 @Entity
 @Table(name = "GRANT_OWNER_AID_PRODUCTS", schema = "APP_PBE")
 public class GrantOwnerAidProduct extends GryfEntity implements DictionaryEntity{
@@ -134,10 +136,4 @@ public class GrantOwnerAidProduct extends GryfEntity implements DictionaryEntity
         }
         return Objects.equals(id, ((GrantOwnerAidProduct) o).id);
     }
-
-    @Override
-    public String toString() {
-        return "pl.sodexo.it.gryf.model.publicbenefits.reimbursement.GrantOwnerAidProduct[ id=" + id + " ]";
-    }
-    
 }

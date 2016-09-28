@@ -5,6 +5,8 @@
  */
 package pl.sodexo.it.gryf.model.publicbenefits.orders;
 
+import lombok.ToString;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;
@@ -16,6 +18,7 @@ import java.util.Objects;
  *
  * @author Michal.CHWEDCZUK.ext
  */
+@ToString
 @Embeddable
 public class OrderFlowElementInStatusPK implements Serializable {
 
@@ -78,10 +81,4 @@ public class OrderFlowElementInStatusPK implements Serializable {
         return (Objects.hashCode(statusId) % 102 +
                 Objects.hashCode(elementId)) % 102;
     }
-
-    @Override
-    public String toString() {
-        return "pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowElementInStatusPK[ statusId=" + statusId + ", elementId=" + elementId + " ]";
-    }
-    
 }

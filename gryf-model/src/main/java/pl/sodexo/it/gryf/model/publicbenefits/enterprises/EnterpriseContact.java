@@ -13,7 +13,7 @@ import java.util.Objects;
 /**
  * Created by tomasz.bilski.ext on 2015-06-24.
  */
-@ToString
+@ToString(exclude = {"contactType", "enterprise"})
 @Entity
 @Table(name = "ENTERPRISE_CONTACTS", schema = "APP_PBE")
 public class EnterpriseContact  extends AuditableEntity {

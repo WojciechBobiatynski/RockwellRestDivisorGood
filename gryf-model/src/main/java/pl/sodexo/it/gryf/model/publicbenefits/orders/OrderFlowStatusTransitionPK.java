@@ -5,6 +5,8 @@
  */
 package pl.sodexo.it.gryf.model.publicbenefits.orders;
 
+import lombok.ToString;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;
@@ -15,6 +17,7 @@ import java.util.Objects;
 /**
  * @author Michal.CHWEDCZUK.ext
  */
+@ToString
 @Embeddable
 public class OrderFlowStatusTransitionPK implements Serializable {
 
@@ -89,10 +92,4 @@ public class OrderFlowStatusTransitionPK implements Serializable {
                 Objects.equals(statusId, ((OrderFlowStatusTransitionPK) o).statusId) &&
                 Objects.equals(actionId, ((OrderFlowStatusTransitionPK) o).actionId);
     }
-
-    @Override
-    public String toString() {
-        return "pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowStatusTransitionsPK[ orderFlowId=" + orderFlowId + ", statusId=" + statusId + ", actionId=" + actionId + " ]";
-    }
-
 }

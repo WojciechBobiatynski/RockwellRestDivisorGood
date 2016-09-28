@@ -21,6 +21,7 @@ import java.util.Objects;
  *
  * @author Michal.CHWEDCZUK.ext
  */
+@ToString(exclude = {"initialStatus", "orders", "orderFlowStatusTransitions"})
 @Entity
 @Table(name = "ORDER_FLOWS", schema = "APP_PBE")
 @NamedQueries({
@@ -142,10 +143,4 @@ public class OrderFlow extends GryfEntity {
         }
         return Objects.equals(id, ((OrderFlow) o).id);
     }
-
-    @Override
-    public String toString() {
-        return "pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlow[ id=" + id + " ]";
-    }
-
 }

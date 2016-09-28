@@ -18,6 +18,7 @@ import java.util.Objects;
  *
  * @author Marcel.GOLUNSKI
  */
+@ToString(exclude = {"orderFlow", "delayType"})
 @Entity
 @Table(name = "ORDER_FLOW_ALLOWED_DELAYS", schema = "APP_PBE")
 @NamedQueries({
@@ -121,11 +122,4 @@ public class OrderFlowAllowedDelay extends GryfEntity {
         }
         return Objects.equals(id, ((OrderFlowAllowedDelay) o).id);
     }
-    
-
-    @Override
-    public String toString() {
-        return "pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowAllowedDelay[ id=" + id + " ]";
-    }
-    
 }
