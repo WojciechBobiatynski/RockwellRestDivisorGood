@@ -9,7 +9,7 @@ import pl.sodexo.it.gryf.common.dto.FileDTO;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.model.AuditableEntity;
-import pl.sodexo.it.gryf.model.FileType;
+import pl.sodexo.it.gryf.common.FileType;
 import pl.sodexo.it.gryf.service.api.other.ApplicationParametersService;
 import pl.sodexo.it.gryf.service.local.api.FileService;
 

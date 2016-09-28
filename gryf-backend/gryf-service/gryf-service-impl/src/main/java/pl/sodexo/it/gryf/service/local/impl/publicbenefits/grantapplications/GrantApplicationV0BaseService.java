@@ -26,7 +26,7 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.grantapplication
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.grantprograms.GrantProgramParamRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.grantprograms.GrantProgramRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderRepository;
-import pl.sodexo.it.gryf.model.FileType;
+import pl.sodexo.it.gryf.common.FileType;
 import pl.sodexo.it.gryf.model.dictionaries.ZipCode;
 import pl.sodexo.it.gryf.model.mail.EmailSourceType;
 import pl.sodexo.it.gryf.model.mail.EmailTemplate;

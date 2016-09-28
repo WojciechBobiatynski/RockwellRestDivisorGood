@@ -7,7 +7,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.sodexo.it.gryf.common.ReportTemplateCode;
-import pl.sodexo.it.gryf.model.FileType;
+import pl.sodexo.it.gryf.common.FileType;
 import pl.sodexo.it.gryf.model.ReportParameter;
 import pl.sodexo.it.gryf.service.api.other.ApplicationParametersService;
 import pl.sodexo.it.gryf.service.api.other.ReportService;

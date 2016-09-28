@@ -21,7 +21,7 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.other.GryfPLSQLRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.enterprises.EnterpriseRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.grantprograms.GrantOwnerAidProductRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.reimbursement.*;
-import pl.sodexo.it.gryf.model.FileType;
+import pl.sodexo.it.gryf.common.FileType;
 import pl.sodexo.it.gryf.model.Sex;
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.*;
 import pl.sodexo.it.gryf.service.api.other.ReportService;
