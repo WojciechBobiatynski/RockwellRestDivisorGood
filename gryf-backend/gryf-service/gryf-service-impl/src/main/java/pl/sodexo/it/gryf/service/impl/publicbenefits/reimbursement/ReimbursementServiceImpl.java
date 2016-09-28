@@ -26,7 +26,7 @@ import pl.sodexo.it.gryf.model.Sex;
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.*;
 import pl.sodexo.it.gryf.service.api.other.ReportService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.reimbursement.ReimbursementPatternService;
-import pl.sodexo.it.gryf.service.api.publicbenefits.reimbursement.ReimbursementV1Service;
+import pl.sodexo.it.gryf.service.api.publicbenefits.reimbursement.ReimbursementService;
 import pl.sodexo.it.gryf.service.api.security.SecurityCheckerService;
 import pl.sodexo.it.gryf.service.local.api.FileService;
 import pl.sodexo.it.gryf.service.local.api.ValidateService;
@@ -39,7 +39,7 @@ import java.util.*;
  */
 @Service
 @Transactional
-public class ReimbursementV1ServiceImpl implements ReimbursementV1Service {
+public class ReimbursementServiceImpl implements ReimbursementService {
 
     //STATIC FIELDS
 

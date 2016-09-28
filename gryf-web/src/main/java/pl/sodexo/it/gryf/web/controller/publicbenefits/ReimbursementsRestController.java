@@ -12,7 +12,7 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.searchform.Reim
 import pl.sodexo.it.gryf.common.exception.GryfOptimisticLockRuntimeException;
 import pl.sodexo.it.gryf.service.api.publicbenefits.reimbursement.ReimbursementDeliveryService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.reimbursement.ReimbursementPatternService;
-import pl.sodexo.it.gryf.service.api.publicbenefits.reimbursement.ReimbursementsService;
+import pl.sodexo.it.gryf.service.api.publicbenefits.reimbursement.ReimbursementsAttachmentService;
 import pl.sodexo.it.gryf.service.api.security.SecurityCheckerService;
 import pl.sodexo.it.gryf.web.controller.ControllersUrls;
 
@@ -34,7 +34,7 @@ public class ReimbursementsRestController {
     private ReimbursementDeliveryService reimbursementDeliveryService;
 
     @Autowired
-    private ReimbursementsService reimbursementsService;
+    private ReimbursementsAttachmentService reimbursementsAttachmentService;
 
     @Autowired
     private ReimbursementPatternService reimbursementPatternService;
@@ -98,7 +98,7 @@ public class ReimbursementsRestController {
     @RequestMapping(value = "/reimbursements", method = RequestMethod.GET)
     public List<ReimbursementSearchResultDTO> findReimbursements(ReimbursementSearchQueryDTO searchDTO) {
         securityCheckerService.assertServicePrivilege(Privileges.GRF_PBE_REIMB);
-        return reimbursementsService.findReimbursements(searchDTO);
+        return reimbursementsAttachmentService.findReimbursementsSearchResults(searchDTO);
     }
 
     //PUBLIC MEHODS - DICTIONARIES

@@ -11,4 +11,8 @@ import pl.sodexo.it.gryf.service.mapping.GenericMapper;
  */
 public abstract class GryfDtoMapper<Dto extends GryfDto, Entity extends GryfEntity> extends GenericMapper<Dto, Entity> {
 
+    @Override
+    protected void map(Dto dto, Entity entity) {
+
+    }
 }

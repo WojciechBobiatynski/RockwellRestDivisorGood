@@ -12,9 +12,7 @@ public abstract class GenericMapper<Source, Destination> {
 
     protected abstract Destination initDestination();
 
-    protected void map(Source source, Destination destination) {
-
-    }
+    protected abstract void map(Source source, Destination destination);
 
     public Destination convert(Source source) {
         Destination destination = initDestination();

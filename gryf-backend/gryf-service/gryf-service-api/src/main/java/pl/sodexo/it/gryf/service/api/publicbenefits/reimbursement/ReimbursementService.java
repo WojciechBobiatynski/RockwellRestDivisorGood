@@ -5,8 +5,7 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.detailsform.Rei
 /**
  * Created by jbentyn on 2016-09-20.
  */
-//TODO Zmiana nazwy na ReimbursementService
-public interface ReimbursementV1Service {
+public interface ReimbursementService {
 
     /**
      * Metoda wyszukuje objekt transferowy dla isteniejącego zamówienia.

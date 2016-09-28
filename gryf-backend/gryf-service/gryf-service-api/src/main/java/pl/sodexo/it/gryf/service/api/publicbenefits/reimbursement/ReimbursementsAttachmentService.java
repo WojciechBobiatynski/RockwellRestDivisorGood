@@ -9,11 +9,9 @@ import java.util.List;
 /**
  * Created by jbentyn on 2016-09-20.
  */
-//TODO Zmiana nazwy na ReimbursementAttachmentService
-public interface ReimbursementsService {
+public interface ReimbursementsAttachmentService {
 
-    //TODO zmiana nazwy na findReimbursementSearchResults
-    List<ReimbursementSearchResultDTO> findReimbursements(ReimbursementSearchQueryDTO searchDTO);
+    List<ReimbursementSearchResultDTO> findReimbursementsSearchResults(ReimbursementSearchQueryDTO searchDTO);
 
     FileDTO getReimbursementAttachmentFile(Long attachmentId);
 

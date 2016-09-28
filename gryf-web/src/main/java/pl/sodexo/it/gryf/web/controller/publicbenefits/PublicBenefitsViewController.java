@@ -10,7 +10,7 @@ import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.service.api.publicbenefits.grantapplications.GrantApplicationActionService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.orders.OrderService;
-import pl.sodexo.it.gryf.service.api.publicbenefits.reimbursement.ReimbursementsService;
+import pl.sodexo.it.gryf.service.api.publicbenefits.reimbursement.ReimbursementsAttachmentService;
 import pl.sodexo.it.gryf.service.api.security.SecurityCheckerService;
 
 import javax.servlet.ServletContext;
@@ -40,7 +40,7 @@ public class PublicBenefitsViewController {
     private OrderService orderService;
 
     @Autowired
-    private ReimbursementsService reimbursementsService;
+    private ReimbursementsAttachmentService reimbursementsAttachmentService;
 
     //PUBLIC METHODS - VIEWS
 
@@ -122,7 +122,7 @@ public class PublicBenefitsViewController {
         if(!StringUtils.isEmpty(idParam)) {
             Long elementId = Long.valueOf(idParam);
 
-            FileDTO file = reimbursementsService.getReimbursementAttachmentFile(elementId);
+            FileDTO file = reimbursementsAttachmentService.getReimbursementAttachmentFile(elementId);
             writeFile(request, response, file.getInputStream(), file.getName());
         }
     }
@@ -135,7 +135,7 @@ public class PublicBenefitsViewController {
         if(!StringUtils.isEmpty(idParam)) {
             Long elementId = Long.valueOf(idParam);
 
-            FileDTO file = reimbursementsService.getReimbursementTraineeAttachmentFile(elementId);
+            FileDTO file = reimbursementsAttachmentService.getReimbursementTraineeAttachmentFile(elementId);
             writeFile(request, response, file.getInputStream(), file.getName());
         }
     }

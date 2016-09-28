@@ -13,7 +13,7 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.reimbursement.Re
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.Reimbursement;
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementAttachment;
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementTraineeAttachment;
-import pl.sodexo.it.gryf.service.api.publicbenefits.reimbursement.ReimbursementsService;
+import pl.sodexo.it.gryf.service.api.publicbenefits.reimbursement.ReimbursementsAttachmentService;
 import pl.sodexo.it.gryf.service.local.api.FileService;
 
 import java.util.List;
@@ -23,7 +23,7 @@ import java.util.List;
  */
 @Service
 @Transactional
-public class ReimbursementsServiceImpl implements ReimbursementsService {
+public class ReimbursementsAttachmentServiceImpl implements ReimbursementsAttachmentService {
 
     //FIELDS
 
@@ -42,7 +42,7 @@ public class ReimbursementsServiceImpl implements ReimbursementsService {
     //PUBLIC METHODS
 
     @Override
-    public List<ReimbursementSearchResultDTO> findReimbursements(ReimbursementSearchQueryDTO searchDTO) {
+    public List<ReimbursementSearchResultDTO> findReimbursementsSearchResults(ReimbursementSearchQueryDTO searchDTO) {
         List<Reimbursement> reimbursements = reimbursementRepository.findReimbursements(searchDTO);
         return ReimbursementSearchResultDTO.createList(reimbursements);
     }

@@ -8,7 +8,7 @@ import pl.sodexo.it.gryf.common.dto.FileDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.detailsform.ReimbursementDTO;
 import pl.sodexo.it.gryf.common.exception.GryfOptimisticLockRuntimeException;
 import pl.sodexo.it.gryf.common.parsers.ReimbursementParser;
-import pl.sodexo.it.gryf.service.api.publicbenefits.reimbursement.ReimbursementV1Service;
+import pl.sodexo.it.gryf.service.api.publicbenefits.reimbursement.ReimbursementService;
 import pl.sodexo.it.gryf.service.api.security.SecurityCheckerService;
 import pl.sodexo.it.gryf.web.controller.ControllersUrls;
 import pl.sodexo.it.gryf.web.utils.WebUtils;
@@ -29,18 +29,18 @@ public class ReimbursementV1RestController {
     private SecurityCheckerService securityCheckerService;
 
     @Autowired
-    private ReimbursementV1Service reimbursementV1Service;
+    private ReimbursementService reimbursementService;
 
     @RequestMapping(value = "/reimbursement/{id}", method = RequestMethod.GET)
     public ReimbursementDTO findReimbursement(@PathVariable Long id) {
         securityCheckerService.assertServicePrivilege(Privileges.GRF_PBE_REIMB);
-        return reimbursementV1Service.findReimbursement(id);
+        return reimbursementService.findReimbursement(id);
     }
 
     @RequestMapping(value = "/reimbursement/initial/{reimbursementDeliveryId}", method = RequestMethod.GET)
     public ReimbursementDTO createInitialReimbursement(@PathVariable Long reimbursementDeliveryId) {
         securityCheckerService.assertServicePrivilege(Privileges.GRF_PBE_REIMB_MOD);
-        return reimbursementV1Service.createInitialReimbursement(reimbursementDeliveryId);
+        return reimbursementService.createInitialReimbursement(reimbursementDeliveryId);
     }
 
     @RequestMapping(value = "/reimbursement/save", method = RequestMethod.POST)
@@ -51,9 +51,9 @@ public class ReimbursementV1RestController {
         ReimbursementDTO dto = ReimbursementParser.readReimbursement(data, fileDtoList);
 
         try {
-            return reimbursementV1Service.saveReimbursement(dto);
+            return reimbursementService.saveReimbursement(dto);
         } catch (GryfOptimisticLockRuntimeException e) {
-            reimbursementV1Service.manageLocking(dto.getId());
+            reimbursementService.manageLocking(dto.getId());
         }
         return null;
     }
@@ -66,9 +66,9 @@ public class ReimbursementV1RestController {
         ReimbursementDTO dto = ReimbursementParser.readReimbursement(data, fileDtoList);
 
         try {
-            return reimbursementV1Service.correctReimbursement(dto);
+            return reimbursementService.correctReimbursement(dto);
         } catch (GryfOptimisticLockRuntimeException e) {
-            reimbursementV1Service.manageLocking(dto.getId());
+            reimbursementService.manageLocking(dto.getId());
         }
         return null;
     }
@@ -81,9 +81,9 @@ public class ReimbursementV1RestController {
         ReimbursementDTO dto = ReimbursementParser.readReimbursement(data, fileDtoList);
 
         try {
-            return reimbursementV1Service.verifyReimbursement(dto);
+            return reimbursementService.verifyReimbursement(dto);
         } catch (GryfOptimisticLockRuntimeException e) {
-            reimbursementV1Service.manageLocking(dto.getId());
+            reimbursementService.manageLocking(dto.getId());
         }
         return null;
     }
@@ -96,9 +96,9 @@ public class ReimbursementV1RestController {
         ReimbursementDTO dto = ReimbursementParser.readReimbursement(data, fileDtoList);
 
         try {
-            return reimbursementV1Service.settleReimbursement(dto);
+            return reimbursementService.settleReimbursement(dto);
         } catch (GryfOptimisticLockRuntimeException e) {
-            reimbursementV1Service.manageLocking(dto.getId());
+            reimbursementService.manageLocking(dto.getId());
         }
         return null;
     }
@@ -111,9 +111,9 @@ public class ReimbursementV1RestController {
         ReimbursementDTO dto = ReimbursementParser.readReimbursement(data, fileDtoList);
 
         try {
-            return reimbursementV1Service.completeReimbursement(dto);
+            return reimbursementService.completeReimbursement(dto);
         } catch (GryfOptimisticLockRuntimeException e) {
-            reimbursementV1Service.manageLocking(dto.getId());
+            reimbursementService.manageLocking(dto.getId());
         }
         return null;
     }
@@ -123,9 +123,9 @@ public class ReimbursementV1RestController {
         securityCheckerService.assertServicePrivilege(Privileges.GRF_PBE_REIMB_CANCEL);
 
         try {
-            return reimbursementV1Service.cancelReimbursement(dto);
+            return reimbursementService.cancelReimbursement(dto);
         } catch (GryfOptimisticLockRuntimeException e) {
-            reimbursementV1Service.manageLocking(dto.getId());
+            reimbursementService.manageLocking(dto.getId());
         }
         return null;
     }
@@ -135,9 +135,9 @@ public class ReimbursementV1RestController {
         securityCheckerService.assertServicePrivilege(Privileges.GRF_PBE_REIMB_FINISH);
 
         try {
-            return reimbursementV1Service.generateConfirmationReimbursement(dto);
+            return reimbursementService.generateConfirmationReimbursement(dto);
         } catch (GryfOptimisticLockRuntimeException e) {
-            reimbursementV1Service.manageLocking(dto.getId());
+            reimbursementService.manageLocking(dto.getId());
         }
         return null;
     }
