@@ -48,6 +48,4 @@ public interface GrantApplicationEmailService {
      */
     Set<String> getEmailRecipients(GrantApplication grantApplication, Set<String> existingRecipientsSet);
 
-    //TODO wydzielić do jakiegoś utilsa
-    GrantApplicationService findGrantApplicationService(String serviceBeanName);
 }

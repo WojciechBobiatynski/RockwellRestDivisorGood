@@ -1,6 +1,7 @@
 package pl.sodexo.it.gryf.service.impl.publicbenefits.grantapplications;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,8 +23,8 @@ import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
 import pl.sodexo.it.gryf.service.api.publicbenefits.grantapplications.GrantApplicationActionService;
 import pl.sodexo.it.gryf.service.local.api.FileService;
-import pl.sodexo.it.gryf.service.local.api.publicbenefits.grantapplications.GrantApplicationEmailService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.grantapplications.GrantApplicationService;
+import pl.sodexo.it.gryf.service.utils.GrantApplicationBeanUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -36,6 +37,8 @@ import java.util.List;
 public class GrantApplicationActionServiceImpl implements GrantApplicationActionService {
 
     //FIELDS
+    @Autowired
+    private ApplicationContext context;
 
     @Autowired
     private FileService fileService;
@@ -52,9 +55,6 @@ public class GrantApplicationActionServiceImpl implements GrantApplicationAction
     @Autowired
     private GrantApplicationAttachmentRepository grantApplicationAttachmentRepository;
 
-    @Autowired
-    private GrantApplicationEmailService grantApplicationEmailService;
-
     //PUBLIC METHODS
 
     @Override
@@ -67,7 +67,7 @@ public class GrantApplicationActionServiceImpl implements GrantApplicationAction
     public String findApplicationFormData(Long id) {
         GrantApplication application = applicationRepository.get(id);
         GrantApplicationVersion applicationVersion = application.getApplicationVersion();
-        GrantApplicationService grantApplicationService = grantApplicationEmailService.findGrantApplicationService(applicationVersion.getServiceBeanName());
+        GrantApplicationService grantApplicationService = GrantApplicationBeanUtils.findGrantApplicationService(context, applicationVersion.getServiceBeanName());
         return grantApplicationService.findActualApplicationFormData(application);
     }
 
@@ -75,7 +75,7 @@ public class GrantApplicationActionServiceImpl implements GrantApplicationAction
     public Long saveApplication(Long versionId, String data, List<FileDTO> fileDtoList) {
         GrantApplicationVersion applicationVersion = applicationVersionRepository.get(versionId);
         GrantApplicationDTO grantApplicationDTO = GrantApplicationParser.readApplicationData(applicationVersion.getDtoClassName(), data, fileDtoList);
-        GrantApplicationService grantApplicationService = grantApplicationEmailService.findGrantApplicationService(applicationVersion.getServiceBeanName());
+        GrantApplicationService grantApplicationService = GrantApplicationBeanUtils.findGrantApplicationService(context, applicationVersion.getServiceBeanName());
         GrantApplication application = grantApplicationService.save(grantApplicationDTO);
         return application.getId();
     }
@@ -84,7 +84,7 @@ public class GrantApplicationActionServiceImpl implements GrantApplicationAction
     public Long updateApplication(Long versionId, String data, List<FileDTO> fileDtoList) {
         GrantApplicationVersion applicationVersion = applicationVersionRepository.get(versionId);
         GrantApplicationDTO grantApplicationDTO = GrantApplicationParser.readApplicationData(applicationVersion.getDtoClassName(), data, fileDtoList);
-        GrantApplicationService grantApplicationService = grantApplicationEmailService.findGrantApplicationService(applicationVersion.getServiceBeanName());
+        GrantApplicationService grantApplicationService = GrantApplicationBeanUtils.findGrantApplicationService(context, applicationVersion.getServiceBeanName());
         GrantApplication application = grantApplicationService.update(grantApplicationDTO);
         return application.getId();
     }
@@ -93,7 +93,7 @@ public class GrantApplicationActionServiceImpl implements GrantApplicationAction
     public Long applyApplication(Long versionId, String data, List<FileDTO> fileDtoList, List<String> acceptedViolationsList) {
         GrantApplicationVersion applicationVersion = applicationVersionRepository.get(versionId);
         GrantApplicationDTO grantApplicationDTO = GrantApplicationParser.readApplicationData(applicationVersion.getDtoClassName(), data, fileDtoList);
-        GrantApplicationService grantApplicationService = grantApplicationEmailService.findGrantApplicationService(applicationVersion.getServiceBeanName());
+        GrantApplicationService grantApplicationService = GrantApplicationBeanUtils.findGrantApplicationService(context, applicationVersion.getServiceBeanName());
         GrantApplication application = grantApplicationService.apply(grantApplicationDTO, acceptedViolationsList);
         return application.getId();
     }
@@ -102,7 +102,7 @@ public class GrantApplicationActionServiceImpl implements GrantApplicationAction
     public Long executeApplication(Long id, String data, List<FileDTO> fileDtoList, boolean checkVatRegNumDup) {
         GrantApplicationVersion applicationVersion = applicationVersionRepository.findByApplication(id);
         GrantApplicationDTO grantApplicationDTO = GrantApplicationParser.readApplicationData(applicationVersion.getDtoClassName(), data, fileDtoList);
-        GrantApplicationService grantApplicationService = grantApplicationEmailService.findGrantApplicationService(applicationVersion.getServiceBeanName());
+        GrantApplicationService grantApplicationService = GrantApplicationBeanUtils.findGrantApplicationService(context, applicationVersion.getServiceBeanName());
         GrantApplication application = grantApplicationService.execute(id, grantApplicationDTO, checkVatRegNumDup);
         return application.getId();
     }
@@ -111,7 +111,7 @@ public class GrantApplicationActionServiceImpl implements GrantApplicationAction
     public Long rejectApplication(Long id, String data, List<FileDTO> fileDtoList) {
         GrantApplicationVersion applicationVersion = applicationVersionRepository.findByApplication(id);
         GrantApplicationDTO grantApplicationDTO = GrantApplicationParser.readApplicationData(applicationVersion.getDtoClassName(), data, fileDtoList);
-        GrantApplicationService grantApplicationService = grantApplicationEmailService.findGrantApplicationService(applicationVersion.getServiceBeanName());
+        GrantApplicationService grantApplicationService = GrantApplicationBeanUtils.findGrantApplicationService(context, applicationVersion.getServiceBeanName());
         GrantApplication application = grantApplicationService.reject(id, grantApplicationDTO);
         return application.getId();
     }
