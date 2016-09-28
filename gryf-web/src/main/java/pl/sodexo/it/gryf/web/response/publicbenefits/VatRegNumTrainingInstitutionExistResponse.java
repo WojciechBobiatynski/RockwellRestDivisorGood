@@ -4,7 +4,6 @@ package pl.sodexo.it.gryf.web.response.publicbenefits;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingInstitutionDto;
 
 import java.util.List;
-//TODO uzycie encji
 public class VatRegNumTrainingInstitutionExistResponse {
 
     //FIELDS

@@ -5,10 +5,7 @@
  */
 package pl.sodexo.it.gryf.service.impl.other;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.sodexo.it.gryf.dao.api.crud.repository.mail.EmailTemplateRepository;
-import pl.sodexo.it.gryf.model.mail.EmailTemplate;
 import pl.sodexo.it.gryf.service.api.other.ApplicationParametersService;
 
 import javax.annotation.PostConstruct;
@@ -27,9 +24,6 @@ public class ApplicationParametersServiceImpl implements ApplicationParametersSe
     @PersistenceContext
     private EntityManager em;
 
-    @Autowired
-    private EmailTemplateRepository emailTemplateRepository;
-    
     private String cdnUrl = "//cdn.sodexo.pl/"; //default
     private String resourcesUrl = "/resources/"; //default
     private int sessionTimeout = 30;
@@ -47,9 +41,6 @@ public class ApplicationParametersServiceImpl implements ApplicationParametersSe
     private int gryfIndividualCodeZeroCount = 7;
     private String gryfTrainingInstitutionCodePrefix = "8";
     private int gryfTrainingInstitutionCodeZeroCount = 7;
-    private EmailTemplate stdEmailTemplate = null;
-    private String stdEmailBodyTemplate = "{$emailBody}";
-    private String stdEmailSubjectTemplate = "{$emailSubject}";
     private String gryfPbeDefaultSmtpHost = "plsrv-5e.sodexhopass.polska";
     private String gryfPbeDefaultSmtpPort = "25";
     private String gryfPbeAdmEmailFrom = "gryf@sodexo.com.pl";
@@ -133,12 +124,6 @@ public class ApplicationParametersServiceImpl implements ApplicationParametersSe
         String dbGryfTrainingInstitutionCodeZeroCount = (String)findParameter("GRYF_TRAINING_INSTITUTION_CODE_ZERO_COUNT");
         if (dbGryfTrainingInstitutionCodeZeroCount != null) {
             gryfTrainingInstitutionCodeZeroCount = Integer.valueOf(dbGryfTrainingInstitutionCodeZeroCount);
-        }
-        EmailTemplate dbStdEmailTemplate = emailTemplateRepository.get(EmailTemplate.STD_EMAIL);
-        if(dbStdEmailTemplate != null){
-            stdEmailTemplate = dbStdEmailTemplate;
-            stdEmailSubjectTemplate = dbStdEmailTemplate.getEmailSubjectTemplate();
-            stdEmailBodyTemplate = dbStdEmailTemplate.getEmailBodyTemplate();
         }
         String dbGryfPbeDefaultSmtpHost = (String)findParameter("GRYF_PBE_DEFAULT_SMTP_HOST");
         if (dbGryfPbeDefaultSmtpHost != null) {
@@ -276,21 +261,6 @@ public class ApplicationParametersServiceImpl implements ApplicationParametersSe
     @Override
     public int getGryfTrainingInstitutionCodeZeroCount() {
         return gryfTrainingInstitutionCodeZeroCount;
-    }
-
-    @Override
-    public EmailTemplate getStdEmailTemplate() {
-        return stdEmailTemplate;
-    }
-
-    @Override
-    public String getStdEmailBodyTemplate() {
-        return stdEmailBodyTemplate;
-    }
-
-    @Override
-    public String getStdEmailSubjectTemplate() {
-        return stdEmailSubjectTemplate;
     }
 
     @Override

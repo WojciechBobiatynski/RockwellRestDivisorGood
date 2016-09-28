@@ -1,7 +1,5 @@
 package pl.sodexo.it.gryf.service.api.other;
 
-import pl.sodexo.it.gryf.model.mail.EmailTemplate;
-
 /**
  * Created by jbentyn on 2016-09-20.
  */
@@ -42,13 +40,6 @@ public interface ApplicationParametersService {
     String getGryfTrainingInstitutionCodePrefix();
 
     int getGryfTrainingInstitutionCodeZeroCount();
-
-    //TODO przenieść do serwisu lokalnego
-    EmailTemplate getStdEmailTemplate();
-
-    String getStdEmailBodyTemplate();
-
-    String getStdEmailSubjectTemplate();
 
     String getGryfPbeDefaultSmtpHost();
 
