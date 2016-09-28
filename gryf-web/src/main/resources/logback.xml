@@ -6,7 +6,7 @@
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
             <charset>${CHARSET}</charset>
-            <layout class="ch.qos.logback.classic.PatternLayout">
+            <layout class="pl.sodexo.it.gryf.web.logging.PatternLayoutWithUserContext">
                 <pattern>${PATTERN}</pattern>
             </layout>
         </encoder>
@@ -22,7 +22,7 @@
         </rollingPolicy>
         <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
             <charset>${CHARSET}</charset>
-            <layout class="ch.qos.logback.classic.PatternLayout">
+            <layout class="pl.sodexo.it.gryf.web.logging.PatternLayoutWithUserContext">
                 <pattern>${PATTERN}</pattern>
             </layout>
         </encoder>
@@ -38,7 +38,7 @@
         </rollingPolicy>
         <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
             <charset>${CHARSET}</charset>
-            <layout class="ch.qos.logback.classic.PatternLayout">
+            <layout class="pl.sodexo.it.gryf.web.logging.PatternLayoutWithUserContext">
                 <pattern>${PATTERN}</pattern>
             </layout>
         </encoder>
@@ -47,7 +47,7 @@
     <logger name="pl.sodexo.it.gryf" level="DEBUG"/>
     <logger name="org.springframework" level="WARN"/>
     <logger name="org.hibernate.validator" level="INFO"/>
-    
+
     <logger name="pl.sodexo.it.gryf.common.logging.eclipselink" level="DEBUG" additivity="false">
         <if condition='property("devMode").equalsIgnoreCase("true")'>
             <then>
@@ -56,7 +56,7 @@
         </if>
         <appender-ref ref="FILE_SQL"/>
     </logger>
-    
+
     <logger name="pl.sodexo.it.gryf.dao.api.search.mapper" level="DEBUG" additivity="false">
         <if condition='property("devMode").equalsIgnoreCase("true")'>
             <then>
@@ -65,7 +65,7 @@
         </if>
         <appender-ref ref="FILE_SQL"/>
     </logger>
-    
+
     <root level="DEBUG">
         <if condition='property("devMode").equalsIgnoreCase("true")'>
             <then>
