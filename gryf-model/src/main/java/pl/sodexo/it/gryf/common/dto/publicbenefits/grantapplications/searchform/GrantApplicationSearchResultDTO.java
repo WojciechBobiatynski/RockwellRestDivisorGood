@@ -2,6 +2,7 @@ package pl.sodexo.it.gryf.common.dto.publicbenefits.grantapplications.searchform
 
 import lombok.ToString;
 import pl.sodexo.it.gryf.common.dto.DictionaryDTO;
+import pl.sodexo.it.gryf.common.dto.basic.GryfDto;
 import pl.sodexo.it.gryf.common.dto.dictionaries.zipcodes.searchform.ZipCodeSearchResultDTO;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationBasicData;
@@ -14,7 +15,7 @@ import java.util.List;
  * Created by tomasz.bilski.ext on 2015-06-30.
  */
 @ToString
-public class GrantApplicationSearchResultDTO {
+public class GrantApplicationSearchResultDTO extends GryfDto {
 
     //FIELDS
 
@@ -35,39 +36,6 @@ public class GrantApplicationSearchResultDTO {
     private Date applyDate;
 
     private Date considerationDate;
-
-    //CONSTRUCTORS & CREATED LIST
-
-    private GrantApplicationSearchResultDTO(){
-    }
-
-    private GrantApplicationSearchResultDTO(GrantApplication entity) {
-        GrantApplicationBasicData basicData = entity.getBasicData();
-
-        this.setId(entity.getId());
-        this.setStatus(DictionaryDTO.create(entity.getStatus()));
-        this.setEnterpriseId((entity.getEnterprise() != null) ? entity.getEnterprise().getId() : null);
-        this.setEnterpriseName(basicData != null ? basicData.getEnterpriseName() : null);
-        this.setVatRegNum(basicData != null ? basicData.getVatRegNum() : null);
-        this.setAddressInvoice(basicData != null ? basicData.getAddressInvoice() : null);
-        this.setZipCodeInvoice(ZipCodeSearchResultDTO.create(basicData != null ? basicData.getZipCodeInvoice() : null));
-        this.setApplyDate(entity.getApplyDate());
-        this.setConsiderationDate(entity.getConsiderationDate());
-    }
-
-    //STATIC METHODS - CREATE
-
-    public static GrantApplicationSearchResultDTO create(GrantApplication entity) {
-        return entity != null ? new GrantApplicationSearchResultDTO(entity) : null;
-    }
-
-    public static List<GrantApplicationSearchResultDTO> createList(List<GrantApplication> entities) {
-        List<GrantApplicationSearchResultDTO> list = new ArrayList<>();
-        for (GrantApplication entity : entities) {
-            list.add(create(entity));
-        }
-        return list;
-    }
 
     //GETTERS & SETTERS
 

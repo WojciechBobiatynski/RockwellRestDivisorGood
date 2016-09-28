@@ -24,6 +24,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
 import pl.sodexo.it.gryf.service.api.publicbenefits.grantapplications.GrantApplicationActionService;
 import pl.sodexo.it.gryf.service.local.api.FileService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.grantapplications.GrantApplicationService;
+import pl.sodexo.it.gryf.service.mapping.entityToDto.grantapplications.searchform.GrantApplicationEntityMapper;
 import pl.sodexo.it.gryf.service.utils.GrantApplicationBeanUtils;
 
 import java.util.Date;
@@ -55,12 +56,15 @@ public class GrantApplicationActionServiceImpl implements GrantApplicationAction
     @Autowired
     private GrantApplicationAttachmentRepository grantApplicationAttachmentRepository;
 
+    @Autowired
+    private GrantApplicationEntityMapper grantApplicationEntityMapper;
+
     //PUBLIC METHODS
 
     @Override
     public List<GrantApplicationSearchResultDTO> findApplications(GrantApplicationSearchQueryDTO searchDTO) {
         List<GrantApplication> applications = applicationRepository.findApplications(searchDTO);
-        return GrantApplicationSearchResultDTO.createList(applications);
+        return grantApplicationEntityMapper.convert(applications);
     }
 
     @Override

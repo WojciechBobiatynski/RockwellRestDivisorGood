@@ -12,6 +12,7 @@ import pl.sodexo.it.gryf.service.api.dictionaries.ZipCodeService;
 import pl.sodexo.it.gryf.service.local.api.ValidateService;
 import pl.sodexo.it.gryf.service.mapping.dtoToEntity.dictionaries.ZipCodeDtoMapper;
 import pl.sodexo.it.gryf.service.mapping.entityToDto.dictionaries.ZipCodeEntityMapper;
+import pl.sodexo.it.gryf.service.mapping.entityToDto.dictionaries.searchform.ZipCodeEntityToSearchResultMapper;
 
 import java.util.List;
 
@@ -33,6 +34,9 @@ public class ZipCodeServiceImpl implements ZipCodeService {
     @Autowired
     private ZipCodeDtoMapper zipCodeDtoMapper;
 
+    @Autowired
+    private ZipCodeEntityToSearchResultMapper zipCodeEntityToSearchResultMapper;
+
     //PUBLIC METHODS
 
     @Override
@@ -44,7 +48,7 @@ public class ZipCodeServiceImpl implements ZipCodeService {
     @Override
     public List<ZipCodeSearchResultDTO> findZipCodes(ZipCodeSearchQueryDTO zipCode) {
         List<ZipCode> zipCodes = zipCodeRepository.findZipCodes(zipCode);
-        return ZipCodeSearchResultDTO.createList(zipCodes);
+        return zipCodeEntityToSearchResultMapper.convert(zipCodes);
     }
 
     @Override

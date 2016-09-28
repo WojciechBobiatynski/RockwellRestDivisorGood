@@ -46,6 +46,7 @@ import pl.sodexo.it.gryf.service.local.api.publicbenefits.enterprises.Enterprise
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.grantapplications.GrantApplicationEmailService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.grantapplications.GrantApplicationService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.OrderServiceLocal;
+import pl.sodexo.it.gryf.service.mapping.entityToDto.dictionaries.DictionaryEntityMapper;
 
 import javax.mail.Session;
 import java.util.*;
@@ -132,6 +133,9 @@ public abstract class GrantApplicationV0BaseService<T extends GrantApplicationV0
     @Autowired
     protected GrantProgramParamRepository grantProgramParamRepository;
 
+    @Autowired
+    protected DictionaryEntityMapper dictionaryEntityMapper;
+
     //CONSTRUCTOR
 
     public GrantApplicationV0BaseService(){
@@ -206,7 +210,7 @@ public abstract class GrantApplicationV0BaseService<T extends GrantApplicationV0
     public GrantApplication apply(T dto, List<String> acceptedPathViolations) {
         //STATUS
         GrantApplicationStatus status = applicationStatusRepository.get(GrantApplicationStatus.APPLIED_CODE);
-        dto.setStatus(DictionaryDTO.create(status));
+        dto.setStatus(dictionaryEntityMapper.convert(status));
         dto.setApplyDate(new Date());
 
         //ACTION
@@ -237,7 +241,7 @@ public abstract class GrantApplicationV0BaseService<T extends GrantApplicationV0
 
         //STATUS
         GrantApplicationStatus status = applicationStatusRepository.get(GrantApplicationStatus.EXECUTED_CODE);
-        dto.setStatus(DictionaryDTO.create(status));
+        dto.setStatus(dictionaryEntityMapper.convert(status));
         dto.setRejectionReason(null);
 
         validate(dto, ValidationGroupExecuteApplication.class);
@@ -256,7 +260,7 @@ public abstract class GrantApplicationV0BaseService<T extends GrantApplicationV0
 
         //STATUS
         GrantApplicationStatus status = applicationStatusRepository.get(GrantApplicationStatus.REJECTED_CODE);
-        dto.setStatus(DictionaryDTO.create(status));
+        dto.setStatus(dictionaryEntityMapper.convert(status));
         dto.setConsiderationDate(new Date());
 
         validate(dto, ValidationGroupRejectApplication.class);
@@ -721,9 +725,9 @@ public abstract class GrantApplicationV0BaseService<T extends GrantApplicationV0
      * @return dto uzupełnione o aktualne wartości kluczowych pól pobranych z głownej tabeli wniosków
      */
     protected T fillApplicationDto(T dto, GrantApplication application){
-        dto.setStatus(DictionaryDTO.create(application.getStatus()));
+        dto.setStatus(dictionaryEntityMapper.convert(application.getStatus()));
         dto.setApplicationVersion(GrantApplicationVersionDictionaryDTO.create(application.getApplicationVersion()));
-        dto.setGrantProgram(DictionaryDTO.create(application.getProgram()));
+        dto.setGrantProgram(dictionaryEntityMapper.convert(application.getProgram()));
         dto.setEnterprise(EnterpriseSearchResultDTO.create(application.getEnterprise()));
         dto.setApplyDate(application.getApplyDate());
         dto.setConsiderationDate(application.getConsiderationDate());

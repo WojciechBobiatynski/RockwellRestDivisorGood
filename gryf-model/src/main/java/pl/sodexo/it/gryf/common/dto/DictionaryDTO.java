@@ -1,7 +1,7 @@
 package pl.sodexo.it.gryf.common.dto;
 
-
 import lombok.ToString;
+import pl.sodexo.it.gryf.common.dto.basic.GryfDto;
 import pl.sodexo.it.gryf.model.DictionaryEntity;
 
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import java.util.List;
  * Created by tomasz.bilski.ext on 2015-06-30.
  */
 @ToString
-public class DictionaryDTO {
+public class DictionaryDTO extends GryfDto {
 
     //FIELDS
 
@@ -21,7 +21,7 @@ public class DictionaryDTO {
 
     //CONSTRUCTORS
 
-    protected DictionaryDTO(){
+    public DictionaryDTO() {
     }
 
     public DictionaryDTO(Object id, String name) {
