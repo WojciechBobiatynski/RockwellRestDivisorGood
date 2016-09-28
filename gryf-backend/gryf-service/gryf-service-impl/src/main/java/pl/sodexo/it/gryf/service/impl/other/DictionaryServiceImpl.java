@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.service.impl.other;
 
+import com.googlecode.ehcache.annotations.Cacheable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +28,7 @@ public class DictionaryServiceImpl implements DictionaryService {
     //PUBLIC METHODS
 
     @Override
+    @Cacheable(cacheName = "dictionaryList")
     public List<DictionaryDTO> findDictionaries(String dictionaryCodeValue) {
         DictionaryCode dictionaryCode = DictionaryCode.valueOf(dictionaryCodeValue);
 

@@ -3,14 +3,20 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:ehcache="http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+                           http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring
+                           http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring/ehcache-spring-1.1.xsd">
 
     <context:component-scan base-package="pl.sodexo.it.gryf.service"/>
 
     <aop:aspectj-autoproxy proxy-target-class="true"/>
     <bean id="processExceptionAspect" class="pl.sodexo.it.gryf.service.aspect.HandleExceptionAspect"/>
     <bean id="autoLoggingAspect" class="pl.sodexo.it.gryf.common.logging.LoggingAspect"/>
+
+    <ehcache:annotation-driven cache-manager="ehCacheManager" />
+    <bean id="ehCacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" />
 
 </beans>

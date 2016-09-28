@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.service.impl.dictionaries;
 
+import com.googlecode.ehcache.annotations.Cacheable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +33,7 @@ public class StateServiceImpl implements StateService {
     //PUBLIC METHODS
 
     @Override
+    @Cacheable(cacheName = "statesInPolandList")
     public List<StateDto> findStatesInPoland(){
         return stateEntityMapper.convert(stateRepository.findByCountry(COUNTRY_POLAND));
     }
