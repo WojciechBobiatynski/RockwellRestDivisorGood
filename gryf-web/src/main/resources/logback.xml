@@ -57,7 +57,7 @@
         <appender-ref ref="FILE_SQL"/>
     </logger>
     
-    <logger name="pl.sodexo.it.gryf.search.mapper" level="DEBUG" additivity="false">
+    <logger name="pl.sodexo.it.gryf.dao.api.search.mapper" level="DEBUG" additivity="false">
         <if condition='property("devMode").equalsIgnoreCase("true")'>
             <then>
                 <appender-ref ref="STDOUT"/>
