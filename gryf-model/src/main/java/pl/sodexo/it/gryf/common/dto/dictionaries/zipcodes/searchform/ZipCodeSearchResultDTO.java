@@ -11,7 +11,7 @@ import java.util.List;
  * Created by tomasz.bilski.ext on 2015-06-24.
  */
 @ToString
-public class ZipCodeSearchResultDTO extends GryfDto{
+public class ZipCodeSearchResultDTO extends GryfDto {
 
     private Long id;
 
@@ -22,25 +22,6 @@ public class ZipCodeSearchResultDTO extends GryfDto{
     private boolean active;
 
     private String stateName;
-
-    //CONSTRUCTORS
-
-    public ZipCodeSearchResultDTO(){
-    }
-
-    private ZipCodeSearchResultDTO(ZipCode entity) {
-        this.setId(entity.getId());
-        this.setZipCode(entity.getZipCode());
-        this.setCityName(entity.getCityName());
-        this.setActive(entity.getActive());
-        this.setStateName(entity.getState().getName());
-    }
-
-    //STATIC METHODS - CREATE
-
-    public static ZipCodeSearchResultDTO create(ZipCode entity) {
-        return entity != null ? new ZipCodeSearchResultDTO(entity) : null;
-    }
 
     //GETTERS & SETTERS
 
