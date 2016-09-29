@@ -2,6 +2,7 @@ package pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.searchform;
 
 
 import lombok.ToString;
+import pl.sodexo.it.gryf.common.dto.basic.GryfDto;
 import pl.sodexo.it.gryf.common.dto.dictionaries.zipcodes.searchform.ZipCodeSearchResultDTO;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
 
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ToString
-public class IndividualSearchResultDTO {
+public class IndividualSearchResultDTO extends GryfDto{
 
     //PRIVATE FIELDS
 
@@ -32,38 +33,6 @@ public class IndividualSearchResultDTO {
     private String addressCorr;
 
     private ZipCodeSearchResultDTO zipCodeCorr;
-
-    //CONSTRUCTORS & CREATED LIST
-
-    private IndividualSearchResultDTO(){
-    }
-
-    private IndividualSearchResultDTO(Individual entity) {
-        this.setFirstName(entity.getFirstName());
-        this.setLastName(entity.getLastName());
-        this.setPesel(entity.getPesel());
-        this.setDocumentNumber(entity.getDocumentNumber());
-        this.setDocumentType(entity.getDocumentType());
-        this.setAddressInvoice(entity.getAddressInvoice());
-        this.setZipCodeInvoice(ZipCodeSearchResultDTO.create(entity.getZipCodeInvoice()));
-        this.setAddressCorr(entity.getAddressCorr());
-        this.setZipCodeCorr(ZipCodeSearchResultDTO.create(entity.getZipCodeCorr()));
-        this.setId(entity.getId());
-    }
-
-    //STATIC METHODS - CREATE
-
-    public static IndividualSearchResultDTO create(Individual entity) {
-        return entity != null ? new IndividualSearchResultDTO(entity) : null;
-    }
-
-    public static List<IndividualSearchResultDTO> createList(List<Individual> entities) {
-        List<IndividualSearchResultDTO> list = new ArrayList<>();
-        for (Individual entity : entities) {
-            list.add(create(entity));
-        }
-        return list;
-    }
 
     //GETTERS & SETTERS
 

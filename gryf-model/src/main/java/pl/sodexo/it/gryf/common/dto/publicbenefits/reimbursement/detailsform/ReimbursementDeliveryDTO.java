@@ -4,16 +4,15 @@ import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
 import pl.sodexo.it.gryf.common.Privileges;
 import pl.sodexo.it.gryf.common.dto.DictionaryDTO;
+import pl.sodexo.it.gryf.common.dto.basic.VersionableDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingInstitutionSearchResultDTO;
 import pl.sodexo.it.gryf.common.validation.InsertablePrivilege;
 import pl.sodexo.it.gryf.common.validation.publicbenefits.reimbursement.ValidationGroupDeliverReimbursementDelivery;
 import pl.sodexo.it.gryf.common.validation.publicbenefits.reimbursement.ValidationGroupRegisterReimbursementDelivery;
 import pl.sodexo.it.gryf.common.validation.publicbenefits.reimbursement.ValidationGroupSecondaryReimbursementDelivery;
-import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementDelivery;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,7 +20,7 @@ import java.util.List;
  * Created by tomasz.bilski.ext on 2015-09-02.
  */
 @ToString
-public class ReimbursementDeliveryDTO {
+public class ReimbursementDeliveryDTO extends VersionableDto{
 
     //STATIC FIELDS - ATRIBUTES
     public static final String PARENT_ID_ATTR_NAME = "parentId";
@@ -90,45 +89,6 @@ public class ReimbursementDeliveryDTO {
     private Integer version;
 
     private List<String> acceptedViolations;
-
-    //CONSTRUCTORS
-
-    public ReimbursementDeliveryDTO() {
-    }
-
-    public ReimbursementDeliveryDTO(ReimbursementDelivery entity) {
-        this.id = entity.getId();
-        this.reimbursementPattern = DictionaryDTO.create(entity.getReimbursementPattern());
-        this.trainingInstitution = TrainingInstitutionSearchResultDTO.create(entity.getTrainingInstitution());
-        this.deliveryAddress = entity.getDeliveryAddress();
-        this.deliveryZipCode = entity.getDeliveryZipCode();
-        this.deliveryCityName = entity.getDeliveryCityName();
-        this.plannedReceiptDate = entity.getPlannedReceiptDate();
-        this.requestDate = entity.getRequestDate();
-        this.deliveryDate = entity.getDeliveryDate();
-        this.waybillNumber = entity.getWaybillNumber();
-        this.status = DictionaryDTO.create(entity.getStatus());
-        this.announcementDate = entity.getReimbursementAnnouncementDate();
-        //this.sodexoRealization;
-        this.parentId = entity.getMasterReimbursementDelivery() != null ? entity.getMasterReimbursementDelivery().getId() : null;
-        this.deliverySecondary = entity.getMasterReimbursementDelivery() != null;
-        this.remarks = entity.getRemarks();
-        this.version = entity.getVersion();
-    }
-
-    //STATIC METHODS - CREATE
-
-    public static ReimbursementDeliveryDTO create(ReimbursementDelivery entity) {
-        return entity != null ? new ReimbursementDeliveryDTO(entity) : null;
-    }
-
-    public static List<ReimbursementDeliveryDTO> createList(List<ReimbursementDelivery> entities) {
-        List<ReimbursementDeliveryDTO> list = new ArrayList<>();
-        for (ReimbursementDelivery entity : entities) {
-            list.add(create(entity));
-        }
-        return list;
-    }
 
     //GETTERS & SETTERS
 

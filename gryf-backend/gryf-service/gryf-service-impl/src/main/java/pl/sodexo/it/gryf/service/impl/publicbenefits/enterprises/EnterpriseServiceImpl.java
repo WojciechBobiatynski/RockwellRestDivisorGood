@@ -12,6 +12,7 @@ import pl.sodexo.it.gryf.service.api.publicbenefits.enterprises.EnterpriseServic
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.enterprises.EnterpriseServiceLocal;
 import pl.sodexo.it.gryf.service.mapping.dtoToEntity.publicbenefits.enterprises.EnterpriseDtoMapper;
 import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.enterprises.EnterpriseEntityMapper;
+import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.enterprises.searchform.EnterpriseEntityToSearchResultMapper;
 
 import java.util.List;
 
@@ -36,6 +37,9 @@ public class EnterpriseServiceImpl implements EnterpriseService {
     @Autowired
     private EnterpriseServiceLocal enterpriseServiceLocal;
 
+    @Autowired
+    private EnterpriseEntityToSearchResultMapper enterpriseEntityToSearchResultMapper;
+
     //PUBLIC METHODS
 
     @Override
@@ -47,7 +51,7 @@ public class EnterpriseServiceImpl implements EnterpriseService {
     @Override
     public List<EnterpriseSearchResultDTO> findEnterprises(EnterpriseSearchQueryDTO enterprise) {
         List<Enterprise> enterprises = enterpriseRepository.findEnterprises(enterprise);
-        return EnterpriseSearchResultDTO.createList(enterprises);
+        return enterpriseEntityToSearchResultMapper.convert(enterprises);
     }
 
     @Override

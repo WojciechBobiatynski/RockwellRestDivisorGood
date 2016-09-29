@@ -20,6 +20,7 @@ import pl.sodexo.it.gryf.service.local.api.GryfValidator;
 import pl.sodexo.it.gryf.service.local.api.dictionaries.ContactTypeValidator;
 import pl.sodexo.it.gryf.service.mapping.dtoToEntity.publicbenefits.traininginstiutions.TrainingInstitutionDtoMapper;
 import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.traininginstiutions.TrainingInstitutionEntityMapper;
+import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.traininginstiutions.searchform.TrainingInstitutionEntityToSearchResultMapper;
 
 import java.util.List;
 
@@ -50,6 +51,9 @@ public class TrainingInstitutionServiceImpl implements TrainingInstitutionServic
     @Autowired
     private TrainingInstitutionDtoMapper trainingInstitutionDtoMapper;
 
+    @Autowired
+    private TrainingInstitutionEntityToSearchResultMapper trainingInstitutionEntityToSearchResultMapper;
+
     //PUBLIC METHODS
 
     @Override
@@ -60,7 +64,7 @@ public class TrainingInstitutionServiceImpl implements TrainingInstitutionServic
     @Override
     public List<TrainingInstitutionSearchResultDTO> findTrainingInstitutions(TrainingInstitutionSearchQueryDTO trainingInstitution) {
         List<TrainingInstitution> trainingInstitutions = trainingInstitutionRepository.findTrainingInstitutions(trainingInstitution);
-        return TrainingInstitutionSearchResultDTO.createList(trainingInstitutions);
+        return trainingInstitutionEntityToSearchResultMapper.convert(trainingInstitutions);
     }
 
     @Override

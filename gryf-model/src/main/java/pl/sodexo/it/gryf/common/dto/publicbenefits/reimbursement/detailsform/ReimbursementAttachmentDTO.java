@@ -7,6 +7,7 @@ import pl.sodexo.it.gryf.common.dto.DictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.FileContainerDTO;
 import pl.sodexo.it.gryf.common.dto.FileDTO;
 import pl.sodexo.it.gryf.common.dto.YesNo;
+import pl.sodexo.it.gryf.common.dto.basic.GryfDto;
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementAttachment;
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementAttachmentRequired;
 
@@ -19,7 +20,7 @@ import java.util.List;
  * Created by tomasz.bilski.ext on 2015-09-07.
  */
 @ToString
-public class ReimbursementAttachmentDTO  implements FileContainerDTO {
+public class ReimbursementAttachmentDTO extends GryfDto implements FileContainerDTO {
 
     //FIELDS
 

@@ -30,6 +30,8 @@ import pl.sodexo.it.gryf.service.api.publicbenefits.reimbursement.ReimbursementD
 import pl.sodexo.it.gryf.service.api.publicbenefits.reimbursement.ReimbursementPatternService;
 import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
+import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.reimbursement.detailsform.ReimbursementDeliveryEntityMapper;
+import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.reimbursement.searchform.ReimbursementDeliveryEntityToSearchResultMapper;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -69,24 +71,30 @@ public class ReimbursementDeliveryServiceImpl implements ReimbursementDeliverySe
     @Autowired
     private GryfPLSQLRepository gryfRepository;
 
+    @Autowired
+    private ReimbursementDeliveryEntityMapper reimbursementDeliveryEntityMapper;
+
+    @Autowired
+    private ReimbursementDeliveryEntityToSearchResultMapper reimbursementDeliveryEntityToSearchResultMapper;
+
     //PUBLIC METHODS
 
     @Override
     public List<ReimbursementDeliverySearchResultDTO> findReimbursementDeliveries(ReimbursementDeliverySearchQueryDTO searchDTO) {
         List<ReimbursementDelivery> reimbursementDeliveries = reimbursementDeliveryRepository.findReimbursementDeliveries(searchDTO);
-        return ReimbursementDeliverySearchResultDTO.createList(reimbursementDeliveries);
+        return reimbursementDeliveryEntityToSearchResultMapper.convert(reimbursementDeliveries);
     }
     
     @Override
     public List<ReimbursementDeliverySearchResultDTO> findReimbursableDeliveries(ReimbursementDeliverySearchQueryDTO searchDTO) {
         List<ReimbursementDelivery> reimbursementDeliveries = reimbursementDeliveryRepository.findReimbursableDeliveries(searchDTO);
-        return ReimbursementDeliverySearchResultDTO.createList(reimbursementDeliveries);
+        return reimbursementDeliveryEntityToSearchResultMapper.convert(reimbursementDeliveries);
     }    
 
     @Override
     public ReimbursementDeliveryDTO findReimbursementDelivery(Long id) {
         ReimbursementDelivery reimbursementDelivery = reimbursementDeliveryRepository.get(id);
-        return ReimbursementDeliveryDTO.create(reimbursementDelivery);
+        return reimbursementDeliveryEntityMapper.convert(reimbursementDelivery);
     }
 
     @Override

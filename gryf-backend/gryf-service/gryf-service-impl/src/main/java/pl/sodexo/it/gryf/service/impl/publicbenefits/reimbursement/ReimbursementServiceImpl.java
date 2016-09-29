@@ -30,6 +30,9 @@ import pl.sodexo.it.gryf.service.api.reports.ReportService;
 import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
 import pl.sodexo.it.gryf.service.local.api.FileService;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
+import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.reimbursement.detailsform.ReimbursementDeliveryEntityMapper;
+import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.reimbursement.detailsform.ReimbursementEntityMapper;
+import pl.sodexo.it.gryf.service.utils.ReimbursementCalculationHelper;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -95,6 +98,12 @@ public class ReimbursementServiceImpl implements ReimbursementService {
     @Autowired
     private GryfPLSQLRepository gryfPLSQLRepository;
 
+    @Autowired
+    private ReimbursementEntityMapper reimbursementEntityMapper;
+
+    @Autowired
+    private ReimbursementDeliveryEntityMapper reimbursementDeliveryEntityMapper;
+
     //STATIC CONSTRUCTOR
 
     static{
@@ -155,7 +164,7 @@ public class ReimbursementServiceImpl implements ReimbursementService {
     @Override
     public ReimbursementDTO findReimbursement(Long id) {
         Reimbursement reimbursement = reimbursementRepository.get(id);
-        return ReimbursementDTO.create(reimbursement);
+        return reimbursementEntityMapper.convert(reimbursement);
     }
 
     @Override
@@ -166,7 +175,7 @@ public class ReimbursementServiceImpl implements ReimbursementService {
         String reimbursementDelay = reimbursementPatternService.findReimbursementPatternParam(reimbursementPattern.getId(), ReimbursementPatternParam.REIMBDELAY);
         Date reimbursementDate = gryfPLSQLRepository.getNthBusinessDay(reimbursementDelivery.getReimbursementAnnouncementDate(), Integer.valueOf(reimbursementDelay));
 
-        return ReimbursementDTO.createInitial(reimbursementDelivery, reimbursementDate);
+        return reimbursementDeliveryEntityMapper.initialConvert(reimbursementDelivery, reimbursementDate);
     }
 
     @Override

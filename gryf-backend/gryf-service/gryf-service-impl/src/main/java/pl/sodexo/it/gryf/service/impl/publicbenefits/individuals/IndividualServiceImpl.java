@@ -24,6 +24,7 @@ import pl.sodexo.it.gryf.service.local.api.GryfValidator;
 import pl.sodexo.it.gryf.service.local.api.dictionaries.ContactTypeValidator;
 import pl.sodexo.it.gryf.service.mapping.dtoToEntity.publicbenefits.individuals.IndividualDtoMapper;
 import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.individuals.IndividualEntityMapper;
+import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.individuals.searchform.IndividualEntityToSearchResultMapper;
 
 import java.util.HashSet;
 import java.util.List;
@@ -57,6 +58,9 @@ public class IndividualServiceImpl implements IndividualService {
     @Autowired
     private IndividualDtoMapper individualDtoMapper;
 
+    @Autowired
+    private IndividualEntityToSearchResultMapper individualEntityToSearchResultMapper;
+
     //PUBLIC METHODS
 
     @Override
@@ -67,7 +71,7 @@ public class IndividualServiceImpl implements IndividualService {
     @Override
     public List<IndividualSearchResultDTO> findIndividuals(IndividualSearchQueryDTO individual) {
         List<Individual> individuals = individualRepository.findIndividuals(individual);
-        return IndividualSearchResultDTO.createList(individuals);
+        return individualEntityToSearchResultMapper.convert(individuals);
     }
 
     @Override
@@ -185,7 +189,7 @@ public class IndividualServiceImpl implements IndividualService {
     private void validatePeselExist(List<Individual> individuals, Individual individual){
         individuals.remove(individual);
         if(individuals.size() > 0){
-            throw new PeselIndividualExistException("W systemie istnieja zapisane podmioty o danym numerze PESEL", IndividualSearchResultDTO.createList(individuals));
+            throw new PeselIndividualExistException("W systemie istnieja zapisane podmioty o danym numerze PESEL", individualEntityToSearchResultMapper.convert(individuals));
         }
     }
 

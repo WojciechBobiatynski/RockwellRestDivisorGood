@@ -7,6 +7,7 @@ import pl.sodexo.it.gryf.common.dto.DictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.FileContainerDTO;
 import pl.sodexo.it.gryf.common.dto.FileDTO;
 import pl.sodexo.it.gryf.common.dto.YesNo;
+import pl.sodexo.it.gryf.common.dto.basic.GryfDto;
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementTraineeAttachment;
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementTraineeAttachmentRequired;
 
@@ -19,7 +20,7 @@ import java.util.List;
  * Created by tomasz.bilski.ext on 2015-09-08.
  */
 @ToString
-public class ReimbursementTraineeAttachmentDTO implements FileContainerDTO {
+public class ReimbursementTraineeAttachmentDTO extends GryfDto implements FileContainerDTO {
 
     //FIELDS
 
@@ -43,59 +44,6 @@ public class ReimbursementTraineeAttachmentDTO implements FileContainerDTO {
     private boolean mandatory;
 
     private boolean fileIncluded;
-
-    //CONSTRUCTORS
-
-    public ReimbursementTraineeAttachmentDTO() {
-    }
-
-    public ReimbursementTraineeAttachmentDTO(ReimbursementTraineeAttachment entity) {
-        this.id = entity.getId();
-        this.name = entity.getName();
-        this.originalFileName = entity.getOriginalFileName();
-        this.attachmentType = DictionaryDTO.create(entity.getAttachmentType());
-        this.remarks = entity.getRemarks();
-        this.file = null;
-        this.mandatory = YesNo.toBoolean(entity.getRequired());;
-        this.fileIncluded = false;
-    }
-
-    public ReimbursementTraineeAttachmentDTO(ReimbursementTraineeAttachmentRequired entity) {
-        this.id = null;
-        this.name = entity.getName();
-        this.originalFileName = null;
-        this.attachmentType = DictionaryDTO.create(entity.getAttachmentType());
-        this.remarks = null;
-        this.file = null;
-        this.mandatory = true;
-        this.fileIncluded = false;
-    }
-
-    //STATIC METHODS - CREATE
-
-    public static ReimbursementTraineeAttachmentDTO createAttachment(ReimbursementTraineeAttachment entity) {
-        return entity != null ? new ReimbursementTraineeAttachmentDTO(entity) : null;
-    }
-
-    public static List<ReimbursementTraineeAttachmentDTO> createAttachmentList(List<ReimbursementTraineeAttachment> entities) {
-        List<ReimbursementTraineeAttachmentDTO> list = new ArrayList<>();
-        for (ReimbursementTraineeAttachment entity : entities) {
-            list.add(createAttachment(entity));
-        }
-        return list;
-    }
-
-    public static ReimbursementTraineeAttachmentDTO createAttachmentRequired(ReimbursementTraineeAttachmentRequired entity) {
-        return entity != null ? new ReimbursementTraineeAttachmentDTO(entity) : null;
-    }
-
-    public static List<ReimbursementTraineeAttachmentDTO> createAttachmentRequiredList(List<ReimbursementTraineeAttachmentRequired> entities) {
-        List<ReimbursementTraineeAttachmentDTO> list = new ArrayList<>();
-        for (ReimbursementTraineeAttachmentRequired entity : entities) {
-            list.add(createAttachmentRequired(entity));
-        }
-        return list;
-    }
 
     //GETTERS & SETTERS
 

@@ -2,6 +2,7 @@ package pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchfo
 
 
 import lombok.ToString;
+import pl.sodexo.it.gryf.common.dto.basic.GryfDto;
 import pl.sodexo.it.gryf.common.dto.dictionaries.zipcodes.searchform.ZipCodeSearchResultDTO;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstitution;
 
@@ -12,7 +13,7 @@ import java.util.List;
  * Created by tomasz.bilski.ext on 2015-08-10.
  */
 @ToString
-public class TrainingInstitutionSearchResultDTO {
+public class TrainingInstitutionSearchResultDTO extends GryfDto{
 
     //PRIVATE FIELDS
 
@@ -32,7 +33,7 @@ public class TrainingInstitutionSearchResultDTO {
 
     //CONSTRUCTORS & CREATED LIST
 
-    private TrainingInstitutionSearchResultDTO(){
+    public TrainingInstitutionSearchResultDTO(){
     }
 
     private TrainingInstitutionSearchResultDTO(TrainingInstitution entity) {
@@ -49,14 +50,6 @@ public class TrainingInstitutionSearchResultDTO {
 
     public static TrainingInstitutionSearchResultDTO create(TrainingInstitution entity) {
         return entity != null ? new TrainingInstitutionSearchResultDTO(entity) : null;
-    }
-
-    public static List<TrainingInstitutionSearchResultDTO> createList(List<TrainingInstitution> entities) {
-        List<TrainingInstitutionSearchResultDTO> list = new ArrayList<>();
-        for (TrainingInstitution entity : entities) {
-            list.add(create(entity));
-        }
-        return list;
     }
 
     //GETTERS & SETTERS

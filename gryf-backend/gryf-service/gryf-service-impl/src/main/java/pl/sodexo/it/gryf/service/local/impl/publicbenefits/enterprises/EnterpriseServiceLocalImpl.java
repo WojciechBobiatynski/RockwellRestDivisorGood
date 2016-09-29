@@ -18,6 +18,7 @@ import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
 import pl.sodexo.it.gryf.service.local.api.dictionaries.ContactTypeValidator;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.enterprises.EnterpriseServiceLocal;
+import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.enterprises.searchform.EnterpriseEntityToSearchResultMapper;
 
 import java.util.HashSet;
 import java.util.List;
@@ -46,6 +47,9 @@ public class EnterpriseServiceLocalImpl implements EnterpriseServiceLocal {
 
     @Autowired
     private EnterpriseRepository enterpriseRepository;
+
+    @Autowired
+    private EnterpriseEntityToSearchResultMapper enterpriseEntityToSearchResultMapper;
 
     @Override
     public Enterprise saveEnterprise(Enterprise enterprise, boolean checkVatRegNumDup) {
@@ -148,7 +152,7 @@ public class EnterpriseServiceLocalImpl implements EnterpriseServiceLocal {
     private void validateVatRegNumExist(List<Enterprise> enterprises, Enterprise enterprise) {
         enterprises.remove(enterprise);
         if (enterprises.size() > 0) {
-            throw new VatRegNumEnterpriseExistException("W systemie istnieja zapisane podmioty o danym numerze NIP", EnterpriseSearchResultDTO.createList(enterprises));
+            throw new VatRegNumEnterpriseExistException("W systemie istnieja zapisane podmioty o danym numerze NIP", enterpriseEntityToSearchResultMapper.convert(enterprises));
         }
     }
 

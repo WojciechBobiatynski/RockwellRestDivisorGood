@@ -3,6 +3,7 @@ package pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.detailsform;
 import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
 import pl.sodexo.it.gryf.common.dto.DictionaryDTO;
+import pl.sodexo.it.gryf.common.dto.basic.GryfDto;
 import pl.sodexo.it.gryf.common.validation.publicbenefits.reimbursement.ValidationGroupReimbursementSettleAndVerify;
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementTrainee;
 
@@ -16,7 +17,7 @@ import java.util.List;
  * Created by tomasz.bilski.ext on 2015-09-08.
  */
 @ToString
-public class ReimbursementTraineeDTO {
+public class ReimbursementTraineeDTO extends GryfDto {
 
     //FIELDS
 
@@ -31,32 +32,6 @@ public class ReimbursementTraineeDTO {
 
     @Valid
     private List<ReimbursementTraineeAttachmentDTO> reimbursementTraineeAttachments;
-
-    //CONSTRUCTORS
-
-    public ReimbursementTraineeDTO() {
-    }
-
-    public ReimbursementTraineeDTO(ReimbursementTrainee entity) {
-        this.id = entity.getId();
-        this.traineeName = entity.getTraineeName();
-        this.traineeSex = DictionaryDTO.create(entity.getTraineeSex());
-        this.reimbursementTraineeAttachments = ReimbursementTraineeAttachmentDTO.createAttachmentList(entity.getReimbursementTraineeAttachments());
-    }
-
-    //STATIC METHODS - CREATE
-
-    public static ReimbursementTraineeDTO create(ReimbursementTrainee entity) {
-        return entity != null ? new ReimbursementTraineeDTO(entity) : null;
-    }
-
-    public static List<ReimbursementTraineeDTO> createList(List<ReimbursementTrainee> entities) {
-        List<ReimbursementTraineeDTO> list = new ArrayList<>();
-        for (ReimbursementTrainee entity : entities) {
-            list.add(create(entity));
-        }
-        return list;
-    }
 
     //GETTERS & SETTERS
 

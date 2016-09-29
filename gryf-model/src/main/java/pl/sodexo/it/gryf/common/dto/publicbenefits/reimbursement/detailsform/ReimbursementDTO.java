@@ -4,15 +4,12 @@ import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
 import pl.sodexo.it.gryf.common.dto.DictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.FileDTO;
+import pl.sodexo.it.gryf.common.dto.basic.VersionableDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.enterprises.searchform.EnterpriseSearchResultDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.searchform.ReimbursementDeliverySearchResultDTO;
 import pl.sodexo.it.gryf.common.validation.publicbenefits.reimbursement.ValidationGroupReimbursementComplete;
 import pl.sodexo.it.gryf.common.validation.publicbenefits.reimbursement.ValidationGroupReimbursementCorrect;
 import pl.sodexo.it.gryf.common.validation.publicbenefits.reimbursement.ValidationGroupReimbursementSettleAndVerify;
-import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.Reimbursement;
-import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementDelivery;
-import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementPattern;
-import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementTraineeAttachmentRequired;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -27,7 +24,7 @@ import java.util.List;
  * Created by tomasz.bilski.ext on 2015-09-02.
  */
 @ToString
-public class ReimbursementDTO {
+public class ReimbursementDTO extends VersionableDto {
 
     //STATIC FIELDS - ATRIBUTES
     public static final String TRAINING_INSTITUTION_REIMBURSEMENT_ACCOUNT_NUMBER_ATTR_NAME = "trainingInstitutionReimbursementAccountNumber";
@@ -127,106 +124,24 @@ public class ReimbursementDTO {
 
     private Integer version;
 
-    //CONSTRUCTORS
-
-    public ReimbursementDTO() {
-    }
-
-    public ReimbursementDTO(Reimbursement entity) {
-        ReimbursementDelivery delivery = entity.getReimbursementDelivery();
-        ReimbursementPattern pattern = delivery != null ? delivery.getReimbursementPattern() : null;
-
-        this.id = entity.getId();
-        this.reimbursementDate = entity.getReimbursementDate();
-        this.announcementDate = entity.getAnnouncementDate();
-        this.invoiceNumber = entity.getInvoiceNumber();
-        this.invoiceAnonGrossAmount = entity.getInvoiceAnonGrossAmount();
-        this.invoiceAnonVouchAmount = entity.getInvoiceAnonVouchAmount();
-        this.trainingInstitutionReimbursementAccountNumber = entity.getTrainingInstitutionReimbursementAccountNumber();
-        this.enterprise = EnterpriseSearchResultDTO.create(entity.getEnterprise());
-        this.createdUser = entity.getCreatedUser();
-        this.sxoTiAmountDueTotal = entity.getSxoTiAmountDueTotal();
-        this.sxoEntAmountDueTotal = entity.getSxoEntAmountDueTotal();
-        this.transferDate = entity.getTransferDate();
-        this.remarks = entity.getRemarks();
-
-        this.requiredCorrectionDate = entity.getRequiredCorrectionDate();
-        this.correctionDate = entity.getCorrectionDate();
-        this.correctionsNumber = entity.getCorrectionsNumber();
-        this.correctionReason = entity.getCorrectionReason();
-
-        this.reimbursementDelivery = ReimbursementDeliverySearchResultDTO.create(entity.getReimbursementDelivery());
-        this.reimbursementTrainings = ReimbursementTrainingDTO.createList(entity.getReimbursementTrainings());
-        this.reimbursementAttachments = ReimbursementAttachmentDTO.createAttachmentList(entity.getReimbursementAttachments());
-        this.status = DictionaryDTO.create(entity.getStatus());
-
-        this.reimbursementTraineeAttachmentRequiredList = ReimbursementTraineeAttachmentDTO.createAttachmentRequiredList(pattern != null ?
-                        pattern.getReimbursementTraineeAttachmentRequiredList() : new ArrayList<ReimbursementTraineeAttachmentRequired>());
-
-        this.entToTiAmountDueTotal = ReimbursementCalculationHelper.calculateEntToTiAmountDueTotal(this);
-        this.usedOwnEntContributionAmountTotal = ReimbursementCalculationHelper.calculateUsedOwnEntContributionAmountTotal(this);
-        this.grantAmountTotal = ReimbursementCalculationHelper.calculateGrantAmountTotal(this);
-        this.grantAmountPayedToTiTotal = ReimbursementCalculationHelper.calculateGrantAmountPayedToTiTotal(this);
-        this.trainingCostTotal = ReimbursementCalculationHelper.calculateTrainingCostTotal(this);
-
-        this.version = entity.getVersion();
-    }
-
-    public ReimbursementDTO(ReimbursementDelivery entity, Date reimbursementDate) {
-        ReimbursementPattern pattern = entity.getReimbursementPattern();
-
-        this.reimbursementDelivery = ReimbursementDeliverySearchResultDTO.create(entity);
-        this.announcementDate = new Date();
-        this.reimbursementDate = reimbursementDate;
-        this.reimbursementAttachments = ReimbursementAttachmentDTO.createAttachmentRequiredList(pattern.getReimbursementAttachmentRequiredList());
-        this.reimbursementTraineeAttachmentRequiredList = ReimbursementTraineeAttachmentDTO.createAttachmentRequiredList(pattern != null ?
-                                           pattern.getReimbursementTraineeAttachmentRequiredList() : new ArrayList<ReimbursementTraineeAttachmentRequired>());
-    }
-
-    //STATIC METHODS - CREATE
-
-    public static ReimbursementDTO create(Reimbursement entity) {
-        return entity != null ? new ReimbursementDTO(entity) : null;
-    }
-
-    public static List<ReimbursementDTO> createList(List<Reimbursement> entities) {
-        List<ReimbursementDTO> list = new ArrayList<>();
-        for (Reimbursement entity : entities) {
-            list.add(create(entity));
-        }
-        return list;
-    }
-
-    public static ReimbursementDTO createInitial(ReimbursementDelivery entity, Date reimbursementDate) {
-        return entity != null ? new ReimbursementDTO(entity, reimbursementDate) : null;
-    }
-
-    public static List<ReimbursementDTO> createInitialList(List<Object[]> entities) {
-        List<ReimbursementDTO> list = new ArrayList<>();
-        for (Object[] entity : entities) {
-            list.add(createInitial((ReimbursementDelivery)entity[0], (Date)entity[1]));
-        }
-        return list;
-    }
-
     //PUBLIC METHODS
 
-    public List<FileDTO> getAllFiles(){
+    public List<FileDTO> getAllFiles() {
         List<FileDTO> result = new ArrayList<>();
-        if(getReimbursementAttachments() != null){
+        if (getReimbursementAttachments() != null) {
             for (ReimbursementAttachmentDTO attachment : getReimbursementAttachments()) {
-                if(attachment.getFile() != null){
+                if (attachment.getFile() != null) {
                     result.add(attachment.getFile());
                 }
             }
         }
-        if(getReimbursementTrainings() != null){
+        if (getReimbursementTrainings() != null) {
             for (ReimbursementTrainingDTO training : getReimbursementTrainings()) {
-                if(training.getReimbursementTrainees() != null) {
+                if (training.getReimbursementTrainees() != null) {
                     for (ReimbursementTraineeDTO trainee : training.getReimbursementTrainees()) {
-                        if(trainee.getReimbursementTraineeAttachments() != null){
+                        if (trainee.getReimbursementTraineeAttachments() != null) {
                             for (ReimbursementTraineeAttachmentDTO attachment : trainee.getReimbursementTraineeAttachments()) {
-                                if(attachment.getFile() != null) {
+                                if (attachment.getFile() != null) {
                                     result.add(attachment.getFile());
                                 }
                             }

@@ -2,6 +2,7 @@ package pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.searchform;
 
 import lombok.ToString;
 import pl.sodexo.it.gryf.common.dto.DictionaryDTO;
+import pl.sodexo.it.gryf.common.dto.basic.GryfDto;
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementDelivery;
 
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ import java.util.List;
  * Created by tomasz.bilski.ext on 2015-09-02.
  */
 @ToString
-public class ReimbursementDeliverySearchResultDTO {
+public class ReimbursementDeliverySearchResultDTO extends GryfDto{
 
     //FIELDS
 
@@ -69,14 +70,6 @@ public class ReimbursementDeliverySearchResultDTO {
 
     public static ReimbursementDeliverySearchResultDTO create(ReimbursementDelivery entity) {
         return entity != null ? new ReimbursementDeliverySearchResultDTO(entity) : null;
-    }
-
-    public static List<ReimbursementDeliverySearchResultDTO> createList(List<ReimbursementDelivery> entities) {
-        List<ReimbursementDeliverySearchResultDTO> list = new ArrayList<>();
-        for (ReimbursementDelivery entity : entities) {
-            list.add(create(entity));
-        }
-        return list;
     }
 
     //GETTERS & SETTERS

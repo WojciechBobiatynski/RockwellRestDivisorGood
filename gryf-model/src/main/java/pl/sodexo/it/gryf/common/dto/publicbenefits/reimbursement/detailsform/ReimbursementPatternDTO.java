@@ -1,6 +1,7 @@
 package pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.detailsform;
 
 import lombok.ToString;
+import pl.sodexo.it.gryf.common.dto.basic.GryfDto;
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementPattern;
 
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import java.util.List;
  * Created by tomasz.bilski.ext on 2015-09-09.
  */
 @ToString
-public class ReimbursementPatternDTO {
+public class ReimbursementPatternDTO extends GryfDto{
 
     //FIELDS
 
@@ -28,35 +29,6 @@ public class ReimbursementPatternDTO {
     private List<ReimbursementAttachmentDTO> reimbursementAttachmentRequiredList;
 
     private List<ReimbursementTraineeAttachmentDTO> reimbursementTraineeAttachmentRequiredList;
-
-    //CONSTRUCTORS
-
-    public ReimbursementPatternDTO() {
-    }
-
-    public ReimbursementPatternDTO(ReimbursementPattern entity, Integer reimbursementDelay) {
-        this.id = entity.getId();
-        this.name = entity.getName();
-        this.dateFrom = entity.getDateFrom();
-        this.dateTo = entity.getDateTo();
-        this.reimbursementDelay = reimbursementDelay;
-        this.reimbursementAttachmentRequiredList = ReimbursementAttachmentDTO.createAttachmentRequiredList(entity.getReimbursementAttachmentRequiredList());
-        this.reimbursementTraineeAttachmentRequiredList = ReimbursementTraineeAttachmentDTO.createAttachmentRequiredList(entity.getReimbursementTraineeAttachmentRequiredList());
-    }
-
-    //STATIC METHODS - CREATE
-
-    public static ReimbursementPatternDTO create(ReimbursementPattern entity, Integer reimbursementDelay) {
-        return entity != null ? new ReimbursementPatternDTO(entity, reimbursementDelay) : null;
-    }
-
-    public static List<ReimbursementPatternDTO> createList(List<Object[]> entities) {
-        List<ReimbursementPatternDTO> list = new ArrayList<>();
-        for (Object[] entity : entities) {
-            list.add(create((ReimbursementPattern)entity[0], (Integer)entity[1]));
-        }
-        return list;
-    }
 
     //GETTERS & SETTERS
 

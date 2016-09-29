@@ -47,6 +47,7 @@ import pl.sodexo.it.gryf.service.local.api.publicbenefits.grantapplications.Gran
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.grantapplications.GrantApplicationService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.OrderServiceLocal;
 import pl.sodexo.it.gryf.service.mapping.entityToDto.dictionaries.DictionaryEntityMapper;
+import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.enterprises.searchform.EnterpriseEntityToSearchResultMapper;
 
 import javax.mail.Session;
 import java.util.*;
@@ -135,6 +136,9 @@ public abstract class GrantApplicationV0BaseService<T extends GrantApplicationV0
 
     @Autowired
     protected DictionaryEntityMapper dictionaryEntityMapper;
+
+    @Autowired
+    private EnterpriseEntityToSearchResultMapper enterpriseEntityToSearchResultMapper;
 
     //CONSTRUCTOR
 
@@ -526,7 +530,7 @@ public abstract class GrantApplicationV0BaseService<T extends GrantApplicationV0
             }
 
             grantApplication.setEnterprise(enterprise);
-            dto.setEnterprise(EnterpriseSearchResultDTO.create(enterprise));
+            dto.setEnterprise(enterpriseEntityToSearchResultMapper.convert(enterprise));
         }
         return enterprise;
     }
@@ -556,7 +560,7 @@ public abstract class GrantApplicationV0BaseService<T extends GrantApplicationV0
         }
 
         grantApplication.setEnterprise(enterprise);
-        dto.setEnterprise(EnterpriseSearchResultDTO.create(enterprise));
+        dto.setEnterprise(enterpriseEntityToSearchResultMapper.convert(enterprise));
     }
 
     protected void saveEnterpriseContacts(Enterprise enterprise, T dto){
@@ -728,7 +732,7 @@ public abstract class GrantApplicationV0BaseService<T extends GrantApplicationV0
         dto.setStatus(dictionaryEntityMapper.convert(application.getStatus()));
         dto.setApplicationVersion(GrantApplicationVersionDictionaryDTO.create(application.getApplicationVersion()));
         dto.setGrantProgram(dictionaryEntityMapper.convert(application.getProgram()));
-        dto.setEnterprise(EnterpriseSearchResultDTO.create(application.getEnterprise()));
+        dto.setEnterprise(enterpriseEntityToSearchResultMapper.convert(application.getEnterprise()));
         dto.setApplyDate(application.getApplyDate());
         dto.setConsiderationDate(application.getConsiderationDate());
         dto.setRejectionReason(application.getRejectionReason());

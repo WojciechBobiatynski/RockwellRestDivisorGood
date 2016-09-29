@@ -1,6 +1,8 @@
-package pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.detailsform;
+package pl.sodexo.it.gryf.service.utils;
 
 import lombok.ToString;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.detailsform.ReimbursementDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.detailsform.ReimbursementTrainingDTO;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementTraining;
 

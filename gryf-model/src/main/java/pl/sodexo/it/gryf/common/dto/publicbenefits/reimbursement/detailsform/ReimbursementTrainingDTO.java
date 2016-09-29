@@ -2,6 +2,7 @@ package pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.detailsform;
 
 import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
+import pl.sodexo.it.gryf.common.dto.basic.GryfDto;
 import pl.sodexo.it.gryf.common.validation.publicbenefits.reimbursement.ValidationGroupReimbursementSettleAndVerify;
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementTraining;
 
@@ -17,8 +18,7 @@ import java.util.List;
  * Created by tomasz.bilski.ext on 2015-09-07.
  */
 @ToString
-public class ReimbursementTrainingDTO {
-
+public class ReimbursementTrainingDTO extends GryfDto {
 
     private Long id;
 
@@ -104,53 +104,8 @@ public class ReimbursementTrainingDTO {
      */
     private BigDecimal trainingCost;
 
-
     @Valid
     private List<ReimbursementTraineeDTO> reimbursementTrainees;
-
-    //CONSTRUCTORS
-
-    public ReimbursementTrainingDTO() {
-    }
-
-    public ReimbursementTrainingDTO(ReimbursementTraining entity) {
-        this.id = entity.getId();
-        this.trainingName = entity.getTrainingName();
-        this.trainingDateFrom = entity.getTrainingDateFrom();
-        this.trainingDateTo = entity.getTrainingDateTo();
-        this.trainingPlace = entity.getTrainingPlace();
-        this.grantOwnerAidProductId = (entity.getGrantOwnerAidProduct() != null) ? entity.getGrantOwnerAidProduct().getId() : null;
-        this.productsNumber = entity.getProductsNumber();
-        this.trainingHourGrossPrice = entity.getTrainingHourGrossPrice();
-        this.trainingHoursTotal = entity.getTrainingHoursTotal();
-        this.productTotalValue = entity.getProductTotalValue();
-        this.productAidValue = entity.getProductAidValue();
-
-        this.voucherRefundedTrainingHourValue = ReimbursementCalculationHelper.calculateVoucherRefundedTrainingHourValue(entity);
-        this.sxoTiAmountDue = entity.getSxoTiAmountDue();
-        this.entToTiAmountDue = ReimbursementCalculationHelper.calculateEntToTiAmountDue(entity, this.sxoTiAmountDue);
-        this.sxoEntAmountDue = entity.getSxoEntAmountDue();
-        this.usedOwnEntContributionAmount = ReimbursementCalculationHelper.calculateUsedOwnEntContributionAmount(entity);
-        this.grantAmount = ReimbursementCalculationHelper.calculateGrantAmount(entity);
-        this.grantAmountPayedToTi = ReimbursementCalculationHelper.calculateGrantAmountPayedToTi(this.entToTiAmountDue, this.usedOwnEntContributionAmount);
-        this.trainingCost = ReimbursementCalculationHelper.calculateTrainingCost(entity);
-
-        this.reimbursementTrainees = ReimbursementTraineeDTO.createList(entity.getReimbursementTrainees());
-    }
-
-    //STATIC METHODS - CREATE
-
-    public static ReimbursementTrainingDTO create(ReimbursementTraining entity) {
-        return entity != null ? new ReimbursementTrainingDTO(entity) : null;
-    }
-
-    public static List<ReimbursementTrainingDTO> createList(List<ReimbursementTraining> entities) {
-        List<ReimbursementTrainingDTO> list = new ArrayList<>();
-        for (ReimbursementTraining entity : entities) {
-            list.add(create(entity));
-        }
-        return list;
-    }
 
     //GETTERS & SETTERS
 

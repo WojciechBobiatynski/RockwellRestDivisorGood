@@ -9,6 +9,7 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.reimbursement.Re
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementPattern;
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementPatternParam;
 import pl.sodexo.it.gryf.service.api.publicbenefits.reimbursement.ReimbursementPatternService;
+import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.reimbursement.detailsform.ReimbursementPatternEntityMapper;
 
 import java.util.Date;
 import java.util.List;
@@ -28,13 +29,16 @@ public class ReimbursementPatternServiceImpl implements ReimbursementPatternServ
     @Autowired
     private ReimbursementPatternParamRepository reimbursementPatternParamRepository;
 
+    @Autowired
+    private ReimbursementPatternEntityMapper reimbursementPatternEntityMapper;
+
     //PUBLIC METHODS
 
     @Override
     public ReimbursementPatternDTO findReimbursementPattern(Long id) {
         ReimbursementPattern pattern = reimbursementPatternRepository.get(id);
         String reimbursementDelay = findReimbursementPatternParam(pattern.getId(), ReimbursementPatternParam.REIMBDELAY);
-        return ReimbursementPatternDTO.create(pattern, Integer.valueOf(reimbursementDelay));
+        return reimbursementPatternEntityMapper.convert(pattern, Integer.valueOf(reimbursementDelay));
     }
 
     @Override
