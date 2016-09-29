@@ -1,6 +1,5 @@
 package pl.sodexo.it.gryf.common.dto.publicbenefits.enterprises.searchform;
 
-
 import lombok.ToString;
 import pl.sodexo.it.gryf.common.dto.basic.GryfDto;
 import pl.sodexo.it.gryf.common.dto.dictionaries.zipcodes.searchform.ZipCodeSearchResultDTO;
@@ -13,7 +12,7 @@ import java.util.List;
  * Created by tomasz.bilski.ext on 2015-08-10.
  */
 @ToString
-public class EnterpriseSearchResultDTO extends GryfDto{
+public class EnterpriseSearchResultDTO extends GryfDto {
 
     //PRIVATE FIELDS
 
@@ -30,27 +29,6 @@ public class EnterpriseSearchResultDTO extends GryfDto{
     private String addressCorr;
 
     private ZipCodeSearchResultDTO zipCodeCorr;
-
-    //CONSTRUCTORS & CREATED LIST
-
-    public EnterpriseSearchResultDTO(){
-    }
-
-    private EnterpriseSearchResultDTO(Enterprise entity) {
-        this.setName(entity.getName());
-        this.setVatRegNum(entity.getVatRegNum());
-        this.setAddressInvoice(entity.getAddressInvoice());
-        this.setZipCodeInvoice(ZipCodeSearchResultDTO.create(entity.getZipCodeInvoice()));
-        this.setAddressCorr(entity.getAddressCorr());
-        this.setZipCodeCorr(ZipCodeSearchResultDTO.create(entity.getZipCodeCorr()));
-        this.setId(entity.getId());
-    }
-
-    //STATIC METHODS - CREATE
-
-    public static EnterpriseSearchResultDTO create(Enterprise entity) {
-        return entity != null ? new EnterpriseSearchResultDTO(entity) : null;
-    }
 
     //GETTERS & SETTERS
 
