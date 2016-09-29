@@ -184,7 +184,7 @@ public abstract class GrantApplicationV0BaseService<T extends GrantApplicationV0
         //STATUS
         if(dto.getStatus() == null || dto.getStatus().getId() == null) {
             GrantApplicationStatus status = applicationStatusRepository.get(GrantApplicationStatus.NEW_CODE);
-            dto.setStatus(DictionaryDTO.create(status));
+            dto.setStatus(dictionaryEntityMapper.convert(status));
         }
 
         //ACTION
@@ -200,7 +200,7 @@ public abstract class GrantApplicationV0BaseService<T extends GrantApplicationV0
         //STATUS
         if(dto.getStatus() == null) {
             GrantApplicationStatus status = applicationStatusRepository.get(GrantApplicationStatus.NEW_CODE);
-            dto.setStatus(DictionaryDTO.create(status));
+            dto.setStatus(dictionaryEntityMapper.convert(status));
         }
 
         //ACTION

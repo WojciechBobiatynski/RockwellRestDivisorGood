@@ -30,7 +30,7 @@ public class ReimbursementEntityToSearchResultMapper extends GryfEntityMapper<Re
         super.map(entity, dto);
         dto.setId(entity.getId());
         dto.setInvoiceNumber(entity.getInvoiceNumber());
-        dto.setStatus(DictionaryDTO.create(entity.getStatus()));
+        dto.setStatus(dictionaryEntityMapper.convert(entity.getStatus()));
 
         if(entity.getReimbursementDelivery() != null) {
             ReimbursementDelivery reimbursementDelivery = entity.getReimbursementDelivery();

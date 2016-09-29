@@ -30,6 +30,7 @@ import pl.sodexo.it.gryf.service.api.publicbenefits.reimbursement.ReimbursementD
 import pl.sodexo.it.gryf.service.api.publicbenefits.reimbursement.ReimbursementPatternService;
 import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
+import pl.sodexo.it.gryf.service.mapping.entityToDto.dictionaries.DictionaryEntityMapper;
 import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.reimbursement.detailsform.ReimbursementDeliveryEntityMapper;
 import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.reimbursement.searchform.ReimbursementDeliveryEntityToSearchResultMapper;
 
@@ -76,6 +77,9 @@ public class ReimbursementDeliveryServiceImpl implements ReimbursementDeliverySe
 
     @Autowired
     private ReimbursementDeliveryEntityToSearchResultMapper reimbursementDeliveryEntityToSearchResultMapper;
+
+    @Autowired
+    private DictionaryEntityMapper dictionaryEntityMapper;
 
     //PUBLIC METHODS
 
@@ -161,7 +165,7 @@ public class ReimbursementDeliveryServiceImpl implements ReimbursementDeliverySe
     @Override
     public List<DictionaryDTO> findReimbursementPatternsDictionaries() {
         List<ReimbursementPattern> patterns = reimbursementPatternRepository.findPatternsByDate(new Date());
-        return DictionaryDTO.createList(patterns);
+        return dictionaryEntityMapper.convert(patterns);
     }
 
     //PRIVATE METHODS

@@ -10,6 +10,9 @@ import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication
 import pl.sodexo.it.gryf.service.mapping.GenericMapper;
 import pl.sodexo.it.gryf.service.mapping.entityToDto.GryfEntityMapper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by akmiecinski on 2016-09-28.
  */
@@ -25,5 +28,15 @@ public class DictionaryEntityMapper extends GenericMapper<DictionaryEntity, Dict
     public void map(DictionaryEntity entity, DictionaryDTO dto) {
         dto.setId(entity.getDictionaryId());
         dto.setName(entity.getDictionaryName());
+    }
+
+    public List<DictionaryDTO> convert(List<? extends DictionaryEntity> sourceList) {
+        List<DictionaryDTO> result = new ArrayList<>();
+        if (sourceList != null) {
+            for(DictionaryEntity source:sourceList){
+                result.add(convert(source));
+            }
+        }
+        return result;
     }
 }

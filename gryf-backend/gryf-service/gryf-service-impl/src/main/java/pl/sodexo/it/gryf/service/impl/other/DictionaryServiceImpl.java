@@ -9,6 +9,7 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.other.DictionaryRepository;
 import pl.sodexo.it.gryf.model.DictionaryCode;
 import pl.sodexo.it.gryf.model.DictionaryEntity;
 import pl.sodexo.it.gryf.service.api.other.DictionaryService;
+import pl.sodexo.it.gryf.service.mapping.entityToDto.dictionaries.DictionaryEntityMapper;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,6 +26,9 @@ public class DictionaryServiceImpl implements DictionaryService {
     @Autowired
     private DictionaryRepository dictionaryRepository;
 
+    @Autowired
+    private DictionaryEntityMapper dictionaryEntityMapper;
+
     //PUBLIC METHODS
 
     @Override
@@ -35,12 +39,12 @@ public class DictionaryServiceImpl implements DictionaryService {
         //ENUM
         if(dictionaryCode.getDictionaryClass().isEnum()){
             DictionaryEntity[] enums = dictionaryCode.getDictionaryClass().getEnumConstants();
-            return DictionaryDTO.createList(Arrays.asList(enums));
+            return dictionaryEntityMapper.convert(Arrays.asList(enums));
         }
 
         //ENTITY
         List<? extends DictionaryEntity> dictionaries = dictionaryRepository.findDictionaries(dictionaryCode.getDictionaryClass());
-        return DictionaryDTO.createList(dictionaries);
+        return dictionaryEntityMapper.convert(dictionaries);
     }
 
 }

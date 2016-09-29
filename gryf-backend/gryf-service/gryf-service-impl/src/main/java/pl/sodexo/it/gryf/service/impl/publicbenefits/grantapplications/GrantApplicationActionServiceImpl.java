@@ -24,6 +24,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
 import pl.sodexo.it.gryf.service.api.publicbenefits.grantapplications.GrantApplicationActionService;
 import pl.sodexo.it.gryf.service.local.api.FileService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.grantapplications.GrantApplicationService;
+import pl.sodexo.it.gryf.service.mapping.entityToDto.dictionaries.DictionaryEntityMapper;
 import pl.sodexo.it.gryf.service.mapping.entityToDto.grantapplications.searchform.GrantApplicationEntityMapper;
 import pl.sodexo.it.gryf.service.utils.BeanUtils;
 
@@ -58,6 +59,9 @@ public class GrantApplicationActionServiceImpl implements GrantApplicationAction
 
     @Autowired
     private GrantApplicationEntityMapper grantApplicationEntityMapper;
+
+    @Autowired
+    private DictionaryEntityMapper dictionaryEntityMapper;
 
     //PUBLIC METHODS
 
@@ -147,7 +151,7 @@ public class GrantApplicationActionServiceImpl implements GrantApplicationAction
     @Override
     public List<DictionaryDTO> FindGrantProgramsDictionaries() {
         List<GrantProgram> grantPrograms = grantProgramRepository.findProgramsByDate(new Date());
-        return DictionaryDTO.createList(grantPrograms);
+        return dictionaryEntityMapper.convert(grantPrograms);
     }
 
     @Override

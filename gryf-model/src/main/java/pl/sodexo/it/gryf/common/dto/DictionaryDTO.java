@@ -39,14 +39,6 @@ public class DictionaryDTO extends GryfDto {
         return entity != null ? new DictionaryDTO(entity) : null;
     }
 
-    public static List<DictionaryDTO> createList(List<? extends DictionaryEntity> entities) {
-        List<DictionaryDTO> list = new ArrayList<>();
-        for (DictionaryEntity entity : entities) {
-            list.add(create(entity));
-        }
-        return list;
-    }
-
     //GETETRS & SETERS
 
     public Object getId() {
