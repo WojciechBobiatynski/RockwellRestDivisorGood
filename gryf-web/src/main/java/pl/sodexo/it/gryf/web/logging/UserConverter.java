@@ -17,13 +17,7 @@ public class UserConverter extends ClassicConverter {
         if (user == null) {
             return "NO_USER";
         }
-        return user.getUser().getLogin()+convertOriginal(user.getOriginalIdentity());
+        return user.getUser().getLogin();
     }
 
-    private String convertOriginal(GryfUser user) {
-        if(user == null){
-            return "";
-        }
-        return "("+user.getUser().getLogin()+")";
-    }
 }

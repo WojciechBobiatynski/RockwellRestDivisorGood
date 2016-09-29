@@ -1,5 +1,5 @@
 <configuration>
-    <property name="PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] - %thread - %logger | %msg%n"/>
+    <property name="PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] [%user:%role] - %thread - %logger | %msg%n"/>
     <property name="MAX_FILE_SIZE" value="50MB"/>
     <property name="CHARSET" value="UTF-8"/>
 

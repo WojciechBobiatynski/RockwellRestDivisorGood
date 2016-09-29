@@ -10,6 +10,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import pl.sodexo.it.gryf.common.dto.security.UserDto;
+import pl.sodexo.it.gryf.common.dto.user.GryfFinOpUser;
 import pl.sodexo.it.gryf.common.exception.GryfUnknownException;
 import pl.sodexo.it.gryf.common.exception.authentication.GryfAuthenticationException;
 import pl.sodexo.it.gryf.common.exception.authentication.GryfBadCredentialsException;
@@ -33,16 +35,18 @@ public class GryfAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        UsernamePasswordAuthenticationToken authenticationToken = (UsernamePasswordAuthenticationToken) authentication;
-        String login = authenticationToken.getPrincipal().toString().toUpperCase();
-        Object credentials = authenticationToken.getCredentials();
+        UsernamePasswordAuthenticationToken incomingAuthToken = (UsernamePasswordAuthenticationToken) authentication;
+        String login = incomingAuthToken.getPrincipal().toString().toUpperCase();
+        Object credentials = incomingAuthToken.getCredentials();
         String password = credentials.toString();
         
         LOGGER.debug("[AUTH] Logowanie uzytkownika, login={}", login);
         List<GrantedAuthority> grantedAuthorities = getGrantedAuthorities(login, password);
-        LOGGER.info("[AUTH] Wlogowany uzytkownik, login={}, grantedAuthorities={}", login, grantedAuthorities);
+        GryfFinOpUser gryfFinOpUser = new GryfFinOpUser(new UserDto(login), grantedAuthorities);
+        UsernamePasswordAuthenticationToken succesAuthToken = new UsernamePasswordAuthenticationToken(gryfFinOpUser, credentials, grantedAuthorities);
+        LOGGER.info("[AUTH] Wlogowany uzytkownik, gryfFinOpUser={}, grantedAuthorities={}", gryfFinOpUser, grantedAuthorities);
         
-        return new UsernamePasswordAuthenticationToken(login, credentials, grantedAuthorities);
+        return succesAuthToken;
     }
 
     private List<GrantedAuthority> getGrantedAuthorities(String login, String password) {

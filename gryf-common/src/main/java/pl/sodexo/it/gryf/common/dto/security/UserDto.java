@@ -3,7 +3,6 @@ package pl.sodexo.it.gryf.common.dto.security;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * Reprezentacja dto uzytkownika aplikacji GRYF.
@@ -17,11 +16,7 @@ public class UserDto implements Serializable {
 
     private String login;
 
-    private String name;
-
-    private String surname;
-
-    private Date lastLogin;
-
-    private boolean active;
-  }
+    public UserDto(String login) {
+        this.login = login;
+    }
+}

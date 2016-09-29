@@ -88,10 +88,10 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <ignoreMissingFile>false</ignoreMissingFile>
-                    <file>
-                        ${project.build.directory}/${project.build.finalName}/WEB-INF/pages/index.jsp
-                    </file>
+                    <includes>
+                        <include>${project.build.directory}/${project.build.finalName}/WEB-INF/pages/index1.jsp</include>
+                        <include>${project.build.directory}/${project.build.finalName}/WEB-INF/pages/login.jsp</include>
+                    </includes>
                     <replacements>
                         <replacement>
                             <token>##BUILD_NUMBER</token>

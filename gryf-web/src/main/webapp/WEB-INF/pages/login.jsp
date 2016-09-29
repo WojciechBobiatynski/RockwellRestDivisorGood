@@ -83,10 +83,16 @@
 <footer>
     <div class="grid">
         <div class="copyright">
-            <p>&copy; <span itemprop="copyrightYear">2015</span>&nbsp;<a
-                    title="Sodexo Benefits and Rewards Services Polska Sp. z o.o." rel="external"
-                    itemprop="copyrightHolder" href="http://www.sodexo.pl/">Sodexo Benefits and Rewards Services Polska
-                Sp.&nbsp;z&nbsp;o.o.</a></p>
+            <p>
+                &copy;
+                <span itemprop="copyrightYear">2015</span>
+                &nbsp;
+                <a title="Sodexo Benefits and Rewards Services Polska Sp. z o.o." rel="external"
+                   itemprop="copyrightHolder" href="http://www.sodexo.pl/">
+                    Sodexo Benefits and Rewards Services Polska Sp.&nbsp;z&nbsp;o.o.
+                </a>
+                <br/>##BUILD_NUMBER
+            </p>
         </div>
     </div>
 </footer>

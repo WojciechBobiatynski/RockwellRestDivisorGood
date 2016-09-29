@@ -8,7 +8,7 @@ package pl.sodexo.it.gryf.common.dto.user;
 public enum UserType {
 
     /**
-     * pracownik sodexo
+     * Operator finansowy
      */
-    SODEXO_USER
+    FINANCIAL_OPERATOR
 }
