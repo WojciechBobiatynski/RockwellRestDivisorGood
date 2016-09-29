@@ -1,2 +1,0 @@
-UPDATE APP_PBE.CONTACT_TYPES SET VALIDATION_CLASS='pl.sodexo.it.gryf.common.validation.dictionaries.ContactDataPhoneValidator' WHERE TYPE = 'PHONE';
-UPDATE APP_PBE.CONTACT_TYPES SET VALIDATION_CLASS='pl.sodexo.it.gryf.common.validation.dictionaries.ContactDataEmailValidator' WHERE TYPE = 'EMAIL';

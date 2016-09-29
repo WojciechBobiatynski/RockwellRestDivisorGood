@@ -1,4 +1,7 @@
-package pl.sodexo.it.gryf.common.validation.dictionaries;
+package pl.sodexo.it.gryf.service.local.impl.dictionaries.validation;
+
+import org.springframework.stereotype.Component;
+import pl.sodexo.it.gryf.service.local.api.dictionaries.validation.ContactDataValidator;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -6,6 +9,7 @@ import java.util.regex.Pattern;
 /**
  * Created by tomasz.bilski.ext on 2015-06-29.
  */
+@Component
 public class ContactDataEmailValidator implements ContactDataValidator {
 
     //STATIC FIELDS
