@@ -4,13 +4,11 @@ import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
 import pl.sodexo.it.gryf.common.dto.basic.GryfDto;
 import pl.sodexo.it.gryf.common.validation.publicbenefits.reimbursement.ValidationGroupReimbursementSettleAndVerify;
-import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementTraining;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 

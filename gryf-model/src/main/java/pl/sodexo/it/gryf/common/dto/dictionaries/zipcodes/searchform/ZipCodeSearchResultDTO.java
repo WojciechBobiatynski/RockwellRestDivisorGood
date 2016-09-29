@@ -2,10 +2,6 @@ package pl.sodexo.it.gryf.common.dto.dictionaries.zipcodes.searchform;
 
 import lombok.ToString;
 import pl.sodexo.it.gryf.common.dto.basic.GryfDto;
-import pl.sodexo.it.gryf.model.dictionaries.ZipCode;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by tomasz.bilski.ext on 2015-06-24.

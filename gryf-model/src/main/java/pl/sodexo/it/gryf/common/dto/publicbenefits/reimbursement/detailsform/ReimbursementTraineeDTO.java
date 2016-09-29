@@ -5,12 +5,10 @@ import org.hibernate.validator.constraints.NotEmpty;
 import pl.sodexo.it.gryf.common.dto.DictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.basic.GryfDto;
 import pl.sodexo.it.gryf.common.validation.publicbenefits.reimbursement.ValidationGroupReimbursementSettleAndVerify;
-import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementTrainee;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

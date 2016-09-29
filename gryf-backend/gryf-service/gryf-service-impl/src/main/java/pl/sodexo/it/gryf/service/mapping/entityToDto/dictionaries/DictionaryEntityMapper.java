@@ -2,13 +2,7 @@ package pl.sodexo.it.gryf.service.mapping.entityToDto.dictionaries;
 
 import org.springframework.stereotype.Component;
 import pl.sodexo.it.gryf.common.dto.DictionaryDTO;
-import pl.sodexo.it.gryf.common.dto.dictionaries.zipcodes.searchform.ZipCodeSearchResultDTO;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.grantapplications.searchform.GrantApplicationSearchResultDTO;
 import pl.sodexo.it.gryf.model.DictionaryEntity;
-import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication;
-import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationBasicData;
-import pl.sodexo.it.gryf.service.mapping.GenericMapper;
-import pl.sodexo.it.gryf.service.mapping.entityToDto.GryfEntityMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,15 +11,13 @@ import java.util.List;
  * Created by akmiecinski on 2016-09-28.
  */
 @Component
-public class DictionaryEntityMapper extends GenericMapper<DictionaryEntity, DictionaryDTO> {
+public class DictionaryEntityMapper {
 
-    @Override
-    protected DictionaryDTO initDestination() {
+    private DictionaryDTO initDestination() {
         return new DictionaryDTO();
     }
 
-    @Override
-    public void map(DictionaryEntity entity, DictionaryDTO dto) {
+    private void map(DictionaryEntity entity, DictionaryDTO dto) {
         dto.setId(entity.getDictionaryId());
         dto.setName(entity.getDictionaryName());
     }
@@ -38,5 +30,13 @@ public class DictionaryEntityMapper extends GenericMapper<DictionaryEntity, Dict
             }
         }
         return result;
+    }
+
+    public DictionaryDTO convert(DictionaryEntity source) {
+        DictionaryDTO destination = initDestination();
+        if (source != null) {
+            map(source, destination);
+        }
+        return destination;
     }
 }

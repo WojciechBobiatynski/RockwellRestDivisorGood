@@ -3,13 +3,8 @@ package pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.searchform;
 import lombok.ToString;
 import pl.sodexo.it.gryf.common.dto.DictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.basic.GryfDto;
-import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.Reimbursement;
-import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementDelivery;
-import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstitution;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by tomasz.bilski.ext on 2015-09-02.

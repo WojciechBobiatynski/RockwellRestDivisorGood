@@ -6,15 +6,10 @@ import org.hibernate.validator.constraints.NotEmpty;
 import pl.sodexo.it.gryf.common.dto.DictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.FileContainerDTO;
 import pl.sodexo.it.gryf.common.dto.FileDTO;
-import pl.sodexo.it.gryf.common.dto.YesNo;
 import pl.sodexo.it.gryf.common.dto.basic.GryfDto;
-import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementTraineeAttachment;
-import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementTraineeAttachmentRequired;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by tomasz.bilski.ext on 2015-09-08.

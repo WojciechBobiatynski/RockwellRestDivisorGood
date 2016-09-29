@@ -1,13 +1,8 @@
 package pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.searchform;
 
-
 import lombok.ToString;
 import pl.sodexo.it.gryf.common.dto.basic.GryfDto;
 import pl.sodexo.it.gryf.common.dto.dictionaries.zipcodes.searchform.ZipCodeSearchResultDTO;
-import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @ToString
 public class IndividualSearchResultDTO extends GryfDto{

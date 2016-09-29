@@ -3,10 +3,6 @@ package pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchfo
 import lombok.ToString;
 import pl.sodexo.it.gryf.common.dto.basic.GryfDto;
 import pl.sodexo.it.gryf.common.dto.dictionaries.zipcodes.searchform.ZipCodeSearchResultDTO;
-import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstitution;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by tomasz.bilski.ext on 2015-08-10.
