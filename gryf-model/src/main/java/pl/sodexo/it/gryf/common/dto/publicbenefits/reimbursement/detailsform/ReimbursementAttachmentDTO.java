@@ -6,15 +6,10 @@ import org.hibernate.validator.constraints.NotEmpty;
 import pl.sodexo.it.gryf.common.dto.DictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.FileContainerDTO;
 import pl.sodexo.it.gryf.common.dto.FileDTO;
-import pl.sodexo.it.gryf.common.dto.YesNo;
 import pl.sodexo.it.gryf.common.dto.basic.GryfDto;
-import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementAttachment;
-import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementAttachmentRequired;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by tomasz.bilski.ext on 2015-09-07.
@@ -44,59 +39,6 @@ public class ReimbursementAttachmentDTO extends GryfDto implements FileContainer
     private boolean mandatory;
 
     private boolean fileIncluded;
-
-    //CONSTRUCTORS
-
-    public ReimbursementAttachmentDTO() {
-    }
-
-    public ReimbursementAttachmentDTO(ReimbursementAttachment entity) {
-        this.id = entity.getId();
-        this.name = entity.getName();
-        this.originalFileName = entity.getOriginalFileName();
-        this.attachmentType = DictionaryDTO.create(entity.getAttachmentType());
-        this.remarks = entity.getRemarks();
-        this.file = null;
-        this.mandatory = YesNo.toBoolean(entity.getRequired());
-        this.fileIncluded = false;
-    }
-
-    public ReimbursementAttachmentDTO(ReimbursementAttachmentRequired entity) {
-        this.id = null;
-        this.name = entity.getName();
-        this.originalFileName = null;
-        this.attachmentType = DictionaryDTO.create(entity.getAttachmentType());
-        this.remarks = null;
-        this.file = null;
-        this.mandatory = true;
-        this.fileIncluded = false;
-    }
-
-    //STATIC METHODS - CREATE
-
-    public static ReimbursementAttachmentDTO createAttachment(ReimbursementAttachment entity) {
-        return entity != null ? new ReimbursementAttachmentDTO(entity) : null;
-    }
-
-    public static ReimbursementAttachmentDTO createAttachmentRequired(ReimbursementAttachmentRequired entity) {
-        return entity != null ? new ReimbursementAttachmentDTO(entity) : null;
-    }
-
-    public static List<ReimbursementAttachmentDTO> createAttachmentList(List<ReimbursementAttachment> entities) {
-        List<ReimbursementAttachmentDTO> list = new ArrayList<>();
-        for (ReimbursementAttachment entity : entities) {
-            list.add(createAttachment(entity));
-        }
-        return list;
-    }
-
-    public static List<ReimbursementAttachmentDTO> createAttachmentRequiredList(List<ReimbursementAttachmentRequired> entities) {
-        List<ReimbursementAttachmentDTO> list = new ArrayList<>();
-        for (ReimbursementAttachmentRequired entity : entities) {
-            list.add(createAttachmentRequired(entity));
-        }
-        return list;
-    }
 
     //GETTERS & SETTERS
 

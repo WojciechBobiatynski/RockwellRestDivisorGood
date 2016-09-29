@@ -13,7 +13,7 @@ import java.util.List;
  * Created by tomasz.bilski.ext on 2015-09-02.
  */
 @ToString
-public class ReimbursementDeliverySearchResultDTO extends GryfDto{
+public class ReimbursementDeliverySearchResultDTO extends GryfDto {
 
     //FIELDS
 
@@ -42,35 +42,6 @@ public class ReimbursementDeliverySearchResultDTO extends GryfDto{
     private DictionaryDTO reimbursementPattern;
 
     private Date reimbursementAnnouncementDate;
-
-    //CONSTRUCTORS
-
-    public ReimbursementDeliverySearchResultDTO() {
-    }
-
-    public ReimbursementDeliverySearchResultDTO(ReimbursementDelivery entity) {
-        this.id = entity.getId();
-        this.status = DictionaryDTO.create(entity.getStatus());
-        if(entity.getTrainingInstitution() != null) {
-            this.trainingInstitutionId = entity.getTrainingInstitution().getId();
-            this.trainingInstitutionName = entity.getTrainingInstitution().getName();
-            this.trainingInstitutionVatRegNum = entity.getTrainingInstitution().getVatRegNum();
-        }
-        this.deliveryAddress = entity.getDeliveryAddress();
-        this.deliveryZipCode = entity.getDeliveryZipCode();
-        this.deliveryCity = entity.getDeliveryCityName();
-        this.plannedReceiptDate = entity.getPlannedReceiptDate();
-        this.requestDate = entity.getRequestDate();
-        this.deliveryDate = entity.getDeliveryDate();
-        this.reimbursementPattern = DictionaryDTO.create(entity.getReimbursementPattern());
-        this.reimbursementAnnouncementDate = entity.getReimbursementAnnouncementDate();
-    }
-
-    //STATIC METHODS - CREATE
-
-    public static ReimbursementDeliverySearchResultDTO create(ReimbursementDelivery entity) {
-        return entity != null ? new ReimbursementDeliverySearchResultDTO(entity) : null;
-    }
 
     //GETTERS & SETTERS
 

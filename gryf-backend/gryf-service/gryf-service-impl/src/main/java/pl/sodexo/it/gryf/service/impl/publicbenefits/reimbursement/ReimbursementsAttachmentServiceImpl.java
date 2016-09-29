@@ -15,6 +15,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementAttachm
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementTraineeAttachment;
 import pl.sodexo.it.gryf.service.api.publicbenefits.reimbursement.ReimbursementsAttachmentService;
 import pl.sodexo.it.gryf.service.local.api.FileService;
+import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.reimbursement.searchform.ReimbursementEntityToSearchResultMapper;
 
 import java.util.List;
 
@@ -39,12 +40,15 @@ public class ReimbursementsAttachmentServiceImpl implements ReimbursementsAttach
     @Autowired
     private ReimbursementTraineeAttachmentRepository reimbursementTraineeAttachmentRepository;
 
+    @Autowired
+    private ReimbursementEntityToSearchResultMapper reimbursementEntityToSearchResultMapper;
+
     //PUBLIC METHODS
 
     @Override
     public List<ReimbursementSearchResultDTO> findReimbursementsSearchResults(ReimbursementSearchQueryDTO searchDTO) {
         List<Reimbursement> reimbursements = reimbursementRepository.findReimbursements(searchDTO);
-        return ReimbursementSearchResultDTO.createList(reimbursements);
+        return reimbursementEntityToSearchResultMapper.convert(reimbursements);
     }
 
     @Override

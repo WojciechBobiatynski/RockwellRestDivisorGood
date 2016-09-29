@@ -2,6 +2,7 @@ package pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.searchform;
 
 import lombok.ToString;
 import pl.sodexo.it.gryf.common.dto.DictionaryDTO;
+import pl.sodexo.it.gryf.common.dto.basic.GryfDto;
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.Reimbursement;
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementDelivery;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstitution;
@@ -14,7 +15,7 @@ import java.util.List;
  * Created by tomasz.bilski.ext on 2015-09-02.
  */
 @ToString
-public class ReimbursementSearchResultDTO {
+public class ReimbursementSearchResultDTO extends GryfDto {
 
     //FIELDS
 
@@ -35,47 +36,6 @@ public class ReimbursementSearchResultDTO {
     private Date announcementDate;
 
     private Date reimbursementDate;
-
-    //GETTERS & SETTERS
-
-    //CONSTRUCTORS
-
-    public ReimbursementSearchResultDTO() {
-    }
-
-    public ReimbursementSearchResultDTO(Reimbursement entity) {
-        this.id = entity.getId();
-        this.invoiceNumber = entity.getInvoiceNumber();
-        this.status = DictionaryDTO.create(entity.getStatus());
-
-        if(entity.getReimbursementDelivery() != null) {
-            ReimbursementDelivery reimbursementDelivery = entity.getReimbursementDelivery();
-            this.reimbursementDeliveryId = reimbursementDelivery.getId();
-            this.deliveryDate = reimbursementDelivery.getDeliveryDate();
-
-            TrainingInstitution trainingInstitution = reimbursementDelivery.getTrainingInstitution();
-            if(trainingInstitution != null){
-                this.trainingInstitutionVatRegNum = trainingInstitution.getVatRegNum();
-                this.trainingInstitutionName= trainingInstitution.getName();
-            }
-        }
-        this.announcementDate = entity.getAnnouncementDate();
-        this.reimbursementDate = entity.getReimbursementDate();
-    }
-
-    //STATIC METHODS - CREATE
-
-    public static ReimbursementSearchResultDTO create(Reimbursement entity) {
-        return entity != null ? new ReimbursementSearchResultDTO(entity) : null;
-    }
-
-    public static List<ReimbursementSearchResultDTO> createList(List<Reimbursement> entities) {
-        List<ReimbursementSearchResultDTO> list = new ArrayList<>();
-        for (Reimbursement entity : entities) {
-            list.add(create(entity));
-        }
-        return list;
-    }
 
     //GETTERS & SETTERS
 
