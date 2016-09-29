@@ -6,7 +6,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.ContactType;
 /**
  * Created by jbentyn on 2016-09-28.
  */
-public interface ContactTypeValidationService {
+public interface ContactTypeValidator {
 
     ContactDataValidationDTO validateContractData(ContactType contactType, String value);
 }

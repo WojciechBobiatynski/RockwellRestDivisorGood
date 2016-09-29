@@ -7,7 +7,7 @@ import java.lang.reflect.Field;
 /**
  * Created by jbentyn on 2016-09-20.
  */
-public interface SecurityCheckerService {
+public interface SecurityChecker {
 
     void assertServicePrivilege(Privileges... privileges);
 

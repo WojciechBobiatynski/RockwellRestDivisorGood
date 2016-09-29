@@ -1,6 +1,7 @@
 package pl.sodexo.it.gryf.service.local.impl.publicbenefits.grantapplications;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import pl.sodexo.it.gryf.common.FileType;
 import pl.sodexo.it.gryf.common.dto.DictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.FileDTO;
 import pl.sodexo.it.gryf.common.dto.dictionaries.zipcodes.searchform.ZipCodeSearchResultDTO;
@@ -26,7 +27,6 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.grantapplication
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.grantprograms.GrantProgramParamRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.grantprograms.GrantProgramRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderRepository;
-import pl.sodexo.it.gryf.common.FileType;
 import pl.sodexo.it.gryf.model.dictionaries.ZipCode;
 import pl.sodexo.it.gryf.model.mail.EmailSourceType;
 import pl.sodexo.it.gryf.model.mail.EmailTemplate;
@@ -38,10 +38,10 @@ import pl.sodexo.it.gryf.model.publicbenefits.enterprises.EnterpriseSize;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.*;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgramParam;
-import pl.sodexo.it.gryf.service.api.other.ApplicationParametersService;
+import pl.sodexo.it.gryf.service.api.other.ApplicationParameters;
 import pl.sodexo.it.gryf.service.local.api.FileService;
+import pl.sodexo.it.gryf.service.local.api.GryfValidator;
 import pl.sodexo.it.gryf.service.local.api.MailService;
-import pl.sodexo.it.gryf.service.local.api.ValidateService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.enterprises.EnterpriseServiceLocal;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.grantapplications.GrantApplicationEmailService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.grantapplications.GrantApplicationService;
@@ -65,13 +65,13 @@ public abstract class GrantApplicationV0BaseService<T extends GrantApplicationV0
     //FIELDS
 
     @Autowired
-    protected ValidateService validateService;
+    protected GryfValidator gryfValidator;
 
     @Autowired
     protected FileService fileService;
 
     @Autowired
-    protected ApplicationParametersService applicationParametersService;
+    protected ApplicationParameters applicationParameters;
 
     @Autowired
     protected EnterpriseServiceLocal enterpriseServiceLocal;
@@ -284,9 +284,9 @@ public abstract class GrantApplicationV0BaseService<T extends GrantApplicationV0
                                             List<MailAttachmentDTO> attachments){
 
         //ADRESY
-        String emailFrom = applicationParametersService.getGryfPbeDefPubEmailFrom();
+        String emailFrom = applicationParameters.getGryfPbeDefPubEmailFrom();
         emailFrom = findGrantProgramParam(grantApplication.getProgram(), GrantProgramParam.EMAIL_FROM, emailFrom);
-        String emailsReplyTo = applicationParametersService.getGryfPbeDefPubEmailReplyTo();
+        String emailsReplyTo = applicationParameters.getGryfPbeDefPubEmailReplyTo();
         emailsReplyTo = findGrantProgramParam(grantApplication.getProgram(), GrantProgramParam.EMAIL_REPLAY_TO, emailsReplyTo);
 
         mailService.scheduleTemplateMail(emailTemplateId, mailPlaceholders,
@@ -299,9 +299,9 @@ public abstract class GrantApplicationV0BaseService<T extends GrantApplicationV0
                                             String subject, String body, String emailsTo,
                                             List<MailAttachmentDTO> attachments){
         //ADRESY
-        String emailFrom = applicationParametersService.getGryfPbeDefPubEmailFrom();
+        String emailFrom = applicationParameters.getGryfPbeDefPubEmailFrom();
         emailFrom = findGrantProgramParam(grantApplication.getProgram(), GrantProgramParam.EMAIL_FROM, emailFrom);
-        String emailsReplyTo = applicationParametersService.getGryfPbeDefPubEmailReplyTo();
+        String emailsReplyTo = applicationParameters.getGryfPbeDefPubEmailReplyTo();
         emailsReplyTo = findGrantProgramParam(grantApplication.getProgram(), GrantProgramParam.EMAIL_REPLAY_TO, emailsReplyTo);
 
         mailService.scheduleMail(emailTemplateId, subject, body,
@@ -312,11 +312,11 @@ public abstract class GrantApplicationV0BaseService<T extends GrantApplicationV0
     //PROTECTED METHODS - VALIDATE
 
     protected List<EntityConstraintViolation> generateViolation(T dto, Class ... classes) {
-        List<EntityConstraintViolation> violations = validateService.generateViolation(dto, classes);
+        List<EntityConstraintViolation> violations = gryfValidator.generateViolation(dto, classes);
 
         //ATTACHEMENT VALIDATION
         if(GryfUtils.isAssignableFrom(ValidationGroupNewGrantApplication.class, classes)) {
-            validateService.addFileMaxSizePrivilege(violations, "attachments", dto.getAttachments());
+            gryfValidator.addFileMaxSizePrivilege(violations, "attachments", dto.getAttachments());
         }
 
         //APPLICED VALIDATION
@@ -391,7 +391,7 @@ public abstract class GrantApplicationV0BaseService<T extends GrantApplicationV0
 
     protected void validate(T dto, Class ... classes) {
         List<EntityConstraintViolation> violations = generateViolation(dto, classes);
-        validateService.validate(violations);
+        gryfValidator.validate(violations);
     }
 
     protected List<EntityConstraintViolation> validateWithConfirm(T dto, List<String> acceptedPathViolations, Class ... classes) {
@@ -399,9 +399,9 @@ public abstract class GrantApplicationV0BaseService<T extends GrantApplicationV0
 
         List<EntityConstraintViolation> violationsInPath = new ArrayList<>();
         List<EntityConstraintViolation> violationsOutPath = new ArrayList<>();
-        validateService.classifyByPath(violations, acceptedPathViolations, violationsInPath, violationsOutPath);
+        gryfValidator.classifyByPath(violations, acceptedPathViolations, violationsInPath, violationsOutPath);
 
-        validateService.validateWithConfirm(violationsOutPath);
+        gryfValidator.validateWithConfirm(violationsOutPath);
         return violationsInPath;
     }
 
@@ -486,7 +486,7 @@ public abstract class GrantApplicationV0BaseService<T extends GrantApplicationV0
             if (!allowedStatuses.contains(statusDes.getId())) {
                 String message = (statusSrc == null) ? String.format("Nie mozna stworzyć nowego wniosku w statusie '%s'", statusDes.getName()) :
                         String.format("Wniosek jest w statusie '%s' - z tego statusu nie można przejść do statusu '%s'", statusSrc.getName(), statusDes.getName());
-                validateService.validate(message);
+                gryfValidator.validate(message);
             }
         }
     }

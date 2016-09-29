@@ -2,17 +2,17 @@ package pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.elements.elem
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.sodexo.it.gryf.common.FileType;
 import pl.sodexo.it.gryf.common.dto.FileDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementAttachmentDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementDTOBuilder;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.common.utils.StringUtils;
-import pl.sodexo.it.gryf.common.FileType;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowElement;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowElementInStatus;
-import pl.sodexo.it.gryf.service.api.other.ApplicationParametersService;
+import pl.sodexo.it.gryf.service.api.other.ApplicationParameters;
 import pl.sodexo.it.gryf.service.local.api.FileService;
 import pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.elements.OrderElementBaseService;
 
@@ -31,7 +31,7 @@ public class OrderElementAttachmentService extends OrderElementBaseService<Order
     private FileService fileService;
 
     @Autowired
-    protected ApplicationParametersService applicationParametersService;
+    protected ApplicationParameters applicationParameters;
 
     //PUBLIC METHODS
 
@@ -116,8 +116,8 @@ public class OrderElementAttachmentService extends OrderElementBaseService<Order
         OrderFlowElement orderFlowElement = orderFlowElementInStatus.getOrderFlowElement();
 
         //FILE MAX SIZE
-        int attachmentMaxSize = applicationParametersService.getAttachmentMaxSize();
-        int attachmentMaxSizeMB = applicationParametersService.getAttachmentMaxSizeMB();
+        int attachmentMaxSize = applicationParameters.getAttachmentMaxSize();
+        int attachmentMaxSizeMB = applicationParameters.getAttachmentMaxSizeMB();
         if (dto.getFile() != null) {
             if (dto.getFile().getSize() > attachmentMaxSize) {
                 addViolation(violations, dto, String.format("Plik dla załącznika '%s' jest zbyt duży - maksymalna wielkość załącznika to %sMB",

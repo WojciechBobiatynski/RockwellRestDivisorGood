@@ -20,7 +20,7 @@ import pl.sodexo.it.gryf.model.mail.EmailInstance;
 import pl.sodexo.it.gryf.model.mail.EmailInstanceAttachment;
 import pl.sodexo.it.gryf.model.mail.EmailSourceType;
 import pl.sodexo.it.gryf.model.mail.EmailTemplate;
-import pl.sodexo.it.gryf.service.api.other.ApplicationParametersService;
+import pl.sodexo.it.gryf.service.api.other.ApplicationParameters;
 import pl.sodexo.it.gryf.service.config.MailTemplateConfiguration;
 import pl.sodexo.it.gryf.service.local.api.MailService;
 
@@ -58,7 +58,7 @@ public class MailServiceImpl implements MailService {
     private EmailInstanceRepository emailInstanceRepository;
 
     @Autowired
-    private ApplicationParametersService applicationParametersService;
+    private ApplicationParameters applicationParameters;
 
     @Autowired
     private MailTemplateConfiguration mailTemplateConfiguration;
@@ -147,10 +147,10 @@ public class MailServiceImpl implements MailService {
     private MailDTO scheduleMail(MailDTO mailDTO){
 
         if(StringUtils.isEmpty(mailDTO.getAddressesFrom())){
-            mailDTO.setAddressesFrom(applicationParametersService.getGryfPbeAdmEmailFrom());
+            mailDTO.setAddressesFrom(applicationParameters.getGryfPbeAdmEmailFrom());
         }
         if(StringUtils.isEmpty(mailDTO.getAddressesReplyTo())){
-            mailDTO.setAddressesReplyTo(applicationParametersService.getGryfPbeAdmEmailReplyTo());
+            mailDTO.setAddressesReplyTo(applicationParameters.getGryfPbeAdmEmailReplyTo());
         }
 
         EmailInstance em = new EmailInstance();
@@ -268,8 +268,8 @@ public class MailServiceImpl implements MailService {
      */
     private Session createDefaultMailSession(){
         Properties props = new Properties();
-        props.put("mail.smtp.host", applicationParametersService.getGryfPbeDefaultSmtpHost());
-        props.put("mail.smtp.port", applicationParametersService.getGryfPbeDefaultSmtpPort());
+        props.put("mail.smtp.host", applicationParameters.getGryfPbeDefaultSmtpHost());
+        props.put("mail.smtp.port", applicationParameters.getGryfPbeDefaultSmtpPort());
         return Session.getInstance(props);
     }
 

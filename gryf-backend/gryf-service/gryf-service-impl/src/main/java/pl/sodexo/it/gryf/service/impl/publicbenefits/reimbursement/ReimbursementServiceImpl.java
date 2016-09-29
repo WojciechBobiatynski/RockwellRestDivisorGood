@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import pl.sodexo.it.gryf.common.FileType;
 import pl.sodexo.it.gryf.common.Privileges;
 import pl.sodexo.it.gryf.common.ReportTemplateCode;
 import pl.sodexo.it.gryf.common.dto.FileDTO;
@@ -21,15 +22,14 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.other.GryfPLSQLRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.enterprises.EnterpriseRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.grantprograms.GrantOwnerAidProductRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.reimbursement.*;
-import pl.sodexo.it.gryf.common.FileType;
 import pl.sodexo.it.gryf.model.Sex;
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.*;
-import pl.sodexo.it.gryf.service.api.other.ReportService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.reimbursement.ReimbursementPatternService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.reimbursement.ReimbursementService;
-import pl.sodexo.it.gryf.service.api.security.SecurityCheckerService;
+import pl.sodexo.it.gryf.service.api.reports.ReportService;
+import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
 import pl.sodexo.it.gryf.service.local.api.FileService;
-import pl.sodexo.it.gryf.service.local.api.ValidateService;
+import pl.sodexo.it.gryf.service.local.api.GryfValidator;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -48,7 +48,7 @@ public class ReimbursementServiceImpl implements ReimbursementService {
     //FIELDS
 
     @Autowired
-    private ValidateService validateService;
+    private GryfValidator gryfValidator;
 
     @Autowired
     private FileService fileService;
@@ -57,7 +57,7 @@ public class ReimbursementServiceImpl implements ReimbursementService {
     private ReportService reportService;
 
     @Autowired
-    private SecurityCheckerService securityCheckerService;
+    private SecurityChecker securityChecker;
 
     @Autowired
     private ReimbursementPatternService reimbursementPatternService;
@@ -275,7 +275,7 @@ public class ReimbursementServiceImpl implements ReimbursementService {
     @Override
     public Long generateConfirmationReimbursement(ReimbursementDTO dto) {
         if (dto.getId() == null) {
-            validateService.validate("Akcja nie jest dostepna dla nowego wniosku");
+            gryfValidator.validate("Akcja nie jest dostepna dla nowego wniosku");
             return null;
         }
 
@@ -316,7 +316,7 @@ public class ReimbursementServiceImpl implements ReimbursementService {
     @Override
     public Long completeReimbursement(ReimbursementDTO dto) {
         if(dto.getId() == null) {
-            validateService.validate("Akcja nie jest dostepna dla nowego wniosku");
+            gryfValidator.validate("Akcja nie jest dostepna dla nowego wniosku");
             return null;
         }
 
@@ -338,7 +338,7 @@ public class ReimbursementServiceImpl implements ReimbursementService {
     @Override
     public Long cancelReimbursement(ReimbursementDTO dto) {
         if(dto.getId() == null) {
-            validateService.validate("Akcja nie jest dostepna dla nowego wniosku");
+            gryfValidator.validate("Akcja nie jest dostepna dla nowego wniosku");
             return null;
         }
 
@@ -409,7 +409,7 @@ public class ReimbursementServiceImpl implements ReimbursementService {
                 }
             }
             if(!flag){
-                validateService.validate("Akcja nie jest dostepna w danym statusie");
+                gryfValidator.validate("Akcja nie jest dostepna w danym statusie");
             }
         }
     }
@@ -419,7 +419,7 @@ public class ReimbursementServiceImpl implements ReimbursementService {
             if(statusDes != null) {
                 Set<String> allowedStatuses = statusMap.get(null);
                 if (!allowedStatuses.contains(statusDes)) {
-                    validateService.validate(String.format("Nie można stworzyć nowego rozliczenia w statusie '%s'",
+                    gryfValidator.validate(String.format("Nie można stworzyć nowego rozliczenia w statusie '%s'",
                             reimbursementStatusRepository.get(statusDes).getStatusName()));
                 }
             }
@@ -427,7 +427,7 @@ public class ReimbursementServiceImpl implements ReimbursementService {
         else if(!Objects.equals(statusSrc, statusDes)) {
             Set<String> allowedStatuses = statusMap.get(statusSrc);
             if (!allowedStatuses.contains(statusDes)) {
-                validateService.validate(String.format("Rozliczenie jest w statusie '%s' - z tego statusu nie można przejść do statusu '%s'",
+                gryfValidator.validate(String.format("Rozliczenie jest w statusie '%s' - z tego statusu nie można przejść do statusu '%s'",
                         reimbursementStatusRepository.get(statusSrc).getStatusName(),
                         (statusDes != null) ? reimbursementStatusRepository.get(statusDes).getStatusName() : "NOWE"));
             }
@@ -435,14 +435,14 @@ public class ReimbursementServiceImpl implements ReimbursementService {
     }
 
     private void validate(ReimbursementDTO dto, Reimbursement entity, Class ... classes){
-        List<EntityConstraintViolation> violations = validateService.generateViolation(dto, classes);
+        List<EntityConstraintViolation> violations = gryfValidator.generateViolation(dto, classes);
 
         //MAKSUMALNA WIELKOSC PLIKU
         validateFileMaxSize(violations, dto);
 
         //RACHUNEK BANKOWY
         if(!Objects.equals(entity.getTrainingInstitutionReimbursementAccountNumber(), dto.getTrainingInstitutionReimbursementAccountNumber())){
-            if(!securityCheckerService.hasPrivilege(Privileges.GRF_PBE_REIMB_TI_ACC_MOD)) {
+            if (!securityChecker.hasPrivilege(Privileges.GRF_PBE_REIMB_TI_ACC_MOD)) {
                 violations.add(new EntityConstraintViolation(ReimbursementDTO.TRAINING_INSTITUTION_REIMBURSEMENT_ACCOUNT_NUMBER_ATTR_NAME,
                         "Nie posiadasz uprawnień do edycji pola 'Numer rachunku bankowego do zwrotu dla IS'",
                         dto.getTrainingInstitutionReimbursementAccountNumber()));
@@ -458,13 +458,13 @@ public class ReimbursementServiceImpl implements ReimbursementService {
         boolean requiredValidation = (GryfUtils.isAssignableFrom(ValidationGroupReimbursementSettleAndVerify.class, classes));
         validateAttachments(violations, dto, requiredValidation);
 
-        validateService.validate(violations);
+        gryfValidator.validate(violations);
     }
 
     private void validateFileMaxSize(List<EntityConstraintViolation> violations, ReimbursementDTO dto){
 
         //VALIDATE REIMBURSEMENT ATTACHMENT
-        validateService.addFileMaxSizePrivilege(violations, ReimbursementDTO.REIMBURSEMENT_ATTACHMENTS_ATTR_NAME, dto.getReimbursementAttachments());
+        gryfValidator.addFileMaxSizePrivilege(violations, ReimbursementDTO.REIMBURSEMENT_ATTACHMENTS_ATTR_NAME, dto.getReimbursementAttachments());
 
         //VALIDATE TRAINEE ATTACHMENT
         List<ReimbursementTrainingDTO> trainingDtoList = dto.getReimbursementTrainings();
@@ -477,7 +477,7 @@ public class ReimbursementServiceImpl implements ReimbursementService {
                     ReimbursementTraineeDTO[] traineeDtoTab = traineeDtoList.toArray(new ReimbursementTraineeDTO[traineeDtoList.size()]);
                     for (int j = 0; j < traineeDtoTab.length; j++) {
                         String prefix = String.format("reimbursementTrainings[%s].reimbursementTrainees[%s].reimbursementTraineeAttachments", i, j);
-                        validateService.addFileMaxSizePrivilege(violations, prefix, traineeDtoTab[j].getReimbursementTraineeAttachments());
+                        gryfValidator.addFileMaxSizePrivilege(violations, prefix, traineeDtoTab[j].getReimbursementTraineeAttachments());
                     }
                 }
             }
@@ -845,7 +845,7 @@ public class ReimbursementServiceImpl implements ReimbursementService {
                 if(isRemoveAllowed) {
                     reimbursement.removeReimbursementTraining(training);
                 }else{
-                    validateService.validate(String.format("Nie jest możliwe usunięcie szkolenia o nazwie '%s", training.getTrainingName()));
+                    gryfValidator.validate(String.format("Nie jest możliwe usunięcie szkolenia o nazwie '%s", training.getTrainingName()));
                 }
 
             //ADD NEW RECORD
@@ -949,7 +949,7 @@ public class ReimbursementServiceImpl implements ReimbursementService {
                 if(isRemoveAllowed) {
                     training.removeReimbursementTrainee(trainee);
                 }else{
-                    validateService.validate(String.format("Nie jest możliwe usunięcie użytkownika o nazwie '%s", trainee.getTraineeName()));
+                    gryfValidator.validate(String.format("Nie jest możliwe usunięcie użytkownika o nazwie '%s", trainee.getTraineeName()));
                 }
 
                 //ADD NEW RECORD
@@ -1072,7 +1072,7 @@ public class ReimbursementServiceImpl implements ReimbursementService {
                     reimbursement.removeReimbursementAttachment(attachment);
                     fileService.deleteFile(attachment.getFileLocation());
                 }else{
-                    validateService.validate(String.format("Nie jest możliwe usunięcie załącznika o nazwie '%s", attachment.getName()));
+                    gryfValidator.validate(String.format("Nie jest możliwe usunięcie załącznika o nazwie '%s", attachment.getName()));
                 }
 
             //ADD NEW RECORD
@@ -1195,7 +1195,7 @@ public class ReimbursementServiceImpl implements ReimbursementService {
                     trainee.removeReimbursementTraineeAttachment(traineeAttachment);
                     fileService.deleteFile(traineeAttachment.getFileLocation());
                 }else{
-                    validateService.validate(String.format("Nie jest możliwe usunięcie załącznika (dla użytkowników) o nazwie '%s", traineeAttachment.getName()));
+                    gryfValidator.validate(String.format("Nie jest możliwe usunięcie załącznika (dla użytkowników) o nazwie '%s", traineeAttachment.getName()));
                 }
 
             //ADD NEW RECORD

@@ -27,9 +27,7 @@ public class LoggingAspect {
 
     @Pointcut("execution(* @org.springframework.stereotype.Service pl.sodexo.it.gryf.service..*.*(..))"
             + " && !execution(* pl.sodexo.it.gryf.service.impl.dictionaries..*.*(..))"
-            + " && !execution(* pl.sodexo.it.gryf.service.impl.security..*.*(..))"
-            + " && !execution(* pl.sodexo.it.gryf.service.impl.other.ApplicationParametersServiceImpl.*(..))"
-            + " && !execution(* pl.sodexo.it.gryf.service.impl.other.DictionaryServiceImpl.*(..))")
+            + " && !execution(* pl.sodexo.it.gryf.service.impl.security..*.*(..))" + " && !execution(* pl.sodexo.it.gryf.service.impl.other..*(..))")
     public void executionOfAnyServiceMethod() {
     }
 

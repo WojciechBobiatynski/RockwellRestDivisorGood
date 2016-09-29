@@ -13,7 +13,7 @@ import pl.sodexo.it.gryf.common.exception.GryfOptimisticLockRuntimeException;
 import pl.sodexo.it.gryf.service.api.publicbenefits.reimbursement.ReimbursementDeliveryService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.reimbursement.ReimbursementPatternService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.reimbursement.ReimbursementsAttachmentService;
-import pl.sodexo.it.gryf.service.api.security.SecurityCheckerService;
+import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
 import pl.sodexo.it.gryf.web.controller.ControllersUrls;
 
 import java.util.List;
@@ -28,7 +28,7 @@ public class ReimbursementsRestController {
     //FIELDS
 
     @Autowired
-    private SecurityCheckerService securityCheckerService;
+    private SecurityChecker securityChecker;
 
     @Autowired
     private ReimbursementDeliveryService reimbursementDeliveryService;
@@ -43,26 +43,26 @@ public class ReimbursementsRestController {
 
     @RequestMapping(value = "/deliveries", method = RequestMethod.GET)
     public List<ReimbursementDeliverySearchResultDTO> findReimbursementDeliveries(ReimbursementDeliverySearchQueryDTO searchDTO) {
-        securityCheckerService.assertServicePrivilege(Privileges.GRF_PBE_DELIVERIES);
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_DELIVERIES);
         return reimbursementDeliveryService.findReimbursementDeliveries(searchDTO);
     }
 
     @RequestMapping(value = "/reimbursableDeliveries", method = RequestMethod.GET)
     public List<ReimbursementDeliverySearchResultDTO> findReimbursableDeliveries(ReimbursementDeliverySearchQueryDTO searchDTO) {
-        securityCheckerService.assertServicePrivilege(Privileges.GRF_PBE_DELIVERIES);
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_DELIVERIES);
         return reimbursementDeliveryService.findReimbursableDeliveries(searchDTO);
     }
     
     
     @RequestMapping(value = "/delivery/{id}", method = RequestMethod.GET)
     public ReimbursementDeliveryDTO findReimbursementDelivery(@PathVariable Long id) {
-        securityCheckerService.assertServicePrivilege(Privileges.GRF_PBE_DELIVERIES);
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_DELIVERIES);
         return reimbursementDeliveryService.findReimbursementDelivery(id);
     }
 
     @RequestMapping(value = "/delivery/save", method = RequestMethod.POST)
     public Long saveReimbursementDelivery(@RequestBody ReimbursementDeliveryDTO dto) {
-        securityCheckerService.assertServicePrivilege(Privileges.GRF_PBE_DELIVERIES_MOD);
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_DELIVERIES_MOD);
         try {
             return reimbursementDeliveryService.saveReimbursementDelivery(dto);
         } catch (GryfOptimisticLockRuntimeException e) {
@@ -73,7 +73,7 @@ public class ReimbursementsRestController {
 
     @RequestMapping(value = "/delivery/settle", method = RequestMethod.POST)
     public Long settleReimbursementDelivery(@RequestBody ReimbursementDeliveryDTO dto) {
-        securityCheckerService.assertServicePrivilege(Privileges.GRF_PBE_DELIVERIES_REIMB);
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_DELIVERIES_REIMB);
         try {
             return reimbursementDeliveryService.settleReimbursementDelivery(dto);
         } catch (GryfOptimisticLockRuntimeException e) {
@@ -84,7 +84,7 @@ public class ReimbursementsRestController {
 
     @RequestMapping(value = "/delivery/cancel", method = RequestMethod.POST)
     public Long cancelReimbursementDelivery(@RequestBody ReimbursementDeliveryDTO dto) {
-        securityCheckerService.assertServicePrivilege(Privileges.GRF_PBE_DELIVERIES_CANCEL);
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_DELIVERIES_CANCEL);
         try {
             return reimbursementDeliveryService.cancelReimbursementDelivery(dto);
         } catch (GryfOptimisticLockRuntimeException e) {
@@ -97,7 +97,7 @@ public class ReimbursementsRestController {
 
     @RequestMapping(value = "/reimbursements", method = RequestMethod.GET)
     public List<ReimbursementSearchResultDTO> findReimbursements(ReimbursementSearchQueryDTO searchDTO) {
-        securityCheckerService.assertServicePrivilege(Privileges.GRF_PBE_REIMB);
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_REIMB);
         return reimbursementsAttachmentService.findReimbursementsSearchResults(searchDTO);
     }
 
@@ -106,7 +106,7 @@ public class ReimbursementsRestController {
     @RequestMapping(value = "/reimbursementPatternsDictionaries", method = RequestMethod.GET)
     @ResponseBody
     public List<DictionaryDTO> findReimbursementPatternsDictionaries() {
-        securityCheckerService.assertServicePrivilege(Privileges.GRF_PBE_DELIVERIES, Privileges.GRF_PBE_REIMB);
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_DELIVERIES, Privileges.GRF_PBE_REIMB);
         return reimbursementDeliveryService.findReimbursementPatternsDictionaries();
     }
 

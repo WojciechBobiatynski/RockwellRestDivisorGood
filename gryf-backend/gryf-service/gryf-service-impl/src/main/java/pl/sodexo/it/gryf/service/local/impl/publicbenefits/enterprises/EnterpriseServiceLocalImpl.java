@@ -13,10 +13,10 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.enterprises.Ente
 import pl.sodexo.it.gryf.model.publicbenefits.ContactType;
 import pl.sodexo.it.gryf.model.publicbenefits.enterprises.Enterprise;
 import pl.sodexo.it.gryf.model.publicbenefits.enterprises.EnterpriseContact;
-import pl.sodexo.it.gryf.service.api.other.ApplicationParametersService;
-import pl.sodexo.it.gryf.service.api.security.SecurityCheckerService;
-import pl.sodexo.it.gryf.service.local.api.ValidateService;
-import pl.sodexo.it.gryf.service.local.api.dictionaries.ContactTypeValidationService;
+import pl.sodexo.it.gryf.service.api.other.ApplicationParameters;
+import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
+import pl.sodexo.it.gryf.service.local.api.GryfValidator;
+import pl.sodexo.it.gryf.service.local.api.dictionaries.ContactTypeValidator;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.enterprises.EnterpriseServiceLocal;
 
 import java.util.HashSet;
@@ -33,16 +33,16 @@ import java.util.Set;
 public class EnterpriseServiceLocalImpl implements EnterpriseServiceLocal {
 
     @Autowired
-    private ValidateService validateService;
+    private GryfValidator gryfValidator;
 
     @Autowired
-    private ContactTypeValidationService contactTypeValidationService;
+    private ContactTypeValidator contactTypeValidator;
 
     @Autowired
-    private ApplicationParametersService applicationParametersService;
+    private ApplicationParameters applicationParameters;
 
     @Autowired
-    private SecurityCheckerService securityCheckerService;
+    private SecurityChecker securityChecker;
 
     @Autowired
     private EnterpriseRepository enterpriseRepository;
@@ -87,14 +87,14 @@ public class EnterpriseServiceLocalImpl implements EnterpriseServiceLocal {
     private void validateEnterprise(Enterprise enterprise, boolean checkVatRegNumDup) {
 
         //GENERAL VALIDATION
-        List<EntityConstraintViolation> violations = validateService.generateViolation(enterprise);
+        List<EntityConstraintViolation> violations = gryfValidator.generateViolation(enterprise);
 
         //CONTACT DATA - VALIDATION
         validateContacts(enterprise.getContacts(), violations);
         validateAccountRepayment(enterprise, violations);
 
         //VALIDATE (EXCEPTION)
-        validateService.validate(violations);
+        gryfValidator.validate(violations);
 
         //VAT REG NUM EXIST - VALIDATION
         if (checkVatRegNumDup) {
@@ -104,7 +104,7 @@ public class EnterpriseServiceLocalImpl implements EnterpriseServiceLocal {
     }
 
     private void validateAccountRepayment(Enterprise enterprise, List<EntityConstraintViolation> violations) {
-        boolean isEditable = securityCheckerService.hasPrivilege(Privileges.GRF_ENTERPRISE_REPAY_ACC_MOD);
+        boolean isEditable = securityChecker.hasPrivilege(Privileges.GRF_ENTERPRISE_REPAY_ACC_MOD);
 
         String accountRepayment = enterprise.getAccountRepayment();
         if (isEditable && StringUtils.isEmpty(accountRepayment)) {
@@ -126,8 +126,8 @@ public class EnterpriseServiceLocalImpl implements EnterpriseServiceLocal {
     }
 
     private String generateCode(Long id) {
-        String prefix = applicationParametersService.getGryfEnterpriseCodePrefix();
-        int zeroCount = applicationParametersService.getGryfEnterpriseCodeZeroCount();
+        String prefix = applicationParameters.getGryfEnterpriseCodePrefix();
+        int zeroCount = applicationParameters.getGryfEnterpriseCodeZeroCount();
         return String.format("%s%0" + zeroCount + "d", prefix, id);
     }
 
@@ -136,7 +136,7 @@ public class EnterpriseServiceLocalImpl implements EnterpriseServiceLocal {
         EnterpriseContact[] contactTab = contacts.toArray(new EnterpriseContact[contactsSize]);
         for (int i = 0; i < contactTab.length; i++) {
 
-            ContactDataValidationDTO validContractData = contactTypeValidationService.validateContractData(contactTab[i].getContactType(), contactTab[i].getContactData());
+            ContactDataValidationDTO validContractData = contactTypeValidator.validateContractData(contactTab[i].getContactType(), contactTab[i].getContactData());
             if (!validContractData.isValid()) {
 
                 String path = String.format("%s[%s].%s", Enterprise.CONTACTS_ATTR_NAME, i, EnterpriseContact.CONTACT_DATA_ATTR_NAME);

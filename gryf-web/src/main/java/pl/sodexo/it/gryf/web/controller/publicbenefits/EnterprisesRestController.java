@@ -8,7 +8,7 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.enterprises.searchform.Enterp
 import pl.sodexo.it.gryf.common.dto.publicbenefits.enterprises.searchform.EnterpriseSearchResultDTO;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.service.api.publicbenefits.enterprises.EnterpriseService;
-import pl.sodexo.it.gryf.service.api.security.SecurityCheckerService;
+import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
 import pl.sodexo.it.gryf.web.controller.ControllersUrls;
 
 import java.util.List;
@@ -25,25 +25,25 @@ public class EnterprisesRestController {
     private EnterpriseService enterpriseService;
 
     @Autowired
-    private SecurityCheckerService securityCheckerService;
+    private SecurityChecker securityChecker;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public EnterpriseDto getNewEnterprise() {
-        securityCheckerService.assertServicePrivilege(Privileges.GRF_ENTERPRISES);
+        securityChecker.assertServicePrivilege(Privileges.GRF_ENTERPRISES);
         return enterpriseService.createEnterprise();
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public Long saveEnterprise(@RequestParam(value = "checkVatRegNumDup", required = false, defaultValue = "true") boolean checkVatRegNumDup,
                                @RequestBody EnterpriseDto enterpriseDto) {
-        securityCheckerService.assertServicePrivilege(Privileges.GRF_ENTERPRISE_MOD);
+        securityChecker.assertServicePrivilege(Privileges.GRF_ENTERPRISE_MOD);
         enterpriseDto = enterpriseService.saveEnterpriseDto(enterpriseDto, checkVatRegNumDup);
         return enterpriseDto.getId();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public EnterpriseDto getEnterprise(@PathVariable Long id) {
-        securityCheckerService.assertServicePrivilege(Privileges.GRF_ENTERPRISES);
+        securityChecker.assertServicePrivilege(Privileges.GRF_ENTERPRISES);
         return enterpriseService.findEnterprise(id);
     }
 
@@ -51,7 +51,7 @@ public class EnterprisesRestController {
     public Long updateEnterprise(@PathVariable Long id,
                                  @RequestParam(value = "checkVatRegNumDup", required = false, defaultValue = "true") boolean checkVatRegNumDup,
                                  @RequestBody EnterpriseDto enterpriseDto) {
-        securityCheckerService.assertServicePrivilege(Privileges.GRF_ENTERPRISE_MOD);
+        securityChecker.assertServicePrivilege(Privileges.GRF_ENTERPRISE_MOD);
         GryfUtils.checkForUpdate(id, enterpriseDto.getId());
 
         enterpriseService.updateEnterpriseDto(enterpriseDto, checkVatRegNumDup);
@@ -60,7 +60,7 @@ public class EnterprisesRestController {
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public List<EnterpriseSearchResultDTO> findEnterprises(EnterpriseSearchQueryDTO dto) {
-        securityCheckerService.assertServicePrivilege(Privileges.GRF_ENTERPRISES);
+        securityChecker.assertServicePrivilege(Privileges.GRF_ENTERPRISES);
         return enterpriseService.findEnterprises(dto);
 
     }

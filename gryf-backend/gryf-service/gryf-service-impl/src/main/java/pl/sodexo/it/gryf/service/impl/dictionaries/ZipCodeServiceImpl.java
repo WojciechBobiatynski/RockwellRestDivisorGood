@@ -9,7 +9,7 @@ import pl.sodexo.it.gryf.common.dto.dictionaries.zipcodes.searchform.ZipCodeSear
 import pl.sodexo.it.gryf.dao.api.crud.repository.dictionaries.ZipCodeRepository;
 import pl.sodexo.it.gryf.model.dictionaries.ZipCode;
 import pl.sodexo.it.gryf.service.api.dictionaries.ZipCodeService;
-import pl.sodexo.it.gryf.service.local.api.ValidateService;
+import pl.sodexo.it.gryf.service.local.api.GryfValidator;
 import pl.sodexo.it.gryf.service.mapping.dtoToEntity.dictionaries.ZipCodeDtoMapper;
 import pl.sodexo.it.gryf.service.mapping.entityToDto.dictionaries.ZipCodeEntityMapper;
 import pl.sodexo.it.gryf.service.mapping.entityToDto.dictionaries.searchform.ZipCodeEntityToSearchResultMapper;
@@ -23,7 +23,7 @@ public class ZipCodeServiceImpl implements ZipCodeService {
     //FIELDS
 
     @Autowired
-    private ValidateService validateService;
+    private GryfValidator gryfValidator;
 
     @Autowired
     private ZipCodeRepository zipCodeRepository;
@@ -61,7 +61,7 @@ public class ZipCodeServiceImpl implements ZipCodeService {
     @Override
     public void saveZipCode(ZipCodeDto zipCodeDto) {
         ZipCode zipCode = zipCodeDtoMapper.convert(zipCodeDto);
-        validateService.validate(zipCode);
+        gryfValidator.validate(zipCode);
         toUpperCityName(zipCode);
         zipCodeRepository.save(zipCode);
     }
@@ -69,7 +69,7 @@ public class ZipCodeServiceImpl implements ZipCodeService {
     @Override
     public void updateZipCode(ZipCodeDto zipCodeDto) {
         ZipCode zipCode = zipCodeDtoMapper.convert(zipCodeDto);
-        validateService.validate(zipCode);
+        gryfValidator.validate(zipCode);
         toUpperCityName(zipCode);
         zipCodeRepository.update(zipCode, zipCode.getId());
     }

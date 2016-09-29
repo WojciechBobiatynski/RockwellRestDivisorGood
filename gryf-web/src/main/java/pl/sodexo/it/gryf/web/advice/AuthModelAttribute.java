@@ -9,7 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import pl.sodexo.it.gryf.common.dto.user.GryfUser;
-import pl.sodexo.it.gryf.service.api.other.ApplicationParametersService;
+import pl.sodexo.it.gryf.service.api.other.ApplicationParameters;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -19,7 +19,7 @@ import java.util.Map;
 public class AuthModelAttribute {
     
     @Autowired
-    ApplicationParametersService aps;
+    ApplicationParameters aps;
     
     private final ObjectMapper om = new ObjectMapper();
      

@@ -1,4 +1,4 @@
-package pl.sodexo.it.gryf.service.impl.other;
+package pl.sodexo.it.gryf.service.impl.reports;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -6,11 +6,11 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.sodexo.it.gryf.common.ReportTemplateCode;
 import pl.sodexo.it.gryf.common.FileType;
+import pl.sodexo.it.gryf.common.ReportTemplateCode;
 import pl.sodexo.it.gryf.model.ReportParameter;
-import pl.sodexo.it.gryf.service.api.other.ApplicationParametersService;
-import pl.sodexo.it.gryf.service.api.other.ReportService;
+import pl.sodexo.it.gryf.service.api.other.ApplicationParameters;
+import pl.sodexo.it.gryf.service.api.reports.ReportService;
 import pl.sodexo.it.gryf.service.local.api.FileService;
 
 import javax.sql.DataSource;
@@ -37,7 +37,7 @@ public class ReportServiceImpl implements ReportService {
     private FileService fileService;
     
     @Autowired
-    private ApplicationParametersService applicationParametersService;
+    private ApplicationParameters applicationParameters;
 
     //PUBLIC METHODS
 
@@ -50,9 +50,8 @@ public class ReportServiceImpl implements ReportService {
     public String generateReport(ReportTemplateCode templateCode, String reportFileName, FileType fileType, Map<String, Object> parameters) {
         try {
             //ADD STD PARAMS
-            parameters.put(ReportParameter.IMAGES_PATH.getParam(), applicationParametersService.getPathAttachments() +
-                                                                   applicationParametersService.getPathReportTemplates() +
-                                                                   applicationParametersService.getPathReportImages());
+            parameters.put(ReportParameter.IMAGES_PATH.getParam(),
+                    applicationParameters.getPathAttachments() + applicationParameters.getPathReportTemplates() + applicationParameters.getPathReportImages());
 
             try (Connection connection = dataSource.getConnection()){
                 //GENERATE REPORT

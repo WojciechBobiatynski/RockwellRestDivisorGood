@@ -6,7 +6,7 @@ import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowElementInStatus;
-import pl.sodexo.it.gryf.service.api.security.SecurityCheckerService;
+import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.elements.OrderElementService;
 
 import java.util.List;
@@ -19,7 +19,7 @@ public abstract class OrderElementBaseService<T extends OrderElementDTO> impleme
     //FIELDS
 
     @Autowired
-    private SecurityCheckerService securityCheckerService;
+    private SecurityChecker securityChecker;
 
     //PUBLIC METHODS
 
@@ -129,7 +129,7 @@ public abstract class OrderElementBaseService<T extends OrderElementDTO> impleme
         String privilege = orderFlowElementInStatus.getAugIdRequired();
         if(!StringUtils.isEmpty(privilege)){
             if(isValueUpdated(orderElement, dto)){
-                if(!securityCheckerService.hasPrivilege(privilege)){
+                if (!securityChecker.hasPrivilege(privilege)) {
                     addViolation(violations, dto, String.format("Nie masz uprawnień do edycji tego pola '%s'", dto.getName()));
                 }
             }

@@ -14,10 +14,10 @@ import pl.sodexo.it.gryf.model.publicbenefits.enterprises.Enterprise;
 import pl.sodexo.it.gryf.model.publicbenefits.enterprises.EnterpriseContact;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstitution;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstitutionContact;
-import pl.sodexo.it.gryf.service.api.other.ApplicationParametersService;
+import pl.sodexo.it.gryf.service.api.other.ApplicationParameters;
 import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.TrainingInstitutionService;
-import pl.sodexo.it.gryf.service.local.api.ValidateService;
-import pl.sodexo.it.gryf.service.local.api.dictionaries.ContactTypeValidationService;
+import pl.sodexo.it.gryf.service.local.api.GryfValidator;
+import pl.sodexo.it.gryf.service.local.api.dictionaries.ContactTypeValidator;
 import pl.sodexo.it.gryf.service.mapping.dtoToEntity.publicbenefits.traininginstiutions.TrainingInstitutionDtoMapper;
 import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.traininginstiutions.TrainingInstitutionEntityMapper;
 
@@ -33,16 +33,16 @@ public class TrainingInstitutionServiceImpl implements TrainingInstitutionServic
     //FIELDS
 
     @Autowired
-    private ValidateService validateService;
+    private GryfValidator gryfValidator;
 
     @Autowired
-    private ContactTypeValidationService contactTypeValidationService;
+    private ContactTypeValidator contactTypeValidator;
 
     @Autowired
     private TrainingInstitutionRepository trainingInstitutionRepository;
 
     @Autowired
-    private ApplicationParametersService applicationParametersService;
+    private ApplicationParameters applicationParameters;
 
     @Autowired
     private TrainingInstitutionEntityMapper trainingInstitutionEntityMapper;
@@ -91,13 +91,13 @@ public class TrainingInstitutionServiceImpl implements TrainingInstitutionServic
     private void validateTrainingInstitution(TrainingInstitution trainingInstitution, boolean checkVatRegNumDup){
 
         //GENERAL VALIDATION
-        List<EntityConstraintViolation> violations = validateService.generateViolation(trainingInstitution);
+        List<EntityConstraintViolation> violations = gryfValidator.generateViolation(trainingInstitution);
 
         //CONTACT DATA - VALIDATION
         validateContacts(trainingInstitution.getContacts(), violations);
 
         //VALIDATE (EXCEPTION)
-        validateService.validate(violations);
+        gryfValidator.validate(violations);
 
         //VAT REG NUM EXIST - VALIDATION
         if(checkVatRegNumDup) {
@@ -107,8 +107,8 @@ public class TrainingInstitutionServiceImpl implements TrainingInstitutionServic
     }
 
     private String generateCode(Long id){
-        String prefix = applicationParametersService.getGryfTrainingInstitutionCodePrefix();
-        int zeroCount = applicationParametersService.getGryfTrainingInstitutionCodeZeroCount();
+        String prefix = applicationParameters.getGryfTrainingInstitutionCodePrefix();
+        int zeroCount = applicationParameters.getGryfTrainingInstitutionCodeZeroCount();
         return String.format("%s%0" + zeroCount + "d",prefix, id);
     }
 
@@ -119,7 +119,7 @@ public class TrainingInstitutionServiceImpl implements TrainingInstitutionServic
         TrainingInstitutionContact[] contactTab = contacts.toArray(new TrainingInstitutionContact[contactsSize]);
         for (int i = 0; i < contactTab.length; i++) {
 
-            ContactDataValidationDTO validContractData = contactTypeValidationService.validateContractData(contactTab[i].getContactType(), contactTab[i].getContactData());
+            ContactDataValidationDTO validContractData = contactTypeValidator.validateContractData(contactTab[i].getContactType(), contactTab[i].getContactData());
             if(!validContractData.isValid()){
 
                 String path = String.format("%s[%s].%s", Enterprise.CONTACTS_ATTR_NAME, i, EnterpriseContact.CONTACT_DATA_ATTR_NAME);

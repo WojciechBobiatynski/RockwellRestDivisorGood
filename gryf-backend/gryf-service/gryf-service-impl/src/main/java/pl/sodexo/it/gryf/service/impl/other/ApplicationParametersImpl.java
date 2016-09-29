@@ -5,8 +5,8 @@
  */
 package pl.sodexo.it.gryf.service.impl.other;
 
-import org.springframework.stereotype.Service;
-import pl.sodexo.it.gryf.service.api.other.ApplicationParametersService;
+import org.springframework.stereotype.Component;
+import pl.sodexo.it.gryf.service.api.other.ApplicationParameters;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
@@ -18,8 +18,8 @@ import java.util.List;
  *
  * @author Marcel.GOLUNSKI
  */
-@Service
-public class ApplicationParametersServiceImpl implements ApplicationParametersService {
+@Component
+public class ApplicationParametersImpl implements ApplicationParameters {
     
     @PersistenceContext
     private EntityManager em;

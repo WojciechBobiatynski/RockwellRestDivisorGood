@@ -17,11 +17,11 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.individuals.Indi
 import pl.sodexo.it.gryf.model.publicbenefits.ContactType;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.IndividualContact;
-import pl.sodexo.it.gryf.service.api.other.ApplicationParametersService;
+import pl.sodexo.it.gryf.service.api.other.ApplicationParameters;
 import pl.sodexo.it.gryf.service.api.publicbenefits.individuals.IndividualService;
-import pl.sodexo.it.gryf.service.api.security.SecurityCheckerService;
-import pl.sodexo.it.gryf.service.local.api.ValidateService;
-import pl.sodexo.it.gryf.service.local.api.dictionaries.ContactTypeValidationService;
+import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
+import pl.sodexo.it.gryf.service.local.api.GryfValidator;
+import pl.sodexo.it.gryf.service.local.api.dictionaries.ContactTypeValidator;
 import pl.sodexo.it.gryf.service.mapping.dtoToEntity.publicbenefits.individuals.IndividualDtoMapper;
 import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.individuals.IndividualEntityMapper;
 
@@ -37,19 +37,19 @@ public class IndividualServiceImpl implements IndividualService {
     //FIELDS
 
     @Autowired
-    private ValidateService validateService;
+    private GryfValidator gryfValidator;
 
     @Autowired
-    private ContactTypeValidationService contactTypeValidationService;
+    private ContactTypeValidator contactTypeValidator;
 
     @Autowired
     private IndividualRepository individualRepository;
 
     @Autowired
-    private ApplicationParametersService applicationParametersService;
+    private ApplicationParameters applicationParameters;
 
     @Autowired
-    private SecurityCheckerService securityCheckerService;
+    private SecurityChecker securityChecker;
 
     @Autowired
     private IndividualEntityMapper individualEntityMapper;
@@ -120,14 +120,14 @@ public class IndividualServiceImpl implements IndividualService {
     private void validateIndividual(Individual individual, boolean checkPeselDup) {
 
         //GENERAL VALIDATION
-        List<EntityConstraintViolation> violations = validateService.generateViolation(individual);
+        List<EntityConstraintViolation> violations = gryfValidator.generateViolation(individual);
 
         //CONTACT DATA - VALIDATION
         validateContacts(individual.getContacts(), violations);
         validateAccountRepayment(individual, violations);
 
         //VALIDATE (EXCEPTION)
-        validateService.validate(violations);
+        gryfValidator.validate(violations);
 
         //VAT REG NUM EXIST - VALIDATION
         if (checkPeselDup) {
@@ -138,7 +138,7 @@ public class IndividualServiceImpl implements IndividualService {
 
     private void validateAccountRepayment(Individual individual, List<EntityConstraintViolation>
             violations) {
-        boolean isEditable = securityCheckerService.hasPrivilege(Privileges.GRF_INDIVIDUAL_REPAY_ACC_MOD);
+        boolean isEditable = securityChecker.hasPrivilege(Privileges.GRF_INDIVIDUAL_REPAY_ACC_MOD);
 
         String accountRepayment = individual.getAccountRepayment();
         if (isEditable && StringUtils.isEmpty(accountRepayment)) {
@@ -163,8 +163,8 @@ public class IndividualServiceImpl implements IndividualService {
     }
 
     private String generateCode(Long id) {
-        String prefix = applicationParametersService.getGryfIndividualCodePrefix();
-        int zeroCount = applicationParametersService.getGryfIndividualCodeZeroCount();
+        String prefix = applicationParameters.getGryfIndividualCodePrefix();
+        int zeroCount = applicationParameters.getGryfIndividualCodeZeroCount();
         return String.format("%s%0" + zeroCount + "d", prefix, id);
     }
 
@@ -173,7 +173,7 @@ public class IndividualServiceImpl implements IndividualService {
         IndividualContact[] contactTab = contacts.toArray(new IndividualContact[contactsSize]);
         for (int i = 0; i < contactTab.length; i++) {
 
-            ContactDataValidationDTO validContractData = contactTypeValidationService.validateContractData(contactTab[i].getContactType(), contactTab[i].getContactData());
+            ContactDataValidationDTO validContractData = contactTypeValidator.validateContractData(contactTab[i].getContactType(), contactTab[i].getContactData());
             if(!validContractData.isValid()){
 
                 String path = String.format("%s[%s].%s", Individual.CONTACTS_ATTR_NAME, i, IndividualContact.CONTACT_DATA_ATTR_NAME);

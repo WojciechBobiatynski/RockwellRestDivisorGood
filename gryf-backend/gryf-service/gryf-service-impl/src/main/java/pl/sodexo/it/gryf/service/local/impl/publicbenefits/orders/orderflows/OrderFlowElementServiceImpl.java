@@ -13,10 +13,10 @@ import pl.sodexo.it.gryf.common.parsers.OrderParser;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderFlowElementRepository;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.*;
-import pl.sodexo.it.gryf.service.local.api.ValidateService;
+import pl.sodexo.it.gryf.service.local.api.GryfValidator;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.OrderDateService;
-import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.orderflows.OrderFlowElementService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.elements.OrderElementService;
+import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.orderflows.OrderFlowElementService;
 import pl.sodexo.it.gryf.service.utils.BeanUtils;
 
 import java.math.BigDecimal;
@@ -40,7 +40,7 @@ public class OrderFlowElementServiceImpl implements OrderFlowElementService {
     private OrderDateService orderDateService;
 
     @Autowired
-    private ValidateService validateService;
+    private GryfValidator gryfValidator;
 
     @Autowired
     private ApplicationContext context;
@@ -181,7 +181,7 @@ public class OrderFlowElementServiceImpl implements OrderFlowElementService {
         }
 
         //VALIDATE
-        validateService.validate(violations);
+        gryfValidator.validate(violations);
     }
 
 

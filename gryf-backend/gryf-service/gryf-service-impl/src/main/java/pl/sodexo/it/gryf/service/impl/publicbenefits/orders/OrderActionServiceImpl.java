@@ -16,12 +16,12 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderRepo
 import pl.sodexo.it.gryf.model.publicbenefits.orders.*;
 import pl.sodexo.it.gryf.service.api.publicbenefits.orders.OrderActionService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.orders.OrderService;
-import pl.sodexo.it.gryf.service.api.security.SecurityCheckerService;
+import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
 import pl.sodexo.it.gryf.service.local.api.FileService;
-import pl.sodexo.it.gryf.service.local.api.ValidateService;
+import pl.sodexo.it.gryf.service.local.api.GryfValidator;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.OrderDateService;
-import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.orderflows.OrderFlowElementService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.actions.ActionService;
+import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.orderflows.OrderFlowElementService;
 import pl.sodexo.it.gryf.service.utils.BeanUtils;
 
 import java.util.List;
@@ -38,10 +38,10 @@ public class OrderActionServiceImpl implements OrderActionService {
     private ApplicationContext context;
 
     @Autowired
-    private SecurityCheckerService securityCheckerService;
+    private SecurityChecker securityChecker;
 
     @Autowired
-    private ValidateService validateService;
+    private GryfValidator gryfValidator;
 
     @Autowired
     private OrderRepository orderRepository;
@@ -131,8 +131,8 @@ public class OrderActionServiceImpl implements OrderActionService {
     private void validateActionPrivilege(OrderFlowStatusTransition statusTransition) {
         String privilege = statusTransition.getAugIdRequired();
         if (!StringUtils.isEmpty(privilege)) {
-            if (!securityCheckerService.hasPrivilege(privilege)) {
-                validateService.validate("Nie posiadasz uprawnień do wykonania danej akcji");
+            if (!securityChecker.hasPrivilege(privilege)) {
+                gryfValidator.validate("Nie posiadasz uprawnień do wykonania danej akcji");
             }
         }
     }

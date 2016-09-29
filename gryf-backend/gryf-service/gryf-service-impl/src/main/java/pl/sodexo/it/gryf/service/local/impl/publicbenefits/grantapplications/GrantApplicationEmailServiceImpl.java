@@ -10,7 +10,7 @@ import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.*;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.grantapplications.GrantApplicationEmailService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.grantapplications.GrantApplicationService;
-import pl.sodexo.it.gryf.service.utils.GrantApplicationBeanUtils;
+import pl.sodexo.it.gryf.service.utils.BeanUtils;
 
 import java.util.HashSet;
 import java.util.List;
@@ -30,14 +30,14 @@ public class GrantApplicationEmailServiceImpl implements GrantApplicationEmailSe
     @Override
     public void sendPublicGrantProgramEmail(GrantApplication grantApplication, String emailTemplateId, MailPlaceholders mailPlaceholders, String emailsTo, List<MailAttachmentDTO> attachments) {
         GrantApplicationVersion applicationVersion = grantApplication.getApplicationVersion();
-        GrantApplicationService grantApplicationService = GrantApplicationBeanUtils.findGrantApplicationService(context, applicationVersion.getServiceBeanName());
+        GrantApplicationService grantApplicationService = BeanUtils.findGrantApplicationService(context, applicationVersion.getServiceBeanName());
         grantApplicationService.sendPublicGrantProgramEmail(grantApplication, emailTemplateId, mailPlaceholders, emailsTo, attachments);
     }
 
     @Override
     public void sendPublicGrantProgramEmail(GrantApplication grantApplication, String emailTemplateId, String subject, String body, String emailsTo, List<MailAttachmentDTO> attachments) {
         GrantApplicationVersion applicationVersion = grantApplication.getApplicationVersion();
-        GrantApplicationService grantApplicationService = GrantApplicationBeanUtils.findGrantApplicationService(context, applicationVersion.getServiceBeanName());
+        GrantApplicationService grantApplicationService = BeanUtils.findGrantApplicationService(context, applicationVersion.getServiceBeanName());
         grantApplicationService.sendPublicGrantProgramEmail(grantApplication, emailTemplateId, subject, body, emailsTo, attachments);
     }
 

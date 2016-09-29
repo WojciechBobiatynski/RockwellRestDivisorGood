@@ -12,7 +12,7 @@ import pl.sodexo.it.gryf.common.exception.GryfOptimisticLockRuntimeException;
 import pl.sodexo.it.gryf.common.parsers.OrderParser;
 import pl.sodexo.it.gryf.service.api.publicbenefits.orders.OrderActionService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.orders.OrderService;
-import pl.sodexo.it.gryf.service.api.security.SecurityCheckerService;
+import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
 import pl.sodexo.it.gryf.web.controller.ControllersUrls;
 import pl.sodexo.it.gryf.web.utils.WebUtils;
 
@@ -29,7 +29,7 @@ public class OrdersRestController {
     //FIELDS
 
     @Autowired
-    private SecurityCheckerService securityCheckerService;
+    private SecurityChecker securityChecker;
 
     @Autowired
     private OrderService orderService;
@@ -41,19 +41,19 @@ public class OrdersRestController {
 
     @RequestMapping(value = "/preview/{id}", method = RequestMethod.GET)
     public String getOrderDataToView(@PathVariable Long id) {
-        securityCheckerService.assertServicePrivilege(Privileges.GRF_PBE_ORDERS);
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_ORDERS);
         return orderService.getOrderDataToPreview(id);
     }
 
     @RequestMapping(value = "/modify/{id}", method = RequestMethod.GET)
     public String getOrderDataToEdit(@PathVariable Long id) {
-        securityCheckerService.assertServicePrivilege(Privileges.GRF_PBE_ORDERS_MOD);
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_ORDERS_MOD);
         return orderService.getOrderDataToModify(id);
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public List<OrderSearchResultDTO> findOrders(OrderSearchQueryDTO searchDTO) {
-        securityCheckerService.assertServicePrivilege(Privileges.GRF_PBE_ORDERS);
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_ORDERS);
         return orderService.findOrders(searchDTO);
     }
 
@@ -64,7 +64,7 @@ public class OrdersRestController {
                               @RequestParam("incomingOrderElementsParam") String incomingOrderElementsParam,
                               @RequestParam(value = "acceptedViolationsParam", required = false) String acceptedViolationsParam,
                               @RequestParam("file") MultipartFile[] files) throws IOException {
-        securityCheckerService.assertServicePrivilege(Privileges.GRF_PBE_ORDERS_MOD);
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_ORDERS_MOD);
 
         List<FileDTO> fileDtoList = WebUtils.createFileDtoList(files);
         List<IncomingOrderElementDTO> incomingOrderElements = OrderParser.readIncomingOrderElements(incomingOrderElementsParam);

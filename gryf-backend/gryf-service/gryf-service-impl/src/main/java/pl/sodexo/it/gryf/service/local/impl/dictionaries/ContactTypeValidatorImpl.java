@@ -2,19 +2,19 @@ package pl.sodexo.it.gryf.service.local.impl.dictionaries;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.ContactDataValidationDTO;
 import pl.sodexo.it.gryf.common.utils.StringUtils;
-import pl.sodexo.it.gryf.service.local.api.dictionaries.validation.ContactDataValidator;
 import pl.sodexo.it.gryf.model.publicbenefits.ContactType;
-import pl.sodexo.it.gryf.service.local.api.dictionaries.ContactTypeValidationService;
+import pl.sodexo.it.gryf.service.local.api.dictionaries.ContactTypeValidator;
+import pl.sodexo.it.gryf.service.local.api.dictionaries.validation.ContactDataValidator;
 import pl.sodexo.it.gryf.service.utils.BeanUtils;
 
 /**
  * Created by jbentyn on 2016-09-28.
  */
-@Service
-public class ContactTypeValidationServiceImpl implements ContactTypeValidationService {
+@Component
+public class ContactTypeValidatorImpl implements ContactTypeValidator {
 
     @Autowired
     private ApplicationContext context;
@@ -39,7 +39,4 @@ public class ContactTypeValidationServiceImpl implements ContactTypeValidationSe
         return (ContactDataValidator) BeanUtils.findBean(context, validationClass);
     }
 
-//    private RuntimeException createValidatorCreateException(String validationClass, Exception e) {
-//        return new RuntimeException(String.format("Nie udało się utworzyć klasy walidujacej kontakt na podstawie wartości %s - błąd: ", validationClass, e.getMessage()), e);
-//    }
 }

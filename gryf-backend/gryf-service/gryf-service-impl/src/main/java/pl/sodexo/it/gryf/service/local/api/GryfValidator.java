@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by jbentyn on 2016-09-20.
  */
-public interface ValidateService {
+public interface GryfValidator {
 
     /**
      * Metoda generuje liste błędów na podstawie adnotacji javax.persistance w objekcie 'o'.

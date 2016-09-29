@@ -12,7 +12,7 @@ import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElementClob;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowElementInStatus;
-import pl.sodexo.it.gryf.service.api.security.SecurityCheckerService;
+import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.elements.OrderElementService;
 
 import java.lang.reflect.ParameterizedType;
@@ -26,7 +26,7 @@ public abstract class OrderElementBaseClobService<T extends OrderElementDTO>  im
     protected Class<T> dtoClass;
 
     @Autowired
-    private SecurityCheckerService securityCheckerService;
+    private SecurityChecker securityChecker;
 
     //CONSTRUCTORS
 
@@ -102,7 +102,7 @@ public abstract class OrderElementBaseClobService<T extends OrderElementDTO>  im
         String privilege = orderFlowElementInStatus.getAugIdRequired();
         if(!StringUtils.isEmpty(privilege)){
             if(isValueUpdated(oldDto, dto)){
-                if(!securityCheckerService.hasPrivilege(privilege)){
+                if (!securityChecker.hasPrivilege(privilege)) {
                     addViolation(violations, dto, String.format("Nie masz uprawnień do edycji pól elementu '%s'", dto.getName()));
                 }
             }

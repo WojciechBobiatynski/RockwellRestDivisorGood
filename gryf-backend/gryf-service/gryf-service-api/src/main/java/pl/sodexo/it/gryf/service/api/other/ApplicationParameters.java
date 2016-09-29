@@ -3,7 +3,7 @@ package pl.sodexo.it.gryf.service.api.other;
 /**
  * Created by jbentyn on 2016-09-20.
  */
-public interface ApplicationParametersService {
+public interface ApplicationParameters {
 
     String getCdnUrl();
 

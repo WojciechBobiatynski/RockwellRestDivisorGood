@@ -9,7 +9,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgramProduct;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlow;
-import pl.sodexo.it.gryf.service.local.api.ValidateService;
+import pl.sodexo.it.gryf.service.local.api.GryfValidator;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.orderflows.OrderFlowService;
 
 import java.util.Date;
@@ -31,7 +31,7 @@ public abstract class OrderFlowBaseService implements OrderFlowService {
     private GrantProgramProductRepository grantProgramProductRepository;
 
     @Autowired
-    private ValidateService validateService;
+    private GryfValidator gryfValidator;
             
     //PUBLIC METHODS
 
@@ -81,7 +81,7 @@ public abstract class OrderFlowBaseService implements OrderFlowService {
         // wszystkie poprzednie zamówienia tego MŚP w tym programie muszą być już zakończone (w końcowych statusach)
         List <Order> orders = orderRepository.findByEnterpriseGrantProgramInNonFinalStatuses(grantApplication.getEnterprise().getId(), grantApplication.getProgram().getId());
         if (!orders.isEmpty()){
-            validateService.validate("Nie można przekazać wniosku do realizacji. Znaleziono " + orders.size() + 
+            gryfValidator.validate("Nie można przekazać wniosku do realizacji. Znaleziono " + orders.size() +
                                     " niezakończonych zamówień dla przedsiębiorstwa " + grantApplication.getEnterprise().getName() + " (id: " + grantApplication.getEnterprise().getId() + ") " + 
                     " w programie dofinasowania " + grantApplication.getProgram().getProgramName() +
                     ". Id niezakończonego zamówienia: " + orders.get(0).getId()) ;

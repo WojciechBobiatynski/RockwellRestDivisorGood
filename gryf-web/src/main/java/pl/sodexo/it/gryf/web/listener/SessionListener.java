@@ -2,7 +2,7 @@ package pl.sodexo.it.gryf.web.listener;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
-import pl.sodexo.it.gryf.service.api.other.ApplicationParametersService;
+import pl.sodexo.it.gryf.service.api.other.ApplicationParameters;
 
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
@@ -30,8 +30,8 @@ public class SessionListener implements HttpSessionListener {
     private int getSessionTimeout(HttpSessionEvent sessionEvent){
         HttpSession session = sessionEvent.getSession();
         ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(session.getServletContext());
-        ApplicationParametersService applicationParametersService = (ApplicationParametersService) ctx.getBean("applicationParametersService");
-        return applicationParametersService.getSessionTimeout();
+        ApplicationParameters applicationParameters = (ApplicationParameters) ctx.getBean("applicationParameters");
+        return applicationParameters.getSessionTimeout();
     }
 
 }

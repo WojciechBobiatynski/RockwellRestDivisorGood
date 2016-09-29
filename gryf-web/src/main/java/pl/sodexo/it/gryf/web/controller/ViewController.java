@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import pl.sodexo.it.gryf.service.api.security.SecurityCheckerService;
+import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
 
 import static pl.sodexo.it.gryf.web.ViewResolverAttributes.*;
 import static pl.sodexo.it.gryf.web.controller.ControllersUrls.PAGES_PREFIX;
@@ -17,7 +17,7 @@ import static pl.sodexo.it.gryf.web.controller.ControllersUrls.PAGES_PREFIX;
 public class ViewController {
 
     @Autowired
-    SecurityCheckerService securityCheckerService;
+    SecurityChecker securityChecker;
 
     // forms
     @RequestMapping("/")

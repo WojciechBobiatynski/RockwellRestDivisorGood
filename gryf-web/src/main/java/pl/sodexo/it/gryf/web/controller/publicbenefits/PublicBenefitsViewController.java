@@ -11,7 +11,7 @@ import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.service.api.publicbenefits.grantapplications.GrantApplicationActionService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.orders.OrderService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.reimbursement.ReimbursementsAttachmentService;
-import pl.sodexo.it.gryf.service.api.security.SecurityCheckerService;
+import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -31,7 +31,7 @@ import static pl.sodexo.it.gryf.web.controller.ControllersUrls.PAGES_PREFIX;
 public class PublicBenefitsViewController {
 
     @Autowired
-    private SecurityCheckerService securityCheckerService;
+    private SecurityChecker securityChecker;
 
     @Autowired
     private GrantApplicationActionService grantApplicationActionService;
@@ -46,42 +46,42 @@ public class PublicBenefitsViewController {
 
     @RequestMapping("/enterprises")
     public String getEnterprisesView(Model model) {
-        securityCheckerService.assertFormPrivilege(Privileges.GRF_ENTERPRISES);
+        securityChecker.assertFormPrivilege(Privileges.GRF_ENTERPRISES);
         model.addAttribute(MAIN_CONTENT_PARAM_NAME, PAGES_PREFIX + "publicbenefits/enterprisesIndex.jsp");
         return DEFAULT_VIEW;
     }
 
     @RequestMapping("/individuals")
     public String getIndividualsView(Model model) {
-        securityCheckerService.assertFormPrivilege(Privileges.GRF_ENTERPRISES);
+        securityChecker.assertFormPrivilege(Privileges.GRF_ENTERPRISES);
         model.addAttribute(MAIN_CONTENT_PARAM_NAME, PAGES_PREFIX + "publicbenefits/individualsIndex.jsp");
         return DEFAULT_VIEW;
     }
 
     @RequestMapping("/trainingInstitutions")
     public String getTrainingInstitutionsView(Model model) {
-        securityCheckerService.assertFormPrivilege(Privileges.GRF_TRAINING_INSTITUTIONS);
+        securityChecker.assertFormPrivilege(Privileges.GRF_TRAINING_INSTITUTIONS);
         model.addAttribute(MAIN_CONTENT_PARAM_NAME, PAGES_PREFIX + "publicbenefits/trainingInstitutionsIndex.jsp");
         return DEFAULT_VIEW;
     }
 
     @RequestMapping("/grantApplications")
     public String getApplicationsView(Model model) {
-        securityCheckerService.assertFormPrivilege(Privileges.GRF_PBE_APPLICATIONS);
+        securityChecker.assertFormPrivilege(Privileges.GRF_PBE_APPLICATIONS);
         model.addAttribute(MAIN_CONTENT_PARAM_NAME, PAGES_PREFIX + "publicbenefits/grantApplicationsIndex.jsp");
         return DEFAULT_VIEW;
     }
 
     @RequestMapping("/orders")
     public String getOrdersView(Model model) {
-        securityCheckerService.assertFormPrivilege(Privileges.GRF_PBE_ORDERS);
+        securityChecker.assertFormPrivilege(Privileges.GRF_PBE_ORDERS);
         model.addAttribute(MAIN_CONTENT_PARAM_NAME, PAGES_PREFIX + "publicbenefits/ordersIndex.jsp");
         return DEFAULT_VIEW;
     }
 
     @RequestMapping("/reimbursements")
     public String getReimbursementsView(Model model) {
-        securityCheckerService.assertFormPrivilege(Privileges.GRF_PBE_DELIVERIES);
+        securityChecker.assertFormPrivilege(Privileges.GRF_PBE_DELIVERIES);
         model.addAttribute(MAIN_CONTENT_PARAM_NAME, PAGES_PREFIX + "publicbenefits/reimbursementsIndex.jsp");
         return DEFAULT_VIEW;
     }
@@ -90,7 +90,7 @@ public class PublicBenefitsViewController {
 
     @RequestMapping("/grantApplications/downloadAttachment")
     public void downloadGrantApplicationAttachment(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        securityCheckerService.assertFormPrivilege(Privileges.GRF_PBE_APPLICATIONS);
+        securityChecker.assertFormPrivilege(Privileges.GRF_PBE_APPLICATIONS);
 
         String idParam = request.getParameter("id");
         if(!StringUtils.isEmpty(idParam)) {
@@ -103,7 +103,7 @@ public class PublicBenefitsViewController {
 
     @RequestMapping("/orders/downloadAttachment")
     public void downloadOrderAttachment(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        securityCheckerService.assertFormPrivilege(Privileges.GRF_PBE_ORDERS);
+        securityChecker.assertFormPrivilege(Privileges.GRF_PBE_ORDERS);
 
         String idParam = request.getParameter("id");
         if(!StringUtils.isEmpty(idParam)) {
@@ -116,7 +116,7 @@ public class PublicBenefitsViewController {
 
     @RequestMapping("/reimbursements/downloadAttachment")
     public void downloadReimbursementAttachment(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        securityCheckerService.assertFormPrivilege(Privileges.GRF_PBE_REIMB);
+        securityChecker.assertFormPrivilege(Privileges.GRF_PBE_REIMB);
 
         String idParam = request.getParameter("id");
         if(!StringUtils.isEmpty(idParam)) {
@@ -129,7 +129,7 @@ public class PublicBenefitsViewController {
 
     @RequestMapping("/reimbursements/trainee/downloadAttachment")
     public void downloadReimbursementTraineeAttachment(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        securityCheckerService.assertFormPrivilege(Privileges.GRF_PBE_REIMB);
+        securityChecker.assertFormPrivilege(Privileges.GRF_PBE_REIMB);
 
         String idParam = request.getParameter("id");
         if(!StringUtils.isEmpty(idParam)) {

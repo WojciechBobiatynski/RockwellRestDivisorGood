@@ -3,7 +3,7 @@ package pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.actions;
 import org.springframework.beans.factory.annotation.Autowired;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
-import pl.sodexo.it.gryf.service.local.api.ValidateService;
+import pl.sodexo.it.gryf.service.local.api.GryfValidator;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.actions.ActionService;
 
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ public abstract class ActionBaseService implements ActionService {
     //FIELDS
 
     @Autowired
-    private ValidateService validateService;
+    private GryfValidator gryfValidator;
 
     //PUBLIC METHODS
 
@@ -25,14 +25,14 @@ public abstract class ActionBaseService implements ActionService {
 
         //VIOLATE VIOLATIONS
         List<EntityConstraintViolation> violateViolations = generateViolateViolations(order);
-        validateService.validate(violateViolations);
+        gryfValidator.validate(violateViolations);
 
         //CONFIRM VIOLATIONS
         List<EntityConstraintViolation> confirmViolations = generateConfirmViolations(order);
         List<EntityConstraintViolation> violationsInPath = new ArrayList<>();
         List<EntityConstraintViolation> violationsOutPath = new ArrayList<>();
-        validateService.classifyByPath(confirmViolations, acceptedPathViolations, violationsInPath, violationsOutPath);
-        validateService.validateWithConfirm(violationsOutPath);
+        gryfValidator.classifyByPath(confirmViolations, acceptedPathViolations, violationsInPath, violationsOutPath);
+        gryfValidator.validateWithConfirm(violationsOutPath);
 
         //EXECUTE ACTION
         executeAction(order);

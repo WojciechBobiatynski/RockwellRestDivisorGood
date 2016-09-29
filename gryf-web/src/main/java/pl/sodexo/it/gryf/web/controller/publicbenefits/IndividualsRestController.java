@@ -8,7 +8,7 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.searchform.Indivi
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.searchform.IndividualSearchResultDTO;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.service.api.publicbenefits.individuals.IndividualService;
-import pl.sodexo.it.gryf.service.api.security.SecurityCheckerService;
+import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
 import pl.sodexo.it.gryf.web.controller.ControllersUrls;
 
 import java.util.List;
@@ -22,19 +22,19 @@ public class IndividualsRestController {
     private IndividualService individualService;
 
     @Autowired
-    private SecurityCheckerService securityCheckerService;
+    private SecurityChecker securityChecker;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public IndividualDto getNewIndividual() {
         //TODO uprawnienia
-        securityCheckerService.assertFormPrivilege(Privileges.GRF_ENTERPRISES);
+        securityChecker.assertFormPrivilege(Privileges.GRF_ENTERPRISES);
         return individualService.createIndividual();
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public Long saveIndividual(@RequestParam(value = "checkPeselDup", required = false, defaultValue = "true") boolean checkPeselDup, @RequestBody IndividualDto individualDto) {
         //TODO uprawnienia
-        securityCheckerService.assertFormPrivilege(Privileges.GRF_ENTERPRISE_MOD);
+        securityChecker.assertFormPrivilege(Privileges.GRF_ENTERPRISE_MOD);
         individualDto = individualService.saveIndividual(individualDto, checkPeselDup);
         return individualDto.getId();
     }
@@ -42,7 +42,7 @@ public class IndividualsRestController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public IndividualDto getIndividual(@PathVariable Long id) {
         //TODO uprawnienia
-        securityCheckerService.assertFormPrivilege(Privileges.GRF_ENTERPRISES);
+        securityChecker.assertFormPrivilege(Privileges.GRF_ENTERPRISES);
         return individualService.findIndividual(id);
     }
 
@@ -50,7 +50,7 @@ public class IndividualsRestController {
     public Long updateIndividual(@PathVariable Long id,
                                  @RequestParam(value = "checkPeselDup", required = false, defaultValue = "true") boolean checkPeselDup, @RequestBody IndividualDto individualDto) {
         //TODO uprawnienia
-        securityCheckerService.assertServicePrivilege(Privileges.GRF_ENTERPRISE_MOD);
+        securityChecker.assertServicePrivilege(Privileges.GRF_ENTERPRISE_MOD);
         GryfUtils.checkForUpdate(id, individualDto.getId());
 
         individualService.updateIndividual(individualDto, checkPeselDup);
@@ -60,7 +60,7 @@ public class IndividualsRestController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public List<IndividualSearchResultDTO> findIndividuals(IndividualSearchQueryDTO dto) {
         //TODO uprawnienia
-        securityCheckerService.assertFormPrivilege(Privileges.GRF_ENTERPRISES);
+        securityChecker.assertFormPrivilege(Privileges.GRF_ENTERPRISES);
         return individualService.findIndividuals(dto);
 
     }

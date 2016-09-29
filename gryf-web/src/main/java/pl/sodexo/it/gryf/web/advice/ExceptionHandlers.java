@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import pl.sodexo.it.gryf.common.exception.*;
 import pl.sodexo.it.gryf.common.exception.publicbenefits.grantapplications.EntityValidationWithConfirmException;
-import pl.sodexo.it.gryf.service.api.other.ApplicationParametersService;
+import pl.sodexo.it.gryf.service.api.other.ApplicationParameters;
 import pl.sodexo.it.gryf.web.response.*;
 import pl.sodexo.it.gryf.web.response.publicbenefits.ValidationErrorWithConfirmResponse;
 
@@ -37,7 +37,7 @@ public class ExceptionHandlers {
     private static final Logger LOGGER = LoggerFactory.getLogger(ExceptionHandlers.class);
 
     @Autowired
-    ApplicationParametersService aps;
+    ApplicationParameters aps;
     
     @ExceptionHandler(StaleDataException.class)
     @ResponseBody

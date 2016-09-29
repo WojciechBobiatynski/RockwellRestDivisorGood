@@ -1,16 +1,16 @@
 package pl.sodexo.it.gryf.service.local.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import pl.sodexo.it.gryf.common.dto.FileContainerDTO;
 import pl.sodexo.it.gryf.common.dto.FileDTO;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.common.exception.EntityValidationException;
 import pl.sodexo.it.gryf.common.exception.publicbenefits.grantapplications.EntityValidationWithConfirmException;
 import pl.sodexo.it.gryf.common.utils.StringUtils;
-import pl.sodexo.it.gryf.service.api.other.ApplicationParametersService;
-import pl.sodexo.it.gryf.service.api.security.SecurityCheckerService;
-import pl.sodexo.it.gryf.service.local.api.ValidateService;
+import pl.sodexo.it.gryf.service.api.other.ApplicationParameters;
+import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
+import pl.sodexo.it.gryf.service.local.api.GryfValidator;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
@@ -23,16 +23,16 @@ import java.util.Set;
 /**
  * Created by Tomasz.Bilski on 2015-06-10.
  */
-@Service
-public class ValidateServiceImpl implements ValidateService {
+@Component
+public class GryfValidatorImpl implements GryfValidator {
 
     //PRIVATE FIELDS
 
     @Autowired
-    private ApplicationParametersService parameterService;
+    private ApplicationParameters parameterService;
 
     @Autowired
-    private SecurityCheckerService securityCheckerService;
+    private SecurityChecker securityChecker;
 
     @Autowired
     private Validator validator;
@@ -56,11 +56,11 @@ public class ValidateServiceImpl implements ValidateService {
     public void addInsertablePrivilege(List<EntityConstraintViolation> violations, Object o){
         //SECURITY VALIDATION
         for (Field field : o.getClass().getDeclaredFields()) {
-            if(!securityCheckerService.hasInsertablePrivilege(field)){
+            if (!securityChecker.hasInsertablePrivilege(field)) {
                 Object value = getValue(field, o);
                 if((value instanceof String && !StringUtils.isEmpty((String)value))
                         || (!(value instanceof String) && value != null)) {
-                    String message = securityCheckerService.getInsertablePrivilegeMessage(field);
+                    String message = securityChecker.getInsertablePrivilegeMessage(field);
                     violations.add(new EntityConstraintViolation(StringUtils.toString(field.getName()), message, value));
                 }
             }

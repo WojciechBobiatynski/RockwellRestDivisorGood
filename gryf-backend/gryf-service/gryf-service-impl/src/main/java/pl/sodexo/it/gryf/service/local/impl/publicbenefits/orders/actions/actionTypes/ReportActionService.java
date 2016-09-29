@@ -2,12 +2,12 @@ package pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.actions.actio
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.sodexo.it.gryf.common.ReportTemplateCode;
 import pl.sodexo.it.gryf.common.FileType;
+import pl.sodexo.it.gryf.common.ReportTemplateCode;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
-import pl.sodexo.it.gryf.service.api.other.ApplicationParametersService;
-import pl.sodexo.it.gryf.service.api.other.ReportService;
+import pl.sodexo.it.gryf.service.api.other.ApplicationParameters;
+import pl.sodexo.it.gryf.service.api.reports.ReportService;
 import pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.actions.ActionBaseService;
 import pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.elements.elementTypes.OrderElementAttachmentService;
 
@@ -29,7 +29,7 @@ public class ReportActionService extends ActionBaseService {
     private OrderElementAttachmentService orderElementAttachmentService;
 
     @Autowired
-    private ApplicationParametersService applicationParametersService;
+    private ApplicationParameters applicationParameters;
 
     //PUBLIC METHODS
 
@@ -38,10 +38,10 @@ public class ReportActionService extends ActionBaseService {
 
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("invoiceId", 1308L);//TODO; PRZEKAZAC
-        parameters.put("companyName", applicationParametersService.getSodexoName());
-        parameters.put("companyAddress1", applicationParametersService.getSodexoAddress1());
-        parameters.put("companyAddress2", applicationParametersService.getSodexoAddress2());
-        parameters.put("companyVatRegNum", applicationParametersService.getSodexoVatRegNum());
+        parameters.put("companyName", applicationParameters.getSodexoName());
+        parameters.put("companyAddress1", applicationParameters.getSodexoAddress1());
+        parameters.put("companyAddress2", applicationParameters.getSodexoAddress2());
+        parameters.put("companyVatRegNum", applicationParameters.getSodexoVatRegNum());
 
 
         String reportFileName = String.format("Invoice_%s.pdf", order.getId());

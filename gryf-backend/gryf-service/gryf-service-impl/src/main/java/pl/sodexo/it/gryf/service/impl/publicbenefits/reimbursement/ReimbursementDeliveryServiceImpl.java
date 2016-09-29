@@ -28,8 +28,8 @@ import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementPattern
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementPatternParam;
 import pl.sodexo.it.gryf.service.api.publicbenefits.reimbursement.ReimbursementDeliveryService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.reimbursement.ReimbursementPatternService;
-import pl.sodexo.it.gryf.service.api.security.SecurityCheckerService;
-import pl.sodexo.it.gryf.service.local.api.ValidateService;
+import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
+import pl.sodexo.it.gryf.service.local.api.GryfValidator;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -46,13 +46,13 @@ public class ReimbursementDeliveryServiceImpl implements ReimbursementDeliverySe
     //FIELDS
 
     @Autowired
-    private ValidateService validateService;
+    private GryfValidator gryfValidator;
 
     @Autowired
     private ReimbursementPatternService reimbursementPatternService;
 
     @Autowired
-    private SecurityCheckerService securityCheckerService;
+    private SecurityChecker securityChecker;
 
     @Autowired
     private ReimbursementDeliveryRepository reimbursementDeliveryRepository;
@@ -112,7 +112,7 @@ public class ReimbursementDeliveryServiceImpl implements ReimbursementDeliverySe
         ReimbursementDelivery entity = reimbursementDeliveryRepository.get(dto.getId());
 
         if(!ReimbursementDeliveryStatus.SCANNED_CODE.equals(entity.getStatus().getStatusId())){
-            validateService.validate(String.format("Nie można rozliczyć dostawy, która nie jest w statusie '%s'",
+            gryfValidator.validate(String.format("Nie można rozliczyć dostawy, która nie jest w statusie '%s'",
                     reimbursementDeliveryStatusRepository.get(ReimbursementDeliveryStatus.SCANNED_CODE)));
         }
 
@@ -129,7 +129,7 @@ public class ReimbursementDeliveryServiceImpl implements ReimbursementDeliverySe
 
         if(!ReimbursementDeliveryStatus.ORDERED_CODE.equals(entity.getStatus().getStatusId()) &&
            !ReimbursementDeliveryStatus.DELIVERED_CODE.equals(entity.getStatus().getStatusId())){
-            validateService.validate(String.format("Nie można anulować dostawy, która nie jest w statusie '%s' lub '%s'",
+            gryfValidator.validate(String.format("Nie można anulować dostawy, która nie jest w statusie '%s' lub '%s'",
                     reimbursementDeliveryStatusRepository.get(ReimbursementDeliveryStatus.ORDERED_CODE),
                     reimbursementDeliveryStatusRepository.get(ReimbursementDeliveryStatus.DELIVERED_CODE)));
         }
@@ -230,13 +230,13 @@ public class ReimbursementDeliveryServiceImpl implements ReimbursementDeliverySe
 
                 //VALIDATE
                 List<EntityConstraintViolation> violations = new ArrayList<>();
-                if(!securityCheckerService.hasPrivilege(Privileges.GRF_PBE_DELIVERIES_ACCEPT)){
+                if (!securityChecker.hasPrivilege(Privileges.GRF_PBE_DELIVERIES_ACCEPT)) {
                     if(!Objects.equals(dto.getDeliveryDate(), entity.getDeliveryDate())) {
                         violations.add(new EntityConstraintViolation(ReimbursementDeliveryDTO.DELIVERY_DATE_ATTR_NAME,
                                 "Nie posiadasz uprawnień do edycji pola 'Data otrzymania przesyłki'"));
                     }
                 }
-                if(!securityCheckerService.hasPrivilege(Privileges.GRF_PBE_DELIVERIES_ACCEPT)){
+                if (!securityChecker.hasPrivilege(Privileges.GRF_PBE_DELIVERIES_ACCEPT)) {
                     if(!Objects.equals(dto.getWaybillNumber(), entity.getWaybillNumber())) {
                         violations.add(new EntityConstraintViolation(ReimbursementDeliveryDTO.WAYBILL_NUMBER_ATTR_NAME,
                                 "Nie posiadasz uprawnień do edycji pola 'Numer listu przewozowego'"));
@@ -253,7 +253,7 @@ public class ReimbursementDeliveryServiceImpl implements ReimbursementDeliverySe
                                 "Numer listu przewozowego nie może być pusty"));
                     }
                 }
-                validateService.validate(violations);
+                gryfValidator.validate(violations);
 
                 //UPDATE
                 entity.setDeliveryDate(dto.getDeliveryDate());
@@ -280,8 +280,8 @@ public class ReimbursementDeliveryServiceImpl implements ReimbursementDeliverySe
         SaveType saveType = getSaveType(dto);
 
         //VALIDATE
-        List<EntityConstraintViolation> violations = validateService.generateViolation(dto, saveType.getValidateClass());
-        validateService.addInsertablePrivilege(violations, dto);
+        List<EntityConstraintViolation> violations = gryfValidator.generateViolation(dto, saveType.getValidateClass());
+        gryfValidator.addInsertablePrivilege(violations, dto);
         switch(saveType){
             case REGISTER:
                 if(dto.getTrainingInstitution() != null && dto.getReimbursementPattern() != null && dto.getPlannedReceiptDate() != null){
@@ -292,14 +292,14 @@ public class ReimbursementDeliveryServiceImpl implements ReimbursementDeliverySe
                 validateSecondaryDelivery(violations, dto);
                 break;
         }
-        validateService.validate(violations);
+        gryfValidator.validate(violations);
 
         //VALIDATE CONFIRM
         List<EntityConstraintViolation> confirmViolations = new ArrayList<>();
         if(dto.getDeliveryDate() != null && new Date().before(dto.getDeliveryDate())) {
             confirmViolations.add(new EntityConstraintViolation("deliveryDate", "Wprowadzona data otrzymania przesyłki jest przyszła!"));
         }
-        validateService.validateWithConfirm(confirmViolations);
+        gryfValidator.validateWithConfirm(confirmViolations);
 
 
         return saveType;
@@ -311,7 +311,7 @@ public class ReimbursementDeliveryServiceImpl implements ReimbursementDeliverySe
         }
         if(dto.getPlannedReceiptDate() != null && dto.getRequestDate() != null && dto.getDeliveryDate() != null){
             if(dto.getAcceptedViolations() == null || !dto.getAcceptedViolations().contains("NO_SAVE_TYPE")){
-                validateService.validateWithConfirm("NO_SAVE_TYPE", "Podejmujesz próbę przyjęcia dostawy, która nie została zamówiona – uzupełniono planowaną " +
+                gryfValidator.validateWithConfirm("NO_SAVE_TYPE", "Podejmujesz próbę przyjęcia dostawy, która nie została zamówiona – uzupełniono planowaną " +
                                                     "datę odbioru kuponów oraz datę otrzymania przesyłki dla nowej dostawy, czy chcesz kontynuować");
             }
             return SaveType.DELIVER;
@@ -323,7 +323,7 @@ public class ReimbursementDeliveryServiceImpl implements ReimbursementDeliverySe
             return SaveType.DELIVER;
         }
         else{
-            validateService.validate("Nie udało się rozpoznać typu dostawy. Należy wypełnić pole 'Data otrzymania przesyłki' " +
+            gryfValidator.validate("Nie udało się rozpoznać typu dostawy. Należy wypełnić pole 'Data otrzymania przesyłki' " +
                     "w przypadku rejestracji przyjęcia dostawy albo pola 'Planowana data odbioru kuponów', 'Data ptrzyjęcia zgłoszenia' " +
                     "w przypadku zamawiania kuriera dla Instytucji Szkoleniowej.");
             return null;

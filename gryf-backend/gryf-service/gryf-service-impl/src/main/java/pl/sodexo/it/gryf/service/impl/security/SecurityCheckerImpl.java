@@ -2,18 +2,18 @@ package pl.sodexo.it.gryf.service.impl.security;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import pl.sodexo.it.gryf.common.Privileges;
 import pl.sodexo.it.gryf.common.exception.AuthAssertionFailureException;
 import pl.sodexo.it.gryf.common.exception.AuthAssertionFailureFormException;
 import pl.sodexo.it.gryf.common.validation.InsertablePrivilege;
-import pl.sodexo.it.gryf.service.api.security.SecurityCheckerService;
+import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
 
-@Service
-public class SecurityCheckerServiceImpl implements SecurityCheckerService {
+@Component
+public class SecurityCheckerImpl implements SecurityChecker {
 
     //PUBLIC METHODS - ASSERT PRIVILEGE
 

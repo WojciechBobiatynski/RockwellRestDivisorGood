@@ -10,7 +10,7 @@ import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
-import pl.sodexo.it.gryf.service.local.api.ValidateService;
+import pl.sodexo.it.gryf.service.local.api.GryfValidator;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.grantapplications.GrantApplicationEmailService;
 import pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.actions.ActionBaseService;
 import pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.elements.elementTypes.OrderElementAttrDService;
@@ -28,9 +28,10 @@ public class Qualify1ActionService extends ActionBaseService {
     //FIELDS
 
     @Autowired
-    private ValidateService validateService;
+    private GryfValidator gryfValidator;
 
     @Autowired
+    //FIXME wstrzyknięcie klasy
     private OrderElementAttrDService orderElementAttrDService;
 
     @Autowired
@@ -55,7 +56,7 @@ public class Qualify1ActionService extends ActionBaseService {
         validateMail(violations, toEnterpriseDTO, "ENTQLYEMA1", "do WUP");
         validateMail(violations, toWorkOfficeDTO, "GOQLYEMA1", "do Przedsiębiorstwa");
         validateDocuments(violations, order, "EQCONTRCT1");
-        validateService.validate(violations);
+        gryfValidator.validate(violations);
 
         //SET DATE
         application.setConsiderationDate(new Date());
