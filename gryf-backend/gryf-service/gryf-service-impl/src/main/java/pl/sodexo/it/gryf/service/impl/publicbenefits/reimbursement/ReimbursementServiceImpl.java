@@ -29,6 +29,7 @@ import pl.sodexo.it.gryf.service.local.api.GryfValidator;
 import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.reimbursement.detailsform.ReimbursementDeliveryEntityMapper;
 import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.reimbursement.detailsform.ReimbursementEntityMapper;
 import pl.sodexo.it.gryf.service.utils.ReimbursementCalculationHelper;
+import pl.sodexo.it.gryf.service.validation.VersionableValidator;
 import pl.sodexo.it.gryf.service.validation.publicbenefits.reimbursement.ReimbursementValidator;
 
 import java.math.BigDecimal;
@@ -97,7 +98,8 @@ public class ReimbursementServiceImpl implements ReimbursementService {
     @Autowired
     private ReimbursementValidator reimbursementValidator;
 
-
+    @Autowired
+    private VersionableValidator versionableValidator;
     //PUBLIC METHODS
 
     @Override
@@ -329,7 +331,7 @@ public class ReimbursementServiceImpl implements ReimbursementService {
     }
 
     private Reimbursement update(Reimbursement entity, ReimbursementDTO dto, String nextStatus, boolean isValidation, Class ... validationClasses){
-        reimbursementValidator.validateVersion(entity, dto);
+        versionableValidator.validateVersion(entity, dto, entity.getId());
         reimbursementValidator.validateStatusChange(entity.getStatus().getStatusId(), nextStatus);
         if(isValidation) {
             reimbursementValidator.validate(dto, entity, validationClasses);

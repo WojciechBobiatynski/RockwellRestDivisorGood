@@ -12,9 +12,6 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchfor
 import pl.sodexo.it.gryf.common.exception.StaleDataException;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.common.utils.StringUtils;
-import pl.sodexo.it.gryf.common.validation.publicbenefits.reimbursement.ValidationGroupDeliverReimbursementDelivery;
-import pl.sodexo.it.gryf.common.validation.publicbenefits.reimbursement.ValidationGroupRegisterReimbursementDelivery;
-import pl.sodexo.it.gryf.common.validation.publicbenefits.reimbursement.ValidationGroupSecondaryReimbursementDelivery;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.reimbursement.ReimbursementDeliveryRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.reimbursement.ReimbursementDeliveryStatusRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.reimbursement.ReimbursementPatternRepository;
@@ -28,6 +25,8 @@ import pl.sodexo.it.gryf.service.api.publicbenefits.reimbursement.ReimbursementP
 import pl.sodexo.it.gryf.service.mapping.entityToDto.dictionaries.DictionaryEntityMapper;
 import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.reimbursement.detailsform.ReimbursementDeliveryEntityMapper;
 import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.reimbursement.searchform.ReimbursementDeliveryEntityToSearchResultMapper;
+import pl.sodexo.it.gryf.service.validation.VersionableValidator;
+import pl.sodexo.it.gryf.service.validation.publicbenefits.reimbursement.ReimbursementDeliverySaveType;
 import pl.sodexo.it.gryf.service.validation.publicbenefits.reimbursement.ReimbursementDeliveryValidator;
 
 import java.util.Date;
@@ -69,6 +68,9 @@ public class ReimbursementDeliveryServiceImpl implements ReimbursementDeliverySe
     @Autowired
     private ReimbursementDeliveryValidator reimbursementDeliveryValidator;
 
+    @Autowired
+    private VersionableValidator versionableValidator;
+
     //PUBLIC METHODS
 
     @Override
@@ -94,10 +96,10 @@ public class ReimbursementDeliveryServiceImpl implements ReimbursementDeliverySe
         ReimbursementDelivery entity;
 
         if(dto.getId() == null) {
-            SaveType saveType = reimbursementDeliveryValidator.validate(dto);
-            entity = createReimbursementDelivery(dto, saveType);
+            ReimbursementDeliverySaveType reimbursementDeliverySaveType = reimbursementDeliveryValidator.validate(dto);
+            entity = createReimbursementDelivery(dto, reimbursementDeliverySaveType);
             entity = reimbursementDeliveryRepository.save(entity);
-            setStatusOnSave(entity, saveType);
+            setStatusOnSave(entity, reimbursementDeliverySaveType);
         }else{
             entity = reimbursementDeliveryRepository.get(dto.getId());
             updateReimbursementDelivery(entity, dto);
@@ -150,12 +152,12 @@ public class ReimbursementDeliveryServiceImpl implements ReimbursementDeliverySe
 
     //PRIVATE METHODS
 
-    private ReimbursementDelivery createReimbursementDelivery(ReimbursementDeliveryDTO dto, SaveType saveType){
+    private ReimbursementDelivery createReimbursementDelivery(ReimbursementDeliveryDTO dto, ReimbursementDeliverySaveType reimbursementDeliverySaveType) {
         TrainingInstitutionSearchResultDTO institutionDTO = dto.getTrainingInstitution();
         DictionaryDTO patternDTO = dto.getReimbursementPattern();
 
         ReimbursementDelivery entity = new ReimbursementDelivery();
-        switch (saveType){
+        switch (reimbursementDeliverySaveType) {
             case REGISTER:
                 entity.setReimbursementPattern(patternDTO != null ? reimbursementPatternRepository.get((Long) patternDTO.getId()) : null);
                 entity.setTrainingInstitution(institutionDTO != null ? trainingInstitutionRepository.get(institutionDTO.getId()) : null);
@@ -191,9 +193,9 @@ public class ReimbursementDeliveryServiceImpl implements ReimbursementDeliverySe
         return entity;
     }
 
-    private void setStatusOnSave(ReimbursementDelivery entity, SaveType saveType){
+    private void setStatusOnSave(ReimbursementDelivery entity, ReimbursementDeliverySaveType reimbursementDeliverySaveType) {
         if(entity.getStatus() == null) {
-            switch (saveType) {
+            switch (reimbursementDeliverySaveType) {
                 case REGISTER:
                     entity.setStatus(reimbursementDeliveryStatusRepository.get(ReimbursementDeliveryStatus.ORDERED_CODE));
                     break;
@@ -215,7 +217,7 @@ public class ReimbursementDeliveryServiceImpl implements ReimbursementDeliverySe
     }
 
     private void updateReimbursementDelivery(ReimbursementDelivery entity, ReimbursementDeliveryDTO dto){
-        reimbursementDeliveryValidator.validateVersion(entity, dto);
+        versionableValidator.validateVersion(entity, dto, entity.getId());
 
         switch (entity.getStatus().getStatusId()){
             case ReimbursementDeliveryStatus.ORDERED_CODE:
@@ -246,28 +248,4 @@ public class ReimbursementDeliveryServiceImpl implements ReimbursementDeliverySe
         return dto.getDeliveryDate();
     }
 
-    //PRIVATE CLASS
-    //TODO wydzielić
-    public enum SaveType {
-
-        REGISTER(ValidationGroupRegisterReimbursementDelivery.class),
-        DELIVER(ValidationGroupDeliverReimbursementDelivery.class),
-        SECONDARY(ValidationGroupSecondaryReimbursementDelivery.class);
-
-        //FIELDS
-
-        private Class<?> validateClass;
-
-        //CONSTRUCTORS
-
-        SaveType(Class<?> validateClass){
-            this.validateClass = validateClass;
-        }
-
-        //GETTERS
-
-        public Class<?> getValidateClass() {
-            return validateClass;
-        }
-    }
 }

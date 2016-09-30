@@ -6,7 +6,6 @@ import pl.sodexo.it.gryf.common.Privileges;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.detailsform.*;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.searchform.ReimbursementDeliverySearchResultDTO;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
-import pl.sodexo.it.gryf.common.exception.StaleDataException;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.common.validation.publicbenefits.reimbursement.ValidationGroupReimbursementSettleAndVerify;
@@ -95,13 +94,6 @@ public class ReimbursementValidator {
         tempStatusMap.put(ReimbursementStatus.CANCELLED_CODE, Collections.unmodifiableSet(set));
 
         statusMap = Collections.unmodifiableMap(tempStatusMap);
-    }
-
-    //TODO validateVersion do przeniesienia
-    public void validateVersion(Reimbursement entity, ReimbursementDTO dto) {
-        if (!Objects.equals(entity.getVersion(), dto.getVersion())) {
-            throw new StaleDataException(entity.getId(), entity);
-        }
     }
 
     public void validateStatusAccess(Reimbursement entity, String... statuses) {

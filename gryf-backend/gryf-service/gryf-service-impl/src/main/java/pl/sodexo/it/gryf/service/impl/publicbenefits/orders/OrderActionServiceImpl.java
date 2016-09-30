@@ -19,6 +19,7 @@ import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.OrderDateServic
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.actions.ActionService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.orderflows.OrderFlowElementService;
 import pl.sodexo.it.gryf.service.utils.BeanUtils;
+import pl.sodexo.it.gryf.service.validation.VersionableValidator;
 import pl.sodexo.it.gryf.service.validation.publicbenefits.orders.OrderActionValidator;
 
 import java.util.List;
@@ -54,6 +55,9 @@ public class OrderActionServiceImpl implements OrderActionService {
     @Autowired
     private OrderActionValidator orderActionValidator;
 
+    @Autowired
+    private VersionableValidator versionableValidator;
+
     @Override
     public void executeAction(Long id, Long actionId, Integer version, List<IncomingOrderElementDTO> incomingOrderElements, List<FileDTO> files, List<String> acceptedViolations) {
 
@@ -65,7 +69,7 @@ public class OrderActionServiceImpl implements OrderActionService {
             OrderFlowStatus status = order.getStatus();
 
             //VALIDATE VERSION
-            orderActionValidator.validateVersion(order, version);
+            versionableValidator.validateVersion(order, version, order.getId());
 
             //STATUS TRANSITION
             OrderFlowStatusTransitionPK statusTransitionId = new OrderFlowStatusTransitionPK(orderFlow.getId(), status.getStatusId(), actionId);

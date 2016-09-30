@@ -7,7 +7,6 @@ import pl.sodexo.it.gryf.common.dto.DictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.detailsform.ReimbursementDeliveryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingInstitutionSearchResultDTO;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
-import pl.sodexo.it.gryf.common.exception.StaleDataException;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.other.GryfPLSQLRepository;
@@ -18,7 +17,6 @@ import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementDeliver
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementPatternParam;
 import pl.sodexo.it.gryf.service.api.publicbenefits.reimbursement.ReimbursementPatternService;
 import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
-import pl.sodexo.it.gryf.service.impl.publicbenefits.reimbursement.ReimbursementDeliveryServiceImpl;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
 
 import java.util.ArrayList;
@@ -52,22 +50,15 @@ public class ReimbursementDeliveryValidator {
     @Autowired
     private SecurityChecker securityChecker;
 
-    //TODO validateVErsion do wydzielenia
-    public void validateVersion(ReimbursementDelivery entity, ReimbursementDeliveryDTO dto) {
-        if (!Objects.equals(entity.getVersion(), dto.getVersion())) {
-            throw new StaleDataException(entity.getId(), entity);
-        }
-    }
-
-    public ReimbursementDeliveryServiceImpl.SaveType validate(ReimbursementDeliveryDTO dto) {
+    public ReimbursementDeliverySaveType validate(ReimbursementDeliveryDTO dto) {
 
         //GET SAVE TYPE AND VALIDATE
-        ReimbursementDeliveryServiceImpl.SaveType saveType = getSaveType(dto);
+        ReimbursementDeliverySaveType reimbursementDeliverySaveType = getSaveType(dto);
 
         //VALIDATE
-        List<EntityConstraintViolation> violations = gryfValidator.generateViolation(dto, saveType.getValidateClass());
+        List<EntityConstraintViolation> violations = gryfValidator.generateViolation(dto, reimbursementDeliverySaveType.getValidateClass());
         gryfValidator.addInsertablePrivilege(violations, dto);
-        switch (saveType) {
+        switch (reimbursementDeliverySaveType) {
             case REGISTER:
                 if (dto.getTrainingInstitution() != null && dto.getReimbursementPattern() != null && dto.getPlannedReceiptDate() != null) {
                     validateRegisterLimit(violations, dto.getReimbursementPattern(), dto.getTrainingInstitution(), dto.getPlannedReceiptDate());
@@ -86,7 +77,7 @@ public class ReimbursementDeliveryValidator {
         }
         gryfValidator.validateWithConfirm(confirmViolations);
 
-        return saveType;
+        return reimbursementDeliverySaveType;
     }
 
     private void validateRegisterLimit(List<EntityConstraintViolation> violations, DictionaryDTO reimbursementPattern, TrainingInstitutionSearchResultDTO trainingInstitution,
@@ -129,22 +120,22 @@ public class ReimbursementDeliveryValidator {
         }
     }
 
-    private ReimbursementDeliveryServiceImpl.SaveType getSaveType(ReimbursementDeliveryDTO dto) {
+    private ReimbursementDeliverySaveType getSaveType(ReimbursementDeliveryDTO dto) {
         if (dto.getParentId() != null) {
-            return ReimbursementDeliveryServiceImpl.SaveType.SECONDARY;
+            return ReimbursementDeliverySaveType.SECONDARY;
         }
         if (dto.getPlannedReceiptDate() != null && dto.getRequestDate() != null && dto.getDeliveryDate() != null) {
             if (dto.getAcceptedViolations() == null || !dto.getAcceptedViolations().contains("NO_SAVE_TYPE")) {
                 gryfValidator.validateWithConfirm("NO_SAVE_TYPE", "Podejmujesz próbę przyjęcia dostawy, która nie została zamówiona – uzupełniono planowaną "
                         + "datę odbioru kuponów oraz datę otrzymania przesyłki dla nowej dostawy, czy chcesz kontynuować");
             }
-            return ReimbursementDeliveryServiceImpl.SaveType.DELIVER;
+            return ReimbursementDeliverySaveType.DELIVER;
         }
         if (dto.getPlannedReceiptDate() != null && dto.getRequestDate() != null && dto.getDeliveryDate() == null) {
-            return ReimbursementDeliveryServiceImpl.SaveType.REGISTER;
+            return ReimbursementDeliverySaveType.REGISTER;
         }
         if (dto.getPlannedReceiptDate() == null && dto.getRequestDate() == null && dto.getDeliveryDate() != null) {
-            return ReimbursementDeliveryServiceImpl.SaveType.DELIVER;
+            return ReimbursementDeliverySaveType.DELIVER;
         } else {
             gryfValidator.validate("Nie udało się rozpoznać typu dostawy. Należy wypełnić pole 'Data otrzymania przesyłki' "
                     + "w przypadku rejestracji przyjęcia dostawy albo pola 'Planowana data odbioru kuponów', 'Data ptrzyjęcia zgłoszenia' "
