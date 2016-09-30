@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.dto.FileDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.OrderDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementDTO;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementDTOBuilder;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.transitions.OrderFlowTransitionDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.searchform.OrderSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.searchform.OrderSearchResultDTO;
@@ -19,18 +18,17 @@ import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderElementRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderFlowStatusTransitionRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderRepository;
-import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
-import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
-import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowElement;
-import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowElementType;
+import pl.sodexo.it.gryf.model.publicbenefits.orders.*;
 import pl.sodexo.it.gryf.service.api.publicbenefits.orders.OrderService;
 import pl.sodexo.it.gryf.service.local.api.FileService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.elements.OrderElementService;
+import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.orders.OrderFlowTransitionDTOProvider;
 import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.orders.searchform.OrderEntityToSearchResultMapper;
 import pl.sodexo.it.gryf.service.utils.BeanUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Michal.CHWEDCZUK.ext on 2015-07-22.
@@ -69,7 +67,8 @@ public class OrderServiceImpl implements OrderService {
             throw new InvalidObjectIdException("Nie znaleziono zamówienia o id " + id);
         }
         List<OrderElementDTOBuilder> orderElementDTOBuilders = orderElementRepository.findDtoFactoryByOrderToModify(id);
-        List<OrderFlowTransitionDTO> orderFlowStatusTransitions = orderFlowStatusTransitionRepository.findDtoByOrder(id);
+        List<OrderFlowTransitionDTO> orderFlowStatusTransitions = orderFlowStatusTransitionRepository.findDtoByOrder(id).stream().map(orderFlowTransitionDTOBuilder -> OrderFlowTransitionDTOProvider
+                .createOrderFlowTransitionDTO(orderFlowTransitionDTOBuilder)).collect(Collectors.toList());
 
         OrderDTO orderDTO = createOrderDTO(order, orderElementDTOBuilders, orderFlowStatusTransitions);
         return JsonMapperUtils.writeValueAsString(orderDTO);

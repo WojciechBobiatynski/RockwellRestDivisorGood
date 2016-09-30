@@ -10,6 +10,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationContactData;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationContactType;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
+import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElementDTOBuilder;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowElement;
 
 import java.math.BigDecimal;

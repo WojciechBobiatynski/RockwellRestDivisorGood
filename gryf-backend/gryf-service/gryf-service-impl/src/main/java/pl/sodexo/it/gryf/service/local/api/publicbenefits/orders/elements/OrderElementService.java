@@ -1,9 +1,9 @@
 package pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.elements;
 
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementDTO;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementDTOBuilder;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
+import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElementDTOBuilder;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowElementInStatus;
 
 import java.util.List;

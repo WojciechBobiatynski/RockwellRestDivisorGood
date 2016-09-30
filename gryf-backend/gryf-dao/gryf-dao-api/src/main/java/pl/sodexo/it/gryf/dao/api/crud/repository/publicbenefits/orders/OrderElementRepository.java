@@ -1,8 +1,8 @@
 package pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders;
 
-import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementDTOBuilder;
-import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
 import pl.sodexo.it.gryf.dao.api.crud.repository.GenericRepository;
+import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
+import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElementDTOBuilder;
 
 import java.util.List;
 import java.util.Map;

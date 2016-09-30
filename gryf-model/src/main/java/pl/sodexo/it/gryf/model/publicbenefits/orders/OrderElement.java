@@ -25,7 +25,7 @@ import java.util.Objects;
 @Table(name = "ORDER_ELEMENTS", schema = "APP_PBE")
 @NamedQueries({
         @NamedQuery(name = OrderElement.FIND_DTO_FACTORY_BY_ORDER_TO_MODIFY, query =
-                "SELECT distinct new pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementDTOBuilder (o, e, fe, eis) " +
+                "SELECT distinct new pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElementDTOBuilder (o, e, fe, eis) " +
                 "FROM OrderEntity o " +
                 "JOIN o.orderElements e " +
                 "JOIN e.orderFlowElement fe " +
@@ -34,7 +34,7 @@ import java.util.Objects;
                 "AND o.id = :id " +
                 "ORDER by eis.pos"),
         @NamedQuery(name = OrderElement.FIND_DTO_FACTORY_BY_ORDER_TO_PREVIEW, query =
-                "SELECT distinct new pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementDTOBuilder (o, e, fe) " +
+                "SELECT distinct new pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElementDTOBuilder (o, e, fe) " +
                 "FROM OrderEntity o " +
                 "JOIN o.orderElements e " +
                 "JOIN e.orderFlowElement fe " +

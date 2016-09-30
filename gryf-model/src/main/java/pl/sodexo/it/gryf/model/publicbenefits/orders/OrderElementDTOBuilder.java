@@ -1,10 +1,6 @@
-package pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements;
+package pl.sodexo.it.gryf.model.publicbenefits.orders;
 
 import lombok.ToString;
-import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
-import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
-import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowElement;
-import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowElementInStatus;
 
 /**
  * Created by tomasz.bilski.ext on 2015-08-18.

@@ -1,11 +1,11 @@
 package pl.sodexo.it.gryf.dao.impl.crud.repository.publicbenefits.orders;
 
 import org.springframework.stereotype.Repository;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementDTOBuilder;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderElementRepository;
-import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
 import pl.sodexo.it.gryf.dao.impl.crud.repository.GenericRepositoryImpl;
+import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
+import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElementDTOBuilder;
 
 import javax.persistence.TypedQuery;
 import java.util.List;

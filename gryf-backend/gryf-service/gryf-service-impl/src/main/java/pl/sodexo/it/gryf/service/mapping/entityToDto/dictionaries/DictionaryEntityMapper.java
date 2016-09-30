@@ -13,11 +13,7 @@ import java.util.List;
 @Component
 public class DictionaryEntityMapper {
 
-    protected DictionaryDTO initDestination() {
-        return new DictionaryDTO();
-    }
-
-    protected void map(DictionaryEntity entity, DictionaryDTO dto) {
+    private void map(DictionaryEntity entity, DictionaryDTO dto) {
         dto.setId(entity.getDictionaryId());
         dto.setName(entity.getDictionaryName());
     }
@@ -32,7 +28,7 @@ public class DictionaryEntityMapper {
     }
 
     public DictionaryDTO convert(DictionaryEntity source) {
-        DictionaryDTO destination = initDestination();
+        DictionaryDTO destination = new DictionaryDTO();
         if (source != null) {
             map(source, destination);
         }
