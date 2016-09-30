@@ -60,9 +60,9 @@ public class EnterpriseServiceImpl implements EnterpriseService {
     }
 
     @Override
-    public EnterpriseDto saveEnterpriseDto(EnterpriseDto enterpriseDto, boolean checkVatRegNumDup) {
+    public Long saveEnterpriseDto(EnterpriseDto enterpriseDto, boolean checkVatRegNumDup) {
         Enterprise enterprise = enterpriseServiceLocal.saveEnterprise(enterpriseDtoMapper.convert(enterpriseDto),checkVatRegNumDup);
-        return enterpriseEntityMapper.convert(enterprise);
+        return enterprise.getId();
     }
 
     @Override

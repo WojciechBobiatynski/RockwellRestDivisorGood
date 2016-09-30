@@ -66,14 +66,14 @@ public class IndividualServiceImpl implements IndividualService {
     }
 
     @Override
-    public IndividualDto saveIndividual(IndividualDto individualDto, boolean checkPeselDup) {
+    public Long saveIndividual(IndividualDto individualDto, boolean checkPeselDup) {
         Individual individual = individualDtoMapper.convert(individualDto);
         individualValidator.validateIndividual(individual, checkPeselDup);
         individual = individualRepository.save(individual);
 
         individual.setCode(generateCode(individual.getId()));
         individualRepository.update(individual, individual.getId());
-        return individualEntityMapper.convert(individual);
+        return individual.getId();
     }
     
     @Override

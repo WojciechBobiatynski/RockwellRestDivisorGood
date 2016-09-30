@@ -17,7 +17,7 @@ public interface TrainingInstitutionService {
 
     TrainingInstitutionDto createTrainingInstitution();
 
-    TrainingInstitutionDto saveTrainingInstitution(TrainingInstitutionDto trainingInstitutionDto, boolean checkVatRegNumDup);
+    Long saveTrainingInstitution(TrainingInstitutionDto trainingInstitutionDto, boolean checkVatRegNumDup);
 
     void updateTrainingInstitution(TrainingInstitutionDto trainingInstitutionDto, boolean checkVatRegNumDup);
 }

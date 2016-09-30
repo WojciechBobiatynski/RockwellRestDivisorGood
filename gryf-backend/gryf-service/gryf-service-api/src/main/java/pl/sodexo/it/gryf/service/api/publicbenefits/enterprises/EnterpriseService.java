@@ -17,7 +17,7 @@ public interface EnterpriseService {
 
     EnterpriseDto createEnterprise();
 
-    EnterpriseDto saveEnterpriseDto(EnterpriseDto enterpriseDto, boolean checkVatRegNumDup);
+    Long saveEnterpriseDto(EnterpriseDto enterpriseDto, boolean checkVatRegNumDup);
 
     void updateEnterpriseDto(EnterpriseDto enterpriseDto, boolean checkVatRegNumDup);
 }

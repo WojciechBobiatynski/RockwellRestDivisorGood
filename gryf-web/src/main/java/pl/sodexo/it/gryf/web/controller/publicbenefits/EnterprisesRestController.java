@@ -37,8 +37,7 @@ public class EnterprisesRestController {
     public Long saveEnterprise(@RequestParam(value = "checkVatRegNumDup", required = false, defaultValue = "true") boolean checkVatRegNumDup,
                                @RequestBody EnterpriseDto enterpriseDto) {
         securityChecker.assertServicePrivilege(Privileges.GRF_ENTERPRISE_MOD);
-        enterpriseDto = enterpriseService.saveEnterpriseDto(enterpriseDto, checkVatRegNumDup);
-        return enterpriseDto.getId();
+        return enterpriseService.saveEnterpriseDto(enterpriseDto, checkVatRegNumDup);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)

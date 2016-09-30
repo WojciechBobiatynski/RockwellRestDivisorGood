@@ -35,8 +35,7 @@ public class IndividualsRestController {
     public Long saveIndividual(@RequestParam(value = "checkPeselDup", required = false, defaultValue = "true") boolean checkPeselDup, @RequestBody IndividualDto individualDto) {
         //TODO uprawnienia
         securityChecker.assertFormPrivilege(Privileges.GRF_ENTERPRISE_MOD);
-        individualDto = individualService.saveIndividual(individualDto, checkPeselDup);
-        return individualDto.getId();
+        return  individualService.saveIndividual(individualDto, checkPeselDup);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)

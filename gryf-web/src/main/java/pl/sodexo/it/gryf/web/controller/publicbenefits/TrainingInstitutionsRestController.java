@@ -37,8 +37,7 @@ public class TrainingInstitutionsRestController {
     public Long saveTrainingInstitution(@RequestParam(value = "checkVatRegNumDup", required = false, defaultValue = "true") boolean checkVatRegNumDup,
             @RequestBody TrainingInstitutionDto trainingInstitutionDto) {
         securityChecker.assertServicePrivilege(Privileges.GRF_TRAINING_INSTITUTION_MOD);
-        trainingInstitutionDto = trainingInstitutionService.saveTrainingInstitution(trainingInstitutionDto, checkVatRegNumDup);
-        return trainingInstitutionDto.getId();
+        return trainingInstitutionService.saveTrainingInstitution(trainingInstitutionDto, checkVatRegNumDup);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)

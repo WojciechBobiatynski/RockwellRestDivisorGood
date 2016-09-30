@@ -62,14 +62,14 @@ public class TrainingInstitutionServiceImpl implements TrainingInstitutionServic
     }
 
     @Override
-    public TrainingInstitutionDto saveTrainingInstitution(TrainingInstitutionDto trainingInstitutionDto, boolean checkVatRegNumDup) {
+    public Long saveTrainingInstitution(TrainingInstitutionDto trainingInstitutionDto, boolean checkVatRegNumDup) {
         TrainingInstitution trainingInstitution = trainingInstitutionDtoMapper.convert(trainingInstitutionDto);
         trainingInstitutionValidator.validateTrainingInstitution(trainingInstitution, checkVatRegNumDup);
         trainingInstitution = trainingInstitutionRepository.save(trainingInstitution);
 
         trainingInstitution.setCode(generateCode(trainingInstitution.getId()));
         trainingInstitutionRepository.update(trainingInstitution, trainingInstitution.getId());
-        return trainingInstitutionEntityMapper.convert(trainingInstitution);
+        return trainingInstitution.getId();
     }
 
     @Override

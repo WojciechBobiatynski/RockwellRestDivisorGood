@@ -21,7 +21,7 @@ public interface IndividualService {
 
     IndividualDto createIndividual();
 
-    IndividualDto saveIndividual(IndividualDto individualDto, boolean checkPeselDup);
+    Long saveIndividual(IndividualDto individualDto, boolean checkPeselDup);
 
     /**
      * Funkcja zwraca zbiór adresów e-mail odbiorców przypisanych do przekazanej Osoby fizycznej. Tak zwrócony zbiór można sformatować np przy pomocy funkcji
