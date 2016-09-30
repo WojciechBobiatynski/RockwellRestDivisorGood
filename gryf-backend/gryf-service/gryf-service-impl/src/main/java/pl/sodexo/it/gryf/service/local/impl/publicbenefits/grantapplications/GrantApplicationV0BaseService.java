@@ -392,7 +392,6 @@ public abstract class GrantApplicationV0BaseService<T extends GrantApplicationV0
                     "przedsiębiorstwo które posiada kontakty typu emial", null));
         }
     }
-
     protected void validate(T dto, Class ... classes) {
         List<EntityConstraintViolation> violations = generateViolation(dto, classes);
         gryfValidator.validate(violations);

@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.dto.FileDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.action.IncomingOrderElementDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementDTO;
-import pl.sodexo.it.gryf.common.exception.StaleDataException;
 import pl.sodexo.it.gryf.common.utils.LoginUtils;
 import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderFlowStatusTransSqlRepository;
@@ -15,17 +14,14 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderFlow
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderRepository;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.*;
 import pl.sodexo.it.gryf.service.api.publicbenefits.orders.OrderActionService;
-import pl.sodexo.it.gryf.service.api.publicbenefits.orders.OrderService;
-import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
 import pl.sodexo.it.gryf.service.local.api.FileService;
-import pl.sodexo.it.gryf.service.local.api.GryfValidator;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.OrderDateService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.actions.ActionService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.orderflows.OrderFlowElementService;
 import pl.sodexo.it.gryf.service.utils.BeanUtils;
+import pl.sodexo.it.gryf.service.validation.publicbenefits.orders.OrderActionValidator;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Created by jbentyn on 2016-09-27.
@@ -36,12 +32,6 @@ public class OrderActionServiceImpl implements OrderActionService {
 
     @Autowired
     private ApplicationContext context;
-
-    @Autowired
-    private SecurityChecker securityChecker;
-
-    @Autowired
-    private GryfValidator gryfValidator;
 
     @Autowired
     private OrderRepository orderRepository;
@@ -61,6 +51,9 @@ public class OrderActionServiceImpl implements OrderActionService {
     @Autowired
     private OrderDateService orderDateService;
 
+    @Autowired
+    private OrderActionValidator orderActionValidator;
+
     @Override
     public void executeAction(Long id, Long actionId, Integer version, List<IncomingOrderElementDTO> incomingOrderElements, List<FileDTO> files, List<String> acceptedViolations) {
 
@@ -72,14 +65,14 @@ public class OrderActionServiceImpl implements OrderActionService {
             OrderFlowStatus status = order.getStatus();
 
             //VALIDATE VERSION
-            validateVersion(order, version);
+            orderActionValidator.validateVersion(order, version);
 
             //STATUS TRANSITION
             OrderFlowStatusTransitionPK statusTransitionId = new OrderFlowStatusTransitionPK(orderFlow.getId(), status.getStatusId(), actionId);
             OrderFlowStatusTransition statusTransition = orderFlowStatusTransitionRepository.get(statusTransitionId);
 
             //UPRAWNINIE DO AKCJI
-            validateActionPrivilege(statusTransition);
+            orderActionValidator.validateActionPrivilege(statusTransition);
 
             //CREATE ORDER ELEMENT DTO
             List<OrderElementDTO> elementDtoList = orderFlowElementService.createElementDtoList(incomingOrderElements, files);
@@ -111,29 +104,8 @@ public class OrderActionServiceImpl implements OrderActionService {
 
             //KASUJEMY PLIKI
         } catch (RuntimeException e) {
-            OrderService orderService = context.getBean(OrderServiceImpl.class);
             fileService.deleteSavedFiles(files);
             throw e;
-        }
-    }
-
-    private void validateVersion(Order order, Integer version) {
-        if (!Objects.equals(order.getVersion(), version)) {
-            throw new StaleDataException(order.getId(), order);
-        }
-    }
-
-    /**
-     * Sprawdza uprawnine do wykoninia akcji.
-     *
-     * @param statusTransition obiekt reprezentujacy przejscie pomiedzy akcjiami
-     */
-    private void validateActionPrivilege(OrderFlowStatusTransition statusTransition) {
-        String privilege = statusTransition.getAugIdRequired();
-        if (!StringUtils.isEmpty(privilege)) {
-            if (!securityChecker.hasPrivilege(privilege)) {
-                gryfValidator.validate("Nie posiadasz uprawnień do wykonania danej akcji");
-            }
         }
     }
 
