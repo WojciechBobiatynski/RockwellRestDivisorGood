@@ -2,7 +2,6 @@ package pl.sodexo.it.gryf.common.dto;
 
 import lombok.ToString;
 import pl.sodexo.it.gryf.common.dto.basic.GryfDto;
-import pl.sodexo.it.gryf.model.DictionaryEntity;
 
 /**
  * Created by tomasz.bilski.ext on 2015-06-30.
@@ -24,10 +23,6 @@ public class DictionaryDTO extends GryfDto {
     public DictionaryDTO(Object id, String name) {
         this.id = id;
         this.name = name;
-    }
-
-    protected DictionaryDTO(DictionaryEntity entity) {
-        this(entity.getDictionaryId(), entity.getDictionaryName());
     }
 
     //GETETRS & SETERS
