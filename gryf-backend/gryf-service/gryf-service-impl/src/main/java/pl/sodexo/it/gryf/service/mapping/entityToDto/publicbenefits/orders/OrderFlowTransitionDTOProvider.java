@@ -8,7 +8,9 @@ import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowTransitionDTOBuild
  *
  * Created by jbentyn on 2016-09-26.
  */
-public class OrderFlowTransitionDTOProvider {
+public final class OrderFlowTransitionDTOProvider {
+
+    private OrderFlowTransitionDTOProvider(){};
 
     //TODO AdamK: na razie tak
     public static OrderFlowTransitionDTO createOrderFlowTransitionDTO(OrderFlowTransitionDTOBuilder builder) {

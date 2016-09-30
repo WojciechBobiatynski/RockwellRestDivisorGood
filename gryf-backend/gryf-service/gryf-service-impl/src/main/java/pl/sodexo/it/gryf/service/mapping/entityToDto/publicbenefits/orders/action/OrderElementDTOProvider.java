@@ -20,9 +20,12 @@ import java.util.List;
 /**
  * Created by akmiecinski on 2016-09-30.
  */
-public class OrderElementDTOProvider {
+public final class OrderElementDTOProvider {
 
-    public static OrderElementDTO createOrderElementDTO(OrderElementDTOBuilder builder, OrderElementDTO dto) {
+    private OrderElementDTOProvider() {
+    }
+
+    private static OrderElementDTO createOrderElementDTO(OrderElementDTOBuilder builder, OrderElementDTO dto) {
         dto.setId(builder.getElement().getId());
         dto.setOrderFlowElementId(builder.getOrderFlowElement().getElementId());
         dto.setName(builder.getOrderFlowElement().getElementName());
