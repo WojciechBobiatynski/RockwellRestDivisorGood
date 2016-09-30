@@ -9,6 +9,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowElement;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowElementInStatus;
 import pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.elements.OrderElementBaseService;
+import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.orders.action.OrderElementDTOProvider;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -23,7 +24,7 @@ public class OrderElementAttrNService extends OrderElementBaseService<OrderEleme
 
     @Override
     public OrderElementAttrNDTO createElement(OrderElementDTOBuilder builder) {
-        return new OrderElementAttrNDTO(builder);
+        return OrderElementDTOProvider.createOrderElementAttrNDTO(builder);
     }
 
     @Override

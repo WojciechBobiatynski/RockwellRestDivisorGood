@@ -1,7 +1,6 @@
 package pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements;
 
 import lombok.ToString;
-import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 
 import java.math.BigDecimal;
 
@@ -20,19 +19,6 @@ public class OrderElementComplexTypeEnterprisePaymentInfoDTO extends OrderElemen
     private BigDecimal paymentAmount;
     
     private String paymentAccount;
-
-    //CONSTRUCTORS
-
-    public OrderElementComplexTypeEnterprisePaymentInfoDTO() {
-    }
-
-    public OrderElementComplexTypeEnterprisePaymentInfoDTO(OrderElementDTOBuilder builder, BigDecimal paymentAmount) {
-        super(builder);
-        Order order = builder.getOrder();
-        this.givenVouchersNumber = order.getVouchersNumber();
-        this.paymentAmount = paymentAmount;
-        this.paymentAccount = order.getEnterprise() != null ? order.getEnterprise().getAccountPayment() : order.getIndividual().getAccountPayment();
-    }
 
     //GETTERS & SETTERS
 

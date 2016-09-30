@@ -1,7 +1,6 @@
 package pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements;
 
 import lombok.ToString;
-import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 
 import java.math.BigDecimal;
 
@@ -44,31 +43,6 @@ public class OrderElementComplexTypeGrantedVouchersInfoDTO extends OrderElementD
     private Integer givenVouchersNumber;
     
     private BigDecimal voucherAidValue;
-
-    //CONSTRUCTORS
-
-    public OrderElementComplexTypeGrantedVouchersInfoDTO() {
-    }
-
-    public OrderElementComplexTypeGrantedVouchersInfoDTO(OrderElementDTOBuilder builder,
-                                                         Integer entitledVouchersNumber,
-                                                         BigDecimal entitledPlnAmount, BigDecimal limitEurAmount,
-                                                         BigDecimal exchange) {
-        super(builder);
-        Order order = builder.getOrder();
-
-        this.entitledVouchersNumber = entitledVouchersNumber;
-        this.entitledPlnAmount = entitledPlnAmount;
-        this.requestedVouchersNumber = order.getApplication().getBasicData().getVouchersNumber();
-        this.limitEurAmount = limitEurAmount;
-        this.exchange = exchange;
-        if (order.getVouchersNumber() != null){
-            this.givenVouchersNumber = order.getVouchersNumber();
-        } else{
-            this.givenVouchersNumber = Math.min(entitledVouchersNumber, order.getApplication().getBasicData().getVouchersNumber());
-        }
-        this.voucherAidValue = (order.getProduct() != null) ? order.getProduct().getPbeAidValue() : null;
-    }
 
     //GETTERS & SETTERS
 

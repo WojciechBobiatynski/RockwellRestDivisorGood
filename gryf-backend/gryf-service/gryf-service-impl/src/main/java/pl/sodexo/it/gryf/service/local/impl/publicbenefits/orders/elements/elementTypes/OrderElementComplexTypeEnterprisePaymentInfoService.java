@@ -7,6 +7,7 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.O
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.OrderServiceLocal;
 import pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.elements.OrderElementBaseService;
+import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.orders.action.OrderElementDTOProvider;
 
 /**
  *
@@ -22,7 +23,7 @@ public class OrderElementComplexTypeEnterprisePaymentInfoService extends OrderEl
 
     @Override
     public OrderElementComplexTypeEnterprisePaymentInfoDTO createElement(OrderElementDTOBuilder builder) {
-        return new OrderElementComplexTypeEnterprisePaymentInfoDTO(builder, orderServiceLocal.getPaymentAmount(builder.getOrder()));
+        return OrderElementDTOProvider.createOrderElementComplexTypeEnterprisePaymentInfoDTO(builder, orderServiceLocal.getPaymentAmount(builder.getOrder()));
     }
 
     @Override

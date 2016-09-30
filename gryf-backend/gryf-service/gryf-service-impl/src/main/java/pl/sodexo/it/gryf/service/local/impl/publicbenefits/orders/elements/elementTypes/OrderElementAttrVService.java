@@ -9,6 +9,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowElement;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowElementInStatus;
 import pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.elements.OrderElementBaseService;
+import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.orders.action.OrderElementDTOProvider;
 
 import java.util.Date;
 import java.util.List;
@@ -24,7 +25,7 @@ public class OrderElementAttrVService extends OrderElementBaseService<OrderEleme
 
     @Override
     public OrderElementAttrVDTO createElement(OrderElementDTOBuilder builder) {
-        return new OrderElementAttrVDTO(builder);
+        return OrderElementDTOProvider.createOrderElementAttrVDTO(builder);
     }
 
     @Override

@@ -1,7 +1,6 @@
 package pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements;
 
 import lombok.ToString;
-import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication;
 
 import java.util.Date;
 
@@ -22,21 +21,6 @@ public class OrderElementComplexTypeBasicGrantAppInfoDTO extends OrderElementDTO
     private Date considerationDate;
 
     private String operator;
-
-    //CONSTRUCTORS
-
-    public OrderElementComplexTypeBasicGrantAppInfoDTO() {
-    }
-
-    public OrderElementComplexTypeBasicGrantAppInfoDTO(OrderElementDTOBuilder builder) {
-        super(builder);
-        GrantApplication application = builder.getOrder().getApplication();
-        this.applicationId = application.getId();
-        this.receiptDate = application.getReceiptDate();
-        this.applyDate = application.getApplyDate();
-        this.considerationDate = application.getConsiderationDate();
-        this.operator = application.getCreatedUser();
-    }
 
     //GETTERS & SETTERS
 

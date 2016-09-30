@@ -15,6 +15,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowElementInStatus;
 import pl.sodexo.it.gryf.service.api.other.ApplicationParameters;
 import pl.sodexo.it.gryf.service.local.api.FileService;
 import pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.elements.OrderElementBaseService;
+import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.orders.action.OrderElementDTOProvider;
 
 import java.util.Date;
 import java.util.List;
@@ -37,7 +38,7 @@ public class OrderElementAttachmentService extends OrderElementBaseService<Order
 
     @Override
     public OrderElementAttachmentDTO createElement(OrderElementDTOBuilder builder) {
-        return new OrderElementAttachmentDTO(builder);
+        return OrderElementDTOProvider.createOrderElementAttachmentDTO(builder);
     }
 
     @Override

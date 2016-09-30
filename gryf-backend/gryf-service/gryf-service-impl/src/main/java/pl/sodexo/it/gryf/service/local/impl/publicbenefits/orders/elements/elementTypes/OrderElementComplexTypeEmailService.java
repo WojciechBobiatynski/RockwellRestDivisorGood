@@ -8,6 +8,7 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.O
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowElement;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.elements.elementTypes.emailservices.EmailDTOService;
 import pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.elements.OrderElementBaseClobService;
+import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.orders.action.OrderElementDTOProvider;
 import pl.sodexo.it.gryf.service.utils.BeanUtils;
 
 /**
@@ -29,7 +30,7 @@ public class OrderElementComplexTypeEmailService extends OrderElementBaseClobSer
         //DTO FROM CLOB
         OrderElementComplexTypeEmailDTO dto = getOldValue(builder.getElement());
         if(dto != null){
-            return new OrderElementComplexTypeEmailDTO(builder, dto);
+            return OrderElementDTOProvider.createOrderElementComplexTypeEmailDTO(builder, dto);
         }
 
         //CREATE DTO
@@ -39,7 +40,7 @@ public class OrderElementComplexTypeEmailService extends OrderElementBaseClobSer
                                     " dla elementu APP_PBE.ORDER_FLOW_ELEMENTS " + builder.getOrderFlowElement().getElementId());
         }
         EmailDTOService emailDTOService = (EmailDTOService) BeanUtils.findBean(context, emailServiceBeanName);
-        return new OrderElementComplexTypeEmailDTO(builder, emailDTOService.createMailDTO(builder));
+        return OrderElementDTOProvider.createOrderElementComplexTypeEmailDTO(builder, emailDTOService.createMailDTO(builder));
     }
 
     //PROTECTED METHODS - IUM - DTO

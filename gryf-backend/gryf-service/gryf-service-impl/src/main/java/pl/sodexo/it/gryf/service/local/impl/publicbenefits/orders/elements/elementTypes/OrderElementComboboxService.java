@@ -11,6 +11,7 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.other.DictionaryRepository;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowElement;
 import pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.elements.OrderElementBaseService;
+import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.orders.action.OrderElementDTOProvider;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,7 +39,7 @@ public class OrderElementComboboxService extends OrderElementBaseService<OrderEl
 
         List<DictionaryDTO> dictionaries =  !StringUtils.isEmpty(nativeSql) ?
                                         dictionaryRepository.findDictionaries(nativeSql) : new ArrayList<DictionaryDTO>();
-        return new OrderElementComboboxDTO(builder, dictionaries);
+        return OrderElementDTOProvider.createOrderElementComboboxDTO(builder, dictionaries);
     }
 
     @Override

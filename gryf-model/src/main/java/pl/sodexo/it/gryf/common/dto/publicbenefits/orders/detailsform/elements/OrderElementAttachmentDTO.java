@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.ToString;
 import pl.sodexo.it.gryf.common.dto.FileContainerDTO;
 import pl.sodexo.it.gryf.common.dto.FileDTO;
-import pl.sodexo.it.gryf.common.utils.StringUtils;
 
 /**
  * Created by tomasz.bilski.ext on 2015-08-21.
@@ -20,18 +19,6 @@ public class OrderElementAttachmentDTO extends OrderElementDTO  implements FileC
     private boolean fileIncluded;
 
     private boolean fileToDelete;
-
-    //CONSTRUCTORS
-
-    public OrderElementAttachmentDTO(){
-    }
-
-    public OrderElementAttachmentDTO(OrderElementDTOBuilder builder) {
-        super(builder);
-        if(!StringUtils.isEmpty(builder.getElement().getValueVarchar())) {
-            this.fileName = StringUtils.findFileNameInPath(builder.getElement().getValueVarchar());
-        }
-    }
 
     //GETTERS & SETTERS
 

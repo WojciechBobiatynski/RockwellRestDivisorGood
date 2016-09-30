@@ -14,6 +14,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.orderflows.OrderFlowElementService;
 import pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.elements.OrderElementBaseService;
+import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.orders.action.OrderElementDTOProvider;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -85,7 +86,7 @@ public class OrderElementComplexTypeGrantedVouchersInfoService extends OrderElem
         BigDecimal limitEurAmount = elementMap.get(LIMIT_EUR_AMOUNT_ELEM_ID).getValueNumber();
         BigDecimal exchange = elementMap.get(EXCHANGE_ELEM_ID).getValueNumber();
 
-        return new OrderElementComplexTypeGrantedVouchersInfoDTO(builder, entitledVouchersNumber,
+        return OrderElementDTOProvider.createOrderElementComplexTypeGrantedVouchersInfoDTO(builder, entitledVouchersNumber,
                                                         entitledPlnAmount, limitEurAmount, exchange);
     }
 

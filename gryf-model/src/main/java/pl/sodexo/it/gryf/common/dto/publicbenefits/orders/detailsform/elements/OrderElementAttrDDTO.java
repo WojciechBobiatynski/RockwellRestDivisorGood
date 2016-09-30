@@ -15,16 +15,6 @@ public class OrderElementAttrDDTO extends OrderElementDTO {
 
     private Date valueDate;
 
-    //CONSTRUCTORS
-
-    public OrderElementAttrDDTO(){
-    }
-
-    public OrderElementAttrDDTO(OrderElementDTOBuilder builder) {
-        super(builder);
-        this.valueDate = builder.getElement().getValueDate();
-    }
-
     //GETTERS & SETTERS
 
     public Date getValueDate() {

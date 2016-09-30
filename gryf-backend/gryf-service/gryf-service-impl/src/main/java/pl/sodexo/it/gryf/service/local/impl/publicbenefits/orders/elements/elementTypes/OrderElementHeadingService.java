@@ -5,6 +5,7 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.O
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementHeadingDTO;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
 import pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.elements.OrderElementBaseService;
+import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.orders.action.OrderElementDTOProvider;
 
 /**
  * Serwis dla nagłówków (headings)
@@ -15,7 +16,7 @@ public class OrderElementHeadingService extends OrderElementBaseService<OrderEle
 
     @Override
     public OrderElementHeadingDTO createElement(OrderElementDTOBuilder builder) {
-        return new OrderElementHeadingDTO(builder);
+        return OrderElementDTOProvider.createOrderElementHeadingDTO(builder);
     }
 
     @Override

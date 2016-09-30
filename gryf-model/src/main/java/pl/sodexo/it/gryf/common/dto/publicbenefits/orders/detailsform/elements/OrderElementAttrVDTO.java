@@ -14,17 +14,6 @@ public class OrderElementAttrVDTO extends OrderElementDTO {
 
     private String valueVarchar;
 
-    //CONSTRUCTORS
-
-
-    public OrderElementAttrVDTO() {
-    }
-
-    public OrderElementAttrVDTO(OrderElementDTOBuilder builder) {
-        super(builder);
-        this.valueVarchar = builder.getElement().getValueVarchar();
-    }
-
     //GETTERS & SETTERS
 
     public String getValueVarchar() {

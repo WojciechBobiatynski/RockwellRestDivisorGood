@@ -11,16 +11,6 @@ public class OrderElementComplexTypeGrantApplicationDTO extends OrderElementDTO 
     //FIELDS
     private Long grantApplicationId;
 
-    //CONSTRUCTORS
-
-    public OrderElementComplexTypeGrantApplicationDTO() {
-    }
-
-    public OrderElementComplexTypeGrantApplicationDTO(OrderElementDTOBuilder builder) {
-        super(builder);
-        grantApplicationId = builder.getOrder().getApplication().getId();
-    }
-
     //GETTERS & SETTERS
 
     public Long getGrantApplicationId() {

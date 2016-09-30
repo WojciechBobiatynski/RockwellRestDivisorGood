@@ -1,13 +1,7 @@
 package pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements;
 
 import lombok.ToString;
-import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication;
-import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationBasicData;
-import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationContactData;
-import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationContactType;
-import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,30 +13,6 @@ public class OrderElementComplexTypeGrantApplicationContactDataDTO extends Order
     //FIELDS
 
     private List<ContactDataDTO> contacts;
-
-    //CONSTRUCTORS
-
-    public OrderElementComplexTypeGrantApplicationContactDataDTO(){
-    }
-
-    public OrderElementComplexTypeGrantApplicationContactDataDTO(OrderElementDTOBuilder builder) {
-        super(builder);
-        this.contacts = new ArrayList<>();
-
-        Order order = builder.getOrder();
-        GrantApplication application = order.getApplication();
-        GrantApplicationBasicData basicData = application.getBasicData();
-        for (GrantApplicationContactData contact : basicData.getContacts()) {
-
-            if(contact.getContactType() == GrantApplicationContactType.CONTACT) {
-                ContactDataDTO contactDTO = new ContactDataDTO();
-                contactDTO.setName(contact.getName());
-                contactDTO.setEmail(contact.getEmail());
-                contactDTO.setPhone(contact.getPhone());
-                this.contacts.add(contactDTO);
-            }
-        }
-    }
 
     //GETTERS & SETTERS
 

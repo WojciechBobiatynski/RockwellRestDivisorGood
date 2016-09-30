@@ -14,17 +14,6 @@ public class OrderElementCheckboxDTO extends OrderElementDTO {
 
     private Boolean isSelected;
 
-    //CONSTRUCTORS
-
-
-    public OrderElementCheckboxDTO() {
-    }
-
-    public OrderElementCheckboxDTO(OrderElementDTOBuilder builder) {
-        super(builder);
-        this.isSelected = Boolean.valueOf(builder.getElement().getValueVarchar());
-    }
-
     //GETTERS & SETTERS
 
     public Boolean getIsSelected() {

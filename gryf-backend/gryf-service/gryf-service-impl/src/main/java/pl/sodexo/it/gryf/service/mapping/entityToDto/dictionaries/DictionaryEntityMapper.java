@@ -22,12 +22,11 @@ public class DictionaryEntityMapper {
         dto.setName(entity.getDictionaryName());
     }
 
+    //TODO AdamK: na razie tak
     public List<DictionaryDTO> convert(List<? extends DictionaryEntity> sourceList) {
         List<DictionaryDTO> result = new ArrayList<>();
         if (sourceList != null) {
-            for(DictionaryEntity source:sourceList){
-                result.add(convert(source));
-            }
+            sourceList.stream().map(o -> convert(o)).forEach(result::add);
         }
         return result;
     }

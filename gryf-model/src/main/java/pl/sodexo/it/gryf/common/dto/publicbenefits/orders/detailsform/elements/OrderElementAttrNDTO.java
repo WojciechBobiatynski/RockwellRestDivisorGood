@@ -15,16 +15,6 @@ public class OrderElementAttrNDTO extends OrderElementDTO {
 
     private BigDecimal valueNumber;
 
-    //CONSTRUCTORS
-
-    public OrderElementAttrNDTO(){
-    }
-
-    public OrderElementAttrNDTO(OrderElementDTOBuilder builder) {
-        super(builder);
-        this.valueNumber = builder.getElement().getValueNumber();
-    }
-
     //GETTERS
 
     public BigDecimal getValueNumber() {

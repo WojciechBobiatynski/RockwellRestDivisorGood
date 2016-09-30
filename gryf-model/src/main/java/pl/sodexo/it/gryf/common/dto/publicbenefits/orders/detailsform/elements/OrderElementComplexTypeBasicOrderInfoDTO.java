@@ -1,7 +1,6 @@
 package pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements;
 
 import lombok.ToString;
-import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 
 import java.util.Date;
 
@@ -34,27 +33,6 @@ public class OrderElementComplexTypeBasicOrderInfoDTO extends OrderElementDTO {
     private String individualName;
     
     private String pesel;
-
-    //CONSTRUCTORS
-
-    public OrderElementComplexTypeBasicOrderInfoDTO() {
-    }
-
-    public OrderElementComplexTypeBasicOrderInfoDTO(OrderElementDTOBuilder builder) {
-        super(builder);
-        Order order = builder.getOrder();
-        this.orderId = order.getId();
-        this.statusId = order.getStatus().getStatusId();
-        this.statusName = order.getStatus().getStatusName();
-        this.orderDate = order.getOrderDate();
-        this.operator = order.getOperator();
-        this.enterpriseId = (order.getEnterprise() != null) ? order.getEnterprise().getId() : null;
-        this.enterpriseName = (order.getEnterprise() != null) ? order.getEnterprise().getName() : null;
-        this.vatRegNum = (order.getEnterprise() != null) ? order.getEnterprise().getVatRegNum() : null;
-        this.individualId = (order.getIndividual() != null) ? order.getIndividual().getId() : null;
-        this.individualName = (order.getIndividual() != null) ? order.getIndividual().getFirstName() + " " + order.getIndividual().getLastName() : null;
-        this.pesel = (order.getIndividual() != null) ? order.getIndividual().getPesel() : null;
-    }
 
     //GETTERS & SETTERS
 

@@ -31,24 +31,6 @@ public abstract class OrderElementDTO {
 
     private Date completedDate;
 
-    //CONSTRUCTORS
-
-    public OrderElementDTO() {
-    }
-
-    public OrderElementDTO(OrderElementDTOBuilder builder) {
-
-        this.id = builder.getElement().getId();
-        this.orderFlowElementId = builder.getOrderFlowElement().getElementId();
-        this.name = builder.getOrderFlowElement().getElementName();
-        this.elementTypeComponentName = builder.getOrderFlowElement().getOrderFlowElementType().getComponentName();
-        this.elementTypeParams = builder.getOrderFlowElement().getElementTypeParams();
-        this.flags = (builder.getOrderFlowElementInStatus() != null) ? builder.getOrderFlowElementInStatus().getFlags() : null;
-        this.privilege = (builder.getOrderFlowElementInStatus() != null) ? builder.getOrderFlowElementInStatus().getAugIdRequired() : null;
-        this.requiredDate = builder.getElement().getRequiredDate();
-        this.completedDate = builder.getElement().getCompletedDate();
-    }
-
     //GETTERS & SETTERS
 
     public Long getId() {

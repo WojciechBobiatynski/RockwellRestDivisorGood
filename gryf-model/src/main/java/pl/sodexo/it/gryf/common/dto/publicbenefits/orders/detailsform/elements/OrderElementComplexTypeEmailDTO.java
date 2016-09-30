@@ -1,8 +1,6 @@
 package pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements;
 
 import lombok.ToString;
-import pl.sodexo.it.gryf.common.dto.MailDTO;
-import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowElement;
 
 /**
  * Created by tomasz.bilski.ext on 2015-09-18.
@@ -21,27 +19,6 @@ public class OrderElementComplexTypeEmailDTO extends OrderElementDTO {
     private String emailTemplateId;
     
     private String emailServiceBean;
-
-    public OrderElementComplexTypeEmailDTO(){
-    }
-
-    public OrderElementComplexTypeEmailDTO(OrderElementDTOBuilder builder, MailDTO mailDTO){
-        super(builder);
-        this.addressesTo = mailDTO.getAddressesTo();
-        this.subject = mailDTO.getSubject();
-        this.body = mailDTO.getBody();
-        this.emailTemplateId = mailDTO.getTemplateId();
-        this.emailServiceBean = builder.getOrderFlowElement().getPropertyValue(OrderFlowElement.EMAIL_SERVICE_BEAN);
-    }
-
-    public OrderElementComplexTypeEmailDTO(OrderElementDTOBuilder builder, OrderElementComplexTypeEmailDTO dto){
-        super(builder);
-        this.addressesTo = dto.getAddressesTo();
-        this.subject = dto.getSubject();
-        this.body = dto.getBody();
-        this.emailTemplateId = dto.getEmailTemplateId();
-        this.emailServiceBean = builder.getOrderFlowElement().getPropertyValue(OrderFlowElement.EMAIL_SERVICE_BEAN);
-    }
 
     //GETTERS & SETTERS
 

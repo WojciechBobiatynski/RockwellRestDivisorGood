@@ -6,6 +6,7 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.O
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
 import pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.elements.OrderElementBaseService;
+import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.orders.action.OrderElementDTOProvider;
 
 import java.util.Date;
 import java.util.List;
@@ -19,7 +20,7 @@ public class OrderElementCheckboxService extends OrderElementBaseService<OrderEl
 
     @Override
     public OrderElementCheckboxDTO createElement(OrderElementDTOBuilder builder) {
-        return new OrderElementCheckboxDTO(builder);
+        return OrderElementDTOProvider.createOrderElementCheckboxDTO(builder);
     }
 
     @Override
