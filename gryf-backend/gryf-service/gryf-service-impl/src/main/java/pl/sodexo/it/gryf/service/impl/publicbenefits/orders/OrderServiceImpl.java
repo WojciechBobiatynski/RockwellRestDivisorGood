@@ -26,6 +26,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowElementType;
 import pl.sodexo.it.gryf.service.api.publicbenefits.orders.OrderService;
 import pl.sodexo.it.gryf.service.local.api.FileService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.elements.OrderElementService;
+import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.orders.searchform.OrderEntityToSearchResultMapper;
 import pl.sodexo.it.gryf.service.utils.BeanUtils;
 
 import java.util.ArrayList;
@@ -54,6 +55,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private OrderFlowStatusTransitionRepository orderFlowStatusTransitionRepository;
+
+    @Autowired
+    private OrderEntityToSearchResultMapper orderEntityToSearchResultMapper;
 
     //PUBLIC METHODS
 
@@ -88,7 +92,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<OrderSearchResultDTO> findOrders(OrderSearchQueryDTO searchDTO) {
         List<Object[]> orders = orderRepository.findOrders(searchDTO);
-        return OrderSearchResultDTO.createList(orders);
+        return orderEntityToSearchResultMapper.convertFromObjects(orders);
     }
 
     @Override

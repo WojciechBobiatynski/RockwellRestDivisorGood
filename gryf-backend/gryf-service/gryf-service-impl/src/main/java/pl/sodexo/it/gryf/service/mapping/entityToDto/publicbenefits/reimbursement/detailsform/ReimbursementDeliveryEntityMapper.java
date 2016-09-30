@@ -2,18 +2,12 @@ package pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.reimburseme
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.grantapplications.searchform.GrantApplicationSearchResultDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.detailsform.ReimbursementDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.detailsform.ReimbursementDeliveryDTO;
-import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication;
-import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationBasicData;
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementDelivery;
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementPattern;
-import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementTraineeAttachmentRequired;
-import pl.sodexo.it.gryf.service.mapping.entityToDto.GryfEntityMapper;
 import pl.sodexo.it.gryf.service.mapping.entityToDto.VersionableEntityMapper;
 import pl.sodexo.it.gryf.service.mapping.entityToDto.dictionaries.DictionaryEntityMapper;
-import pl.sodexo.it.gryf.service.mapping.entityToDto.dictionaries.searchform.ZipCodeEntityToSearchResultMapper;
 import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.reimbursement.searchform.ReimbursementDeliveryEntityToSearchResultMapper;
 import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.traininginstiutions.searchform.TrainingInstitutionEntityToSearchResultMapper;
 
@@ -67,15 +61,16 @@ public class ReimbursementDeliveryEntityMapper extends VersionableEntityMapper<R
         dto.setVersion(entity.getVersion());
     }
 
+    //TODO AdamK: chwilowo tak, po przeniesieniu dto do commonsów wrócę do tematu
     public ReimbursementDTO initialConvert(ReimbursementDelivery source, Date reimbursementDate) {
         ReimbursementDTO destination = new ReimbursementDTO();
         if (source != null) {
-            initialMap(source, destination, reimbursementDate);
+            map(source, destination, reimbursementDate);
         }
         return destination;
     }
 
-    public void initialMap(ReimbursementDelivery entity, ReimbursementDTO dto, Date reimbursementDate) {
+    public void map(ReimbursementDelivery entity, ReimbursementDTO dto, Date reimbursementDate) {
         ReimbursementPattern pattern = entity.getReimbursementPattern();
 
         dto.setReimbursementDelivery(reimbursementDeliveryEntityToSearchResultMapper.convert(entity));
@@ -83,7 +78,7 @@ public class ReimbursementDeliveryEntityMapper extends VersionableEntityMapper<R
         dto.setReimbursementDate(reimbursementDate);
         dto.setReimbursementAttachments(reimbursementAttachmentRequiredEntityMapper.convert(pattern.getReimbursementAttachmentRequiredList()));
         dto.setReimbursementTraineeAttachmentRequiredList(reimbursementTraineeAttachmentRequiredEntityMapper.convert(pattern != null ?
-                pattern.getReimbursementTraineeAttachmentRequiredList() : new ArrayList<ReimbursementTraineeAttachmentRequired>()));
+                pattern.getReimbursementTraineeAttachmentRequiredList() : new ArrayList<>()));
     }
 
 }

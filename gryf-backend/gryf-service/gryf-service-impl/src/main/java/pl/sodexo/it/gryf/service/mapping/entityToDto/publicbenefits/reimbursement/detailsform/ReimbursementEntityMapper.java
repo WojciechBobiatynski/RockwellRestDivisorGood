@@ -2,7 +2,6 @@ package pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.reimburseme
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pl.sodexo.it.gryf.service.utils.ReimbursementCalculationHelper;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.detailsform.ReimbursementDTO;
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.Reimbursement;
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementDelivery;
@@ -12,6 +11,7 @@ import pl.sodexo.it.gryf.service.mapping.entityToDto.VersionableEntityMapper;
 import pl.sodexo.it.gryf.service.mapping.entityToDto.dictionaries.DictionaryEntityMapper;
 import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.enterprises.searchform.EnterpriseEntityToSearchResultMapper;
 import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.reimbursement.searchform.ReimbursementDeliveryEntityToSearchResultMapper;
+import pl.sodexo.it.gryf.service.utils.ReimbursementCalculationHelper;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -87,6 +87,7 @@ public class ReimbursementEntityMapper extends VersionableEntityMapper<Reimburse
         dto.setVersion(entity.getVersion());
     }
 
+    //TODO AdamK: chwilowo tak, po przeniesieniu dto do commonsów wrócę do tematu
     public void map(Reimbursement entity, ReimbursementDTO dto, Date reimbursementDate) {
         map(entity ,dto);
         dto.setReimbursementDate(reimbursementDate);

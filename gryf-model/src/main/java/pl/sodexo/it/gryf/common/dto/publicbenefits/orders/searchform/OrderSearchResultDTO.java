@@ -2,19 +2,17 @@ package pl.sodexo.it.gryf.common.dto.publicbenefits.orders.searchform;
 
 import lombok.ToString;
 import pl.sodexo.it.gryf.common.dto.DictionaryDTO;
-import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
+import pl.sodexo.it.gryf.common.dto.basic.GryfDto;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * DTO which is send to front-end as a result of searching operation.
- *
+ * <p/>
  * Created by Michal.CHWEDCZUK.ext on 2015-07-28.
  */
 @ToString
-public class OrderSearchResultDTO {
+public class OrderSearchResultDTO extends GryfDto {
 
     //PRIVATE FIELDS
 
@@ -31,50 +29,16 @@ public class OrderSearchResultDTO {
     private String enterpriseName;
 
     private String vatRegNum;
-    
+
     private Long individualId;
-    
+
     private String individualName;
-    
+
     private String pesel;
 
     private String operator;
 
     private Date minRequiredDate;
-
-    //CONSTRUCTORS & CREATED LIST
-
-    private OrderSearchResultDTO(){
-    }
-
-    private OrderSearchResultDTO(Order order, Date minRequiredDate){
-        this.id = order.getId();
-        this.status = DictionaryDTO.create(order.getStatus());
-        this.orderDate = order.getOrderDate();
-        this.applicationId = (order.getApplication() != null) ? order.getApplication().getId() : null;
-        this.enterpriseId = (order.getEnterprise() != null) ? order.getEnterprise().getId() : null;
-        this.enterpriseName = (order.getEnterprise() != null) ? order.getEnterprise().getName() : null;
-        this.vatRegNum = (order.getEnterprise() != null) ? order.getEnterprise().getVatRegNum() : null;
-        this.individualId = (order.getIndividual() != null) ? order.getIndividual().getId() : null;
-        this.individualName = (order.getIndividual() != null) ? order.getIndividual().getFirstName() + " " + order.getIndividual().getLastName() : null;
-        this.pesel = (order.getIndividual() != null) ? order.getIndividual().getPesel() : null;
-        this.operator = order.getOperator();
-        this.minRequiredDate = minRequiredDate;
-    }
-
-    //STATIC METHODS - CREATE
-
-    public static OrderSearchResultDTO create(Order entity, Date minRequiredDate) {
-        return entity != null ? new OrderSearchResultDTO(entity, minRequiredDate) : null;
-    }
-
-    public static List<OrderSearchResultDTO> createList(List<Object[]> entities) {
-        List<OrderSearchResultDTO> list = new ArrayList<>();
-        for (Object[] entity : entities) {
-            list.add(create((Order)entity[0], (Date)entity[1]));
-        }
-        return list;
-    }
 
     //GETTERS & SETTERS
 
