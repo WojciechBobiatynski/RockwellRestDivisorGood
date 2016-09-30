@@ -13,11 +13,11 @@ import java.util.List;
 @Component
 public class DictionaryEntityMapper {
 
-    private DictionaryDTO initDestination() {
+    protected DictionaryDTO initDestination() {
         return new DictionaryDTO();
     }
 
-    private void map(DictionaryEntity entity, DictionaryDTO dto) {
+    protected void map(DictionaryEntity entity, DictionaryDTO dto) {
         dto.setId(entity.getDictionaryId());
         dto.setName(entity.getDictionaryName());
     }

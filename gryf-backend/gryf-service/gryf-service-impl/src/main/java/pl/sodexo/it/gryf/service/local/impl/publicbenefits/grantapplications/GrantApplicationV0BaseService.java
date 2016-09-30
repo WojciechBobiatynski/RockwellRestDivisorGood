@@ -2,12 +2,14 @@ package pl.sodexo.it.gryf.service.local.impl.publicbenefits.grantapplications;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import pl.sodexo.it.gryf.common.FileType;
-import pl.sodexo.it.gryf.common.dto.DictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.FileDTO;
 import pl.sodexo.it.gryf.common.dto.dictionaries.zipcodes.searchform.ZipCodeSearchResultDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.MailAttachmentDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.enterprises.searchform.EnterpriseSearchResultDTO;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.grantapplications.detailsform.*;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.grantapplications.detailsform.GrantApplicationAttachmentDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.grantapplications.detailsform.GrantApplicationContactDataDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.grantapplications.detailsform.GrantApplicationPkdDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.grantapplications.detailsform.GrantApplicationV0BaseDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.detailsform.ReimbursementDTO;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.common.exception.EntityValidationException;
@@ -47,6 +49,7 @@ import pl.sodexo.it.gryf.service.local.api.publicbenefits.grantapplications.Gran
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.grantapplications.GrantApplicationService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.OrderServiceLocal;
 import pl.sodexo.it.gryf.service.mapping.entityToDto.dictionaries.DictionaryEntityMapper;
+import pl.sodexo.it.gryf.service.mapping.entityToDto.grantapplications.detailsform.GrantApplicationVersionEntityMapper;
 import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.enterprises.searchform.EnterpriseEntityToSearchResultMapper;
 
 import javax.mail.Session;
@@ -139,6 +142,9 @@ public abstract class GrantApplicationV0BaseService<T extends GrantApplicationV0
 
     @Autowired
     private EnterpriseEntityToSearchResultMapper enterpriseEntityToSearchResultMapper;
+
+    @Autowired
+    private GrantApplicationVersionEntityMapper grantApplicationVersionEntityMapper;
 
     //CONSTRUCTOR
 
@@ -729,7 +735,7 @@ public abstract class GrantApplicationV0BaseService<T extends GrantApplicationV0
      */
     protected T fillApplicationDto(T dto, GrantApplication application){
         dto.setStatus(dictionaryEntityMapper.convert(application.getStatus()));
-        dto.setApplicationVersion(GrantApplicationVersionDictionaryDTO.create(application.getApplicationVersion()));
+        dto.setApplicationVersion(grantApplicationVersionEntityMapper.convert(application.getApplicationVersion()));
         dto.setGrantProgram(dictionaryEntityMapper.convert(application.getProgram()));
         dto.setEnterprise(enterpriseEntityToSearchResultMapper.convert(application.getEnterprise()));
         dto.setApplyDate(application.getApplyDate());

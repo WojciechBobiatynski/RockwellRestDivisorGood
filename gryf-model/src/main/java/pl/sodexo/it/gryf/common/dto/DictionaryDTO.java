@@ -4,9 +4,6 @@ import lombok.ToString;
 import pl.sodexo.it.gryf.common.dto.basic.GryfDto;
 import pl.sodexo.it.gryf.model.DictionaryEntity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by tomasz.bilski.ext on 2015-06-30.
  */
@@ -31,12 +28,6 @@ public class DictionaryDTO extends GryfDto {
 
     protected DictionaryDTO(DictionaryEntity entity) {
         this(entity.getDictionaryId(), entity.getDictionaryName());
-    }
-
-    //STATIC METHODS - CREATE
-
-    public static DictionaryDTO create(DictionaryEntity entity) {
-        return entity != null ? new DictionaryDTO(entity) : null;
     }
 
     //GETETRS & SETERS
