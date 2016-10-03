@@ -1,7 +1,6 @@
 package pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.transitions;
 
 import lombok.ToString;
-import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowStatusTransitionPK;
 
 /**
  * DTO for Action
@@ -11,7 +10,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowStatusTransitionPK
 @ToString
 public class OrderFlowTransitionDTO {
     private String actionName;
-    private OrderFlowStatusTransitionPK id;
+    private OrderFlowStatusTransitionPKDTO id;
     private String privilege;
 
     public String getActionName() {
@@ -22,11 +21,11 @@ public class OrderFlowTransitionDTO {
         this.actionName = actionName;
     }
 
-    public OrderFlowStatusTransitionPK getId() {
+    public OrderFlowStatusTransitionPKDTO getId() {
         return id;
     }
 
-    public void setId(OrderFlowStatusTransitionPK id) {
+    public void setId(OrderFlowStatusTransitionPKDTO id) {
         this.id = id;
     }
 
