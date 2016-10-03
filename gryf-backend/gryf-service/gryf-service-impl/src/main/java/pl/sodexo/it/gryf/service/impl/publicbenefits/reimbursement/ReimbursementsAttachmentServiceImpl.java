@@ -46,6 +46,15 @@ public class ReimbursementsAttachmentServiceImpl implements ReimbursementsAttach
     //PUBLIC METHODS
 
     @Override
+    public FileDTO getReimbursementTraineeAttachmentFile(Long attachmentId) {
+        ReimbursementTraineeAttachment attachment = reimbursementTraineeAttachmentRepository.get(attachmentId);
+        FileDTO dto = new FileDTO();
+        dto.setName(StringUtils.findFileNameInPath(attachment.getFileLocation()));
+        dto.setInputStream(fileService.getInputStream(attachment.getFileLocation()));
+        return dto;
+    }
+
+    @Override
     public List<ReimbursementSearchResultDTO> findReimbursementsSearchResults(ReimbursementSearchQueryDTO searchDTO) {
         List<Reimbursement> reimbursements = reimbursementRepository.findReimbursements(searchDTO);
         return reimbursementEntityToSearchResultMapper.convert(reimbursements);
@@ -60,12 +69,4 @@ public class ReimbursementsAttachmentServiceImpl implements ReimbursementsAttach
         return dto;
     }
 
-    @Override
-    public FileDTO getReimbursementTraineeAttachmentFile(Long attachmentId) {
-        ReimbursementTraineeAttachment attachment = reimbursementTraineeAttachmentRepository.get(attachmentId);
-        FileDTO dto = new FileDTO();
-        dto.setName(StringUtils.findFileNameInPath(attachment.getFileLocation()));
-        dto.setInputStream(fileService.getInputStream(attachment.getFileLocation()));
-        return dto;
-    }
 }
