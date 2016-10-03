@@ -1,10 +1,10 @@
 package pl.sodexo.it.gryf.service.local.api;
 
-import pl.sodexo.it.gryf.common.dto.MailDTO;
+import pl.sodexo.it.gryf.common.dto.mail.EmailSourceType;
+import pl.sodexo.it.gryf.common.dto.mail.MailDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.MailAttachmentDTO;
 import pl.sodexo.it.gryf.common.mail.MailPlaceholders;
 import pl.sodexo.it.gryf.model.mail.EmailInstance;
-import pl.sodexo.it.gryf.model.mail.EmailSourceType;
 
 import java.util.List;
 

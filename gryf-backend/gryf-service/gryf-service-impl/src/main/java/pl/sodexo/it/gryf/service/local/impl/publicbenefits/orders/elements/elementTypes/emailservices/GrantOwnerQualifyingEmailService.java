@@ -7,7 +7,7 @@ package pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.elements.elem
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.sodexo.it.gryf.common.dto.MailDTO;
+import pl.sodexo.it.gryf.common.dto.mail.MailDTO;
 import pl.sodexo.it.gryf.common.mail.MailPlaceholders;
 import pl.sodexo.it.gryf.model.mail.EmailTemplate;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;

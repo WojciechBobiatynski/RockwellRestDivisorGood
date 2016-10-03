@@ -1,4 +1,4 @@
-package pl.sodexo.it.gryf.model.mail;
+package pl.sodexo.it.gryf.common.dto.mail;
 
 /**
  * Created by tomasz.bilski.ext on 2015-09-18.
