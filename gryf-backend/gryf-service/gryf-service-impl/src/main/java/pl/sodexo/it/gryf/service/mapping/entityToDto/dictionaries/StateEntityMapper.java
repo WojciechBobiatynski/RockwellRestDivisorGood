@@ -1,7 +1,7 @@
 package pl.sodexo.it.gryf.service.mapping.entityToDto.dictionaries;
 
 import org.springframework.stereotype.Component;
-import pl.sodexo.it.gryf.common.dto.dictionaries.zipcodes.detailsform.StateDto;
+import pl.sodexo.it.gryf.common.dto.zipcodes.detailsform.StateDto;
 import pl.sodexo.it.gryf.model.dictionaries.State;
 import pl.sodexo.it.gryf.service.mapping.entityToDto.GryfEntityMapper;
 

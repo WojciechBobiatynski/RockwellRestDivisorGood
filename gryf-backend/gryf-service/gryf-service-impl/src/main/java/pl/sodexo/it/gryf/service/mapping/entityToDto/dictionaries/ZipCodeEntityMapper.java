@@ -2,7 +2,7 @@ package pl.sodexo.it.gryf.service.mapping.entityToDto.dictionaries;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pl.sodexo.it.gryf.common.dto.dictionaries.zipcodes.detailsform.ZipCodeDto;
+import pl.sodexo.it.gryf.common.dto.zipcodes.detailsform.ZipCodeDto;
 import pl.sodexo.it.gryf.model.dictionaries.ZipCode;
 import pl.sodexo.it.gryf.service.mapping.entityToDto.VersionableEntityMapper;
 

@@ -1,8 +1,8 @@
 package pl.sodexo.it.gryf.service.api.dictionaries;
 
-import pl.sodexo.it.gryf.common.dto.dictionaries.zipcodes.detailsform.ZipCodeDto;
-import pl.sodexo.it.gryf.common.dto.dictionaries.zipcodes.searchform.ZipCodeSearchQueryDTO;
-import pl.sodexo.it.gryf.common.dto.dictionaries.zipcodes.searchform.ZipCodeSearchResultDTO;
+import pl.sodexo.it.gryf.common.dto.zipcodes.detailsform.ZipCodeDto;
+import pl.sodexo.it.gryf.common.dto.zipcodes.searchform.ZipCodeSearchQueryDTO;
+import pl.sodexo.it.gryf.common.dto.zipcodes.searchform.ZipCodeSearchResultDTO;
 
 import java.util.List;
 

@@ -2,15 +2,10 @@ package pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.enterprises
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pl.sodexo.it.gryf.common.dto.dictionaries.zipcodes.searchform.ZipCodeSearchResultDTO;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.enterprises.detailsform.EnterpriseContactDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.enterprises.searchform.EnterpriseSearchResultDTO;
 import pl.sodexo.it.gryf.model.publicbenefits.enterprises.Enterprise;
-import pl.sodexo.it.gryf.model.publicbenefits.enterprises.EnterpriseContact;
 import pl.sodexo.it.gryf.service.mapping.GenericMapper;
-import pl.sodexo.it.gryf.service.mapping.entityToDto.AuditableEntityMapper;
 import pl.sodexo.it.gryf.service.mapping.entityToDto.dictionaries.searchform.ZipCodeEntityToSearchResultMapper;
-import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.enterprises.ContactTypeEntityMapper;
 
 /**
  * Maper mapujący encję EnterpriseContact na EnterpriseContactDto

@@ -36,8 +36,13 @@
     </build>
 
     <dependencies>
-        <!-- BOTH dependencies -->
+        <!--PROJECT -->
+        <dependency>
+            <groupId>pl.sodexo.it</groupId>
+            <artifactId>gryf-common</artifactId>
+        </dependency>
 
+        <!-- BOTH dependencies -->
         <!-- LOMBOK -->
         <dependency>
             <groupId>org.projectlombok</groupId>

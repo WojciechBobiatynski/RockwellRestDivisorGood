@@ -2,16 +2,11 @@ package pl.sodexo.it.gryf.service.mapping.entityToDto.grantapplications.searchfo
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pl.sodexo.it.gryf.common.dto.DictionaryDTO;
-import pl.sodexo.it.gryf.common.dto.dictionaries.zipcodes.detailsform.StateDto;
-import pl.sodexo.it.gryf.common.dto.dictionaries.zipcodes.searchform.ZipCodeSearchResultDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.grantapplications.searchform.GrantApplicationSearchResultDTO;
-import pl.sodexo.it.gryf.model.dictionaries.State;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationBasicData;
 import pl.sodexo.it.gryf.service.mapping.entityToDto.GryfEntityMapper;
 import pl.sodexo.it.gryf.service.mapping.entityToDto.dictionaries.DictionaryEntityMapper;
-import pl.sodexo.it.gryf.service.mapping.entityToDto.dictionaries.ZipCodeEntityMapper;
 import pl.sodexo.it.gryf.service.mapping.entityToDto.dictionaries.searchform.ZipCodeEntityToSearchResultMapper;
 
 /**

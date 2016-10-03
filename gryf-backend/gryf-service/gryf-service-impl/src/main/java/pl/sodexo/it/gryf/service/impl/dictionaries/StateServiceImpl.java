@@ -4,7 +4,7 @@ import com.googlecode.ehcache.annotations.Cacheable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.sodexo.it.gryf.common.dto.dictionaries.zipcodes.detailsform.StateDto;
+import pl.sodexo.it.gryf.common.dto.zipcodes.detailsform.StateDto;
 import pl.sodexo.it.gryf.dao.api.crud.repository.dictionaries.StateRepository;
 import pl.sodexo.it.gryf.service.api.dictionaries.StateService;
 import pl.sodexo.it.gryf.service.mapping.entityToDto.dictionaries.StateEntityMapper;

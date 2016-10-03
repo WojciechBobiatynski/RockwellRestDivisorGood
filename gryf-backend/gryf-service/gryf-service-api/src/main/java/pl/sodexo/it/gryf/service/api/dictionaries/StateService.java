@@ -1,6 +1,6 @@
 package pl.sodexo.it.gryf.service.api.dictionaries;
 
-import pl.sodexo.it.gryf.common.dto.dictionaries.zipcodes.detailsform.StateDto;
+import pl.sodexo.it.gryf.common.dto.zipcodes.detailsform.StateDto;
 
 import java.util.List;
 
