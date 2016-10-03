@@ -2,7 +2,7 @@ package pl.sodexo.it.gryf.model;
 
 import lombok.ToString;
 import pl.sodexo.it.gryf.common.crud.Auditable;
-import pl.sodexo.it.gryf.common.utils.LoginUtils;
+import pl.sodexo.it.gryf.common.dto.user.GryfUser;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -43,15 +43,15 @@ public class AuditableEntity extends CreationAuditedEntity implements Auditable{
     @PrePersist
     public void prePersist() {
         Date now = new Date();
-        setCreatedUser(LoginUtils.getLogin());
+        setCreatedUser(GryfUser.getLoggedUserLogin());
         setCreatedTimestamp(now);
-        setModifiedUser(LoginUtils.getLogin());
+        setModifiedUser(GryfUser.getLoggedUserLogin());
         setModifiedTimestamp(now);
     }
     
     @PreUpdate
     public void preUpdate() {
-        setModifiedUser(LoginUtils.getLogin());
+        setModifiedUser(GryfUser.getLoggedUserLogin());
         setModifiedTimestamp(new Date());
     }
 

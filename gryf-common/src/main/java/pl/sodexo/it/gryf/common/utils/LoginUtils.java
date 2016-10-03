@@ -7,9 +7,9 @@ import org.springframework.security.core.userdetails.User;
 /**
  * Created by Tomasz.Bilski on 2015-06-10.
  */
+@Deprecated // todo do usuniecia
 public abstract class LoginUtils {
-
-    //TODO zamienic wywolania LoginUtils.getLogin() na GryfUser.getLoggedUserLogin() po rozdzieleniu commons i modelu, usunac LoginUtils
+    
     public static String getLogin(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication != null){
