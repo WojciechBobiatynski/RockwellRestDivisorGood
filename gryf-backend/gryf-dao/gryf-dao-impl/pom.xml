@@ -20,12 +20,6 @@
             <artifactId>gryf-dao-api</artifactId>
         </dependency>
 
-        <!-- TODO tymczasowa zaleznosc -->
-        <dependency>
-            <groupId>pl.sodexo.it</groupId>
-            <artifactId>gryf-model</artifactId>
-        </dependency>
-
         <!-- SPRING -->
         <dependency>
             <groupId>org.springframework</groupId>
