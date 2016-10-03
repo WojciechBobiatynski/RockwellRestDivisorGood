@@ -1,6 +1,6 @@
 package pl.sodexo.it.gryf.common.exception;
 
-import pl.sodexo.it.gryf.model.VersionableEntity;
+import pl.sodexo.it.gryf.common.crud.Versionable;
 
 import java.util.Date;
 
@@ -18,16 +18,16 @@ public class StaleDataException extends RuntimeException {
 
     //CONSTRUCTORS
 
-    public StaleDataException(Object id, VersionableEntity entity) {
-        this(id, entity, null);
+    public StaleDataException(Object id, Versionable object) {
+        this(id, object, null);
     }
 
-    public StaleDataException(Object id, VersionableEntity entity, String message) {
+    public StaleDataException(Object id, Versionable object, String message) {
         super(message);
         this.id = id;
-        this.version = entity.getVersion();
-        this.modifiedUser = entity.getModifiedUser();
-        this.modifiedTimestamp = entity.getModifiedTimestamp();
+        this.version = object.getVersion();
+        this.modifiedUser = object.getModifiedUser();
+        this.modifiedTimestamp = object.getModifiedTimestamp();
     }
 
     //GETTERS

@@ -1,6 +1,7 @@
 package pl.sodexo.it.gryf.model;
 
 import lombok.ToString;
+import pl.sodexo.it.gryf.common.crud.Auditable;
 import pl.sodexo.it.gryf.common.utils.LoginUtils;
 
 import javax.persistence.*;
@@ -8,7 +9,7 @@ import java.util.Date;
 
 @ToString
 @MappedSuperclass
-public class AuditableEntity extends CreationAuditedEntity{
+public class AuditableEntity extends CreationAuditedEntity implements Auditable{
 
     //FIELDS
 

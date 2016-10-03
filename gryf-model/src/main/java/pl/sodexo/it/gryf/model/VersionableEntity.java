@@ -1,6 +1,7 @@
 package pl.sodexo.it.gryf.model;
 
 import lombok.ToString;
+import pl.sodexo.it.gryf.common.crud.Versionable;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
@@ -11,7 +12,7 @@ import javax.persistence.Version;
  */
 @ToString
 @MappedSuperclass
-public class VersionableEntity extends AuditableEntity{
+public class VersionableEntity extends AuditableEntity implements Versionable {
 
     @Column(name = "VERSION")
     @Version
