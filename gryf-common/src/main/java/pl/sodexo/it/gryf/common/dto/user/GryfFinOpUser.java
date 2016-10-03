@@ -14,6 +14,8 @@ import java.util.Collection;
 @ToString(callSuper = true)
 public class GryfFinOpUser extends GryfUser {
 
+    private static final long serialVersionUID = 1L;
+
     public GryfFinOpUser(UserDto user, Collection<? extends GrantedAuthority> authorities) {
         super(user, authorities);
         userType = UserType.FINANCIAL_OPERATOR;

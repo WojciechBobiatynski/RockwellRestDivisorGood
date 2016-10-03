@@ -36,6 +36,25 @@ public abstract class GryfUser extends User {
     }
 
     /**
+     * Zwraca login zalogowanego użytkownika.
+     *
+     * @return login
+     */
+    public static String getLoggedUserLogin() {
+        GryfUser loggedUser = GryfUser.getLoggedUser();
+        if (loggedUser == null){
+            return "";
+        }
+
+        UserDto user = loggedUser.getUser();
+        if (user == null){
+            return "";
+        }
+
+        return user.getLogin();
+    }
+    
+    /**
      * Zwraca zalogowanego użytkownika.
      *
      * @return zalogowany uzytkownik
@@ -58,19 +77,6 @@ public abstract class GryfUser extends User {
             return null;
         }
         return (GryfUser) principal;
-    }
-
-    /**
-     * Zwraca login zalogowanego użytkownika.
-     *
-     * @return login
-     */
-    public String getUserLogin(){
-        if(user == null){
-            return "";
-        }
-
-        return user.getLogin();
     }
     
 }

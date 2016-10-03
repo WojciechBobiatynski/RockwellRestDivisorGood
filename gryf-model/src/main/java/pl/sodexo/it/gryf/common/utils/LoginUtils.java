@@ -9,10 +9,10 @@ import org.springframework.security.core.userdetails.User;
  */
 public abstract class LoginUtils {
 
+    //TODO zamienic wywolania LoginUtils.getLogin() na GryfUser.getLoggedUserLogin() po rozdzieleniu commons i modelu, usunac LoginUtils
     public static String getLogin(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication != null){
-            //TODO zamienic na GryfUUser po rozdzieleniu commons i modelu
             User principal = (User) authentication.getPrincipal();
             if(principal != null){
                 return principal.getUsername();

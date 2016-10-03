@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.dto.FileDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.action.IncomingOrderElementDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementDTO;
-import pl.sodexo.it.gryf.common.utils.LoginUtils;
+import pl.sodexo.it.gryf.common.dto.user.GryfUser;
 import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderFlowStatusTransSqlRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderFlowStatusTransitionRepository;
@@ -123,10 +123,10 @@ public class OrderActionServiceImpl implements OrderActionService {
     private void executeSql(Order order, OrderFlowStatusTransition statusTransition, OrderFlowStatusTransSqlType type) {
         List<OrderFlowStatusTransSql> transSqlList = statusTransition.getOrderFlowStatusTransSqlList();
         for (OrderFlowStatusTransSql transSql : transSqlList) {
-            if (type == transSql.getType()) {
-                orderFlowStatusTransSqlRepository.flush();
-                orderFlowStatusTransSqlRepository.executeNativeSql(transSql, order.getId(), LoginUtils.getLogin());
-            }
+            if (type != transSql.getType())continue;
+            
+            orderFlowStatusTransSqlRepository.flush();
+            orderFlowStatusTransSqlRepository.executeNativeSql(transSql, order.getId(), GryfUser.getLoggedUserLogin());
         }
     }
 }

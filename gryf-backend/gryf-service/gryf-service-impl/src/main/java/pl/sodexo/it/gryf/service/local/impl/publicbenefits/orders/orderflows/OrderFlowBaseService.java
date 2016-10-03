@@ -1,7 +1,7 @@
 package pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.orderflows;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import pl.sodexo.it.gryf.common.utils.LoginUtils;
+import pl.sodexo.it.gryf.common.dto.user.GryfUser;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.grantprograms.GrantProgramProductRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderRepository;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication;
@@ -50,7 +50,7 @@ public abstract class OrderFlowBaseService implements OrderFlowService {
         order.setOrderDate(grantApplication.getReceiptDate());
         order.setAddressCorr(basicData.getAddressCorr());
         order.setZipCodeCorrId((basicData.getZipCodeCorr() != null) ? basicData.getZipCodeCorr().getId() : null);
-        order.setOperator(LoginUtils.getLogin());
+        order.setOperator(GryfUser.getLoggedUserLogin());
         order.setProduct(findGrantProgramProduct(grantApplication.getProgram().getId(),grantApplication.getReceiptDate()).getProduct());
         
         orderRepository.save(order);

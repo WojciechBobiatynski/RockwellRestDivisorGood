@@ -35,9 +35,7 @@ public class AuthModelAttribute {
 
     @ModelAttribute("login")
     public String loginString() {
-        GryfUser loggedUser = GryfUser.getLoggedUser();
-        if(loggedUser == null) return "";
-        return loggedUser.getUserLogin();        
+        return GryfUser.getLoggedUserLogin();        
     }
 
     @ModelAttribute("loggedIn")
