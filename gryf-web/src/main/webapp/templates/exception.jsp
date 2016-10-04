@@ -12,7 +12,7 @@
 
     <button class="button button-show" ng-click="setShowExceptionStackTrace()">Opis błędu</button>
     <br/><br/>
-    <div ng-show="isShowExceptionStackTrace" style="overflow-y: scroll">
+    <div ng-show="isShowExceptionStackTrace" style="overflow-y: scroll; height: 700px">
         <pre style="white-space: pre-wrap;">{{getLastExceptionStackTrace()}}</pre>
     </div>
 </div>

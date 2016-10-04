@@ -53,7 +53,7 @@ angular.module('gryf.config').factory('generalExceptionHandlerInterceptor', ['$q
                     }]);                    
                 } else { // GENERAL_EXCEPTION
                     $injector.invoke(['GryfModals', function(GryfModals) {
-                        var additionalInfo = {message: rejection.data.message};
+                        var additionalInfo = {message: rejection.data.stacktrace};
                         exceptionsService.setLastExceptionStackTrace(additionalInfo.message);
                         $location.path("/exception");
                     }]);
