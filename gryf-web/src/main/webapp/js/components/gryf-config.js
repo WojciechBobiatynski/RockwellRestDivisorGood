@@ -2,8 +2,35 @@ var app = angular.module('gryf.config',
     ['ngRoute', 'ui.bootstrap', 'gryf.modals', 'ngAnimate', 'gryf.popups',
      'gryf.privileges', 'gryf.tables', 'gryf.exceptionHandler', 'gryf.helpers']);
 
+angular.module('gryf.config').controller('ConfigController', function ($scope, exceptionsService) {
 
-angular.module('gryf.config').factory('generalExceptionHandlerInterceptor', ['$q', '$injector', function($q, $injector) {
+    $scope.isShowExceptionStackTrace = false;
+    $scope.setShowExceptionStackTrace = function () {
+        if ($scope.isShowExceptionStackTrace != true) {
+            $scope.isShowExceptionStackTrace = true;
+        } else {
+            $scope.isShowExceptionStackTrace = false;
+        }
+    }
+    $scope.getLastExceptionStackTrace = function () {
+        return exceptionsService.getLastExceptionStackTrace();
+    }
+    $scope.setLastExceptionStackTrace = function (stacktrace) {
+        exceptionsService.setLastExceptionStackTrace(stacktrace);
+    }
+})
+
+angular.module('gryf.config').service('exceptionsService', function () {
+    this.exceptionStackTrace = {};
+    this.setLastExceptionStackTrace = function (stacktrace) {
+        this.exceptionStackTrace = stacktrace;
+    }
+    this.getLastExceptionStackTrace = function() {
+        return this.exceptionStackTrace;
+    };
+});
+
+angular.module('gryf.config').factory('generalExceptionHandlerInterceptor', ['$q', '$injector', '$location', 'exceptionsService', function($q, $injector, $location, exceptionsService) {
     var timers = {
         messageKeeper: null,
         timeoutKeeper: null,
@@ -27,7 +54,8 @@ angular.module('gryf.config').factory('generalExceptionHandlerInterceptor', ['$q
                 } else { // GENERAL_EXCEPTION
                     $injector.invoke(['GryfModals', function(GryfModals) {
                         var additionalInfo = {message: rejection.data.message};
-                        GryfModals.openModal(GryfModals.MODALS_URL.ERROR_INFO, additionalInfo)
+                        exceptionsService.setLastExceptionStackTrace(additionalInfo.message);
+                        $location.path("/exception");
                     }]);
                 }
             }
@@ -57,9 +85,14 @@ angular.module('gryf.config').factory('generalExceptionHandlerInterceptor', ['$q
     };
 }]);
 
-angular.module('gryf.config').config(['$httpProvider', function($httpProvider) {
+angular.module('gryf.config').config(['$httpProvider','$routeProvider', function($httpProvider, $routeProvider) {
     $httpProvider.defaults.headers.common["X-CSRF-TOKEN"] = xsrf;
     $httpProvider.interceptors.push('generalExceptionHandlerInterceptor');
+    $routeProvider
+        .when('/exception',
+            {
+                templateUrl: contextPath + '/templates/exception.jsp'
+            })
 }]);
 
 angular.module('gryf.config').config(['$provide', '$controllerProvider', function($provide, $controllerProvider) {

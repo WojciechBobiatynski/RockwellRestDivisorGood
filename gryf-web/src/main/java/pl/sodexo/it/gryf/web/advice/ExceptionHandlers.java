@@ -5,6 +5,7 @@
  */
 package pl.sodexo.it.gryf.web.advice;
 
+import com.google.common.base.Throwables;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,7 +84,7 @@ public class ExceptionHandlers {
     @ResponseBody
     public ResponseEntity<GeneralExceptionResponse> generalException(Exception sde) {
         LOGGER.error(sde.getMessage(), sde);
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new GeneralExceptionResponse(sde.getMessage()));
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new GeneralExceptionResponse(sde.getMessage(), Throwables.getStackTraceAsString(sde)));
     }
     
 }
