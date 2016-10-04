@@ -20,6 +20,15 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
+    <filter>
+        <filter-name>logExceptionFilter</filter-name>
+        <filter-class>pl.sodexo.it.gryf.web.logging.LogExceptionFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>logExceptionFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
     <servlet>
         <servlet-name>dispatcher</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
