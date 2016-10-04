@@ -10,7 +10,7 @@
 
     <parent>
         <groupId>pl.sodexo.it</groupId>
-        <artifactId>gryf-parent</artifactId>
+        <artifactId>gryf-dao</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 

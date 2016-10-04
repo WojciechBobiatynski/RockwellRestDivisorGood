@@ -40,9 +40,6 @@
         <module>gryf-backend</module>
         <module>gryf-common</module>
         <module>gryf-db-scripts</module>
-        
-        <!-- OLD -->
-        <module>/gryf-model</module>
     </modules>
     
     <build>

@@ -17,5 +17,6 @@
     <modules>
         <module>gryf-dao-api</module>
         <module>gryf-dao-impl</module>
+        <module>gryf-model</module>
     </modules>
 </project>
