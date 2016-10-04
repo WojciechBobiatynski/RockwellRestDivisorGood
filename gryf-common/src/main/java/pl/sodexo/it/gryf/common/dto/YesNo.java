@@ -24,7 +24,7 @@ public enum YesNo {
 
     public static Boolean toBoolean(YesNo yesNo){
         if(yesNo == null){
-            return null;
+            return false;
         }
         return yesNo.toBoolean();
     }
