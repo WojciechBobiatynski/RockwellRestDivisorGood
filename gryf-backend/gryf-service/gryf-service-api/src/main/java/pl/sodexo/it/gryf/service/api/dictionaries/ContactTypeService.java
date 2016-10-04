@@ -1,6 +1,6 @@
 package pl.sodexo.it.gryf.service.api.dictionaries;
 
-import pl.sodexo.it.gryf.common.dto.publicbenefits.enterprises.detailsform.ContactTypeDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.ContactTypeDto;
 
 import java.util.List;
 

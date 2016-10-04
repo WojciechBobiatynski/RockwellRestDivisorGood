@@ -286,7 +286,7 @@ public class Individual extends VersionableEntity {
         if (contact.getId() == null || !getInitializedIndividualContacts().contains(contact)) {
             getInitializedIndividualContacts().add(contact);
         }
-        contact.setEnterprise(this);
+        contact.setIndividual(this);
     }
 
     private List<Order> getInitializedOrderList() {

@@ -2,11 +2,12 @@ package pl.sodexo.it.gryf.model.publicbenefits.enterprises;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.ToString;
-import org.hibernate.validator.constraints.NotEmpty;
-import pl.sodexo.it.gryf.model.AuditableEntity;
-import pl.sodexo.it.gryf.model.publicbenefits.ContactType;
+import pl.sodexo.it.gryf.model.publicbenefits.Contact;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
@@ -16,7 +17,7 @@ import java.util.Objects;
 @ToString(exclude = {"contactType", "enterprise"})
 @Entity
 @Table(name = "ENTERPRISE_CONTACTS", schema = "APP_PBE")
-public class EnterpriseContact  extends AuditableEntity {
+public class EnterpriseContact extends Contact {
 
     //STATIC FIELDS - ATRIBUTES
 
@@ -25,62 +26,62 @@ public class EnterpriseContact  extends AuditableEntity {
 
     //PRIVATE FIELDS
 
-    @Id
-    @Column(name = "ID")
-    @GeneratedValue(generator = "pk_seq")
-    private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "CONTACT_TYPE")
-    @NotNull(message = "Typ kontaktu nie może być pusty")
-    private ContactType contactType;
-
-    @Column(name = "CONTACT_DATA")
-    @NotEmpty(message = "Dane kontaktowe nie mogą być puste")
-    private String contactData;
-
-    @Column(name = "REMARKS")
-    private String remarks;
-
+    //    @Id
+    //    @Column(name = "ID")
+    //    @GeneratedValue(generator = "pk_seq")
+    //    private Long id;
+    //
+    //    @ManyToOne
+    //    @JoinColumn(name = "CONTACT_TYPE")
+    //    @NotNull(message = "Typ kontaktu nie może być pusty")
+    //    private ContactType contactType;
+    //
+    //    @Column(name = "CONTACT_DATA")
+    //    @NotEmpty(message = "Dane kontaktowe nie mogą być puste")
+    //    private String contactData;
+    //
+    //    @Column(name = "REMARKS")
+    //    private String remarks;
+    //
     @ManyToOne
     @JoinColumn(name = "ENT_ID")
     @JsonBackReference(Enterprise.CONTACTS_ATTR_NAME)
     @NotNull(message = "MŚP nie może być puste")
     private Enterprise enterprise;
 
-    //GETTERS & SETTERS
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public ContactType getContactType() {
-        return contactType;
-    }
-
-    public void setContactType(ContactType contactType) {
-        this.contactType = contactType;
-    }
-
-    public String getContactData() {
-        return contactData;
-    }
-
-    public void setContactData(String contactData) {
-        this.contactData = contactData;
-    }
-
-    public String getRemarks() {
-        return remarks;
-    }
-
-    public void setRemarks(String remarks) {
-        this.remarks = remarks;
-    }
+    //    //GETTERS & SETTERS
+    //
+    //    public Long getId() {
+    //        return id;
+    //    }
+    //
+    //    public void setId(Long id) {
+    //        this.id = id;
+    //    }
+    //
+    //    public ContactType getContactType() {
+    //        return contactType;
+    //    }
+    //
+    //    public void setContactType(ContactType contactType) {
+    //        this.contactType = contactType;
+    //    }
+    //
+    //    public String getContactData() {
+    //        return contactData;
+    //    }
+    //
+    //    public void setContactData(String contactData) {
+    //        this.contactData = contactData;
+    //    }
+    //
+    //    public String getRemarks() {
+    //        return remarks;
+    //    }
+    //
+    //    public void setRemarks(String remarks) {
+    //        this.remarks = remarks;
+    //    }
 
     public Enterprise getEnterprise() {
         return enterprise;

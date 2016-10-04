@@ -56,7 +56,7 @@ public class TrainingInstitutionValidator {
     }
 
     //PROTECTED METHODS
-
+//TODO wydzielić wspólnna metode na podstawie Contact
     private void validateContacts(List<TrainingInstitutionContact> contacts, List<EntityConstraintViolation> violations) {
         int contactsSize = contacts.size();
         TrainingInstitutionContact[] contactTab = contacts.toArray(new TrainingInstitutionContact[contactsSize]);

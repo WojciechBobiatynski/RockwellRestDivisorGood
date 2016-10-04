@@ -1,11 +1,9 @@
 package pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.traininginstiutions;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingInstitutionContactDto;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstitutionContact;
-import pl.sodexo.it.gryf.service.mapping.entityToDto.AuditableEntityMapper;
-import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.enterprises.ContactTypeEntityMapper;
+import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.ContactEntityMapper;
 
 /**
  * Mapper mapujący encję TrainingInstitutionContact na dto TrainingInstitutionContactDto
@@ -13,22 +11,11 @@ import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.enterprises.
  * Created by jbentyn on 2016-09-27.
  */
 @Component
-public class TrainingInstitutionContactEntityMapper extends AuditableEntityMapper<TrainingInstitutionContact, TrainingInstitutionContactDto> {
-
-    @Autowired
-    private ContactTypeEntityMapper contactTypeEntityMapper;
+public class TrainingInstitutionContactEntityMapper extends ContactEntityMapper<TrainingInstitutionContact, TrainingInstitutionContactDto> {
 
     @Override
     protected TrainingInstitutionContactDto initDestination() {
         return new TrainingInstitutionContactDto();
     }
 
-    @Override
-    public void map(TrainingInstitutionContact entity, TrainingInstitutionContactDto dto) {
-        super.map(entity, dto);
-        dto.setId(entity.getId());
-        dto.setContactType(contactTypeEntityMapper.convert(entity.getContactType()));
-        dto.setContactData(entity.getContactData());
-        dto.setRemarks(entity.getRemarks());
-    }
 }

@@ -1,7 +1,7 @@
-package pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.enterprises;
+package pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits;
 
 import org.springframework.stereotype.Component;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.enterprises.detailsform.ContactTypeDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.ContactTypeDto;
 import pl.sodexo.it.gryf.model.publicbenefits.ContactType;
 import pl.sodexo.it.gryf.service.mapping.entityToDto.GryfEntityMapper;
 
