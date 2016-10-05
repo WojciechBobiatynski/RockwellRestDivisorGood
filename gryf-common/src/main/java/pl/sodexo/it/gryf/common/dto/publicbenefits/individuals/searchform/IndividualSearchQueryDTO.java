@@ -1,7 +1,7 @@
 package pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.searchform;
 
 import lombok.ToString;
-import pl.sodexo.it.gryf.common.dto.SearchDto;
+import pl.sodexo.it.gryf.common.dto.api.SearchDto;
 
 @ToString
 public class IndividualSearchQueryDTO extends SearchDto {

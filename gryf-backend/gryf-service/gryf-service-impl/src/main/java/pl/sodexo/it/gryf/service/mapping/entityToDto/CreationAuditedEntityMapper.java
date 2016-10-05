@@ -1,7 +1,7 @@
 package pl.sodexo.it.gryf.service.mapping.entityToDto;
 
-import pl.sodexo.it.gryf.common.dto.basic.CreationAuditedDto;
-import pl.sodexo.it.gryf.model.CreationAuditedEntity;
+import pl.sodexo.it.gryf.common.dto.api.CreationAuditedDto;
+import pl.sodexo.it.gryf.model.api.CreationAuditedEntity;
 
 /**
  * Mapper mapujący CreationAuditedEntity na CreationAuditedDto

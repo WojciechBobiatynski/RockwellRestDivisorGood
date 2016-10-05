@@ -1,8 +1,8 @@
 package pl.sodexo.it.gryf.model.publicbenefits.reimbursement;
 
 import lombok.ToString;
-import pl.sodexo.it.gryf.model.DictionaryEntity;
-import pl.sodexo.it.gryf.model.GryfEntity;
+import pl.sodexo.it.gryf.model.api.DictionaryEntity;
+import pl.sodexo.it.gryf.model.api.GryfEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

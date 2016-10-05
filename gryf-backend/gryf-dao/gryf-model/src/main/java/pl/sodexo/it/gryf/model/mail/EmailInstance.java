@@ -2,7 +2,7 @@ package pl.sodexo.it.gryf.model.mail;
 
 import lombok.ToString;
 import pl.sodexo.it.gryf.common.dto.mail.EmailSourceType;
-import pl.sodexo.it.gryf.model.CreationAuditedEntity;
+import pl.sodexo.it.gryf.model.api.CreationAuditedEntity;
 
 import javax.persistence.*;
 import java.util.ArrayList;

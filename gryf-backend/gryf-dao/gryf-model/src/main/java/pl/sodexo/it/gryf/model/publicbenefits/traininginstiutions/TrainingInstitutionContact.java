@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import pl.sodexo.it.gryf.model.publicbenefits.Contact;
+import pl.sodexo.it.gryf.model.publicbenefits.api.Contact;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;

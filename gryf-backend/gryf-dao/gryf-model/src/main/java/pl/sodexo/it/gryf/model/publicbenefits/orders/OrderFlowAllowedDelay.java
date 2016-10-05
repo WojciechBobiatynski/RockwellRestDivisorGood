@@ -6,8 +6,8 @@
 package pl.sodexo.it.gryf.model.publicbenefits.orders;
 
 import lombok.ToString;
-import pl.sodexo.it.gryf.model.DayType;
-import pl.sodexo.it.gryf.model.GryfEntity;
+import pl.sodexo.it.gryf.model.api.GryfEntity;
+import pl.sodexo.it.gryf.model.enums.DayType;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

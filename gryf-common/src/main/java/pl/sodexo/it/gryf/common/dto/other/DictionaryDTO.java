@@ -1,7 +1,7 @@
-package pl.sodexo.it.gryf.common.dto;
+package pl.sodexo.it.gryf.common.dto.other;
 
 import lombok.ToString;
-import pl.sodexo.it.gryf.common.dto.basic.GryfDto;
+import pl.sodexo.it.gryf.common.dto.api.GryfDto;
 
 /**
  * Created by tomasz.bilski.ext on 2015-06-30.

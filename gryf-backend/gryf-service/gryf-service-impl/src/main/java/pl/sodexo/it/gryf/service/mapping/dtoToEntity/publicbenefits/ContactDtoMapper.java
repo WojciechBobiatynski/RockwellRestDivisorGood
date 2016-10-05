@@ -3,7 +3,7 @@ package pl.sodexo.it.gryf.service.mapping.dtoToEntity.publicbenefits;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.ContactDto;
-import pl.sodexo.it.gryf.model.publicbenefits.Contact;
+import pl.sodexo.it.gryf.model.publicbenefits.api.Contact;
 import pl.sodexo.it.gryf.service.mapping.dtoToEntity.AuditableDtoMapper;
 
 /**

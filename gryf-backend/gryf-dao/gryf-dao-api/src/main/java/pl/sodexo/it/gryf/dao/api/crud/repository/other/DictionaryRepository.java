@@ -1,7 +1,7 @@
 package pl.sodexo.it.gryf.dao.api.crud.repository.other;
 
-import pl.sodexo.it.gryf.common.dto.DictionaryDTO;
-import pl.sodexo.it.gryf.model.DictionaryEntity;
+import pl.sodexo.it.gryf.common.dto.other.DictionaryDTO;
+import pl.sodexo.it.gryf.model.api.DictionaryEntity;
 
 import java.util.List;
 

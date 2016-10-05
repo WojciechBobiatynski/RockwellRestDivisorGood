@@ -3,8 +3,8 @@ package pl.sodexo.it.gryf.common.dto.publicbenefits.grantapplications.detailsfor
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
-import pl.sodexo.it.gryf.common.dto.FileContainerDTO;
-import pl.sodexo.it.gryf.common.dto.FileDTO;
+import pl.sodexo.it.gryf.common.dto.api.FileContainerDTO;
+import pl.sodexo.it.gryf.common.dto.other.FileDTO;
 import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.common.validation.publicbenefits.grantapplication.ValidationGroupApplyOptionalApplication;
 import pl.sodexo.it.gryf.common.validation.publicbenefits.grantapplication.ValidationGroupNewGrantApplication;

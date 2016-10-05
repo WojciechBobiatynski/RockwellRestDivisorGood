@@ -1,10 +1,10 @@
-package pl.sodexo.it.gryf.model.publicbenefits;
+package pl.sodexo.it.gryf.model.publicbenefits.api;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
-import pl.sodexo.it.gryf.model.AuditableEntity;
+import pl.sodexo.it.gryf.model.api.AuditableEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

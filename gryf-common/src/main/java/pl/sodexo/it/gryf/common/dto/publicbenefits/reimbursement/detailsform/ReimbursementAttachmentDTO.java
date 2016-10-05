@@ -3,10 +3,10 @@ package pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.detailsform;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
-import pl.sodexo.it.gryf.common.dto.DictionaryDTO;
-import pl.sodexo.it.gryf.common.dto.FileContainerDTO;
-import pl.sodexo.it.gryf.common.dto.FileDTO;
-import pl.sodexo.it.gryf.common.dto.basic.GryfDto;
+import pl.sodexo.it.gryf.common.dto.api.FileContainerDTO;
+import pl.sodexo.it.gryf.common.dto.api.GryfDto;
+import pl.sodexo.it.gryf.common.dto.other.DictionaryDTO;
+import pl.sodexo.it.gryf.common.dto.other.FileDTO;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;

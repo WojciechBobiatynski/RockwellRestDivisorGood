@@ -1,7 +1,7 @@
 package pl.sodexo.it.gryf.common.dto.publicbenefits.grantapplications.searchform;
 
 import lombok.ToString;
-import pl.sodexo.it.gryf.common.dto.SearchDto;
+import pl.sodexo.it.gryf.common.dto.api.SearchDto;
 
 import java.util.Date;
 

@@ -4,7 +4,7 @@ package pl.sodexo.it.gryf.common.validation;
  * Created by tomasz.bilski.ext on 2015-09-03.
  */
 
-import pl.sodexo.it.gryf.common.Privileges;
+import pl.sodexo.it.gryf.common.enums.Privileges;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

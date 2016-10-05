@@ -1,11 +1,11 @@
 package pl.sodexo.it.gryf.dao.impl.crud.repository;
 
-import pl.sodexo.it.gryf.common.dto.SearchDto;
-import pl.sodexo.it.gryf.common.dto.SortType;
+import pl.sodexo.it.gryf.common.dto.api.SearchDto;
+import pl.sodexo.it.gryf.common.enums.SortType;
 import pl.sodexo.it.gryf.common.exception.StaleDataException;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.GenericRepository;
-import pl.sodexo.it.gryf.model.VersionableEntity;
+import pl.sodexo.it.gryf.model.api.VersionableEntity;
 
 import javax.persistence.EntityManager;
 import javax.persistence.OptimisticLockException;

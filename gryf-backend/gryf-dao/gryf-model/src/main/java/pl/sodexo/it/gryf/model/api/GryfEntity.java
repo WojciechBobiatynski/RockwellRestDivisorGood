@@ -1,4 +1,4 @@
-package pl.sodexo.it.gryf.model;
+package pl.sodexo.it.gryf.model.api;
 
 import lombok.ToString;
 

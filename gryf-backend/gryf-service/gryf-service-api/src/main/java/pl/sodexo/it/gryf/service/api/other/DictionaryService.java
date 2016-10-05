@@ -1,6 +1,6 @@
 package pl.sodexo.it.gryf.service.api.other;
 
-import pl.sodexo.it.gryf.common.dto.DictionaryDTO;
+import pl.sodexo.it.gryf.common.dto.other.DictionaryDTO;
 
 import java.util.List;
 

@@ -3,7 +3,7 @@ package pl.sodexo.it.gryf.common.dto.publicbenefits;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import pl.sodexo.it.gryf.common.dto.basic.GryfDto;
+import pl.sodexo.it.gryf.common.dto.api.GryfDto;
 
 /**
  * Dto dla encji ContactType

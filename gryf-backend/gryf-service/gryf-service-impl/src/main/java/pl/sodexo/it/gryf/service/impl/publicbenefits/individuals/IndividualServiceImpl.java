@@ -10,7 +10,7 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.searchform.Indivi
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.searchform.IndividualSearchResultDTO;
 import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.individuals.IndividualRepository;
-import pl.sodexo.it.gryf.model.publicbenefits.ContactType;
+import pl.sodexo.it.gryf.model.publicbenefits.api.ContactType;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
 import pl.sodexo.it.gryf.service.api.other.ApplicationParameters;
 import pl.sodexo.it.gryf.service.api.publicbenefits.individuals.IndividualService;

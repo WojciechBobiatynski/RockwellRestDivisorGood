@@ -1,6 +1,7 @@
-package pl.sodexo.it.gryf.common.dto;
+package pl.sodexo.it.gryf.common.dto.api;
 
 import lombok.ToString;
+import pl.sodexo.it.gryf.common.enums.SortType;
 
 import java.util.List;
 

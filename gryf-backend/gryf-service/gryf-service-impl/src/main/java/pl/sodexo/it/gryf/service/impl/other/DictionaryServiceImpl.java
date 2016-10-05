@@ -4,10 +4,10 @@ import com.googlecode.ehcache.annotations.Cacheable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.sodexo.it.gryf.common.dto.DictionaryDTO;
+import pl.sodexo.it.gryf.common.dto.other.DictionaryDTO;
 import pl.sodexo.it.gryf.dao.api.crud.repository.other.DictionaryRepository;
-import pl.sodexo.it.gryf.model.DictionaryCode;
-import pl.sodexo.it.gryf.model.DictionaryEntity;
+import pl.sodexo.it.gryf.model.api.DictionaryEntity;
+import pl.sodexo.it.gryf.model.enums.DictionaryCode;
 import pl.sodexo.it.gryf.service.api.other.DictionaryService;
 import pl.sodexo.it.gryf.service.mapping.entityToDto.dictionaries.DictionaryEntityMapper;
 

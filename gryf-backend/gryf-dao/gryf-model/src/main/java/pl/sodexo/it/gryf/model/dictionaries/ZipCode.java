@@ -3,7 +3,7 @@ package pl.sodexo.it.gryf.model.dictionaries;
 
 import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
-import pl.sodexo.it.gryf.model.VersionableEntity;
+import pl.sodexo.it.gryf.model.api.VersionableEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

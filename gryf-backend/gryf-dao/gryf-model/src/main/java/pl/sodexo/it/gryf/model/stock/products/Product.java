@@ -6,7 +6,7 @@
 package pl.sodexo.it.gryf.model.stock.products;
 
 import lombok.ToString;
-import pl.sodexo.it.gryf.model.GryfEntity;
+import pl.sodexo.it.gryf.model.api.GryfEntity;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantOwnerAidProduct;
 
 import javax.persistence.*;

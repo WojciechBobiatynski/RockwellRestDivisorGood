@@ -48,7 +48,12 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     private List<String> findRolesForLogin(String login) {
-        return entityManager.createNativeQuery("select aug_id from EAGLE.ADM_USER_IN_ROLES natural left join EAGLE.ADM_GROUPS_IN_ROLES where upper(aur_id) = upper(?) and aug_id is not null")
+        return entityManager.createNativeQuery("" + 
+                "select aug_id " + 
+                "from EAGLE.ADM_USER_IN_ROLES " + 
+                "natural left join EAGLE.ADM_GROUPS_IN_ROLES " + 
+                "where upper(aur_id) = upper(?) " + 
+                "and aug_id is not null")
                 .setParameter(1, login)
                 .getResultList();
     }

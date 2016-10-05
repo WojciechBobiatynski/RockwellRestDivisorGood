@@ -8,8 +8,8 @@ package pl.sodexo.it.gryf.model.publicbenefits.orders;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.ToString;
-import pl.sodexo.it.gryf.model.DictionaryEntity;
-import pl.sodexo.it.gryf.model.GryfEntity;
+import pl.sodexo.it.gryf.model.api.DictionaryEntity;
+import pl.sodexo.it.gryf.model.api.GryfEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

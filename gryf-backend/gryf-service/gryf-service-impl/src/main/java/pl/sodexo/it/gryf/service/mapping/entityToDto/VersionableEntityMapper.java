@@ -1,7 +1,7 @@
 package pl.sodexo.it.gryf.service.mapping.entityToDto;
 
-import pl.sodexo.it.gryf.common.dto.basic.VersionableDto;
-import pl.sodexo.it.gryf.model.VersionableEntity;
+import pl.sodexo.it.gryf.common.dto.api.VersionableDto;
+import pl.sodexo.it.gryf.model.api.VersionableEntity;
 
 /**
  * Mapper mapujący VersionableEntity na VersionableDto

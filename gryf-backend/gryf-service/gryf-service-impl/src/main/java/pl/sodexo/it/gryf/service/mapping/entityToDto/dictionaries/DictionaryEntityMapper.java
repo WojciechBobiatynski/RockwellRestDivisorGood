@@ -1,8 +1,8 @@
 package pl.sodexo.it.gryf.service.mapping.entityToDto.dictionaries;
 
 import org.springframework.stereotype.Component;
-import pl.sodexo.it.gryf.common.dto.DictionaryDTO;
-import pl.sodexo.it.gryf.model.DictionaryEntity;
+import pl.sodexo.it.gryf.common.dto.other.DictionaryDTO;
+import pl.sodexo.it.gryf.model.api.DictionaryEntity;
 
 import java.util.ArrayList;
 import java.util.List;

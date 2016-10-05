@@ -2,7 +2,6 @@ package pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.reimburseme
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pl.sodexo.it.gryf.common.dto.DictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.detailsform.ReimbursementTraineeAttachmentDTO;
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementTraineeAttachmentRequired;
 import pl.sodexo.it.gryf.service.mapping.entityToDto.GryfEntityMapper;

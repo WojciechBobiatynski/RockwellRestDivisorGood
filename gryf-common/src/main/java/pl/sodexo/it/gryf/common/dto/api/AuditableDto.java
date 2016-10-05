@@ -1,4 +1,4 @@
-package pl.sodexo.it.gryf.common.dto.basic;
+package pl.sodexo.it.gryf.common.dto.api;
 
 import lombok.ToString;
 import pl.sodexo.it.gryf.common.crud.Auditable;

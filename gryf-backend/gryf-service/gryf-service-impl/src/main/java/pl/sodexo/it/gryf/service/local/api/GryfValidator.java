@@ -1,6 +1,6 @@
 package pl.sodexo.it.gryf.service.local.api;
 
-import pl.sodexo.it.gryf.common.dto.FileContainerDTO;
+import pl.sodexo.it.gryf.common.dto.api.FileContainerDTO;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 
 import java.util.List;

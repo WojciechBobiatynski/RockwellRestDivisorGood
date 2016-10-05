@@ -2,7 +2,7 @@ package pl.sodexo.it.gryf.model.publicbenefits.reimbursement;
 
 import lombok.ToString;
 import org.eclipse.persistence.annotations.OptimisticLocking;
-import pl.sodexo.it.gryf.model.VersionableEntity;
+import pl.sodexo.it.gryf.model.api.VersionableEntity;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstitution;
 
 import javax.persistence.*;

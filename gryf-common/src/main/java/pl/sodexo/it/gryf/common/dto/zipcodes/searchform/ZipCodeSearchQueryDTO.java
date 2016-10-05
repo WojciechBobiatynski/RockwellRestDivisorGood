@@ -1,7 +1,7 @@
 package pl.sodexo.it.gryf.common.dto.zipcodes.searchform;
 
 import lombok.ToString;
-import pl.sodexo.it.gryf.common.dto.SearchDto;
+import pl.sodexo.it.gryf.common.dto.api.SearchDto;
 
 /**
  * Created by tomasz.bilski.ext on 2015-06-17.

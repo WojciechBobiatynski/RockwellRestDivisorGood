@@ -2,7 +2,7 @@ package pl.sodexo.it.gryf.common.dto.publicbenefits.grantapplications.detailsfor
 
 import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
-import pl.sodexo.it.gryf.common.dto.DictionaryDTO;
+import pl.sodexo.it.gryf.common.dto.other.DictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.enterprises.searchform.EnterpriseSearchResultDTO;
 import pl.sodexo.it.gryf.common.validation.publicbenefits.grantapplication.ValidationGroupApplyMandatoryApplication;
 import pl.sodexo.it.gryf.common.validation.publicbenefits.grantapplication.ValidationGroupNewGrantApplication;

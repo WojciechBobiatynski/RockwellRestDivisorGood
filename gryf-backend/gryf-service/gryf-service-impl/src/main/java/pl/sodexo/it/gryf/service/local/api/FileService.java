@@ -1,8 +1,8 @@
 package pl.sodexo.it.gryf.service.local.api;
 
-import pl.sodexo.it.gryf.common.dto.FileDTO;
-import pl.sodexo.it.gryf.model.AuditableEntity;
-import pl.sodexo.it.gryf.common.FileType;
+import pl.sodexo.it.gryf.common.dto.other.FileDTO;
+import pl.sodexo.it.gryf.common.enums.FileType;
+import pl.sodexo.it.gryf.model.api.AuditableEntity;
 
 import java.io.InputStream;
 import java.io.OutputStream;

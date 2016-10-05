@@ -1,7 +1,7 @@
 package pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.detailsform;
 
 import lombok.ToString;
-import pl.sodexo.it.gryf.common.dto.basic.GryfDto;
+import pl.sodexo.it.gryf.common.dto.api.GryfDto;
 
 import java.util.Date;
 import java.util.List;

@@ -1,4 +1,4 @@
-package pl.sodexo.it.gryf.model;
+package pl.sodexo.it.gryf.model.api;
 
 /**
  * Created by tomasz.bilski.ext on 2015-07-01.

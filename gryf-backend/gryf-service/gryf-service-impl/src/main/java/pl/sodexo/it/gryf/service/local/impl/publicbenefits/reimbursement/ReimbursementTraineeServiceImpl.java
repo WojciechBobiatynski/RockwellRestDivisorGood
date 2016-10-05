@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.detailsform.ReimbursementTraineeDTO;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.reimbursement.ReimbursementTraineeRepository;
-import pl.sodexo.it.gryf.model.Sex;
+import pl.sodexo.it.gryf.model.enums.Sex;
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementTrainee;
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementTraining;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;

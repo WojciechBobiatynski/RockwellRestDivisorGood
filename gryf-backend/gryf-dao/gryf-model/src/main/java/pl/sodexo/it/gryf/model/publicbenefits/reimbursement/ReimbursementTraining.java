@@ -6,7 +6,7 @@
 package pl.sodexo.it.gryf.model.publicbenefits.reimbursement;
 
 import lombok.ToString;
-import pl.sodexo.it.gryf.model.AuditableEntity;
+import pl.sodexo.it.gryf.model.api.AuditableEntity;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantOwnerAidProduct;
 import pl.sodexo.it.gryf.model.stock.products.RemittanceProductInstances;
 

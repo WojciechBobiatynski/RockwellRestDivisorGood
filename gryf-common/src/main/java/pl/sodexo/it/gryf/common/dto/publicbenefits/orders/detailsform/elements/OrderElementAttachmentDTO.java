@@ -2,8 +2,8 @@ package pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.ToString;
-import pl.sodexo.it.gryf.common.dto.FileContainerDTO;
-import pl.sodexo.it.gryf.common.dto.FileDTO;
+import pl.sodexo.it.gryf.common.dto.api.FileContainerDTO;
+import pl.sodexo.it.gryf.common.dto.other.FileDTO;
 
 /**
  * Created by tomasz.bilski.ext on 2015-08-21.

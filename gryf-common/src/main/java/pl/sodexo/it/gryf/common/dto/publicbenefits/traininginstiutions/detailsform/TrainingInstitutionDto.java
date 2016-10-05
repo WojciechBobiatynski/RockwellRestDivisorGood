@@ -3,7 +3,7 @@ package pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsf
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import pl.sodexo.it.gryf.common.dto.basic.VersionableDto;
+import pl.sodexo.it.gryf.common.dto.api.VersionableDto;
 import pl.sodexo.it.gryf.common.dto.zipcodes.detailsform.ZipCodeDto;
 
 import java.util.List;

@@ -3,7 +3,7 @@ package pl.sodexo.it.gryf.common.dto.zipcodes.detailsform;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import pl.sodexo.it.gryf.common.dto.basic.VersionableDto;
+import pl.sodexo.it.gryf.common.dto.api.VersionableDto;
 
 /**
  * Dto dla encji ZipCode

@@ -1,6 +1,6 @@
 package pl.sodexo.it.gryf.common.parsers;
 
-import pl.sodexo.it.gryf.common.dto.FileDTO;
+import pl.sodexo.it.gryf.common.dto.other.FileDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.grantapplications.detailsform.GrantApplicationAttachmentDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.grantapplications.detailsform.GrantApplicationDTO;
 import pl.sodexo.it.gryf.common.utils.JsonMapperUtils;

@@ -2,8 +2,8 @@ package pl.sodexo.it.gryf.service.validation.publicbenefits.individuals;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pl.sodexo.it.gryf.common.Privileges;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.ContactDataValidationDTO;
+import pl.sodexo.it.gryf.common.enums.Privileges;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.common.exception.publicbenefits.PeselIndividualExistException;
 import pl.sodexo.it.gryf.common.utils.StringUtils;

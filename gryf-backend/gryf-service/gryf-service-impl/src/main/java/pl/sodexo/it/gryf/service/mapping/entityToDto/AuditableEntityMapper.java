@@ -1,7 +1,7 @@
 package pl.sodexo.it.gryf.service.mapping.entityToDto;
 
-import pl.sodexo.it.gryf.common.dto.basic.AuditableDto;
-import pl.sodexo.it.gryf.model.AuditableEntity;
+import pl.sodexo.it.gryf.common.dto.api.AuditableDto;
+import pl.sodexo.it.gryf.model.api.AuditableEntity;
 
 /**
  * Mapper mapujący AuditableEntity na AuditableDto

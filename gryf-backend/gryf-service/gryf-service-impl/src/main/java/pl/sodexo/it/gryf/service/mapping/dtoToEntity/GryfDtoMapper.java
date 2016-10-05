@@ -1,7 +1,7 @@
 package pl.sodexo.it.gryf.service.mapping.dtoToEntity;
 
-import pl.sodexo.it.gryf.common.dto.basic.GryfDto;
-import pl.sodexo.it.gryf.model.GryfEntity;
+import pl.sodexo.it.gryf.common.dto.api.GryfDto;
+import pl.sodexo.it.gryf.model.api.GryfEntity;
 import pl.sodexo.it.gryf.service.mapping.GenericMapper;
 
 /**

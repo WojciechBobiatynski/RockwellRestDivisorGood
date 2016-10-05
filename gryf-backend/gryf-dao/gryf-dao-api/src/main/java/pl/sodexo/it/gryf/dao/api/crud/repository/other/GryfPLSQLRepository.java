@@ -1,6 +1,6 @@
 package pl.sodexo.it.gryf.dao.api.crud.repository.other;
 
-import pl.sodexo.it.gryf.model.DayType;
+import pl.sodexo.it.gryf.model.enums.DayType;
 
 import java.util.Date;
 

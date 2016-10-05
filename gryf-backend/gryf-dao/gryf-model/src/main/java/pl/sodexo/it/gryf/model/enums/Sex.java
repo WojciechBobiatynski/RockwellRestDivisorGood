@@ -1,9 +1,11 @@
-package pl.sodexo.it.gryf.model;
+package pl.sodexo.it.gryf.model.enums;
+
+import pl.sodexo.it.gryf.model.api.DictionaryEntity;
 
 /**
  * Created by tomasz.bilski.ext on 2015-09-09.
  */
-public enum Sex implements DictionaryEntity{
+public enum Sex implements DictionaryEntity {
 
     K("Kobieta"), M("Mężczyzna");
 

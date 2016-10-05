@@ -2,9 +2,9 @@ package pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.actions.actio
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.sodexo.it.gryf.common.FileType;
-import pl.sodexo.it.gryf.common.ReportTemplateCode;
-import pl.sodexo.it.gryf.model.ReportParameter;
+import pl.sodexo.it.gryf.common.enums.FileType;
+import pl.sodexo.it.gryf.common.enums.ReportParameter;
+import pl.sodexo.it.gryf.common.enums.ReportTemplateCode;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
 import pl.sodexo.it.gryf.service.api.reports.ReportService;

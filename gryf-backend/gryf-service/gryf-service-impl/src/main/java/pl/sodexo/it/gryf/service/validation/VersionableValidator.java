@@ -1,9 +1,9 @@
 package pl.sodexo.it.gryf.service.validation;
 
 import org.springframework.stereotype.Component;
-import pl.sodexo.it.gryf.common.dto.basic.VersionableDto;
+import pl.sodexo.it.gryf.common.dto.api.VersionableDto;
 import pl.sodexo.it.gryf.common.exception.StaleDataException;
-import pl.sodexo.it.gryf.model.VersionableEntity;
+import pl.sodexo.it.gryf.model.api.VersionableEntity;
 
 import java.util.Objects;
 

@@ -1,4 +1,4 @@
-package pl.sodexo.it.gryf.model;
+package pl.sodexo.it.gryf.model.enums;
 
 public enum DayType{
 

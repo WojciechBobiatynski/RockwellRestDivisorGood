@@ -1,7 +1,7 @@
 package pl.sodexo.it.gryf.web.utils;
 
 import org.springframework.web.multipart.MultipartFile;
-import pl.sodexo.it.gryf.common.dto.FileDTO;
+import pl.sodexo.it.gryf.common.dto.other.FileDTO;
 
 import java.io.IOException;
 import java.util.ArrayList;

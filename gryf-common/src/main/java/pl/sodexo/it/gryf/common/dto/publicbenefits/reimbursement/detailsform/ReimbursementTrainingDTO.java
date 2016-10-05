@@ -2,7 +2,7 @@ package pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.detailsform;
 
 import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
-import pl.sodexo.it.gryf.common.dto.basic.GryfDto;
+import pl.sodexo.it.gryf.common.dto.api.GryfDto;
 import pl.sodexo.it.gryf.common.validation.publicbenefits.reimbursement.ValidationGroupReimbursementSettleAndVerify;
 
 import javax.validation.Valid;

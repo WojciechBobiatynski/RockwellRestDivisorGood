@@ -5,7 +5,7 @@
  */
 package pl.sodexo.it.gryf.web.response;
 
-import pl.sodexo.it.gryf.common.Privileges;
+import pl.sodexo.it.gryf.common.enums.Privileges;
 
 public class UnauthorizedResponse {
 

@@ -6,8 +6,8 @@
 package pl.sodexo.it.gryf.model.publicbenefits.reimbursement;
 
 import lombok.ToString;
-import pl.sodexo.it.gryf.common.dto.YesNo;
-import pl.sodexo.it.gryf.model.AuditableEntity;
+import pl.sodexo.it.gryf.common.enums.YesNo;
+import pl.sodexo.it.gryf.model.api.AuditableEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

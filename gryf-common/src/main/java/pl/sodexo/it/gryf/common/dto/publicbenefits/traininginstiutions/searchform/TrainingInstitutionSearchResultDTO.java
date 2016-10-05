@@ -1,7 +1,7 @@
 package pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform;
 
 import lombok.ToString;
-import pl.sodexo.it.gryf.common.dto.basic.GryfDto;
+import pl.sodexo.it.gryf.common.dto.api.GryfDto;
 import pl.sodexo.it.gryf.common.dto.zipcodes.searchform.ZipCodeSearchResultDTO;
 
 /**

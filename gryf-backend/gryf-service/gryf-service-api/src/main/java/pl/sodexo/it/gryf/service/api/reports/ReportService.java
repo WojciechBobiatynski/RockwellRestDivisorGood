@@ -1,7 +1,7 @@
 package pl.sodexo.it.gryf.service.api.reports;
 
-import pl.sodexo.it.gryf.common.FileType;
-import pl.sodexo.it.gryf.common.ReportTemplateCode;
+import pl.sodexo.it.gryf.common.enums.FileType;
+import pl.sodexo.it.gryf.common.enums.ReportTemplateCode;
 
 import java.util.Map;
 

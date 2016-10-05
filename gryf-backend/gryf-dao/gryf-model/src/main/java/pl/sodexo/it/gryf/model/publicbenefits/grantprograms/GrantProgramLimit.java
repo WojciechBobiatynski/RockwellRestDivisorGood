@@ -1,7 +1,7 @@
 package pl.sodexo.it.gryf.model.publicbenefits.grantprograms;
 
 import lombok.ToString;
-import pl.sodexo.it.gryf.model.GryfEntity;
+import pl.sodexo.it.gryf.model.api.GryfEntity;
 import pl.sodexo.it.gryf.model.publicbenefits.enterprises.EnterpriseSize;
 
 import javax.persistence.*;

@@ -1,4 +1,4 @@
-package pl.sodexo.it.gryf.model;
+package pl.sodexo.it.gryf.common.enums;
 
 /**
  * Enum przechowuje niektóre parametry raportów - m.in. parametry standardowe

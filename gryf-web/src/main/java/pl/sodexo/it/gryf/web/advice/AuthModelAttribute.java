@@ -26,6 +26,7 @@ public class AuthModelAttribute {
     @ModelAttribute("privileges")
     public String privilegesJson() throws JsonProcessingException {
         Map<String, Boolean> res = new HashMap<>();
+        //todo do przerobienia
         Collection<? extends GrantedAuthority> auths = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
         for (GrantedAuthority auth : auths) {
             res.put(auth.getAuthority(), true);
@@ -40,6 +41,7 @@ public class AuthModelAttribute {
 
     @ModelAttribute("loggedIn")
     public boolean loggedInBool() {
+        //todo do przerobienia
         return !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken);
     }
 

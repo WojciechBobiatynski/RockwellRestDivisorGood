@@ -1,5 +1,6 @@
-package pl.sodexo.it.gryf.model;
+package pl.sodexo.it.gryf.model.enums;
 
+import pl.sodexo.it.gryf.model.api.DictionaryEntity;
 import pl.sodexo.it.gryf.model.publicbenefits.enterprises.EnterpriseEntityType;
 import pl.sodexo.it.gryf.model.publicbenefits.enterprises.EnterpriseSize;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationStatus;

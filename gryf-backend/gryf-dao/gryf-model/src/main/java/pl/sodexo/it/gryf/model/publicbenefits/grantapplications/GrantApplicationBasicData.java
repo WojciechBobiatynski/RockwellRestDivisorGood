@@ -3,7 +3,7 @@ package pl.sodexo.it.gryf.model.publicbenefits.grantapplications;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.ToString;
-import pl.sodexo.it.gryf.model.AuditableEntity;
+import pl.sodexo.it.gryf.model.api.AuditableEntity;
 import pl.sodexo.it.gryf.model.dictionaries.ZipCode;
 import pl.sodexo.it.gryf.model.publicbenefits.enterprises.EnterpriseEntityType;
 import pl.sodexo.it.gryf.model.publicbenefits.enterprises.EnterpriseSize;

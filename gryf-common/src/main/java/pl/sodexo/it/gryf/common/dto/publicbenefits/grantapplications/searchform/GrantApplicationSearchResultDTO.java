@@ -1,8 +1,8 @@
 package pl.sodexo.it.gryf.common.dto.publicbenefits.grantapplications.searchform;
 
 import lombok.ToString;
-import pl.sodexo.it.gryf.common.dto.DictionaryDTO;
-import pl.sodexo.it.gryf.common.dto.basic.GryfDto;
+import pl.sodexo.it.gryf.common.dto.api.GryfDto;
+import pl.sodexo.it.gryf.common.dto.other.DictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.zipcodes.searchform.ZipCodeSearchResultDTO;
 
 import java.util.Date;

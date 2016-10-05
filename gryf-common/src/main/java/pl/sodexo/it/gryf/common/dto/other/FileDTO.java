@@ -1,4 +1,4 @@
-package pl.sodexo.it.gryf.common.dto;
+package pl.sodexo.it.gryf.common.dto.other;
 
 import lombok.ToString;
 

@@ -1,6 +1,6 @@
 package pl.sodexo.it.gryf.service.api.publicbenefits.orders;
 
-import pl.sodexo.it.gryf.common.dto.FileDTO;
+import pl.sodexo.it.gryf.common.dto.other.FileDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.action.IncomingOrderElementDTO;
 
 import java.util.List;
