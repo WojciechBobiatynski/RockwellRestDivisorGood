@@ -7,6 +7,23 @@
 
     <global-method-security secured-annotations="enabled" />
 
+    <http pattern="/ti/**" use-expressions="true">
+        <intercept-url pattern="/resource/**" access="permitAll" />
+        <form-login login-page="/ti/login"
+
+                    authentication-failure-url="/ti/login?error"
+                    default-target-url="/"
+                    password-parameter="password"
+                    username-parameter="username"/>
+        <logout logout-success-url="/ti/login"
+                logout-url="/logout"
+                invalidate-session="true"/>
+        <intercept-url pattern="/ti/login" access="permitAll" />
+        <intercept-url pattern="/logout" access="permitAll" />
+        <intercept-url pattern="/**" access="isAuthenticated()" />
+        <http-basic/>
+    </http>
+
     <http use-expressions="true">
         <intercept-url pattern="/resource/**" access="permitAll" />
         <form-login login-page="/login"
@@ -23,10 +40,15 @@
         <http-basic/>
     </http>
 
+
+
+
     <authentication-manager>
         <authentication-provider ref="gryfAuthenticationProvider"/>
+        <authentication-provider ref="trainingInstitutionAuthenticationProvider" />
     </authentication-manager>
 
     <beans:bean id="gryfAuthenticationProvider" class="pl.sodexo.it.gryf.web.security.GryfAuthenticationProvider" />
+    <beans:bean id="trainingInstitutionAuthenticationProvider" class="pl.sodexo.it.gryf.web.security.traininginstitutions.TrainingInstitutionUserAuthenticationProvider" />
 
 </beans:beans>

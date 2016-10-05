@@ -11,22 +11,4 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.ContactDto;
 @ToString
 public class EnterpriseContactDto extends ContactDto {
 
-    //    @Getter
-    //    @Setter
-    //    private Long id;
-    //
-    //    @Getter
-    //    @Setter
-    //    @NotNull(message = "Typ kontaktu nie może być pusty")
-    //    private ContactTypeDto contactType;
-    //
-    //    @Getter
-    //    @Setter
-    //    @NotEmpty(message = "Dane kontaktowe nie mogą być puste")
-    //    private String contactData;
-    //
-    //    @Getter
-    //    @Setter
-    //    private String remarks;
-
 }

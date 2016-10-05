@@ -28,32 +28,6 @@ public class TrainingInstitutionContact extends Contact {
 
     //PRIVATE FIELDS
 
-    //
-    //    @Id
-    //    @Column(name = "ID")
-    //    @GeneratedValue(generator = "pk_seq")
-    //    @Getter
-    //    @Setter
-    //    private Long id;
-    //
-    //    @ManyToOne
-    //    @JoinColumn(name = "CONTACT_TYPE")
-    //    @NotNull(message = "Typ kontaktu nie może być pusty")
-    //    @Getter
-    //    @Setter
-    //    private ContactType contactType;
-    //
-    //    @Column(name = "CONTACT_DATA")
-    //    @NotEmpty(message = "Dane kontaktowe nie mogą być puste")
-    //    @Getter
-    //    @Setter
-    //    private String contactData;
-    //
-    //    @Column(name = "REMARKS")
-    //    @Getter
-    //    @Setter
-    //    private String remarks;
-
     @ManyToOne
     @JoinColumn(name = "TRAINING_INSTITUTION_ID")
     @JsonBackReference(TrainingInstitution.CONTACTS_ATTR_NAME)

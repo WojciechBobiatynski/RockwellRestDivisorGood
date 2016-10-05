@@ -10,5 +10,9 @@ public enum UserType {
     /**
      * Operator finansowy
      */
-    FINANCIAL_OPERATOR
+    FINANCIAL_OPERATOR,
+    /**
+     * Instytucja szkoleniowa
+     */
+    TRAINING_INSTITUTION
 }

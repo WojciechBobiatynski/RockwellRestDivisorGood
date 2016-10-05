@@ -31,6 +31,11 @@ public class ViewController {
         return LOGIN_VIEW;
     }
 
+    @RequestMapping(value = "/ti/login", method = RequestMethod.GET)
+    public String tiLogin() {
+        return "/WEB-INF/pages/trainingInstitutionLogin.jsp";
+    }
+
     @RequestMapping(value = "/prolongSession", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public void prolongSession() {
