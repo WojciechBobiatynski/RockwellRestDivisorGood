@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlow;
-import pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.elements.elementTypes.OrderElementComplexTypeGrantedVouchersInfoService;
+import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.elements.elementTypes.OrderElementComplexTypeGrantedVouchersInfoServiceI;
 import pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.orderflows.OrderFlowBaseService;
 
 /**
@@ -17,15 +17,14 @@ public class OrderFlow1Service extends OrderFlowBaseService{
     //FIELDS
 
     @Autowired
-    //FIXME wstrzykniecie klasy
-    private OrderElementComplexTypeGrantedVouchersInfoService orderElementComplexTypeGrantedVouchersInfoService;
+    private OrderElementComplexTypeGrantedVouchersInfoServiceI orderElementComplexTypeGrantedVouchersInfoServiceI;
 
     //PUBLIC METHODS
 
     @Override
     public Order createOrder(GrantApplication grantApplication, OrderFlow orderFlow) {
         Order order = super.createOrder(grantApplication, orderFlow);
-        orderElementComplexTypeGrantedVouchersInfoService.addVouchersInfoElements(order);
+        orderElementComplexTypeGrantedVouchersInfoServiceI.addVouchersInfoElements(order);
         return order;
     }
 }

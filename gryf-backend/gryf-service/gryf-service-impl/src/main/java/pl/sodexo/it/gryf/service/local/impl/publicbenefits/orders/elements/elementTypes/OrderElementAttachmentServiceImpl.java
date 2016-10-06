@@ -10,6 +10,7 @@ import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.*;
 import pl.sodexo.it.gryf.service.api.other.ApplicationParameters;
 import pl.sodexo.it.gryf.service.local.api.FileService;
+import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.elements.elementTypes.OrderElementAttachmentService;
 import pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.elements.OrderElementBaseService;
 import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.orders.action.OrderElementDTOProvider;
 
@@ -20,7 +21,7 @@ import java.util.List;
  * Created by tomasz.bilski.ext on 2015-08-21.
  */
 @Service
-public class OrderElementAttachmentService extends OrderElementBaseService<OrderElementAttachmentDTO> {
+public class OrderElementAttachmentServiceImpl extends OrderElementBaseService<OrderElementAttachmentDTO> implements OrderElementAttachmentService {
 
     //FIELDS
 
@@ -57,6 +58,7 @@ public class OrderElementAttachmentService extends OrderElementBaseService<Order
 
     }
 
+    @Override
     public void updateValue(OrderElement element, String fileLocation) {
         element.setValueVarchar(fileLocation);
         element.setCompletedDate(!StringUtils.isEmpty(fileLocation) ? new Date() : null);

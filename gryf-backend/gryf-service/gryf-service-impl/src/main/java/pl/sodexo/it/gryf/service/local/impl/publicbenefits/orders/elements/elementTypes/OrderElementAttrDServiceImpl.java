@@ -1,12 +1,11 @@
 package pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.elements.elementTypes;
 
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementAttrDDTO;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElementDTOBuilder;
+import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.elements.elementTypes.OrderElementAttrDService;
 import pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.elements.OrderElementBaseService;
 import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.orders.action.OrderElementDTOProvider;
 
@@ -18,8 +17,7 @@ import java.util.Objects;
  * Created by Michal.CHWEDCZUK.ext on 2015-07-23.
  */
 @Service
-@Scope( proxyMode = ScopedProxyMode.TARGET_CLASS )
-public class OrderElementAttrDService extends OrderElementBaseService<OrderElementAttrDDTO> {
+public class OrderElementAttrDServiceImpl extends OrderElementBaseService<OrderElementAttrDDTO> implements OrderElementAttrDService {
 
     @Override
     public OrderElementAttrDDTO createElement(OrderElementDTOBuilder builder) {
@@ -31,6 +29,7 @@ public class OrderElementAttrDService extends OrderElementBaseService<OrderEleme
         updateValue(element, dto.getValueDate());
     }
 
+    @Override
     public void updateValue(OrderElement element, Date date) {
         element.setValueDate(date);
         element.setCompletedDate(date != null ? new Date() : null);

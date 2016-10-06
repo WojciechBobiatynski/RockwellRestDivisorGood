@@ -12,6 +12,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgramLimit;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElementDTOBuilder;
+import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.elements.elementTypes.OrderElementComplexTypeGrantedVouchersInfoServiceI;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.orderflows.OrderFlowElementService;
 import pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.elements.OrderElementBaseService;
 import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.orders.action.OrderElementDTOProvider;
@@ -23,7 +24,8 @@ import java.util.*;
  * Created by tomasz.bilski.ext on 2015-08-27.
  */
 @Service
-public class OrderElementComplexTypeGrantedVouchersInfoService extends OrderElementBaseService<OrderElementComplexTypeGrantedVouchersInfoDTO> {
+public class OrderElementComplexTypeGrantedVouchersInfoService extends OrderElementBaseService<OrderElementComplexTypeGrantedVouchersInfoDTO>
+        implements OrderElementComplexTypeGrantedVouchersInfoServiceI {
 
 
     //STATIC FIELDS
@@ -106,10 +108,7 @@ public class OrderElementComplexTypeGrantedVouchersInfoService extends OrderElem
         element.setCompletedDate(new Date());
     }
 
-    /**
-     * Dodaje elementy do zamówienia które przetrzymuja informacje voucherach.
-     * @param order zamówienie
-     */
+    @Override
     public void addVouchersInfoElements(Order order){
         GrantApplication application = order.getApplication();
 

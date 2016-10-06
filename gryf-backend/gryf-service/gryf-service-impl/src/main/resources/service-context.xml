@@ -12,7 +12,7 @@
 
     <context:component-scan base-package="pl.sodexo.it.gryf.service"/>
 
-    <aop:aspectj-autoproxy proxy-target-class="true"/>
+    <aop:aspectj-autoproxy />
     <bean id="processExceptionAspect" class="pl.sodexo.it.gryf.service.aspect.HandleExceptionAspect"/>
     <bean id="autoLoggingAspect" class="pl.sodexo.it.gryf.common.logging.LoggingAspect"/>
 

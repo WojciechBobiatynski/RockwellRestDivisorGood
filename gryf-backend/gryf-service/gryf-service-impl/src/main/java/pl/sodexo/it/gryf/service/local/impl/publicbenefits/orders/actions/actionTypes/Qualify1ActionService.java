@@ -12,8 +12,8 @@ import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.grantapplications.GrantApplicationEmailService;
+import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.elements.elementTypes.OrderElementAttrDService;
 import pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.actions.ActionBaseService;
-import pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.elements.elementTypes.OrderElementAttrDService;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,8 +31,7 @@ public class Qualify1ActionService extends ActionBaseService {
     private GryfValidator gryfValidator;
 
     @Autowired
-    //FIXME wstrzyknięcie klasy
-    private OrderElementAttrDService orderElementAttrDService;
+    private OrderElementAttrDService orderElementAttrDServiceI;
 
     @Autowired
     private GrantApplicationEmailService grantApplicationEmailService;
@@ -61,7 +60,7 @@ public class Qualify1ActionService extends ActionBaseService {
         //SET DATE
         application.setConsiderationDate(new Date());
         OrderElement considerationDateElement = order.loadElement("EQQLYDATE1");
-        orderElementAttrDService.updateValue(considerationDateElement, application.getConsiderationDate());
+        orderElementAttrDServiceI.updateValue(considerationDateElement, application.getConsiderationDate());
 
         //SEND MAIL
         sendMail(order, toEnterpriseDTO, toEnterpriseAttachments);
