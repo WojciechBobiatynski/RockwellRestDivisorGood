@@ -5,7 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
- * Mapper do wyszukiwania ról i uprawnieñ uzytkowników
+ * Mapper do wyszukiwania rÃ³l i uprawnieÅ„ uÅ¼ytkownikow
  * 
  * Created by jbentyn on 2016-10-06.
  */
