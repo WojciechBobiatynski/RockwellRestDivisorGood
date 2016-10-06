@@ -7,12 +7,11 @@ import java.util.List;
  */
 public interface TrainingInstitutionUserService {
     /**
-     * Wyszukanie rol dla uzytkownika.
+     * Wyszukanie uprawnień dla uzytkownika.
      *
      * @param login - login uzytkownika
-     * @param password - haslo uzytkownika
      *
-     * @return lista rol
+     * @return lista uprawnień
      */
-    List<String> findRolesForLogin(String login, String password);
+    List<String> findPrivilegesForLogin(String login);
 }

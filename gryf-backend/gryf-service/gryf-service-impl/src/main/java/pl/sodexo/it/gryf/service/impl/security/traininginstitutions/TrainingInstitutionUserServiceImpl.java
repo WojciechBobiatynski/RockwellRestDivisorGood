@@ -1,6 +1,8 @@
 package pl.sodexo.it.gryf.service.impl.security.traininginstitutions;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.sodexo.it.gryf.dao.api.search.mapper.SecuritySearchMapper;
 import pl.sodexo.it.gryf.service.api.security.traininginstitutions.TrainingInstitutionUserService;
 
 import java.util.List;
@@ -11,8 +13,11 @@ import java.util.List;
 @Service
 public class TrainingInstitutionUserServiceImpl implements TrainingInstitutionUserService{
 
+    @Autowired
+    private SecuritySearchMapper securitySearchMapper;
+
     @Override
-    public List<String> findRolesForLogin(String login, String password) {
-        return null;
+    public List<String> findPrivilegesForLogin(String login) {
+        return securitySearchMapper.findTrinUserPrivileges(login);
     }
 }
