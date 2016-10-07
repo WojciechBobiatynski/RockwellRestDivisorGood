@@ -13,7 +13,7 @@ import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.service.api.dictionaries.StateService;
 import pl.sodexo.it.gryf.service.api.dictionaries.ZipCodeService;
 import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
-import pl.sodexo.it.gryf.web.controller.ControllersUrls;
+import pl.sodexo.it.gryf.web.utils.UrlConstants;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ import java.util.List;
  * Created by Tomasz.Bilski on 2015-06-10.
  */
 @Controller
-@RequestMapping(value = ControllersUrls.DICTIONARIES_REST, produces = "application/json;charset=UTF-8")
+@RequestMapping(value = UrlConstants.DICTIONARIES_REST, produces = "application/json;charset=UTF-8")
 public class DictionariesRestController {
 
     //PRIVATE FIELDS

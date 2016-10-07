@@ -9,7 +9,7 @@ import pl.sodexo.it.gryf.common.crud.Versionable;
  * Created by jbentyn on 2016-09-23.
  */
 @ToString
-public class VersionableDto extends AuditableDto implements Versionable{
+public abstract class VersionableDto extends AuditableDto implements Versionable{
 
     private Integer version;
 

@@ -9,7 +9,7 @@ import pl.sodexo.it.gryf.common.enums.Privileges;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.TrainingInstitutionService;
 import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
-import pl.sodexo.it.gryf.web.controller.ControllersUrls;
+import pl.sodexo.it.gryf.web.utils.UrlConstants;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ import java.util.List;
  * Created by Michal.CHWEDCZUK.ext on 2015-07-21.
  */
 @RestController
-@RequestMapping(value = ControllersUrls.PUBLIC_BENEFITS_REST + "/trainingInstitution", produces = "application/json;charset=UTF-8")
+@RequestMapping(value = UrlConstants.PUBLIC_BENEFITS_REST + "/trainingInstitution", produces = "application/json;charset=UTF-8")
 public class TrainingInstitutionsRestController {
 
     @Autowired

@@ -14,7 +14,7 @@ import pl.sodexo.it.gryf.service.api.publicbenefits.reimbursement.ReimbursementD
 import pl.sodexo.it.gryf.service.api.publicbenefits.reimbursement.ReimbursementPatternService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.reimbursement.ReimbursementsAttachmentService;
 import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
-import pl.sodexo.it.gryf.web.controller.ControllersUrls;
+import pl.sodexo.it.gryf.web.utils.UrlConstants;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ import java.util.List;
  * Created by tomasz.bilski.ext on 2015-09-02.
  */
 @RestController
-@RequestMapping(value = ControllersUrls.PUBLIC_BENEFITS_REST + "/reimbursements", produces = "application/json;charset=UTF-8")
+@RequestMapping(value = UrlConstants.PUBLIC_BENEFITS_REST + "/reimbursements", produces = "application/json;charset=UTF-8")
 public class ReimbursementsRestController {
 
     //FIELDS

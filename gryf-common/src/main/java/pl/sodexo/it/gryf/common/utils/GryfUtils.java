@@ -15,13 +15,11 @@ import java.util.*;
 /**
  * Glasa zbierajaca ogólne funkcjionalności w całej aplikacji.
  */
-public abstract class GryfUtils {
-
-    //STATIC FIELDS
+public final class GryfUtils {
 
     private static final int BUFFER_SIZE = 8192;
 
-    //PUBLIC METHODS
+    private GryfUtils() {}
 
     public static void checkForUpdate(Object requestId, Object objectId){
         if(requestId == null){
@@ -34,8 +32,6 @@ public abstract class GryfUtils {
             throw new RuntimeException(String.format("Id w URL [%s] jest inne od id w objekcie [%s]",  requestId, objectId));
         }
     }
-
-    //PUBLIC METHODS - DATE
 
     public static Date getStartDay(Date date){
         Calendar c = Calendar.getInstance();
@@ -142,8 +138,6 @@ public abstract class GryfUtils {
         return sb.toString();        
     }
 
-    //PUBLIC METHODS - CLASSES
-
     public static boolean isAssignableFrom(Class clazz, Class[] classes){
         for (int i = 0; i < classes.length; i++) {
             if(clazz.isAssignableFrom(classes[i])){
@@ -152,8 +146,6 @@ public abstract class GryfUtils {
         }
         return false;
     }
-
-    //PUBLIC METHODS - LIST
 
     public static boolean isEmpty(Set<?> set){
         return set == null || set.isEmpty();

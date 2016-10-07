@@ -7,9 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import pl.sodexo.it.gryf.common.enums.Privileges;
 import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
 
-import static pl.sodexo.it.gryf.web.ViewResolverAttributes.DEFAULT_VIEW;
-import static pl.sodexo.it.gryf.web.ViewResolverAttributes.MAIN_CONTENT_PARAM_NAME;
-import static pl.sodexo.it.gryf.web.controller.ControllersUrls.PAGES_PREFIX;
+import static pl.sodexo.it.gryf.web.utils.UrlConstants.*;
 
 
 @Controller

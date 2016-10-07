@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pl.sodexo.it.gryf.web.advice;
 
 import com.google.common.base.Throwables;
@@ -23,9 +18,7 @@ import pl.sodexo.it.gryf.service.api.other.ApplicationParameters;
 import pl.sodexo.it.gryf.web.response.*;
 import pl.sodexo.it.gryf.web.response.publicbenefits.ValidationErrorWithConfirmResponse;
 
-import static pl.sodexo.it.gryf.web.ViewResolverAttributes.DEFAULT_VIEW;
-import static pl.sodexo.it.gryf.web.ViewResolverAttributes.MAIN_CONTENT_PARAM_NAME;
-import static pl.sodexo.it.gryf.web.controller.ControllersUrls.PAGES_PREFIX;
+import static pl.sodexo.it.gryf.web.utils.UrlConstants.*;
 
 /**
  *
@@ -61,7 +54,6 @@ public class ExceptionHandlers {
     @ExceptionHandler(AuthAssertionFailureException.class)
     @ResponseBody
     public ResponseEntity<UnauthorizedResponse> serviceAuthException(AuthAssertionFailureException aafe) {
-
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new UnauthorizedResponse(aafe.getPrivilegesRequired()));
     }
 

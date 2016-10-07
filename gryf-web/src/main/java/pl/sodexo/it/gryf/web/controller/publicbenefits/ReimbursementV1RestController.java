@@ -10,7 +10,7 @@ import pl.sodexo.it.gryf.common.exception.GryfOptimisticLockRuntimeException;
 import pl.sodexo.it.gryf.common.parsers.ReimbursementParser;
 import pl.sodexo.it.gryf.service.api.publicbenefits.reimbursement.ReimbursementService;
 import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
-import pl.sodexo.it.gryf.web.controller.ControllersUrls;
+import pl.sodexo.it.gryf.web.utils.UrlConstants;
 import pl.sodexo.it.gryf.web.utils.WebUtils;
 
 import java.io.IOException;
@@ -20,7 +20,7 @@ import java.util.List;
  * Created by tomasz.bilski.ext on 2015-09-09.
  */
 @RestController
-@RequestMapping(value = ControllersUrls.PUBLIC_BENEFITS_REST + "/reimbursements/v1", produces = "application/json;charset=UTF-8")
+@RequestMapping(value = UrlConstants.PUBLIC_BENEFITS_REST + "/reimbursements/v1", produces = "application/json;charset=UTF-8")
 public class ReimbursementV1RestController {
 
     //FIELDS

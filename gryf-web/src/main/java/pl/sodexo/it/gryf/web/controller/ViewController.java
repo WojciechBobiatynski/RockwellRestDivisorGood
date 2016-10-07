@@ -9,8 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
 
-import static pl.sodexo.it.gryf.web.ViewResolverAttributes.*;
-import static pl.sodexo.it.gryf.web.controller.ControllersUrls.PAGES_PREFIX;
+import static pl.sodexo.it.gryf.web.utils.UrlConstants.*;
 
 @Controller
 @RequestMapping("/")

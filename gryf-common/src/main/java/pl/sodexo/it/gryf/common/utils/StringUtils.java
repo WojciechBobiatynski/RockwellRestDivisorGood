@@ -7,9 +7,7 @@ import java.util.Map;
  * Klasa zbierajaca ogólne funkcjionalności w całej aplikacji.
  * Klasa dostarcza metody na stringach.
  */
-public abstract class StringUtils{
-
-    //STTAIC FIELDS
+public final class StringUtils{
 
     private static final Map<Character, Character> polishReplacementMap = new HashMap<>();
 
@@ -34,7 +32,7 @@ public abstract class StringUtils{
         polishReplacementMap.put('Ż', 'Z');
     }
 
-    //PUBLIC METHODS
+    private StringUtils() {}
 
     /**
      * Metoda sprawdza czy dany ciąg znaków jest pusty null lub zerowej długości

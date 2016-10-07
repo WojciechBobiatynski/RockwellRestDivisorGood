@@ -10,7 +10,9 @@ import java.util.List;
 /**
  * Created by tomasz.bilski.ext on 2015-08-21.
  */
-public abstract class WebUtils {
+public final class WebUtils {
+
+    private WebUtils() {}
 
     public static  List<FileDTO> createFileDtoList(MultipartFile[] files) throws IOException {
         List<FileDTO> result = new ArrayList<>();

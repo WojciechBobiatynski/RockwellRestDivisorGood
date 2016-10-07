@@ -12,9 +12,11 @@ import java.math.BigDecimal;
  * Created by tomasz.bilski.ext on 2015-09-15.
  */
 @ToString
-public class ReimbursementCalculationHelper {
+public final class ReimbursementCalculationHelper {
 
-    //PUBLIC METHODS - LINIE SZKOLEN
+    private ReimbursementCalculationHelper() {}
+
+    //LINIE SZKOLEN
 
     /**
      * Wylicza wartość godziny szkolenia rozliczana bonami
@@ -116,7 +118,7 @@ public class ReimbursementCalculationHelper {
         return cbgs.multiply(ig);//CBGS * IG
     }
 
-    //PUBLIC METHODS - SUMY LINII SZKOLEN
+    //SUMY LINII SZKOLEN
 
     /**
      * Wylicza kwotę nalezną IS do MSP. Sumuje pola ze szkoleń.

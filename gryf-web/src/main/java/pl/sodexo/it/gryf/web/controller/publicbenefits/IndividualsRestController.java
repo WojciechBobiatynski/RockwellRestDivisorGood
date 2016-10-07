@@ -9,12 +9,12 @@ import pl.sodexo.it.gryf.common.enums.Privileges;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.service.api.publicbenefits.individuals.IndividualService;
 import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
-import pl.sodexo.it.gryf.web.controller.ControllersUrls;
+import pl.sodexo.it.gryf.web.utils.UrlConstants;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(value = ControllersUrls.PUBLIC_BENEFITS_REST + "/individual",
+@RequestMapping(value = UrlConstants.PUBLIC_BENEFITS_REST + "/individual",
         produces = "application/json;charset=UTF-8")
 public class IndividualsRestController {
 

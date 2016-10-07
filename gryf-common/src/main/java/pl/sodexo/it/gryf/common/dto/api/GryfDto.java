@@ -8,6 +8,6 @@ import lombok.ToString;
  * Created by jbentyn on 2016-09-23.
  */
 @ToString
-public class GryfDto {
+public abstract class GryfDto {
 
 }

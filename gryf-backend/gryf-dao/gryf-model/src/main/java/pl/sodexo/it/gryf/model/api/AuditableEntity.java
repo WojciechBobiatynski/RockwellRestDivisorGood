@@ -9,7 +9,7 @@ import java.util.Date;
 
 @ToString
 @MappedSuperclass
-public class AuditableEntity extends CreationAuditedEntity implements Auditable{
+public class AuditableEntity extends CreationAuditedEntity implements Auditable {
 
     //FIELDS
 

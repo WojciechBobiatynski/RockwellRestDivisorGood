@@ -13,7 +13,7 @@ import pl.sodexo.it.gryf.common.parsers.OrderParser;
 import pl.sodexo.it.gryf.service.api.publicbenefits.orders.OrderActionService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.orders.OrderService;
 import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
-import pl.sodexo.it.gryf.web.controller.ControllersUrls;
+import pl.sodexo.it.gryf.web.utils.UrlConstants;
 import pl.sodexo.it.gryf.web.utils.WebUtils;
 
 import java.io.IOException;
@@ -23,7 +23,7 @@ import java.util.List;
  * Created by Michal.CHWEDCZUK.ext on 2015-07-22.
  */
 @RestController
-@RequestMapping(value = ControllersUrls.PUBLIC_BENEFITS_REST + "/order", produces = "application/json;charset=UTF-8")
+@RequestMapping(value = UrlConstants.PUBLIC_BENEFITS_REST + "/order", produces = "application/json;charset=UTF-8")
 public class OrdersRestController {
 
     //FIELDS

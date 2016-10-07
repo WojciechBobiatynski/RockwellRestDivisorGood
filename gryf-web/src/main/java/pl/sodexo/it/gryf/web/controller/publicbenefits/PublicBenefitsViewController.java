@@ -20,11 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import static pl.sodexo.it.gryf.web.ViewResolverAttributes.DEFAULT_VIEW;
-import static pl.sodexo.it.gryf.web.ViewResolverAttributes.MAIN_CONTENT_PARAM_NAME;
-import static pl.sodexo.it.gryf.web.controller.ControllersUrls.PAGES_PREFIX;
-
-
+import static pl.sodexo.it.gryf.web.utils.UrlConstants.*;
 
 @Controller
 @RequestMapping("/publicBenefits")

@@ -11,7 +11,7 @@ import java.util.Date;
  * Created by jbentyn on 2016-09-23.
  */
 @ToString
-public class AuditableDto extends CreationAuditedDto implements Auditable {
+public abstract class AuditableDto extends CreationAuditedDto implements Auditable {
 
     private String modifiedUser;
     private Date modifiedTimestamp;

@@ -10,7 +10,7 @@ import java.util.Date;
  * Created by jbentyn on 2016-09-23.
  */
 @ToString
-public class CreationAuditedDto extends GryfDto {
+public abstract class CreationAuditedDto extends GryfDto {
 
     private String createdUser;
     private Date createdTimestamp;

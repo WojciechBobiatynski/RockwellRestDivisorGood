@@ -17,16 +17,16 @@ import java.util.Map;
 
 @ControllerAdvice
 public class AuthModelAttribute {
+
+    private final ObjectMapper om = new ObjectMapper();
     
     @Autowired
-    ApplicationParameters aps;
-    
-    private final ObjectMapper om = new ObjectMapper();
+    private ApplicationParameters aps;
      
     @ModelAttribute("privileges")
     public String privilegesJson() throws JsonProcessingException {
         Map<String, Boolean> res = new HashMap<>();
-        //todo do przerobienia
+        //todo AK do przerobienia
         Collection<? extends GrantedAuthority> auths = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
         for (GrantedAuthority auth : auths) {
             res.put(auth.getAuthority(), true);
@@ -41,7 +41,7 @@ public class AuthModelAttribute {
 
     @ModelAttribute("loggedIn")
     public boolean loggedInBool() {
-        //todo do przerobienia
+        //todo AK do przerobienia
         return !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken);
     }
 

@@ -13,7 +13,7 @@ import pl.sodexo.it.gryf.common.exception.GryfOptimisticLockRuntimeException;
 import pl.sodexo.it.gryf.common.parsers.GrantApplicationParser;
 import pl.sodexo.it.gryf.service.api.publicbenefits.grantapplications.GrantApplicationActionService;
 import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
-import pl.sodexo.it.gryf.web.controller.ControllersUrls;
+import pl.sodexo.it.gryf.web.utils.UrlConstants;
 import pl.sodexo.it.gryf.web.utils.WebUtils;
 
 import java.io.IOException;
@@ -23,7 +23,7 @@ import java.util.List;
  * Created by Michal.CHWEDCZUK.ext on 2015-07-21.
  */
 @RestController
-@RequestMapping(value = ControllersUrls.PUBLIC_BENEFITS_REST + "/grantapplication", produces = "application/json;charset=UTF-8")
+@RequestMapping(value = UrlConstants.PUBLIC_BENEFITS_REST + "/grantapplication", produces = "application/json;charset=UTF-8")
 public class GrantApplicationsRestController {
 
     @Autowired

@@ -15,9 +15,9 @@ import java.io.IOException;
  *
  * Created by Michal.CHWEDCZUK.ext on 2015-07-24.
  */
-public abstract class JsonMapperUtils {
+public final class JsonMapperUtils {
 
-    //PUBLIC STATIC METHODS
+    private JsonMapperUtils() {}
 
     public static String writeValueAsString(Object o) {
         try {
@@ -58,10 +58,6 @@ public abstract class JsonMapperUtils {
             }
         };
     }
-
-
-
-    //PRIVATE STATIC METHODS
 
     public static ObjectMapper createObjectMapper(){
         ObjectMapper objectMapper = new ObjectMapper();
