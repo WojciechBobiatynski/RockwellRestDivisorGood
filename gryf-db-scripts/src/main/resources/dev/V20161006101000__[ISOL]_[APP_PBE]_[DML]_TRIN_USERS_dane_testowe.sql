@@ -1,21 +1,21 @@
 -- PRIV & ROLE
-INSERT INTO APP_PBE.GRF_PRIVILEGES (CODE,DESCRIPTION,CONTEXT) VALUES('TRIN_TEST_PRIV','Przywilej testowy dla instytucji szkoleniowej','TRIN');
-INSERT INTO APP_PBE.GRF_ROLES(CODE,DESCRIPTION,CONTEXT)VALUES('TRIN_TEST_ROLE','Rola testowa dla instytucji szkoleniowej','TRIN');
+INSERT INTO APP_PBE.TE_PRIVILEGES (CODE,DESCRIPTION,CONTEXT) VALUES('TI_TEST_PRIV','Przywilej testowy dla instytucji szkoleniowej','TI');
+INSERT INTO APP_PBE.TE_ROLES(CODE,DESCRIPTION,CONTEXT)VALUES('TI_TEST_ROLE','Rola testowa dla instytucji szkoleniowej','TI');
 
-INSERT INTO APP_PBE.GRF_PRIVS_IN_ROLE (GRF_PRIV_CODE, GRF_ROLE_CODE) VALUES('TRIN_TEST_PRIV','TRIN_TEST_ROLE');
+INSERT INTO APP_PBE.TE_PRIV_IN_ROLES (TE_PRIV_CODE, TE_ROLE_CODE) VALUES('TI_TEST_PRIV','TI_TEST_ROLE');
 
 -- USER
 -- user testowy  
--- login : trin_usr_test
--- pass: trin_usr_test
+-- login : ti_usr_test
+-- pass: ti_usr_test
 
 DECLARE
-TRIN_ID number;
+TI_ID number;
 USR_ID number;
 BEGIN
 
-TRIN_ID := EAGLE.TRIN_SEQ.nextval;
-USR_ID := EAGLE.TRIN_USR_SEQ.nextval;
+TI_ID := EAGLE.TRIN_SEQ.nextval;
+USR_ID := EAGLE.TI_USR_SEQ.nextval;
 
   INSERT INTO APP_PBE.TRAINING_INSTITUTIONS
       (ID, CODE,
@@ -23,7 +23,7 @@ USR_ID := EAGLE.TRIN_USR_SEQ.nextval;
       NAME, VAT_REG_NUM, ADDRESS_INVOICE, ADDRESS_CORR, 
       VERSION, CREATED_USER, CREATED_TIMESTAMP, MODIFIED_USER, MODIFIED_TIMESTAMP )
     VALUES
-      (TRIN_ID, 'TEST',
+      (TI_ID, 'TEST',
       (SELECT ID FROM EAGLE.ZIP_CODES WHERE ACTIVE =1 AND ROWNUM <= 1), (SELECT ID FROM EAGLE.ZIP_CODES WHERE ACTIVE =1 AND ROWNUM <= 1), 
       'Instutucja dla u¿ytkownika testowego' ,'3554868937', 'adres','adres_kor',
       1, user, sysdate, user,sysdate);
@@ -33,11 +33,11 @@ USR_ID := EAGLE.TRIN_USR_SEQ.nextval;
         VERSION,CREATED_USER,CREATED_TIMESTAMP, MODIFIED_USER,MODIFIED_TIMESTAMP
       )
     VALUES
-      ( USR_ID, TRIN_ID, 'trin_usr_test' , 'test@isolution.pl', '$2a$04$2rzdu6A74ivGvWPV4ywDnu8PZr7WqLKYb9.UPw5KCUY4jy5UYaudC', 
+      ( USR_ID, TI_ID, 'ti_usr_test' , 'test@isolution.pl', '$2a$04$gRtEVCc74Um7f28iXspMo.iAA/fZAwWQor1butyONR8lYrl.1Dbk6', 
       1, user, sysdate, user,sysdate);
   
  
-  INSERT INTO APP_PBE.TRIN_USERS_IN_ROLE( TRIN_USER_ID, TRIN_GRF_ROLE_CODE  )
-    VALUES(USR_ID,'TRIN_TEST_ROLE');
+  INSERT INTO APP_PBE.TI_USER_IN_ROLES( TI_USER_ID, TE_ROLE_CODE  )
+    VALUES(USR_ID,'TI_TEST_ROLE');
 END;
 

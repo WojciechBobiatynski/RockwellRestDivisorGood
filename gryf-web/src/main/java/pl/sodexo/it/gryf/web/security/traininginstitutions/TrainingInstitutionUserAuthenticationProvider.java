@@ -10,7 +10,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import pl.sodexo.it.gryf.common.dto.security.UserDto;
-import pl.sodexo.it.gryf.common.dto.user.GryfTrInUser;
+import pl.sodexo.it.gryf.common.dto.user.GryfTIUser;
 import pl.sodexo.it.gryf.service.api.security.traininginstitutions.TrainingInstitutionUserService;
 
 import java.util.List;
@@ -39,9 +39,9 @@ public class TrainingInstitutionUserAuthenticationProvider implements Authentica
         //TODO autentykacja
         List<GrantedAuthority> grantedAuthorities = getGrantedAuthorities(login);
 
-        GryfTrInUser trInUser = new GryfTrInUser(new UserDto(login), grantedAuthorities);
-        UsernamePasswordAuthenticationToken successAuthToken = new UsernamePasswordAuthenticationToken(trInUser, credentials, grantedAuthorities);
-        LOGGER.info("[AUTH] Wlogowany uzytkownik, trInUser={}, grantedAuthorities={}", trInUser, grantedAuthorities);
+        GryfTIUser tiUser = new GryfTIUser(new UserDto(login), grantedAuthorities);
+        UsernamePasswordAuthenticationToken successAuthToken = new UsernamePasswordAuthenticationToken(tiUser, credentials, grantedAuthorities);
+        LOGGER.info("[AUTH] Wlogowany uzytkownik, tiUser={}, grantedAuthorities={}", tiUser, grantedAuthorities);
 
         return successAuthToken;
 

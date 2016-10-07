@@ -18,6 +18,6 @@ public class TrainingInstitutionUserServiceImpl implements TrainingInstitutionUs
 
     @Override
     public List<String> findPrivilegesForLogin(String login) {
-        return securitySearchMapper.findTrinUserPrivileges(login);
+        return securitySearchMapper.findTIUserPrivileges(login);
     }
 }

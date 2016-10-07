@@ -3,13 +3,13 @@
 
 <mapper namespace="pl.sodexo.it.gryf.dao.api.search.mapper.SecuritySearchMapper">
 
-    <select id="findTrinUserPrivileges" resultType="java.lang.String" parameterType="list">
+    <select id="findTIUserPrivileges" resultType="java.lang.String" parameterType="list">
         SELECT priv.code
-        FROM APP_PBE.GRF_PRIVILEGES priv
-            JOIN APP_PBE.GRF_PRIVS_IN_ROLE priv_role ON priv.code = priv_role.grf_priv_code
-            JOIN APP_PBE.GRF_ROLES role ON priv_role.grf_role_code = role.code
-            JOIN APP_PBE.TRIN_USERS_IN_ROLE usr_role ON role.code = usr_role.trin_grf_role_code
-            JOIN APP_PBE.TRAINING_INSTITUTION_USERS usr ON usr_role.trin_user_id = usr.id
+        FROM APP_PBE.TE_PRIVILEGES priv
+            JOIN APP_PBE.TE_PRIV_IN_ROLES priv_role ON priv.code = priv_role.te_priv_code
+            JOIN APP_PBE.TE_ROLES role ON priv_role.te_role_code = role.code
+            JOIN APP_PBE.TI_USER_IN_ROLES usr_role ON role.code = usr_role.te_role_code
+            JOIN APP_PBE.TRAINING_INSTITUTION_USERS usr ON usr_role.ti_user_id = usr.id
         WHERE usr.login = #{login}
     </select>
 

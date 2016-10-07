@@ -5,11 +5,11 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
- * Mapper do wyszukiwania ról i uprawnień użytkownikow
+ * Mapper do wyszukiwania ról i uprawnień uytkownikow
  * 
  * Created by jbentyn on 2016-10-06.
  */
 public interface SecuritySearchMapper {
 
-    List<String>  findTrinUserPrivileges(@Param("login") String login);
+    List<String> findTIUserPrivileges(@Param("login") String login);
 }
