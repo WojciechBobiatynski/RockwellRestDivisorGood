@@ -35,6 +35,11 @@ public class ViewController {
         return "/WEB-INF/pages/trainingInstitutionLogin.jsp";
     }
 
+    @RequestMapping(value = "/changePassword", method = RequestMethod.GET)
+    public String changePassword() {
+        return "WEB-INF/pages/changePassword.jsp";
+    }
+
     @RequestMapping(value = "/prolongSession", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public void prolongSession() {
