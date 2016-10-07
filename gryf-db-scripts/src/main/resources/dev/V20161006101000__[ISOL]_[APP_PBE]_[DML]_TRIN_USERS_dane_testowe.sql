@@ -14,8 +14,8 @@ TRIN_ID number;
 USR_ID number;
 BEGIN
 
-TRIN_ID := TRIN_SEQ.nextval;
-USR_ID := TRIN_USR_SEQ.nextval;
+TRIN_ID := EAGLE.TRIN_SEQ.nextval;
+USR_ID := EAGLE.TRIN_USR_SEQ.nextval;
 
   INSERT INTO APP_PBE.TRAINING_INSTITUTIONS
       (ID, CODE,
