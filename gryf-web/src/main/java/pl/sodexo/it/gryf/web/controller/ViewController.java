@@ -36,8 +36,9 @@ public class ViewController {
     }
 
     @RequestMapping(value = "/changePassword", method = RequestMethod.GET)
-    public String changePassword() {
-        return "WEB-INF/pages/changePassword.jsp";
+    public String changePassword(Model model) {
+        model.addAttribute(MAIN_CONTENT_PARAM_NAME, PAGES_PREFIX + "changepassword/changePasswordIndex.jsp");
+        return DEFAULT_VIEW;
     }
 
     @RequestMapping(value = "/prolongSession", method = RequestMethod.GET)
