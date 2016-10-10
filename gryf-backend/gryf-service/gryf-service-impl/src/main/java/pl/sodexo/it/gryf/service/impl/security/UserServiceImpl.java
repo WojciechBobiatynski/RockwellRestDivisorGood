@@ -1,11 +1,20 @@
 package pl.sodexo.it.gryf.service.impl.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.sodexo.it.gryf.common.dto.user.GryfUser;
+import pl.sodexo.it.gryf.common.exception.authentication.GryfBadCredentialsException;
+import pl.sodexo.it.gryf.common.exception.authentication.GryfPasswordExpiredException;
+import pl.sodexo.it.gryf.common.exception.authentication.GryfUserNotActiveException;
+import pl.sodexo.it.gryf.dao.api.crud.dao.trainingInstitutions.TrainingInstitutionUserDao;
 import pl.sodexo.it.gryf.dao.api.crud.repository.security.UserRepository;
+import pl.sodexo.it.gryf.dao.api.search.mapper.SecuritySearchMapper;
+import pl.sodexo.it.gryf.model.security.trainingInstitutions.TrainingInstitutionUser;
 import pl.sodexo.it.gryf.service.api.security.UserService;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -20,8 +29,53 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private SecuritySearchMapper securitySearchMapper;
+
+    @Autowired
+    private TrainingInstitutionUserDao trainingInstitutionUserDao;
+
     @Override
     public List<String> findRolesForLogin(String login, String password) {
         return userRepository.findRolesForLogin(login, password);
+    }
+
+    @Override
+    public List<String> findPrivilegesForTiLogin(String login, String password) {
+        authenticateTiUser(login, password);
+        return securitySearchMapper.findTIUserPrivileges(login);
+    }
+
+    private void authenticateTiUser(String login, String password) {
+        TrainingInstitutionUser user = trainingInstitutionUserDao.findByLogin(login);
+
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        if (user == null || !passwordEncoder.matches(password, user.getPassword())) {
+            throw new GryfBadCredentialsException("Niepoprawny login lub/i hasło");
+        }
+
+        if (!user.getIsActive()) {
+            throw new GryfUserNotActiveException("Twoje konto jest nieaktywne. Zgłoś sie do administratora");
+        }
+
+        Date currentDate = new Date();
+
+        if (user.getPasswordExpirationDate() != null && currentDate.after(user.getPasswordExpirationDate())) {
+            throw new GryfPasswordExpiredException("Hasło wygasło");
+        }
+
+    }
+
+    @Override
+    public void updateLastLoginDate(GryfUser user) {
+        switch (user.getUserType()) {
+            case FINANCIAL_OPERATOR:
+                break;
+            case TRAINING_INSTITUTION:
+                TrainingInstitutionUser tiUser = trainingInstitutionUserDao.findByLogin(user.getUsername());
+                tiUser.setLastLoginDate(new Date());
+                trainingInstitutionUserDao.save(tiUser);
+                break;
+        }
     }
 }

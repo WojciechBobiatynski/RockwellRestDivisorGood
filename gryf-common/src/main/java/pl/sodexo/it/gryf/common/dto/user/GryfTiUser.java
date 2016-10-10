@@ -7,12 +7,14 @@ import pl.sodexo.it.gryf.common.dto.security.UserDto;
 import java.util.Collection;
 
 /**
+ * Reprezentacja użytkownika instytucji szkoleniowej (TI)
+ *
  * Created by jbentyn on 2016-10-04.
  */
 @ToString(callSuper = true)
-public class GryfTIUser extends GryfUser {
+public class GryfTiUser extends GryfUser {
 
-    public GryfTIUser(UserDto user, Collection<? extends GrantedAuthority> authorities) {
+    public GryfTiUser(UserDto user, Collection<? extends GrantedAuthority> authorities) {
         super(user, authorities);
         userType = UserType.TRAINING_INSTITUTION;
     }

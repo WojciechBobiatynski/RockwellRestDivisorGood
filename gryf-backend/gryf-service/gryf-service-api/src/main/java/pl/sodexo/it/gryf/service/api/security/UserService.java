@@ -1,5 +1,7 @@
 package pl.sodexo.it.gryf.service.api.security;
 
+import pl.sodexo.it.gryf.common.dto.user.GryfUser;
+
 import java.util.List;
 
 /**
@@ -19,4 +21,19 @@ public interface UserService {
      */
     List<String> findRolesForLogin(String login, String password);
 
+    /**
+     * Wyszukanie uprawnień dla uzytkownika TI.
+     *
+     * @param login - login uzytkownika
+     * @param password - hasło napisane tekstem (niezahaszowane)
+     * @return lista uprawnień
+     */
+    List<String> findPrivilegesForTiLogin(String login, String password);
+
+    /**
+     * Ustawia datę ostatniego logowania dla uzytkownika
+     *
+     * @param user - zalogowany uzytkownik
+     */
+    void updateLastLoginDate(GryfUser user);
 }

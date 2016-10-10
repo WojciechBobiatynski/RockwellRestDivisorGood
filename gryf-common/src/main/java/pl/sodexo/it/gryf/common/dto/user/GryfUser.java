@@ -30,7 +30,7 @@ public abstract class GryfUser extends User {
         this.user = user;
     }
 
-    public String getUserType() {
+    public String getUserTypeString() {
         if (userType == null) return "NO_TYPE";
         return userType.toString();
     }
