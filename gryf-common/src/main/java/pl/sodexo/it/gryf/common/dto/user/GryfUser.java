@@ -2,6 +2,7 @@ package pl.sodexo.it.gryf.common.dto.user;
 
 import lombok.Getter;
 import lombok.ToString;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -9,6 +10,8 @@ import org.springframework.security.core.userdetails.User;
 import pl.sodexo.it.gryf.common.dto.security.UserDto;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Zalogowany uzytkownik jest reprezentowany przez ten obiekt w kontekscie spring security.
@@ -24,15 +27,36 @@ public abstract class GryfUser extends User {
     protected UserType userType = null;
 
     protected UserDto user;
+    
+    protected Map<String, Boolean> authorityMap; 
 
     public GryfUser(UserDto user, Collection<? extends GrantedAuthority> authorities) {
         super(user.getLogin(), user.getLogin(), authorities);
         this.user = user;
+
+        authorityMap = new HashMap<>();
+        for (GrantedAuthority auth : authorities) {
+            authorityMap.put(auth.getAuthority(), true);
+        }
     }
 
     public String getUserTypeString() {
         if (userType == null) return "NO_TYPE";
         return userType.toString();
+    }
+
+    /**
+     * Zwraca login zalogowanego użytkownika.
+     *
+     * @return login
+     */
+    public static Map<String, Boolean> getLoggedUserauthorities() {
+        GryfUser loggedUser = GryfUser.getLoggedUser();
+        if (loggedUser == null){
+            return new HashMap<>();
+        }
+
+        return loggedUser.authorityMap;
     }
 
     /**
@@ -53,7 +77,11 @@ public abstract class GryfUser extends User {
 
         return user.getLogin();
     }
-    
+
+    public static boolean isAnonymousUser() {
+        return SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken;
+    }
+
     /**
      * Zwraca zalogowanego użytkownika.
      *

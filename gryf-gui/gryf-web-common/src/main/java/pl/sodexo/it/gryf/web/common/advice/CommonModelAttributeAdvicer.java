@@ -1,4 +1,4 @@
-package pl.sodexo.it.gryf.web.advice;
+package pl.sodexo.it.gryf.web.common.advice;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -8,14 +8,17 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import pl.sodexo.it.gryf.common.dto.user.GryfUser;
 import pl.sodexo.it.gryf.service.api.other.ApplicationParameters;
 
+/**
+ * TODO COMMENT
+ */
 @ControllerAdvice
-public class AuthModelAttribute {
+public class CommonModelAttributeAdvicer {
 
     private final ObjectMapper om = new ObjectMapper();
-    
+
     @Autowired
     private ApplicationParameters aps;
-     
+
     @ModelAttribute("privileges")
     public String privileges() throws JsonProcessingException {
         return om.writeValueAsString(GryfUser.getLoggedUserauthorities());
@@ -23,7 +26,7 @@ public class AuthModelAttribute {
 
     @ModelAttribute("login")
     public String login() {
-        return GryfUser.getLoggedUserLogin();        
+        return GryfUser.getLoggedUserLogin();
     }
 
     @ModelAttribute("loggedIn")
@@ -31,12 +34,12 @@ public class AuthModelAttribute {
         return !GryfUser.isAnonymousUser();
     }
 
-    @ModelAttribute("cdnUrl")    
+    @ModelAttribute("cdnUrl")
     public String cdnUrl(){
         return aps.getCdnUrl();
     }
-    
-    @ModelAttribute("resourcesUrl")    
+
+    @ModelAttribute("resourcesUrl")
     public String resourcesUrl(){
         return aps.getResourcesUrl();
     }

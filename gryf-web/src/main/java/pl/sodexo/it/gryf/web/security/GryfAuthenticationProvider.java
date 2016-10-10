@@ -11,7 +11,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import pl.sodexo.it.gryf.common.dto.security.UserDto;
-import pl.sodexo.it.gryf.common.dto.user.GryfFinOpUser;
+import pl.sodexo.it.gryf.common.dto.user.GryfFoUser;
 import pl.sodexo.it.gryf.common.exception.GryfUnknownException;
 import pl.sodexo.it.gryf.common.exception.authentication.GryfAuthenticationException;
 import pl.sodexo.it.gryf.common.exception.authentication.GryfBadCredentialsException;
@@ -42,16 +42,16 @@ public class GryfAuthenticationProvider implements AuthenticationProvider {
         
         LOGGER.debug("[AUTH] Logowanie uzytkownika, login={}", login);
         List<GrantedAuthority> grantedAuthorities = getGrantedAuthorities(login, password);
-        GryfFinOpUser gryfFinOpUser = new GryfFinOpUser(new UserDto(login), grantedAuthorities);
-        UsernamePasswordAuthenticationToken succesAuthToken = new UsernamePasswordAuthenticationToken(gryfFinOpUser, credentials, grantedAuthorities);
-        LOGGER.info("[AUTH] Wlogowany uzytkownik, gryfFinOpUser={}, grantedAuthorities={}", gryfFinOpUser, grantedAuthorities);
+        GryfFoUser gryfFoUser = new GryfFoUser(new UserDto(login), grantedAuthorities);
+        UsernamePasswordAuthenticationToken succesAuthToken = new UsernamePasswordAuthenticationToken(gryfFoUser, credentials, grantedAuthorities);
+        LOGGER.info("[AUTH] Wlogowany uzytkownik, gryfFoUser={}, grantedAuthorities={}", gryfFoUser, grantedAuthorities);
         
         return succesAuthToken;
     }
 
     private List<GrantedAuthority> getGrantedAuthorities(String login, String password) {
         try {
-            return userService.findRolesForLogin(login, password).stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+            return userService.findPrivilegesForFoLogin(login, password).stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
         } catch (GryfBadCredentialsException e) {
             LOGGER.info("[AUTH] Nieprawidlowe logowanie, login={}", login);
             throw new BadCredentialsException("Nieprawidlowy uzytkownik lub haslo", e);

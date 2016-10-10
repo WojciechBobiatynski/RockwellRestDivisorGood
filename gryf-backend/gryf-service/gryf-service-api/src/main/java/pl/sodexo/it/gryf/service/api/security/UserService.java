@@ -12,14 +12,14 @@ import java.util.List;
 public interface UserService {
 
     /**
-     * Wyszukanie rol dla uzytkownika.
+     * Wyszukanie rol dla uzytkownika FO.
      *
      * @param login - login uzytkownika
      * @param password - haslo uzytkownika
      *
      * @return lista rol
      */
-    List<String> findRolesForLogin(String login, String password);
+    List<String> findPrivilegesForFoLogin(String login, String password);
 
     /**
      * Wyszukanie uprawnień dla uzytkownika TI.

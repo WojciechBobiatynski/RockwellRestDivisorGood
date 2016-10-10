@@ -1,0 +1,78 @@
+<configuration>
+    <property name="PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] [%user:%role] - %thread - %logger | %msg%n"/>
+    <property name="MAX_FILE_SIZE" value="50MB"/>
+    <property name="CHARSET" value="UTF-8"/>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <charset>${CHARSET}</charset>
+            <layout class="pl.sodexo.it.gryf.web.common.logging.PatternLayoutWithUserContext">
+                <pattern>${PATTERN}</pattern>
+            </layout>
+        </encoder>
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${catalina.home}/logs/gryf.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${catalina.home}/logs/gryf-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${MAX_FILE_SIZE}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <charset>${CHARSET}</charset>
+            <layout class="pl.sodexo.it.gryf.web.common.logging.PatternLayoutWithUserContext">
+                <pattern>${PATTERN}</pattern>
+            </layout>
+        </encoder>
+    </appender>
+
+    <appender name="FILE_SQL" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${catalina.home}/logs/gryf-sql.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${catalina.home}/logs/gryf-sql-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${MAX_FILE_SIZE}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <charset>${CHARSET}</charset>
+            <layout class="pl.sodexo.it.gryf.web.common.logging.PatternLayoutWithUserContext">
+                <pattern>${PATTERN}</pattern>
+            </layout>
+        </encoder>
+    </appender>
+
+    <logger name="pl.sodexo.it.gryf" level="DEBUG"/>
+    <logger name="org.springframework" level="WARN"/>
+    <logger name="org.mybatis" level="WARN"/>
+    <logger name="org.hibernate.validator" level="INFO"/>
+
+    <logger name="pl.sodexo.it.gryf.common.logging.eclipselink" level="DEBUG" additivity="false">
+        <if condition='property("devMode").equalsIgnoreCase("true")'>
+            <then>
+                <appender-ref ref="STDOUT"/>
+            </then>
+        </if>
+        <appender-ref ref="FILE_SQL"/>
+    </logger>
+
+    <logger name="pl.sodexo.it.gryf.dao.api.search.mapper" level="DEBUG" additivity="false">
+        <if condition='property("devMode").equalsIgnoreCase("true")'>
+            <then>
+                <appender-ref ref="STDOUT"/>
+            </then>
+        </if>
+        <appender-ref ref="FILE_SQL"/>
+    </logger>
+
+    <root level="DEBUG">
+        <if condition='property("devMode").equalsIgnoreCase("true")'>
+            <then>
+                <appender-ref ref="STDOUT"/>
+            </then>
+        </if>
+        <appender-ref ref="FILE"/>
+    </root>
+</configuration>

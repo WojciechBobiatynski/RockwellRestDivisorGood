@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
     private TrainingInstitutionUserDao trainingInstitutionUserDao;
 
     @Override
-    public List<String> findRolesForLogin(String login, String password) {
+    public List<String> findPrivilegesForFoLogin(String login, String password) {
         return userRepository.findRolesForLogin(login, password);
     }
 

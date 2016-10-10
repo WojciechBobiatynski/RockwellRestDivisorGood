@@ -27,19 +27,19 @@
     <http use-expressions="true">
         <intercept-url pattern="/resource/**" access="permitAll" />
         <form-login login-page="/login"
-                             authentication-failure-url="/login?error"
-                             default-target-url="/"
-                             password-parameter="password"
-                             username-parameter="username"/>
+                    authentication-failure-url="/login?error"
+                    default-target-url="/"
+                    password-parameter="password"
+                    username-parameter="username"/>
         <logout logout-success-url="/"
-                         logout-url="/logout"
-                         invalidate-session="true"/>
+                logout-url="/logout"
+                invalidate-session="true"/>
         <intercept-url pattern="/login" access="permitAll" />
         <intercept-url pattern="/logout" access="permitAll" />
         <intercept-url pattern="/**" access="isAuthenticated()" />
         <http-basic/>
     </http>
-
+    
     <authentication-manager>
         <authentication-provider ref="gryfAuthenticationProvider"/>
         <authentication-provider ref="trainingInstitutionAuthenticationProvider" />

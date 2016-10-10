@@ -12,11 +12,11 @@ import java.util.Collection;
  * Created by akuchna on 2016-09-28.
  */
 @ToString(callSuper = true)
-public class GryfFinOpUser extends GryfUser {
+public class GryfFoUser extends GryfUser {
 
     private static final long serialVersionUID = 1L;
 
-    public GryfFinOpUser(UserDto user, Collection<? extends GrantedAuthority> authorities) {
+    public GryfFoUser(UserDto user, Collection<? extends GrantedAuthority> authorities) {
         super(user, authorities);
         userType = UserType.FINANCIAL_OPERATOR;
     }
