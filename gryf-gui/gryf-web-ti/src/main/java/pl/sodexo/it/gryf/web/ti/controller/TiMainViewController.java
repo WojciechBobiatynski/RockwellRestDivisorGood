@@ -18,12 +18,12 @@ import static pl.sodexo.it.gryf.web.ti.utils.TiPageConstants.*;
 public class TiMainViewController {
 
     @RequestMapping(value = PATH_TI_LOGIN, method = RequestMethod.GET)
-    public String tiLogin() {
+    public String login() {
         return PAGE_TI_LOGIN;
     }
 
     @RequestMapping(PATH_MAIN)
-    public String formIndex(Model model) {
+    public String welcome(Model model) {
         setUpMainContent(model, SUB_PAGE_TI_WELCOME);
         return PAGE_MAIN;
     }
