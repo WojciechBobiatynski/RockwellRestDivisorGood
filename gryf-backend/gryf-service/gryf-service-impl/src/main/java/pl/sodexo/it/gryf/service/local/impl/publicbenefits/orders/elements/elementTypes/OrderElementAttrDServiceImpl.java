@@ -16,7 +16,7 @@ import java.util.Objects;
 /**
  * Created by Michal.CHWEDCZUK.ext on 2015-07-23.
  */
-@Service
+@Service("orderElementAttrDService")
 public class OrderElementAttrDServiceImpl extends OrderElementBaseService<OrderElementAttrDDTO> implements OrderElementAttrDService {
 
     @Override

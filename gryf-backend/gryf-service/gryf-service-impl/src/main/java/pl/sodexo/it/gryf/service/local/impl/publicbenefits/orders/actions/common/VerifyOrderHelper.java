@@ -4,7 +4,7 @@ import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowElementType.ElementType;
-import pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.elements.elementTypes.OrderElementComplexTypeGrantedVouchersInfoService;
+import pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.elements.elementTypes.OrderElementComplexTypeGrantedVouchersInfoServiceImpl;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -26,10 +26,10 @@ public class VerifyOrderHelper {
     }
 
     public static void validateVouchersNumber(List<EntityConstraintViolation> violations, Order order){
-        OrderElement oeLimitEurAmount         = order.getElement(OrderElementComplexTypeGrantedVouchersInfoService.LIMIT_EUR_AMOUNT_ELEM_ID);
-        OrderElement oeEntitledPlnAmount      = order.getElement(OrderElementComplexTypeGrantedVouchersInfoService.ENTITLED_PLN_AMOUNT_ELEM_ID);
-        OrderElement oeExchange               = order.getElement(OrderElementComplexTypeGrantedVouchersInfoService.EXCHANGE_ELEM_ID);
-        OrderElement oeEntitledVouchersNumber = order.getElement(OrderElementComplexTypeGrantedVouchersInfoService.ENTITLED_VOUCHERS_NUMBER_ELEM_ID);
+        OrderElement oeLimitEurAmount         = order.getElement(OrderElementComplexTypeGrantedVouchersInfoServiceImpl.LIMIT_EUR_AMOUNT_ELEM_ID);
+        OrderElement oeEntitledPlnAmount      = order.getElement(OrderElementComplexTypeGrantedVouchersInfoServiceImpl.ENTITLED_PLN_AMOUNT_ELEM_ID);
+        OrderElement oeExchange               = order.getElement(OrderElementComplexTypeGrantedVouchersInfoServiceImpl.EXCHANGE_ELEM_ID);
+        OrderElement oeEntitledVouchersNumber = order.getElement(OrderElementComplexTypeGrantedVouchersInfoServiceImpl.ENTITLED_VOUCHERS_NUMBER_ELEM_ID);
 
         BigDecimal limitEurAmount         = (oeLimitEurAmount != null && oeLimitEurAmount.getValueNumber() !=null)                 ? oeLimitEurAmount.getValueNumber()         : BigDecimal.ZERO;
         BigDecimal entitledPlnAmount      = (oeEntitledPlnAmount != null && oeEntitledPlnAmount.getValueNumber() !=null)           ? oeEntitledPlnAmount.getValueNumber()      : BigDecimal.ZERO;

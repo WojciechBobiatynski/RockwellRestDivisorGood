@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * Created by tomasz.bilski.ext on 2015-08-21.
  */
-@Service
+@Service("orderElementAttachmentService")
 public class OrderElementAttachmentServiceImpl extends OrderElementBaseService<OrderElementAttachmentDTO> implements OrderElementAttachmentService {
 
     //FIELDS

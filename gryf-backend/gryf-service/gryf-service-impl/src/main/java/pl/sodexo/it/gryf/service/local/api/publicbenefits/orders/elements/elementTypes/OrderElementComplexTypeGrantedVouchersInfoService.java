@@ -7,7 +7,7 @@ import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.elements.OrderE
 /**
  * Created by jbentyn on 2016-10-06.
  */
-public interface OrderElementComplexTypeGrantedVouchersInfoServiceI extends OrderElementService<OrderElementComplexTypeGrantedVouchersInfoDTO> {
+public interface OrderElementComplexTypeGrantedVouchersInfoService extends OrderElementService<OrderElementComplexTypeGrantedVouchersInfoDTO> {
 
     /**
      * Dodaje elementy do zamówienia które przetrzymuja informacje voucherach.
