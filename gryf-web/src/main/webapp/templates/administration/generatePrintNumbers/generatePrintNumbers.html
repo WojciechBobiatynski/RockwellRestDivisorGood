@@ -1,0 +1,26 @@
+<div>
+    <div>
+        <header id="header">
+            <h1>Generowanie numerów dla kodów</h1>
+        </header>
+
+        <section>
+            <div class="grid-50">
+                <div class="grid-50">
+                    <div class="field">
+                        <strong class="label">Product</strong>
+                        <select ng-options="p as p.name for p in model.products track by p.id "
+                                ng-model="model.product">
+                        </select>
+                    </div>
+                    <a ng-click="generate()" class="button button-save">Wygeneruj</a>
+                </div>
+            </div>
+        </section>
+
+    </div>
+</div>
+
+
+
+

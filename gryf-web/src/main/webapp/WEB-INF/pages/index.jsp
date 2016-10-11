@@ -213,6 +213,17 @@
                     </li>
                 </ul>
             </li>
+
+            <li>
+                <a title="administracja">Administracja</a>
+                <ul>
+                    <li >
+                        <%--TODO uprawnienia--%>
+                        <a ng-href="${pageContext.request.contextPath}/administration/generatePrintNumbers/#"
+                           gryf-link-privilege="GRF_ZIP_CODES">Generacja numerów dla bonów</a>
+                    </li>
+                </ul>
+            </li>
         </ul>
     </div>
 </nav>
