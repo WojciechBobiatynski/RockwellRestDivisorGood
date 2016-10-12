@@ -27,7 +27,7 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     private String pathAttachments = "\\\\ceplsvc-wawdb20\\gryf\\";
     private String pathGrantApp = "grant_applications\\dev\\";
     private String pathOrders  = "orders\\dev\\";
-    private String pathReportTemplates  = "report_templates\\";
+    private String pathReportTemplates  = "report_templates/";
     private String pathReimbursements = "reimbursements\\dev\\";
     private int attachmentMaxSize = 3145728;
     private String gryfEnterpriseCodePrefix = "6";
@@ -46,7 +46,7 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     private String sodexoAddress1 = "ul. Kłobucka 25";
     private String sodexoAddress2 = "02-699 Warszawa";
     private String sodexoVatRegNum = "5222357343";
-    private String pathReportImages = "report_images\\";
+    private String pathReportImages = "report_images/";
 
     //LIFECYCLE METHODS
 
