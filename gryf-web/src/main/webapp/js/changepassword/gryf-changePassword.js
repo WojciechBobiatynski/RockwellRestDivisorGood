@@ -3,6 +3,14 @@
  */
 'use strict';
 angular.module('gryf.changePassword', ['gryf.config']);
+angular.module('gryf.changePassword').value('VALIDATION_MESSAGES',
+    {
+        'required': 'Pole jest wymagane !',
+        'pattern': 'Pole ma niewłaściwy format !',
+        'duplicate': 'Nowe i stare hasło nie mogą być identyczne !',
+        'notDuplicate': 'Podane hasła nie są identyczne - prosimy o sprawdzenie !'
+    });
+
 angular.module('gryf.changePassword').config(['$routeProvider', function ($routeProvider) {
     $routeProvider
         .when('/',
@@ -28,6 +36,21 @@ angular.module('gryf.changePassword').controller('ValidationController', functio
     $scope.password ;
     $scope.errorMessage ;
     $scope.submitForm = function() {
+        if($scope.changePasswordForm.$invalid) {
+            $scope.changePasswordForm.oldPassword.$setDirty();
+            $scope.changePasswordForm.newPassword.$setDirty();
+            $scope.changePasswordForm.newPasswordRepeated.$setDirty();
+            return;
+        }
+        if(($scope.password.oldPassword == $scope.password.newPassword) || ($scope.password.newPassword != $scope.password.newPasswordRepeated)){
+            if($scope.password.oldPassword == $scope.password.newPassword) {
+                $scope.changePasswordForm.newPassword.$error = {'duplicate': true};
+            }
+            if($scope.password.newPassword != $scope.password.newPasswordRepeated) {
+                $scope.changePasswordForm.newPasswordRepeated.$error = {'notDuplicate': true};
+            }
+            return;
+        }
         $http({
             method: 'POST',
             url: contextPath + '/changePasswordFormData',
@@ -46,3 +69,23 @@ angular.module('gryf.changePassword').controller('ValidationController', functio
     };
 })
 
+angular.module('gryf.changePassword').directive('localValidationMsg', localValidationMsg);
+function localValidationMsg(VALIDATION_MESSAGES) {
+    return {
+        restrict: 'E',
+        replace: true,
+        scope: {
+            formField: '=',
+        },
+        template: [
+            '<span style="color:red">',
+            '<span class="message" ng-repeat="(errName, errState) in formField.$error" ng-if="formField.$dirty">',
+            '<span ng-bind="messages[errName]"></span><br>',
+            '</span>',
+            '</span>',
+        ].join(''),
+        link: function(scope) {
+            scope.messages = VALIDATION_MESSAGES;
+        }
+    }
+};
