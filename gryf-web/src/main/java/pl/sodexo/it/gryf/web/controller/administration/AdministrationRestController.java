@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import pl.sodexo.it.gryf.common.dto.other.DictionaryDTO;
+import pl.sodexo.it.gryf.common.enums.Privileges;
 import pl.sodexo.it.gryf.service.api.publicbenefits.products.ProductInstanceService;
+import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +31,9 @@ public class AdministrationRestController {
     @Autowired
     private ProductInstanceService productInstanceService;
 
+    @Autowired
+    private SecurityChecker securityChecker;
+
     @RequestMapping(value = PRODUCTS_REST, method = RequestMethod.GET)
     @ResponseBody
     public List<DictionaryDTO> getProducts() {
@@ -42,6 +47,7 @@ public class AdministrationRestController {
     @RequestMapping(value = GENERATE_PRINT_NUMBERS_REST, method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity generatePrintNumbers(DictionaryDTO dictionary) {
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_PRODUCTS_GEN_PRINT_NUM);
         productInstanceService.generatePrintNumbersForProduct("numer");
         return ResponseEntity.noContent().build();
     }

@@ -60,7 +60,10 @@ public enum Privileges {
 
     //TEST
 
-    GRF_TEST
+    GRF_TEST,
 
+    //ADMINISTRATION
+
+    GRF_PBE_PRODUCTS_GEN_PRINT_NUM
 
     }
