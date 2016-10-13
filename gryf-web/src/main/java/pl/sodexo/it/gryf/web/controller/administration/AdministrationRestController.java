@@ -1,11 +1,13 @@
 package pl.sodexo.it.gryf.web.controller.administration;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import pl.sodexo.it.gryf.common.dto.other.DictionaryDTO;
+import pl.sodexo.it.gryf.service.api.publicbenefits.products.ProductInstanceService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +26,9 @@ public class AdministrationRestController {
     public static final String PRODUCTS_REST = "products";
     public static final String GENERATE_PRINT_NUMBERS_REST = "/generatePrintNumbers";
 
+    @Autowired
+    private ProductInstanceService productInstanceService;
+
     @RequestMapping(value = PRODUCTS_REST, method = RequestMethod.GET)
     @ResponseBody
     public List<DictionaryDTO> getProducts() {
@@ -37,6 +42,7 @@ public class AdministrationRestController {
     @RequestMapping(value = GENERATE_PRINT_NUMBERS_REST, method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity generatePrintNumbers(DictionaryDTO dictionary) {
+        productInstanceService.generatePrintNumbersForProduct("numer");
         return ResponseEntity.noContent().build();
     }
 

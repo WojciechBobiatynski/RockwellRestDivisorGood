@@ -1,12 +1,19 @@
 package pl.sodexo.it.gryf.service.local.impl.publicbenefits.products;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.products.PrintNumberDto;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.products.PrintNumberChecksumProvider;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -15,6 +22,7 @@ import java.util.Random;
  * Created by jbentyn on 2016-10-12.
  */
 @Component
+@Slf4j
 public class PrintNumberGenerator {
 
     private static final Random RANDOM = new Random();
@@ -27,10 +35,35 @@ public class PrintNumberGenerator {
     @Autowired
     private PrintNumberChecksumProvider printNumberChecksumProvider;
 
+    @Autowired
+    private ApplicationParameters applicationParameters;
+
+    @Async
+    public void generateForProduct(String productNumber) {
+        //TODO załaduj porcję bonów do wygenerowania numerów
+        List<PrintNumberDto> printNumbersChunk = new ArrayList<>();
+        generate(printNumbersChunk);
+        //TODO powiadomienie mailem o zakończeniu generacji?
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    private void generate(List<PrintNumberDto> printNumberDtoList) {
+        printNumberDtoList.forEach(dto -> dto.setGeneratedPrintNumber(generate(dto)));
+        //TODO update do bazy
+
+        //TODO w celach testowych
+        try {
+            LOGGER.info("Start waiting");
+            Thread.sleep(10_000L);
+            LOGGER.info("Stop waiting");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     String generate(PrintNumberDto printNumberDto) {
         StringBuilder builder = new StringBuilder();
-        builder.append(getCountryNumberFormatted(printNumberDto))
-                .append(getConstantFormatted(printNumberDto))
+        builder.append(applicationParameters.getPrintNumberCountryCodePoland())
                 .append(getTypeNumberFormatted(printNumberDto))
                 .append(getFaceValueFormatted(printNumberDto))
                 .append(getValidDateFormatted(printNumberDto))
@@ -47,14 +80,6 @@ public class PrintNumberGenerator {
 
     private String getRandomFormatted() {
         return String.format(FORMAT_PADDING_TWO, RANDOM.nextInt(100));
-    }
-
-    private String getCountryNumberFormatted(PrintNumberDto printNumberDto) {
-        return String.format(FORMAT_PADDING_ONE, printNumberDto.getCountryNumber());
-    }
-
-    private String getConstantFormatted(PrintNumberDto printNumberDto) {
-        return String.format(FORMAT_PADDING_ONE, printNumberDto.getConstant());
     }
 
     private String getTypeNumberFormatted(PrintNumberDto printNumberDto) {

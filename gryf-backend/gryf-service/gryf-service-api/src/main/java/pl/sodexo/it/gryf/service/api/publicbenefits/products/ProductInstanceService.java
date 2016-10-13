@@ -11,5 +11,5 @@ public interface ProductInstanceService {
      *
      * @param productNumber - unikatowy numer produktu
      */
-    void generatePrintNumbersForProduct(Long productNumber);
+    void generatePrintNumbersForProduct(String productNumber);
 }

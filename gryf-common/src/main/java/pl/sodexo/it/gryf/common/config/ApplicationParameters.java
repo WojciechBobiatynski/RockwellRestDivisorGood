@@ -1,4 +1,4 @@
-package pl.sodexo.it.gryf.service.api.other;
+package pl.sodexo.it.gryf.common.config;
 
 /**
  * Created by jbentyn on 2016-09-20.
@@ -62,4 +62,6 @@ public interface ApplicationParameters {
     String getSodexoVatRegNum();
 
     String getPathReportImages();
+
+    String getPrintNumberCountryCodePoland();
 }

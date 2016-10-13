@@ -1,7 +1,7 @@
-package pl.sodexo.it.gryf.service.impl.other;
+package pl.sodexo.it.gryf.service.config;
 
 import org.springframework.stereotype.Component;
-import pl.sodexo.it.gryf.service.api.other.ApplicationParameters;
+import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
@@ -47,6 +47,7 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     private String sodexoAddress2 = "02-699 Warszawa";
     private String sodexoVatRegNum = "5222357343";
     private String pathReportImages = "report_images/";
+    private String printNumberCountryCodePoland = "31";
 
     //LIFECYCLE METHODS
 
@@ -163,7 +164,11 @@ public class ApplicationParametersImpl implements ApplicationParameters {
         String dbPathReportImages = (String)findParameter("GRYF_PATH_REPORT_IMAGES");
         if (dbPathReportImages != null) {
             pathReportImages = dbPathReportImages;
-        }        
+        }
+        String dbPrintNumberCountryCodePoland = (String)findParameter("GRYF_PRINT_NUM_CODE_PL");
+        if (dbPrintNumberCountryCodePoland != null){
+            printNumberCountryCodePoland = dbPrintNumberCountryCodePoland;
+        }
     }
 
     //PUBLIC METHODS
@@ -313,8 +318,11 @@ public class ApplicationParametersImpl implements ApplicationParameters {
         return pathReportImages;
     }
 
-    
-    
+    @Override
+    public String getPrintNumberCountryCodePoland() {
+        return printNumberCountryCodePoland;
+    }
+
     //PRIVATE METHODS
 
     private Object findParameter(String name){

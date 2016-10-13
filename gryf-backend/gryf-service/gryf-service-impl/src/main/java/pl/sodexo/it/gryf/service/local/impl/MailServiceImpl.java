@@ -20,7 +20,7 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.mail.EmailTemplateRepository;
 import pl.sodexo.it.gryf.model.mail.EmailInstance;
 import pl.sodexo.it.gryf.model.mail.EmailInstanceAttachment;
 import pl.sodexo.it.gryf.model.mail.EmailTemplate;
-import pl.sodexo.it.gryf.service.api.other.ApplicationParameters;
+import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.service.config.MailTemplateConfiguration;
 import pl.sodexo.it.gryf.service.local.api.MailService;
 

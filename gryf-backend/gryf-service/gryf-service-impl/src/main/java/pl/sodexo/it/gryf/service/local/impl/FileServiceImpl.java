@@ -10,7 +10,7 @@ import pl.sodexo.it.gryf.common.enums.FileType;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.model.api.AuditableEntity;
-import pl.sodexo.it.gryf.service.api.other.ApplicationParameters;
+import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.service.local.api.FileService;
 
 import java.io.*;

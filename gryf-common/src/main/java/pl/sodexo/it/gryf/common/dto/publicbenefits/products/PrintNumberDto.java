@@ -18,12 +18,6 @@ public class PrintNumberDto {
 
     private Long productInstanceId;
 
-    // TODO skąd brać numer kraju
-    private Integer countryNumber;
-
-    // TODO skąd stała?
-    private Integer constant;
-
     private Integer typeNumber;
 
     private Integer faceValue;
@@ -32,4 +26,5 @@ public class PrintNumberDto {
 
     private Integer productInstanceNumber;
 
+    private String generatedPrintNumber;
 }

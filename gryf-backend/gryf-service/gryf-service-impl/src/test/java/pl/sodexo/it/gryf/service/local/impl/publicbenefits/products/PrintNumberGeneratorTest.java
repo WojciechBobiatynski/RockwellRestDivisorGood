@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.products.PrintNumberDto;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.products.PrintNumberChecksumProvider;
 
@@ -17,6 +18,8 @@ import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Test dla klasy PrintNumberGenerator
@@ -38,6 +41,13 @@ public class PrintNumberGeneratorTest {
         public PrintNumberChecksumProvider printNumberChecksumProvider() {
             return new DummyNumberChecksumProvider();
         }
+
+        @Bean
+        public ApplicationParameters applicationParameters() {
+            ApplicationParameters applicationParameters = mock(ApplicationParameters.class);
+            when(applicationParameters.getPrintNumberCountryCodePoland()).thenReturn("31");
+            return applicationParameters;
+        }
     }
 
     @Autowired
@@ -46,8 +56,6 @@ public class PrintNumberGeneratorTest {
     @Test
     public void generate() throws Exception {
         PrintNumberDto dto = new PrintNumberDto();
-        dto.setConstant(1);
-        dto.setCountryNumber(3);
         dto.setFaceValue(1500);
         dto.setProductInstanceNumber(1);
         dto.setTypeNumber(30);
