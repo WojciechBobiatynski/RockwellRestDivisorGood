@@ -4,6 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.sodexo.it.gryf.service.api.publicbenefits.products.ProductInstanceService;
 import pl.sodexo.it.gryf.service.local.impl.publicbenefits.products.PrintNumberGenerator;
+import pl.sodexo.it.gryf.service.utils.AsyncUtil;
+
+import java.util.concurrent.Executor;
 
 /**
  * Created by jbentyn on 2016-10-12.
@@ -16,8 +19,12 @@ public class ProductInstanceServiceImpl implements ProductInstanceService {
 
     @Override
     public void generatePrintNumbersForProduct(String productNumber) {
-
         //TODO sprawdzenie czy sa bony które trzeba przeprocesować
-        printNumberGenerator.generateForProduct(productNumber);
+        startGeneratingNumbersAsync(productNumber);
+    }
+
+    private void startGeneratingNumbersAsync(String productNumber) {
+        Executor executor = AsyncUtil.getDelegatingSecurityContextAsyncExecutor();
+        executor.execute(() -> printNumberGenerator.generateForProduct(productNumber));
     }
 }

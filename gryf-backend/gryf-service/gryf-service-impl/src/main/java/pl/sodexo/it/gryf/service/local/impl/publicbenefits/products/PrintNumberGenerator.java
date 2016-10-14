@@ -2,12 +2,12 @@ package pl.sodexo.it.gryf.service.local.impl.publicbenefits.products;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.products.PrintNumberDto;
+import pl.sodexo.it.gryf.common.dto.user.GryfUser;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.products.PrintNumberChecksumProvider;
 
 import java.text.DateFormat;
@@ -27,7 +27,6 @@ public class PrintNumberGenerator {
 
     private static final Random RANDOM = new Random();
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMdd");
-    private static final String FORMAT_PADDING_ONE = "%01d";
     private static final String FORMAT_PADDING_TWO = "%02d";
     private static final String FORMAT_PADDING_SIX = "%06d";
     private static final String FORMAT_PADDING_NINE = "%09d";
@@ -38,7 +37,6 @@ public class PrintNumberGenerator {
     @Autowired
     private ApplicationParameters applicationParameters;
 
-    @Async
     public void generateForProduct(String productNumber) {
         //TODO załaduj porcję bonów do wygenerowania numerów
         List<PrintNumberDto> printNumbersChunk = new ArrayList<>();
@@ -50,14 +48,16 @@ public class PrintNumberGenerator {
     private void generate(List<PrintNumberDto> printNumberDtoList) {
         printNumberDtoList.forEach(dto -> dto.setGeneratedPrintNumber(generate(dto)));
         //TODO update do bazy
-
         //TODO w celach testowych
-        try {
-            LOGGER.info("Start waiting");
-            Thread.sleep(10_000L);
-            LOGGER.info("Stop waiting");
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        for (int i = 0; i < 5; i++) {
+            try {
+                LOGGER.info("Start waiting");
+                Thread.sleep(10_000L);
+                LOGGER.info("LoggedUser = {}", GryfUser.getLoggedUser());
+                LOGGER.info("Stop waiting");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
