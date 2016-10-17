@@ -9,7 +9,7 @@ public interface ProductInstanceService {
     /**
      * Metoda zleca wygenerowanie numerów drukowanych dla produktu o danym numerze
      *
-     * @param productNumber - unikatowy numer produktu
+     * @param productId - unikatowy numer produktu
      */
-    void generatePrintNumbersForProduct(String productNumber);
+    void generatePrintNumbersForProduct(String productId);
 }

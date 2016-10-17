@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="pl.sodexo.it.gryf.dao.api.search.mapper.ProductInstanceSearchMapper">
+
+    <select id="countProductInstancesAvailableToNumberGeneration" resultType="Long">
+        SELECT COUNT(*)
+        FROM APP_PBE.PBE_PRODUCT_INSTANCES pri
+        WHERE pri.PRD_ID = #{productId}
+              AND pri.PRINT_NUMBER IS NULL
+    </select>
+
+</mapper>
