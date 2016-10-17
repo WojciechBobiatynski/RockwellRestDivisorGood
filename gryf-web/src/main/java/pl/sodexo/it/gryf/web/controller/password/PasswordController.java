@@ -23,7 +23,7 @@ public class PasswordController {
         if (PasswordValidator.isValidNewPassword(passwordData)) {
             return new PasswordChangeStatus("OK", "Hasło zmienione pomyślnie");
         } else {
-            return new PasswordChangeStatus("ERROR", "Nie udało się zmienić hasła. Sprubój ponownie!");
+            return new PasswordChangeStatus("ERROR", "Nie udało się zmienić hasła. Spróbuj ponownie!");
         }
     }
 }

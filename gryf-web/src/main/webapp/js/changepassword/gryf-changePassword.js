@@ -8,7 +8,7 @@ angular.module('gryf.changePassword').value('VALIDATION_MESSAGES',
         'required': 'Pole jest wymagane !',
         'pattern': 'Pole ma niewłaściwy format !',
         'duplicate': 'Nowe i stare hasło nie mogą być identyczne !',
-        'notDuplicate': 'Podane hasła nie są identyczne - prosimy o sprawdzenie !'
+        'notDuplicate': 'Wpisz identyczne hasła !'
     });
 
 angular.module('gryf.changePassword').config(['$routeProvider', function ($routeProvider) {
@@ -79,7 +79,7 @@ function localValidationMsg(VALIDATION_MESSAGES) {
         },
         template: [
             '<span style="color:red">',
-            '<span class="message" ng-repeat="(errName, errState) in formField.$error" ng-if="formField.$dirty">',
+            '<span class="message" ng-repeat="(errName, errState) in formField.$error" ng-if="formField.$touched">',
             '<span ng-bind="messages[errName]"></span><br>',
             '</span>',
             '</span>',
