@@ -27,15 +27,14 @@ angular.module('gryf.generatePrintNumbers').controller('GeneratePrintNumbersCont
                 });
 
                 function executeGenerate() {
-                    console.log("generate");
 
                     var generatePromise = GeneratePrintNumbersService.generate($scope.model.product);
                     generatePromise.then(function () {
-                        console.log("generate success")
+                       //TODO obsługa komunikatów
                     });
 
                     generatePromise.error(function () {
-                        console.log("generate ERROR")
+                        //TODO obsługa komunikatów
                     });
 
                 }

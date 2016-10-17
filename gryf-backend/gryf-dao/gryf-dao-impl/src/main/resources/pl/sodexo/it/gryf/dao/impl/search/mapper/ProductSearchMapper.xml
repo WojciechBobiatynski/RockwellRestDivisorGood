@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="pl.sodexo.it.gryf.dao.api.search.mapper.ProductSearchMapper">
+
+    <select id="findProducts" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.products.ProductDto" parameterType="list">
+        SELECT
+            prod.PRD_ID productId,
+            prod.NAME   name
+        FROM APP_PBE.PBE_PRODUCTS prod
+        WHERE prod.EXPIRY_DATE IS NULL OR prod.EXPIRY_DATE > sysdate
+    </select>
+
+</mapper>

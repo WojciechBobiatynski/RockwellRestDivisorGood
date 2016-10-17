@@ -3,15 +3,16 @@ package pl.sodexo.it.gryf.web.controller.administration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import pl.sodexo.it.gryf.common.dto.other.DictionaryDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.products.ProductDto;
 import pl.sodexo.it.gryf.common.enums.Privileges;
 import pl.sodexo.it.gryf.service.api.publicbenefits.products.ProductInstanceService;
+import pl.sodexo.it.gryf.service.api.publicbenefits.products.ProductService;
 import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,21 +35,19 @@ public class AdministrationRestController {
     @Autowired
     private SecurityChecker securityChecker;
 
+    @Autowired
+    private ProductService productService;
+
     @RequestMapping(value = PRODUCTS_REST, method = RequestMethod.GET)
     @ResponseBody
-    public List<DictionaryDTO> getProducts() {
-        //TODO mock
-        List<DictionaryDTO> products = new ArrayList<>();
-        products.add(new DictionaryDTO(1, "A"));
-        products.add(new DictionaryDTO(2, "B"));
-        return products;
+    public List<ProductDto> getProducts() {
+        return productService.findProducts();
     }
 
-    @RequestMapping(value = GENERATE_PRINT_NUMBERS_REST, method = RequestMethod.POST)
-    @ResponseBody
-    public ResponseEntity generatePrintNumbers(DictionaryDTO dictionary) {
+    @RequestMapping(value = GENERATE_PRINT_NUMBERS_REST, method = RequestMethod.POST, consumes = "application/json")
+    public ResponseEntity generatePrintNumbers(@RequestBody ProductDto productDto) {
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_PRODUCTS_GEN_PRINT_NUM);
-        productInstanceService.generatePrintNumbersForProduct("numer");
+        productInstanceService.generatePrintNumbersForProduct(productDto.getProductId());
         return ResponseEntity.noContent().build();
     }
 

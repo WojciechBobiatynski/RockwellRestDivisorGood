@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<String> findPrivilegesForTiLogin(String login, String password) {
         authenticateTiUser(login, password);
-        return securitySearchMapper.findTIUserPrivileges(login);
+        return securitySearchMapper.findTiUserPrivileges(login);
     }
 
     private void authenticateTiUser(String login, String password) {

@@ -11,5 +11,5 @@ import java.util.List;
  */
 public interface SecuritySearchMapper {
 
-    List<String> findTIUserPrivileges(@Param("login") String login);
+    List<String> findTiUserPrivileges(@Param("login") String login);
 }
