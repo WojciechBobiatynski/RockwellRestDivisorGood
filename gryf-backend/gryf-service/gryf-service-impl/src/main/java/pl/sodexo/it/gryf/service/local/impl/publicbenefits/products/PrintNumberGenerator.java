@@ -3,17 +3,12 @@ package pl.sodexo.it.gryf.service.local.impl.publicbenefits.products;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.products.PrintNumberDto;
-import pl.sodexo.it.gryf.common.dto.user.GryfUser;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.products.PrintNumberChecksumProvider;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -37,31 +32,7 @@ public class PrintNumberGenerator {
     @Autowired
     private ApplicationParameters applicationParameters;
 
-    public void generateForProduct(String productNumber) {
-        //TODO załaduj porcję bonów do wygenerowania numerów
-        List<PrintNumberDto> printNumbersChunk = new ArrayList<>();
-        generate(printNumbersChunk);
-        //TODO powiadomienie mailem o zakończeniu generacji?
-    }
-
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    private void generate(List<PrintNumberDto> printNumberDtoList) {
-        printNumberDtoList.forEach(dto -> dto.setGeneratedPrintNumber(generate(dto)));
-        //TODO update do bazy
-        //TODO w celach testowych
-        for (int i = 0; i < 5; i++) {
-            try {
-                LOGGER.info("Start waiting");
-                Thread.sleep(10_000L);
-                LOGGER.info("LoggedUser = {}", GryfUser.getLoggedUser());
-                LOGGER.info("Stop waiting");
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    String generate(PrintNumberDto printNumberDto) {
+    public String generate(PrintNumberDto printNumberDto) {
         StringBuilder builder = new StringBuilder();
         builder.append(applicationParameters.getPrintNumberCountryCodePoland())
                 .append(getTypeNumberFormatted(printNumberDto))

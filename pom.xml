@@ -33,6 +33,7 @@
         <lombok.version>1.16.10</lombok.version>
         <junit.version>4.11</junit.version>
         <mockito.version>1.9.5</mockito.version>
+        <spring.batch.version>3.0.7.RELEASE</spring.batch.version>
     </properties>
 
     <modules>
@@ -341,6 +342,18 @@
                         <artifactId>spring-context</artifactId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+
+            <!--SPRING-BATCH-->
+            <dependency>
+                <groupId>org.springframework.batch</groupId>
+                <artifactId>spring-batch-core</artifactId>
+                <version>${spring.batch.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.batch</groupId>
+                <artifactId>spring-batch-infrastructure</artifactId>
+                <version>${spring.batch.version}</version>
             </dependency>
 
             <!--ASPECTJ -->

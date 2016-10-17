@@ -19,6 +19,12 @@ public final  class AsyncUtil {
 
     }
 
+    /**
+     * Zwraca Executor, który uruchamia zadania w sposób asynchroniczny
+     * i przekazuje do tworzonych przez siebie watków kontekst zalogowanego uzytkownika
+     *
+     * @return asynchroniczny executor z załadowanym kontekstem uzytkownika
+     */
     public static Executor getDelegatingSecurityContextAsyncExecutor (){
         SimpleAsyncTaskExecutor delegateExecutor = new SimpleAsyncTaskExecutor();
         SecurityContext context = SecurityContextHolder.createEmptyContext();
