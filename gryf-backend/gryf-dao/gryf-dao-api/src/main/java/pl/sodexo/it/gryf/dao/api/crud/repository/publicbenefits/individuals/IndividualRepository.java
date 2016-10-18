@@ -1,8 +1,8 @@
 package pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.individuals;
 
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.searchform.IndividualSearchQueryDTO;
-import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
 import pl.sodexo.it.gryf.dao.api.crud.repository.GenericRepository;
+import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
 
 import java.util.List;
 

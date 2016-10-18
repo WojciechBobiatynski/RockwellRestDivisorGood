@@ -1,4 +1,4 @@
-package pl.sodexo.it.gryf.web.common.utils;
+package pl.sodexo.it.gryf.web.common.util;
 
 import org.springframework.ui.Model;
 
@@ -7,9 +7,9 @@ import org.springframework.ui.Model;
  * 
  * Created by akuchna on 2016-10-10.
  */
-public final class PageUtils {
+public final class PageUtil {
 
-    private PageUtils() {}
+    private PageUtil() {}
 
     private static final String PARAM_MAIN_CONTENT = "pageMainContent";
 

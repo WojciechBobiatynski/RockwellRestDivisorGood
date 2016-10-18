@@ -3,11 +3,11 @@ package pl.sodexo.it.gryf.dao.impl.crud.repository.publicbenefits.reimbursement;
 import org.springframework.stereotype.Repository;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.searchform.ReimbursementDeliverySearchQueryDTO;
 import pl.sodexo.it.gryf.common.utils.StringUtils;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.reimbursement.ReimbursementDeliveryRepository;
+import pl.sodexo.it.gryf.dao.impl.crud.repository.GenericRepositoryImpl;
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementDelivery;
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementDeliveryStatus;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstitution;
-import pl.sodexo.it.gryf.dao.impl.crud.repository.GenericRepositoryImpl;
-import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.reimbursement.ReimbursementDeliveryRepository;
 
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;

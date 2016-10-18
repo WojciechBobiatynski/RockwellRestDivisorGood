@@ -2,8 +2,8 @@ package pl.sodexo.it.gryf.dao.impl.crud.repository.publicbenefits.grantapplicati
 
 import org.springframework.stereotype.Repository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.grantapplications.GrantApplicationPkdRepository;
-import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationPkd;
 import pl.sodexo.it.gryf.dao.impl.crud.repository.GenericRepositoryImpl;
+import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationPkd;
 
 /**
  * Created by tomasz.bilski.ext on 2015-07-10.

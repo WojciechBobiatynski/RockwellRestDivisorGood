@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="${cdnUrl}gryf/css/init.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/angular-toastr.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/gryf-custom.css">
+    <link rel="shortcut icon" href="${cdnUrl}favicon.ico">
 
     <script>
         var contextPath = "${pageContext.request.contextPath}";
@@ -36,14 +37,10 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.12.1/ui-bootstrap-tpls.min.js"></script>
     <script src="${pageContext.request.contextPath}/js/components/angular-load.js"></script>
     <script src="${pageContext.request.contextPath}/js/components/angular-input-masks-standalone.min.js"></script>
-    <script
-            src="${pageContext.request.contextPath}/js/components/angular-toastr.tpls.min.js"></script>
-    <link rel="shortcut icon" href="${cdnUrl}favicon.ico">
+    <script src="${pageContext.request.contextPath}/js/components/angular-toastr.tpls.min.js"></script>
     <script src="${pageContext.request.contextPath}/js/components/gryf-components.js"></script>
-    <script
-            src="${pageContext.request.contextPath}/js/components/ng-file-upload.min.js"></script>
-    <script
-            src="${pageContext.request.contextPath}/js/components/gryf-menu.js"></script>
+    <script src="${pageContext.request.contextPath}/js/components/ng-file-upload.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/components/gryf-menu.js"></script>
 </head>
 <body>
 <section id="timeoutBox">

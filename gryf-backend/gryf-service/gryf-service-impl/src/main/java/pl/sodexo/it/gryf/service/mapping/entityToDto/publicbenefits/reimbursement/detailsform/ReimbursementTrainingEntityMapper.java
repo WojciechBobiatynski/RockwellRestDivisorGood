@@ -2,10 +2,10 @@ package pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.reimburseme
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pl.sodexo.it.gryf.service.utils.ReimbursementCalculationHelper;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.detailsform.ReimbursementTrainingDTO;
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementTraining;
 import pl.sodexo.it.gryf.service.mapping.entityToDto.GryfEntityMapper;
+import pl.sodexo.it.gryf.service.utils.ReimbursementCalculationHelper;
 
 /**
  * Created by akmiecinski on 2016-09-28.

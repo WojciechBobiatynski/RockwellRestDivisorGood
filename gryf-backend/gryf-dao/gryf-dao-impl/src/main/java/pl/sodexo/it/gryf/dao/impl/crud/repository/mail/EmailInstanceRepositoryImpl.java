@@ -2,8 +2,8 @@ package pl.sodexo.it.gryf.dao.impl.crud.repository.mail;
 
 import org.springframework.stereotype.Repository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.mail.EmailInstanceRepository;
-import pl.sodexo.it.gryf.model.mail.EmailInstance;
 import pl.sodexo.it.gryf.dao.impl.crud.repository.GenericRepositoryImpl;
+import pl.sodexo.it.gryf.model.mail.EmailInstance;
 
 import javax.persistence.TypedQuery;
 import java.util.List;

@@ -1,8 +1,8 @@
 package pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.reimbursement;
 
 import pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.searchform.ReimbursementDeliverySearchQueryDTO;
-import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementDelivery;
 import pl.sodexo.it.gryf.dao.api.crud.repository.GenericRepository;
+import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementDelivery;
 
 import java.util.Date;
 import java.util.List;

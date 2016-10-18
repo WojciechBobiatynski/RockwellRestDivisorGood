@@ -1,9 +1,9 @@
 package pl.sodexo.it.gryf.dao.impl.crud.repository.publicbenefits.reimbursement;
 
 import org.springframework.stereotype.Repository;
-import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementPattern;
-import pl.sodexo.it.gryf.dao.impl.crud.repository.GenericRepositoryImpl;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.reimbursement.ReimbursementPatternRepository;
+import pl.sodexo.it.gryf.dao.impl.crud.repository.GenericRepositoryImpl;
+import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementPattern;
 
 import javax.persistence.TypedQuery;
 import java.util.Date;

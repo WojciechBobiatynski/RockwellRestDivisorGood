@@ -2,8 +2,8 @@ package pl.sodexo.it.gryf.dao.impl.crud.repository.publicbenefits.grantapplicati
 
 import org.springframework.stereotype.Repository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.grantapplications.GrantApplicationVersionRepository;
-import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationVersion;
 import pl.sodexo.it.gryf.dao.impl.crud.repository.GenericRepositoryImpl;
+import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationVersion;
 
 import javax.persistence.TypedQuery;
 import java.util.Date;

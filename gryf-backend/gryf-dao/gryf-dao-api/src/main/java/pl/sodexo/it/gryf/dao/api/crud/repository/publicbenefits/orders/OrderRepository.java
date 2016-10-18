@@ -1,8 +1,8 @@
 package pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders;
 
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.searchform.OrderSearchQueryDTO;
-import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 import pl.sodexo.it.gryf.dao.api.crud.repository.GenericRepository;
+import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 
 import java.util.List;
 

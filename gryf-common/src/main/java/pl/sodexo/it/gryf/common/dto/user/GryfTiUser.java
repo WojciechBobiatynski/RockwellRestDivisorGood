@@ -7,7 +7,7 @@ import pl.sodexo.it.gryf.common.dto.security.UserDto;
 import java.util.Collection;
 
 /**
- * Reprezentacja użytkownika instytucji szkoleniowej (TI)
+ * Uzytkownik GRYFa o roli INSTYTUCJA SZKOLENIOWA (TI).
  *
  * Created by jbentyn on 2016-10-04.
  */

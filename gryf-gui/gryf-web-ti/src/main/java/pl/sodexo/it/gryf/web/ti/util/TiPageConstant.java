@@ -1,15 +1,15 @@
-package pl.sodexo.it.gryf.web.ti.utils;
+package pl.sodexo.it.gryf.web.ti.util;
 
-import pl.sodexo.it.gryf.web.common.utils.PageConstants;
+import pl.sodexo.it.gryf.web.common.util.PageConstant;
 
 /**
  * Stale dotyczace stron dla TI.
  * 
  * Created by akuchna on 2016-10-10.
  */
-public final class TiPageConstants extends PageConstants {
+public final class TiPageConstant extends PageConstant {
 
-    private TiPageConstants() {}
+    private TiPageConstant() {}
 
     private static final String PREFIX_PAGE = "/WEB-INF/page/";
 

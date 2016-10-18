@@ -5,8 +5,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import static pl.sodexo.it.gryf.web.common.utils.PageUtils.setUpMainContent;
-import static pl.sodexo.it.gryf.web.ti.utils.TiPageConstants.*;
+import static pl.sodexo.it.gryf.web.common.util.PageUtil.setUpMainContent;
+import static pl.sodexo.it.gryf.web.ti.util.TiPageConstant.*;
 
 /**
  * Kontroler widokow glownych dla TI.

@@ -2,14 +2,10 @@ package pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.trainingins
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingInstitutionDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingInstitutionSearchResultDTO;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstitution;
 import pl.sodexo.it.gryf.service.mapping.entityToDto.GryfEntityMapper;
-import pl.sodexo.it.gryf.service.mapping.entityToDto.VersionableEntityMapper;
-import pl.sodexo.it.gryf.service.mapping.entityToDto.dictionaries.ZipCodeEntityMapper;
 import pl.sodexo.it.gryf.service.mapping.entityToDto.dictionaries.searchform.ZipCodeEntityToSearchResultMapper;
-import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.traininginstiutions.TrainingInstitutionContactEntityMapper;
 
 /**
  * Mapper mapujący encję TrainingInstitution na dto TrainingInstitutionDto

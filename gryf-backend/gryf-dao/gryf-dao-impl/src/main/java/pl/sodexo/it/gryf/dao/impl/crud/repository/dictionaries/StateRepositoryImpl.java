@@ -2,8 +2,8 @@ package pl.sodexo.it.gryf.dao.impl.crud.repository.dictionaries;
 
 import org.springframework.stereotype.Repository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.dictionaries.StateRepository;
-import pl.sodexo.it.gryf.model.dictionaries.State;
 import pl.sodexo.it.gryf.dao.impl.crud.repository.GenericRepositoryImpl;
+import pl.sodexo.it.gryf.model.dictionaries.State;
 
 import javax.persistence.TypedQuery;
 import java.util.List;

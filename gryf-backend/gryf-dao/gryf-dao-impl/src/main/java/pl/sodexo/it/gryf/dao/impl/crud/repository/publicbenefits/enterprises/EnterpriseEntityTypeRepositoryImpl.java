@@ -2,8 +2,8 @@ package pl.sodexo.it.gryf.dao.impl.crud.repository.publicbenefits.enterprises;
 
 import org.springframework.stereotype.Repository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.enterprises.EnterpriseEntityTypeRepository;
-import pl.sodexo.it.gryf.model.publicbenefits.enterprises.EnterpriseEntityType;
 import pl.sodexo.it.gryf.dao.impl.crud.repository.GenericRepositoryImpl;
+import pl.sodexo.it.gryf.model.publicbenefits.enterprises.EnterpriseEntityType;
 
 /**
  * Created by tomasz.bilski.ext on 2015-07-03.

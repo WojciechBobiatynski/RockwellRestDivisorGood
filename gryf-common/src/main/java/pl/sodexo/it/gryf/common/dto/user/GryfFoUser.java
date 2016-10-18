@@ -7,7 +7,7 @@ import pl.sodexo.it.gryf.common.dto.security.UserDto;
 import java.util.Collection;
 
 /**
- * Uzytkownik GRYFa o roli OPERATOR FINANSOWY.
+ * Uzytkownik GRYFa o roli OPERATOR FINANSOWY (FO).
  * 
  * Created by akuchna on 2016-09-28.
  */

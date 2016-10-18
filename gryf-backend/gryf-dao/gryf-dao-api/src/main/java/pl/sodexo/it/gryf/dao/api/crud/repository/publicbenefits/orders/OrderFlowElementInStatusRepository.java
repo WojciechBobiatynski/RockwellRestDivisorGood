@@ -1,7 +1,7 @@
 package pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders;
 
-import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowElementInStatus;
 import pl.sodexo.it.gryf.dao.api.crud.repository.GenericRepository;
+import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowElementInStatus;
 
 import java.util.List;
 

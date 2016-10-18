@@ -15,5 +15,10 @@ public enum UserType {
     /**
      * Instytucja szkoleniowa
      */
-    TRAINING_INSTITUTION
+    TRAINING_INSTITUTION,
+
+    /**
+     * Osoba fizyczna
+     */
+    INDIVIDUAL,
 }
