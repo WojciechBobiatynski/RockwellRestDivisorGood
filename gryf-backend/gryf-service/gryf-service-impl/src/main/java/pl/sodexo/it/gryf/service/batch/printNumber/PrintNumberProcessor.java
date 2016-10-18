@@ -20,17 +20,8 @@ public class PrintNumberProcessor implements ItemProcessor<PrintNumberDto,PrintN
 
     @Override
     public PrintNumberDto process(PrintNumberDto printNumberDto) throws Exception {
-        printNumberDto.setGeneratedPrintNumber(printNumberGenerator.generate(printNumberDto));
-        //TODO w celach testowych
-        try {
-            LOGGER.info("Start process");
-            Thread.sleep(10_000L);
-            LOGGER.info("LoggedUser = {}", GryfUser.getLoggedUser());
-            LOGGER.info("Stop process");
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
+        LOGGER.info("Process...LoggedUser = {}", GryfUser.getLoggedUser());
+        printNumberDto = printNumberGenerator.generate(printNumberDto);
         return printNumberDto;
     }
 }

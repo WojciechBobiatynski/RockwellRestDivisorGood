@@ -32,20 +32,25 @@ public class PrintNumberGenerator {
     @Autowired
     private ApplicationParameters applicationParameters;
 
-    public String generate(PrintNumberDto printNumberDto) {
+    public PrintNumberDto generate(PrintNumberDto printNumberDto) {
+        Integer checksum = printNumberChecksumProvider.generateChecksum(printNumberDto);
+
         StringBuilder builder = new StringBuilder();
         builder.append(applicationParameters.getPrintNumberCountryCodePoland())
                 .append(getTypeNumberFormatted(printNumberDto))
                 .append(getFaceValueFormatted(printNumberDto))
                 .append(getValidDateFormatted(printNumberDto))
-                .append(getChecksumFormatted(printNumberDto))
+                .append(getChecksumFormatted(checksum))
                 .append(getRandomFormatted())
                 .append(getProductInstanceNumberFormatted(printNumberDto));
-        return builder.toString();
+
+        printNumberDto.setGeneratedPrintNumber(builder.toString());
+        printNumberDto.setGeneratedChecksum(checksum);
+
+        return printNumberDto;
     }
 
-    private String getChecksumFormatted(PrintNumberDto printNumberDto) {
-        Integer checksum = printNumberChecksumProvider.generateChecksum(printNumberDto);
+    private String getChecksumFormatted(Integer checksum) {
         return String.format(FORMAT_PADDING_TWO, checksum);
     }
 

@@ -57,16 +57,16 @@ public class PrintNumberGeneratorTest {
     public void generate() throws Exception {
         PrintNumberDto dto = new PrintNumberDto();
         dto.setFaceValue(1500);
-        dto.setProductInstanceNumber(1);
+        dto.setProductInstanceNumber(1L);
         dto.setTypeNumber(30);
         dto.setValidDate(asDate("2016-10-12"));
 
-        String generatedNumber = printNumberGenerator.generate(dto);
+        dto = printNumberGenerator.generate(dto);
 
-        assertEquals("Wygenerowany numer bonu musi miec długość 30", 30, generatedNumber.length());
+        assertEquals("Wygenerowany numer bonu musi miec długość 30", 30, dto.getGeneratedPrintNumber().length());
 
         String pattern = "31300015000161012\\d{4}000000001";
-        assertTrue("Wygenerowany numer musi zgadzać się z numerem założonym z dokładnością do liczby losowej i CRC :", generatedNumber.matches(pattern));
+        assertTrue("Wygenerowany numer musi zgadzać się z numerem założonym z dokładnością do liczby losowej i CRC :", dto.getGeneratedPrintNumber().matches(pattern));
 
     }
 

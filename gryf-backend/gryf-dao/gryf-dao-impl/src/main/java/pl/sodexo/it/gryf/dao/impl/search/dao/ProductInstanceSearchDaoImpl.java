@@ -18,7 +18,7 @@ public class ProductInstanceSearchDaoImpl implements ProductInstanceSearchDao {
     private ProductInstanceSearchMapper productInstanceSearchMapper;
 
     @Override
-    public Long countProductInstancesAvailableToNumberGeneration(String productId) {
-        return productInstanceSearchMapper.countProductInstancesAvailableToNumberGeneration(productId);
+    public Long countAvailableToNumberGeneration(String productId) {
+        return productInstanceSearchMapper.countAvailableToNumberGeneration(productId);
     }
 }

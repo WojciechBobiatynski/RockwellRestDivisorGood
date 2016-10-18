@@ -2,7 +2,7 @@ package pl.sodexo.it.gryf.service.impl.publicbenefits.products;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
-import org.springframework.batch.core.JobParameters;
+import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.JobParametersInvalidException;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.repository.JobExecutionAlreadyRunningException;
@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.dao.api.search.dao.ProductInstanceSearchDao;
 import pl.sodexo.it.gryf.service.api.publicbenefits.products.ProductInstanceService;
-import pl.sodexo.it.gryf.service.local.impl.publicbenefits.products.PrintNumberGenerator;
 import pl.sodexo.it.gryf.service.utils.AsyncUtil;
 
 import java.util.concurrent.Executor;
@@ -25,9 +24,6 @@ import java.util.concurrent.Executor;
 @Service
 @Transactional
 public class ProductInstanceServiceImpl implements ProductInstanceService {
-
-    @Autowired
-    private PrintNumberGenerator printNumberGenerator;
 
     @Autowired
     @Qualifier("jobLauncher")
@@ -42,8 +38,9 @@ public class ProductInstanceServiceImpl implements ProductInstanceService {
 
     @Override
     public void generatePrintNumbersForProduct(String productId) {
-        Long availableToNumberGeneration = productInstanceSearchDao.countProductInstancesAvailableToNumberGeneration(productId);
+        Long availableToNumberGeneration = productInstanceSearchDao.countAvailableToNumberGeneration(productId);
         if (availableToNumberGeneration > 0) {
+            //TODO osobna transakcja?
             startGeneratingNumbersAsync(productId);
         }
     }
@@ -52,18 +49,14 @@ public class ProductInstanceServiceImpl implements ProductInstanceService {
         Executor executor = AsyncUtil.getDelegatingSecurityContextAsyncExecutor();
         executor.execute(() -> {
             try {
-                JobParameters jobParameters = new JobParameters();
-                JobExecution execution = jobLauncher.run(job, jobParameters);
+                JobParametersBuilder jobParametersBuilder = new JobParametersBuilder();
+                //TODO externalizacja stringa
+                jobParametersBuilder.addString("productId",productId);
+                JobExecution execution = jobLauncher.run(job,  jobParametersBuilder.toJobParameters());
                 //TODO powiadomienie mailem o zakończeniu generacji?
 
                 //TODO obsługa wyjątków
-            } catch (JobExecutionAlreadyRunningException e) {
-                e.printStackTrace();
-            } catch (JobRestartException e) {
-                e.printStackTrace();
-            } catch (JobInstanceAlreadyCompleteException e) {
-                e.printStackTrace();
-            } catch (JobParametersInvalidException e) {
+            } catch (JobExecutionAlreadyRunningException | JobRestartException | JobInstanceAlreadyCompleteException | JobParametersInvalidException e) {
                 e.printStackTrace();
             }
         });

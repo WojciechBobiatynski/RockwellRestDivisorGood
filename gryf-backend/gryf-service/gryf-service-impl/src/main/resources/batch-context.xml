@@ -2,41 +2,69 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:batch="http://www.springframework.org/schema/batch"
+       xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-                           http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch-3.0.xsd">
+                           http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch-3.0.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+   <!-- jbentyn:
+    Funkcjonalności spring batch nie zostały dokończone.
+    Poniżej prosta konfiguracja joba batchowego dla generowania numerów drukowanych z wykorzystaniem MyBatisa
+    Rzeczy do przemyslenia/konfiguracji:
+    - Logowanie wewnątrz jobów do osobnego pliku logu, logowanie w batchach
+    - Transakcyjność. Sprawdzić jak wywoływać joby asynchroniczne z poziomu transakcji springa, żeby batch działał w osobnej transakcji
+    - Metadane jobów. Na razie skonfigurowane w pamieci, mozna trzymać je w bazie (restartowanie jobów itd). Zdecydowac się na rozwiazanie
+    - Listenery do joba enerowania numerów drukowanych. Powiadamianie o powodzeniu/niepowodzeniu joba np mailem.
+    - Powtórne uruchamianie joba. Na razie nie da sie odpalić joba dwukrotnie dla tych samych parametrów(do czasu restartu tomcata)
+    -->
+
+    <!-- KONFIGURACJA -->
+
+    <!-- metadane w pamieci -->
+    <bean id="jobRepository" class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean">
+        <property name="transactionManager" ref="transactionManager"/>
+    </bean>
+
+    <bean id="transactionManager" class="org.springframework.batch.support.transaction.ResourcelessTransactionManager"/>
+
+    <bean id="batchSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg index="0" ref="sqlSessionFactory"/>
+        <constructor-arg index="1" value="BATCH"/>
+    </bean>
+
+    <bean id="jobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+        <property name="jobRepository" ref="jobRepository"/>
+    </bean>
+
+    <!--GENEROWANIE NUMERÓW DRUKOWANYCH-->
 
     <batch:job id="printNumberJob">
         <batch:step id="step1">
             <batch:tasklet>
                 <batch:chunk reader="printNumbersReader" writer="printNumbersWriter"
-                             processor="printNumbersProcessor" commit-interval="10">
+                             processor="printNumbersProcessor" commit-interval="50">
                 </batch:chunk>
             </batch:tasklet>
         </batch:step>
     </batch:job>
 
-    <bean id="printNumbersReader" class="pl.sodexo.it.gryf.service.batch.printNumber.PrintNumberReader"/>
+    <bean id="printNumbersReader" class="org.mybatis.spring.batch.MyBatisPagingItemReader" scope="step">
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+        <property name="queryId" value="pl.sodexo.it.gryf.dao.api.search.mapper.ProductInstanceSearchMapper.getToGenerateNumber"/>
+        <property name="pageSize" value="50"/>
+        <property name="parameterValues" ref="readerParameters"/>
+    </bean>
+
+    <util:map id="readerParameters" scope="step">
+        <entry key="productId"
+               value="#{jobParameters['productId']}"/>
+    </util:map>
+
+    <bean id="printNumbersWriter" class="org.mybatis.spring.batch.MyBatisBatchItemWriter" scope="step">
+        <property name="sqlSessionTemplate" ref="batchSessionTemplate"/>
+        <property name="statementId" value="pl.sodexo.it.gryf.dao.api.search.mapper.ProductInstanceSearchMapper.updatePrintNumber"/>
+    </bean>
+
     <bean id="printNumbersProcessor" class="pl.sodexo.it.gryf.service.batch.printNumber.PrintNumberProcessor"/>
-    <bean id="printNumbersWriter" class="pl.sodexo.it.gryf.service.batch.printNumber.PrintNumberWriter"/>
-
-    <!-- metadane w pamieci -->
-
-    <bean id="jobRepository" class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean">
-        <property name="transactionManager" ref="transactionManager"/>
-    </bean>
-
-    <!-- metadane w bazie-->
-    <!--<bean id="jobRepository"-->
-    <!--class="org.springframework.batch.core.repository.support.JobRepositoryFactoryBean">-->
-    <!--<property name="dataSource" ref="dataSource" />-->
-    <!--<property name="transactionManager" ref="transactionManager" />-->
-    <!--<property name="databaseType" value="mysql" />-->
-    <!--</bean>-->
-
-    <bean id="transactionManager" class="org.springframework.batch.support.transaction.ResourcelessTransactionManager"/>
-
-    <bean id="jobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
-        <property name="jobRepository" ref="jobRepository"/>
-    </bean>
 
 </beans>

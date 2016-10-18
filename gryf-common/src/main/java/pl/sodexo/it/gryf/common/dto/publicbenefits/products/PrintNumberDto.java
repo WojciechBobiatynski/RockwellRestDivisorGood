@@ -16,7 +16,7 @@ import java.util.Date;
 @Setter
 public class PrintNumberDto {
 
-    private Long productInstanceId;
+    private String productId;
 
     private Integer typeNumber;
 
@@ -24,7 +24,9 @@ public class PrintNumberDto {
 
     private Date validDate;
 
-    private Integer productInstanceNumber;
+    private Long productInstanceNumber;
 
     private String generatedPrintNumber;
+
+    private Integer generatedChecksum;
 }

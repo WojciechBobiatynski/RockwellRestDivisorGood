@@ -13,5 +13,6 @@ public interface ProductInstanceSearchDao {
      * @param productId - unikatowy numer produktu
      * @return liczba bonów gotowych do generacji numeru
      */
-    Long countProductInstancesAvailableToNumberGeneration(String productId);
+    Long countAvailableToNumberGeneration(String productId);
+
 }
