@@ -1,4 +1,4 @@
-package pl.sodexo.it.gryf.web.security;
+package pl.sodexo.it.gryf.web.common.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;

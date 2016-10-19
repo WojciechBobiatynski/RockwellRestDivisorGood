@@ -5,7 +5,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.dto.security.GryfIndSecurityDto;
-import pl.sodexo.it.gryf.common.dto.user.GryfUser;
+import pl.sodexo.it.gryf.common.dto.user.GryfTiUser;
 import pl.sodexo.it.gryf.common.exception.authentication.GryfBadCredentialsException;
 import pl.sodexo.it.gryf.common.exception.authentication.GryfPasswordExpiredException;
 import pl.sodexo.it.gryf.common.exception.authentication.GryfUserNotActiveException;
@@ -74,16 +74,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateLastLoginDate(GryfUser user) {
-        switch (user.getUserType()) {
-            case FINANCIAL_OPERATOR:
-                break;
-            case TRAINING_INSTITUTION:
-                TrainingInstitutionUser tiUser = trainingInstitutionUserDao.findByLogin(user.getUsername());
-                tiUser.setLastLoginDate(new Date());
-                trainingInstitutionUserDao.save(tiUser);
-                break;
-        }
+    public void updateLastLoginDateTi (GryfTiUser gryfTiUser){
+        TrainingInstitutionUser tiUser = trainingInstitutionUserDao.findByLogin(gryfTiUser.getUsername());
+        tiUser.setLastLoginDate(new Date());
+        trainingInstitutionUserDao.save(tiUser);
     }
 
     private void authenticateIndUser(String pesel, String verificationCode) {

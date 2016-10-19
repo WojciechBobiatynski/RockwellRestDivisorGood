@@ -49,6 +49,7 @@ public class PublicBenefitsViewController {
 
     @RequestMapping("/individuals")
     public String getIndividualsView(Model model) {
+        //TODO uprawnienia do zmiany
         securityChecker.assertFormPrivilege(Privileges.GRF_ENTERPRISES);
         model.addAttribute(MAIN_CONTENT_PARAM_NAME, PAGES_PREFIX + "publicbenefits/individualsIndex.jsp");
         return DEFAULT_VIEW;

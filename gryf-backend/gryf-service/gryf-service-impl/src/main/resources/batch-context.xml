@@ -7,25 +7,14 @@
                            http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch-3.0.xsd
                            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
-   <!-- jbentyn:
-    Funkcjonalności spring batch nie zostały dokończone.
-    Poniżej prosta konfiguracja joba batchowego dla generowania numerów drukowanych z wykorzystaniem MyBatisa
-    Rzeczy do przemyslenia/konfiguracji:
-    - Logowanie wewnątrz jobów do osobnego pliku logu, logowanie w batchach
-    - Transakcyjność. Sprawdzić jak wywoływać joby asynchroniczne z poziomu transakcji springa, żeby batch działał w osobnej transakcji
-    - Metadane jobów. Na razie skonfigurowane w pamieci, mozna trzymać je w bazie (restartowanie jobów itd). Zdecydowac się na rozwiazanie
-    - Listenery do joba enerowania numerów drukowanych. Powiadamianie o powodzeniu/niepowodzeniu joba np mailem.
-    - Powtórne uruchamianie joba. Na razie nie da sie odpalić joba dwukrotnie dla tych samych parametrów(do czasu restartu tomcata)
-    -->
-
     <!-- KONFIGURACJA -->
 
     <!-- metadane w pamieci -->
     <bean id="jobRepository" class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean">
-        <property name="transactionManager" ref="transactionManager"/>
+        <property name="transactionManager" ref="batchTransactionManager"/>
     </bean>
 
-    <bean id="transactionManager" class="org.springframework.batch.support.transaction.ResourcelessTransactionManager"/>
+    <bean id="batchTransactionManager" class="org.springframework.batch.support.transaction.ResourcelessTransactionManager"/>
 
     <bean id="batchSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
         <constructor-arg index="0" ref="sqlSessionFactory"/>

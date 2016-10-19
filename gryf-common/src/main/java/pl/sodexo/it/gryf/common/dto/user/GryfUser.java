@@ -8,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import pl.sodexo.it.gryf.common.dto.security.UserDto;
+import pl.sodexo.it.gryf.common.user.UserVisitor;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -106,5 +107,6 @@ public abstract class GryfUser extends User {
         }
         return (GryfUser) principal;
     }
-    
+
+    public abstract <T> T accept(UserVisitor<T> userVisitor);
 }

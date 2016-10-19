@@ -1,6 +1,6 @@
 package pl.sodexo.it.gryf.service.api.security;
 
-import pl.sodexo.it.gryf.common.dto.user.GryfUser;
+import pl.sodexo.it.gryf.common.dto.user.GryfTiUser;
 
 import java.util.List;
 
@@ -38,11 +38,10 @@ public interface UserService {
      */
     List<String> findPrivilegesForIndPesel(String pesel, String verificationCode);
 
-
     /**
-     * Ustawia datę ostatniego logowania dla uzytkownika
+     * Ustawia datę ostatniego logowania dla uzytkownika TI
      *
-     * @param user - zalogowany uzytkownik
+     * @param gryfTiUser - zalogowany uzytkownik
      */
-    void updateLastLoginDate(GryfUser user);
+    void updateLastLoginDateTi (GryfTiUser gryfTiUser);
 }

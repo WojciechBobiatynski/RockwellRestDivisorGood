@@ -3,6 +3,7 @@ package pl.sodexo.it.gryf.common.dto.user;
 import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import pl.sodexo.it.gryf.common.dto.security.UserDto;
+import pl.sodexo.it.gryf.common.user.UserVisitor;
 
 import java.util.Collection;
 
@@ -19,5 +20,10 @@ public class GryfFoUser extends GryfUser {
     public GryfFoUser(UserDto user, Collection<? extends GrantedAuthority> authorities) {
         super(user, authorities);
         userType = UserType.FINANCIAL_OPERATOR;
+    }
+
+    @Override
+    public <T> T accept(UserVisitor<T> userVisitor) {
+        return userVisitor.visitFo(this);
     }
 }
