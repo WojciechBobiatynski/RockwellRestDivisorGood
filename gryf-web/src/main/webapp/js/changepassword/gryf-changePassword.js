@@ -32,7 +32,7 @@ angular.module('gryf.changePassword').config(['$routeProvider', function ($route
 
 angular.module('gryf.changePassword').controller('ValidationController', function ($scope, $http, $location) {
     //Minimum 8 znaków, 1 duża i mała litera, 1 liczba i znak specjalny
-    $scope.passwordRegex=/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}$/;
+    $scope.passwordRegex= /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\\!"#$%&'()*+,-.\/:;<=>?@[\]^_`{|}~])[A-Za-z\d\\!"#$%&'()*+,-.\/:;<=>?@[\]^_`{|}~]{8,}$/;
     $scope.password ;
     $scope.errorMessage ;
     $scope.submitForm = function() {
