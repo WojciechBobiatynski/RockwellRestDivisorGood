@@ -67,6 +67,55 @@ angular.module('gryf.changePassword').controller('ValidationController', functio
             $location.path("/");
         });
     };
+
+    $scope.validateOldAndNewPassword = function (password) {
+
+        if (password == 'oldPassword' && $scope.changePasswordForm.oldPassword.$valid) {
+            if ($scope.changePasswordForm.newPassword.$valid) {
+                if ($scope.password.oldPassword == $scope.password.newPassword) {
+                    $scope.changePasswordForm.newPassword.$error = {'duplicate': true};
+                } else {
+                    $scope.changePasswordForm.newPassword.$error = {};
+                }
+            }
+        }
+
+        if (password == 'newPassword' && $scope.changePasswordForm.newPassword.$valid) {
+            if ($scope.changePasswordForm.oldPassword.$valid) {
+                if ($scope.password.oldPassword == $scope.password.newPassword) {
+                    $scope.changePasswordForm.newPassword.$error = {'duplicate': true};
+                } else {
+                    $scope.changePasswordForm.newPassword.$error = {};
+                }
+            }
+            if ($scope.changePasswordForm.newPasswordRepeated.$valid) {
+                if ($scope.password.newPassword != $scope.password.newPasswordRepeated) {
+                    $scope.changePasswordForm.newPasswordRepeated.$error = {'notDuplicate': true};
+                } else {
+                    $scope.changePasswordForm.newPassword.$error = {};
+                    $scope.changePasswordForm.newPasswordRepeated.$error = {};
+                }
+            }
+        }
+
+
+        if (password == 'newPasswordRepeated' && $scope.changePasswordForm.newPasswordRepeated.$valid) {
+            if ($scope.changePasswordForm.newPassword.$valid) {
+                if ($scope.password.newPassword != $scope.password.newPasswordRepeated) {
+                    $scope.changePasswordForm.newPasswordRepeated.$error = {'notDuplicate': true};
+                } else {
+                    $scope.changePasswordForm.newPasswordRepeated.$error = {};
+                    $scope.changePasswordForm.newPassword.$error = {};
+                }
+            }
+        }
+        if (password == 'newPassword' && $scope.changePasswordForm.newPassword.$invalid) {
+            $scope.changePasswordForm.newPassword.$error = {'pattern': true};
+        }
+        if (password == 'newPasswordRepeated' && $scope.changePasswordForm.newPasswordRepeated.$invalid) {
+            $scope.changePasswordForm.newPasswordRepeated.$error = {'pattern': true};
+        }
+    }
 })
 
 angular.module('gryf.changePassword').directive('localValidationMsg', localValidationMsg);
@@ -80,7 +129,7 @@ function localValidationMsg(VALIDATION_MESSAGES) {
         template: [
             '<span style="color:red">',
             '<span class="message" ng-repeat="(errName, errState) in formField.$error" ng-if="formField.$touched">',
-            '<span ng-bind="messages[errName]"></span><br>',
+            '<span ng-if="errState" ng-bind="messages[errName]"></span><br>',
             '</span>',
             '</span>',
         ].join(''),
