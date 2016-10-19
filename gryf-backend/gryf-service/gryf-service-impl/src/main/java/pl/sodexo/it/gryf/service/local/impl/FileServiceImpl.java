@@ -8,8 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.common.dto.other.FileDTO;
 import pl.sodexo.it.gryf.common.enums.FileType;
+import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
-import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.model.api.AuditableEntity;
 import pl.sodexo.it.gryf.service.local.api.FileService;
 
@@ -54,7 +54,7 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public void deleteFile(String fileName) {
-        if(!StringUtils.isEmpty(fileName)) {
+        if(!GryfStringUtils.isEmpty(fileName)) {
             File file = new File(fileName);
             file.delete();
         }
@@ -63,7 +63,7 @@ public class FileServiceImpl implements FileService {
     @Override
     public void deleteSavedFiles(List<FileDTO> files){
         for (FileDTO file : files) {
-            if(!StringUtils.isEmpty(file.getFileLocation())){
+            if(!GryfStringUtils.isEmpty(file.getFileLocation())){
                 try {
                     deleteFile(file.getFileLocation());
                 }catch(RuntimeException e){
@@ -112,8 +112,8 @@ public class FileServiceImpl implements FileService {
     private String findFileLocation(FileType fileType, String fileName, FileDTO fileDTO) {
         StringBuffer sb = new StringBuffer();
         sb.append(findPath(fileType)).append(fileName);
-        String fileExtension = StringUtils.findFileExtension(fileDTO.getOriginalFilename());
-        if (!StringUtils.isEmpty(fileExtension)) {
+        String fileExtension = GryfStringUtils.findFileExtension(fileDTO.getOriginalFilename());
+        if (!GryfStringUtils.isEmpty(fileExtension)) {
             sb.append(".").append(fileExtension);
         }
         return sb.toString();

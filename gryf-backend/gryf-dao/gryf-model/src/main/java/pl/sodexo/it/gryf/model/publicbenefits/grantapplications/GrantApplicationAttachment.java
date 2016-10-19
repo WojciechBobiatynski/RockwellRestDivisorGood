@@ -2,7 +2,7 @@ package pl.sodexo.it.gryf.model.publicbenefits.grantapplications;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.ToString;
-import pl.sodexo.it.gryf.common.utils.StringUtils;
+import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.model.api.AuditableEntity;
 
 import javax.persistence.*;
@@ -42,12 +42,12 @@ public class GrantApplicationAttachment extends AuditableEntity {
     //PUBLIC METHODS
 
     public String getExtension() {
-        return !StringUtils.isEmpty(fileLocation) ? StringUtils.findFileExtension(fileLocation) : null;
+        return !GryfStringUtils.isEmpty(fileLocation) ? GryfStringUtils.findFileExtension(fileLocation) : null;
     }
 
     public String getFileName() {
         String extension = getExtension();
-        return !StringUtils.isEmpty(extension) ? String.format("%s.%s", name, extension) : name;
+        return !GryfStringUtils.isEmpty(extension) ? String.format("%s.%s", name, extension) : name;
     }
 
     //GETTERS & SETTERS

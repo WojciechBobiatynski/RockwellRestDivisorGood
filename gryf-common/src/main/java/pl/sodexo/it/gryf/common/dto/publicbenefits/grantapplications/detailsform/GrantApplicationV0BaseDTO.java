@@ -5,7 +5,7 @@ import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
 import pl.sodexo.it.gryf.common.dto.other.DictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.zipcodes.searchform.ZipCodeSearchResultDTO;
-import pl.sodexo.it.gryf.common.utils.StringUtils;
+import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.common.validation.VatRegNumFormat;
 import pl.sodexo.it.gryf.common.validation.publicbenefits.grantapplication.ValidationGroupApplyOptionalApplication;
 
@@ -80,12 +80,12 @@ public class GrantApplicationV0BaseDTO extends GrantApplicationDTO {
 
     @JsonIgnore
     public boolean isCorrBothFill(){
-        return (!StringUtils.isEmpty(addressCorr) && zipCodeCorr != null);
+        return (!GryfStringUtils.isEmpty(addressCorr) && zipCodeCorr != null);
     }
 
     @JsonIgnore
     public boolean isCorrBothEmpty(){
-        return (StringUtils.isEmpty(addressCorr) && zipCodeCorr == null);
+        return (GryfStringUtils.isEmpty(addressCorr) && zipCodeCorr == null);
     }
 
     //GETTERS & SETTERS

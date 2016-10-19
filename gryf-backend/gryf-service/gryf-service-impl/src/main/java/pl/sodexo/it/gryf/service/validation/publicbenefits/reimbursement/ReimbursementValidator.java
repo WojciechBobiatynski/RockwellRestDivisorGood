@@ -6,8 +6,8 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.detailsform.*;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.searchform.ReimbursementDeliverySearchResultDTO;
 import pl.sodexo.it.gryf.common.enums.Privileges;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
+import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
-import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.common.validation.publicbenefits.reimbursement.ValidationGroupReimbursementSettleAndVerify;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.reimbursement.ReimbursementDeliveryRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.reimbursement.ReimbursementStatusRepository;
@@ -248,7 +248,7 @@ public class ReimbursementValidator {
                 if (requiredAttachment.getName().equals(attachmentDtoTab[i].getName())) {
 
                     //NE DODANO PLIKU
-                    if (!attachmentDtoTab[i].isFileIncluded() && StringUtils.isEmpty(attachmentDtoTab[i].getOriginalFileName())) {
+                    if (!attachmentDtoTab[i].isFileIncluded() && GryfStringUtils.isEmpty(attachmentDtoTab[i].getOriginalFileName())) {
                         violations.add(new EntityConstraintViolation(ReimbursementDTO.REIMBURSEMENT_ATTACHMENTS_ATTR_NAME + "[" + i + "].file",
                                 String.format("Nie dodano pliku do wymaganego załacznika o nazwie '%s'", requiredAttachment.getName()), null));
                     }
@@ -294,7 +294,7 @@ public class ReimbursementValidator {
                 if (requiredAttachment.getName().equals(attachmentDtoTab[i].getName())) {
 
                     //NE DODANO PLIKU
-                    if (!attachmentDtoTab[i].isFileIncluded() && StringUtils.isEmpty(attachmentDtoTab[i].getOriginalFileName())) {
+                    if (!attachmentDtoTab[i].isFileIncluded() && GryfStringUtils.isEmpty(attachmentDtoTab[i].getOriginalFileName())) {
                         violations.add(new EntityConstraintViolation(pathPrefix + ".reimbursementTraineeAttachments[" + i + "].file",
                                 String.format("Nie dodano pliku do wymaganego załacznika (dla użytkownika szkolenia) o nazwie '%s'", requiredAttachment.getName()), null));
                     }
@@ -332,7 +332,7 @@ public class ReimbursementValidator {
         for (int i = 0; i < attachmentDtoTab.length; i++) {
             final ReimbursementAttachmentDTO attachmentDto = attachmentDtoTab[i];
 
-            if (!StringUtils.isEmpty(attachmentDto.getName())) {
+            if (!GryfStringUtils.isEmpty(attachmentDto.getName())) {
 
                 //OCCURENCE
                 int occurrence = GryfUtils.countOccurrence(attachmentDtoList, new GryfUtils.Predicate<ReimbursementAttachmentDTO>() {
@@ -366,7 +366,7 @@ public class ReimbursementValidator {
         for (int i = 0; i < attachmentDtoTab.length; i++) {
             final ReimbursementTraineeAttachmentDTO attachmentDto = attachmentDtoTab[i];
 
-            if (!StringUtils.isEmpty(attachmentDto.getName())) {
+            if (!GryfStringUtils.isEmpty(attachmentDto.getName())) {
 
                 //OCCURENCE
                 int occurrence = GryfUtils.countOccurrence(attachmentDtoList, new GryfUtils.Predicate<ReimbursementTraineeAttachmentDTO>() {

@@ -6,8 +6,8 @@ import pl.sodexo.it.gryf.common.dto.other.FileDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.detailsform.ReimbursementAttachmentDTO;
 import pl.sodexo.it.gryf.common.enums.FileType;
 import pl.sodexo.it.gryf.common.enums.YesNo;
+import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
-import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.reimbursement.ReimbursementAttachmentRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.reimbursement.ReimbursementAttachmentTypeRepository;
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.*;
@@ -42,7 +42,7 @@ public class ReimbursementAttachmentLocalServiceImpl implements ReimbursementAtt
     public String findAttachmentName(Reimbursement reimbursement, String attachmentType, Long attachmentId, String attachmentName) {
         ReimbursementDelivery reimbursementDelivery = reimbursement.getReimbursementDelivery();
         String fileName = String.format("%s_%s_%s_%s_%s", reimbursementDelivery.getId(), reimbursement.getId(), attachmentType, attachmentId, attachmentName);
-        return StringUtils.convertFileName(fileName);
+        return GryfStringUtils.convertFileName(fileName);
     }
 
     private boolean isAttachmentRequired(ReimbursementDelivery delivery, String name) {

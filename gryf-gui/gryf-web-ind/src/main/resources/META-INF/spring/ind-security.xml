@@ -18,6 +18,8 @@
                 logout-url="/logout"
                 invalidate-session="true"/>
         <intercept-url pattern="/login" access="permitAll" />
+        <intercept-url pattern="/verification" access="permitAll" />
+        <intercept-url pattern="/resend" access="permitAll" />
         <intercept-url pattern="/logout" access="permitAll" />
         <intercept-url pattern="/**" access="isAuthenticated()" />
         <http-basic/>

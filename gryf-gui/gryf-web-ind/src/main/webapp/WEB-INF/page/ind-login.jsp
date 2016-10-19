@@ -1,5 +1,5 @@
-<%@page pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@page pageEncoding="UTF-8" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html prefix="og: http://ogp.me/ns#" lang="pl">
 <head>
@@ -19,13 +19,13 @@
     </div>
 </div>
 <nav>
-    
+
 </nav>
 
 <div id="content">
     <div class="grid">
         <article itemprop="text" class="text centered">
-            <h1 itemprop="headline name" class="headline name">Panel Logowania Instytucji Szkoleniowej</h1>
+            <h1 itemprop="headline name" class="headline name">Panel Logowania Osoby Fizycznej</h1>
 
             <p itemprop="description" class="description">Prosimy, wprowadź dane uwierzytelniające.</p>
 
@@ -36,7 +36,8 @@
             </c:if>
 
             <c:if test="${param.error != null}">
-                <div class="msg msg-error"><p>System nie rozpoznał danych logowania. Prosimy, wprowadź poprawne dane.</p></div>
+                <div class="msg msg-error"><p>System nie rozpoznał danych logowania. Prosimy, wprowadź poprawne
+                    dane.</p></div>
             </c:if>
 
             <section class="form form-login">
@@ -44,7 +45,7 @@
                     <fieldset>
                         <div class="field input input-short required">
                             <div class="label">
-                                <label for="username">Login</label>
+                                <label for="username">PESEL</label>
                             </div>
                             <div class="control">
                                 <input id="username" type="text" name="username" value="" tabindex="1">
@@ -52,7 +53,7 @@
                         </div>
                         <div class="field input input-short required">
                             <div class="label">
-                                <label for="password">Hasło</label>
+                                <label for="password">Kod weryfikacyjny</label>
                             </div>
                             <div class="control">
                                 <input id="password" type="password" name="password" tabindex="2">
@@ -62,13 +63,15 @@
                     <div class="submit submit-left">
                         <button type="submit" tabindex="3">Zaloguj się</button>
                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                        <a class="code-reminder" href="${pageContext.request.contextPath}/verification" title="verification"
+                           style="float:left; margin:10px 0px 0px 40px">Prześlij ponownie kod weryfikacyjny</a>
                     </div>
                     <script>
                         document.loginForm.username.focus();
                         var hashFragment = window.location.hash;
-                        if (hashFragment ) {                            
+                        if (hashFragment) {
                             var action = document.loginForm.getAttribute('action');
-                            document.loginForm.setAttribute('action', action+hashFragment);
+                            document.loginForm.setAttribute('action', action + hashFragment);
                         }
                     </script>
                 </form>

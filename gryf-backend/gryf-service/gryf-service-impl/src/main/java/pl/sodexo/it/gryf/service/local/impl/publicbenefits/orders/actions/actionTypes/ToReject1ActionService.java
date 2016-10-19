@@ -2,8 +2,8 @@ package pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.actions.actio
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
-import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowElement;
@@ -36,13 +36,13 @@ public class ToReject1ActionService extends ActionBaseService {
         //ADDRESSES
         Set<String> addresses = grantApplicationEmailService.getEmailRecipients(order.getApplication(), null);
         if(!GryfUtils.isEmpty(addresses)){
-            String addressesStr = StringUtils.substring(GryfUtils.formatEmailRecipientsSet(addresses), 0, 500);
+            String addressesStr = GryfStringUtils.substring(GryfUtils.formatEmailRecipientsSet(addresses), 0, 500);
             orderFlowElementService.addElementVarcharValue(order, "REJEMAIL1", addressesStr);
         }
 
         //REJECT REASON
         String reason = generateReason(order.getElements("CONFCHKBOX"));
-        if(!StringUtils.isEmpty(reason)){
+        if(!GryfStringUtils.isEmpty(reason)){
             orderFlowElementService.addElementVarcharValue(order, "REJREASON1", reason);
         }
     }

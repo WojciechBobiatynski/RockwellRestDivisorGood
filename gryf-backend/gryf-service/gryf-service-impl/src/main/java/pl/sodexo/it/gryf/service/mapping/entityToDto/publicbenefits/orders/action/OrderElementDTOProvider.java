@@ -3,8 +3,8 @@ package pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.orders.acti
 import pl.sodexo.it.gryf.common.dto.mail.MailDTO;
 import pl.sodexo.it.gryf.common.dto.other.DictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.*;
+import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
-import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationBasicData;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationContactData;
@@ -40,8 +40,8 @@ public final class OrderElementDTOProvider {
 
     public static OrderElementAttachmentDTO createOrderElementAttachmentDTO(OrderElementDTOBuilder builder) {
         OrderElementAttachmentDTO dto = (OrderElementAttachmentDTO) createOrderElementDTO(builder, new OrderElementAttachmentDTO());
-        if(!StringUtils.isEmpty(builder.getElement().getValueVarchar())) {
-            dto.setFileName(StringUtils.findFileNameInPath(builder.getElement().getValueVarchar()));
+        if(!GryfStringUtils.isEmpty(builder.getElement().getValueVarchar())) {
+            dto.setFileName(GryfStringUtils.findFileNameInPath(builder.getElement().getValueVarchar()));
         }
         return dto;
     }

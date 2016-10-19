@@ -8,7 +8,7 @@ import pl.sodexo.it.gryf.common.dto.other.FileDTO;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.common.exception.EntityValidationException;
 import pl.sodexo.it.gryf.common.exception.publicbenefits.grantapplications.EntityValidationWithConfirmException;
-import pl.sodexo.it.gryf.common.utils.StringUtils;
+import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
 
@@ -46,7 +46,7 @@ public class GryfValidatorImpl implements GryfValidator {
         //JAVAX VALIDATION
         Set<ConstraintViolation<Object>> entityViolations = validator.validate(o, groups);
         for (ConstraintViolation<Object> v : entityViolations) {
-            violations.add(new EntityConstraintViolation(StringUtils.toString(v.getPropertyPath()), v.getMessage(), v.getInvalidValue()));
+            violations.add(new EntityConstraintViolation(GryfStringUtils.toString(v.getPropertyPath()), v.getMessage(), v.getInvalidValue()));
         }
 
         return violations;
@@ -58,10 +58,10 @@ public class GryfValidatorImpl implements GryfValidator {
         for (Field field : o.getClass().getDeclaredFields()) {
             if (!securityChecker.hasInsertablePrivilege(field)) {
                 Object value = getValue(field, o);
-                if((value instanceof String && !StringUtils.isEmpty((String)value))
+                if((value instanceof String && !GryfStringUtils.isEmpty((String)value))
                         || (!(value instanceof String) && value != null)) {
                     String message = securityChecker.getInsertablePrivilegeMessage(field);
-                    violations.add(new EntityConstraintViolation(StringUtils.toString(field.getName()), message, value));
+                    violations.add(new EntityConstraintViolation(GryfStringUtils.toString(field.getName()), message, value));
                 }
             }
         }
@@ -78,7 +78,7 @@ public class GryfValidatorImpl implements GryfValidator {
                 FileDTO fileDTO = attachmentTab[i].getFile();
                 if (fileDTO != null) {
                     if (fileDTO.getSize() > attachmentMaxSize) {
-                        String name = !StringUtils.isEmpty(fileDTO.getAttachmentName()) ? fileDTO.getAttachmentName() : fileDTO.getName();
+                        String name = !GryfStringUtils.isEmpty(fileDTO.getAttachmentName()) ? fileDTO.getAttachmentName() : fileDTO.getName();
                         String message = String.format("Plik dla załącznika '%s' jest zbyt duży - maksymalna wielkość załącznika to %sMB", name, attachmentMaxSizeMB);
                         violations.add(new EntityConstraintViolation(prefix + "[" + i + "].file", message, null));
                     }
@@ -92,7 +92,7 @@ public class GryfValidatorImpl implements GryfValidator {
     @Override
     public void classifyByPath(List<EntityConstraintViolation> violations, List<String> paths, List<EntityConstraintViolation> violationInPath, List<EntityConstraintViolation> violationOutPath){
         for (EntityConstraintViolation violation : violations) {
-            if(!StringUtils.isEmpty(violation.getPath())){
+            if(!GryfStringUtils.isEmpty(violation.getPath())){
                 if(paths.contains(violation.getPath())){
                     violationInPath.add(violation);
                 }else{

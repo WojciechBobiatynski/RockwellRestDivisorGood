@@ -13,4 +13,29 @@
         WHERE usr.login = #{login}
     </select>
 
+    <select id="findIndUserPrivileges" resultType="java.lang.String" parameterType="list">
+        SELECT priv.code
+        FROM APP_PBE.TE_PRIVILEGES priv
+            JOIN APP_PBE.TE_PRIV_IN_ROLES priv_role ON priv.code = priv_role.te_priv_code
+            JOIN APP_PBE.TE_ROLES role ON priv_role.te_role_code = role.code
+            JOIN APP_PBE.TE_IND_USER_IN_ROLES usr_role ON role.code = usr_role.te_role_code
+            JOIN APP_PBE.INDIVIDUAL_USERS usr ON usr_role.inu_id = usr.inu_id
+            JOIN APP_PBE.INDIVIDUALS ind ON ind.id = usr.ind_id
+        WHERE ind.pesel = #{pesel}
+    </select>
+
+    <select id="findIndUserByPesel" resultType="pl.sodexo.it.gryf.common.dto.security.GryfIndSecurityDto">
+        SELECT
+            inu_id                  inuId,
+            ind.pesel               pesel,
+            usr.verification_code   verificationCode,
+            usr.is_active           active
+        FROM
+            APP_PBE.INDIVIDUAL_USERS usr
+            JOIN APP_PBE.INDIVIDUALS ind ON ind.id = usr.ind_id
+        WHERE
+            ind.pesel = #{pesel}
+    </select>
+
+
 </mapper>

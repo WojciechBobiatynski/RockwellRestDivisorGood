@@ -2,7 +2,7 @@ package pl.sodexo.it.gryf.dao.impl.crud.repository.publicbenefits.reimbursement;
 
 import org.springframework.stereotype.Repository;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.searchform.ReimbursementDeliverySearchQueryDTO;
-import pl.sodexo.it.gryf.common.utils.StringUtils;
+import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.reimbursement.ReimbursementDeliveryRepository;
 import pl.sodexo.it.gryf.dao.impl.crud.repository.GenericRepositoryImpl;
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementDelivery;
@@ -73,19 +73,19 @@ public class ReimbursementDeliveryRepositoryImpl extends GenericRepositoryImpl<R
         if(dto.getTrainingInstitutionId() != null){
             predicates.add(cb.equal(from.get(ReimbursementDelivery.TRAINING_INSTITUTION_ATTR_NAME).get(TrainingInstitution.ID_ATTR_NAME), dto.getTrainingInstitutionId()));
         }
-        if(!StringUtils.isEmpty(dto.getTrainingInstitutionName())){
+        if(!GryfStringUtils.isEmpty(dto.getTrainingInstitutionName())){
             predicates.add(cb.like(cb.upper(from.get(ReimbursementDelivery.TRAINING_INSTITUTION_ATTR_NAME).<String>get(TrainingInstitution.NAME_ATTR_NAME)), getLikeWildCard(dto.getTrainingInstitutionName())));
         }
-        if(!StringUtils.isEmpty(dto.getTrainingInstitutionVatRegNum())){
+        if(!GryfStringUtils.isEmpty(dto.getTrainingInstitutionVatRegNum())){
             predicates.add(cb.like(cb.upper(from.get(ReimbursementDelivery.TRAINING_INSTITUTION_ATTR_NAME).<String>get(TrainingInstitution.VAT_REG_NUM_ATTR_NAME)), getLikeWildCard(dto.getTrainingInstitutionVatRegNum())));
         }
-        if(!StringUtils.isEmpty(dto.getDeliveryAddress())){
+        if(!GryfStringUtils.isEmpty(dto.getDeliveryAddress())){
             predicates.add(cb.like(cb.upper(from.<String>get(ReimbursementDelivery.DELIVERY_ADDRESS_ATTR_NAME)), getLikeWildCard(dto.getDeliveryAddress())));
         }
-        if(!StringUtils.isEmpty(dto.getDeliveryZipCode())){
+        if(!GryfStringUtils.isEmpty(dto.getDeliveryZipCode())){
             predicates.add(cb.like(cb.upper(from.<String>get(ReimbursementDelivery.DELIVERY_ZIP_CODE_ATTR_NAME)), getLikeWildCard(dto.getDeliveryZipCode())));
         }
-        if(!StringUtils.isEmpty(dto.getDeliveryCityName())){
+        if(!GryfStringUtils.isEmpty(dto.getDeliveryCityName())){
             predicates.add(cb.like(cb.upper(from.<String>get(ReimbursementDelivery.DELIVERY_CITY_NAME_ATTR_NAME)), getLikeWildCard(dto.getDeliveryCityName())));
         }
         if(dto.getPlannedReceiptDateFrom() != null){
@@ -142,19 +142,19 @@ public class ReimbursementDeliveryRepositoryImpl extends GenericRepositoryImpl<R
         if(dto.getTrainingInstitutionId() != null){
             predicates.add(cb.equal(from.get(ReimbursementDelivery.TRAINING_INSTITUTION_ATTR_NAME).get(TrainingInstitution.ID_ATTR_NAME), dto.getTrainingInstitutionId()));
         }
-        if(!StringUtils.isEmpty(dto.getTrainingInstitutionName())){
+        if(!GryfStringUtils.isEmpty(dto.getTrainingInstitutionName())){
             predicates.add(cb.like(cb.upper(from.get(ReimbursementDelivery.TRAINING_INSTITUTION_ATTR_NAME).<String>get(TrainingInstitution.NAME_ATTR_NAME)), getLikeWildCard(dto.getTrainingInstitutionName())));
         }
-        if(!StringUtils.isEmpty(dto.getTrainingInstitutionVatRegNum())){
+        if(!GryfStringUtils.isEmpty(dto.getTrainingInstitutionVatRegNum())){
             predicates.add(cb.like(cb.upper(from.get(ReimbursementDelivery.TRAINING_INSTITUTION_ATTR_NAME).<String>get(TrainingInstitution.VAT_REG_NUM_ATTR_NAME)), getLikeWildCard(dto.getTrainingInstitutionVatRegNum())));
         }
-        if(!StringUtils.isEmpty(dto.getDeliveryAddress())){
+        if(!GryfStringUtils.isEmpty(dto.getDeliveryAddress())){
             predicates.add(cb.like(cb.upper(from.<String>get(ReimbursementDelivery.DELIVERY_ADDRESS_ATTR_NAME)), getLikeWildCard(dto.getDeliveryAddress())));
         }
-        if(!StringUtils.isEmpty(dto.getDeliveryZipCode())){
+        if(!GryfStringUtils.isEmpty(dto.getDeliveryZipCode())){
             predicates.add(cb.like(cb.upper(from.<String>get(ReimbursementDelivery.DELIVERY_ZIP_CODE_ATTR_NAME)), getLikeWildCard(dto.getDeliveryZipCode())));
         }
-        if(!StringUtils.isEmpty(dto.getDeliveryCityName())){
+        if(!GryfStringUtils.isEmpty(dto.getDeliveryCityName())){
             predicates.add(cb.like(cb.upper(from.<String>get(ReimbursementDelivery.DELIVERY_CITY_NAME_ATTR_NAME)), getLikeWildCard(dto.getDeliveryCityName())));
         }
         if(dto.getPlannedReceiptDateFrom() != null){

@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.MailAttachmentDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementComplexTypeEmailDTO;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
+import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.common.utils.JsonMapperUtils;
-import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
@@ -81,20 +81,20 @@ public class Qualify1ActionService extends ActionBaseService {
     }
 
     private void validateMail(List<EntityConstraintViolation> violations, OrderElementComplexTypeEmailDTO dto, String emailFieldName, String labelName){
-        if(StringUtils.isEmpty(dto.getAddressesTo())){
+        if(GryfStringUtils.isEmpty(dto.getAddressesTo())){
             violations.add(new EntityConstraintViolation(emailFieldName, String.format("Adresaci e-maila %s nie moga być puści", labelName), dto.getAddressesTo()));
         }
-        if(StringUtils.isEmpty(dto.getSubject())){
+        if(GryfStringUtils.isEmpty(dto.getSubject())){
             violations.add(new EntityConstraintViolation(emailFieldName, String.format("Temat e-maila %s nie może być pusty", labelName), dto.getSubject()));
         }
-        if(StringUtils.isEmpty(dto.getBody())){
+        if(GryfStringUtils.isEmpty(dto.getBody())){
             violations.add(new EntityConstraintViolation(emailFieldName, String.format("Treść e-maila %s nie może być pusty", labelName), dto.getBody()));
         }
     }
 
     private void validateDocuments(List<EntityConstraintViolation> violations, Order order, String name){
         OrderElement orderElement = order.getElement(name);
-        if(StringUtils.isEmpty(orderElement.getValueVarchar())){
+        if(GryfStringUtils.isEmpty(orderElement.getValueVarchar())){
             violations.add(new EntityConstraintViolation(name, "Nie wygenerowano dokumentu umowy o dofinansowanie"));
         }
     }
@@ -121,10 +121,10 @@ public class Qualify1ActionService extends ActionBaseService {
 
         List<MailAttachmentDTO> attachments = new ArrayList<>();
         for (OrderElement attachmentElement : attachmentElements) {
-            if(!StringUtils.isEmpty(attachmentElement.getValueVarchar())) {
+            if(!GryfStringUtils.isEmpty(attachmentElement.getValueVarchar())) {
                 MailAttachmentDTO attachmentDto = new MailAttachmentDTO();
-                attachmentDto.setName(String.format("%s.%s", StringUtils.convertFileName(attachmentElement.getOrderFlowElement().getElementName()),
-                                                                StringUtils.findFileExtension(attachmentElement.getValueVarchar())));
+                attachmentDto.setName(String.format("%s.%s", GryfStringUtils.convertFileName(attachmentElement.getOrderFlowElement().getElementName()),
+                                                                GryfStringUtils.findFileExtension(attachmentElement.getValueVarchar())));
                 attachmentDto.setPath(attachmentElement.getValueVarchar());
 
                 attachments.add(attachmentDto);

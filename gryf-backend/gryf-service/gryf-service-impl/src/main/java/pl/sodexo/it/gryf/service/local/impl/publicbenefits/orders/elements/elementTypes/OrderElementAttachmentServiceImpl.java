@@ -7,7 +7,7 @@ import pl.sodexo.it.gryf.common.dto.other.FileDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementAttachmentDTO;
 import pl.sodexo.it.gryf.common.enums.FileType;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
-import pl.sodexo.it.gryf.common.utils.StringUtils;
+import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.*;
 import pl.sodexo.it.gryf.service.local.api.FileService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.elements.elementTypes.OrderElementAttachmentService;
@@ -42,7 +42,7 @@ public class OrderElementAttachmentServiceImpl extends OrderElementBaseService<O
     public void updateValue(OrderElement element, OrderElementAttachmentDTO dto) {
         if(dto.isFileToDelete()){
             String fileLocation = element.getValueVarchar();
-            if(!StringUtils.isEmpty(fileLocation)) {
+            if(!GryfStringUtils.isEmpty(fileLocation)) {
                 fileService.deleteFile(fileLocation);
                 element.setValueVarchar(null);
                 element.setCompletedDate(null);
@@ -61,7 +61,7 @@ public class OrderElementAttachmentServiceImpl extends OrderElementBaseService<O
     @Override
     public void updateValue(OrderElement element, String fileLocation) {
         element.setValueVarchar(fileLocation);
-        element.setCompletedDate(!StringUtils.isEmpty(fileLocation) ? new Date() : null);
+        element.setCompletedDate(!GryfStringUtils.isEmpty(fileLocation) ? new Date() : null);
     }
 
     //PRIVATE METHODS
@@ -74,7 +74,7 @@ public class OrderElementAttachmentServiceImpl extends OrderElementBaseService<O
 
         String fileName = String.format("%s_%s_%s_%s", entityId, order.getId(),
                                             element.getId(), orderFlowElement.getElementName());
-        return StringUtils.convertFileName(fileName);
+        return GryfStringUtils.convertFileName(fileName);
 
     }
 
@@ -84,15 +84,15 @@ public class OrderElementAttachmentServiceImpl extends OrderElementBaseService<O
     protected boolean isValueInserted(OrderElement orderElement, OrderElementAttachmentDTO dto){
         String valOld = orderElement.getValueVarchar();
         FileDTO valNew = dto.getFile();
-        return StringUtils.isEmpty(valOld) && valNew != null;
+        return GryfStringUtils.isEmpty(valOld) && valNew != null;
     }
 
     @Override
     protected boolean isValueUpdated(OrderElement orderElement, OrderElementAttachmentDTO dto){
         String valOld = orderElement.getValueVarchar();
         FileDTO valNew = dto.getFile();
-        return (StringUtils.isEmpty(valOld) && valNew != null) ||
-                (!StringUtils.isEmpty(valOld) && dto.isFileToDelete());
+        return (GryfStringUtils.isEmpty(valOld) && valNew != null) ||
+                (!GryfStringUtils.isEmpty(valOld) && dto.isFileToDelete());
     }
 
     @Override
@@ -100,7 +100,7 @@ public class OrderElementAttachmentServiceImpl extends OrderElementBaseService<O
         String valOld = orderElement.getValueVarchar();
         FileDTO valNew = dto.getFile();
         if(valNew == null){
-            return !StringUtils.isEmpty(valOld);
+            return !GryfStringUtils.isEmpty(valOld);
         }
         return true;
     }

@@ -13,9 +13,9 @@ import pl.sodexo.it.gryf.common.dto.mail.EmailSourceType;
 import pl.sodexo.it.gryf.common.dto.mail.MailDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.MailAttachmentDTO;
 import pl.sodexo.it.gryf.common.mail.MailPlaceholders;
+import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.common.utils.JsonMapperUtils;
-import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.mail.EmailInstanceRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.mail.EmailTemplateRepository;
 import pl.sodexo.it.gryf.model.mail.EmailInstance;
@@ -146,18 +146,18 @@ public class MailServiceImpl implements MailService {
 
     private MailDTO scheduleMail(MailDTO mailDTO){
 
-        if(StringUtils.isEmpty(mailDTO.getAddressesFrom())){
+        if(GryfStringUtils.isEmpty(mailDTO.getAddressesFrom())){
             mailDTO.setAddressesFrom(applicationParameters.getGryfPbeAdmEmailFrom());
         }
-        if(StringUtils.isEmpty(mailDTO.getAddressesReplyTo())){
+        if(GryfStringUtils.isEmpty(mailDTO.getAddressesReplyTo())){
             mailDTO.setAddressesReplyTo(applicationParameters.getGryfPbeAdmEmailReplyTo());
         }
 
         EmailInstance em = new EmailInstance();
         em.setEmailTemplate((mailDTO.getTemplateId() != null) ? emailTemplateRepository.get(mailDTO.getTemplateId()) : null);
         em.setEmailData(JsonMapperUtils.writeValueAsString(mailDTO));
-        em.setEmailSubject(StringUtils.substring(mailDTO.getSubject(), 0, EmailInstance.EMAIL_SUBJECT_MAX_SIZE));
-        em.setEmailsTo(StringUtils.substring(mailDTO.getAddressesTo(), 0, EmailInstance.EMAILS_TO_MAX_SIZE));
+        em.setEmailSubject(GryfStringUtils.substring(mailDTO.getSubject(), 0, EmailInstance.EMAIL_SUBJECT_MAX_SIZE));
+        em.setEmailsTo(GryfStringUtils.substring(mailDTO.getAddressesTo(), 0, EmailInstance.EMAILS_TO_MAX_SIZE));
         em.setStatus(EmailInstance.STATUS_PENDING);
         em.setErrorMessage(null);
         em.setSourceType(mailDTO.getSourceType());
@@ -166,7 +166,7 @@ public class MailServiceImpl implements MailService {
             for (MailAttachmentDTO attachment : mailDTO.getAttachments()) {
                 EmailInstanceAttachment a = new EmailInstanceAttachment();
                 a.setAttachmentPath(attachment.getPath());
-                a.setAttachmentName(StringUtils.substring(attachment.getName(), 0, EmailInstanceAttachment.ATTACHMENT_NAME_MAX_SIZE));
+                a.setAttachmentName(GryfStringUtils.substring(attachment.getName(), 0, EmailInstanceAttachment.ATTACHMENT_NAME_MAX_SIZE));
                 em.addAttachment(a);
             }
         }
@@ -206,12 +206,12 @@ public class MailServiceImpl implements MailService {
             MimeMessage message = new MimeMessage(mailSession);
 
             message.setFrom(new InternetAddress(mailDTO.getAddressesFrom()));
-            if(!StringUtils.isEmpty(mailDTO.getAddressesReplyTo())) {
+            if(!GryfStringUtils.isEmpty(mailDTO.getAddressesReplyTo())) {
                 message.setReplyTo(InternetAddress.parse(mailDTO.getAddressesReplyTo()));
             }
 
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(mailDTO.getAddressesTo()));
-            if(!StringUtils.isEmpty(mailDTO.getAddressesCC())) {
+            if(!GryfStringUtils.isEmpty(mailDTO.getAddressesCC())) {
                 message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(mailDTO.getAddressesCC()));
             }
 
@@ -275,9 +275,9 @@ public class MailServiceImpl implements MailService {
 
     private void fillAfterSend(EmailInstance email, String status, Session mailSession, String errorMessage){
         email.setStatus(status);
-        email.setErrorMessage(StringUtils.substring(errorMessage, 0, EmailInstance.ERROR_MESSAGE_MAX_SIZE));
+        email.setErrorMessage(GryfStringUtils.substring(errorMessage, 0, EmailInstance.ERROR_MESSAGE_MAX_SIZE));
         if(mailSession != null) {
-            email.setMailSessionProperties(StringUtils.substring(mailSession.getProperties().toString(), 0,
+            email.setMailSessionProperties(GryfStringUtils.substring(mailSession.getProperties().toString(), 0,
                     EmailInstance.MAIL_SESSION_PROPERTIES_MAX_SIZE));
         }
     }

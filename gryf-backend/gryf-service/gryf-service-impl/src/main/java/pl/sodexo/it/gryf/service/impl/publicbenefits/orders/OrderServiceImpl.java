@@ -13,8 +13,8 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.searchform.OrderSearch
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.searchform.OrderSearchResultDTO;
 import pl.sodexo.it.gryf.common.exception.InvalidObjectIdException;
 import pl.sodexo.it.gryf.common.exception.StaleDataException;
+import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.common.utils.JsonMapperUtils;
-import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderElementRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderFlowStatusTransitionRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderRepository;
@@ -98,7 +98,7 @@ public class OrderServiceImpl implements OrderService {
     public FileDTO getOrderAttachmentFile(Long elementId) {
         OrderElement orderElement = orderElementRepository.get(elementId);
         FileDTO dto = new FileDTO();
-        dto.setName(StringUtils.findFileNameInPath(orderElement.getValueVarchar()));
+        dto.setName(GryfStringUtils.findFileNameInPath(orderElement.getValueVarchar()));
         dto.setInputStream(fileService.getInputStream(orderElement.getValueVarchar()));
         return dto;
     }

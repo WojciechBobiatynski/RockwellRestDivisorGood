@@ -19,8 +19,8 @@ import pl.sodexo.it.gryf.common.exception.StaleDataException;
 import pl.sodexo.it.gryf.common.exception.publicbenefits.VatRegNumTrainingInstitutionExistException;
 import pl.sodexo.it.gryf.common.mail.MailPlaceholders;
 import pl.sodexo.it.gryf.common.parsers.GrantApplicationParser;
+import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
-import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.common.validation.publicbenefits.grantapplication.*;
 import pl.sodexo.it.gryf.dao.api.crud.repository.dictionaries.ContactTypeRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.dictionaries.ZipCodeRepository;
@@ -356,7 +356,7 @@ public abstract class GrantApplicationV0BaseService<T extends GrantApplicationV0
                     if (requiredAttachment.getId().getName().equals(attachmentDtoTab[i].getName())) {
 
                         //NE DODANO PLIKU
-                        if (!attachmentDtoTab[i].getFileIncluded() && StringUtils.isEmpty(attachmentDtoTab[i].getOriginalFileName())) {
+                        if (!attachmentDtoTab[i].getFileIncluded() && GryfStringUtils.isEmpty(attachmentDtoTab[i].getOriginalFileName())) {
                             violations.add(new EntityConstraintViolation(ReimbursementDTO.REIMBURSEMENT_ATTACHMENTS_ATTR_NAME + "[" + i + "].file",
                                     String.format("Nie dodano pliku do wymaganego załacznika o nazwie '%s'", requiredAttachment.getId().getName()), null));
                         }
@@ -377,7 +377,7 @@ public abstract class GrantApplicationV0BaseService<T extends GrantApplicationV0
     protected void addViolationRequiredEmails(T dto, List<EntityConstraintViolation> violations){
         boolean flag = false;
         for (GrantApplicationContactDataDTO contact : dto.getContacts()) {
-            if (!StringUtils.isEmpty(contact.getEmail())) {
+            if (!GryfStringUtils.isEmpty(contact.getEmail())) {
                 flag = true;
             }
         }
@@ -387,7 +387,7 @@ public abstract class GrantApplicationV0BaseService<T extends GrantApplicationV0
             for (EnterpriseContact contact : enterprise.getContacts()) {
                 ContactType contactType = contact.getContactType();
                 if (ContactType.TYPE_EMAIL.equals(contactType.getType())) {
-                    if (!StringUtils.isEmpty(contact.getContactData())) {
+                    if (!GryfStringUtils.isEmpty(contact.getContactData())) {
                         flag = true;
                     }
                 }
@@ -570,10 +570,10 @@ public abstract class GrantApplicationV0BaseService<T extends GrantApplicationV0
 
     protected void saveEnterpriseContacts(Enterprise enterprise, T dto){
         for (GrantApplicationContactDataDTO contactDTO : dto.getContacts()) {
-            if(!StringUtils.isEmpty(contactDTO.getEmail())){
+            if(!GryfStringUtils.isEmpty(contactDTO.getEmail())){
                 addContact(enterprise, ContactType.TYPE_EMAIL, contactDTO.getEmail(), contactDTO.getName(), dto.getId());
             }
-            if(!StringUtils.isEmpty(contactDTO.getPhone())){
+            if(!GryfStringUtils.isEmpty(contactDTO.getPhone())){
                 addContact(enterprise, ContactType.TYPE_PHONE, contactDTO.getPhone(), contactDTO.getName(), dto.getId());
             }
         }
@@ -581,12 +581,12 @@ public abstract class GrantApplicationV0BaseService<T extends GrantApplicationV0
 
     protected void updateEnterpriseContacts(Enterprise enterprise, T dto){
         for (final GrantApplicationContactDataDTO contactApplicationDTO : dto.getContacts()) {
-            if (!StringUtils.isEmpty(contactApplicationDTO.getEmail())) {
+            if (!GryfStringUtils.isEmpty(contactApplicationDTO.getEmail())) {
                 if (!containContact(enterprise.getContacts(), ContactType.TYPE_EMAIL, contactApplicationDTO.getEmail())) {
                     addContact(enterprise, ContactType.TYPE_EMAIL, contactApplicationDTO.getEmail(), contactApplicationDTO.getName(), dto.getId());
                 }
             }
-            if (!StringUtils.isEmpty(contactApplicationDTO.getPhone())) {
+            if (!GryfStringUtils.isEmpty(contactApplicationDTO.getPhone())) {
                 if (!containContact(enterprise.getContacts(), ContactType.TYPE_PHONE, contactApplicationDTO.getPhone())) {
                     addContact(enterprise, ContactType.TYPE_PHONE, contactApplicationDTO.getPhone(), contactApplicationDTO.getName(), dto.getId());
                 }
@@ -600,7 +600,7 @@ public abstract class GrantApplicationV0BaseService<T extends GrantApplicationV0
 
                 ContactType contactType = input.getContactType();
                 if (contactType != null && contactTypeType.equals(contactType.getType())) {
-                    if (!StringUtils.isEmpty(contactDataDTO) && !StringUtils.isEmpty(input.getContactData())) {
+                    if (!GryfStringUtils.isEmpty(contactDataDTO) && !GryfStringUtils.isEmpty(input.getContactData())) {
 
                         String tempContactDataDTO = contactDataDTO.trim().toUpperCase();
                         String tempContactData = input.getContactData().trim().toUpperCase();
@@ -1075,7 +1075,7 @@ public abstract class GrantApplicationV0BaseService<T extends GrantApplicationV0
 
     protected String findAttachmentName(GrantApplication application, GrantApplicationAttachment attachment){
         String fileName = String.format("%s_%s_%s", application.getId(), attachment.getName(), attachment.getId());
-        return StringUtils.convertFileName(fileName);
+        return GryfStringUtils.convertFileName(fileName);
     }
 
     protected class AttachmentTempDTO{

@@ -7,8 +7,8 @@ package pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementDTO;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
+import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.common.utils.JsonMapperUtils;
-import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElementClob;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowElementInStatus;
@@ -100,7 +100,7 @@ public abstract class OrderElementBaseClobService<T extends OrderElementDTO>  im
 
     protected void validatePrivilege(List<EntityConstraintViolation> violations, T oldDto, OrderFlowElementInStatus orderFlowElementInStatus, T dto){
         String privilege = orderFlowElementInStatus.getAugIdRequired();
-        if(!StringUtils.isEmpty(privilege)){
+        if(!GryfStringUtils.isEmpty(privilege)){
             if(isValueUpdated(oldDto, dto)){
                 if (!securityChecker.hasPrivilege(privilege)) {
                     addViolation(violations, dto, String.format("Nie masz uprawnień do edycji pól elementu '%s'", dto.getName()));
@@ -120,7 +120,7 @@ public abstract class OrderElementBaseClobService<T extends OrderElementDTO>  im
     //PROTECTED METHODS - IUM - STRING
 
     protected boolean isValueInserted(String oldValue, String newValue){
-        return StringUtils.isEmpty(oldValue) && !StringUtils.isEmpty(newValue);
+        return GryfStringUtils.isEmpty(oldValue) && !GryfStringUtils.isEmpty(newValue);
     }
 
     protected boolean isValueUpdated(String oldValue, String newValue){
@@ -128,7 +128,7 @@ public abstract class OrderElementBaseClobService<T extends OrderElementDTO>  im
     }
 
     protected boolean isValueFilled(String newVal){
-        return !StringUtils.isEmpty(newVal);
+        return !GryfStringUtils.isEmpty(newVal);
     }
 
     //PROTECTED METHODS

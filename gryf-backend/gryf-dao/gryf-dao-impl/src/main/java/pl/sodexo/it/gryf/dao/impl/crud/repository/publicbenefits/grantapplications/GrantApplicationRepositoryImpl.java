@@ -2,7 +2,7 @@ package pl.sodexo.it.gryf.dao.impl.crud.repository.publicbenefits.grantapplicati
 
 import org.springframework.stereotype.Repository;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.grantapplications.searchform.GrantApplicationSearchQueryDTO;
-import pl.sodexo.it.gryf.common.utils.StringUtils;
+import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.grantapplications.GrantApplicationRepository;
 import pl.sodexo.it.gryf.dao.impl.crud.repository.GenericRepositoryImpl;
 import pl.sodexo.it.gryf.model.dictionaries.ZipCode;
@@ -43,19 +43,19 @@ public class GrantApplicationRepositoryImpl extends GenericRepositoryImpl<GrantA
         if(searchDTO.getEnterpriseId() != null){
             predicatesList.add(cb.equal(from.get(ENTERPRISE_ATTR_NAME).get(ID_ATTR_NAME), searchDTO.getEnterpriseId()));
         }
-        if(!StringUtils.isEmpty(searchDTO.getEnterpriseName())){
+        if(!GryfStringUtils.isEmpty(searchDTO.getEnterpriseName())){
             predicatesList.add(cb.like(cb.upper(from.get(BASIC_DATA_ATTR_NAME).<String>get(ENTERPRISE_NAME_ATTR_NAME)), getLikeWildCard(searchDTO.getEnterpriseName())));
         }
-        if(!StringUtils.isEmpty(searchDTO.getVatRegNum())){
+        if(!GryfStringUtils.isEmpty(searchDTO.getVatRegNum())){
             predicatesList.add(cb.like(cb.upper(from.<String>get(BASIC_DATA_ATTR_NAME).<String>get(VAT_REG_NUM_ATTR_NAME)), getLikeWildCard(searchDTO.getVatRegNum())));
         }
-        if(!StringUtils.isEmpty(searchDTO.getAddressInvoice())){
+        if(!GryfStringUtils.isEmpty(searchDTO.getAddressInvoice())){
             predicatesList.add(cb.like(cb.upper(from.<String>get(BASIC_DATA_ATTR_NAME).<String>get(ADDRESS_INVOICE_ATTR_NAME)), getLikeWildCard(searchDTO.getAddressInvoice())));
         }
-        if(!StringUtils.isEmpty(searchDTO.getZipCodeInvoiceCode())){
+        if(!GryfStringUtils.isEmpty(searchDTO.getZipCodeInvoiceCode())){
             predicatesList.add(cb.like(cb.upper(from.<String>get(BASIC_DATA_ATTR_NAME).get(ZIP_CODE_INVOICE_ATTR_NAME).<String>get(ZipCode.ZIP_CODE_ATTR_NAME)), getLikeWildCard(searchDTO.getZipCodeInvoiceCode())));
         }
-        if(!StringUtils.isEmpty(searchDTO.getZipCodeInvoiceCity())){
+        if(!GryfStringUtils.isEmpty(searchDTO.getZipCodeInvoiceCity())){
             predicatesList.add(cb.like(cb.upper(from.<String>get(BASIC_DATA_ATTR_NAME).get(ZIP_CODE_INVOICE_ATTR_NAME).<String>get(ZipCode.CITY_NAME_ATTR_NAME)), getLikeWildCard(searchDTO.getZipCodeInvoiceCity())));
         }
 

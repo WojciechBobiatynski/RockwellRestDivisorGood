@@ -7,7 +7,7 @@ import java.util.Map;
  * Klasa zbierajaca ogólne funkcjionalności w całej aplikacji.
  * Klasa dostarcza metody na stringach.
  */
-public final class StringUtils{
+public final class GryfStringUtils {
 
     private static final Map<Character, Character> polishReplacementMap = new HashMap<>();
 
@@ -32,7 +32,7 @@ public final class StringUtils{
         polishReplacementMap.put('Ż', 'Z');
     }
 
-    private StringUtils() {}
+    private GryfStringUtils() {}
 
     /**
      * Metoda sprawdza czy dany ciąg znaków jest pusty null lub zerowej długości
@@ -123,7 +123,7 @@ public final class StringUtils{
      * @return sformatowana nazwa pliku
      */
     public static String convertFileName(String name){
-        return StringUtils.replacePolishCharacters(name)
+        return GryfStringUtils.replacePolishCharacters(name)
                         .replaceAll("[^A-Za-z0-9 _]", "")
                         .replaceAll(" ", "_")
                         .toLowerCase();

@@ -1,6 +1,6 @@
 package pl.sodexo.it.gryf.web.controller.password;
 
-import static pl.sodexo.it.gryf.common.utils.StringUtils.isEmpty;
+import static pl.sodexo.it.gryf.common.utils.GryfStringUtils.isEmpty;
 
 /**
  * Created by adziobek on 10.10.2016.

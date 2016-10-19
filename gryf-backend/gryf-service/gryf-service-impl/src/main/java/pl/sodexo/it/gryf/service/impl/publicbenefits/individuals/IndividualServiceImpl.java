@@ -9,7 +9,7 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.detailsForm.Indiv
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.detailsForm.IndividualDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.searchform.IndividualSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.searchform.IndividualSearchResultDTO;
-import pl.sodexo.it.gryf.common.utils.StringUtils;
+import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.individuals.IndividualRepository;
 import pl.sodexo.it.gryf.model.publicbenefits.api.ContactType;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
@@ -89,7 +89,7 @@ public class IndividualServiceImpl implements IndividualService {
             for (IndividualContactDto contact : individualDto.getContacts()) {
                 ContactTypeDto contactType = contact.getContactType();
                 if (ContactType.TYPE_EMAIL.equals(contactType.getType())) {
-                    if (!StringUtils.isEmpty(contact.getContactData())) {
+                    if (!GryfStringUtils.isEmpty(contact.getContactData())) {
                         set.add(contact.getContactData());
                     }
                 }

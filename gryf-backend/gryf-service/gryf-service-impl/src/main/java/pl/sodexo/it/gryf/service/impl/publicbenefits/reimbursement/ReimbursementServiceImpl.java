@@ -9,8 +9,8 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.detailsform.Rei
 import pl.sodexo.it.gryf.common.enums.FileType;
 import pl.sodexo.it.gryf.common.enums.ReportTemplateCode;
 import pl.sodexo.it.gryf.common.exception.StaleDataException;
+import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
-import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.common.validation.publicbenefits.reimbursement.ValidationGroupReimbursementComplete;
 import pl.sodexo.it.gryf.common.validation.publicbenefits.reimbursement.ValidationGroupReimbursementCorrect;
 import pl.sodexo.it.gryf.common.validation.publicbenefits.reimbursement.ValidationGroupReimbursementSettleAndVerify;
@@ -249,7 +249,7 @@ public class ReimbursementServiceImpl implements ReimbursementService {
 
         //KASUJEMY PLIKI
         }catch(RuntimeException e){
-            if(!StringUtils.isEmpty(reportLocation)){
+            if(!GryfStringUtils.isEmpty(reportLocation)){
                 fileService.deleteFile(reportLocation);
             }
             throw e;

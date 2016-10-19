@@ -10,8 +10,8 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.searchform.Reim
 import pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.searchform.ReimbursementDeliverySearchResultDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingInstitutionSearchResultDTO;
 import pl.sodexo.it.gryf.common.exception.StaleDataException;
+import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
-import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.reimbursement.ReimbursementDeliveryRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.reimbursement.ReimbursementDeliveryStatusRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.reimbursement.ReimbursementPatternRepository;
@@ -209,7 +209,7 @@ public class ReimbursementDeliveryServiceImpl implements ReimbursementDeliverySe
         }
         else{
             if(ReimbursementDeliveryStatus.ORDERED_CODE.equals(entity.getStatus().getStatusId())){
-                if(entity.getDeliveryDate() != null && !StringUtils.isEmpty(entity.getWaybillNumber())){
+                if(entity.getDeliveryDate() != null && !GryfStringUtils.isEmpty(entity.getWaybillNumber())){
                     entity.setStatus(reimbursementDeliveryStatusRepository.get(ReimbursementDeliveryStatus.DELIVERED_CODE));
                 }
             }

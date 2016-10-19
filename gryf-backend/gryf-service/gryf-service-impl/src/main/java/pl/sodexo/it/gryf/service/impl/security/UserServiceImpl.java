@@ -4,13 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.sodexo.it.gryf.common.dto.security.GryfIndSecurityDto;
 import pl.sodexo.it.gryf.common.dto.user.GryfUser;
 import pl.sodexo.it.gryf.common.exception.authentication.GryfBadCredentialsException;
 import pl.sodexo.it.gryf.common.exception.authentication.GryfPasswordExpiredException;
 import pl.sodexo.it.gryf.common.exception.authentication.GryfUserNotActiveException;
 import pl.sodexo.it.gryf.dao.api.crud.dao.trainingInstitutions.TrainingInstitutionUserDao;
 import pl.sodexo.it.gryf.dao.api.crud.repository.security.UserRepository;
-import pl.sodexo.it.gryf.dao.api.search.mapper.SecuritySearchMapper;
+import pl.sodexo.it.gryf.dao.api.search.dao.SecuritySearchDao;
 import pl.sodexo.it.gryf.model.security.trainingInstitutions.TrainingInstitutionUser;
 import pl.sodexo.it.gryf.service.api.security.UserService;
 
@@ -30,7 +31,7 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Autowired
-    private SecuritySearchMapper securitySearchMapper;
+    private SecuritySearchDao securitySearchDao;
 
     @Autowired
     private TrainingInstitutionUserDao trainingInstitutionUserDao;
@@ -41,9 +42,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<String> findPrivilegesForTiLogin(String login, String password) {
-        authenticateTiUser(login, password);
-        return securitySearchMapper.findTiUserPrivileges(login);
+    public List<String> findPrivilegesForTiLogin(String login, String verificationCode) {
+        authenticateTiUser(login, verificationCode);
+        return securitySearchDao.findTiUserPrivileges(login);
+    }
+
+    @Override
+    public List<String> findPrivilegesForIndPesel(String pesel, String password) {
+        authenticateIndUser(pesel, password);
+        return securitySearchDao.findIndUserPrivileges(pesel);
     }
 
     private void authenticateTiUser(String login, String password) {
@@ -77,5 +84,23 @@ public class UserServiceImpl implements UserService {
                 trainingInstitutionUserDao.save(tiUser);
                 break;
         }
+    }
+
+    private void authenticateIndUser(String pesel, String verificationCode) {
+        GryfIndSecurityDto user = securitySearchDao.findIndUserByPesel(pesel);
+
+        if(user == null){
+            throw new GryfBadCredentialsException("Niepoprawny login lub/i hasło");
+        }
+
+        if (!user.isActive()) {
+            throw new GryfUserNotActiveException("Twoje konto jest nieaktywne. Zgłoś sie do administratora");
+        }
+
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        if (user == null || !passwordEncoder.matches(verificationCode, user.getVerificationCode())) {
+            throw new GryfBadCredentialsException("Niepoprawny login lub/i hasło");
+        }
+
     }
 }

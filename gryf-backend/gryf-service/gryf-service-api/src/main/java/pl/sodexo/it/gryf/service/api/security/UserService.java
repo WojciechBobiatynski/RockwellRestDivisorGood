@@ -31,6 +31,15 @@ public interface UserService {
     List<String> findPrivilegesForTiLogin(String login, String password);
 
     /**
+     * Metoda wyszukująca przywileje dla osoby fizycznej
+     * @param pesel
+     * @param verificationCode - kod weryfikacyjny (niezahaszowane)
+     * @return lista przywilejów
+     */
+    List<String> findPrivilegesForIndPesel(String pesel, String verificationCode);
+
+
+    /**
      * Ustawia datę ostatniego logowania dla uzytkownika
      *
      * @param user - zalogowany uzytkownik

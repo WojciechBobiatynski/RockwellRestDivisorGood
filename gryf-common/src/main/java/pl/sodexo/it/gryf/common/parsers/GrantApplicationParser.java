@@ -3,8 +3,8 @@ package pl.sodexo.it.gryf.common.parsers;
 import pl.sodexo.it.gryf.common.dto.other.FileDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.grantapplications.detailsform.GrantApplicationAttachmentDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.grantapplications.detailsform.GrantApplicationDTO;
+import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.common.utils.JsonMapperUtils;
-import pl.sodexo.it.gryf.common.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -54,7 +54,7 @@ public class GrantApplicationParser {
     //ACCEPTED VIOLATIONS
 
     public static List<String> readAcceptedViolations(String acceptedViolationsStr) {
-        if (StringUtils.isEmpty(acceptedViolationsStr)) {
+        if (GryfStringUtils.isEmpty(acceptedViolationsStr)) {
             return new ArrayList<>();
         }
         String[] acceptedViolationsTab = JsonMapperUtils.readValue(acceptedViolationsStr, String[].class);

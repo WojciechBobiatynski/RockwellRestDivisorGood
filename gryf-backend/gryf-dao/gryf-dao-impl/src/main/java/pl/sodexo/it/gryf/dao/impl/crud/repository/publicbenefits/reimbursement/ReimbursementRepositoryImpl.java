@@ -2,7 +2,7 @@ package pl.sodexo.it.gryf.dao.impl.crud.repository.publicbenefits.reimbursement;
 
 import org.springframework.stereotype.Repository;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.searchform.ReimbursementSearchQueryDTO;
-import pl.sodexo.it.gryf.common.utils.StringUtils;
+import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.reimbursement.ReimbursementRepository;
 import pl.sodexo.it.gryf.dao.impl.crud.repository.GenericRepositoryImpl;
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.Reimbursement;
@@ -38,14 +38,14 @@ public class ReimbursementRepositoryImpl extends GenericRepositoryImpl<Reimburse
         if(dto.getId() != null){
             predicates.add(cb.equal(from.get(Reimbursement.ID_ATTR_NAME), dto.getId()));
         }
-        if(!StringUtils.isEmpty(dto.getInvoiceNumber())){
+        if(!GryfStringUtils.isEmpty(dto.getInvoiceNumber())){
             predicates.add(cb.like(cb.upper(from.<String>get(Reimbursement.INVOICE_NUMBER_ATTR_NAME)), getLikeWildCard(dto.getInvoiceNumber())));
         }
-        if(!StringUtils.isEmpty(dto.getTrainingInstitutionVatRegNum())){
+        if(!GryfStringUtils.isEmpty(dto.getTrainingInstitutionVatRegNum())){
             predicates.add(cb.like(cb.upper(from.get(Reimbursement.REIMBURSEMENT_DELIVERY_ATTR_NAME).get(ReimbursementDelivery.TRAINING_INSTITUTION_ATTR_NAME).
                                                         <String>get(TrainingInstitution.VAT_REG_NUM_ATTR_NAME)), getLikeWildCard(dto.getTrainingInstitutionVatRegNum())));
         }
-        if(!StringUtils.isEmpty(dto.getTrainingInstitutionName())){
+        if(!GryfStringUtils.isEmpty(dto.getTrainingInstitutionName())){
             predicates.add(cb.like(cb.upper(from.get(Reimbursement.REIMBURSEMENT_DELIVERY_ATTR_NAME).get(ReimbursementDelivery.TRAINING_INSTITUTION_ATTR_NAME).
                     <String>get(TrainingInstitution.NAME_ATTR_NAME)), getLikeWildCard(dto.getTrainingInstitutionName())));
         }

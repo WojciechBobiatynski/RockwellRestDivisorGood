@@ -6,7 +6,7 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.ContactDataValidationDTO;
 import pl.sodexo.it.gryf.common.enums.Privileges;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.common.exception.publicbenefits.PeselIndividualExistException;
-import pl.sodexo.it.gryf.common.utils.StringUtils;
+import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.individuals.IndividualRepository;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.IndividualContact;
@@ -64,7 +64,7 @@ public class IndividualValidator {
         boolean isEditable = securityChecker.hasPrivilege(Privileges.GRF_INDIVIDUAL_REPAY_ACC_MOD);
 
         String accountRepayment = individual.getAccountRepayment();
-        if (isEditable && StringUtils.isEmpty(accountRepayment)) {
+        if (isEditable && GryfStringUtils.isEmpty(accountRepayment)) {
             violations.add(new EntityConstraintViolation(Individual.ACCOUNT_REPAYMENT_NAME, "Konto do zwrotu środków nie może być puste", accountRepayment));
         }
 
@@ -76,7 +76,7 @@ public class IndividualValidator {
                 }
                 return;
             }
-            if (!StringUtils.isEmpty(accountRepayment)) {
+            if (!GryfStringUtils.isEmpty(accountRepayment)) {
                 violations.add(new EntityConstraintViolation(Individual.ACCOUNT_REPAYMENT_NAME, "Nie masz uprawnień do edycji tego pola", accountRepayment));
             }
         }

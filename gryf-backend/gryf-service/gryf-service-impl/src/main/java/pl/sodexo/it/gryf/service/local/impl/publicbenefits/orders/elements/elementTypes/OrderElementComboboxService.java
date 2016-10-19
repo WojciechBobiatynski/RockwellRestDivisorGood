@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import pl.sodexo.it.gryf.common.dto.other.DictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementComboboxDTO;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
-import pl.sodexo.it.gryf.common.utils.StringUtils;
+import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.other.DictionaryRepository;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElementDTOBuilder;
@@ -37,7 +37,7 @@ public class OrderElementComboboxService extends OrderElementBaseService<OrderEl
         String nativeSql = orderFlowElement.getPropertyValue(OrderFlowElement.PARAM_SQL_EXPRESSION);
 
 
-        List<DictionaryDTO> dictionaries =  !StringUtils.isEmpty(nativeSql) ?
+        List<DictionaryDTO> dictionaries =  !GryfStringUtils.isEmpty(nativeSql) ?
                                         dictionaryRepository.findDictionaries(nativeSql) : new ArrayList<DictionaryDTO>();
         return OrderElementDTOProvider.createOrderElementComboboxDTO(builder, dictionaries);
     }

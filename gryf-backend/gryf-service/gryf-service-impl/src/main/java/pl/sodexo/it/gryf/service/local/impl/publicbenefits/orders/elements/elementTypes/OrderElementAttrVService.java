@@ -3,7 +3,7 @@ package pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.elements.elem
 import org.springframework.stereotype.Service;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementAttrVDTO;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
-import pl.sodexo.it.gryf.common.utils.StringUtils;
+import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElementDTOBuilder;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowElement;
@@ -35,7 +35,7 @@ public class OrderElementAttrVService extends OrderElementBaseService<OrderEleme
 
     public void updateValue(OrderElement element, String value) {
         element.setValueVarchar(value);
-        element.setCompletedDate(!StringUtils.isEmpty(value) ? new Date() : null);
+        element.setCompletedDate(!GryfStringUtils.isEmpty(value) ? new Date() : null);
     }
 
     //PROTECTED METHODS - OVERRIDE VALIDATION
@@ -44,7 +44,7 @@ public class OrderElementAttrVService extends OrderElementBaseService<OrderEleme
     protected boolean isValueInserted(OrderElement orderElement, OrderElementAttrVDTO dto){
         String valOld = orderElement.getValueVarchar();
         String valNew = dto.getValueVarchar();
-        return StringUtils.isEmpty(valOld) && !StringUtils.isEmpty(valNew);
+        return GryfStringUtils.isEmpty(valOld) && !GryfStringUtils.isEmpty(valNew);
     }
 
     @Override
@@ -57,7 +57,7 @@ public class OrderElementAttrVService extends OrderElementBaseService<OrderEleme
     @Override
     protected boolean isValueFilled(OrderElement orderElement, OrderElementAttrVDTO dto){
         String valNew = dto.getValueVarchar();
-        return !StringUtils.isEmpty(valNew);
+        return !GryfStringUtils.isEmpty(valNew);
     }
 
     @Override
@@ -71,11 +71,11 @@ public class OrderElementAttrVService extends OrderElementBaseService<OrderEleme
 
         //JEST WARTOSC
         String value = dto.getValueVarchar();
-        if(!StringUtils.isEmpty(value)){
+        if(!GryfStringUtils.isEmpty(value)){
 
             //MAX LENGTH
             String maxLengthStr = orderFlowElement.getPropertyValue(OrderFlowElement.PARAM_MAX_LENGTH);
-            if (!StringUtils.isEmpty(maxLengthStr)) {
+            if (!GryfStringUtils.isEmpty(maxLengthStr)) {
                 Integer maxLength = Integer.valueOf(maxLengthStr);
                 if (value.length() > maxLength) {
                     addViolation(violations, dto, String.format("Pole '%s' może mieć maksymalnie 200 znaków", orderFlowElement.getElementName()));

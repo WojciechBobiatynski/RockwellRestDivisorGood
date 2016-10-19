@@ -6,8 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.sodexo.it.gryf.common.dto.other.FileDTO;
 import pl.sodexo.it.gryf.common.enums.Privileges;
+import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
-import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.service.api.publicbenefits.grantapplications.GrantApplicationActionService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.orders.OrderService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.reimbursement.ReimbursementsAttachmentService;
@@ -89,7 +89,7 @@ public class PublicBenefitsViewController {
         securityChecker.assertFormPrivilege(Privileges.GRF_PBE_APPLICATIONS);
 
         String idParam = request.getParameter("id");
-        if(!StringUtils.isEmpty(idParam)) {
+        if(!GryfStringUtils.isEmpty(idParam)) {
             Long attachmentId = Long.valueOf(idParam);
 
             FileDTO file = grantApplicationActionService.getApplicationAttachmentFile(attachmentId);
@@ -102,7 +102,7 @@ public class PublicBenefitsViewController {
         securityChecker.assertFormPrivilege(Privileges.GRF_PBE_ORDERS);
 
         String idParam = request.getParameter("id");
-        if(!StringUtils.isEmpty(idParam)) {
+        if(!GryfStringUtils.isEmpty(idParam)) {
             Long elementId = Long.valueOf(idParam);
 
             FileDTO file = orderService.getOrderAttachmentFile(elementId);
@@ -115,7 +115,7 @@ public class PublicBenefitsViewController {
         securityChecker.assertFormPrivilege(Privileges.GRF_PBE_REIMB);
 
         String idParam = request.getParameter("id");
-        if(!StringUtils.isEmpty(idParam)) {
+        if(!GryfStringUtils.isEmpty(idParam)) {
             Long elementId = Long.valueOf(idParam);
 
             FileDTO file = reimbursementsAttachmentService.getReimbursementAttachmentFile(elementId);
@@ -128,7 +128,7 @@ public class PublicBenefitsViewController {
         securityChecker.assertFormPrivilege(Privileges.GRF_PBE_REIMB);
 
         String idParam = request.getParameter("id");
-        if(!StringUtils.isEmpty(idParam)) {
+        if(!GryfStringUtils.isEmpty(idParam)) {
             Long elementId = Long.valueOf(idParam);
 
             FileDTO file = reimbursementsAttachmentService.getReimbursementTraineeAttachmentFile(elementId);

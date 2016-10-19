@@ -2,7 +2,7 @@ package pl.sodexo.it.gryf.dao.impl.crud.repository.publicbenefits.traininginstiu
 
 import org.springframework.stereotype.Repository;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingInstitutionSearchQueryDTO;
-import pl.sodexo.it.gryf.common.utils.StringUtils;
+import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstitutionRepository;
 import pl.sodexo.it.gryf.dao.impl.crud.repository.GenericRepositoryImpl;
 import pl.sodexo.it.gryf.model.dictionaries.ZipCode;
@@ -52,28 +52,28 @@ public class TrainingInstitutionRepositoryImpl extends GenericRepositoryImpl<Tra
         if(dto.getId() != null){
             predicatesList.add(cb.equal(from.get(ID_ATTR_NAME), dto.getId()));
         }
-        if(!StringUtils.isEmpty(dto.getName())){
+        if(!GryfStringUtils.isEmpty(dto.getName())){
             predicatesList.add(cb.like(cb.upper(from.<String>get(NAME_ATTR_NAME)), getLikeWildCard(dto.getName())));
         }
-        if(!StringUtils.isEmpty(dto.getVatRegNum())){
+        if(!GryfStringUtils.isEmpty(dto.getVatRegNum())){
             predicatesList.add(cb.like(cb.upper(from.<String>get(VAT_REG_NUM_ATTR_NAME)), getLikeWildCard(dto.getVatRegNum())));
         }
-        if(!StringUtils.isEmpty(dto.getAddressInvoice())){
+        if(!GryfStringUtils.isEmpty(dto.getAddressInvoice())){
             predicatesList.add(cb.like(cb.upper(from.<String>get(ADDRESS_INVOICE_ATTR_NAME)), getLikeWildCard(dto.getAddressInvoice())));
         }
-        if(!StringUtils.isEmpty(dto.getZipCodeInvoiceCode())){
+        if(!GryfStringUtils.isEmpty(dto.getZipCodeInvoiceCode())){
             predicatesList.add(cb.like(cb.upper(from.get(ZIP_CODE_INVOICE_ATTR_NAME).<String>get(ZipCode.ZIP_CODE_ATTR_NAME)), getLikeWildCard(dto.getZipCodeInvoiceCode())));
         }
-        if(!StringUtils.isEmpty(dto.getZipCodeInvoiceCity())){
+        if(!GryfStringUtils.isEmpty(dto.getZipCodeInvoiceCity())){
             predicatesList.add(cb.like(cb.upper(from.get(ZIP_CODE_INVOICE_ATTR_NAME).<String>get(ZipCode.CITY_NAME_ATTR_NAME)), getLikeWildCard(dto.getZipCodeInvoiceCity())));
         }
-        if(!StringUtils.isEmpty(dto.getAddressCorr())){
+        if(!GryfStringUtils.isEmpty(dto.getAddressCorr())){
             predicatesList.add(cb.like(cb.upper(from.<String>get(ADDRESS_CORR_ATTR_NAME)), getLikeWildCard(dto.getAddressCorr())));
         }
-        if(!StringUtils.isEmpty(dto.getZipCodeCorrCode())){
+        if(!GryfStringUtils.isEmpty(dto.getZipCodeCorrCode())){
             predicatesList.add(cb.like(cb.upper(from.get(ZIP_CODE_CORR_ATTR_NAME).<String>get(ZipCode.ZIP_CODE_ATTR_NAME)), getLikeWildCard(dto.getZipCodeCorrCode())));
         }
-        if(!StringUtils.isEmpty(dto.getZipCodeCorrCity())){
+        if(!GryfStringUtils.isEmpty(dto.getZipCodeCorrCity())){
             predicatesList.add(cb.like(cb.upper(from.get(ZIP_CODE_CORR_ATTR_NAME).<String>get(ZipCode.CITY_NAME_ATTR_NAME)), getLikeWildCard(dto.getZipCodeCorrCity())));
         }
         Predicate[] predicatesTab = predicatesList.toArray(new Predicate[predicatesList.size()]);

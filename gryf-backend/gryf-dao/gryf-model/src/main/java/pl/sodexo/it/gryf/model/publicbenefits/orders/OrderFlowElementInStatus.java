@@ -2,7 +2,7 @@ package pl.sodexo.it.gryf.model.publicbenefits.orders;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.ToString;
-import pl.sodexo.it.gryf.common.utils.StringUtils;
+import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.model.api.GryfEntity;
 
 import javax.persistence.*;
@@ -128,15 +128,15 @@ public class OrderFlowElementInStatus extends GryfEntity {
     //PUBLIC METHODS
 
     public boolean isInsertable(){
-        return !StringUtils.isEmpty(flags) && flags.contains(FLAG_INSERTABLE);
+        return !GryfStringUtils.isEmpty(flags) && flags.contains(FLAG_INSERTABLE);
     }
 
     public boolean isUpdatable(){
-        return !StringUtils.isEmpty(flags) && flags.contains(FLAG_UPDATEABLE);
+        return !GryfStringUtils.isEmpty(flags) && flags.contains(FLAG_UPDATEABLE);
     }
 
     public boolean isMandatory(){
-        return !StringUtils.isEmpty(flags) && flags.contains(FLAG_MANDATORY);
+        return !GryfStringUtils.isEmpty(flags) && flags.contains(FLAG_MANDATORY);
     }
 
     //HASH CODE & EQUALS

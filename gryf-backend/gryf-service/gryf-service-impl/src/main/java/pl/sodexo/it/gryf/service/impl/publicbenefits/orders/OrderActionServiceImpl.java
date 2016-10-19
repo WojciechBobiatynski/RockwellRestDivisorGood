@@ -8,7 +8,7 @@ import pl.sodexo.it.gryf.common.dto.other.FileDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.action.IncomingOrderElementDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementDTO;
 import pl.sodexo.it.gryf.common.dto.user.GryfUser;
-import pl.sodexo.it.gryf.common.utils.StringUtils;
+import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderFlowStatusTransSqlRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderFlowStatusTransitionRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderRepository;
@@ -91,7 +91,7 @@ public class OrderActionServiceImpl implements OrderActionService {
             executeSql(order, statusTransition, OrderFlowStatusTransSqlType.PRE);
 
             //EXECUTE ACTION
-            if (!StringUtils.isEmpty(statusTransition.getActionBeanName())) {
+            if (!GryfStringUtils.isEmpty(statusTransition.getActionBeanName())) {
                 ActionService actionService = (ActionService) BeanUtils.findBean(context, statusTransition.getActionBeanName());
                 actionService.execute(order, acceptedViolations);
             }

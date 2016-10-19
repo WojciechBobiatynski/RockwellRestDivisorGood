@@ -7,6 +7,7 @@ import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import pl.sodexo.it.gryf.common.dto.security.UserDto;
 import pl.sodexo.it.gryf.common.dto.user.GryfIndUser;
 import pl.sodexo.it.gryf.common.exception.authentication.GryfBadCredentialsException;
@@ -14,8 +15,8 @@ import pl.sodexo.it.gryf.common.exception.authentication.GryfPasswordExpiredExce
 import pl.sodexo.it.gryf.common.exception.authentication.GryfUserNotActiveException;
 import pl.sodexo.it.gryf.service.api.security.UserService;
 
-import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Provider autentykacji dla IND.
@@ -47,8 +48,7 @@ public class IndUserAuthenticationProvider implements AuthenticationProvider {
 
     private List<GrantedAuthority> getGrantedAuthorities(String login, String password) {
         try {
-            //return userService.findPrivilegesForTiLogin(login, password).stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
-            return Collections.emptyList();
+            return userService.findPrivilegesForIndPesel(login, password).stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
         } catch (GryfBadCredentialsException e) {
             LOGGER.info("[AUTH] Blad autoryzacji. Bledne dane logowania uzytkownika, login={}", login);
             throw new BadCredentialsException(e.getMessage(), e);

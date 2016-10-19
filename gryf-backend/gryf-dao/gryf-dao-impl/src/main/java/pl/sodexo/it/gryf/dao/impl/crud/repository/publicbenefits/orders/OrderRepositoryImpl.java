@@ -4,7 +4,7 @@ import org.springframework.stereotype.Repository;
 import pl.sodexo.it.gryf.common.dto.api.SearchDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.searchform.OrderSearchQueryDTO;
 import pl.sodexo.it.gryf.common.enums.SortType;
-import pl.sodexo.it.gryf.common.utils.StringUtils;
+import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderRepository;
 import pl.sodexo.it.gryf.dao.impl.crud.repository.GenericRepositoryImpl;
 import pl.sodexo.it.gryf.model.publicbenefits.enterprises.Enterprise;
@@ -59,25 +59,25 @@ public class OrderRepositoryImpl extends GenericRepositoryImpl<Order, Long> impl
         if(dto.getEnterpriseId() != null){
             predicates.add(cb.equal(from.get(Order.ENTERPRISE_ATTR_NAME).get(Enterprise.ID_ATTR_NAME), dto.getEnterpriseId()));
         }
-        if(!StringUtils.isEmpty(dto.getEnterpriseName())){
+        if(!GryfStringUtils.isEmpty(dto.getEnterpriseName())){
             predicates.add(cb.like(cb.upper(from.get(Order.ENTERPRISE_ATTR_NAME).<String>get(Enterprise.NAME_ATTR_NAME)), getLikeWildCard(dto.getEnterpriseName())));
         }
-        if(!StringUtils.isEmpty(dto.getVatRegNum())){
+        if(!GryfStringUtils.isEmpty(dto.getVatRegNum())){
             predicates.add(cb.like(cb.upper(from.get(Order.ENTERPRISE_ATTR_NAME).<String>get(Enterprise.VAT_REG_NUM_ATTR_NAME)), getLikeWildCard(dto.getVatRegNum())));
         }
         if(dto.getIndividualId() != null){
             predicates.add(cb.equal(from.get(Order.INDIVIDUAL_ATTR_NAME).get(Individual.ID_ATTR_NAME), dto.getIndividualId()));
         }
-        if(!StringUtils.isEmpty(dto.getIndividualFirstName())){
+        if(!GryfStringUtils.isEmpty(dto.getIndividualFirstName())){
             predicates.add(cb.like(cb.upper(from.get(Order.INDIVIDUAL_ATTR_NAME).<String>get(Individual.FIRST_NAME_ATTR_NAME)), getLikeWildCard(dto.getIndividualFirstName())));
         }
-        if(!StringUtils.isEmpty(dto.getIndividualLastName())){
+        if(!GryfStringUtils.isEmpty(dto.getIndividualLastName())){
             predicates.add(cb.like(cb.upper(from.get(Order.INDIVIDUAL_ATTR_NAME).<String>get(Individual.LAST_NAME_ATTR_NAME)), getLikeWildCard(dto.getIndividualLastName())));
         }
-        if(!StringUtils.isEmpty(dto.getPesel())){
+        if(!GryfStringUtils.isEmpty(dto.getPesel())){
             predicates.add(cb.like(cb.upper(from.get(Order.INDIVIDUAL_ATTR_NAME).<String>get(Individual.PESEL_ATTR_NAME)), getLikeWildCard(dto.getPesel())));
         }
-        if(!StringUtils.isEmpty(dto.getOperator())){
+        if(!GryfStringUtils.isEmpty(dto.getOperator())){
             predicates.add(cb.like(cb.upper(from.<String>get(Order.OPERATOR_ATTR_NAME)), getLikeWildCard(dto.getOperator())));
         }
         Predicate[] predicatesTab = predicates.toArray(new Predicate[predicates.size()]);

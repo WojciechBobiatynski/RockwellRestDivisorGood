@@ -5,7 +5,7 @@ import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
 import pl.sodexo.it.gryf.common.dto.api.FileContainerDTO;
 import pl.sodexo.it.gryf.common.dto.other.FileDTO;
-import pl.sodexo.it.gryf.common.utils.StringUtils;
+import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.common.validation.publicbenefits.grantapplication.ValidationGroupApplyOptionalApplication;
 import pl.sodexo.it.gryf.common.validation.publicbenefits.grantapplication.ValidationGroupNewGrantApplication;
 
@@ -41,7 +41,7 @@ public class GrantApplicationAttachmentDTO implements FileContainerDTO {
     @AssertTrue(message = "Nazwa załącznika musi być wypełniona gdy dodawany jest załącznik", groups = ValidationGroupNewGrantApplication.class)
     public boolean isNameWithFileFill(){
         if(file != null){
-            return !StringUtils.isEmpty(name);
+            return !GryfStringUtils.isEmpty(name);
         }
         return true;
     }

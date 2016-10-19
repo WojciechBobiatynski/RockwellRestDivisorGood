@@ -3,7 +3,7 @@ package pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.elements.elem
 import org.springframework.stereotype.Service;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementAttrNDTO;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
-import pl.sodexo.it.gryf.common.utils.StringUtils;
+import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElementDTOBuilder;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowElement;
@@ -74,7 +74,7 @@ public class OrderElementAttrNService extends OrderElementBaseService<OrderEleme
 
             //MIN VALUE
             String minValueStr = orderFlowElement.getPropertyValue(OrderFlowElement.PARAM_MIN_VALUE);
-            if (!StringUtils.isEmpty(minValueStr)) {
+            if (!GryfStringUtils.isEmpty(minValueStr)) {
                 BigDecimal minValue = new BigDecimal(minValueStr);
                 if(minValue.compareTo(value) > 0){
                     addViolation(violations, dto, String.format("Minimalna wartość w polu '%s' wynoski %s",
@@ -84,7 +84,7 @@ public class OrderElementAttrNService extends OrderElementBaseService<OrderEleme
 
             //MAX VALUE
             String maxValueStr = orderFlowElement.getPropertyValue(OrderFlowElement.PARAM_MAX_VALUE);
-            if (!StringUtils.isEmpty(maxValueStr)) {
+            if (!GryfStringUtils.isEmpty(maxValueStr)) {
                 BigDecimal maxValue = new BigDecimal(maxValueStr);
                 if(value.compareTo(maxValue) > 0){
                     addViolation(violations, dto, String.format("Maksymalna wartość w polu '%s' wynoski %s",

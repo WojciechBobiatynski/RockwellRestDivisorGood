@@ -2,7 +2,7 @@ package pl.sodexo.it.gryf.dao.impl.crud.repository.dictionaries;
 
 import org.springframework.stereotype.Repository;
 import pl.sodexo.it.gryf.common.dto.zipcodes.searchform.ZipCodeSearchQueryDTO;
-import pl.sodexo.it.gryf.common.utils.StringUtils;
+import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.dictionaries.ZipCodeRepository;
 import pl.sodexo.it.gryf.dao.impl.crud.repository.GenericRepositoryImpl;
 import pl.sodexo.it.gryf.model.dictionaries.State;
@@ -32,10 +32,10 @@ public class ZipCodeRepositoryImpl extends GenericRepositoryImpl<ZipCode, Long> 
 
         //PREDICATE
         List<Predicate> predicatesList = new ArrayList<>();
-        if(!StringUtils.isEmpty(zipCode.getZipCode())){
+        if(!GryfStringUtils.isEmpty(zipCode.getZipCode())){
             predicatesList.add(cb.like(cb.upper(from.<String>get(ZipCode.ZIP_CODE_ATTR_NAME)), getLikeWildCard(zipCode.getZipCode())));
         }
-        if (!StringUtils.isEmpty(zipCode.getCityName())){
+        if (!GryfStringUtils.isEmpty(zipCode.getCityName())){
             predicatesList.add(cb.like(cb.upper(from.<String>get(ZipCode.CITY_NAME_ATTR_NAME)), getLikeWildCard(zipCode.getCityName().toUpperCase())));
         }
         if(zipCode.getActive() != null){

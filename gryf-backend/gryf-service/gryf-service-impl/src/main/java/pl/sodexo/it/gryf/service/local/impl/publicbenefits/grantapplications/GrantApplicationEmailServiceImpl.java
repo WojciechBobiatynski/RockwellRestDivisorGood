@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.MailAttachmentDTO;
 import pl.sodexo.it.gryf.common.mail.MailPlaceholders;
-import pl.sodexo.it.gryf.common.utils.StringUtils;
+import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.*;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.grantapplications.GrantApplicationEmailService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.grantapplications.GrantApplicationService;
@@ -53,7 +53,7 @@ public class GrantApplicationEmailServiceImpl implements GrantApplicationEmailSe
             GrantApplicationBasicData basicData = grantApplication.getBasicData();
             for (GrantApplicationContactData contact : basicData.getContacts()) {
                 if (contact.getContactType() == GrantApplicationContactType.CONTACT) {
-                    if (!StringUtils.isEmpty(contact.getEmail())) {
+                    if (!GryfStringUtils.isEmpty(contact.getEmail())) {
                         set.add(contact.getEmail());
                     }
                 }

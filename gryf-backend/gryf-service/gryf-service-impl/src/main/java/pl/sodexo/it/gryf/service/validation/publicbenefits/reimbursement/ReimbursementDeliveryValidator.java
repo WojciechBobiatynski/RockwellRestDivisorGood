@@ -7,8 +7,8 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.detailsform.Rei
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingInstitutionSearchResultDTO;
 import pl.sodexo.it.gryf.common.enums.Privileges;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
+import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
-import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.other.GryfPLSQLRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.reimbursement.ReimbursementDeliveryRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.reimbursement.ReimbursementDeliveryStatusRepository;
@@ -156,11 +156,11 @@ public class ReimbursementDeliveryValidator {
                 violations.add(new EntityConstraintViolation(ReimbursementDeliveryDTO.WAYBILL_NUMBER_ATTR_NAME, "Nie posiadasz uprawnień do edycji pola 'Numer listu przewozowego'"));
             }
         }
-        if (dto.getDeliveryDate() == null && !StringUtils.isEmpty(dto.getWaybillNumber()) || dto.getDeliveryDate() != null && StringUtils.isEmpty(dto.getWaybillNumber())) {
+        if (dto.getDeliveryDate() == null && !GryfStringUtils.isEmpty(dto.getWaybillNumber()) || dto.getDeliveryDate() != null && GryfStringUtils.isEmpty(dto.getWaybillNumber())) {
             if (dto.getDeliveryDate() == null) {
                 violations.add(new EntityConstraintViolation(ReimbursementDeliveryDTO.DELIVERY_DATE_ATTR_NAME, "Data otrzymania przesyłki nie może być pusta"));
             }
-            if (StringUtils.isEmpty(dto.getWaybillNumber())) {
+            if (GryfStringUtils.isEmpty(dto.getWaybillNumber())) {
                 violations.add(new EntityConstraintViolation(ReimbursementDeliveryDTO.WAYBILL_NUMBER_ATTR_NAME, "Numer listu przewozowego nie może być pusty"));
             }
         }

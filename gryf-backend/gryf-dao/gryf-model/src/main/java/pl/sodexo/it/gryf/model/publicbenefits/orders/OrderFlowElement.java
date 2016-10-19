@@ -3,7 +3,7 @@ package pl.sodexo.it.gryf.model.publicbenefits.orders;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.ToString;
-import pl.sodexo.it.gryf.common.utils.StringUtils;
+import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.model.api.GryfEntity;
 
 import javax.persistence.*;
@@ -149,10 +149,10 @@ public class OrderFlowElement extends GryfEntity {
      */
     private Map<String, String> createElementTypeParamMap(){
         Map<String, String> result = new HashMap<>();
-        if(!StringUtils.isEmpty(elementTypeParams)){
+        if(!GryfStringUtils.isEmpty(elementTypeParams)){
             String[] keyValueStr = elementTypeParams.split(";");
             for (int i = 0; i < keyValueStr.length; i++) {
-                if(!StringUtils.isEmpty(keyValueStr[i])) {
+                if(!GryfStringUtils.isEmpty(keyValueStr[i])) {
                     int equalIndex = keyValueStr[i].indexOf('=');
                     if (equalIndex <= 0) {
                         throw new RuntimeException(String.format("Błąd konfiguracji - nie udało się sparsować " +

@@ -2,8 +2,8 @@ package pl.sodexo.it.gryf.dao.impl.crud.repository.other;
 
 import org.springframework.stereotype.Repository;
 import pl.sodexo.it.gryf.common.dto.other.DictionaryDTO;
+import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
-import pl.sodexo.it.gryf.common.utils.StringUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.other.DictionaryRepository;
 import pl.sodexo.it.gryf.model.api.DictionaryEntity;
 
@@ -42,7 +42,7 @@ public class DictionaryRepositoryImpl implements DictionaryRepository {
 
         //PREDICATE
         List<Predicate> predicatesList = new ArrayList<>();
-        if(!StringUtils.isEmpty(dictionary.getActiveField())){
+        if(!GryfStringUtils.isEmpty(dictionary.getActiveField())){
             predicatesList.add(cb.equal(from.get(dictionary.getActiveField()), true));
         }
         Predicate[] predicatesTab = predicatesList.toArray(new Predicate[predicatesList.size()]);

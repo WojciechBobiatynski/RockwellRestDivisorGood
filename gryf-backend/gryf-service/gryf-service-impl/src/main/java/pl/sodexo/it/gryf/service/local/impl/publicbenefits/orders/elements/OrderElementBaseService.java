@@ -3,7 +3,7 @@ package pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementDTO;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
-import pl.sodexo.it.gryf.common.utils.StringUtils;
+import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowElementInStatus;
 import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
@@ -127,7 +127,7 @@ public abstract class OrderElementBaseService<T extends OrderElementDTO> impleme
      */
     protected void validatePrivilege(List<EntityConstraintViolation> violations, OrderElement orderElement, OrderFlowElementInStatus orderFlowElementInStatus, T dto){
         String privilege = orderFlowElementInStatus.getAugIdRequired();
-        if(!StringUtils.isEmpty(privilege)){
+        if(!GryfStringUtils.isEmpty(privilege)){
             if(isValueUpdated(orderElement, dto)){
                 if (!securityChecker.hasPrivilege(privilege)) {
                     addViolation(violations, dto, String.format("Nie masz uprawnień do edycji tego pola '%s'", dto.getName()));

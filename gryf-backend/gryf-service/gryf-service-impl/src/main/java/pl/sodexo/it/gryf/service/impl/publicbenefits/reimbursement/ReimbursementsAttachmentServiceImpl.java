@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.dto.other.FileDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.searchform.ReimbursementSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.searchform.ReimbursementSearchResultDTO;
-import pl.sodexo.it.gryf.common.utils.StringUtils;
+import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.reimbursement.ReimbursementAttachmentRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.reimbursement.ReimbursementRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.reimbursement.ReimbursementTraineeAttachmentRepository;
@@ -49,7 +49,7 @@ public class ReimbursementsAttachmentServiceImpl implements ReimbursementsAttach
     public FileDTO getReimbursementTraineeAttachmentFile(Long attachmentId) {
         ReimbursementTraineeAttachment attachment = reimbursementTraineeAttachmentRepository.get(attachmentId);
         FileDTO dto = new FileDTO();
-        dto.setName(StringUtils.findFileNameInPath(attachment.getFileLocation()));
+        dto.setName(GryfStringUtils.findFileNameInPath(attachment.getFileLocation()));
         dto.setInputStream(fileService.getInputStream(attachment.getFileLocation()));
         return dto;
     }
@@ -64,7 +64,7 @@ public class ReimbursementsAttachmentServiceImpl implements ReimbursementsAttach
     public FileDTO getReimbursementAttachmentFile(Long attachmentId) {
         ReimbursementAttachment attachment = reimbursementAttachmentRepository.get(attachmentId);
         FileDTO dto = new FileDTO();
-        dto.setName(StringUtils.findFileNameInPath(attachment.getFileLocation()));
+        dto.setName(GryfStringUtils.findFileNameInPath(attachment.getFileLocation()));
         dto.setInputStream(fileService.getInputStream(attachment.getFileLocation()));
         return dto;
     }
