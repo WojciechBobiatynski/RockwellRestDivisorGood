@@ -8,7 +8,7 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
     <title>Sodexo Gryf</title>
 
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/public/css/gryf-custom.css">
+    <link rel="stylesheet" type="text/css" href="/css/gryf-custom.css">
 </head>
 <body>
 
