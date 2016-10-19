@@ -49,8 +49,11 @@
     }
 
     function disableErrorMessage(parentNodeId){
-        var parentNode = document.getElementById(parentNodeId);
-        parentNode.removeChild(document.getElementById(parentNodeId + 'Val'));
+        var childNode = document.getElementById(parentNodeId + 'Val');
+        if(childNode != null){
+            var parentNode = document.getElementById(parentNodeId);
+            parentNode.removeChild();
+        }
     }
 
     function validate() {
@@ -100,15 +103,15 @@
             <p itemprop="description" class="description">Prosimy, wprowadź dane uwierzytelniające.</p>
 
             <c:if test="${error != null}">
-                <div class="msg"><p>Podano błędne dane. Prosimy, wprowadź jeszcze raz</p></div>
+                <div class="msg msg-error"><p>Podano błędne dane. Prosimy, wprowadź jeszcze raz</p></div>
             </c:if>
 
             <c:if test="${unknowerror != null}">
-                <div class="msg"><p>Wystąpił niespodziewany błąd po stronie serwera. Prosimy spróbować później</p></div>
+                <div class="msg msg-error"><p>Wystąpił niespodziewany błąd po stronie serwera. Prosimy spróbować później</p></div>
             </c:if>
 
             <section class="form verification-code-reminder">
-                <form name="verificationForm" action="${pageContext.request.contextPath}/resend" method="POST" onsubmit="return validate()">
+                <form name="verificationForm" action="${pageContext.request.contextPath}/verification/resend" method="POST" onsubmit="return validate()">
                     <fieldset>
                         <div class="field input input-short required">
                             <div class="label">
