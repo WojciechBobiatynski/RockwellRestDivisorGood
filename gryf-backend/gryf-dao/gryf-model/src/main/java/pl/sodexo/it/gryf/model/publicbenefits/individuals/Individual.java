@@ -137,9 +137,6 @@ public class Individual extends VersionableEntity {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "individual")
     private List<Order> orders;
 
-    @Column(name = "VERIFICATION_CODE")
-    private String verificationCode;
-
     //GETTERS & SETTERS
 
     public Long getId() {
@@ -269,15 +266,6 @@ public class Individual extends VersionableEntity {
     public void setRemarks(String remarks) {
         this.remarks = remarks;
     }
-
-    public String getVerificationCode() {
-        return verificationCode;
-    }
-
-    public void setVerificationCode(String verificationCode) {
-        this.verificationCode = verificationCode;
-    }
-
     //LIST METHODS
 
     private List<IndividualContact> getInitializedIndividualContacts() {
