@@ -10,4 +10,5 @@ public abstract class PageConstant {
     public static final String PATH_MAIN = "/";
     public static final String PAGE_MAIN = "/page/index.jsp";
 
+
 }
