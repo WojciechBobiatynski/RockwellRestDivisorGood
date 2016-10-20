@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import pl.sodexo.it.gryf.common.dto.security.VerificationDto;
+import pl.sodexo.it.gryf.common.dto.security.individuals.VerificationDto;
 import pl.sodexo.it.gryf.dao.api.search.dao.IndividualSearchDao;
 import pl.sodexo.it.gryf.dao.api.search.mapper.IndividualSearchMapper;
 

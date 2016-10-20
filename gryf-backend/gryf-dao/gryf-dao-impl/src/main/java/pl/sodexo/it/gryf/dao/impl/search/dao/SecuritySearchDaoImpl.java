@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import pl.sodexo.it.gryf.common.dto.security.GryfIndSecurityDto;
+import pl.sodexo.it.gryf.common.dto.security.individuals.GryfIndUserHeadDto;
 import pl.sodexo.it.gryf.dao.api.search.dao.SecuritySearchDao;
 import pl.sodexo.it.gryf.dao.api.search.mapper.SecuritySearchMapper;
 
@@ -33,7 +33,7 @@ public class SecuritySearchDaoImpl implements SecuritySearchDao {
     }
 
     @Override
-    public GryfIndSecurityDto findIndUserByPesel(String pesel) {
+    public GryfIndUserHeadDto findIndUserByPesel(String pesel) {
         return securitySearchMapper.findIndUserByPesel(pesel);
     }
 }

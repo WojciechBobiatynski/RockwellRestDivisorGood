@@ -1,4 +1,4 @@
-package pl.sodexo.it.gryf.common.dto.security;
+package pl.sodexo.it.gryf.common.dto.security.individuals;
 
 import java.io.Serializable;
 

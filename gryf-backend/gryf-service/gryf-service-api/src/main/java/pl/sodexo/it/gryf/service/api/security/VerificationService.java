@@ -1,6 +1,6 @@
 package pl.sodexo.it.gryf.service.api.security;
 
-import pl.sodexo.it.gryf.common.dto.security.VerificationDto;
+import pl.sodexo.it.gryf.common.dto.security.individuals.VerificationDto;
 import pl.sodexo.it.gryf.common.exception.verification.GryfVerificationException;
 
 /**
@@ -17,4 +17,9 @@ public interface VerificationService {
      */
     void resendVerificationCode(VerificationDto verificationDto) throws GryfVerificationException;
 
+    /**
+     * Metoda, która tworzy nowy kod weryfikacyjny
+     * @return nowy kod werydikacyjny
+     */
+    String createVerificationCode();
 }

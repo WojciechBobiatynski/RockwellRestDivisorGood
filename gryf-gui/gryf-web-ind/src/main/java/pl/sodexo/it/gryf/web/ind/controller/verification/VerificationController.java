@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import pl.sodexo.it.gryf.common.dto.security.VerificationDto;
+import pl.sodexo.it.gryf.common.dto.security.individuals.VerificationDto;
 import pl.sodexo.it.gryf.common.exception.GryfRuntimeException;
 import pl.sodexo.it.gryf.common.exception.verification.GryfVerificationException;
 import pl.sodexo.it.gryf.service.api.security.VerificationService;

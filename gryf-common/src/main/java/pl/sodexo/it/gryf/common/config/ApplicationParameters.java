@@ -64,4 +64,6 @@ public interface ApplicationParameters {
     String getPathReportImages();
 
     String getPrintNumberCountryCodePoland();
+
+    int getVerificationCodeLength();
 }

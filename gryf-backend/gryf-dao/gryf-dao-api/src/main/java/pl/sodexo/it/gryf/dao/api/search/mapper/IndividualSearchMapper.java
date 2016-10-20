@@ -1,7 +1,7 @@
 package pl.sodexo.it.gryf.dao.api.search.mapper;
 
 import org.apache.ibatis.annotations.Param;
-import pl.sodexo.it.gryf.common.dto.security.VerificationDto;
+import pl.sodexo.it.gryf.common.dto.security.individuals.VerificationDto;
 
 /**
  * Mapper do wyszukiwania wyników związanych z osobą fizyczną

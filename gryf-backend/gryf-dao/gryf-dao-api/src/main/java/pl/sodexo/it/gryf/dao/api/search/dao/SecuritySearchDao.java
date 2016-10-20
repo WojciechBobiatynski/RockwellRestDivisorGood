@@ -1,6 +1,6 @@
 package pl.sodexo.it.gryf.dao.api.search.dao;
 
-import pl.sodexo.it.gryf.common.dto.security.GryfIndSecurityDto;
+import pl.sodexo.it.gryf.common.dto.security.individuals.GryfIndUserHeadDto;
 
 import java.util.List;
 
@@ -25,6 +25,6 @@ public interface SecuritySearchDao {
      * @param pesel - pesel osoby fizycznej
      * @return Dto reprezentujące użytkonwika osoby fizycznej na potrzeby autentykacji
      */
-    GryfIndSecurityDto findIndUserByPesel(String pesel);
+    GryfIndUserHeadDto findIndUserByPesel(String pesel);
 
 }

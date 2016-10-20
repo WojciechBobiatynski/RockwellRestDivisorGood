@@ -24,7 +24,7 @@
         WHERE ind.pesel = #{pesel}
     </select>
 
-    <select id="findIndUserByPesel" resultType="pl.sodexo.it.gryf.common.dto.security.GryfIndSecurityDto">
+    <select id="findIndUserByPesel" resultType="pl.sodexo.it.gryf.common.dto.security.individuals.GryfIndUserHeadDto">
         SELECT
             inu_id                  inuId,
             ind.pesel               pesel,

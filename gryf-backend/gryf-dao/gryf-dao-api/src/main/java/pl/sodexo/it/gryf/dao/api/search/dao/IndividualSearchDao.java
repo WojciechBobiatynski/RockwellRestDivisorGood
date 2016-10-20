@@ -1,6 +1,6 @@
 package pl.sodexo.it.gryf.dao.api.search.dao;
 
-import pl.sodexo.it.gryf.common.dto.security.VerificationDto;
+import pl.sodexo.it.gryf.common.dto.security.individuals.VerificationDto;
 
 /**
  * Dao związane z osobą fizyczną

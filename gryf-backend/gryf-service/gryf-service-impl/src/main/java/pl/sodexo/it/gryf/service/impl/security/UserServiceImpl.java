@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.sodexo.it.gryf.common.dto.security.GryfIndSecurityDto;
+import pl.sodexo.it.gryf.common.dto.security.individuals.GryfIndUserHeadDto;
 import pl.sodexo.it.gryf.common.dto.user.GryfTiUser;
 import pl.sodexo.it.gryf.common.exception.authentication.GryfBadCredentialsException;
 import pl.sodexo.it.gryf.common.exception.authentication.GryfPasswordExpiredException;
@@ -81,7 +81,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private void authenticateIndUser(String pesel, String verificationCode) {
-        GryfIndSecurityDto user = securitySearchDao.findIndUserByPesel(pesel);
+        GryfIndUserHeadDto user = securitySearchDao.findIndUserByPesel(pesel);
 
         if(user == null){
             throw new GryfBadCredentialsException("Niepoprawny login lub/i hasło");

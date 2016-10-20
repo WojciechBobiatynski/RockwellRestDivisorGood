@@ -1,4 +1,4 @@
-package pl.sodexo.it.gryf.common.dto.security;
+package pl.sodexo.it.gryf.common.dto.security.individuals;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,18 +7,18 @@ import lombok.ToString;
 import java.io.Serializable;
 
 /**
- * Dto reprezentujące użytkownika osoby fizycznej na potrzeby autentykacji
+ * Dto reprezentujące nagłówek użytkownika osoby fizycznej na potrzeby autentykacji
  *
  * Created by akmiecinski on 19.10.2016.
  */
 @ToString
-public class GryfIndSecurityDto implements Serializable{
+public class GryfIndUserHeadDto implements Serializable{
 
     private static final long serialVersionUID = 1L;
 
     @Getter
     @Setter
-    private String inuId;
+    private Long inuId;
 
     @Getter
     @Setter

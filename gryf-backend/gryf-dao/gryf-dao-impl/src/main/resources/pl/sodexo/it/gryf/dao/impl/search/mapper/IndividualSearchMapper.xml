@@ -8,7 +8,7 @@
         FROM APP_PBE.INDIVIDUALS ind
             JOIN APP_PBE.INDIVIDUAL_CONTACTS contact ON contact.IND_ID = ind.ID
         WHERE
-            contact.CONTACT_TYPE = 'EMAIL'
+            contact.CONTACT_TYPE = 'VER_EMAIL'
             AND TRIM(contact.CONTACT_DATA) = #{criteria.email}
             AND TRIM(ind.PESEL) = #{criteria.pesel}
     </select>

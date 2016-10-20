@@ -48,6 +48,7 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     private String sodexoVatRegNum = "5222357343";
     private String pathReportImages = "report_images/";
     private String printNumberCountryCodePoland = "31";
+    private Integer verificationCodeLength = 8;
 
     //LIFECYCLE METHODS
 
@@ -168,6 +169,10 @@ public class ApplicationParametersImpl implements ApplicationParameters {
         String dbPrintNumberCountryCodePoland = (String)findParameter("GRYF_PRINT_NUM_CODE_PL");
         if (dbPrintNumberCountryCodePoland != null){
             printNumberCountryCodePoland = dbPrintNumberCountryCodePoland;
+        }
+        Integer dbVerificationCodeLength = (Integer)findParameter("GRYF_VER_CODE_LENGTH");
+        if (dbVerificationCodeLength != null){
+            verificationCodeLength = dbVerificationCodeLength;
         }
     }
 
@@ -321,6 +326,11 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     @Override
     public String getPrintNumberCountryCodePoland() {
         return printNumberCountryCodePoland;
+    }
+
+    @Override
+    public int getVerificationCodeLength() {
+        return verificationCodeLength;
     }
 
     //PRIVATE METHODS

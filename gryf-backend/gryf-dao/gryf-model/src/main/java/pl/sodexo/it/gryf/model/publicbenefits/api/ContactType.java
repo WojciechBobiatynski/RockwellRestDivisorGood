@@ -21,6 +21,7 @@ public class ContactType extends GryfEntity {
 
     public static final String TYPE_PHONE = "PHONE";
     public static final String TYPE_EMAIL = "EMAIL";
+    public static final String TYPE_VER_EMAIL = "VER_EMAIL";
 
     //STATIC FIELDS - ATTRIBUTE NAME
 

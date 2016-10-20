@@ -1,13 +1,18 @@
 package pl.sodexo.it.gryf.service.impl.security;
 
+import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.sodexo.it.gryf.common.dto.security.VerificationDto;
+import pl.sodexo.it.gryf.common.config.ApplicationParameters;
+import pl.sodexo.it.gryf.common.dto.security.individuals.VerificationDto;
 import pl.sodexo.it.gryf.common.exception.verification.GryfVerificationException;
 import pl.sodexo.it.gryf.common.utils.PeselUtils;
+import pl.sodexo.it.gryf.dao.api.crud.dao.individuals.IndividualUserDao;
 import pl.sodexo.it.gryf.dao.api.search.dao.IndividualSearchDao;
+import pl.sodexo.it.gryf.model.security.individuals.IndividualUser;
 import pl.sodexo.it.gryf.service.api.security.VerificationService;
 import pl.sodexo.it.gryf.service.local.api.MailService;
 
@@ -27,10 +32,22 @@ public class VerificationServiceImpl implements VerificationService {
     @Autowired
     private IndividualSearchDao individualSearchDao;
 
+    @Autowired
+    private IndividualUserDao individualUserDao;
+
+    @Autowired
+    private ApplicationParameters applicationParameters;
+
     @Override
     public void resendVerificationCode(VerificationDto verificationDto) throws GryfVerificationException {
         validateVerificationData(verificationDto);
-        prepareNewVerificationCode();
+        prepareNewVerificationCode(verificationDto);
+    }
+
+    //TODO: gdy będzie analiza jak mamy generować kod
+    @Override
+    public String createVerificationCode() {
+        return RandomStringUtils.randomAlphabetic(applicationParameters.getVerificationCodeLength());
     }
 
     private void validateVerificationData(VerificationDto verificationDto) throws GryfVerificationException {
@@ -56,16 +73,17 @@ public class VerificationServiceImpl implements VerificationService {
             throw new GryfVerificationException("Niepoprawna para PESEL - adres email");
     }
 
-    private void prepareNewVerificationCode(){
-
+    private String prepareNewVerificationCode(VerificationDto verificationDto){
+        IndividualUser user = individualUserDao.findByPeselAndEmail(verificationDto.getPesel(), verificationDto.getEmail());
+        String newVerificationCode = createVerificationCode();
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        user.setVerificationCode(passwordEncoder.encode(newVerificationCode));
+        individualUserDao.save(user);
+        return newVerificationCode;
     }
 
     private void sendMailNotification(){
 
-    }
-
-    private String createNewVerificationCode() {
-        return "123456";
     }
 
     //    private MailDTO createMail(String pesel, String newVerificationCode){

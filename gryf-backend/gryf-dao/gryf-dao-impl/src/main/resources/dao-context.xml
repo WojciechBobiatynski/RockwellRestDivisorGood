@@ -12,12 +12,12 @@
                            http://www.springframework.org/schema/context    http://www.springframework.org/schema/context/spring-context.xsd">
 
 
-    <context:component-scan base-package="pl.sodexo.it.gryf.dao.impl"/>
+    <context:component-scan base-package="pl.sodexo.it.gryf.dao"/>
     <import resource="dao-mappers-context.xml"/>
 
     <jpa:repositories base-package="pl.sodexo.it.gryf.dao.api.crud.dao"/>
 
-    <tx:annotation-driven transaction-manager="transactionManager" order="2"/>
+    <tx:annotation-driven transaction-manager="transactionManager"/>
 
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
@@ -36,8 +36,14 @@
         </property>
     </bean>
 
-    <jee:jndi-lookup id="dataSource" jndi-name="${gryf.datasource.jndiName}" expected-type="javax.sql.DataSource" />
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy">
+        <constructor-arg ref="dataSourceProxy"/>
+    </bean>
 
-    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
+    <bean id="dataSourceProxy" class="org.springframework.jdbc.datasource.DelegatingDataSource">
+        <constructor-arg>
+            <jee:jndi-lookup jndi-name="${gryf.datasource.jndiName}" proxy-interface="javax.sql.DataSource"/>
+        </constructor-arg>
+    </bean>
 
 </beans>
