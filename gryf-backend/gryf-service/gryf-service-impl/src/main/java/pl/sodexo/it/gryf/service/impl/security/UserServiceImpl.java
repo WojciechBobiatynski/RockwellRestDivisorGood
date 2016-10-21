@@ -11,7 +11,7 @@ import pl.sodexo.it.gryf.common.exception.authentication.GryfPasswordExpiredExce
 import pl.sodexo.it.gryf.common.exception.authentication.GryfUserNotActiveException;
 import pl.sodexo.it.gryf.dao.api.crud.dao.trainingInstitutions.TrainingInstitutionUserDao;
 import pl.sodexo.it.gryf.dao.api.crud.repository.security.UserRepository;
-import pl.sodexo.it.gryf.dao.api.search.dao.SecuritySearchDao;
+import pl.sodexo.it.gryf.dao.api.search.dao.security.SecuritySearchDao;
 import pl.sodexo.it.gryf.model.security.trainingInstitutions.TrainingInstitutionUser;
 import pl.sodexo.it.gryf.service.api.security.UserService;
 
@@ -84,7 +84,7 @@ public class UserServiceImpl implements UserService {
         GryfIndUserHeadDto user = securitySearchDao.findIndUserByPesel(pesel);
 
         if(user == null){
-            throw new GryfBadCredentialsException("Niepoprawny login lub/i hasło");
+            throw new GryfBadCredentialsException("Niepoprawny PESEL");
         }
 
         if (!user.isActive()) {
@@ -93,7 +93,7 @@ public class UserServiceImpl implements UserService {
 
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         if (user == null || !passwordEncoder.matches(verificationCode, user.getVerificationCode())) {
-            throw new GryfBadCredentialsException("Niepoprawny login lub/i hasło");
+            throw new GryfBadCredentialsException("Niepoprawny PESEL lub/i hasło");
         }
 
     }

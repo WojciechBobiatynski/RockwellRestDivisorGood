@@ -3,6 +3,7 @@ package pl.sodexo.it.gryf.common.dto.security.individuals;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import pl.sodexo.it.gryf.common.dto.api.VersionableDto;
 
 import java.io.Serializable;
 
@@ -12,7 +13,7 @@ import java.io.Serializable;
  * Created by akmiecinski on 19.10.2016.
  */
 @ToString
-public class GryfIndUserHeadDto implements Serializable{
+public class GryfIndUserHeadDto extends VersionableDto implements Serializable{
 
     private static final long serialVersionUID = 1L;
 

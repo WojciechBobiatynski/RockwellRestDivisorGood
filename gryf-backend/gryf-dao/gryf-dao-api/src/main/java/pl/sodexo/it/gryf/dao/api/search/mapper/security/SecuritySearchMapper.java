@@ -1,7 +1,7 @@
-package pl.sodexo.it.gryf.dao.api.search.mapper;
+package pl.sodexo.it.gryf.dao.api.search.mapper.security;
 
 import org.apache.ibatis.annotations.Param;
-import pl.sodexo.it.gryf.common.dto.security.individuals.GryfIndUserHeadDto;
+import pl.sodexo.it.gryf.common.dto.security.individuals.GryfIndUserDto;
 
 import java.util.List;
 
@@ -26,5 +26,5 @@ public interface SecuritySearchMapper {
      * @param pesel - pesel osoby fizycznej
      * @return Dto reprezentujące użytkonwika osoby fizycznej na potrzeby autentykacji
      */
-    GryfIndUserHeadDto findIndUserByPesel(@Param("pesel") String pesel);
+    GryfIndUserDto findIndUserByPesel(@Param("pesel") String pesel);
 }

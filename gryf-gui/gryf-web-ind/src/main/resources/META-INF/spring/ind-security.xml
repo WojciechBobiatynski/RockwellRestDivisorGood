@@ -10,8 +10,8 @@
     <http use-expressions="true">
         <intercept-url pattern="/resource/**" access="permitAll" />
         <form-login login-page="/login"
-                    authentication-failure-url="/login?error"
                     authentication-success-handler-ref="authenticationSuccessHandler"
+                    authentication-failure-handler-ref="indAuthFailureHandler"
                     default-target-url="/"
                     password-parameter="password"
                     username-parameter="username"/>
@@ -31,5 +31,6 @@
     </authentication-manager>
 
     <beans:bean id="indAuthenticationProvider" class="pl.sodexo.it.gryf.web.ind.security.IndUserAuthenticationProvider" />
+    <beans:bean id="indAuthFailureHandler" class="pl.sodexo.it.gryf.web.ind.security.IndAuthFailureHandler" />
 
 </beans:beans>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="pl.sodexo.it.gryf.dao.api.search.mapper.SecuritySearchMapper">
+<mapper namespace="pl.sodexo.it.gryf.dao.api.search.mapper.security.SecuritySearchMapper">
 
     <select id="findTiUserPrivileges" resultType="java.lang.String" parameterType="list">
         SELECT priv.code
@@ -24,18 +24,28 @@
         WHERE ind.pesel = #{pesel}
     </select>
 
-    <select id="findIndUserByPesel" resultType="pl.sodexo.it.gryf.common.dto.security.individuals.GryfIndUserHeadDto">
+    <select id="findIndUserByPesel" resultType="pl.sodexo.it.gryf.common.dto.security.individuals.GryfIndUserDto">
         SELECT
-            inu_id                  inuId,
-            ind.pesel               pesel,
-            usr.verification_code   verificationCode,
-            usr.is_active           active
+            usr.inu_id                            inuId,
+            ind.id                                indId,
+            ind.pesel                             pesel,
+            usr.verification_code                 verificationCode,
+            usr.is_active                         active,
+            usr.LAST_LOGIN_SUCCESS_DATE           lastLoginSuccessDate,
+            usr.LAST_LOGIN_FAILURE_DATE           lastLoginFailureDate,
+            usr.LOGIN_FAILURE_ATTEMPTS            loginFailureAttempts,
+            usr.LAST_RESET_FAILURE_DATE           lastResetFailureDate,
+            usr.RESET_FAILURE_ATTEMPTS            resetFailureAttempts,
+            usr.VERSION                           version,
+            usr.CREATED_USER                      createdUser,
+            usr.CREATED_TIMESTAMP                 createdTimestamp,
+            usr.MODIFIED_USER                     modifiedUser,
+            usr.MODIFIED_TIMESTAMP                modifiedTimestamp
         FROM
             APP_PBE.INDIVIDUAL_USERS usr
             JOIN APP_PBE.INDIVIDUALS ind ON ind.id = usr.ind_id
         WHERE
             ind.pesel = #{pesel}
     </select>
-
 
 </mapper>
