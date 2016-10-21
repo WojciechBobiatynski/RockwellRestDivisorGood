@@ -44,16 +44,16 @@ public class AuditableEntity extends CreationAuditedEntity implements Auditable 
     @PrePersist
     public void prePersist() {
         Date now = new Date();
-        setCreatedUser(GryfUser.getLoggedUserLogin());
+        setCreatedUser(GryfUser.getLoggedUserLogin().isEmpty() ? GryfUser.getLoggedUserLogin() : "GRYF");
         setCreatedTimestamp(now);
-        setModifiedUser(GryfUser.getLoggedUserLogin());
+        setModifiedUser(GryfUser.getLoggedUserLogin().isEmpty() ? GryfUser.getLoggedUserLogin() : "GRYF");
         setModifiedTimestamp(now);
     }
 
     //TODO: gdy będziemy wiedzieć jak updateować wpisy gdy jeszcze niezlogowany użytkownik (np. dla rewysyłki kodu weryfikacyjnego)
     @PreUpdate
     public void preUpdate() {
-        setModifiedUser(GryfUser.getLoggedUserLogin());
+        setModifiedUser(GryfUser.getLoggedUserLogin().isEmpty() ? GryfUser.getLoggedUserLogin() : "GRYF");
         setModifiedTimestamp(new Date());
     }
 

@@ -144,7 +144,8 @@ public class MailServiceImpl implements MailService {
                                 attachments);
     }
 
-    private MailDTO scheduleMail(MailDTO mailDTO){
+    @Override
+    public MailDTO scheduleMail(MailDTO mailDTO){
 
         if(GryfStringUtils.isEmpty(mailDTO.getAddressesFrom())){
             mailDTO.setAddressesFrom(applicationParameters.getGryfPbeAdmEmailFrom());
@@ -186,7 +187,7 @@ public class MailServiceImpl implements MailService {
 
         //WYSLANIE MAILI
         for (EmailInstance email : emails) {
-            MailService mailService = context.getBean(MailServiceImpl.class);
+            MailService mailService = context.getBean(MailService.class);
             mailService.sendMail(email);
         }
 

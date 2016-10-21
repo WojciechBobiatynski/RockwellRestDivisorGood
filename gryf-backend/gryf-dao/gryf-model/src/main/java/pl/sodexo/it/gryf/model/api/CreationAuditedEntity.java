@@ -39,10 +39,11 @@ public class CreationAuditedEntity extends GryfEntity{
 
     //LIFECYCLE METHODS
 
+    //TODO: gdy będziemy wiedzieć jak updateować wpisy gdy jeszcze niezlogowany użytkownik (np. dla rewysyłki kodu weryfikacyjnego)
     @PrePersist
     public void prePersist() {
         Date now = new Date();
-        setCreatedUser(GryfUser.getLoggedUserLogin());
+        setCreatedUser(!GryfUser.getLoggedUserLogin().isEmpty() ? GryfUser.getLoggedUserLogin() : "GRYF" );
         setCreatedTimestamp(now);
     }
 }

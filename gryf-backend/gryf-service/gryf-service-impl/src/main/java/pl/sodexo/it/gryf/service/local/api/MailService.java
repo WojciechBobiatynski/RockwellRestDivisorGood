@@ -39,6 +39,8 @@ public interface MailService {
 
     MailDTO scheduleMail(String emailTemplateId, String subject, String body, String addressesTo, String addressesCC, EmailSourceType sourceType, Long sourceId, List<MailAttachmentDTO> attachments);
 
+    MailDTO scheduleMail(MailDTO mailDTO);
+
     void sendMails();
 
     void sendMail(EmailInstance email);

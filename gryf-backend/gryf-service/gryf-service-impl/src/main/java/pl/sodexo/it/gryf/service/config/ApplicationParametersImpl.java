@@ -329,7 +329,7 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     }
 
     @Override
-    public int getVerificationCodeLength() {
+    public Integer getVerificationCodeLength() {
         return verificationCodeLength;
     }
 

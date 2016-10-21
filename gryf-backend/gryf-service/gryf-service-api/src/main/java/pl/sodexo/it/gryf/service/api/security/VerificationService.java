@@ -18,8 +18,9 @@ public interface VerificationService {
     void resendVerificationCode(VerificationDto verificationDto) throws GryfVerificationException;
 
     /**
-     * Metoda, która tworzy nowy kod weryfikacyjny
-     * @return nowy kod werydikacyjny
+     * Metoda która tworzy i zapisuje nowy kod dla użytkownika osoby fizycznej
+     * @param verificationDto
+     * @return
      */
-    String createVerificationCode();
+    String createAndSaveNewVerificationCode(VerificationDto verificationDto);
 }

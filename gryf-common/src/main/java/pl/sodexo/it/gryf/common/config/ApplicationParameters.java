@@ -65,5 +65,5 @@ public interface ApplicationParameters {
 
     String getPrintNumberCountryCodePoland();
 
-    int getVerificationCodeLength();
+    Integer getVerificationCodeLength();
 }
