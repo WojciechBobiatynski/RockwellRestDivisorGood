@@ -6,30 +6,26 @@
 angular.module("gryf.ind").factory("IndService",
     ["$http", function($http) {
 
-        var FIND_IND_URL = contextPath + "/rest/ind";
+        var FIND_IND_URL = contextPath + "/rest/ind/";
         var indObject = new IndObject();
 
         function IndObject() {
-            this.contactTypes = [];
             this.entity = {
-                id: null,
-                code: null,
-                accountPayment: null,
-                name: null,
-                vatRegNum: null,
-                addressInvoice: null,
-                zipCodeInvoice: null,
-                addressCorr: null,
-                zipCodeCorr: null,
-                remarks: null,
-                contacts: []
+                firstName: null,
+                lastName: null,
+                pesel: null,
+                agreementId: null,
+                trainingCategory: null,
+                agreementSigningDate: null,
+                products: [],
+                reservedTraining: [],
+                settledTraining: []
             }
         }
         var getNewModel = function() {
             indObject = new IndObject();
             return indObject;
         };
-
         var load = function() {
                 var promise = $http.get(FIND_IND_URL);
                 promise.then(function(response) {
@@ -40,12 +36,10 @@ angular.module("gryf.ind").factory("IndService",
                 });
                 return promise;
         };
-
         return {
             load: load,
             getNewModel: getNewModel
         }
-
     }]);
 
 

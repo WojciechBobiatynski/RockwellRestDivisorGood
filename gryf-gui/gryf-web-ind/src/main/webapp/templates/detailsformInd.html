@@ -8,29 +8,29 @@
             <div class="grid-30">
                 <div>
                     <strong class="label">Imię</strong>
-                    <input type="text" ng-model="entityObject.id" disabled="disabled">
+                    <input type="text" ng-model="model.entity.firstName" disabled="disabled">
                 </div>
                 <div>
                     <strong class="label">Nazwisko</strong>
-                    <input type="text" ng-model="entityObject.id" disabled="disabled">
+                    <input type="text" ng-model="model.entity.lastName" disabled="disabled">
                 </div>
                 <div>
                     <strong class="label">Pesel</strong>
-                    <input type="text" ng-model="entityObject.id" disabled="disabled">
+                    <input type="text" ng-model="model.entity.pesel" disabled="disabled">
                 </div>
             </div>
             <div class="grid-70">
                 <div>
                     <strong class="label">ID umowy</strong>
-                    <input type="text" ng-model="entityObject.id" disabled="disabled">
+                    <input type="text" ng-model="model.entity.agreementId" disabled="disabled">
                 </div>
                 <div>
                     <strong class="label">Data podpisania umowy</strong>
-                    <input type="text" ng-model="entityObject.id" disabled="disabled">
+                    <input type="text" ng-model="model.entity.agreementSigningDate" disabled="disabled">
                 </div>
                 <div>
                     <strong class="label">Przydzielona kategoria szkolenia</strong>
-                    <input type="text" ng-model="entityObject.id" disabled="disabled">
+                    <input type="text" ng-model="model.entity.trainingCategory" disabled="disabled">
                 </div>
             </div>
         </div>
@@ -76,14 +76,14 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="item in searchDTO.searchResultList | limitTo: searchResultOptions.displayLimit">
-                    <td>10-10-2017</td>
-                    <td>180</td>
-                    <td>100</td>
-                    <td>20</td>
-                    <td>80</td>
-                    <td>1233</td>
-                    <td>10-10-2016</td>
+                <tr ng-repeat="product in model.entity.products">
+                    <td>{{product.expirationDate}}</td>
+                    <td>{{product.grantedProductsCount}}</td>
+                    <td>{{product.reservedProductsCount}}</td>
+                    <td>{{product.usedProductsCount}}</td>
+                    <td>{{product.availableProductsCount}}</td>
+                    <td>{{product.orderId}}</td>
+                    <td>{{product.orderDate}}</td>
                 </tr>
                 </tbody>
             </table>
@@ -129,13 +129,13 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>10-02-2017</td>
-                    <td>30-02-2017</td>
-                    <td>Cyberbezpieczeństwo</td>
-                    <td>Hiabak</td>
-                    <td>80</td>
-                    <td>02-02-2017</td>
+                <tr ng-repeat="reservedTraining in model.entity.reservedTraining">
+                    <td>{{reservedTraining.startDate}}</td>
+                    <td>{{reservedTraining.endDate}}</td>
+                    <td>{{reservedTraining.name}}</td>
+                    <td>{{reservedTraining.trainingInstitutionName}}</td>
+                    <td>{{reservedTraining.reservedProductsCount}}</td>
+                    <td>{{reservedTraining.orderProductsDate}}</td>
                     <td>
                         <button type="submit" class="button">Prześlij ponownie PIN DO ROZLICZENIA</button>
                     </td>
@@ -173,12 +173,12 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>10-02-2017</td>
-                    <td>30-02-2017</td>
-                    <td>Cyberbezpieczeństwo</td>
-                    <td>Hiabak</td>
-                    <td>80</td>
+                <tr ng-repeat="settledTraining in model.entity.settledTraining">
+                    <td>{{settledTraining.startDate}}</td>
+                    <td>{{settledTraining.endDate}}</td>
+                    <td>{{settledTraining.name}}</td>
+                    <td>{{settledTraining.trainingInstitutionName}}</td>
+                    <td>{{settledTraining.settledProductsCount}}</td>
                 </tr>
                 </tbody>
             </table>

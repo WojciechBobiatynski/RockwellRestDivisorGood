@@ -4,9 +4,6 @@
 
 "use strict";
 
-var scopeBrowseController;
-
-
 angular.module("gryf.ind").controller("indController",
     ["$scope", "IndService", function ($scope, IndService) {
 
@@ -14,5 +11,5 @@ angular.module("gryf.ind").controller("indController",
         $scope.loadInd = function () {
             IndService.load();
         };
-      //  loadInd();
+       $scope.loadInd();
     }]);
