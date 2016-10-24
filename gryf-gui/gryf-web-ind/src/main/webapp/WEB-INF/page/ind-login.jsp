@@ -1,5 +1,6 @@
 <%@page pageEncoding="UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html prefix="og: http://ogp.me/ns#" lang="pl">
 <head>
@@ -35,9 +36,9 @@
                 <div class="msg"><p>Wylogowano pomyślnie.</p></div>
             </c:if>
 
+            <%--TODO: docelowo ma być licznik dla nieaktywnego konta--%>
             <c:if test="${param.error != null}">
-                <div class="msg msg-error"><p>System nie rozpoznał danych logowania. Prosimy, wprowadź poprawne
-                    dane.</p></div>
+                <div class="msg msg-error"><p><c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/></p></div>
             </c:if>
 
             <section class="form form-login">
