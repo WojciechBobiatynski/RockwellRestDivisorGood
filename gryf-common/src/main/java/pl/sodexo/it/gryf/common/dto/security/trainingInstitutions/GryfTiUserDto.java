@@ -1,8 +1,7 @@
-package pl.sodexo.it.gryf.common.dto.security.individuals;
+package pl.sodexo.it.gryf.common.dto.security.trainingInstitutions;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import pl.sodexo.it.gryf.common.dto.security.GryfBlockableUserDto;
 import pl.sodexo.it.gryf.common.user.GryfBlockableUserVisitor;
 
@@ -10,31 +9,33 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Dto reprezentujące użytkownika osoby fizycznej
+ * Dto reprezentujące użytkownika instytucji szkoleniowej
  *
- * Created by akmiecinski on 21.10.2016.
+ * Created by akmiecinski on 24.10.2016.
  */
-@ToString
-public class GryfIndUserDto extends GryfBlockableUserDto implements Serializable {
+public class GryfTiUserDto extends GryfBlockableUserDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Getter
     @Setter
-    private Long indId;
+    private Long id;
 
     @Getter
     @Setter
-    private Long inuId;
+    private Long trainingInstitutionId;
 
     @Getter
     @Setter
-    private String pesel;
+    private String login;
 
     @Getter
     @Setter
-    private String verificationCode;
+    private String email;
 
+    @Getter
+    @Setter
+    private String password;
 
     @Getter
     @Setter
@@ -42,14 +43,10 @@ public class GryfIndUserDto extends GryfBlockableUserDto implements Serializable
 
     @Getter
     @Setter
-    private Date lastResetFailureDate;
-
-    @Getter
-    @Setter
-    private int resetFailureAttempts;
+    private Date passwordExpirationDate;
 
     @Override
     public <T> T accept(GryfBlockableUserVisitor<T> userVisitor) {
-        return userVisitor.visitInd(this);
+        return userVisitor.visitTi(this);
     }
 }

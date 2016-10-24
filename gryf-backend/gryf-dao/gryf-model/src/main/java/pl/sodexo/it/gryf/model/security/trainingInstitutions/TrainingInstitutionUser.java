@@ -42,11 +42,11 @@ public class TrainingInstitutionUser extends VersionableEntity {
     @Setter
     private String password;
 
-    @Column(name = "LAST_LOGIN_DATE")
+    @Column(name = "LAST_LOGIN_SUCCESS_DATE")
     @Temporal(TemporalType.TIMESTAMP)
     @Getter
     @Setter
-    private Date lastLoginDate;
+    private Date lastLoginSuccessDate;
 
     @Column(name = "PASSWORD_EXP_DATE")
     @Temporal(TemporalType.TIMESTAMP)
@@ -58,6 +58,17 @@ public class TrainingInstitutionUser extends VersionableEntity {
     @Getter
     @Setter
     private Boolean isActive = true;
+
+    @Column(name = "LAST_LOGIN_FAILURE_DATE")
+    @Temporal(TemporalType.TIMESTAMP)
+    @Getter
+    @Setter
+    private Date lastLoginFailureDate;
+
+    @Column(name = "LOGIN_FAILURE_ATTEMPTS")
+    @Getter
+    @Setter
+    private Integer loginFailureAttempts;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "TRAINING_ISTITUTION_ID")

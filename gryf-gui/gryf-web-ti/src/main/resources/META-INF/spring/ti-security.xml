@@ -10,7 +10,7 @@
     <http use-expressions="true">
         <intercept-url pattern="/resource/**" access="permitAll" />
         <form-login login-page="/login"
-                    authentication-failure-url="/login?error"
+                    authentication-failure-handler-ref="tiAuthFailureHandler"
                     authentication-success-handler-ref="authenticationSuccessHandler"
                     default-target-url="/"
                     password-parameter="password"
@@ -29,5 +29,6 @@
     </authentication-manager>
 
     <beans:bean id="tiAuthenticationProvider" class="pl.sodexo.it.gryf.web.ti.security.TiUserAuthenticationProvider" />
+    <beans:bean id="tiAuthFailureHandler" class="pl.sodexo.it.gryf.web.ti.security.TiAuthFailureHandler" />
 
 </beans:beans>

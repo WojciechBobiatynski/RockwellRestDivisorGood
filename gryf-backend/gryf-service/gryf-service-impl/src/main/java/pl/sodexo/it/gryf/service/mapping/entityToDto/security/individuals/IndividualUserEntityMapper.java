@@ -29,6 +29,6 @@ public class IndividualUserEntityMapper extends VersionableEntityMapper<Individu
         dto.setLastLoginFailureDate(entity.getLastLoginFailureDate());
         dto.setLastLoginSuccessDate(entity.getLastLoginSuccessDate());
         dto.setLastResetFailureDate(entity.getLastResetFailureDate());
-        dto.setLoginFailureAttempts(entity.getLoginFailureAttemptes());
+        dto.setLoginFailureAttempts(entity.getLoginFailureAttempts());
     }
 }
