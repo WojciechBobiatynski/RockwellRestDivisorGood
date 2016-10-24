@@ -49,6 +49,7 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     private String printNumberCountryCodePoland = "31";
     private Integer verificationCodeLength = 8;
     private Integer maxIndLoginFailureAttempts = 5;
+    private Integer indUserLoginBlockMinutes = 5;
 
     //LIFECYCLE METHODS
 
@@ -177,6 +178,10 @@ public class ApplicationParametersImpl implements ApplicationParameters {
         Integer dbMaxIndLoginFailureAttempts = (Integer) findParameter("GRYF_MAX_IND_LOGIN_FAILURE_ATTEMPTS");
         if (dbMaxIndLoginFailureAttempts != null) {
             maxIndLoginFailureAttempts = dbMaxIndLoginFailureAttempts;
+        }
+        Integer dbIndUserLoginBlockMinutes = (Integer) findParameter("GRYF_IND_USER_LOGIN_BLOCK_MINUTES");
+        if (dbIndUserLoginBlockMinutes != null) {
+            indUserLoginBlockMinutes = dbIndUserLoginBlockMinutes;
         }
     }
 
@@ -340,6 +345,11 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     @Override
     public Integer getMaxIndLoginFailureAttempts() {
         return maxIndLoginFailureAttempts;
+    }
+
+    @Override
+    public Integer getIndUserLoginBlockMinutes() {
+        return indUserLoginBlockMinutes;
     }
 
     //PRIVATE METHODS

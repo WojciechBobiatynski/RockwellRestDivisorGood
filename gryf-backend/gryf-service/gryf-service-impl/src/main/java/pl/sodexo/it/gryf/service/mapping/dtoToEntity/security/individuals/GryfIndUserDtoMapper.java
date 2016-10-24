@@ -32,8 +32,8 @@ public class GryfIndUserDtoMapper extends VersionableDtoMapper<GryfIndUserDto, I
         entity.setActive(dto.isActive());
         entity.setLastResetFailureDate(dto.getLastResetFailureDate());
         entity.setLastLoginSuccessDate(dto.getLastLoginSuccessDate());
-        entity.setLastLoginFailureDate(dto.getLastResetFailureDate());
+        entity.setLastLoginFailureDate(dto.getLastLoginFailureDate());
         entity.setLoginFailureAttemptes(dto.getLoginFailureAttempts());
-        entity.setResetFailureAttempts(dto.getLoginFailureAttempts());
+        entity.setResetFailureAttempts(dto.getResetFailureAttempts());
     }
 }

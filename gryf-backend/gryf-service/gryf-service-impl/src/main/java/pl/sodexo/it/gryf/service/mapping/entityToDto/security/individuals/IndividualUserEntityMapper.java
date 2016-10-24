@@ -24,6 +24,7 @@ public class IndividualUserEntityMapper extends VersionableEntityMapper<Individu
         dto.setInuId(entity.getInuId());
         dto.setIndId(entity.getIndividual().getId());
         dto.setPesel(entity.getIndividual().getPesel());
+        dto.setActive(entity.isActive());
         dto.setVerificationCode(entity.getVerificationCode());
         dto.setLastLoginFailureDate(entity.getLastLoginFailureDate());
         dto.setLastLoginSuccessDate(entity.getLastLoginSuccessDate());

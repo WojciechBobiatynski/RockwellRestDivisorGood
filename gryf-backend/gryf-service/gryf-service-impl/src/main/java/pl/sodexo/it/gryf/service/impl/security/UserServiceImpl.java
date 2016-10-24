@@ -4,7 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.sodexo.it.gryf.common.dto.security.individuals.GryfIndUserHeadDto;
+import pl.sodexo.it.gryf.common.config.ApplicationParameters;
+import pl.sodexo.it.gryf.common.dto.security.individuals.GryfIndUserDto;
 import pl.sodexo.it.gryf.common.dto.user.GryfTiUser;
 import pl.sodexo.it.gryf.common.exception.authentication.GryfBadCredentialsException;
 import pl.sodexo.it.gryf.common.exception.authentication.GryfPasswordExpiredException;
@@ -14,19 +15,27 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.security.UserRepository;
 import pl.sodexo.it.gryf.dao.api.search.dao.security.SecuritySearchDao;
 import pl.sodexo.it.gryf.model.security.trainingInstitutions.TrainingInstitutionUser;
 import pl.sodexo.it.gryf.service.api.security.UserService;
+import pl.sodexo.it.gryf.service.api.security.individuals.IndividualUserService;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
 /**
  * Implementacja serwisu realizujacego uslugi dotyczace autentykacji uzytkownika.
- * 
+ *
  * Created by akuchna on 2016-09-26.
  */
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
-    
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
     @Autowired
     private UserRepository userRepository;
 
@@ -35,6 +44,12 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private TrainingInstitutionUserDao trainingInstitutionUserDao;
+
+    @Autowired
+    private ApplicationParameters applicationParameters;
+
+    @Autowired
+    private IndividualUserService individualUserService;
 
     @Override
     public List<String> findPrivilegesForFoLogin(String login, String password) {
@@ -74,27 +89,44 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateLastLoginDateTi (GryfTiUser gryfTiUser){
+    public void updateLastLoginDateTi(GryfTiUser gryfTiUser) {
         TrainingInstitutionUser tiUser = trainingInstitutionUserDao.findByLogin(gryfTiUser.getUsername());
         tiUser.setLastLoginDate(new Date());
         trainingInstitutionUserDao.save(tiUser);
     }
 
     private void authenticateIndUser(String pesel, String verificationCode) {
-        GryfIndUserHeadDto user = securitySearchDao.findIndUserByPesel(pesel);
+        GryfIndUserDto user = securitySearchDao.findIndUserByPesel(pesel);
 
-        if(user == null){
+        if (user == null) {
             throw new GryfBadCredentialsException("Niepoprawny PESEL");
         }
+
+        user = checkIfUserBlockedAndUpdate(user);
 
         if (!user.isActive()) {
             throw new GryfUserNotActiveException("Twoje konto jest nieaktywne. Zgłoś sie do administratora");
         }
 
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        if (user == null || !passwordEncoder.matches(verificationCode, user.getVerificationCode())) {
+        if (!passwordEncoder.matches(verificationCode, user.getVerificationCode())) {
             throw new GryfBadCredentialsException("Niepoprawny PESEL lub/i hasło");
         }
 
+    }
+
+    private GryfIndUserDto checkIfUserBlockedAndUpdate(GryfIndUserDto user) {
+        if (user.getLastLoginFailureDate() == null) {
+            return user;
+        }
+
+        LocalDateTime lastLoginFailureDate = LocalDateTime.ofInstant(user.getLastLoginFailureDate().toInstant(), ZoneId.systemDefault());
+        if (lastLoginFailureDate.plusMinutes(applicationParameters.getIndUserLoginBlockMinutes()).isBefore(LocalDateTime.now()) && user.getLoginFailureAttempts() >= applicationParameters
+                .getMaxIndLoginFailureAttempts()) {
+            user.setActive(true);
+            user.setLoginFailureAttempts(0);
+            user = individualUserService.saveAndFlushIndUserInNewTransaction(user);
+        }
+        return user;
     }
 }

@@ -37,20 +37,23 @@ public class IndAuthFailureHandler extends SimpleUrlAuthenticationFailureHandler
 
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         setDefaultFailureUrl(GryfConstants.IND_DEFAULT_FAILURE_LOGIN_URL);
-        super.onAuthenticationFailure(request,response,exception);
+        super.onAuthenticationFailure(request, response, exception);
         blockUserIfExceedLoginAttemptsCounter(request.getParameter(usernamePasswordAuthenticationFilter.getUsernameParameter()));
     }
 
-    private void blockUserIfExceedLoginAttemptsCounter(String pesel){
+    private void blockUserIfExceedLoginAttemptsCounter(String pesel) {
         GryfIndUserDto indUserDto = securityService.findIndUserByPesel(pesel);
-        if(indUserDto == null || !indUserDto.isActive()){
+        if (indUserDto == null || !indUserDto.isActive()) {
             return;
         }
+
         indUserDto.setLoginFailureAttempts(indUserDto.getLoginFailureAttempts() + 1);
         indUserDto.setLastLoginFailureDate(new Date());
-        if(indUserDto.getLoginFailureAttempts() >= applicationParameters.getMaxIndLoginFailureAttempts()){
+
+        if (indUserDto.getLoginFailureAttempts() >= applicationParameters.getMaxIndLoginFailureAttempts()) {
             indUserDto.setActive(false);
         }
+
         individualUserService.saveIndUser(indUserDto);
     }
 

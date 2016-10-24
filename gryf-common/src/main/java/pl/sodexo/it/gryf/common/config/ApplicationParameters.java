@@ -68,4 +68,6 @@ public interface ApplicationParameters {
     Integer getVerificationCodeLength();
 
     Integer getMaxIndLoginFailureAttempts();
+
+    Integer getIndUserLoginBlockMinutes();
 }
