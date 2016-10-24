@@ -17,8 +17,6 @@ import pl.sodexo.it.gryf.model.security.trainingInstitutions.TrainingInstitution
 import pl.sodexo.it.gryf.service.api.security.UserService;
 import pl.sodexo.it.gryf.service.api.security.individuals.IndividualUserService;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -33,8 +31,7 @@ import java.util.List;
 @Transactional
 public class UserServiceImpl implements UserService {
 
-    @PersistenceContext
-    private EntityManager entityManager;
+    private static final int DEFAULT_LOGIN_FAILURE_ATTEMPTS_NUMBER = 0;
 
     @Autowired
     private UserRepository userRepository;
@@ -124,7 +121,7 @@ public class UserServiceImpl implements UserService {
         if (lastLoginFailureDate.plusMinutes(applicationParameters.getIndUserLoginBlockMinutes()).isBefore(LocalDateTime.now()) && user.getLoginFailureAttempts() >= applicationParameters
                 .getMaxIndLoginFailureAttempts()) {
             user.setActive(true);
-            user.setLoginFailureAttempts(0);
+            user.setLoginFailureAttempts(DEFAULT_LOGIN_FAILURE_ATTEMPTS_NUMBER);
             user = individualUserService.saveAndFlushIndUserInNewTransaction(user);
         }
         return user;
