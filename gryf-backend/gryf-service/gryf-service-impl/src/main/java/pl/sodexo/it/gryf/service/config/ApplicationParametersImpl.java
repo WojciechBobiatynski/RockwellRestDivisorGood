@@ -50,6 +50,7 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     private Integer verificationCodeLength = 8;
     private Integer maxIndLoginFailureAttempts = 5;
     private Integer indUserLoginBlockMinutes = 5;
+    private String verEmailContactType = "VER_EMAIL:";
 
     //LIFECYCLE METHODS
 
@@ -182,6 +183,10 @@ public class ApplicationParametersImpl implements ApplicationParameters {
         Integer dbIndUserLoginBlockMinutes = (Integer) findParameter("GRYF_IND_USER_LOGIN_BLOCK_MINUTES");
         if (dbIndUserLoginBlockMinutes != null) {
             indUserLoginBlockMinutes = dbIndUserLoginBlockMinutes;
+        }
+        String dbVerEmailContactType = (String) findParameter("GRYF_VER_EMAIL_CONTACT_TYPE");
+        if (dbVerEmailContactType != null) {
+            verEmailContactType = dbVerEmailContactType;
         }
     }
 
@@ -350,6 +355,11 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     @Override
     public Integer getIndUserLoginBlockMinutes() {
         return indUserLoginBlockMinutes;
+    }
+
+    @Override
+    public String getVerEmailContactType() {
+        return verEmailContactType;
     }
 
     //PRIVATE METHODS

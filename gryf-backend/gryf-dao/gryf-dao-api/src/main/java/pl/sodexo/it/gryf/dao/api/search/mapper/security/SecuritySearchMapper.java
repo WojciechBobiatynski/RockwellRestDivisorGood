@@ -1,6 +1,7 @@
 package pl.sodexo.it.gryf.dao.api.search.mapper.security;
 
 import org.apache.ibatis.annotations.Param;
+import pl.sodexo.it.gryf.common.criteria.UserCriteria;
 import pl.sodexo.it.gryf.common.dto.security.individuals.GryfIndUserDto;
 
 import java.util.List;
@@ -12,19 +13,19 @@ import java.util.List;
  */
 public interface SecuritySearchMapper {
 
-    List<String> findTiUserPrivileges(@Param("login") String login);
+    List<String> findTiUserPrivileges(@Param("criteria") UserCriteria criteria, @Param("login") String login);
 
     /**
      * Metoda wyszukująca przywileje dla osoby fizycznej
      * @param pesel
      * @return lista przywilejów
      */
-    List<String> findIndUserPrivileges(@Param("pesel") String pesel);
+    List<String> findIndUserPrivileges(@Param("criteria") UserCriteria criteria, @Param("pesel") String pesel);
 
     /**
      * Metoda wyszukująca użytkownika osoby fizycznej po peselu
      * @param pesel - pesel osoby fizycznej
      * @return Dto reprezentujące użytkonwika osoby fizycznej na potrzeby autentykacji
      */
-    GryfIndUserDto findIndUserByPesel(@Param("pesel") String pesel);
+    GryfIndUserDto findIndUserByPesel(@Param("criteria") UserCriteria criteria, @Param("pesel") String pesel);
 }

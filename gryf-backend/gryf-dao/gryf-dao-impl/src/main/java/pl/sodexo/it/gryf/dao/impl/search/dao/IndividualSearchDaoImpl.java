@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import pl.sodexo.it.gryf.common.criteria.UserCriteria;
 import pl.sodexo.it.gryf.common.dto.security.individuals.VerificationDto;
 import pl.sodexo.it.gryf.dao.api.search.dao.IndividualSearchDao;
 import pl.sodexo.it.gryf.dao.api.search.mapper.IndividualSearchMapper;
@@ -22,6 +23,6 @@ public class IndividualSearchDaoImpl implements IndividualSearchDao {
 
     @Override
     public Long findIndividualIdByPeselAndEmail(VerificationDto verificationDto) {
-        return individualSearchMapper.findIndividualIdByPeselAndEmail(verificationDto);
+        return individualSearchMapper.findIndividualIdByPeselAndEmail(new UserCriteria(), verificationDto);
     }
 }

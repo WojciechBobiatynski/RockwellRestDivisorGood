@@ -70,4 +70,6 @@ public interface ApplicationParameters {
     Integer getMaxIndLoginFailureAttempts();
 
     Integer getIndUserLoginBlockMinutes();
+
+    String getVerEmailContactType();
 }

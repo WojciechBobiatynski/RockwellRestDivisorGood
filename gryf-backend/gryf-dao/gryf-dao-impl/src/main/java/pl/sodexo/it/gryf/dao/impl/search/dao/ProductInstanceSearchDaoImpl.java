@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import pl.sodexo.it.gryf.common.criteria.UserCriteria;
 import pl.sodexo.it.gryf.dao.api.search.dao.ProductInstanceSearchDao;
 import pl.sodexo.it.gryf.dao.api.search.mapper.ProductInstanceSearchMapper;
 
@@ -19,6 +20,6 @@ public class ProductInstanceSearchDaoImpl implements ProductInstanceSearchDao {
 
     @Override
     public Long countAvailableToNumberGeneration(String productId) {
-        return productInstanceSearchMapper.countAvailableToNumberGeneration(productId);
+        return productInstanceSearchMapper.countAvailableToNumberGeneration(new UserCriteria(),productId);
     }
 }
