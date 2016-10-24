@@ -69,6 +69,13 @@ public class PublicBenefitsViewController {
         return DEFAULT_VIEW;
     }
 
+    @RequestMapping("/agreements")
+    public String getAgreementView(Model model) {
+        securityChecker.assertFormPrivilege(Privileges.GRF_PBE_APPLICATIONS);
+        model.addAttribute(MAIN_CONTENT_PARAM_NAME, PAGES_PREFIX + "publicbenefits/agreementsIndex.jsp");
+        return DEFAULT_VIEW;
+    }
+
     @RequestMapping("/orders")
     public String getOrdersView(Model model) {
         securityChecker.assertFormPrivilege(Privileges.GRF_PBE_ORDERS);

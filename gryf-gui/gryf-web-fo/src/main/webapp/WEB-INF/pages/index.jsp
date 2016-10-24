@@ -147,6 +147,22 @@
                         </ul>
                     </li>
                     <li class="submenu">
+                        <a ng-href="${pageContext.request.contextPath}/publicBenefits/agreements/"
+                           gryf-link-privilege="GRF_PBE_APPLICATIONS">Umowy</a>
+                        <ul>
+                            <li>
+                                <a ng-href="${pageContext.request.contextPath}/publicBenefits/agreements/"
+                                   gryf-link-privilege="GRF_PBE_APPLICATIONS">Lista umów</a>
+                            </li>
+                            <li>
+                                <a ng-href="${pageContext.request.contextPath}/publicBenefits/agreements/#modify"
+                                   gryf-link-privilege="GRF_PBE_APPLICATION_MOD">
+                                    Nowa umowa
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="submenu">
                         <a ng-href="${pageContext.request.contextPath}/publicBenefits/orders/"
                            gryf-link-privilege="GRF_PBE_ORDERS">Zamówienia</a>
                         <ul>
