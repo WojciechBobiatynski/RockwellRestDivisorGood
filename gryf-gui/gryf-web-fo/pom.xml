@@ -176,5 +176,10 @@
             <groupId>pl.sodexo.it</groupId>
             <artifactId>gryf-web-common</artifactId>
         </dependency>
+        <!-- WEB -->
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-web-api</artifactId>
+        </dependency>
     </dependencies>
 </project>

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import static pl.sodexo.it.gryf.web.common.util.PageUtil.setUpMainContent;
-import static pl.sodexo.it.gryf.web.fo.util.FoPageConstant.*;
+import static pl.sodexo.it.gryf.web.fo.utils.FoPageConstant.*;
 
 /**
  * Kontroler widokow glownych dla FO.

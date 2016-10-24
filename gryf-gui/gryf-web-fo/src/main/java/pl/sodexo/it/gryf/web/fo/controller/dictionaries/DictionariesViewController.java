@@ -8,8 +8,8 @@ import pl.sodexo.it.gryf.common.enums.Privileges;
 import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
 
 import static pl.sodexo.it.gryf.web.common.util.PageUtil.setUpMainContent;
-import static pl.sodexo.it.gryf.web.fo.util.FoPageConstant.PATH_FO_ZIP;
-import static pl.sodexo.it.gryf.web.fo.util.FoPageConstant.SUB_PAGE_FO_ZIP;
+import static pl.sodexo.it.gryf.web.fo.utils.FoPageConstant.PATH_FO_ZIP;
+import static pl.sodexo.it.gryf.web.fo.utils.FoPageConstant.SUB_PAGE_FO_ZIP;
 
 @Controller
 @RequestMapping("/dictionaries")
