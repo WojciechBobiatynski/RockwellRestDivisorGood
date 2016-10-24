@@ -92,7 +92,7 @@
                     <regex>false</regex>
                     <ignoreMissingFile>false</ignoreMissingFile>
                     <file>
-                        ${project.build.directory}/${project.build.finalName}/WEB-INF/page/fo-login.jsp
+                        ${project.build.directory}/${project.build.finalName}/WEB-INF/pages/fo-login.jsp
                     </file>
                     <replacements>
                         <replacement>

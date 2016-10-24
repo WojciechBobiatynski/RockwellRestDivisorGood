@@ -1,0 +1,34 @@
+<div ng-if="orderStatus.loaded" class="width-100">
+    <div ng-controller="AttrDController" class="grid-100">
+        <div class="grid-60" gryf-mandatory-flag="{{item.flags}}">
+            <strong class="label">
+                {{item.name}}
+            </strong>
+            <input type="text"
+                   placeholder="{{item.name}}"
+                   ng-model="item.valueDate"
+                   datepicker-popup="yyyy-MM-dd"
+                   is-open="datepicker['valueDate_{{item.id}}']"
+                   close-text="Zamknij"
+                   clear-text="Czyść"
+                   current-text="Dziś"
+                   ng-click="openDatepicker('valueDate_{{item.id}}')"
+                   gryf-data-modification-flags="{{item.flags}}"
+                   gryf-privilege="{{item.privilege}}">
+            <gryf-validation-msg path="{{item.orderFlowElementId}}"/>
+
+        </div>
+        <div class="grid-20">
+            <strong class="label">
+                Data wymagana danych
+            </strong>
+            {{item.requiredDate | date:'yyyy-MM-dd'}}
+        </div>
+        <div class="grid-20">
+            <strong class="label">
+                Data uzupełnienia danych
+            </strong>
+            {{item.completedDate | date:'yyyy-MM-dd HH:mm:ss'}}
+        </div>
+    </div>
+</div>

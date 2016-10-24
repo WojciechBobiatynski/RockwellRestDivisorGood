@@ -1,0 +1,203 @@
+<div>
+    <header id="header">
+        <h1>Obsługa dostaw</h1>
+        <ul>
+            <li>
+                <a ng-click="save()" class="button button-save"
+                   gryf-delivery-privilege="x, GRF_PBE_DELIVERIES_MOD">
+                    Zapisz (alt+1)
+                </a>
+            </li>
+            <li>
+                <a ng-click="settlementDelivery()" class="button button-save"
+                   gryf-delivery-privilege="x, GRF_PBE_DELIVERIES_REIMB"
+                   ng-if="entityObject.status.id === 'SCANNED'">
+                    Rozlicz Dostawę (alt+2)
+                </a>
+            </li>
+            <li>
+                <a ng-click="cancelDelivery()" class="button button-save"
+                   gryf-delivery-privilege="x, GRF_PBE_DELIVERIES_CANCEL"
+                   ng-if="entityObject.status.id === 'ORDERED' ||
+                          entityObject.status.id === 'DELIVERED'">
+                    Anuluj Dostawę (alt+3)
+                </a>
+            </li>
+        </ul>
+        <ol>
+            <li>
+                <a ng-href="{{getPrevUrl()}}" class="button"
+                   target="_self">Wróć </a>
+            </li>
+        </ol>
+        <ol>
+            <li>
+                <a ng-href="" ng-click="newDelivery()" class="button button-new"
+                   target="_self">
+                    Rejestruj dostawę</a>
+            </li>
+        </ol>
+    </header>
+
+    <section>
+        <div class="grid-100">
+            <div class="grid-20">
+                <strong class="label">Wzorzec rozliczeń</strong>
+                <select ng-model="entityObject.reimbursementPattern.id"
+                        ng-options="v.id as v.name for v in reimbursementPatterns"
+                        gryf-delivery-privilege="IUM, GRF_PBE_DELIVERIES_REG, GRF_PBE_DELIVERIES_ACCEPT"
+                        ng-disabled="entityObject.status.id">
+                </select>
+                <gryf-validation-msg path="reimbursementPattern"/>
+            </div>
+            <div class="grid-15">
+                <strong class="label">Id Instytucji Szkoleniowej</strong>
+                <input type="text" ng-model="entityObject.trainingInstitution.id"
+                       gryf-delivery-privilege="IUM, GRF_PBE_DELIVERIES_REG, GRF_PBE_DELIVERIES_ACCEPT"
+                       ng-disabled="entityObject.status.id">
+                <a ng-click="openIsLov()" class="button button-save">
+                    Wybierz
+                </a>
+                <gryf-validation-msg path="trainingInstitution"/>
+            </div>
+            <div class="grid-50">
+                <strong class="label">Nazwa Instytucji Szkoleniowej</strong>
+                <input type="text" ng-model="entityObject.trainingInstitution.name"
+                       disabled="disabled">
+            </div>
+            <div class="grid-15">
+                <strong class="label">NIP</strong>
+                <input type="text" ng-model="entityObject.trainingInstitution.vatRegNum"
+                       disabled="disabled">
+            </div>
+        </div>
+        <div class="grid-100">
+            <div class="grid-60">
+                <strong class="label">Adres odbioru dostawy</strong>
+                <input type="text" ng-model="entityObject.deliveryAddress"
+                       gryf-delivery-privilege="IUM, GRF_PBE_DELIVERIES_REG"
+                       ng-disabled="entityObject.status.id">
+                <gryf-validation-msg path="deliveryAddress"/>
+            </div>
+            <div class="grid-10">
+                <strong class="label">Kod pocztowy odbioru dostawy</strong>
+                <input type="text" ng-model="entityObject.deliveryZipCode"
+                       gryf-delivery-privilege="IUM, GRF_PBE_DELIVERIES_REG"
+                       ng-disabled="entityObject.status.id">
+                <gryf-validation-msg path="deliveryZipCode"/>
+            </div>
+            <div class="grid-30">
+                <strong class="label">Miasto odbioru dostawy</strong>
+                <input type="text" ng-model="entityObject.deliveryCityName"
+                       gryf-delivery-privilege="IUM, GRF_PBE_DELIVERIES_REG"
+                       ng-disabled="entityObject.status.id">
+                <gryf-validation-msg path="deliveryCityName"/>
+            </div>
+        </div>
+        <div class="grid-100">
+            <div class="grid-15">
+                <strong class="label">Plan. data odbioru kuponów</strong>
+                <input type="text"
+                       ng-model="entityObject.plannedReceiptDate"
+                       datepicker-popup="yyyy-MM-dd"
+                       is-open="datepicker.plannedReceiptDateOpened"
+                       close-text="Zamknij"
+                       clear-text="Czyść"
+                       current-text="Dziś"
+                       ng-click="openDatepicker('plannedReceiptDateOpened')"
+                       gryf-delivery-privilege="IUM, GRF_PBE_DELIVERIES_REG"
+                       ng-disabled="entityObject.status.id"/>
+                <gryf-validation-msg path="plannedReceiptDate"/>
+
+            </div>
+            <div class="grid-15">
+                <strong class="label">Data przyjęcia zgłoszenia</strong>
+                <input type="text"
+                       ng-model="entityObject.requestDate"
+                       datepicker-popup="yyyy-MM-dd"
+                       is-open="datepicker.requestDateOpened"
+                       close-text="Zamknij"
+                       clear-text="Czyść"
+                       current-text="Dziś"
+                       ng-click="openDatepicker('requestDateOpened')"
+                       gryf-delivery-privilege="IUM, GRF_PBE_DELIVERIES_REG"
+                       ng-disabled="entityObject.status.id"/>
+                <gryf-validation-msg path="requestDate"/>
+            </div>
+            <div class="grid-15">
+                <strong class="label">Data otrzymania przesyłki</strong>
+                <input type="text"
+                       ng-model="entityObject.deliveryDate"
+                       datepicker-popup="yyyy-MM-dd"
+                       is-open="datepicker.deliveryDateOpened"
+                       close-text="Zamknij"
+                       clear-text="Czyść"
+                       current-text="Dziś"
+                       ng-click="openDatepicker('deliveryDateOpened')"
+                       gryf-delivery-privilege="IUM, GRF_PBE_DELIVERIES_ACCEPT"
+                       ng-disabled="entityObject.status.id &&
+                                    entityObject.status.id !== 'ORDERED'"/>
+                <gryf-validation-msg path="deliveryDate"/>
+            </div>
+            <div class="grid-15">
+                <strong class="label">Numer listu przewozowego</strong>
+                <input type="text" ng-model="entityObject.waybillNumber"
+                       gryf-delivery-privilege="IUM, GRF_PBE_DELIVERIES_ACCEPT"
+                       ng-disabled="entityObject.status.id &&
+                                    entityObject.status.id !=='ORDERED'">
+                <gryf-validation-msg path="waybillNumber"/>
+            </div>
+            <div class="grid-15">
+                <strong class="label">Status dostawy</strong>
+                <input type="text" ng-model="entityObject.status.name"
+                       disabled="disabled">
+
+            </div>
+            <div class="grid-10">
+                <strong class="label">Id dostawy</strong>
+                <input type="text" ng-model="entityObject.id"
+                       disabled="disabled">
+            </div>
+            <div class="grid-15">
+                <strong class="label">Realizacja Sodexo</strong>
+                <input type="checkbox" ng-checked="entityObject.plannedReceiptDate"
+                       ng-model="entityObject.sodexoRealization"
+                       disabled="disabled">
+            </div>
+        </div>
+        <div class="grid-100">
+            <div class="grid-15">
+                <strong class="label">Data przekazania do anonsu</strong>
+                <input type="text"
+                       ng-model="entityObject.announcementDate"
+                       datepicker-popup="yyyy-MM-dd"
+                       is-open="false"
+                       disabled="disabled"/>
+            </div>
+            <div class="grid-15">&nbsp;</div>
+            <div class="grid-15">&nbsp;</div>
+            <div class="grid-15">&nbsp;</div>
+            <div class="grid-15">&nbsp;</div>
+            <div class="grid-10">
+                <strong class="label">Id dostawy nadrzędnej</strong>
+                <input type="text" ng-model="entityObject.parentId"
+                       gryf-delivery-privilege="IU, GRF_PBE_DELIVERIES_REIMB"
+                       ng-disabled="entityObject.status.id">
+            </div>
+            <div class="grid-15">
+                <strong class="label">Dostawa podrzędna (sztuczna)</strong>
+                <input type="checkbox"
+                       ng-model="entityObject.deliverySecondary"
+                       gryf-delivery-privilege="IU, GRF_PBE_DELIVERIES_REIMB"
+                       ng-disabled="entityObject.status.id">
+            </div>
+        </div>
+
+        <div class="grid-100">
+            <strong class="label">Uwagi</strong>
+            <textarea ng-model="entityObject.remarks"
+                      rows="5"
+                      gryf-delivery-privilege="IU, GRF_PBE_DELIVERIES_MOD"></textarea>
+        </div>
+    </section>
+</div>

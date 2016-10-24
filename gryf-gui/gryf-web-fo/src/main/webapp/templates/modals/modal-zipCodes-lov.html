@@ -1,0 +1,45 @@
+<div>
+    <div class="modal-header">
+        <h3 class="modal-title">Wyszukaj i wybierz</h3>
+    </div>
+    <div class="modal-body text">
+        <table class="table">
+            <thead>
+            <tr class="inputs">
+                <th>
+                    <input placeholder="Kod pocztowy" type="text" ng-model="model.entity.zipCode">
+                </th>
+                <th>
+                    <input placeholder="Miejscowość" ng-model="model.entity.cityName">
+                </th>
+                <th>
+                    <a ng-click="find()" class="button button-search">szukaj</a>
+                </th>
+            </tr>
+            </thead>
+            <tr ng-repeat="item in list | limitTo: searchResultOptions.displayLimit" ng-click="$close(item)" class="mouseover">
+                <td>{{item.zipCode}}</td>
+                <td>{{item.cityName}}</td>
+            </tr>
+        </table>
+    </div>
+    <div ng-show="searchResultOptions.overflow" class="centered-ul">
+        <ul>
+            <li><a href="" ng-click="loadMore()"
+                   class="button button-infinity">wczytaj więcej wyników</a></li>
+        </ul>
+    </div>
+    <div class="" ng-show="model.zipCodesArray.length===0">
+        Brak wyników
+    </div>
+    <div class="msg msg-error" ng-show="searchResultOptions.badQuery">
+        <p>Błąd kryteriów zapytania - niepoprawny format</p>
+    </div>
+    <div class="modal-footer">
+        <div class="centered-ul">
+            <ul>
+                <li><button class="btn btn-warning" ng-click="$dismiss()">Anuluj</button></li>
+            </ul>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,42 @@
+<div class="grid-100">
+    <div class="grid-60">
+        <strong class="label">
+            Załącznik - {{item.name}}
+        </strong>
+        <a class="button"
+           ng-model="item.file"
+           ngf-select
+           ngf-change="validateSize($files, attachment)"
+           gryf-data-modification-flags="{{item.flags}}"
+           data-item="{{item}}"
+           ng-click="setFileNotToDelete(item)"
+                >
+            Dodaj
+        </a>
+        <a ng-if="item.fileName" class="button button-add" href=""
+           ng-href="{{getDownloadAttachmentLink(item.id)}}" target="_self">
+            Pobierz załącznik
+        </a>
+
+        <a ng-if="item.fileName" class="button button-add" href=""
+           ng-click="setFileToDelete(item)" target="_self">
+            Usuń
+        </a>
+        {{item.file[0].name ? item.file[0].name : item.fileName}}
+        <gryf-validation-msg path="{{item.orderFlowElementId}}"/>
+    </div>
+
+    <div class="grid-20">
+        <strong class="label">
+            Data wymagana danych
+        </strong>
+        {{item.requiredDate  | date:'yyyy-MM-dd'}}
+    </div>
+    <div class="grid-20">
+        <strong class="label">
+            Data uzupełnienia danych
+        </strong>
+        {{item.completedDate  | date:'yyyy-MM-dd HH:mm:ss'}}
+    </div>
+</div>
+

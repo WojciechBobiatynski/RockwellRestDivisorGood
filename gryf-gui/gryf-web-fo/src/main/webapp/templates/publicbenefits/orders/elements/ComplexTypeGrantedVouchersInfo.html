@@ -1,0 +1,63 @@
+<div class="width-100" ng-if="orderStatus.loaded">
+    <div class="grid-100">
+        <header>
+            <h2>{{item.name}}</h2>
+        </header>
+    </div>
+    <div class="grid-100" ng-controller="ComplexTypeGrantedVouchersInfoController">
+
+        <div class="grid-15">
+            <strong class="label">Przysługująca liczba bonów</strong>
+            <input type="text"
+                   ng-model="item.entitledVouchersNumber"
+                   readonly="readonly">
+        </div>
+
+        <div class="grid-20">
+            <strong class="label">Przysługująca wysokość pomocy w PLN</strong>
+            <input type="text" ng-model="item.entitledPlnAmount"
+                   readonly="readonly"
+                   ui-number-mask
+                   ui-hide-group-sep>
+        </div>
+
+        <div class="grid-15">
+            <strong class="label">Wnioskowana liczba bonów</strong>
+            <input type="text" ng-model="item.requestedVouchersNumber"
+                   readonly="readonly">
+        </div>
+
+
+        <div class="grid-20" gryf-mandatory-flag="{{item.flags}}">
+            <strong class="label">Limit pomocy de minimis w EUR</strong>
+            <input type="text"
+                   ng-model="item.limitEurAmount"
+                   ui-number-mask
+                   ui-hide-group-sep
+                   ng-change="evaluate()"
+                   gryf-data-modification-flags="{{item.flags}}">
+        </div>
+
+        <div class="grid-15" gryf-mandatory-flag="{{item.flags}}">
+            <strong class="label">Kurs EUR</strong>
+            <input type="text"
+                   ng-model="item.exchange"
+                   ui-number-mask
+                   ui-hide-group-sep
+                   ng-change="evaluate()"
+                   gryf-data-modification-flags="{{item.flags}}">
+        </div>
+
+        <div class="grid-15" gryf-mandatory-flag="{{item.flags}}">
+            <strong class="label">Przyznana liczba bonów</strong>
+            <input type="text"
+                   ng-model="item.givenVouchersNumber"
+                   gryf-data-modification-flags="{{item.flags}}">
+        </div>
+        <div class="width-100 text-center">
+            <gryf-validation-msg path="givenVouchersNumberMin"></gryf-validation-msg>
+            <gryf-validation-msg path="givenVouchersNumberBadCalculation"></gryf-validation-msg>
+            <gryf-validation-msg path="givenVouchersNumberMoreEntitledVouchersNumber"></gryf-validation-msg>
+        </div>
+    </div>
+</div>

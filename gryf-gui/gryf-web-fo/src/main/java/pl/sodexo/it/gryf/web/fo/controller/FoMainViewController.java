@@ -26,7 +26,7 @@ public class FoMainViewController {
     public String welcome(Model model) {
         setUpMainContent(model, SUB_PAGE_FO_WELCOME);
         //return PAGE_MAIN;
-        return "/WEB-INF/page/index.jsp"; //todo ak poprawic
+        return "/WEB-INF/pages/index.jsp"; //todo ak poprawic
     }
 
 }

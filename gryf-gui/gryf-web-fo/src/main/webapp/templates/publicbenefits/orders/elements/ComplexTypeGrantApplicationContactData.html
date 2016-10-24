@@ -1,0 +1,23 @@
+<div ng-if="orderStatus.loaded">
+    <div class="grid-100">    
+        <header>
+            <h2>{{item.name}}</h2>
+        </header>
+    </div>
+    <div class="grid-100">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Imię i nazwisko</th>
+                <th>Adres email</th>
+                <th>Telefon</th>
+            </tr>
+            </thead>
+            <tr ng-repeat="user in item.contacts">
+                <td>{{::user.name}}</td>
+                <td>{{::user.email}}</td>
+                <td>{{::user.phone}}</td>
+            </tr>
+        </table>
+    </div>
+</div>

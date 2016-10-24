@@ -1,0 +1,52 @@
+<div id="modal-conflict">
+    <div class="modal-header">
+        <h3 class="modal-title">Wystapiły duplikaty</h3>
+    </div>
+    <div class="modal-body text">
+        <p>{{message}}</p>
+        <p>Lista istniejących obiektów o danym numerze PESEL:</p>
+
+            <table class="table table-condensed">
+                <thead>
+                <tr>
+                    <th> Id</th>
+                    <th> Imię</th>
+                    <th> Nazwisko</th>
+                    <th> PESEL</th>
+                    <th> Nr. dok. tożsamości</th>
+                    <th> Rodzaj dok. tożsamości</th>
+                    <th> Adres do faktury</th>
+                    <th> Kod do faktury</th>
+                    <th> Miasto do faktury</th>
+                    <th> Adres korespondencyjny</th>
+                    <th> Kod korespondencyjny</th>
+                    <th> Miasto do korespondencji</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in conflictedObjects">
+                    <td>{{::item.id}}</td>
+                    <td>{{::item.firstName}}</td>
+                    <td>{{::item.lastName}}</td>
+                    <td>{{::item.pesel}}</td>
+                    <td>{{::item.documentNumber}}</td>
+                    <td>{{::item.documentType}}</td>
+                    <td>{{::item.addressInvoice}}</td>
+                    <td>{{::item.zipCodeInvoice.zipCode}}</td>
+                    <td>{{::item.zipCodeInvoice.cityName}}</td>
+                    <td>{{::item.addressCorr}}</td>
+                    <td>{{::item.zipCodeCorr.zipCode}}</td>
+                    <td>{{::item.zipCodeCorr.cityName}}</td>
+                </tr>
+                </tbody>
+            </table>
+    </div>
+    <div class="modalscop-footer">
+        <div class="centered-ul">
+            <ul>
+                <li><a class="button button-force" ng-click="$close('force')">Zapisz</a></li>
+                <li><a class="button button-cancel button-gray" ng-click="$dismiss()">Anuluj</a></li>
+            </ul>
+        </div>
+    </div>
+</div>       

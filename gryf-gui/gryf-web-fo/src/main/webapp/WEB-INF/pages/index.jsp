@@ -29,26 +29,18 @@
         var sessionTimeoutInMs = ${sessionTimeout};
     </script>
 
-    
-    
+    <script src="${pageContext.request.contextPath}/js/gryf-sessionStorage.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-route.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-animate.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.12.1/ui-bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.12.1/ui-bootstrap-tpls.min.js"></script>
-    
-    <%--<script src="${pageContext.request.contextPath}/js/components/angular-load.js"></script>--%>
-    <%--<script src="${pageContext.request.contextPath}/js/components/angular-input-masks-standalone.min.js"></script>--%>
-    <%--<script src="${pageContext.request.contextPath}/js/components/angular-toastr.tpls.min.js"></script>--%>
-    <%--<script src="${pageContext.request.contextPath}/js/components/ng-file-upload.min.js"></script>--%>
-
-    <script src="${pageContext.request.contextPath}/js/vendorMain.js"></script>
-
-    <%--<script src="${pageContext.request.contextPath}/js/gryf-sessionStorage.js"></script>--%>
-    <%--<script src="${pageContext.request.contextPath}/js/components/gryf-components.js"></script>--%>
-    <%--<script src="${pageContext.request.contextPath}/js/components/gryf-menu.js"></script>--%>
-
-    <script src="${pageContext.request.contextPath}/js/applicationMain.js"></script>
+    <script src="${pageContext.request.contextPath}/js/components/angular-load.js"></script>
+    <script src="${pageContext.request.contextPath}/js/components/angular-input-masks-standalone.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/components/angular-toastr.tpls.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/components/gryf-components.js"></script>
+    <script src="${pageContext.request.contextPath}/js/components/ng-file-upload.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/components/gryf-menu.js"></script>
 </head>
 <body>
 <section id="timeoutBox">

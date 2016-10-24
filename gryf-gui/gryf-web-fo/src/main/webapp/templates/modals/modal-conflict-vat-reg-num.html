@@ -1,0 +1,46 @@
+<div id="modal-conflict">
+    <div class="modal-header">
+        <h3 class="modal-title">Wystapiły duplikaty</h3>
+    </div>
+    <div class="modal-body text">
+        <p>{{message}}</p>
+        <p>Lista istniejących obiektów o danym numerze NIP:</p>
+
+            <table class="table table-condensed">
+                <thead>
+                <tr>
+                    <th> Id</th>
+                    <th> Nazwa firmy</th>
+                    <th> NIP</th>
+                    <th> Adres do faktury</th>
+                    <th> Kod do faktury</th>
+                    <th> Miasto do faktury</th>
+                    <th> Adres korespondencyjny</th>
+                    <th> Kod korespondencyjny</th>
+                    <th> Miasto do korespondencji</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in conflictedObjects">
+                    <td>{{::item.id}}</td>
+                    <td>{{::item.name}}</td>
+                    <td>{{::item.vatRegNum}}</td>
+                    <td>{{::item.addressInvoice}}</td>
+                    <td>{{::item.zipCodeInvoice.zipCode}}</td>
+                    <td>{{::item.zipCodeInvoice.cityName}}</td>
+                    <td>{{::item.addressCorr}}</td>
+                    <td>{{::item.zipCodeCorr.zipCode}}</td>
+                    <td>{{::item.zipCodeCorr.cityName}}</td>
+                </tr>
+                </tbody>
+            </table>
+    </div>
+    <div class="modalscop-footer">
+        <div class="centered-ul">
+            <ul>
+                <li><a class="button button-force" ng-click="$close('force')">Zapisz</a></li>
+                <li><a class="button button-cancel button-gray" ng-click="$dismiss()">Anuluj</a></li>
+            </ul>
+        </div>
+    </div>
+</div>       

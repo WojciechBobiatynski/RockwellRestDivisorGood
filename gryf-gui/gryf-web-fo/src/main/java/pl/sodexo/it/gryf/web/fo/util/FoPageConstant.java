@@ -11,7 +11,7 @@ public final class FoPageConstant extends PageConstant {
 
     private FoPageConstant() {}
 
-    private static final String PREFIX_PAGE = "/WEB-INF/page/";
+    private static final String PREFIX_PAGE = "/WEB-INF/pages/";
 
     public static final String PATH_FO_LOGIN = "/login";
     public static final String PAGE_FO_LOGIN = PREFIX_PAGE + "fo-login.jsp";

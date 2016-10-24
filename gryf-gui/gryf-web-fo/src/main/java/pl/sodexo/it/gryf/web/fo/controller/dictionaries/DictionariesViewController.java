@@ -22,7 +22,7 @@ public class DictionariesViewController {
     public String formZipCode(Model model) {
         securityChecker.assertFormPrivilege(Privileges.GRF_ZIP_CODES);
         setUpMainContent(model, SUB_PAGE_FO_ZIP);
-        return "/WEB-INF/page/index.jsp"; //todo ak poprawic
+        return "/WEB-INF/pages/index.jsp"; //todo ak poprawic
     }
 
 }

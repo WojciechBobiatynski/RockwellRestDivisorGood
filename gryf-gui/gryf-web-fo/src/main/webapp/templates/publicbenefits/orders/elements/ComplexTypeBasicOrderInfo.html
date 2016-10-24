@@ -1,0 +1,60 @@
+<div class="width-100" ng-if="orderStatus.loaded">
+    <div class="grid-100">
+        <header>
+            <h2>{{item.name}}</h2>
+        </header>   
+    </div>
+    <div class="grid-100" ng-controller="ComplexTypeBasicOrderInfoController">
+        <div class="grid-10">
+            <strong class="label">Id <br/>zamówienia</strong>
+            <input type="text" ng-model="item.orderId"
+                   readonly="readonly">
+        </div>
+
+        <div class="grid-15">
+            <strong class="label">Status <br/>zamówienia</strong>
+            <input type="text" ng-model="item.statusName"
+                   readonly="readonly">
+        </div>
+
+        <div class="grid-15">
+            <strong class="label">Data <br/>zamówienia</strong>
+            <input type="text"
+                   ng-model="item.orderDate"
+                   datepicker-popup="yyyy-MM-dd"
+                   close-text="Zamknij"
+                   clear-text="Czyść"
+                   current-text="Dziś"
+                   readonly="readonly">
+        </div>
+
+        <div class="grid-10">
+            <strong class="label">Operator <br/>zamówienia</strong>
+            <input type="text" ng-model="item.operator"
+                   readonly="readonly">
+        </div>
+
+        <div class="grid-10">
+            <a ng-href="{{getEnterpriseLinkFor(item.enterpriseId)}} ">
+                <strong class="label">Id <br/>MŚP &UpperRightArrow; </strong>
+            </a>                
+            <input type="text" ng-model="item.enterpriseId"
+                   readonly="readonly">
+        </div>
+
+        <div class="grid-30">
+            <a ng-href="{{getEnterpriseLinkFor(item.enterpriseId)}}"> 
+                <strong class="label">Nazwa <br/>przedsiębiorstwa &UpperRightArrow; </strong> 
+            </a>
+            <input type="text" ng-model="item.enterpriseName"
+                   readonly="readonly">
+            
+        </div>
+
+        <div class="grid-10">
+            <strong class="label"><br/>NIP</strong>
+            <input type="text" ng-model="item.vatRegNum"
+                   readonly="readonly">
+        </div>
+    </div>
+</div>

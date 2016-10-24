@@ -1,0 +1,122 @@
+<header id="header">
+    <h1>Anonsuj rozliczenie</h1>
+    <ul ng-if="isReimbursementPatternSpecified">
+        <li>
+            <a ng-click="save()"
+               ng-if="isNewOrAnnouncedOrCorrected() || isInStatus('EXPORTED')"
+               class="button button-save"
+               gryf-privilege="GRF_PBE_REIMB_MOD">
+                Zapisz
+            </a>
+        </li>
+        <li>
+            <a ng-if="isNewOrAnnouncedOrCorrected()"
+               ng-click="correct()" class="button button-save"
+               gryf-privilege="GRF_PBE_REIMB_CORR">
+                Do korekty
+            </a>
+        </li>
+        <li>
+            <a ng-if="isNewOrAnnouncedOrCorrected()"
+               ng-click="verify()" class="button button-save"
+               gryf-privilege="GRF_PBE_REIMB_PROC">
+                Do weryfikacji
+            </a>
+        </li>
+        <li>
+            <a ng-click="settle()" class="button button-save"
+               ng-if="isNewOrAnnouncedOrCorrected() || isInStatus('TO_VERIFY')"
+               gryf-privilege="GRF_PBE_REIMB_PROC">
+                Do rozliczenia
+            </a>
+        </li>
+        <li>
+            <a ng-click="complete()"
+               ng-if="isInStatus('EXPORTED')"
+               class="button button-save"
+               gryf-privilege="GRF_PBE_REIMB_FINISH">
+                Zakończ
+            </a>
+        </li>
+        <li>
+            <a ng-if="entityObject.status && !isInStatus('EXPORTED') && !isInStatus('CANCELLED')"
+               ng-click="cancel()" class="button button-save"
+               gryf-privilege="GRF_PBE_REIMB_CANCEL">
+                Anuluj
+            </a>
+        </li>
+    </ul>
+    <ol>
+        <li>
+            <a ng-href="{{getPrevUrl()}}" class="button">
+                Wróć
+            </a>
+        </li>
+    </ol>
+    <ol>
+        <li>
+            <a ng-href="#" ng-click="newReimbursement()"
+               class="button button-new"
+               target="_self">Anonsuj rozliczenie </a>
+        </li>
+    </ol>
+</header>
+
+<section>
+    <header>
+        <h2>Dostawa</h2>
+    </header>
+    <div class="grid-100">
+        <div class="grid-10">
+            <strong class="label">ID dostawy</strong>
+            <input type="text"
+                   ng-model="entityObject.reimbursementDelivery.id"
+                   ng-disabled="entityObject.status.id">
+            <a ng-click="openDeliveryLov()"
+               ng-if="!entityObject.status.id"
+               class="button button-search">szukaj</a>
+        </div>
+        <div class="grid-10">
+            <strong class="label">Status dostawy</strong>
+            {{entityObject.reimbursementDelivery.status.name}}
+        </div>
+        <div class="grid-10">
+            <strong class="label">Data Dostawy</strong>
+            {{entityObject.reimbursementDelivery.deliveryDate | date:'yyyy-MM-dd'}}
+        </div>
+        <div class="grid-10">
+            <strong class="label">Data przekazania do anonsu</strong>
+            {{entityObject.reimbursementDelivery.reimbursementAnnouncementDate | date:'yyyy-MM-dd'}}
+        </div>
+        <div class="grid-10">
+            <strong class="label">Id Instytucji Szkoleniowej</strong>
+            {{entityObject.reimbursementDelivery.trainingInstitutionId}}
+        </div>
+        <div class="grid-35">
+            <strong class="label">Nazwa Instytucji Szkoleniowej</strong>
+            {{entityObject.reimbursementDelivery.trainingInstitutionName}}
+        </div>
+        <div class="grid-15">
+            <strong class="label">NIP</strong>
+            {{entityObject.reimbursementDelivery.trainingInstitutionVatRegNum}}
+        </div>
+    </div>
+    <div class="grid-100">
+        <div class="grid-60">
+            <strong class="label">Adres Instytucji Szkoleniowej</strong>
+            {{entityObject.reimbursementDelivery.deliveryAddress}}
+        </div>
+        <div class="grid-10">
+            <strong class="label">Kod pocztowy</strong>
+            {{entityObject.reimbursementDelivery.deliveryZipCode}}
+        </div>
+        <div class="grid-30">
+            <strong class="label">Miasto</strong>
+            {{entityObject.reimbursementDelivery.deliveryCity}}
+        </div>
+    </div>
+</section>
+<hr>
+<div ng-if="isReimbursementPatternSpecified">
+    <div ng-include="getPatternSpecificUrl()"></div>
+</div>
