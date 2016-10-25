@@ -50,7 +50,7 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     private Integer verificationCodeLength = 8;
     private Integer maxIndLoginFailureAttempts = 5;
     private Integer indUserLoginBlockMinutes = 5;
-    private String verEmailContactType = "VER_EMAIL:";
+    private String verEmailContactType = "VER_EMAIL";
 
     //LIFECYCLE METHODS
 
