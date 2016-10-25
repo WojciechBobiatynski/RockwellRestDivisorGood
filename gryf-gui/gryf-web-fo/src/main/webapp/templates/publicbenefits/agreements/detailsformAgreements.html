@@ -1,1 +1,55 @@
-dodaj nową umowe
+<toaster-container toaster-options="{'position-class': 'toast-top-center'}"></toaster-container>
+<div>
+    <header id="header">
+        <h1>Nowa umowa</h1>
+    </header>
+    <section>
+        <h1>Program dofinansowania</h1>
+        <div class="grid-100">
+            <div class="grid-50">
+                <strong class="label">Program dofinansowania</strong>
+                <select ng-options="item as item.name for item in grantProgram.list"
+                        ng-model="selectedGrantProgram">
+                </select>
+            </div>
+            <div class="grid-50">
+                <strong class="label">Dysponent środków</strong>
+                <input type="text" ng-model="selectedGrantProgram.grantProgramOwnerName" disabled="disabled">
+            </div>
+        </div>
+    </section>
+    <section>
+        <h1>Dane umowy</h1>
+        <div class="grid-100">
+            <div>
+                <strong class="label">ID umowy</strong>
+                <input type="number" ng-model="model.entity.lastName" required>
+            </div>
+            <div>
+                <strong class="label">Rodzaj umowy</strong>
+                <select required>
+                    <option value="INDIVIDUAL">INDIVIDUAL</option>
+                    <option value="ENTERPRISE">ENTERPRISE</option>
+                </select>
+            </div>
+            <div>
+                <strong class="label">Dane uczestnika</strong>
+                <a ng-click="openIndividualLov()" class="button button-save">Wprowadź</a>
+            </div>
+            <div>
+                <strong class="label">Dane MŚP</strong>
+                <a ng-click="openEnterpriseLov()" class="button button-save">Wprowadź</a>
+            </div>
+            <div>
+                <strong class="label">Data podpisania umowy</strong>
+                <input type="date" ng-model="model.entity.lastName" disabled="disabled" required>
+            </div>
+            <div>
+                <strong class="label">Data ważności umowy</strong>
+                <input type="date" ng-model="model.entity.lastName" disabled="disabled" required>
+            </div>
+        </div>
+    </section>
+    <section>
+        </section>
+</div>
