@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import pl.sodexo.it.gryf.common.dto.security.individuals.VerificationDto;
 import pl.sodexo.it.gryf.common.exception.GryfRuntimeException;
-import pl.sodexo.it.gryf.common.exception.verification.GryfVerificationException;
 import pl.sodexo.it.gryf.service.api.security.VerificationService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -49,10 +48,10 @@ public class VerificationController {
         try {
             verificationService.resendVerificationCode(verificationDto);
             comebackPage = PAGE_VERIFICATION_RESEND_SUCCESS;
-        } catch (GryfVerificationException e){
+        } catch (GryfRuntimeException e){
             uiModel.addAttribute("error", e);
             comebackPage = PAGE_VERIFICATION;
-        } catch(GryfRuntimeException e) {
+        } catch(Exception e) {
             uiModel.addAttribute("unknowerror", e);
             comebackPage = PAGE_VERIFICATION;
         }

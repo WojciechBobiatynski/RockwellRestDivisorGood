@@ -30,6 +30,16 @@ public class IndividualUserServiceImpl implements IndividualUserService {
     private GryfIndUserDtoMapper gryfIndUserDtoMapper;
 
     @Override
+    public GryfIndUserDto findByPesel(String pesel) {
+        return individualUserEntityMapper.convert(individualUserDao.findByPesel(pesel));
+    }
+
+    @Override
+    public GryfIndUserDto findByPeselAndEmail(String pesel, String email) {
+        return individualUserEntityMapper.convert(individualUserDao.findByPeselAndEmail(pesel, email));
+    }
+
+    @Override
     public GryfIndUserDto saveIndUser(GryfIndUserDto gryfIndUserDto) {
         IndividualUser entity = gryfIndUserDtoMapper.convert(gryfIndUserDto);
         return individualUserEntityMapper.convert(individualUserDao.save(entity));

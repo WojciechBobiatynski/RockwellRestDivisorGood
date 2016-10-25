@@ -13,6 +13,7 @@ import pl.sodexo.it.gryf.common.exception.authentication.GryfBadCredentialsExcep
 import pl.sodexo.it.gryf.common.exception.authentication.GryfPasswordExpiredException;
 import pl.sodexo.it.gryf.common.exception.authentication.GryfUserNotActiveException;
 import pl.sodexo.it.gryf.common.user.GryfBlockableUserVisitor;
+import pl.sodexo.it.gryf.common.utils.GryfConstants;
 import pl.sodexo.it.gryf.dao.api.crud.dao.trainingInstitutions.TrainingInstitutionUserDao;
 import pl.sodexo.it.gryf.dao.api.crud.repository.security.UserRepository;
 import pl.sodexo.it.gryf.dao.api.search.dao.security.SecuritySearchDao;
@@ -34,8 +35,6 @@ import java.util.List;
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
-
-    private static final int DEFAULT_LOGIN_FAILURE_ATTEMPTS_NUMBER = 0;
 
     @Autowired
     private UserRepository userRepository;
@@ -79,7 +78,7 @@ public class UserServiceImpl implements UserService {
             throw new GryfBadCredentialsException("Niepoprawny login");
         }
 
-        checkWhetherUserBlockedAndUpdateIfNot(user);
+        checkUserBlockedAndUnlock(user);
 
         if (!user.isActive()) {
             throw new GryfUserNotActiveException("Twoje konto jest nieaktywne. Zgłoś sie do administratora");
@@ -112,7 +111,7 @@ public class UserServiceImpl implements UserService {
             throw new GryfBadCredentialsException("Niepoprawny PESEL");
         }
 
-        checkWhetherUserBlockedAndUpdateIfNot(user);
+        checkUserBlockedAndUnlock(user);
 
         if (!user.isActive()) {
             throw new GryfUserNotActiveException("Twoje konto jest nieaktywne. Zgłoś sie do administratora");
@@ -125,16 +124,16 @@ public class UserServiceImpl implements UserService {
 
     }
 
-    private GryfBlockableUserDto checkWhetherUserBlockedAndUpdateIfNot(GryfBlockableUserDto user) {
+    private GryfBlockableUserDto checkUserBlockedAndUnlock(GryfBlockableUserDto user) {
         if (user.getLastLoginFailureDate() == null) {
             return user;
         }
 
         LocalDateTime lastLoginFailureDate = LocalDateTime.ofInstant(user.getLastLoginFailureDate().toInstant(), ZoneId.systemDefault());
-        if (lastLoginFailureDate.plusMinutes(applicationParameters.getIndUserLoginBlockMinutes()).isBefore(LocalDateTime.now()) && user.getLoginFailureAttempts() >= applicationParameters
-                .getMaxIndLoginFailureAttempts()) {
+        if (lastLoginFailureDate.plusMinutes(applicationParameters.getUserLoginBlockMinutes()).isBefore(LocalDateTime.now()) && user.getLoginFailureAttempts() >= applicationParameters
+                .getMaxLoginFailureAttempts()) {
             user.setActive(true);
-            user.setLoginFailureAttempts(DEFAULT_LOGIN_FAILURE_ATTEMPTS_NUMBER);
+            user.setLoginFailureAttempts(GryfConstants.DEFAULT_LOGIN_FAILURE_ATTEMPTS_NUMBER);
 
             user = user.accept(new GryfBlockableUserVisitor<GryfBlockableUserDto>() {
 

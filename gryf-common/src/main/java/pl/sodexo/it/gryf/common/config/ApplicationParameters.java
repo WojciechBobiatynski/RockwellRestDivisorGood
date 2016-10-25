@@ -67,9 +67,13 @@ public interface ApplicationParameters {
 
     Integer getVerificationCodeLength();
 
-    Integer getMaxIndLoginFailureAttempts();
+    Integer getMaxLoginFailureAttempts();
 
-    Integer getIndUserLoginBlockMinutes();
+    Integer getUserLoginBlockMinutes();
 
     String getVerEmailContactType();
+
+    Integer getMaxIndResetFailureAttempts();
+
+    Integer getIndUserResetBlockMinutes();
 }

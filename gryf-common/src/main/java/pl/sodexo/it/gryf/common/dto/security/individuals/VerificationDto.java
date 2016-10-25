@@ -3,6 +3,8 @@ package pl.sodexo.it.gryf.common.dto.security.individuals;
 import java.io.Serializable;
 
 /**
+ * Dto z danymi do weryfikacji dla użytkownika osoby fizycznej
+ *
  * Created by akmiecinski on 17.10.2016.
  */
 public class VerificationDto implements Serializable {

@@ -103,7 +103,7 @@
             <p itemprop="description" class="description">Prosimy, wprowadź dane uwierzytelniające.</p>
 
             <c:if test="${error != null}">
-                <div class="msg msg-error"><p>Podano błędne dane. Prosimy, wprowadź jeszcze raz</p></div>
+                <div class="msg msg-error"><p><c:out value="${error.message}"/></p></div>
             </c:if>
 
             <c:if test="${unknowerror != null}">

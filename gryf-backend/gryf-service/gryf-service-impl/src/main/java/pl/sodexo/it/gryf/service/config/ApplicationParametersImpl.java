@@ -48,9 +48,11 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     private String pathReportImages = "report_images/";
     private String printNumberCountryCodePoland = "31";
     private Integer verificationCodeLength = 8;
-    private Integer maxIndLoginFailureAttempts = 5;
-    private Integer indUserLoginBlockMinutes = 5;
+    private Integer maxLoginFailureAttempts = 5;
+    private Integer userLoginBlockMinutes = 5;
     private String verEmailContactType = "VER_EMAIL";
+    private Integer maxIndResetFailureAttempts = 5;
+    private Integer indUserResetBlockMinutes = 5;
 
     //LIFECYCLE METHODS
 
@@ -176,17 +178,25 @@ public class ApplicationParametersImpl implements ApplicationParameters {
         if (dbVerificationCodeLength != null) {
             verificationCodeLength = dbVerificationCodeLength;
         }
-        Integer dbMaxIndLoginFailureAttempts = (Integer) findParameter("GRYF_MAX_IND_LOGIN_FAILURE_ATTEMPTS");
-        if (dbMaxIndLoginFailureAttempts != null) {
-            maxIndLoginFailureAttempts = dbMaxIndLoginFailureAttempts;
+        Integer dbMaxLoginFailureAttempts = (Integer) findParameter("GRYF_MAX_LOGIN_FAILURE_ATTEMPTS");
+        if (dbMaxLoginFailureAttempts != null) {
+            maxLoginFailureAttempts = dbMaxLoginFailureAttempts;
         }
-        Integer dbIndUserLoginBlockMinutes = (Integer) findParameter("GRYF_IND_USER_LOGIN_BLOCK_MINUTES");
-        if (dbIndUserLoginBlockMinutes != null) {
-            indUserLoginBlockMinutes = dbIndUserLoginBlockMinutes;
+        Integer dbUserLoginBlockMinutes = (Integer) findParameter("GRYF_USER_LOGIN_BLOCK_MINUTES");
+        if (dbUserLoginBlockMinutes != null) {
+            userLoginBlockMinutes = dbUserLoginBlockMinutes;
         }
         String dbVerEmailContactType = (String) findParameter("GRYF_VER_EMAIL_CONTACT_TYPE");
         if (dbVerEmailContactType != null) {
             verEmailContactType = dbVerEmailContactType;
+        }
+        Integer dbMaxIndResetFailureAttempts = (Integer) findParameter("GRYF_MAX_IND_RESET_FAILURE_ATTEMPTS");
+        if (dbMaxIndResetFailureAttempts != null) {
+            maxIndResetFailureAttempts = dbMaxIndResetFailureAttempts;
+        }
+        Integer dbIndUserResetBlockMinutes = (Integer) findParameter("GRYF_IND_USER_RESET_BLOCK_MINUTES");
+        if (dbIndUserResetBlockMinutes != null) {
+            indUserResetBlockMinutes = dbIndUserResetBlockMinutes;
         }
     }
 
@@ -348,18 +358,28 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     }
 
     @Override
-    public Integer getMaxIndLoginFailureAttempts() {
-        return maxIndLoginFailureAttempts;
+    public Integer getMaxLoginFailureAttempts() {
+        return maxLoginFailureAttempts;
     }
 
     @Override
-    public Integer getIndUserLoginBlockMinutes() {
-        return indUserLoginBlockMinutes;
+    public Integer getUserLoginBlockMinutes() {
+        return userLoginBlockMinutes;
     }
 
     @Override
     public String getVerEmailContactType() {
         return verEmailContactType;
+    }
+
+    @Override
+    public Integer getMaxIndResetFailureAttempts() {
+        return maxIndResetFailureAttempts;
+    }
+
+    @Override
+    public Integer getIndUserResetBlockMinutes() {
+        return indUserResetBlockMinutes;
     }
 
     //PRIVATE METHODS

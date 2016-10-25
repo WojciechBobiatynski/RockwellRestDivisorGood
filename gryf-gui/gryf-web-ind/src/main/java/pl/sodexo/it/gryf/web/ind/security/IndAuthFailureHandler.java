@@ -34,7 +34,7 @@ public class IndAuthFailureHandler extends AuthFailureHandler {
         indUserDto.setLoginFailureAttempts(indUserDto.getLoginFailureAttempts() + 1);
         indUserDto.setLastLoginFailureDate(new Date());
 
-        if (indUserDto.getLoginFailureAttempts() >= applicationParameters.getMaxIndLoginFailureAttempts()) {
+        if (indUserDto.getLoginFailureAttempts() >= applicationParameters.getMaxLoginFailureAttempts()) {
             indUserDto.setActive(false);
         }
 

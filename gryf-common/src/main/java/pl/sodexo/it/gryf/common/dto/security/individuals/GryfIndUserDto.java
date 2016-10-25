@@ -48,6 +48,10 @@ public class GryfIndUserDto extends GryfBlockableUserDto implements Serializable
     @Setter
     private int resetFailureAttempts;
 
+    @Getter
+    @Setter
+    private String verificationEmail;
+
     @Override
     public <T> T accept(GryfBlockableUserVisitor<T> userVisitor) {
         return userVisitor.visitInd(this);

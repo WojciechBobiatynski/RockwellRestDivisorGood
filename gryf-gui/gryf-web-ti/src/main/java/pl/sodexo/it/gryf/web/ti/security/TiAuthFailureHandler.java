@@ -30,7 +30,7 @@ public class TiAuthFailureHandler extends AuthFailureHandler {
         gryfTiUserDto.setLoginFailureAttempts(gryfTiUserDto.getLoginFailureAttempts() + 1);
         gryfTiUserDto.setLastLoginFailureDate(new Date());
 
-        if (gryfTiUserDto.getLoginFailureAttempts() >= applicationParameters.getMaxIndLoginFailureAttempts()) {
+        if (gryfTiUserDto.getLoginFailureAttempts() >= applicationParameters.getMaxLoginFailureAttempts()) {
             gryfTiUserDto.setActive(false);
         }
 

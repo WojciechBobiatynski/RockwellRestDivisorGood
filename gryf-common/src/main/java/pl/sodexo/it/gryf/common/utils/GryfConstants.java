@@ -12,5 +12,7 @@ public final class GryfConstants {
     public static final String VERIFICATION_CODE_EMAIL_TEMPLATE_CODE = "VC_SEND";
     public static final String EMAIL_BODY_VER_CODE_PLACEHOLDER = "verificationCode";
     public static final String DEFAULT_FAILURE_LOGIN_URL = "/login?error";
+    public static final int DEFAULT_LOGIN_FAILURE_ATTEMPTS_NUMBER = 0;
+    public static final int DEFAULT_RESET_FAILURE_ATTEMPTS_NUMBER = 0;
 
 }

@@ -3,8 +3,10 @@
 
 <mapper namespace="pl.sodexo.it.gryf.dao.api.search.mapper.IndividualSearchMapper">
 
-    <select id="findIndividualIdByPeselAndEmail" resultType="java.lang.Long" parameterType="list">
-        SELECT ind.ID
+    <select id="findIndividualIdByPeselAndEmail" resultType="pl.sodexo.it.gryf.common.dto.security.individuals.VerificationDto">
+        SELECT
+            ind.pesel                       pesel,
+            contact.contact_data            email
         FROM APP_PBE.INDIVIDUALS ind
             JOIN APP_PBE.INDIVIDUAL_CONTACTS contact ON contact.IND_ID = ind.ID
         WHERE

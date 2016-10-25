@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.service.api.security;
 
+import pl.sodexo.it.gryf.common.dto.security.individuals.GryfIndUserDto;
 import pl.sodexo.it.gryf.common.dto.security.individuals.VerificationDto;
 import pl.sodexo.it.gryf.common.exception.verification.GryfVerificationException;
 
@@ -19,8 +20,8 @@ public interface VerificationService {
 
     /**
      * Metoda która tworzy i zapisuje nowy kod dla użytkownika osoby fizycznej
-     * @param verificationDto
-     * @return
+     * @param gryfIndUserDto - użytkownik osoby fizycznej
+     * @return nowy kod weryfikacyjny
      */
-    String createAndSaveNewVerificationCode(VerificationDto verificationDto);
+    String createAndSaveNewVerificationCode(GryfIndUserDto gryfIndUserDto);
 }
