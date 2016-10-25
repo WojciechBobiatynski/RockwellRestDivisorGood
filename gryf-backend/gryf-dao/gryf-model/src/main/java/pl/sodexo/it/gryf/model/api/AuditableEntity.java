@@ -13,10 +13,10 @@ public class AuditableEntity extends CreationAuditedEntity implements Auditable 
 
     //FIELDS
 
-    @Column(name = "MODIFIED_USER")
+    @Column(name = "MODIFIED_USER", nullable = false)
     private String modifiedUser;
 
-    @Column(name = "MODIFIED_TIMESTAMP")
+    @Column(name = "MODIFIED_TIMESTAMP", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date modifiedTimestamp;
 
