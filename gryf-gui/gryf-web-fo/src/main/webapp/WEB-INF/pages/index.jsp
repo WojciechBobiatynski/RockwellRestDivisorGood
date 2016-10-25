@@ -9,8 +9,8 @@
     <title>Sodexo Gryf</title>
 
     <link rel="stylesheet" href="${cdnUrl}gryf/css/init.css">
-    <%--<link rel="stylesheet" href="${pageContext.request.contextPath}/css/angular-toastr.min.css">--%>
-    <%--<link rel="stylesheet" href="${pageContext.request.contextPath}/css/gryf-custom.css">--%>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/angular-toastr.min.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/gryf-custom.css">
     <link rel="shortcut icon" href="${cdnUrl}favicon.ico">
 
     <script>
