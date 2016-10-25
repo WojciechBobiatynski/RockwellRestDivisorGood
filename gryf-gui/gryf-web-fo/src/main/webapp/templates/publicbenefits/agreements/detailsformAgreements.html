@@ -27,7 +27,7 @@
             </div>
             <div>
                 <strong class="label">Rodzaj umowy</strong>
-                <select required>
+                <select required ng-model="selectedContractType">
                     <option value="INDIVIDUAL">INDIVIDUAL</option>
                     <option value="ENTERPRISE">ENTERPRISE</option>
                 </select>
@@ -36,7 +36,7 @@
                 <strong class="label">Dane uczestnika</strong>
                 <a ng-click="openIndividualLov()" class="button button-save">Wprowadź</a>
             </div>
-            <div>
+            <div ng-hide="selectedContractType == 'INDIVIDUAL'">
                 <strong class="label">Dane MŚP</strong>
                 <a ng-click="openEnterpriseLov()" class="button button-save">Wprowadź</a>
             </div>
