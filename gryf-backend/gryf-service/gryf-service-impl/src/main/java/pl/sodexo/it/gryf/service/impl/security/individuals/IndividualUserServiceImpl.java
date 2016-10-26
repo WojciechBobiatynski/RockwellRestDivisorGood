@@ -8,8 +8,8 @@ import pl.sodexo.it.gryf.common.dto.security.individuals.GryfIndUserDto;
 import pl.sodexo.it.gryf.dao.api.crud.dao.individuals.IndividualUserDao;
 import pl.sodexo.it.gryf.model.security.individuals.IndividualUser;
 import pl.sodexo.it.gryf.service.api.security.individuals.IndividualUserService;
-import pl.sodexo.it.gryf.service.mapping.dtoToEntity.security.individuals.GryfIndUserDtoMapper;
-import pl.sodexo.it.gryf.service.mapping.entityToDto.security.individuals.IndividualUserEntityMapper;
+import pl.sodexo.it.gryf.service.mapping.dtotoentity.security.individuals.GryfIndUserDtoMapper;
+import pl.sodexo.it.gryf.service.mapping.entitytodto.security.individuals.IndividualUserEntityMapper;
 
 /**
  * Implementacja serwius zajmującego się operacjami związanymi z użytkownikiem osoby fizycznej

@@ -10,9 +10,9 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchfor
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstitutionRepository;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstitution;
 import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.TrainingInstitutionService;
-import pl.sodexo.it.gryf.service.mapping.dtoToEntity.publicbenefits.traininginstiutions.TrainingInstitutionDtoMapper;
-import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.traininginstiutions.TrainingInstitutionEntityMapper;
-import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.traininginstiutions.searchform.TrainingInstitutionEntityToSearchResultMapper;
+import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.traininginstiutions.TrainingInstitutionDtoMapper;
+import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.traininginstiutions.TrainingInstitutionEntityMapper;
+import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.traininginstiutions.searchform.TrainingInstitutionEntityToSearchResultMapper;
 import pl.sodexo.it.gryf.service.validation.publicbenefits.traininginstiutions.TrainingInstitutionValidator;
 
 import java.util.List;

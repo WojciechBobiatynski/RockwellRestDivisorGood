@@ -12,6 +12,7 @@ import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.common.dto.mail.MailDTO;
 import pl.sodexo.it.gryf.common.dto.security.individuals.GryfIndUserDto;
 import pl.sodexo.it.gryf.common.dto.security.individuals.VerificationDto;
+import pl.sodexo.it.gryf.common.dto.security.trainingInstitutions.GryfTiUserDto;
 import pl.sodexo.it.gryf.common.exception.authentication.GryfUserNotActiveException;
 import pl.sodexo.it.gryf.common.exception.verification.GryfVerificationException;
 import pl.sodexo.it.gryf.common.mail.MailPlaceholders;
@@ -21,6 +22,7 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.mail.EmailTemplateRepository;
 import pl.sodexo.it.gryf.model.mail.EmailTemplate;
 import pl.sodexo.it.gryf.service.api.security.VerificationService;
 import pl.sodexo.it.gryf.service.api.security.individuals.IndividualUserService;
+import pl.sodexo.it.gryf.service.api.security.trainingInstitutions.TrainingInstitutionUserService;
 import pl.sodexo.it.gryf.service.local.api.MailService;
 
 import java.time.LocalDateTime;
@@ -47,6 +49,9 @@ public class VerificationServiceImpl implements VerificationService {
 
     @Autowired
     private IndividualUserService individualUserService;
+
+    @Autowired
+    private TrainingInstitutionUserService trainingInstitutionUserService;
 
     @Autowired
     private ApplicationParameters applicationParameters;
@@ -153,4 +158,8 @@ public class VerificationServiceImpl implements VerificationService {
         return mailDTO;
     }
 
+    @Override
+    public void resetTiUserPassword(String email) {
+        GryfTiUserDto gryfTiUserDto = trainingInstitutionUserService.findTiUserByEmail(email);
+    }
 }

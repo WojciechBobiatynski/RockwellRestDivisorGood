@@ -24,9 +24,9 @@ import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
 import pl.sodexo.it.gryf.service.api.publicbenefits.grantapplications.GrantApplicationActionService;
 import pl.sodexo.it.gryf.service.local.api.FileService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.grantapplications.GrantApplicationService;
-import pl.sodexo.it.gryf.service.mapping.entityToDto.dictionaries.DictionaryEntityMapper;
-import pl.sodexo.it.gryf.service.mapping.entityToDto.grantapplications.detailsform.GrantApplicationVersionEntityMapper;
-import pl.sodexo.it.gryf.service.mapping.entityToDto.grantapplications.searchform.GrantApplicationEntityMapper;
+import pl.sodexo.it.gryf.service.mapping.entitytodto.dictionaries.DictionaryEntityMapper;
+import pl.sodexo.it.gryf.service.mapping.entitytodto.grantapplications.detailsform.GrantApplicationVersionEntityMapper;
+import pl.sodexo.it.gryf.service.mapping.entitytodto.grantapplications.searchform.GrantApplicationEntityMapper;
 import pl.sodexo.it.gryf.service.utils.BeanUtils;
 
 import java.util.Date;

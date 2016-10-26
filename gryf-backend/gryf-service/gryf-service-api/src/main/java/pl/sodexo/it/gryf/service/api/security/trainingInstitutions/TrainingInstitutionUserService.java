@@ -37,4 +37,10 @@ public interface TrainingInstitutionUserService {
      */
     GryfTiUserDto findTiUserByLogin(String login);
 
+    /**
+     * Wyszukuje użytkownika instytucji szkoleniowej dla zadanego loginu
+     * @param email
+     * @return
+     */
+    GryfTiUserDto findTiUserByEmail(String email);
 }

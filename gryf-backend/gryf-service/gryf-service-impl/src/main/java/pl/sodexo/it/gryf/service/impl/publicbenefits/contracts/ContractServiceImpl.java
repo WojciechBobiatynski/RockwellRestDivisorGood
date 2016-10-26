@@ -7,7 +7,7 @@ import pl.sodexo.it.gryf.common.dto.other.GrantProgramDictionaryDTO;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.grantprograms.GrantProgramRepository;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
 import pl.sodexo.it.gryf.service.api.publicbenefits.contracts.ContractService;
-import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.grantprograms.GrantProgramEntityMapper;
+import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.grantprograms.GrantProgramEntityMapper;
 
 import java.util.Date;
 import java.util.List;

@@ -14,7 +14,7 @@ import pl.sodexo.it.gryf.common.exception.authentication.GryfPasswordExpiredExce
 import pl.sodexo.it.gryf.common.exception.authentication.GryfUserNotActiveException;
 import pl.sodexo.it.gryf.common.user.GryfBlockableUserVisitor;
 import pl.sodexo.it.gryf.common.utils.GryfConstants;
-import pl.sodexo.it.gryf.dao.api.crud.dao.trainingInstitutions.TrainingInstitutionUserDao;
+import pl.sodexo.it.gryf.dao.api.crud.dao.traininginstitutions.TrainingInstitutionUserDao;
 import pl.sodexo.it.gryf.dao.api.crud.repository.security.UserRepository;
 import pl.sodexo.it.gryf.dao.api.search.dao.security.SecuritySearchDao;
 import pl.sodexo.it.gryf.model.security.trainingInstitutions.TrainingInstitutionUser;

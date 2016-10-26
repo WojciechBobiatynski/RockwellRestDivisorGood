@@ -10,9 +10,9 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.enterprises.Ente
 import pl.sodexo.it.gryf.model.publicbenefits.enterprises.Enterprise;
 import pl.sodexo.it.gryf.service.api.publicbenefits.enterprises.EnterpriseService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.enterprises.EnterpriseServiceLocal;
-import pl.sodexo.it.gryf.service.mapping.dtoToEntity.publicbenefits.enterprises.EnterpriseDtoMapper;
-import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.enterprises.EnterpriseEntityMapper;
-import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.enterprises.searchform.EnterpriseEntityToSearchResultMapper;
+import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.enterprises.EnterpriseDtoMapper;
+import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.enterprises.EnterpriseEntityMapper;
+import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.enterprises.searchform.EnterpriseEntityToSearchResultMapper;
 
 import java.util.List;
 

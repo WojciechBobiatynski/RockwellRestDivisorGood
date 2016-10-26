@@ -20,6 +20,7 @@
                 invalidate-session="true"/>
         <intercept-url pattern="/login" access="permitAll" />
         <intercept-url pattern="/logout" access="permitAll" />
+        <intercept-url pattern="/retrieve" access="permitAll" />
         <intercept-url pattern="/**" access="isAuthenticated()" />
         <http-basic/>
     </http>

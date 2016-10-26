@@ -5,11 +5,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.dto.security.trainingInstitutions.GryfTiUserDto;
-import pl.sodexo.it.gryf.dao.api.crud.dao.trainingInstitutions.TrainingInstitutionUserDao;
+import pl.sodexo.it.gryf.dao.api.crud.dao.traininginstitutions.TrainingInstitutionUserDao;
 import pl.sodexo.it.gryf.model.security.trainingInstitutions.TrainingInstitutionUser;
 import pl.sodexo.it.gryf.service.api.security.trainingInstitutions.TrainingInstitutionUserService;
-import pl.sodexo.it.gryf.service.mapping.dtoToEntity.security.traininginstitutions.GryfTiUserDtoMapper;
-import pl.sodexo.it.gryf.service.mapping.entityToDto.security.traininginstitutions.TrainingInstitutionUserEntityMapper;
+import pl.sodexo.it.gryf.service.mapping.dtotoentity.security.traininginstitutions.GryfTiUserDtoMapper;
+import pl.sodexo.it.gryf.service.mapping.entitytodto.security.traininginstitutions.TrainingInstitutionUserEntityMapper;
 
 /**
  * Implementacja serwius zajmującego się operacjami związanymi z użytkownikiem instytucji szkoleniowej
@@ -50,5 +50,10 @@ public class TrainingInstitutionUserServiceImpl implements TrainingInstitutionUs
     @Override
     public GryfTiUserDto findTiUserByLogin(String login) {
         return trainingInstitutionUserEntityMapper.convert(trainingInstitutionUserDao.findByLogin(login));
+    }
+
+    @Override
+    public GryfTiUserDto findTiUserByEmail(String email) {
+        return trainingInstitutionUserEntityMapper.convert(trainingInstitutionUserDao.findByEmail(email));
     }
 }

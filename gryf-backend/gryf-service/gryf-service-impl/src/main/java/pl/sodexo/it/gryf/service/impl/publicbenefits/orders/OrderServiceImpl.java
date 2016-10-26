@@ -22,8 +22,8 @@ import pl.sodexo.it.gryf.model.publicbenefits.orders.*;
 import pl.sodexo.it.gryf.service.api.publicbenefits.orders.OrderService;
 import pl.sodexo.it.gryf.service.local.api.FileService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.elements.OrderElementService;
-import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.orders.OrderFlowTransitionDTOProvider;
-import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.orders.searchform.OrderEntityToSearchResultMapper;
+import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.orders.OrderFlowTransitionDTOProvider;
+import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.orders.searchform.OrderEntityToSearchResultMapper;
 import pl.sodexo.it.gryf.service.utils.BeanUtils;
 
 import java.util.ArrayList;

@@ -22,9 +22,9 @@ import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementPattern
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementPatternParam;
 import pl.sodexo.it.gryf.service.api.publicbenefits.reimbursement.ReimbursementDeliveryService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.reimbursement.ReimbursementPatternService;
-import pl.sodexo.it.gryf.service.mapping.entityToDto.dictionaries.DictionaryEntityMapper;
-import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.reimbursement.detailsform.ReimbursementDeliveryEntityMapper;
-import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.reimbursement.searchform.ReimbursementDeliveryEntityToSearchResultMapper;
+import pl.sodexo.it.gryf.service.mapping.entitytodto.dictionaries.DictionaryEntityMapper;
+import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.reimbursement.detailsform.ReimbursementDeliveryEntityMapper;
+import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.reimbursement.searchform.ReimbursementDeliveryEntityToSearchResultMapper;
 import pl.sodexo.it.gryf.service.validation.VersionableValidator;
 import pl.sodexo.it.gryf.service.validation.publicbenefits.reimbursement.ReimbursementDeliverySaveType;
 import pl.sodexo.it.gryf.service.validation.publicbenefits.reimbursement.ReimbursementDeliveryValidator;

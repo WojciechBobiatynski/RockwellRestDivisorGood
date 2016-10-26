@@ -40,10 +40,10 @@ public class VerificationController {
         LOGGER.info("resendVerificationCode, PESEL={}, email={}",pesel, email);
 
         VerificationDto verificationDto = new VerificationDto(pesel, email);
-        return getComebackPage(uiModel, verificationDto);
+        return sendAndGetComeBackUrl(uiModel, verificationDto);
     }
 
-    private String getComebackPage(Model uiModel, VerificationDto verificationDto) {
+    private String sendAndGetComeBackUrl(Model uiModel, VerificationDto verificationDto) {
         String comebackPage;
         try {
             verificationService.resendVerificationCode(verificationDto);

@@ -24,4 +24,10 @@ public interface VerificationService {
      * @return nowy kod weryfikacyjny
      */
     String createAndSaveNewVerificationCode(GryfIndUserDto gryfIndUserDto);
+
+    /**
+     * Metoda która resetuje hasło dla użytkownika instytucji szkoleniowej. Tworzy link do zmiany hasła a następnie go wysyła na zadany adres o ile jest w bazie.
+     * @param email - adres email osoby fizycznej
+     */
+    void resetTiUserPassword(String email);
 }

@@ -48,9 +48,9 @@ import pl.sodexo.it.gryf.service.local.api.publicbenefits.enterprises.Enterprise
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.grantapplications.GrantApplicationEmailService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.grantapplications.GrantApplicationService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.OrderServiceLocal;
-import pl.sodexo.it.gryf.service.mapping.entityToDto.dictionaries.DictionaryEntityMapper;
-import pl.sodexo.it.gryf.service.mapping.entityToDto.grantapplications.detailsform.GrantApplicationVersionEntityMapper;
-import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.enterprises.searchform.EnterpriseEntityToSearchResultMapper;
+import pl.sodexo.it.gryf.service.mapping.entitytodto.dictionaries.DictionaryEntityMapper;
+import pl.sodexo.it.gryf.service.mapping.entitytodto.grantapplications.detailsform.GrantApplicationVersionEntityMapper;
+import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.enterprises.searchform.EnterpriseEntityToSearchResultMapper;
 
 import javax.mail.Session;
 import java.util.*;

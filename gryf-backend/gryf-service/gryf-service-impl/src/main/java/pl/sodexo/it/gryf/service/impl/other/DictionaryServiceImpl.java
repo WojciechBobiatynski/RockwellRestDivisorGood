@@ -9,7 +9,7 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.other.DictionaryRepository;
 import pl.sodexo.it.gryf.model.api.DictionaryEntity;
 import pl.sodexo.it.gryf.model.enums.DictionaryCode;
 import pl.sodexo.it.gryf.service.api.other.DictionaryService;
-import pl.sodexo.it.gryf.service.mapping.entityToDto.dictionaries.DictionaryEntityMapper;
+import pl.sodexo.it.gryf.service.mapping.entitytodto.dictionaries.DictionaryEntityMapper;
 
 import java.util.Arrays;
 import java.util.List;

@@ -63,6 +63,9 @@
                     <div class="submit submit-left">
                         <button type="submit" tabindex="3">Zaloguj się</button>
                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                        <p class="code-remimnder-label">W celu odzyskania hasła prosimy użyć poniższego łącza</p>
+                        <a class="code-reminder" href="${pageContext.request.contextPath}/retrieve" title="retrieve"
+                           style="float:left; margin:10px 0px 0px 40px">Odzyskaj hasło</a>
                     </div>
                     <script>
                         document.loginForm.username.focus();

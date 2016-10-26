@@ -9,7 +9,7 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.reimbursement.Re
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementPattern;
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementPatternParam;
 import pl.sodexo.it.gryf.service.api.publicbenefits.reimbursement.ReimbursementPatternService;
-import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.reimbursement.detailsform.ReimbursementPatternEntityMapper;
+import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.reimbursement.detailsform.ReimbursementPatternEntityMapper;
 
 import java.util.Date;
 import java.util.List;

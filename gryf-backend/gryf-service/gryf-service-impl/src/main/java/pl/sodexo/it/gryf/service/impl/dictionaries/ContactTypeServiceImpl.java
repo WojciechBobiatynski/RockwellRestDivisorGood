@@ -8,7 +8,7 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.ContactTypeDto;
 import pl.sodexo.it.gryf.dao.api.crud.repository.dictionaries.ContactTypeRepository;
 import pl.sodexo.it.gryf.model.publicbenefits.api.ContactType;
 import pl.sodexo.it.gryf.service.api.dictionaries.ContactTypeService;
-import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.ContactTypeEntityMapper;
+import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.ContactTypeEntityMapper;
 
 import java.util.List;
 

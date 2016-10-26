@@ -15,7 +15,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementAttachm
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.ReimbursementTraineeAttachment;
 import pl.sodexo.it.gryf.service.api.publicbenefits.reimbursement.ReimbursementsAttachmentService;
 import pl.sodexo.it.gryf.service.local.api.FileService;
-import pl.sodexo.it.gryf.service.mapping.entityToDto.publicbenefits.reimbursement.searchform.ReimbursementEntityToSearchResultMapper;
+import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.reimbursement.searchform.ReimbursementEntityToSearchResultMapper;
 
 import java.util.List;
 
