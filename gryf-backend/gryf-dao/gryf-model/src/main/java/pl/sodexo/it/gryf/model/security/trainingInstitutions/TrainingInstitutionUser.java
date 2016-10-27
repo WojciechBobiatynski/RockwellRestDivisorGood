@@ -18,7 +18,7 @@ import java.util.List;
 @Entity
 @Table(name = "TRAINING_INSTITUTION_USERS", schema = "APP_PBE")
 @SequenceGenerator(name = "ti_usr_seq", schema = "eagle", sequenceName = "ti_usr_seq", allocationSize = 1)
-@ToString(exclude = {"password", "trainingInstitution"})
+@ToString(exclude = {"password", "trainingInstitution", "tiUserResetAttemptList"})
 public class TrainingInstitutionUser extends VersionableEntity {
 
     @Id
