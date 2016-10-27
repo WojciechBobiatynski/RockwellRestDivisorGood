@@ -41,7 +41,7 @@
                                 <label for="new-password">Nowe hasło</label>
                             </div>
                             <div class="control">
-                                <input id="new-password" type="text" name="password" value="" tabindex="1">
+                                <input id="new-password" type="password" name="password" value="" tabindex="1">
                             </div>
                         </div>
                         <div class="field input input-short required">
@@ -49,7 +49,7 @@
                                 <label for="old-password">Powtórz hasło</label>
                             </div>
                             <div class="control">
-                                <input id="old-password" type="text" name="repeatedPassword" tabindex="2">
+                                <input id="old-password" type="password" name="repeatedPassword" tabindex="2">
                             </div>
                         </div>
                     </fieldset>
