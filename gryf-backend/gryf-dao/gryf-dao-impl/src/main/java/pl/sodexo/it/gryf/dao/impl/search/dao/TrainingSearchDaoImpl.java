@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchResultDTO;
-import pl.sodexo.it.gryf.dao.api.search.mapper.ProductSearchMapper;
+import pl.sodexo.it.gryf.dao.api.search.dao.TrainingSearchDao;
 import pl.sodexo.it.gryf.dao.api.search.mapper.TrainingSearchMapper;
 
 import java.util.List;
@@ -16,12 +16,12 @@ import java.util.List;
  */
 @Repository
 @Transactional(propagation = Propagation.MANDATORY)
-public class TrainingSearchDaoImpl {
+public class TrainingSearchDaoImpl implements TrainingSearchDao{
 
     @Autowired
     private TrainingSearchMapper trainingSearchMapper;
 
-    List<TrainingSearchResultDTO> findTrainings(TrainingSearchQueryDTO dto){
+    public List<TrainingSearchResultDTO> findTrainings(TrainingSearchQueryDTO dto){
         //return trainingSearchMapper.findTrainings(dto);
         return null;
     }
