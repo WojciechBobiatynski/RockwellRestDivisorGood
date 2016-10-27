@@ -76,4 +76,6 @@ public interface ApplicationParameters {
     Integer getMaxIndResetFailureAttempts();
 
     Integer getIndUserResetBlockMinutes();
+
+    Integer getResetLinkActiveMinutes();
 }

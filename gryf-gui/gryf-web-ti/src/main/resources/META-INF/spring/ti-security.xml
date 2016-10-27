@@ -21,6 +21,9 @@
         <intercept-url pattern="/login" access="permitAll" />
         <intercept-url pattern="/logout" access="permitAll" />
         <intercept-url pattern="/retrieve" access="permitAll" />
+        <intercept-url pattern="/retrieve/password" access="permitAll" />
+        <intercept-url pattern="/reset/*" access="permitAll" />
+        <intercept-url pattern="/password/save" access="permitAll" />
         <intercept-url pattern="/**" access="isAuthenticated()" />
         <http-basic/>
     </http>

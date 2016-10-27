@@ -14,7 +14,7 @@ import java.util.Date;
  * Created by akmiecinski on 26.10.2016.
  */
 @Entity
-@Table(name = "TRAINING_INSTITUTION_USERS", schema = "APP_PBE")
+@Table(name = "TI_USER_RESET_ATTEMPTS", schema = "APP_PBE")
 @ToString(exclude = {"trainingInstitutionUser"})
 public class TiUserResetAttempt extends VersionableEntity {
 
@@ -22,7 +22,7 @@ public class TiUserResetAttempt extends VersionableEntity {
     @Column(name = "TUR_ID")
     @Getter
     @Setter
-    private Long turId;
+    private String turId;
 
     @ManyToOne
     @JoinColumn(name="TIU_ID", referencedColumnName = "ID")

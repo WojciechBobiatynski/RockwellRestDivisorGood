@@ -20,7 +20,7 @@ public class TiUserResetAttemptDto extends VersionableDto implements Serializabl
 
     @Getter
     @Setter
-    private Long turId;
+    private String turId;
 
     @Getter
     @Setter

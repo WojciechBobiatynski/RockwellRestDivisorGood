@@ -13,6 +13,7 @@ import pl.sodexo.it.gryf.common.dto.mail.MailDTO;
 import pl.sodexo.it.gryf.common.dto.security.individuals.GryfIndUserDto;
 import pl.sodexo.it.gryf.common.dto.security.individuals.VerificationDto;
 import pl.sodexo.it.gryf.common.dto.security.trainingInstitutions.GryfTiUserDto;
+import pl.sodexo.it.gryf.common.dto.security.trainingInstitutions.TiUserResetAttemptDto;
 import pl.sodexo.it.gryf.common.exception.authentication.GryfUserNotActiveException;
 import pl.sodexo.it.gryf.common.exception.verification.GryfVerificationException;
 import pl.sodexo.it.gryf.common.mail.MailPlaceholders;
@@ -22,6 +23,7 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.mail.EmailTemplateRepository;
 import pl.sodexo.it.gryf.model.mail.EmailTemplate;
 import pl.sodexo.it.gryf.service.api.security.VerificationService;
 import pl.sodexo.it.gryf.service.api.security.individuals.IndividualUserService;
+import pl.sodexo.it.gryf.service.api.security.trainingInstitutions.TiUserResetAttemptService;
 import pl.sodexo.it.gryf.service.api.security.trainingInstitutions.TrainingInstitutionUserService;
 import pl.sodexo.it.gryf.service.local.api.MailService;
 
@@ -30,8 +32,7 @@ import java.time.ZoneId;
 import java.util.Collections;
 import java.util.Date;
 
-import static pl.sodexo.it.gryf.common.utils.GryfConstants.EMAIL_BODY_VER_CODE_PLACEHOLDER;
-import static pl.sodexo.it.gryf.common.utils.GryfConstants.VERIFICATION_CODE_EMAIL_TEMPLATE_CODE;
+import static pl.sodexo.it.gryf.common.utils.GryfConstants.*;
 
 /**
  * Implementacja serwisu obsługującego zdarzenia związane z weryfikacją osoby fizycznej
@@ -59,12 +60,15 @@ public class VerificationServiceImpl implements VerificationService {
     @Autowired
     private EmailTemplateRepository emailTemplateRepository;
 
+    @Autowired
+    private TiUserResetAttemptService tiUserResetAttemptService;
+
     @Override
     public void resendVerificationCode(VerificationDto verificationDto) throws GryfVerificationException {
         GryfIndUserDto user = validateVerificationData(verificationDto);
         //TODO: na razie tworzymy nowy kod, docelowo ma być szyfrowany i odszyfrowywany
         String newVerificationCode = createAndSaveNewVerificationCode(user);
-        sendMailNotification(verificationDto, newVerificationCode);
+        mailService.scheduleMail(createMailDTOForVerficiationCode(verificationDto.getEmail(), newVerificationCode));
     }
 
     private GryfIndUserDto validateVerificationData(VerificationDto verificationDto) throws GryfVerificationException {
@@ -141,25 +145,60 @@ public class VerificationServiceImpl implements VerificationService {
         return RandomStringUtils.randomAlphabetic(applicationParameters.getVerificationCodeLength());
     }
 
-    private void sendMailNotification(VerificationDto verificationDto, String verificationCode) {
-        mailService.scheduleMail(createMailDTO(verificationDto, verificationCode));
-    }
-
-    private MailDTO createMailDTO(VerificationDto verificationDto, String verificationCode) {
+    private MailDTO createMailDTOForVerficiationCode(String email, String verificationParam) {
         MailDTO mailDTO = new MailDTO();
-        MailPlaceholders mailPlaceholders = mailService.createPlaceholders(EMAIL_BODY_VER_CODE_PLACEHOLDER, verificationCode);
+        MailPlaceholders mailPlaceholders = mailService.createPlaceholders(EMAIL_BODY_VER_CODE_PLACEHOLDER, verificationParam);
         EmailTemplate emailTemplate = emailTemplateRepository.get(VERIFICATION_CODE_EMAIL_TEMPLATE_CODE);
         mailDTO.setTemplateId(emailTemplate.getId());
         mailDTO.setSubject(emailTemplate.getEmailSubjectTemplate());
         mailDTO.setAddressesFrom(applicationParameters.getGryfPbeAdmEmailFrom());
-        mailDTO.setAddressesTo(verificationDto.getEmail());
+        mailDTO.setAddressesTo(email);
         mailDTO.setBody(mailPlaceholders.replace(emailTemplate.getEmailBodyTemplate()));
         mailDTO.setAttachments(Collections.emptyList());
         return mailDTO;
     }
 
     @Override
-    public void resetTiUserPassword(String email) {
-        GryfTiUserDto gryfTiUserDto = trainingInstitutionUserService.findTiUserByEmail(email);
+    public void resetTiUserPassword(String email, String contextPath) {
+        GryfTiUserDto user = findActiveTiUserDto(email);
+        tiUserResetAttemptService.disableActiveAttemptOfTiUser(user.getId());
+        TiUserResetAttemptDto attemptDto = createNewAttemptForTiUser(user.getId());
+        tiUserResetAttemptService.saveTiUserResetAttempt(attemptDto);
+        mailService.scheduleMail(createMailDTOForResetLink(email, attemptDto.getTurId(), contextPath));
     }
+
+    private GryfTiUserDto findActiveTiUserDto(String email) {
+        GryfTiUserDto user = trainingInstitutionUserService.findTiUserByEmail(email);
+
+        if (user == null)
+            throw new GryfVerificationException("Nie znaleziono użytkownika o podanym adresie email");
+
+        if(!user.isActive())
+            throw new GryfUserNotActiveException("Twoje konto jest nieaktywne. Zgłoś sie do administratora");
+        return user;
+    }
+
+    private TiUserResetAttemptDto createNewAttemptForTiUser(Long tiuId){
+        TiUserResetAttemptDto tiUserResetAttemptDto = new TiUserResetAttemptDto();
+        tiUserResetAttemptDto.setTurId(tiUserResetAttemptService.createNewLink());
+        tiUserResetAttemptDto.setTiuId(tiuId);
+        tiUserResetAttemptDto.setUsed(false);
+        LocalDateTime expiryDate = LocalDateTime.ofInstant(new Date().toInstant(), ZoneId.systemDefault()).plusMinutes(applicationParameters.getResetLinkActiveMinutes());
+        tiUserResetAttemptDto.setExpiryDate(Date.from(expiryDate.atZone(ZoneId.systemDefault()).toInstant()));
+        return tiUserResetAttemptDto;
+    }
+
+    private MailDTO createMailDTOForResetLink(String email, String newLink, String contextPath) {
+        MailDTO mailDTO = new MailDTO();
+        MailPlaceholders mailPlaceholders = mailService.createPlaceholders(EMAIL_BODY_RESET_LINK_PLACEHOLDER, contextPath + RESET_LINK_URL_PREFIX + newLink);
+        EmailTemplate emailTemplate = emailTemplateRepository.get(RESET_LINK_EMAIL_TEMPLATE_CODE);
+        mailDTO.setTemplateId(emailTemplate.getId());
+        mailDTO.setSubject(emailTemplate.getEmailSubjectTemplate());
+        mailDTO.setAddressesFrom(applicationParameters.getGryfPbeAdmEmailFrom());
+        mailDTO.setAddressesTo(email);
+        mailDTO.setBody(mailPlaceholders.replace(emailTemplate.getEmailBodyTemplate()));
+        mailDTO.setAttachments(Collections.emptyList());
+        return mailDTO;
+    }
+
 }

@@ -28,6 +28,8 @@ public interface VerificationService {
     /**
      * Metoda która resetuje hasło dla użytkownika instytucji szkoleniowej. Tworzy link do zmiany hasła a następnie go wysyła na zadany adres o ile jest w bazie.
      * @param email - adres email osoby fizycznej
+     * @param contextPath - URL aplikacji
      */
-    void resetTiUserPassword(String email);
+    void resetTiUserPassword(String email, String contextPath);
+
 }

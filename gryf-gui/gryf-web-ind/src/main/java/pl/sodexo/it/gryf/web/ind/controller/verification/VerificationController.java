@@ -49,9 +49,11 @@ public class VerificationController {
             verificationService.resendVerificationCode(verificationDto);
             comebackPage = PAGE_VERIFICATION_RESEND_SUCCESS;
         } catch (GryfRuntimeException e){
+            LOGGER.error("Blad podczas obslugi", e);
             uiModel.addAttribute("error", e);
             comebackPage = PAGE_VERIFICATION;
         } catch(Exception e) {
+            LOGGER.error("Blad podczas obslugi", e);
             uiModel.addAttribute("unknowerror", e);
             comebackPage = PAGE_VERIFICATION;
         }

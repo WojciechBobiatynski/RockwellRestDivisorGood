@@ -2,8 +2,6 @@ package pl.sodexo.it.gryf.service.api.security.trainingInstitutions;
 
 import pl.sodexo.it.gryf.common.dto.security.trainingInstitutions.TiUserResetAttemptDto;
 
-import java.util.List;
-
 /**
  * Serwis do operacji na żądaniach resetu hasła dla użytkownika instytucji szkoleniowej
  *
@@ -11,5 +9,28 @@ import java.util.List;
  */
 public interface TiUserResetAttemptService {
 
-    List<TiUserResetAttemptDto> findCurrentByTrainingInstitutionId(Long tiuId);
+    /**
+     * Wyłącza aktywny link resetu hasła dla dane użytkownika osoby fizycznej. Maksymalnie powinien być jeden aktywny.
+     * @param tiuId - id użytkownika osoby fizycznej
+     */
+    void disableActiveAttemptOfTiUser(Long tiuId);
+
+    /**
+     * Sprawdza czy wygenorowany link został już wygenerowany (prawie się nie zdarza) i jeśli nie to go zwraca.
+     * @return nowy link
+     */
+    String createNewLink();
+
+    /**
+     * Zapisuje nowe żądania resetu hasła
+     * @param tiUserResetAttemptDto Dto które ma być zapisane
+     * @return zapisane Dto
+     */
+    TiUserResetAttemptDto saveTiUserResetAttempt(TiUserResetAttemptDto tiUserResetAttemptDto);
+
+    /**
+     * Sprawdza czy żądanie zmiany hasła jest wciąż aktualne
+     * @param turId - id żądania
+     */
+    void checkIfResetAttemptStillActive(String turId);
 }

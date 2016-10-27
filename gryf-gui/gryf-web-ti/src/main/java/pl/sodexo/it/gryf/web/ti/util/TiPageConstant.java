@@ -19,7 +19,16 @@ public final class TiPageConstant extends PageConstant {
     public static final String SUB_PAGE_TI_WELCOME = PREFIX_PAGE + "ti-welcome.jsp";
 
     public static final String PATH_RETRIEVE_PASSWORD = "/retrieve";
-    public static final String PAGE_RETRIEVE_PASSWORD = PREFIX_PAGE + "retrievepassword/retrievePassword.jsp";
+    public static final String PAGE_RETRIEVE_PASSWORD = PREFIX_PAGE + "password/retrieve/retrievePassword.jsp";
 
-    public static final String PATH_RETRIEVE_RESET_PASSWORD = "/retrieve/reset";
+    public static final String PATH_RETRIEVE_RESET_PASSWORD = "/retrieve/password";
+    public static final String PAGE_RETRIEVE_RESET_PASSWORD_SUCCESS = PREFIX_PAGE + "password/retrieve/retrievePasswordSuccess.jsp";
+
+    public static final String PATH_RESET_PASSWORD = "/reset";
+    public static final String PAGE_RESET_PASSWORD = PREFIX_PAGE + "password/save/savePassword.jsp";
+
+    public static final String PAGE_RESET_PASSWORD_EXCEPTION = PREFIX_PAGE + "password/resetException.jsp";
+
+    public static final String PATH_SAVE_PASSWORD = "/password/save";
+    public static final String PAGE_SAVE_SUCCESS = PREFIX_PAGE + "password/save/savePasswordSuccess.jsp";
 }

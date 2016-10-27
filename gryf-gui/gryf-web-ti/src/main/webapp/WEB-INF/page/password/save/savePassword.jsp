@@ -1,5 +1,5 @@
-<%@page pageEncoding="UTF-8" %>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html prefix="og: http://ogp.me/ns#" lang="pl">
 <head>
@@ -25,41 +25,37 @@
 <div id="content">
     <div class="grid">
         <article itemprop="text" class="text centered">
-            <h1 itemprop="headline name" class="headline name">RESET HASŁA</h1>
+            <h1 itemprop="headline name" class="headline name">Tworzenie nowego hasła</h1>
 
-            <p itemprop="description" class="description">Link umożliwiający zmianę hasła zostanie wysłany wyłącznie na adres email zarejestrowany w naszej bazie Instytucji Szkoleniowych</p>
+            <p>Prosimy pamiętać, że hasła w obu polach muszą być identyczne</p>
 
-            <c:if test="${error != null}">
+            <c:if test="${param.error != null}">
                 <div class="msg msg-error"><p><c:out value="${error.message}"/></p></div>
             </c:if>
 
-            <c:if test="${unknowerror != null}">
-                <div class="msg msg-error"><p>Wystąpił niespodziewany błąd po stronie serwera. Prosimy spróbować później</p></div>
-            </c:if>
-
-            <section class="form password-retrieve">
-                <form name="verificationForm" action="${pageContext.request.contextPath}/retrieve/reset" method="POST">
+            <section class="form form-password">
+                <form name="passwordForm" action="${pageContext.request.contextPath}/password/save" method="POST">
                     <fieldset>
                         <div class="field input input-short required">
                             <div class="label">
-                                <label for="username">Login</label>
+                                <label for="new-password">Nowe hasło</label>
                             </div>
                             <div class="control">
-                                <input id="username" type="text" name="username" value="" tabindex="1">
+                                <input id="new-password" type="text" name="password" value="" tabindex="1">
                             </div>
                         </div>
                         <div class="field input input-short required">
                             <div class="label">
-                                <label for="password">Hasło</label>
+                                <label for="old-password">Powtórz hasło</label>
                             </div>
                             <div class="control">
-                                <input id="password" type="password" name="password" tabindex="2">
+                                <input id="old-password" type="text" name="repeatedPassword" tabindex="2">
                             </div>
                         </div>
                     </fieldset>
                     <div class="submit submit-left">
-                        <button type="submit" tabindex="3">Resetuj hasło</button>
-                        <p class="centered"><a href="${pageContext.request.contextPath}/login" title="login">Powrót na stronę logowania</a></p>
+                        <button type="submit" tabindex="3">Zapisz hasło</button>
+                        <input type="hidden" name="token" value="${token}" />
                     </div>
                 </form>
             </section>

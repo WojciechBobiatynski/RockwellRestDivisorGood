@@ -1,11 +1,15 @@
 package pl.sodexo.it.gryf.service.impl.security.traininginstitution;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.dto.security.trainingInstitutions.GryfTiUserDto;
+import pl.sodexo.it.gryf.common.exception.verification.GryfInvalidTokenException;
+import pl.sodexo.it.gryf.dao.api.crud.dao.traininginstitutions.TiUserResetAttemptDao;
 import pl.sodexo.it.gryf.dao.api.crud.dao.traininginstitutions.TrainingInstitutionUserDao;
+import pl.sodexo.it.gryf.model.security.trainingInstitutions.TiUserResetAttempt;
 import pl.sodexo.it.gryf.model.security.trainingInstitutions.TrainingInstitutionUser;
 import pl.sodexo.it.gryf.service.api.security.trainingInstitutions.TrainingInstitutionUserService;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.security.traininginstitutions.GryfTiUserDtoMapper;
@@ -28,6 +32,9 @@ public class TrainingInstitutionUserServiceImpl implements TrainingInstitutionUs
 
     @Autowired
     private GryfTiUserDtoMapper gryfTiUserDtoMapper;
+
+    @Autowired
+    private TiUserResetAttemptDao tiUserResetAttemptDao;
 
     @Override
     public GryfTiUserDto saveTiUser(GryfTiUserDto gryfTiUserDto) {
@@ -55,5 +62,18 @@ public class TrainingInstitutionUserServiceImpl implements TrainingInstitutionUs
     @Override
     public GryfTiUserDto findTiUserByEmail(String email) {
         return trainingInstitutionUserEntityMapper.convert(trainingInstitutionUserDao.findByEmail(email));
+    }
+
+    @Override
+    public GryfTiUserDto findUserByTurIdAndSaveNewPassword(String turId, String password) {
+        TiUserResetAttempt tiUserResetAttempt = tiUserResetAttemptDao.findByTurId(turId);
+        if(tiUserResetAttempt == null){
+            throw new GryfInvalidTokenException("Niepoprawny token");
+        }
+        TrainingInstitutionUser user = tiUserResetAttempt.getTrainingInstitutionUser();
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        user.setPassword(passwordEncoder.encode(password));
+        tiUserResetAttempt.setUsed(true);
+        return trainingInstitutionUserEntityMapper.convert(trainingInstitutionUserDao.save(user));
     }
 }

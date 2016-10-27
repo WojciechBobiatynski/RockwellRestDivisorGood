@@ -8,6 +8,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstit
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Encja reprezentująca użytkowników instytucji szkoleniowych
@@ -75,4 +76,9 @@ public class TrainingInstitutionUser extends VersionableEntity {
     @Getter
     @Setter
     private TrainingInstitution trainingInstitution;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "trainingInstitutionUser")
+    @Getter
+    @Setter
+    private List<TiUserResetAttempt> tiUserResetAttemptList;
 }

@@ -53,6 +53,7 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     private String verEmailContactType = "VER_EMAIL";
     private Integer maxIndResetFailureAttempts = 5;
     private Integer indUserResetBlockMinutes = 5;
+    private Integer resetLinkActiveMinutes = 30;
 
     //LIFECYCLE METHODS
 
@@ -197,6 +198,10 @@ public class ApplicationParametersImpl implements ApplicationParameters {
         Integer dbIndUserResetBlockMinutes = (Integer) findParameter("GRYF_IND_USER_RESET_BLOCK_MINUTES");
         if (dbIndUserResetBlockMinutes != null) {
             indUserResetBlockMinutes = dbIndUserResetBlockMinutes;
+        }
+        Integer dbResetLinkActiveMinutes = (Integer) findParameter("GRYF_LINK_ACTI");
+        if (dbResetLinkActiveMinutes != null) {
+            resetLinkActiveMinutes = dbResetLinkActiveMinutes;
         }
     }
 
@@ -380,6 +385,11 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     @Override
     public Integer getIndUserResetBlockMinutes() {
         return indUserResetBlockMinutes;
+    }
+
+    @Override
+    public Integer getResetLinkActiveMinutes() {
+        return resetLinkActiveMinutes;
     }
 
     //PRIVATE METHODS

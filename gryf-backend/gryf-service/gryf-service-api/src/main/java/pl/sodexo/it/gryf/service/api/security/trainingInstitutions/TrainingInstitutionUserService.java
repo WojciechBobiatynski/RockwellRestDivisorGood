@@ -43,4 +43,12 @@ public interface TrainingInstitutionUserService {
      * @return
      */
     GryfTiUserDto findTiUserByEmail(String email);
+
+    /**
+     * Znajduje użytkownika instytucji szkoleniowej i zapisuje dla niego nowe hasło
+     * @param turId - id żądania zmiany hasła
+     * @param password - nowe hasło
+     * @return dto użytkownika instytucji szkoleniowej
+     */
+    GryfTiUserDto findUserByTurIdAndSaveNewPassword(String turId, String password);
 }
