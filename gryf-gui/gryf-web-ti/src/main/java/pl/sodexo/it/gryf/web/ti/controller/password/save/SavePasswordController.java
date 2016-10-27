@@ -17,6 +17,7 @@ import pl.sodexo.it.gryf.service.api.security.trainingInstitutions.TrainingInsti
 
 import javax.servlet.http.HttpServletRequest;
 
+import static pl.sodexo.it.gryf.common.utils.GryfConstants.*;
 import static pl.sodexo.it.gryf.web.ti.util.TiPageConstant.*;
 
 /**
@@ -44,11 +45,11 @@ public class SavePasswordController {
             request.getSession().setAttribute(TOKEN_PLACEHOLDER, turId);
         } catch (GryfRuntimeException e) {
             LOGGER.error("Wystąpił błąd", e);
-            uiModel.addAttribute("error", e);
+            uiModel.addAttribute(JSP_ERROR_PLACEHOLDER, e);
             return PAGE_RESET_PASSWORD_EXCEPTION;
         } catch (Exception e) {
             LOGGER.error("Wystąpił niespodziewany błąd", e);
-            uiModel.addAttribute("unknownerror", e);
+            uiModel.addAttribute(JSP_UNKNOWNERROR_PLACEHOLDER, e);
             return PAGE_RESET_PASSWORD_EXCEPTION;
         }
         return PAGE_RESET_PASSWORD;
@@ -60,20 +61,20 @@ public class SavePasswordController {
         request.getSession().removeAttribute(TOKEN_PLACEHOLDER);
 
         if (token != null && token.equals(request.getParameter(TOKEN_PLACEHOLDER))) {
-            String password = request.getParameter("password");
-            String repeatedPassword = request.getParameter("repeatedPassword");
+            String password = request.getParameter(JSP_PASSWORD_PLACEHOLDER);
+            String repeatedPassword = request.getParameter(JSP_REPEATED_PASSWORD_PLACEHOLDER);
             if (!password.equals(repeatedPassword)) {
-                uiModel.addAttribute("error", new GryfVerificationException("Hasła muszą być identyczne"));
+                uiModel.addAttribute(JSP_ERROR_PLACEHOLDER, new GryfVerificationException("Hasła muszą być identyczne"));
                 return PAGE_RESET_PASSWORD;
             }
             try{
                 GryfTiUserDto user = trainingInstitutionUserService.findUserByTurIdAndSaveNewPassword(token, password);
-                uiModel.addAttribute("login", user.getLogin());
+                uiModel.addAttribute(JSP_LOGIN_PLACEHOLDER, user.getLogin());
             } catch (GryfRuntimeException e){
-                uiModel.addAttribute("error", e);
+                uiModel.addAttribute(JSP_ERROR_PLACEHOLDER, e);
             }
         } else {
-            uiModel.addAttribute("error", new GryfInvalidTokenException("Niepoprawny token"));
+            uiModel.addAttribute(JSP_ERROR_PLACEHOLDER, new GryfInvalidTokenException("Niepoprawny token"));
             return PAGE_SAVE_SUCCESS;
         }
         return PAGE_SAVE_SUCCESS;

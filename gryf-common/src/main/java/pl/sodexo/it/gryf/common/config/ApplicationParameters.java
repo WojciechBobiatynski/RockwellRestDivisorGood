@@ -78,4 +78,8 @@ public interface ApplicationParameters {
     Integer getIndUserResetBlockMinutes();
 
     Integer getResetLinkActiveMinutes();
+
+    String getPublicCaptchaKey();
+
+    String getSecretCaptchaKey();
 }

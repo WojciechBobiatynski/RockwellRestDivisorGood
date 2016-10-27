@@ -54,6 +54,8 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     private Integer maxIndResetFailureAttempts = 5;
     private Integer indUserResetBlockMinutes = 5;
     private Integer resetLinkActiveMinutes = 30;
+    private String secretCaptchaKey = "6Lf2YwoUAAAAAAakGiKVaC-hAwLqDKQn4RQqEt7Y";
+    private String publicCaptchaKey = "6Lf2YwoUAAAAAJLQuF5yQzLcdSim4KNQ4Ur_WWgm";
 
     //LIFECYCLE METHODS
 
@@ -202,6 +204,14 @@ public class ApplicationParametersImpl implements ApplicationParameters {
         Integer dbResetLinkActiveMinutes = (Integer) findParameter("GRYF_LINK_ACTI");
         if (dbResetLinkActiveMinutes != null) {
             resetLinkActiveMinutes = dbResetLinkActiveMinutes;
+        }
+        String dbPublicCaptchaKey = (String) findParameter("GRYF_PUBLIC_CAPTCHA_KEY");
+        if (dbPublicCaptchaKey != null) {
+            publicCaptchaKey = dbPublicCaptchaKey;
+        }
+        String dbSecretCaptchaKey = (String) findParameter("GRYF_SECRET_CAPTCHA_KEY");
+        if (dbSecretCaptchaKey != null) {
+            secretCaptchaKey = dbSecretCaptchaKey;
         }
     }
 
@@ -390,6 +400,16 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     @Override
     public Integer getResetLinkActiveMinutes() {
         return resetLinkActiveMinutes;
+    }
+
+    @Override
+    public String getPublicCaptchaKey() {
+        return publicCaptchaKey;
+    }
+
+    @Override
+    public String getSecretCaptchaKey() {
+        return secretCaptchaKey;
     }
 
     //PRIVATE METHODS

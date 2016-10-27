@@ -106,7 +106,7 @@
                 <div class="msg msg-error"><p><c:out value="${error.message}"/></p></div>
             </c:if>
 
-            <c:if test="${unknowerror != null}">
+            <c:if test="${unknownerror != null}">
                 <div class="msg msg-error"><p>Wystąpił niespodziewany błąd po stronie serwera. Prosimy spróbować później</p></div>
             </c:if>
 

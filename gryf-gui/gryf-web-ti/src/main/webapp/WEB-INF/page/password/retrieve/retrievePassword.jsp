@@ -8,6 +8,7 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" href="${cdnUrl}gryf/css/init.css">
     <link rel="shortcut icon" href="${cdnUrl}favicon.ico">
+    <script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
 
 <body>
@@ -33,7 +34,7 @@
                 <div class="msg msg-error"><p><c:out value="${error.message}"/></p></div>
             </c:if>
 
-            <c:if test="${unknowerror != null}">
+            <c:if test="${unknownerror != null}">
                 <div class="msg msg-error"><p>Wystąpił niespodziewany błąd po stronie serwera. Prosimy spróbować później</p></div>
             </c:if>
 
@@ -48,6 +49,7 @@
                                 <input id="email" type="email" name="email">
                             </div>
                         </div>
+                        <div class="g-recaptcha" data-sitekey=${siteKey}></div>
                     </fieldset>
                     <div class="submit submit-left">
                         <button type="submit">Resetuj hasło</button>

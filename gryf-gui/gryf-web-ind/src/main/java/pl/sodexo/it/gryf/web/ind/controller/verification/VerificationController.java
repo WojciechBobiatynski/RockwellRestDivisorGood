@@ -13,6 +13,7 @@ import pl.sodexo.it.gryf.service.api.security.VerificationService;
 
 import javax.servlet.http.HttpServletRequest;
 
+import static pl.sodexo.it.gryf.common.utils.GryfConstants.*;
 import static pl.sodexo.it.gryf.web.ind.util.IndPageConstant.*;
 
 /**
@@ -35,8 +36,8 @@ public class VerificationController {
 
     @RequestMapping(value = PATH_VERIFICATION_RESEND_CODE, method = RequestMethod.POST)
     public String resendVerificationCode(HttpServletRequest request, Model uiModel) {
-        String pesel = request.getParameter("pesel");
-        String email = request.getParameter("email");
+        String pesel = request.getParameter(JSP_PESEL_PLACEHOLDER);
+        String email = request.getParameter(JSP_EMAIL_PLACEHOLDER);
         LOGGER.info("resendVerificationCode, PESEL={}, email={}",pesel, email);
 
         VerificationDto verificationDto = new VerificationDto(pesel, email);
@@ -50,11 +51,11 @@ public class VerificationController {
             comebackPage = PAGE_VERIFICATION_RESEND_SUCCESS;
         } catch (GryfRuntimeException e){
             LOGGER.error("Blad podczas obslugi", e);
-            uiModel.addAttribute("error", e);
+            uiModel.addAttribute(JSP_ERROR_PLACEHOLDER, e);
             comebackPage = PAGE_VERIFICATION;
         } catch(Exception e) {
             LOGGER.error("Blad podczas obslugi", e);
-            uiModel.addAttribute("unknowerror", e);
+            uiModel.addAttribute(JSP_UNKNOWNERROR_PLACEHOLDER, e);
             comebackPage = PAGE_VERIFICATION;
         }
         return comebackPage;
