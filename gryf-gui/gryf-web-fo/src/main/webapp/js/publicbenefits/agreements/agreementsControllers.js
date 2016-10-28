@@ -26,4 +26,11 @@ angular.module('gryf.agreements').controller("detailsform.AgreementsController",
                 $scope.$broadcast('propagateEnterpriseData', chosenEnterprise);
             });
         };
+
+        $scope.openIndividualLov = function() {
+            ModifyContractService.openIndividualLov().result.then(function(chosenIndividual) {
+                $scope.contract.individual = chosenIndividual;
+                $scope.$broadcast('propagateIndividualData', chosenIndividual);
+            });
+        };
     }]);

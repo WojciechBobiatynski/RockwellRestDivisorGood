@@ -3,7 +3,7 @@
  */
 'use strict';
 
-angular.module('gryf.agreements', ['gryf.config', 'gryf.enterprises']);
+angular.module('gryf.agreements', ['gryf.config', 'gryf.enterprises', 'gryf.individuals']);
 angular.module('gryf.agreements').config(['$routeProvider', function($routeProvider) {
     $routeProvider
         .when('/', {

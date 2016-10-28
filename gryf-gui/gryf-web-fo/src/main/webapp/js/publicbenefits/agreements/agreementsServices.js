@@ -4,7 +4,7 @@
 "use strict";
 
 angular.module("gryf.agreements").factory("ModifyContractService",
-    ['$http', 'GryfModals', 'BrowseEnterprisesService', function ($http, GryfModals, BrowseEnterprisesService) {
+    ['$http', 'GryfModals', 'BrowseEnterprisesService', 'BrowseIndividualsService', function ($http, GryfModals, BrowseEnterprisesService, BrowseIndividualsService) {
 
         var FIND_GRANT_PROGRAMS_DICTIONARIES_URL = contextPath + "/rest/publicBenefits/contract/grantProgramsDictionaries";
 
@@ -55,11 +55,17 @@ angular.module("gryf.agreements").factory("ModifyContractService",
             return GryfModals.openLovModal(TEMPLATE_URL, BrowseEnterprisesService, "lg");
         };
 
+        var openIndividualLov = function () {
+            var TEMPLATE_URL = GryfModals.MODALS_URL.LOV_INDIVIDUALS;
+            return GryfModals.openLovModal(TEMPLATE_URL, BrowseIndividualsService, "lg");
+        };
+
         return{
             getNewGrantPrograms: getNewGrantPrograms,
             getNewContract: getNewContract,
             loadGrantPrograms: loadGrantPrograms,
             save: save,
-            openEnterpriseLov: openEnterpriseLov
+            openEnterpriseLov: openEnterpriseLov,
+            openIndividualLov: openIndividualLov
         }
     }]);
