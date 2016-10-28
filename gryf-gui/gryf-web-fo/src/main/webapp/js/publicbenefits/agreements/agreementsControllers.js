@@ -6,17 +6,24 @@ angular.module('gryf.agreements').controller("searchform.AgreementsController",
     }]);
 
 angular.module('gryf.agreements').controller("detailsform.AgreementsController",
-    ["$scope", "AgreementsService", function ($scope, AgreementService) {
+    ["$scope", "ModifyContractService", function ($scope, ModifyContractService) {
 
-        $scope.grantProgram = AgreementService.getNewGrantPrograms();
-        $scope.contract = AgreementService.getNewContract();
+        $scope.grantProgram = ModifyContractService.getNewGrantPrograms();
+        $scope.contract = ModifyContractService.getNewContract();
         $scope.selectedGrantProgram = {};
 
         $scope.loadGrantPrograms = function () {
-            AgreementService.loadGrantPrograms();
+            ModifyContractService.loadGrantPrograms();
         };
         $scope.loadContract = function () {
-            AgreementService.loadContract();
+            ModifyContractService.loadContract();
         }
         $scope.loadGrantPrograms();
+
+        $scope.openEnterpriseLov = function() {
+            ModifyContractService.openEnterpriseLov().result.then(function(chosenEnterprise) {
+                $scope.contract.enterprise = chosenEnterprise;
+                $scope.$broadcast('propagateEnterpriseData', chosenEnterprise);
+            });
+        };
     }]);

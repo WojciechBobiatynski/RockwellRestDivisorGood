@@ -3,8 +3,8 @@
  */
 "use strict";
 
-angular.module("gryf.agreements").factory("AgreementsService",
-    ["$http", function($http) {
+angular.module("gryf.agreements").factory("ModifyContractService",
+    ['$http', 'GryfModals', 'BrowseEnterprisesService', function ($http, GryfModals, BrowseEnterprisesService) {
 
         var FIND_GRANT_PROGRAMS_DICTIONARIES_URL = contextPath + "/rest/publicBenefits/contract/grantProgramsDictionaries";
 
@@ -15,20 +15,19 @@ angular.module("gryf.agreements").factory("AgreementsService",
         }
 
         function Contract() {
-            this.entity = {
-                grantProgramName: null,
-                grantProgramOwnerName: null,
-                contractId: null,
-                contractType: null,
-                individualId: null,
-                enterpriseId: null,
-                signDate: null,
-                expiryDate: null,
-                created: null,
-                modified: null
+            this.grantProgramName = null,
+            this.grantProgramOwnerName = null,
+            this.contractId = null,
+            this.contractType = null,
+            this.individual = null,
+            this.enterprise = null,
+            this.signDate = null,
+            this.expiryDate = null,
+            this.created = null,
+            this.modified = null
 
             }
-        }
+
 
         var getNewGrantPrograms = function () {
             grantProgram = new GrantProgram();
@@ -51,10 +50,16 @@ angular.module("gryf.agreements").factory("AgreementsService",
 
         }
 
+        var openEnterpriseLov = function () {
+            var TEMPLATE_URL = GryfModals.MODALS_URL.LOV_ENTERPRISES;
+            return GryfModals.openLovModal(TEMPLATE_URL, BrowseEnterprisesService, "lg");
+        };
+
         return{
             getNewGrantPrograms: getNewGrantPrograms,
             getNewContract: getNewContract,
             loadGrantPrograms: loadGrantPrograms,
-            save: save
+            save: save,
+            openEnterpriseLov: openEnterpriseLov
         }
     }]);
