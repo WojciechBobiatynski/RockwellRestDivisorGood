@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.service.api.publicbenefits.contracts;
 
+import pl.sodexo.it.gryf.common.dto.other.DictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.other.GrantProgramDictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.contracts.detailsform.ContractDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.contracts.searchform.ContractSearchQueryDTO;
@@ -23,4 +24,6 @@ public interface ContractService {
     Long saveContract(ContractDTO contractDto);
 
     void updateContract(ContractDTO contractDto);
+
+    List<DictionaryDTO> findContractTypesDictionaries();
 }

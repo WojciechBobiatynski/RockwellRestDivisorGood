@@ -2,6 +2,7 @@ package pl.sodexo.it.gryf.common.dto.publicbenefits.contracts.detailsform;
 
 import lombok.ToString;
 import pl.sodexo.it.gryf.common.dto.api.VersionableDto;
+import pl.sodexo.it.gryf.common.dto.other.DictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.other.GrantProgramDictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.enterprises.searchform.EnterpriseSearchResultDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.searchform.IndividualSearchResultDTO;
@@ -16,10 +17,10 @@ public class ContractDTO extends VersionableDto{
 
     private Long id;
     private Long contractId;
-    private String contractType;
     private Date signDate;
     private Date expiryDate;
 
+    private DictionaryDTO contractType;
     private GrantProgramDictionaryDTO grantProgram;
     private IndividualSearchResultDTO individual;
     private EnterpriseSearchResultDTO enterprise;
@@ -40,14 +41,6 @@ public class ContractDTO extends VersionableDto{
         this.contractId = contractId;
     }
 
-    public String getContractType() {
-        return contractType;
-    }
-
-    public void setContractType(String contractType) {
-        this.contractType = contractType;
-    }
-
     public Date getSignDate() {
         return signDate;
     }
@@ -62,6 +55,14 @@ public class ContractDTO extends VersionableDto{
 
     public void setExpiryDate(Date expiryDate) {
         this.expiryDate = expiryDate;
+    }
+
+    public DictionaryDTO getContractType() {
+        return contractType;
+    }
+
+    public void setContractType(DictionaryDTO contractType) {
+        this.contractType = contractType;
     }
 
     public GrantProgramDictionaryDTO getGrantProgram() {

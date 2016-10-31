@@ -12,13 +12,18 @@ angular.module('gryf.agreements').controller("detailsform.AgreementsController",
 
 
         $scope.grantProgram = ModifyContractService.getNewGrantPrograms();
+        $scope.contractType = ModifyContractService.getNewContractTypes();
         $scope.contract = ModifyContractService.getNewContract();
 
         $scope.loadGrantPrograms = function () {
             ModifyContractService.loadGrantPrograms();
         };
 
+        $scope.loadContractTypes = function () {
+            ModifyContractService.loadContractTypes();
+        }
         $scope.loadGrantPrograms();
+        $scope.loadContractTypes();
 
         $scope.openEnterpriseLov = function() {
             ModifyContractService.openEnterpriseLov().result.then(function(chosenEnterprise) {

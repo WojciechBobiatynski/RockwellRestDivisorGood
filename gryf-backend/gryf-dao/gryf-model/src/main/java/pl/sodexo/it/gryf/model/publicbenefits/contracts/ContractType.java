@@ -1,6 +1,7 @@
 package pl.sodexo.it.gryf.model.publicbenefits.contracts;
 
 import pl.sodexo.it.gryf.model.api.AuditableEntity;
+import pl.sodexo.it.gryf.model.api.DictionaryEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,7 +13,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "CONTRACT_TYPES", schema = "APP_PBE")
-public class ContractType extends AuditableEntity {
+public class ContractType extends AuditableEntity implements DictionaryEntity {
 
     @Id
     @Column(name = "ID")
@@ -48,5 +49,25 @@ public class ContractType extends AuditableEntity {
 
     public void setOrdinal(Integer ordinal) {
         this.ordinal = ordinal;
+    }
+
+    @Override
+    public Object getDictionaryId() {
+        return id;
+    }
+
+    @Override
+    public String getDictionaryName() {
+        return description;
+    }
+
+    @Override
+    public String getOrderField() {
+        return "ordinal";
+    }
+
+    @Override
+    public String getActiveField() {
+        return null;
     }
 }

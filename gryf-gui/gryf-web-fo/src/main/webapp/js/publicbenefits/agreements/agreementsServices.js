@@ -7,11 +7,17 @@ angular.module("gryf.agreements").factory("ModifyContractService",
     ['$http', 'GryfModals', 'BrowseEnterprisesService', 'BrowseIndividualsService', function ($http, GryfModals, BrowseEnterprisesService, BrowseIndividualsService) {
 
         var FIND_GRANT_PROGRAMS_DICTIONARIES_URL = contextPath + "/rest/publicBenefits/contract/grantProgramsDictionaries";
+        var FIND_CONTRACT_TYPES_DICTIONARIES_URL = contextPath + "/rest/publicBenefits/contract/contractTypes";
         var CONTRACT_URL = contextPath + "/rest/publicBenefits/contract/";
 
         var grantProgram = new GrantProgram();
+        var contractType = new ContractType();
         var contract = new Contract();
         function GrantProgram() {
+            this.list = [];
+        }
+
+        function ContractType() {
             this.list = [];
         }
 
@@ -31,6 +37,12 @@ angular.module("gryf.agreements").factory("ModifyContractService",
             grantProgram = new GrantProgram();
             return grantProgram;
         }
+
+        var getNewContractTypes = function () {
+            contractType = new ContractType();
+            return contractType;
+        };
+
         var getNewContract = function () {
             contract = new Contract();
             return contract;
@@ -40,6 +52,14 @@ angular.module("gryf.agreements").factory("ModifyContractService",
             var promise = $http.get(FIND_GRANT_PROGRAMS_DICTIONARIES_URL);
             promise.then(function(response) {
                 grantProgram.list = response.data;
+            });
+            return promise;
+        };
+
+        var loadContractTypes = function() {
+            var promise = $http.get(FIND_CONTRACT_TYPES_DICTIONARIES_URL);
+            promise.then(function(response) {
+                contractType.list = response.data;
             });
             return promise;
         };
@@ -78,11 +98,12 @@ angular.module("gryf.agreements").factory("ModifyContractService",
 
         return{
             getNewGrantPrograms: getNewGrantPrograms,
+            getNewContractTypes: getNewContractTypes,
             getNewContract: getNewContract,
             loadGrantPrograms: loadGrantPrograms,
+            loadContractTypes: loadContractTypes,
             save: save,
             openEnterpriseLov: openEnterpriseLov,
-            openIndividualLov: openIndividualLov,
-            flatEntitiesToString: flatEntitiesToString
+            openIndividualLov: openIndividualLov
         }
     }]);

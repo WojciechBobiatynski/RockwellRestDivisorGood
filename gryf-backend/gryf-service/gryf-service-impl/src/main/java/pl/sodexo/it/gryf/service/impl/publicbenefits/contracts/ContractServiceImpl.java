@@ -3,6 +3,7 @@ package pl.sodexo.it.gryf.service.impl.publicbenefits.contracts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.sodexo.it.gryf.common.dto.other.DictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.other.GrantProgramDictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.contracts.detailsform.ContractDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.contracts.searchform.ContractSearchQueryDTO;
@@ -14,9 +15,11 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.grantprograms.Gr
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.individuals.IndividualRepository;
 import pl.sodexo.it.gryf.dao.api.search.dao.ContractSearchDao;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
+import pl.sodexo.it.gryf.model.publicbenefits.contracts.ContractType;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
 import pl.sodexo.it.gryf.service.api.publicbenefits.contracts.ContractService;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.contracts.ContractDtoMapper;
+import pl.sodexo.it.gryf.service.mapping.entitytodto.dictionaries.DictionaryEntityMapper;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.grantprograms.GrantProgramEntityMapper;
 
 import java.util.Date;
@@ -53,6 +56,9 @@ public class ContractServiceImpl implements ContractService {
     @Autowired
     private ContractTypeRepository contractTypeRepository;
 
+    @Autowired
+    private DictionaryEntityMapper dictionaryEntityMapper;
+
     @Override
     public List<GrantProgramDictionaryDTO> FindGrantProgramsDictionaries() {
         List<GrantProgram> grantPrograms = grantProgramRepository.findProgramsByDate(new Date());
@@ -84,12 +90,18 @@ public class ContractServiceImpl implements ContractService {
         entity.setIndividual(dto.getIndividual() != null ? individualRepository.get(dto.getIndividual().getId()) : null);
         entity.setEnterprise(dto.getEnterprise() != null ? enterpriseRepository.get(dto.getEnterprise().getId()) : null);
         entity.setGrantProgram(dto.getGrantProgram() != null ? grantProgramRepository.get(dto.getGrantProgram().getGrantProgramOwnerId()) : null);
-        entity.setContractType(dto.getContractType() != null ? contractTypeRepository.get(dto.getContractType()) : null);
+        entity.setContractType(dto.getContractType() != null ? contractTypeRepository.get((String)dto.getContractType().getId()) : null);
         return entity;
     }
 
     @Override
     public void updateContract(ContractDTO contractDto) {
 
+    }
+
+    @Override
+    public List<DictionaryDTO> findContractTypesDictionaries() {
+        List<ContractType> contractTypes = contractTypeRepository.findAll();
+        return dictionaryEntityMapper.convert(contractTypes);
     }
 }

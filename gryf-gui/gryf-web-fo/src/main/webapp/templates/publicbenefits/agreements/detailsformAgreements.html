@@ -48,16 +48,14 @@
                 </div>
                 <div>
                     <strong class="label">Rodzaj umowy</strong>
-                    <select required ng-model="contract.contractType">
-                        <option value="INDIVIDUAL">INDIVIDUAL</option>
-                        <option value="ENTERPRISE">ENTERPRISE</option>
+                    <select ng-options="item as item.name for item in contractType.list" ng-model="contract.contractType" required>
                     </select>
                 </div>
                 <div>
                     <strong class="label">Dane uczestnika</strong>
                     <a ng-click="openIndividualLov()" class="button button-save">Wprowadź</a>
                 </div>
-                <div ng-hide="contract.contractType == 'INDIVIDUAL'">
+                <div>
                     <strong class="label">Dane MŚP</strong>
                     <a ng-click="openEnterpriseLov()" class="button button-save">Wprowadź</a>
                 </div>

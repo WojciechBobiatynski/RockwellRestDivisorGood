@@ -2,6 +2,7 @@ package pl.sodexo.it.gryf.web.fo.controller.publicbenefits;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import pl.sodexo.it.gryf.common.dto.other.DictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.other.GrantProgramDictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.contracts.detailsform.ContractDTO;
 import pl.sodexo.it.gryf.common.enums.Privileges;
@@ -29,6 +30,13 @@ public class ContractsRestController {
     public List<GrantProgramDictionaryDTO> findGrantProgramsDictionaries() {
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_APPLICATIONS);
         return contractService.FindGrantProgramsDictionaries();
+    }
+
+    @RequestMapping(value = "/contractTypes", method = RequestMethod.GET)
+    @ResponseBody
+    public List<DictionaryDTO> findContractTypes() {
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_APPLICATIONS);
+        return contractService.findContractTypesDictionaries();
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
