@@ -69,7 +69,7 @@ public class TrainingInstitutionUser extends VersionableEntity {
     @Column(name = "LOGIN_FAILURE_ATTEMPTS")
     @Getter
     @Setter
-    private Integer loginFailureAttempts;
+    private Integer loginFailureAttempts = 0;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "TRAINING_ISTITUTION_ID")

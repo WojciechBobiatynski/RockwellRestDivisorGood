@@ -43,5 +43,5 @@ public interface UserService {
      *
      * @param gryfTiUser - zalogowany uzytkownik
      */
-    void updateLastLoginDateTi (GryfTiUser gryfTiUser);
+    void updateTiAfterSuccessLogin (GryfTiUser gryfTiUser);
 }

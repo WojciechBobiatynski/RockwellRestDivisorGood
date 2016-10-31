@@ -2,6 +2,7 @@ package pl.sodexo.it.gryf.service.api.security.individuals;
 
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.detailsForm.IndividualDto;
 import pl.sodexo.it.gryf.common.dto.security.individuals.GryfIndUserDto;
+import pl.sodexo.it.gryf.common.dto.user.GryfIndUser;
 
 /**
  * Klasa zajmująca się operacjami związanymi z użytkownikiem osoby fizycznej
@@ -53,5 +54,12 @@ public interface IndividualUserService {
      * @return Dto użytkownika osoby fizycznej
      */
     GryfIndUserDto createAndSaveNewUser(IndividualDto individualDto, String verificationCode);
+
+    /**
+     * Ustawia datę ostatniego logowania i liczbę niepoprawnych prób logowania dla uzytkownika osoby fizycznej
+     *
+     * @param gryfIndUser - zalogowany uzytkownik
+     */
+    void updateIndAfterSuccessLogin (GryfIndUser gryfIndUser);
 
 }

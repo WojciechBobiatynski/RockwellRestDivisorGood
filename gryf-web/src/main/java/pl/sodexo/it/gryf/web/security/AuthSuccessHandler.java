@@ -49,7 +49,7 @@ public class AuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler{
 
             @Override
             public Object visitTi(GryfTiUser gryfTiUser) {
-                userService.updateLastLoginDateTi(gryfTiUser);
+                userService.updateTiAfterSuccessLogin(gryfTiUser);
                 return null;
             }
         });

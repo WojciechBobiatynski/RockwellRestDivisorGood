@@ -9,6 +9,7 @@ import pl.sodexo.it.gryf.common.dto.user.GryfTiUser;
 import pl.sodexo.it.gryf.common.dto.user.GryfUser;
 import pl.sodexo.it.gryf.common.user.UserVisitor;
 import pl.sodexo.it.gryf.service.api.security.UserService;
+import pl.sodexo.it.gryf.service.api.security.individuals.IndividualUserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +25,9 @@ public class AuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler{
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private IndividualUserService individualUserService;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
@@ -43,14 +47,14 @@ public class AuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler{
 
             @Override
             public Object visitInd(GryfIndUser gryfIndUser) {
-                //TODO  data logowania dla IND
-                return null;
+                individualUserService.updateIndAfterSuccessLogin(gryfIndUser);
+                return gryfIndUser;
             }
 
             @Override
             public Object visitTi(GryfTiUser gryfTiUser) {
-                userService.updateLastLoginDateTi(gryfTiUser);
-                return null;
+                userService.updateTiAfterSuccessLogin(gryfTiUser);
+                return gryfTiUser;
             }
         });
     }

@@ -6,12 +6,16 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.detailsForm.IndividualDto;
 import pl.sodexo.it.gryf.common.dto.security.individuals.GryfIndUserDto;
+import pl.sodexo.it.gryf.common.dto.user.GryfIndUser;
+import pl.sodexo.it.gryf.common.utils.GryfConstants;
 import pl.sodexo.it.gryf.dao.api.crud.dao.individuals.IndividualUserDao;
 import pl.sodexo.it.gryf.model.security.individuals.IndividualUser;
 import pl.sodexo.it.gryf.service.api.security.individuals.IndividualUserService;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.individuals.IndividualDtoMapper;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.security.individuals.GryfIndUserDtoMapper;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.security.individuals.IndividualUserEntityMapper;
+
+import java.util.Date;
 
 /**
  * Implementacja serwius zajmującego się operacjami związanymi z użytkownikiem osoby fizycznej
@@ -69,6 +73,14 @@ public class IndividualUserServiceImpl implements IndividualUserService {
         entity.setIndividual(individualDtoMapper.convert(individualDto));
         entity.setActive(true);
         return individualUserEntityMapper.convert(individualUserDao.save(entity));
+    }
+
+    @Override
+    public void updateIndAfterSuccessLogin(GryfIndUser gryfIndUser) {
+        IndividualUser user = individualUserDao.findByPesel(gryfIndUser.getUsername());
+        user.setLastLoginSuccessDate(new Date());
+        user.setLoginFailureAttempts(GryfConstants.DEFAULT_LOGIN_FAILURE_ATTEMPTS_NUMBER);
+        individualUserDao.save(user);
     }
 
 }
