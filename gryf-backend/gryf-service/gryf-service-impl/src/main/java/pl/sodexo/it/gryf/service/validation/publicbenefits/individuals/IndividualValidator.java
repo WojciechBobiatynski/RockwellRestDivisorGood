@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.ContactDataValidationDTO;
 import pl.sodexo.it.gryf.common.enums.Privileges;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
-import pl.sodexo.it.gryf.common.exception.publicbenefits.PeselIndividualExistException;
 import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.individuals.IndividualRepository;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
@@ -50,14 +49,14 @@ public class IndividualValidator {
         validateContacts(individual.getContacts(), violations);
         validateAccountRepayment(individual, violations);
 
+        //VAT REG NUM EXIST - VALIDATION
+        if (checkPeselDup) {
+            validatePeselExist(individual.getPesel(), violations);
+        }
+
         //VALIDATE (EXCEPTION)
         gryfValidator.validate(violations);
 
-        //VAT REG NUM EXIST - VALIDATION
-        if (checkPeselDup) {
-            List<Individual> individualList = individualRepository.findByPesel(individual.getPesel());
-            validatePeselExist(individualList, individual);
-        }
     }
 
     private void validateAccountRepayment(Individual individual, List<EntityConstraintViolation> violations) {
@@ -96,10 +95,10 @@ public class IndividualValidator {
         }
     }
 
-    private void validatePeselExist(List<Individual> individuals, Individual individual) {
-        individuals.remove(individual);
-        if (individuals.size() > 0) {
-            throw new PeselIndividualExistException("W systemie istnieja zapisane podmioty o danym numerze PESEL", individualEntityToSearchResultMapper.convert(individuals));
+    private void validatePeselExist(String pesel, List<EntityConstraintViolation> violations) {
+        List<Individual> individualList = individualRepository.findByPesel(pesel);
+        if (!individualList.isEmpty()) {
+            violations.add(new EntityConstraintViolation(Individual.PESEL_ATTR_NAME, "W systemie jest już osoba o podanym numerze PESEL", null));
         }
     }
 }

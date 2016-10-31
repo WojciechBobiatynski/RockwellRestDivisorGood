@@ -99,12 +99,13 @@ public class IndividualServiceImpl implements IndividualService {
         user.setIndividual(individual);
         individual.setIndividualUser(user);
 
+        //TODO: zgodnie z analizą będziemy otrzymywać numer subkonta, tutaj będzie trzeba to zmieniać. Jest w bazie trigger TRG_BU_IND_ACCOUNT, trzeba będzie go wyłączyć
         individual.setCode(generateCode(individual.getId()));
         individualRepository.save(individual);
 
         String verEmail = null;
-        for(IndividualContact ind : individual.getContacts()){
-            if(applicationParameters.getVerEmailContactType().equals(ind.getContactType().getType())){
+        for (IndividualContact ind : individual.getContacts()) {
+            if (applicationParameters.getVerEmailContactType().equals(ind.getContactType().getType())) {
                 verEmail = ind.getContactData();
             }
         }
@@ -113,14 +114,13 @@ public class IndividualServiceImpl implements IndividualService {
 
         return individual.getId();
     }
-    
+
     @Override
     public Set<String> getEmailRecipients(IndividualDto individualDto, Set<String> existingRecipientsSet) {
         Set<String> set;
-        if (existingRecipientsSet == null){
+        if (existingRecipientsSet == null) {
             set = new HashSet<>();
-        }
-        else {
+        } else {
             set = existingRecipientsSet;
         }
         if (individualDto != null) {
@@ -132,7 +132,7 @@ public class IndividualServiceImpl implements IndividualService {
                     }
                 }
             }
-        } 
+        }
         return set;
     }
 
@@ -145,14 +145,10 @@ public class IndividualServiceImpl implements IndividualService {
 
     //PRIVATE METHODS
 
-
-
     private String generateCode(Long id) {
         String prefix = applicationParameters.getGryfIndividualCodePrefix();
         int zeroCount = applicationParameters.getGryfIndividualCodeZeroCount();
         return String.format("%s%0" + zeroCount + "d", prefix, id);
     }
-
-
 
 }
