@@ -57,16 +57,17 @@ public class SavePasswordController {
 
     @RequestMapping(value = PATH_SAVE_PASSWORD, method = RequestMethod.POST)
     public String savePassword(Model uiModel, HttpServletRequest request) {
+        String password = request.getParameter(JSP_PASSWORD_PLACEHOLDER);
+        String repeatedPassword = request.getParameter(JSP_REPEATED_PASSWORD_PLACEHOLDER);
+        if (!password.equals(repeatedPassword)) {
+            uiModel.addAttribute(JSP_ERROR_PLACEHOLDER, new GryfVerificationException("Hasła muszą być identyczne"));
+            return PAGE_RESET_PASSWORD;
+        }
+
         String token = (String) request.getSession().getAttribute(TOKEN_PLACEHOLDER);
         request.getSession().removeAttribute(TOKEN_PLACEHOLDER);
 
         if (token != null && token.equals(request.getParameter(TOKEN_PLACEHOLDER))) {
-            String password = request.getParameter(JSP_PASSWORD_PLACEHOLDER);
-            String repeatedPassword = request.getParameter(JSP_REPEATED_PASSWORD_PLACEHOLDER);
-            if (!password.equals(repeatedPassword)) {
-                uiModel.addAttribute(JSP_ERROR_PLACEHOLDER, new GryfVerificationException("Hasła muszą być identyczne"));
-                return PAGE_RESET_PASSWORD;
-            }
             try{
                 GryfTiUserDto user = trainingInstitutionUserService.findUserByTurIdAndSaveNewPassword(token, password);
                 uiModel.addAttribute(JSP_LOGIN_PLACEHOLDER, user.getLogin());

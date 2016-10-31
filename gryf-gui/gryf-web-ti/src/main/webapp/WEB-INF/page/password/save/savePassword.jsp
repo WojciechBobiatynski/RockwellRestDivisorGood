@@ -29,7 +29,7 @@
 
             <p>Prosimy pamiętać, że hasła w obu polach muszą być identyczne</p>
 
-            <c:if test="${param.error != null}">
+            <c:if test="${error != null}">
                 <div class="msg msg-error"><p><c:out value="${error.message}"/></p></div>
             </c:if>
 
