@@ -45,7 +45,7 @@ public class RetrievePasswordController {
 
     @RequestMapping(value = PATH_RETRIEVE_PASSWORD, method = RequestMethod.GET)
     public String retrievePassword(Model uiModel) {
-        uiModel.addAttribute("siteKey", applicationParameters.getPublicCaptchaKey());
+        uiModel.addAttribute(JSP_SITE_KEY_PLACEHOLDER, applicationParameters.getPublicCaptchaKey());
         return PAGE_RETRIEVE_PASSWORD;
     }
 
@@ -69,6 +69,7 @@ public class RetrievePasswordController {
         } catch (GryfRuntimeException e){
             LOGGER.error("Blad podczas obslugi", e);
             uiModel.addAttribute(JSP_ERROR_PLACEHOLDER, e);
+            uiModel.addAttribute(JSP_SITE_KEY_PLACEHOLDER, applicationParameters.getPublicCaptchaKey());
             comebackPage = PAGE_RETRIEVE_PASSWORD;
         } catch(Exception e) {
             LOGGER.error("Blad podczas obslugi", e);

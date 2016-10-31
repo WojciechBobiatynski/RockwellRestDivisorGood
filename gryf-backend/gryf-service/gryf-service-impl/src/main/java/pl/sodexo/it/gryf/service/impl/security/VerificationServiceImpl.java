@@ -151,7 +151,7 @@ public class VerificationServiceImpl implements VerificationService {
     private GryfTiUserDto findActiveTiUserDto(String email) {
         GryfTiUserDto user = trainingInstitutionUserService.findTiUserByEmail(email);
 
-        if (user == null)
+        if (user.getLogin() == null)
             throw new GryfVerificationException("Nie znaleziono użytkownika o podanym adresie email");
 
         if(!user.isActive())
