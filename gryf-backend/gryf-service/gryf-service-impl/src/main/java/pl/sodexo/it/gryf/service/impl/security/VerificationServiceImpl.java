@@ -89,12 +89,12 @@ public class VerificationServiceImpl implements VerificationService {
         if (user == null)
             throw new GryfVerificationException("Nie znaleziono użytkownika o podanym numerze PESEL");
 
-        checkUserBlockedAndUnlock(user);
+        unlockUser(user);
 
-        if(!user.isActive())
+        if (!user.isActive())
             throw new GryfUserNotActiveException("Twoje konto jest nieaktywne. Zgłoś sie do administratora");
 
-        if(!verificationDto.getEmail().equals(user.getVerificationEmail())){
+        if (!verificationDto.getEmail().equals(user.getVerificationEmail())) {
             user.setLastResetFailureDate(new Date());
             user.setResetFailureAttempts(user.getResetFailureAttempts() + 1);
             if (user.getResetFailureAttempts() >= applicationParameters.getMaxIndResetFailureAttempts()) {
@@ -104,23 +104,35 @@ public class VerificationServiceImpl implements VerificationService {
             throw new GryfVerificationException("Niepoprawna para PESEL - adres email");
         }
         user.setResetFailureAttempts(GryfConstants.DEFAULT_RESET_FAILURE_ATTEMPTS_NUMBER);
+        user.setLoginFailureAttempts(GryfConstants.DEFAULT_LOGIN_FAILURE_ATTEMPTS_NUMBER);
         individualUserService.saveIndUser(user);
 
         return user;
     }
 
-    private GryfIndUserDto checkUserBlockedAndUnlock(GryfIndUserDto user) {
-        if (user.getLastResetFailureDate() == null) {
-            return user;
-        }
-
-        LocalDateTime lastResetFailureDate = LocalDateTime.ofInstant(user.getLastResetFailureDate().toInstant(), ZoneId.systemDefault());
-        if (lastResetFailureDate.plusMinutes(applicationParameters.getIndUserResetBlockMinutes()).isBefore(LocalDateTime.now()) && user.getResetFailureAttempts() >= applicationParameters
-                .getMaxIndResetFailureAttempts()) {
+    private GryfIndUserDto unlockUser(GryfIndUserDto user) {
+        if (isBlockByResetFailureNotActive(user) && isBlockByLoginFailureNotActive(user)) {
             user.setActive(true);
             user.setResetFailureAttempts(GryfConstants.DEFAULT_RESET_FAILURE_ATTEMPTS_NUMBER);
+            user.setLoginFailureAttempts(GryfConstants.DEFAULT_LOGIN_FAILURE_ATTEMPTS_NUMBER);
         }
         return user;
+    }
+
+    private boolean isBlockByResetFailureNotActive(GryfIndUserDto user) {
+        if (user.getLastResetFailureDate() == null) {
+            return true;
+        }
+        LocalDateTime lastResetFailureDate = LocalDateTime.ofInstant(user.getLastResetFailureDate().toInstant(), ZoneId.systemDefault());
+        return lastResetFailureDate.plusMinutes(applicationParameters.getIndUserResetBlockMinutes()).isBefore(LocalDateTime.now());
+    }
+
+    private boolean isBlockByLoginFailureNotActive(GryfIndUserDto user) {
+        if (user.getLastLoginFailureDate() == null) {
+            return true;
+        }
+        LocalDateTime lastLoginFailureDate = LocalDateTime.ofInstant(user.getLastLoginFailureDate().toInstant(), ZoneId.systemDefault());
+        return lastLoginFailureDate.plusMinutes(applicationParameters.getUserLoginBlockMinutes()).isBefore(LocalDateTime.now());
     }
 
     @Override
@@ -154,12 +166,12 @@ public class VerificationServiceImpl implements VerificationService {
         if (user.getLogin() == null)
             throw new GryfVerificationException("Nie znaleziono użytkownika o podanym adresie email");
 
-        if(!user.isActive())
+        if (!user.isActive())
             throw new GryfUserNotActiveException("Twoje konto jest nieaktywne. Zgłoś sie do administratora");
         return user;
     }
 
-    private TiUserResetAttemptDto createNewAttemptForTiUser(Long tiuId){
+    private TiUserResetAttemptDto createNewAttemptForTiUser(Long tiuId) {
         TiUserResetAttemptDto tiUserResetAttemptDto = new TiUserResetAttemptDto();
         tiUserResetAttemptDto.setTurId(tiUserResetAttemptService.createNewLink());
         tiUserResetAttemptDto.setTiuId(tiuId);

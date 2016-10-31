@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.dto.security.trainingInstitutions.TiUserResetAttemptDto;
 import pl.sodexo.it.gryf.common.exception.verification.GryfInvalidTokenException;
 import pl.sodexo.it.gryf.common.exception.verification.GryfResetLinkNotActive;
+import pl.sodexo.it.gryf.common.utils.GryfConstants;
 import pl.sodexo.it.gryf.dao.api.crud.dao.traininginstitutions.TiUserResetAttemptDao;
 import pl.sodexo.it.gryf.model.security.trainingInstitutions.TiUserResetAttempt;
 import pl.sodexo.it.gryf.service.api.security.trainingInstitutions.TiUserResetAttemptService;
@@ -54,6 +55,7 @@ public class TiUserResetAttemptServiceImpl implements TiUserResetAttemptService 
     @Override
     public TiUserResetAttemptDto saveTiUserResetAttempt(TiUserResetAttemptDto tiUserResetAttemptDto) {
         TiUserResetAttempt entity = tiUserResetAttemptDtoMapper.convert(tiUserResetAttemptDto);
+        entity.getTrainingInstitutionUser().setLoginFailureAttempts(GryfConstants.DEFAULT_LOGIN_FAILURE_ATTEMPTS_NUMBER);
         return tiUserResetAttemptEntityMapper.convert(tiUserResetAttemptDao.save(entity));
     }
 

@@ -74,11 +74,11 @@ public class UserServiceImpl implements UserService {
     private void authenticateTiUser(String login, String password) {
         GryfTiUserDto user = trainingInstitutionUserService.findTiUserByLogin(login);
 
-        if(user == null){
+        if (user == null) {
             throw new GryfBadCredentialsException("Niepoprawny login");
         }
 
-        checkUserBlockedAndUnlock(user);
+        unlockUser(user);
 
         if (!user.isActive()) {
             throw new GryfUserNotActiveException("Twoje konto jest nieaktywne. Zgłoś sie do administratora");
@@ -112,7 +112,7 @@ public class UserServiceImpl implements UserService {
             throw new GryfBadCredentialsException("Niepoprawny PESEL");
         }
 
-        checkUserBlockedAndUnlock(user);
+        unlockUser(user);
 
         if (!user.isActive()) {
             throw new GryfUserNotActiveException("Twoje konto jest nieaktywne. Zgłoś sie do administratora");
@@ -125,30 +125,52 @@ public class UserServiceImpl implements UserService {
 
     }
 
-    private GryfBlockableUserDto checkUserBlockedAndUnlock(GryfBlockableUserDto user) {
-        if (user.getLastLoginFailureDate() == null) {
-            return user;
-        }
+    private GryfBlockableUserDto unlockUser(GryfBlockableUserDto user) {
+        return user.accept(new GryfBlockableUserVisitor<GryfBlockableUserDto>() {
 
-        LocalDateTime lastLoginFailureDate = LocalDateTime.ofInstant(user.getLastLoginFailureDate().toInstant(), ZoneId.systemDefault());
-        if (lastLoginFailureDate.plusMinutes(applicationParameters.getUserLoginBlockMinutes()).isBefore(LocalDateTime.now()) && user.getLoginFailureAttempts() >= applicationParameters
-                .getMaxLoginFailureAttempts()) {
-            user.setActive(true);
-            user.setLoginFailureAttempts(GryfConstants.DEFAULT_LOGIN_FAILURE_ATTEMPTS_NUMBER);
+            @Override
+            public GryfBlockableUserDto visitInd(GryfIndUserDto gryfIndUserDto) {
+                unlockIndUser(gryfIndUserDto);
+                return individualUserService.saveAndFlushIndUserInNewTransaction(gryfIndUserDto);
+            }
 
-            user = user.accept(new GryfBlockableUserVisitor<GryfBlockableUserDto>() {
-
-                @Override
-                public GryfBlockableUserDto visitInd(GryfIndUserDto gryfIndUserDto) {
-                    return individualUserService.saveAndFlushIndUserInNewTransaction(gryfIndUserDto);
+            @Override
+            public GryfBlockableUserDto visitTi(GryfTiUserDto gryfTiUserDto) {
+                if (gryfTiUserDto.getLastLoginFailureDate() == null) {
+                    return gryfTiUserDto;
                 }
-
-                @Override
-                public GryfBlockableUserDto visitTi(GryfTiUserDto gryfTiUserDto) {
+                if (isBlockByLoginFailureNotActive(gryfTiUserDto) && gryfTiUserDto.getLoginFailureAttempts() >= applicationParameters.getMaxLoginFailureAttempts()) {
+                    gryfTiUserDto.setLoginFailureAttempts(GryfConstants.DEFAULT_LOGIN_FAILURE_ATTEMPTS_NUMBER);
+                    gryfTiUserDto.setActive(true);
                     return trainingInstitutionUserService.saveAndFlushTiUserInNewTransaction(gryfTiUserDto);
                 }
-            });
+                return gryfTiUserDto;
+            }
+        });
+    }
+
+    private GryfIndUserDto unlockIndUser(GryfIndUserDto user) {
+        if (isBlockByResetFailureNotActive(user) && isBlockByLoginFailureNotActive(user)) {
+            user.setActive(true);
+            user.setResetFailureAttempts(GryfConstants.DEFAULT_RESET_FAILURE_ATTEMPTS_NUMBER);
+            user.setLoginFailureAttempts(GryfConstants.DEFAULT_LOGIN_FAILURE_ATTEMPTS_NUMBER);
         }
         return user;
+    }
+
+    private boolean isBlockByResetFailureNotActive(GryfIndUserDto user) {
+        if (user.getLastResetFailureDate() == null) {
+            return true;
+        }
+        LocalDateTime lastResetFailureDate = LocalDateTime.ofInstant(user.getLastResetFailureDate().toInstant(), ZoneId.systemDefault());
+        return lastResetFailureDate.plusMinutes(applicationParameters.getIndUserResetBlockMinutes()).isBefore(LocalDateTime.now());
+    }
+
+    private boolean isBlockByLoginFailureNotActive(GryfBlockableUserDto user) {
+        if (user.getLastLoginFailureDate() == null) {
+            return true;
+        }
+        LocalDateTime lastLoginFailureDate = LocalDateTime.ofInstant(user.getLastLoginFailureDate().toInstant(), ZoneId.systemDefault());
+        return lastLoginFailureDate.plusMinutes(applicationParameters.getUserLoginBlockMinutes()).isBefore(LocalDateTime.now());
     }
 }
