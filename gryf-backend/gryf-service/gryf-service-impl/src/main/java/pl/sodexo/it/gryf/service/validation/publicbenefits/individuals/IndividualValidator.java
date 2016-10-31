@@ -16,6 +16,7 @@ import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.individuals.
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * Walidator dla encji Individual
@@ -51,7 +52,7 @@ public class IndividualValidator {
 
         //VAT REG NUM EXIST - VALIDATION
         if (checkPeselDup) {
-            validatePeselExist(individual.getPesel(), violations);
+            validatePeselExist(individual, violations);
         }
 
         //VALIDATE (EXCEPTION)
@@ -95,9 +96,10 @@ public class IndividualValidator {
         }
     }
 
-    private void validatePeselExist(String pesel, List<EntityConstraintViolation> violations) {
-        List<Individual> individualList = individualRepository.findByPesel(pesel);
-        if (!individualList.isEmpty()) {
+    private void validatePeselExist(Individual individual, List<EntityConstraintViolation> violations) {
+        List<Individual> individualList = individualRepository.findByPesel(individual.getPesel());
+        List<Individual>  duplicatedList = individualList.stream().filter(ind -> !ind.getId().equals(individual.getId())).collect(Collectors.toList());
+        if (!duplicatedList.isEmpty()) {
             violations.add(new EntityConstraintViolation(Individual.PESEL_ATTR_NAME, "W systemie jest już osoba o podanym numerze PESEL", null));
         }
     }
