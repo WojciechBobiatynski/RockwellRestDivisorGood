@@ -1,6 +1,7 @@
 package pl.sodexo.it.gryf.service.impl.publicbenefits.individuals;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.config.ApplicationParameters;
@@ -13,7 +14,13 @@ import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.individuals.IndividualRepository;
 import pl.sodexo.it.gryf.model.publicbenefits.api.ContactType;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
+import pl.sodexo.it.gryf.model.publicbenefits.individuals.IndividualContact;
+import pl.sodexo.it.gryf.model.security.individuals.IndividualUser;
 import pl.sodexo.it.gryf.service.api.publicbenefits.individuals.IndividualService;
+import pl.sodexo.it.gryf.service.api.security.VerificationService;
+import pl.sodexo.it.gryf.service.api.security.individuals.IndividualUserService;
+import pl.sodexo.it.gryf.service.local.api.MailService;
+import pl.sodexo.it.gryf.service.mapping.MailDtoCreator;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.individuals.IndividualDtoMapper;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.individuals.IndividualEntityMapper;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.individuals.searchform.IndividualEntityToSearchResultMapper;
@@ -47,6 +54,18 @@ public class IndividualServiceImpl implements IndividualService {
     @Autowired
     private IndividualValidator individualValidator;
 
+    @Autowired
+    private MailService mailService;
+
+    @Autowired
+    private MailDtoCreator mailDtoCreator;
+
+    @Autowired
+    private VerificationService verificationService;
+
+    @Autowired
+    private IndividualUserService individualUserService;
+
     //PUBLIC METHODS
 
     @Override
@@ -71,8 +90,27 @@ public class IndividualServiceImpl implements IndividualService {
         individualValidator.validateIndividual(individual, checkPeselDup);
         individual = individualRepository.save(individual);
 
+        String newVerificationCode = verificationService.createVerificationCode();
+
+        IndividualUser user = new IndividualUser();
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        user.setVerificationCode(passwordEncoder.encode(newVerificationCode));
+        user.setActive(true);
+        user.setIndividual(individual);
+        individual.setIndividualUser(user);
+
         individual.setCode(generateCode(individual.getId()));
-        individualRepository.update(individual, individual.getId());
+        individualRepository.save(individual);
+
+        String verEmail = null;
+        for(IndividualContact ind : individual.getContacts()){
+            if(applicationParameters.getVerEmailContactType().equals(ind.getContactType().getType())){
+                verEmail = ind.getContactData();
+            }
+        }
+
+        mailService.scheduleMail(mailDtoCreator.createMailDTOForVerificationCode(verEmail, newVerificationCode));
+
         return individual.getId();
     }
     

@@ -149,8 +149,8 @@ angular.module("gryf.individuals").factory("ModifyIndividualsService",
                 zipCodeInvoice: null,
                 addressCorr: null,
                 zipCodeCorr: null,
-                enterprise: null,
                 remarks: null,
+                enterprises: [],
                 contacts: []
             };
         };

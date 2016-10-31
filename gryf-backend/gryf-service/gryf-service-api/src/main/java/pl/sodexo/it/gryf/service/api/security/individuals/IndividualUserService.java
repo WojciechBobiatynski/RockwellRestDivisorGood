@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.service.api.security.individuals;
 
+import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.detailsForm.IndividualDto;
 import pl.sodexo.it.gryf.common.dto.security.individuals.GryfIndUserDto;
 
 /**
@@ -44,5 +45,13 @@ public interface IndividualUserService {
      * @return zaktualizowane Dto użytkownika osoby fizycznej
      */
     GryfIndUserDto saveAndFlushIndUserInNewTransaction(GryfIndUserDto gryfIndUserDto);
+
+    /**
+     * Tworzy i zapisuje nowego użytkownika osoby fizycznej na podstawie Dto osoby fizycznej
+     * @param individualDto - dto osoby fizycznej
+     * @param verificationCode - dto osoby fizycznej
+     * @return Dto użytkownika osoby fizycznej
+     */
+    GryfIndUserDto createAndSaveNewUser(IndividualDto individualDto, String verificationCode);
 
 }

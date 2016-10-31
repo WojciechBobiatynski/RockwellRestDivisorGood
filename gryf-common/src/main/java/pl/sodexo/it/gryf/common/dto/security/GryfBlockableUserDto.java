@@ -29,7 +29,7 @@ public abstract class GryfBlockableUserDto extends VersionableDto implements Ser
 
     @Getter
     @Setter
-    private int loginFailureAttempts;
+    private Integer loginFailureAttempts;
 
     public abstract <T> T accept(GryfBlockableUserVisitor<T> userVisitor);
 }

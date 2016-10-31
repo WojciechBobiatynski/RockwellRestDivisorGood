@@ -63,24 +63,42 @@
                     <input type="text" ng-model="model.entity.documentType" maxlength="30">
                     <gryf-validation-msg path="documentType"></gryf-validation-msg>
                 </div>
-                <div class="grid-30">
-                    <strong class="label">Powiązane przedsiębiorstwo</strong>
-
-                    <div>ID:
-                        <input type="text" gryf-search-on-enter
-                               ng-model="model.entity.enterprise.id"
-                               ng-disabled="true"></div>
-                    <div>Nazwa: {{model.entity.enterprise.name}}</div>
-                    <a ng-click="openEnterpriseLov()" class="button button-save">wybierz</a>
-                    <a ng-click="removeEnterprise()" class="button button-delete">usuń</a>
-                    <gryf-validation-msg path="enterprise"/>
-                </div>
                 <div class="grid-20">
                     <strong class="label">Płeć</strong>
                     <select ng-options="sex as plec for (sex, plec) in {'M': 'Mężczyzna', 'K': 'Kobieta'}" ng-model="model.entity.sex" ></select>
                     <gryf-validation-msg path="sex"></gryf-validation-msg>
                 </div>
             </div>
+            <section>
+                <header>
+                    <h2>Powiązane przedsiębiorstwa</h2>
+                    <ul>
+                        <li><a class="button button-add" data-ng-click="openEnterpriseLov()">Dodaj przedsiębiorstwo</a></li>
+                    </ul>
+                </header>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nazwa</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tr  ng-repeat="enterprise in model.entity.enterprises">
+                        <td>
+                            <p>{{enterprise.id}}</p>
+                            <gryf-validation-msg path="enterprises[{{$index}}].id"></gryf-validation-msg>
+                        </td>
+                        <td>
+                            <p>{{enterprise.name}}</p>
+                            <gryf-validation-msg path="enterprises[{{$index}}].name"></gryf-validation-msg>
+                        </td>
+                        <td>
+                            <a class="button button-delete" data-ng-click="removeEnterprise(enterprise)">Usuń</a>
+                        </td>
+                    </tr>
+                </table>
+            </section>
             <div class="grid-100">
                 <div class="grid-60">
                     <strong class="label">Adres do faktury</strong>

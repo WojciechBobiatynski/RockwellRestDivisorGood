@@ -69,12 +69,13 @@ angular.module("gryf.individuals").controller("detailsform.IndividualController"
 
          $scope.openEnterpriseLov = function() {
              ModifyIndividualsService.openEnterpriseLov().result.then(function(chosenEnterprise) {
-                 $scope.model.entity.enterprise = chosenEnterprise;
+                 $scope.model.entity.enterprises.push(chosenEnterprise);
              });
          };
 
-         $scope.removeEnterprise = function() {
-            $scope.model.entity.enterprise = null;
+         $scope.removeEnterprise = function(item) {
+             var index = $scope.model.entity.enterprises .indexOf(item);
+             $scope.model.entity.enterprises.splice(index, 1);
          };
 
          $scope.loadIndividual = function(id) {

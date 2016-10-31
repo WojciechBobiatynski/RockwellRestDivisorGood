@@ -4,10 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.detailsForm.IndividualDto;
 import pl.sodexo.it.gryf.common.dto.security.individuals.GryfIndUserDto;
 import pl.sodexo.it.gryf.dao.api.crud.dao.individuals.IndividualUserDao;
 import pl.sodexo.it.gryf.model.security.individuals.IndividualUser;
 import pl.sodexo.it.gryf.service.api.security.individuals.IndividualUserService;
+import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.individuals.IndividualDtoMapper;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.security.individuals.GryfIndUserDtoMapper;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.security.individuals.IndividualUserEntityMapper;
 
@@ -28,6 +30,9 @@ public class IndividualUserServiceImpl implements IndividualUserService {
 
     @Autowired
     private GryfIndUserDtoMapper gryfIndUserDtoMapper;
+
+    @Autowired
+    private IndividualDtoMapper individualDtoMapper;
 
     @Override
     public GryfIndUserDto findByPesel(String pesel) {
@@ -56,4 +61,14 @@ public class IndividualUserServiceImpl implements IndividualUserService {
     public GryfIndUserDto saveAndFlushIndUserInNewTransaction(GryfIndUserDto gryfIndUserDto) {
         return saveAndFlushIndUser(gryfIndUserDto);
     }
+
+    @Override
+    public GryfIndUserDto createAndSaveNewUser(IndividualDto individualDto, String verificationCode) {
+        IndividualUser entity = new IndividualUser();
+        entity.setVerificationCode(verificationCode);
+        entity.setIndividual(individualDtoMapper.convert(individualDto));
+        entity.setActive(true);
+        return individualUserEntityMapper.convert(individualUserDao.save(entity));
+    }
+
 }

@@ -2,14 +2,17 @@ package pl.sodexo.it.gryf.model.publicbenefits.individuals;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import org.eclipse.persistence.annotations.OptimisticLocking;
 import org.hibernate.validator.constraints.NotEmpty;
 import pl.sodexo.it.gryf.common.validation.PeselFormat;
 import pl.sodexo.it.gryf.model.api.VersionableEntity;
 import pl.sodexo.it.gryf.model.dictionaries.ZipCode;
-import pl.sodexo.it.gryf.model.publicbenefits.enterprises.Enterprise;
+import pl.sodexo.it.gryf.model.publicbenefits.employment.Employment;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
+import pl.sodexo.it.gryf.model.security.individuals.IndividualUser;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -23,7 +26,7 @@ import java.util.Objects;
 /**
  * Created by michal.szymczyk on 2016-02-26.
  */
-@ToString(exclude = {"zipCodeInvoice", "zipCodeCorr", "enterprise", "contacts", "orders"})
+@ToString(exclude = {"zipCodeInvoice", "zipCodeCorr", "enterprise", "contacts", "orders", "employments"})
 @Entity
 @Table(name = "INDIVIDUALS", schema = "APP_PBE")
 @SequenceGenerator(name="ind_seq", schema = "eagle", sequenceName = "ind_seq", allocationSize = 1)
@@ -121,10 +124,6 @@ public class Individual extends VersionableEntity {
     @NotNull(message = "Kod korespondencyjny nie może być pusty")
     private ZipCode zipCodeCorr;
 
-    @ManyToOne
-    @JoinColumn(name = "ENTERPRISE_ID")
-    private Enterprise enterprise;
-
     @Column(name = "REMARKS")
     private String remarks;
 
@@ -136,6 +135,17 @@ public class Individual extends VersionableEntity {
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "individual")
     private List<Order> orders;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "individual")
+    @Getter
+    @Setter
+    private List<Employment> employments = new ArrayList<>();
+
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @PrimaryKeyJoinColumn
+    @Getter
+    @Setter
+    private IndividualUser individualUser;
 
     //GETTERS & SETTERS
 
@@ -201,14 +211,6 @@ public class Individual extends VersionableEntity {
 
     public void setZipCodeCorr(ZipCode zipCodeCorr) {
         this.zipCodeCorr = zipCodeCorr;
-    }
-
-    public Enterprise getEnterprise() {
-        return enterprise;
-    }
-
-    public void setEnterprise(Enterprise enterprise) {
-        this.enterprise = enterprise;
     }
 
     public String getFirstName() {

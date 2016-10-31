@@ -32,4 +32,10 @@ public interface VerificationService {
      */
     void resetTiUserPassword(String email, String contextPath);
 
+    /**
+     * Stwórz nowy kod weryfikacyjny
+     * @return nowy kod weryfikacyjny
+     */
+    String createVerificationCode();
+
 }

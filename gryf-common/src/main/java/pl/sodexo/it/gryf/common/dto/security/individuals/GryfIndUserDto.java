@@ -35,7 +35,6 @@ public class GryfIndUserDto extends GryfBlockableUserDto implements Serializable
     @Setter
     private String verificationCode;
 
-
     @Getter
     @Setter
     private Date lastLoginSuccessDate;
@@ -46,7 +45,7 @@ public class GryfIndUserDto extends GryfBlockableUserDto implements Serializable
 
     @Getter
     @Setter
-    private int resetFailureAttempts;
+    private Integer resetFailureAttempts;
 
     @Getter
     @Setter

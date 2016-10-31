@@ -4,8 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import pl.sodexo.it.gryf.common.dto.api.VersionableDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.enterprises.detailsform.EnterpriseDto;
 import pl.sodexo.it.gryf.common.dto.zipcodes.detailsform.ZipCodeDto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -78,5 +80,10 @@ public class IndividualDto extends VersionableDto {
 
     @Getter
     @Setter
-    private List<IndividualContactDto> contacts;
+    private List<IndividualContactDto> contacts  = new ArrayList<>();
+
+    @Getter
+    @Setter
+    private List<EnterpriseDto> enterprises = new ArrayList<>();
+
 }

@@ -2,12 +2,15 @@ package pl.sodexo.it.gryf.model.publicbenefits.enterprises;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import org.eclipse.persistence.annotations.OptimisticLocking;
 import org.hibernate.validator.constraints.NotEmpty;
 import pl.sodexo.it.gryf.common.validation.VatRegNumFormat;
 import pl.sodexo.it.gryf.model.api.VersionableEntity;
 import pl.sodexo.it.gryf.model.dictionaries.ZipCode;
+import pl.sodexo.it.gryf.model.publicbenefits.employment.Employment;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 
 import javax.persistence.*;
@@ -22,7 +25,7 @@ import java.util.Objects;
 /**
  * Created by tomasz.bilski.ext on 2015-06-22.
  */
-@ToString(exclude = {"zipCodeInvoice", "zipCodeCorr", "contacts", "orders"})
+@ToString(exclude = {"zipCodeInvoice", "zipCodeCorr", "contacts", "orders", "employments"})
 @Entity
 @Table(name = "ENTERPRISES", schema = "APP_PBE")
 @SequenceGenerator(name="ent_seq", schema = "eagle", sequenceName = "ent_seq", allocationSize = 1)
@@ -113,6 +116,12 @@ public class Enterprise extends VersionableEntity {
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "enterprise")
     private List<Order> orders;
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "enterprise")
+    @Getter
+    @Setter
+    private List<Employment> employments;
 
     //GETTERS & SETTERS
 
