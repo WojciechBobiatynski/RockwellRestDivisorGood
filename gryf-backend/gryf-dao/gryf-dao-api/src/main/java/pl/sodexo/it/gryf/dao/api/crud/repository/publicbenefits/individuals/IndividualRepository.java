@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface IndividualRepository extends GenericRepository<Individual, Long> {
 
-    List<Individual> findByPesel(String pesel);
+    Individual findByPesel(String pesel);
 
     Individual getForUpdate(Long id);
 

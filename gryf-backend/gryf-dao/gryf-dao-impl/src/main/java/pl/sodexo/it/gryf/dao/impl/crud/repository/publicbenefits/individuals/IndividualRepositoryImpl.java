@@ -20,10 +20,10 @@ import java.util.List;
 public class IndividualRepositoryImpl extends GenericRepositoryImpl<Individual, Long> implements IndividualRepository {
 
     @Override
-    public List<Individual> findByPesel(String pesel){
+    public Individual findByPesel(String pesel){
         TypedQuery<Individual> query = entityManager.createNamedQuery(Individual.FIND_BY_PESEL, Individual.class);
         query.setParameter("pesel", pesel);
-        return query.getResultList();
+        return query.getSingleResult();
     }
 
     @Override
