@@ -6,18 +6,18 @@ angular.module('gryf.agreements').controller("searchform.AgreementsController",
     }]);
 
 angular.module('gryf.agreements').controller("detailsform.AgreementsController",
-    ["$scope", "ModifyContractService", function ($scope, ModifyContractService) {
+    ["$scope", "ModifyContractService", "GryfModals", function ($scope, ModifyContractService, GryfModals) {
+
+        var NEW_INDIVIDUAL_URL =  contextPath + "'/publicbenefits/agreements/#modify";
+
 
         $scope.grantProgram = ModifyContractService.getNewGrantPrograms();
         $scope.contract = ModifyContractService.getNewContract();
-        $scope.selectedGrantProgram = {};
 
         $scope.loadGrantPrograms = function () {
             ModifyContractService.loadGrantPrograms();
         };
-        $scope.loadContract = function () {
-            ModifyContractService.loadContract();
-        }
+
         $scope.loadGrantPrograms();
 
         $scope.openEnterpriseLov = function() {
@@ -32,5 +32,31 @@ angular.module('gryf.agreements').controller("detailsform.AgreementsController",
                 $scope.contract.individual = chosenIndividual;
                 $scope.$broadcast('propagateIndividualData', chosenIndividual);
             });
+        };
+
+        $scope.saveAndAdd = function() {
+            $scope.save(NEW_INDIVIDUAL_URL);
+        };
+
+        $scope.save = function(redirectUrl) {
+            var messageText = {
+                message: "Ta akcja zapisuje nową umowę"
+            };
+
+            GryfModals.openModal(GryfModals.MODALS_URL.CONFIRM, messageText).result.then(function(result) {
+                if (!result) {
+                    return;
+                }
+                executeSave();
+            });
+
+            var executeSave = function() {
+                ModifyContractService.save().then(function() {
+                    if (!redirectUrl){
+                        redirectUrl = $scope.getPrevUrl();
+                    }
+                    window.location = redirectUrl;
+                });
+            }
         };
     }]);

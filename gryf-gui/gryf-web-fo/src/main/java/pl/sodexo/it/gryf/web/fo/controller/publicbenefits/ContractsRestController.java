@@ -1,11 +1,9 @@
 package pl.sodexo.it.gryf.web.fo.controller.publicbenefits;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.sodexo.it.gryf.common.dto.other.GrantProgramDictionaryDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.contracts.detailsform.ContractDTO;
 import pl.sodexo.it.gryf.common.enums.Privileges;
 import pl.sodexo.it.gryf.service.api.publicbenefits.contracts.ContractService;
 import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
@@ -31,5 +29,12 @@ public class ContractsRestController {
     public List<GrantProgramDictionaryDTO> findGrantProgramsDictionaries() {
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_APPLICATIONS);
         return contractService.FindGrantProgramsDictionaries();
+    }
+
+    @RequestMapping(value = "/", method = RequestMethod.POST)
+    public String saveIndividual(@RequestBody ContractDTO contractDTO) {
+        securityChecker.assertFormPrivilege(Privileges.GRF_ENTERPRISE_MOD);
+        contractService.saveContract(contractDTO);
+        return "/";
     }
 }

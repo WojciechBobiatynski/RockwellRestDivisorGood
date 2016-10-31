@@ -7,6 +7,7 @@ angular.module("gryf.agreements").factory("ModifyContractService",
     ['$http', 'GryfModals', 'BrowseEnterprisesService', 'BrowseIndividualsService', function ($http, GryfModals, BrowseEnterprisesService, BrowseIndividualsService) {
 
         var FIND_GRANT_PROGRAMS_DICTIONARIES_URL = contextPath + "/rest/publicBenefits/contract/grantProgramsDictionaries";
+        var CONTRACT_URL = contextPath + "/rest/publicBenefits/contract/";
 
         var grantProgram = new GrantProgram();
         var contract = new Contract();
@@ -15,8 +16,7 @@ angular.module("gryf.agreements").factory("ModifyContractService",
         }
 
         function Contract() {
-            this.grantProgramName = null,
-            this.grantProgramOwnerName = null,
+            this.grantProgram = null,
             this.contractId = null,
             this.contractType = null,
             this.individual = null,
@@ -25,9 +25,7 @@ angular.module("gryf.agreements").factory("ModifyContractService",
             this.expiryDate = null,
             this.created = null,
             this.modified = null
-
             }
-
 
         var getNewGrantPrograms = function () {
             grantProgram = new GrantProgram();
@@ -46,10 +44,6 @@ angular.module("gryf.agreements").factory("ModifyContractService",
             return promise;
         };
 
-        var save = function () {
-
-        }
-
         var openEnterpriseLov = function () {
             var TEMPLATE_URL = GryfModals.MODALS_URL.LOV_ENTERPRISES;
             return GryfModals.openLovModal(TEMPLATE_URL, BrowseEnterprisesService, "lg");
@@ -60,12 +54,35 @@ angular.module("gryf.agreements").factory("ModifyContractService",
             return GryfModals.openLovModal(TEMPLATE_URL, BrowseIndividualsService, "lg");
         };
 
+        var save = function(additionalParam) {
+            var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING, {label: "Zapisuję dane"});
+
+            var promise;
+            promise = $http.post(CONTRACT_URL, contract, {params: additionalParam});
+
+            promise.then(function() {
+                GryfPopups.setPopup("success", "Sukces", "Umowa poprawnie zapisana");
+            });
+
+            promise.error(function(error) {
+                GryfPopups.setPopup("error", "Błąd", "Nie udało się zapisać umowy");
+                GryfPopups.showPopup();
+            });
+
+            promise.finally(function() {
+                GryfModals.closeModal(modalInstance);
+            });
+
+            return promise;
+        };
+
         return{
             getNewGrantPrograms: getNewGrantPrograms,
             getNewContract: getNewContract,
             loadGrantPrograms: loadGrantPrograms,
             save: save,
             openEnterpriseLov: openEnterpriseLov,
-            openIndividualLov: openIndividualLov
+            openIndividualLov: openIndividualLov,
+            flatEntitiesToString: flatEntitiesToString
         }
     }]);
