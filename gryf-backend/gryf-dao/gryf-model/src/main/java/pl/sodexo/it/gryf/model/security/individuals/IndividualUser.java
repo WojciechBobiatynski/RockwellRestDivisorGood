@@ -58,7 +58,7 @@ public class IndividualUser extends VersionableEntity {
     @Column(name = "LOGIN_FAILURE_ATTEMPTS")
     @Getter
     @Setter
-    private Integer loginFailureAttempts;
+    private Integer loginFailureAttempts = 0;
 
     @Column(name = "LAST_RESET_FAILURE_DATE")
     @Temporal(TemporalType.TIMESTAMP)
@@ -69,6 +69,6 @@ public class IndividualUser extends VersionableEntity {
     @Column(name = "RESET_FAILURE_ATTEMPTS")
     @Getter
     @Setter
-    private Integer resetFailureAttempts;
+    private Integer resetFailureAttempts = 0;
 
 }
