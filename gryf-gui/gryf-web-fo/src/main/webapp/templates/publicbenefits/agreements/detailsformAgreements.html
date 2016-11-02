@@ -53,10 +53,14 @@
                 </div>
                 <div>
                     <strong class="label">Dane uczestnika</strong>
+                    <div>ID: {{contract.individual.id}}</div>
+                    <div>Osoba: {{contract.individual.firstName}} {{contract.individual.lastName}}</div>
                     <a ng-click="openIndividualLov()" class="button button-save">Wprowadź</a>
                 </div>
                 <div>
                     <strong class="label">Dane MŚP</strong>
+                    <div>ID: {{contract.enterprise.id}}</div>
+                    <div>Nazwa: {{contract.enterprise.name}}</div>
                     <a ng-click="openEnterpriseLov()" class="button button-save">Wprowadź</a>
                 </div>
                 <div>
