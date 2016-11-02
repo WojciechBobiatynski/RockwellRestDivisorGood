@@ -103,4 +103,46 @@ public class EnterpriseSearchQueryDTO extends SearchDto {
         this.zipCodeCorrCity = zipCodeCorrCity;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        EnterpriseSearchQueryDTO that = (EnterpriseSearchQueryDTO) o;
+
+        if (id != null ? !id.equals(that.id) : that.id != null)
+            return false;
+        if (name != null ? !name.equals(that.name) : that.name != null)
+            return false;
+        if (vatRegNum != null ? !vatRegNum.equals(that.vatRegNum) : that.vatRegNum != null)
+            return false;
+        if (addressInvoice != null ? !addressInvoice.equals(that.addressInvoice) : that.addressInvoice != null)
+            return false;
+        if (zipCodeInvoiceCode != null ? !zipCodeInvoiceCode.equals(that.zipCodeInvoiceCode) : that.zipCodeInvoiceCode != null)
+            return false;
+        if (zipCodeInvoiceCity != null ? !zipCodeInvoiceCity.equals(that.zipCodeInvoiceCity) : that.zipCodeInvoiceCity != null)
+            return false;
+        if (addressCorr != null ? !addressCorr.equals(that.addressCorr) : that.addressCorr != null)
+            return false;
+        if (zipCodeCorrCode != null ? !zipCodeCorrCode.equals(that.zipCodeCorrCode) : that.zipCodeCorrCode != null)
+            return false;
+        return zipCodeCorrCity != null ? zipCodeCorrCity.equals(that.zipCodeCorrCity) : that.zipCodeCorrCity == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (vatRegNum != null ? vatRegNum.hashCode() : 0);
+        result = 31 * result + (addressInvoice != null ? addressInvoice.hashCode() : 0);
+        result = 31 * result + (zipCodeInvoiceCode != null ? zipCodeInvoiceCode.hashCode() : 0);
+        result = 31 * result + (zipCodeInvoiceCity != null ? zipCodeInvoiceCity.hashCode() : 0);
+        result = 31 * result + (addressCorr != null ? addressCorr.hashCode() : 0);
+        result = 31 * result + (zipCodeCorrCode != null ? zipCodeCorrCode.hashCode() : 0);
+        result = 31 * result + (zipCodeCorrCity != null ? zipCodeCorrCity.hashCode() : 0);
+        return result;
+    }
 }

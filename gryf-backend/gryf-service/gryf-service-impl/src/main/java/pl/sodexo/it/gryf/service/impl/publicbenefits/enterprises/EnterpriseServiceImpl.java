@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.service.impl.publicbenefits.enterprises;
 
+import com.googlecode.ehcache.annotations.Cacheable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,6 +50,7 @@ public class EnterpriseServiceImpl implements EnterpriseService {
     }
 
     @Override
+    @Cacheable(cacheName = "enterpriseList")
     public List<EnterpriseSearchResultDTO> findEnterprises(EnterpriseSearchQueryDTO enterprise) {
         List<Enterprise> enterprises = enterpriseRepository.findEnterprises(enterprise);
         return enterpriseEntityToSearchResultMapper.convert(enterprises);
