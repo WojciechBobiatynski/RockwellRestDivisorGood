@@ -1,5 +1,7 @@
 package pl.sodexo.it.gryf.service.validation.publicbenefits.individuals;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.ContactDataValidationDTO;
@@ -24,6 +26,8 @@ import java.util.Objects;
  */
 @Component
 public class IndividualValidator {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(IndividualValidator.class);
 
     @Autowired
     private GryfValidator gryfValidator;
@@ -97,7 +101,7 @@ public class IndividualValidator {
 
     private void validatePeselExist(Individual individual, List<EntityConstraintViolation> violations) {
         Individual ind = individualRepository.findByPesel(individual.getPesel());
-        if (!ind.getId().equals(individual.getId())) {
+        if (ind != null && !ind.getId().equals(individual.getId())) {
             violations.add(new EntityConstraintViolation(Individual.PESEL_ATTR_NAME, "W systemie jest już osoba o podanym numerze PESEL", null));
         }
     }

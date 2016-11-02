@@ -10,15 +10,17 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.detailsForm.Indiv
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.detailsForm.IndividualDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.searchform.IndividualSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.searchform.IndividualSearchResultDTO;
+import pl.sodexo.it.gryf.common.exception.accounts.GryfInvalidAccountCode;
 import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
+import pl.sodexo.it.gryf.dao.api.crud.repository.accounts.AccountContractPairRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.individuals.IndividualRepository;
+import pl.sodexo.it.gryf.model.accounts.AccountContractPair;
 import pl.sodexo.it.gryf.model.publicbenefits.api.ContactType;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.IndividualContact;
 import pl.sodexo.it.gryf.model.security.individuals.IndividualUser;
 import pl.sodexo.it.gryf.service.api.publicbenefits.individuals.IndividualService;
 import pl.sodexo.it.gryf.service.api.security.VerificationService;
-import pl.sodexo.it.gryf.service.api.security.individuals.IndividualUserService;
 import pl.sodexo.it.gryf.service.local.api.MailService;
 import pl.sodexo.it.gryf.service.mapping.MailDtoCreator;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.individuals.IndividualDtoMapper;
@@ -64,7 +66,7 @@ public class IndividualServiceImpl implements IndividualService {
     private VerificationService verificationService;
 
     @Autowired
-    private IndividualUserService individualUserService;
+    private AccountContractPairRepository accountContractPairRepository;
 
     //PUBLIC METHODS
 
@@ -88,7 +90,21 @@ public class IndividualServiceImpl implements IndividualService {
     public Long saveIndividual(IndividualDto individualDto, boolean checkPeselDup) {
         Individual individual = individualDtoMapper.convert(individualDto);
         individualValidator.validateIndividual(individual, checkPeselDup);
-        individual = individualRepository.save(individual);
+        if (individual.getCode() == null) {
+            individual = individualRepository.save(individual);
+            individual.setCode(generateCode(individual.getId()));
+
+        } else {
+            String account = accountContractPairRepository.findAccountByCode(individual.getCode());
+            AccountContractPair accountContractPair = accountContractPairRepository.findByAccountPayment(account);
+            if (accountContractPair == null) {
+                throw new GryfInvalidAccountCode("Niepoprawny kod osoby fizycznej");
+            }
+            individual.setId(getIdFromGeneratedCode(individual.getCode()));
+            individual.setAccountPayment(account);
+            accountContractPair.setUsed(true);
+            accountContractPairRepository.save(accountContractPair);
+        }
 
         String newVerificationCode = verificationService.createVerificationCode();
 
@@ -99,8 +115,6 @@ public class IndividualServiceImpl implements IndividualService {
         user.setIndividual(individual);
         individual.setIndividualUser(user);
 
-        //TODO: zgodnie z analizą będziemy otrzymywać numer subkonta, tutaj będzie trzeba to zmieniać. Jest w bazie trigger TRG_BU_IND_ACCOUNT, trzeba będzie go wyłączyć
-        individual.setCode(generateCode(individual.getId()));
         individualRepository.save(individual);
 
         String verEmail = null;
@@ -149,6 +163,10 @@ public class IndividualServiceImpl implements IndividualService {
         String prefix = applicationParameters.getGryfIndividualCodePrefix();
         int zeroCount = applicationParameters.getGryfIndividualCodeZeroCount();
         return String.format("%s%0" + zeroCount + "d", prefix, id);
+    }
+
+    private Long getIdFromGeneratedCode(String code) {
+        return Long.parseLong(code.substring(applicationParameters.getGryfIndividualCodePrefix().length()));
     }
 
 }
