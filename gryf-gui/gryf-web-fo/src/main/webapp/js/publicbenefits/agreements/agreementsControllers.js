@@ -2,7 +2,49 @@
  * Created by adziobek on 24.10.2016.
  */
 angular.module('gryf.agreements').controller("searchform.AgreementsController",
-    ["$scope", "AgreementsService", function ($scope, AgreementService) {
+    ["$scope", "BrowseContractsService", "GryfPopups", function ($scope, BrowseContractsService, GryfPopups) {
+        scopeBrowseController = $scope;
+        $scope.searchObjModel = BrowseContractsService.getSearchDTO();
+        $scope.searchResultOptions = BrowseContractsService.getSearchResultOptions();
+        gryfSessionStorage.setUrlToSessionStorage();
+        GryfPopups.showPopup();
+
+        $scope.datepicker = {
+            minRequiredDateFromOpened: false,
+            minRequiredDateToOpened: false,
+            orderDateFromOpened: true,
+            orderDateToOpened: false
+        };
+
+        $scope.openDatepicker = function(value) {
+            $scope.datepicker[value] = true;
+        };
+
+        $scope.loadMore = function() {
+            BrowseContractsService.loadMore();
+        };
+
+        $scope.findContracts = function() {
+            $scope.searchResultOptions.badQuery = false;
+            BrowseContractsService.find();
+        };
+
+        $scope.clear = function() {
+            $scope.searchObjModel = BrowseContractsService.getNewSearchDTO();
+            $scope.searchResultOptions = BrowseContractsService.resetSearchResultOptions();
+        };
+
+        $scope.getSortedEnterprises = function(sortColumnName) {
+            $scope.searchResultOptions.badQuery = false;
+            BrowseContractsService.findSortedBy(sortColumnName);
+        };
+
+        $scope.getSortingTypeClass = function(columnName) {
+            var sortingType = $scope.searchObjModel.entity.sortTypes[0];
+            if (columnName == $scope.searchObjModel.entity.sortColumns[0]) {
+                return sortingType;
+            }
+        }
     }]);
 
 angular.module('gryf.agreements').controller("detailsform.AgreementsController",

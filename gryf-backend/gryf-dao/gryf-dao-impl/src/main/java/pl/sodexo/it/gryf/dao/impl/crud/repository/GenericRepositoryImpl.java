@@ -146,4 +146,8 @@ public class GenericRepositoryImpl<E, K extends Serializable> implements Generic
         Date dateEndDay = GryfUtils.getEndDay(dateTo);
         predicatesList.add(cb.lessThanOrEqualTo(path, dateEndDay));
     }
+
+    protected void addDateEqual(CriteriaBuilder cb,  List<Predicate> predicatesList, Expression<Date> path, Date date){
+        predicatesList.add(cb.equal(path, date));
+    }
 }

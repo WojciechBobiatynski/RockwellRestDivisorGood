@@ -15,6 +15,9 @@ import javax.persistence.Table;
 @Table(name = "CONTRACT_TYPES", schema = "APP_PBE")
 public class ContractType extends AuditableEntity implements DictionaryEntity {
 
+    //STATIC FIELDS - ATRIBUTES
+    public static final String DESC_ATTR_NAME = "description";
+
     @Id
     @Column(name = "ID")
     private String id;

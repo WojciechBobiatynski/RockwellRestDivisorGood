@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.model.publicbenefits.contracts;
 
+import lombok.ToString;
 import pl.sodexo.it.gryf.model.api.VersionableEntity;
 import pl.sodexo.it.gryf.model.publicbenefits.enterprises.Enterprise;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
@@ -11,9 +12,19 @@ import java.util.Date;
 /**
  * Created by Isolution on 2016-10-27.
  */
+@ToString(exclude = {"individual", "enterprise"})
 @Entity
 @Table(name = "CONTRACTS", schema = "APP_PBE")
 public class Contract extends VersionableEntity {
+
+    //STATIC FIELDS - ATRIBUTES
+    public static final String ID_ATTR_NAME = "id";
+    public static final String CONTRACT_TYPE_ATTR_NAME = "contractType";
+    public static final String INDIVIDUAL_ATTR_NAME = "individual";
+    public static final String ENTERPRISE_ATTR_NAME = "enterprise";
+    public static final String GRANT_PROGRAM_ATTR_NAME = "grantProgram";
+    public static final String SIGN_DATE_ATTR_NAME = "signDate";
+    public static final String EXPIRY_DATE_ATTR_NAME = "expiryDate";
 
     @Id
     @Column(name = "ID")

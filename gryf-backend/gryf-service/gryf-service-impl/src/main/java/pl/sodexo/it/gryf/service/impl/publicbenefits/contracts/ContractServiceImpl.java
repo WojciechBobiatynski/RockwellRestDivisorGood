@@ -20,6 +20,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
 import pl.sodexo.it.gryf.service.api.publicbenefits.contracts.ContractService;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.contracts.ContractDtoMapper;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.dictionaries.DictionaryEntityMapper;
+import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.contracts.searchform.ContractEntityToSearchResultMapper;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.grantprograms.GrantProgramEntityMapper;
 
 import java.util.Date;
@@ -59,6 +60,9 @@ public class ContractServiceImpl implements ContractService {
     @Autowired
     private DictionaryEntityMapper dictionaryEntityMapper;
 
+    @Autowired
+    private ContractEntityToSearchResultMapper contractEntityToSearchResultMapper;
+
     @Override
     public List<GrantProgramDictionaryDTO> FindGrantProgramsDictionaries() {
         List<GrantProgram> grantPrograms = grantProgramRepository.findProgramsByDate(new Date());
@@ -71,7 +75,8 @@ public class ContractServiceImpl implements ContractService {
 
     @Override
     public List<ContractSearchResultDTO> findContracts(ContractSearchQueryDTO contractDto) {
-        return null;
+        List<Contract> contracts = contractRepository.findContracts(contractDto);
+        return contractEntityToSearchResultMapper.convert(contracts);
     }
 
     @Override

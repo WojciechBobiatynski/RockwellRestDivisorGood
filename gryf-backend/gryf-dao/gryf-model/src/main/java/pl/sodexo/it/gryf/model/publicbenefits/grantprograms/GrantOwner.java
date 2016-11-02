@@ -18,6 +18,8 @@ import java.util.Objects;
 @Table(name = "GRANT_OWNERS", schema = "APP_PBE")
 public class GrantOwner extends GryfEntity {
 
+    public static final String NAME_ATTR_NAME = "name";
+
     @Id
     @Column(name = "ID")
     private Long id;

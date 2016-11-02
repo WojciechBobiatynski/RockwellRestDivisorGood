@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.*;
 import pl.sodexo.it.gryf.common.dto.other.DictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.other.GrantProgramDictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.contracts.detailsform.ContractDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.contracts.searchform.ContractSearchQueryDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.contracts.searchform.ContractSearchResultDTO;
 import pl.sodexo.it.gryf.common.enums.Privileges;
 import pl.sodexo.it.gryf.service.api.publicbenefits.contracts.ContractService;
 import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
@@ -44,5 +46,11 @@ public class ContractsRestController {
         securityChecker.assertFormPrivilege(Privileges.GRF_ENTERPRISE_MOD);
         contractService.saveContract(contractDTO);
         return "/";
+    }
+
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public List<ContractSearchResultDTO> findEnterprises(ContractSearchQueryDTO dto) {
+        securityChecker.assertServicePrivilege(Privileges.GRF_ENTERPRISES);
+        return contractService.findContracts(dto);
     }
 }

@@ -3,6 +3,111 @@
  */
 "use strict";
 
+angular.module("gryf.agreements").factory("BrowseContractsService",
+    ["$http", "GryfModals", "GryfTables", function($http, GryfModals, GryfTables) {
+        var FIND_CONTRACTS_URL = contextPath + "/rest/publicBenefits/contract/list";
+        var searchDTO = new SearchObjModel();
+        var searchResultOptions = new SearchResultOptions();
+
+        function SearchObjModel() {
+            this.searchResultList = [];
+            this.entity = {
+                contractId: null,
+                contractTypeDescription: null,
+                pesel: null,
+                vatRegNum: null,
+                signDate: null,
+                expiryDate: null,
+                grantProgramName: null,
+                grantProgramOwnerName: null,
+
+                limit: 10,
+                sortColumns: [],
+                sortTypes: []
+            }
+        }
+
+        function SearchResultOptions() {
+            this.displayLimit = 10;
+            this.displayLimitIncrementer = 10;
+            this.overflow = false;
+            this.badQuery = false;
+        }
+
+        var isResultsOverflow = function(zipCodesArray) {
+            return zipCodesArray.length > searchResultOptions.displayLimit;
+        };
+
+        var find = function(restUrl) {
+            var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING);
+            if (!restUrl){
+                restUrl = FIND_CONTRACTS_URL;
+            }
+            var promise = $http.get(restUrl, {params: searchDTO.entity});
+            promise.then(function(response) {
+                //success
+                searchDTO.searchResultList = response.data;
+                searchResultOptions.overflow = isResultsOverflow(response.data);
+            }, function() {
+                //error
+                resetSearchResultOptions();
+                searchResultOptions.badQuery = true;
+            });
+
+            promise.finally(function() {
+                GryfModals.closeModal(modalInstance);
+            });
+            return promise;
+        };
+
+        var findById = function(id) {
+            getNewSearchDTO();
+            searchDTO.entity.id = id;
+            return $http.get(FIND_CONTRACTS_URL, {params: searchDTO.entity});
+        };
+
+        var getNewSearchDTO = function() {
+            searchDTO = new SearchObjModel;
+            return searchDTO;
+        };
+
+        var resetSearchResultOptions = function() {
+            searchResultOptions = new SearchResultOptions;
+            return searchResultOptions;
+        };
+
+        var getSearchDTO = function() {
+            return searchDTO;
+        };
+
+        var getSearchResultOptions = function() {
+            return searchResultOptions;
+        };
+
+        var findSortedBy = function(sortColumnName) {
+            GryfTables.sortByColumn(searchDTO.entity, sortColumnName);
+            return find();
+        };
+
+        var loadMore = function() {
+            searchDTO.entity.limit += searchResultOptions.displayLimitIncrementer;
+            searchResultOptions.displayLimit += searchResultOptions.displayLimitIncrementer;
+            return find();
+        };
+
+        return {
+            getSearchDTO: getSearchDTO,
+            getSearchResultOptions: getSearchResultOptions,
+            find: find,
+            findById: findById,
+            findSortedBy: findSortedBy,
+            resetSearchResultOptions: resetSearchResultOptions,
+            getNewSearchDTO: getNewSearchDTO,
+            loadMore: loadMore
+        }
+    }]);
+
+
 angular.module("gryf.agreements").factory("ModifyContractService",
     ['$http', 'GryfModals', 'BrowseEnterprisesService', 'BrowseIndividualsService', function ($http, GryfModals, BrowseEnterprisesService, BrowseIndividualsService) {
 
