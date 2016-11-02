@@ -10,17 +10,10 @@
                 </a>
             </li>
         </ul>
-
         <ol>
             <li>
-                <a ng-href="{{getPrevUrl()}}" class="button button-cancel"
-                   target="_self">Anuluj </a>
-            </li>
-        </ol>
-        <ol>
-            <li>
-                <a ng-href="#" ng-click="newApplication()" class="button button-new"
-                   target="_self">Nowy wniosek</a>
+                <a ng-href="#modify" class="button button-new"
+                   target="_self">Nowa umowa</a>
             </li>
         </ol>
     </header>
@@ -53,13 +46,13 @@
                 </div>
                 <div>
                     <strong class="label">Dane uczestnika</strong>
-                    <div>ID: {{contract.individual.id}}</div>
+                    <div>Pesel: {{contract.individual.pesel}}</div>
                     <div>Osoba: {{contract.individual.firstName}} {{contract.individual.lastName}}</div>
                     <a ng-click="openIndividualLov()" class="button button-save">Wprowadź</a>
                 </div>
                 <div>
                     <strong class="label">Dane MŚP</strong>
-                    <div>ID: {{contract.enterprise.id}}</div>
+                    <div>NIP: {{contract.enterprise.vatRegNum}}</div>
                     <div>Nazwa: {{contract.enterprise.name}}</div>
                     <a ng-click="openEnterpriseLov()" class="button button-save">Wprowadź</a>
                 </div>
