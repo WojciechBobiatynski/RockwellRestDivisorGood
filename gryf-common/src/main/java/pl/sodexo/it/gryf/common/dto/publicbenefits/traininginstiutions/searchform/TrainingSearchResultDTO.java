@@ -1,8 +1,54 @@
 package pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform;
 
-/**
- * Created by Isolution on 2016-10-26.
- */
+import lombok.Getter;
+import lombok.Setter;
+
+import java.math.BigDecimal;
+import java.util.Date;
+
 public class TrainingSearchResultDTO {
 
+    @Getter
+    @Setter
+    private Long trainingId;
+
+    @Getter
+    @Setter
+    private Long institutionId;
+
+    @Getter
+    @Setter
+    private String institutionName;
+
+    @Getter
+    @Setter
+    private String name;
+
+    @Getter
+    @Setter
+    private BigDecimal price;
+
+    @Getter
+    @Setter
+    private Date startDate;
+
+    @Getter
+    @Setter
+    private Date endDate;
+
+    @Getter
+    @Setter
+    private String place;
+
+    @Getter
+    @Setter
+    private BigDecimal hoursNumber;
+
+    @Getter
+    @Setter
+    private BigDecimal hourPrice;
+
+    @Getter
+    @Setter
+    private String category;
 }

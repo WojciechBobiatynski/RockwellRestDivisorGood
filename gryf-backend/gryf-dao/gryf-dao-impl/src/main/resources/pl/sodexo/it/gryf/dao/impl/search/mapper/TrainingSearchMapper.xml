@@ -1,6 +1,73 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="pl.sodexo.it.gryf.dao.api.search.mapper.TariningSearchMapper">
+<mapper namespace="pl.sodexo.it.gryf.dao.api.search.mapper.TrainingSearchMapper">
+    <select id="findTrainings" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchResultDTO" parameterType="list">
+        SELECT t.TRA_ID as trainingId, t.TRIN_ID as institutionId, i.NAME as institutionName, t.NAME, t.PRICE, t.START_DATE as startDate, t.END_DATE as endDate, t.PLACE, t.HOURS_NUMBER as hoursNumber, t.HOUR_PRICE as hourPrice, c.description as category
+        FROM APP_PBE.TI_TRAININGS t
+        JOIN APP_PBE.TI_TRAINING_CATEGORY_DICS c on c.TRC_CODE = t.TRC_CODE
+        JOIN APP_PBE.TRAINING_INSTITUTIONS i on i.ID = t.TRIN_ID
+        <where>
+            <if test="searchParams.trainingId != null">
+                t.TRA_ID = #{searchParams.trainingId}
+            </if>
+            <if test="searchParams.institutionId != null">
+                AND t.TRIN_ID = #{searchParams.institutionId}
+            </if>
+            <if test="searchParams.institutionName != null and searchParams.institutionName != ''">
+                AND LOWER(i.NAME) like '%' || LOWER(#{searchParams.institutionName}) || '%'
+            </if>
+            <if test="searchParams.name != null and searchParams.name != ''">
+                AND LOWER(t.NAME) like '%' || LOWER(#{searchParams.name}) || '%'
+            </if>
+            <if test="searchParams.priceFrom != null">
+                AND t.PRICE >= #{searchParams.priceFrom}
+            </if>
+            <if test="searchParams.priceTo != null">
+                AND t.PRICE &lt;= #{searchParams.priceTo}
+            </if>
+            <if test="searchParams.startDate != null">
+                AND t.START_DATE >= #{searchParams.startDate}
+            </if>
+            <if test="searchParams.endDate != null">
+                AND t.END_DATE &lt;= #{searchParams.endDate}
+            </if>
+            <if test="searchParams.place != null and searchParams.place != ''">
+                AND LOWER(t.PLACE) like '%' || LOWER(#{searchParams.place}) || '%'
+            </if>
+            <if test="searchParams.hoursNumberFrom != null">
+                AND t.HOURS_NUMBER >= #{searchParams.hoursNumberFrom}
+            </if>
+            <if test="searchParams.hoursNumberTo != null">
+                AND t.HOURS_NUMBER &lt;= #{searchParams.hoursNumberTo}
+            </if>
+            <if test="searchParams.hourPriceFrom != null">
+                AND t.HOUR_PRICE >= #{searchParams.hourPriceFrom}
+            </if>
+            <if test="searchParams.hourPriceTo != null">
+                AND t.HOUR_PRICE &lt;= #{searchParams.hourPriceTo}
+            </if>
+            <if test="searchParams.categoryCode != null">
+                AND t.TRC_CODE like #{searchParams.categoryCode}
+            </if>
+        </where>
+        <if test="searchParams.sortColumns != null">
+            <foreach item="columnName" index="index" collection="searchParams.sortColumns" open="ORDER BY " separator="," close="">
+                ${columnName} ${searchParams.sortTypes[index]}
+            </foreach>
+        </if>
+    </select>
 
+    <select id="findTrainingCategories" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingCategoryDto" parameterType="list">
+        SELECT t.trc_code as code, ordinal, description FROM APP_PBE.TI_TRAINING_CATEGORY_DICS t
+    </select>
+
+    <select id="findTraining" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingDTO">
+        SELECT t.TRA_ID as trainingId, t.TRIN_ID as trainingInstitution, i.NAME as institutionName, t.NAME, t.PRICE, t.START_DATE as startDate, t.END_DATE as endDate, t.PLACE,
+        t.HOURS_NUMBER as hoursNumber, t.HOUR_PRICE as hourPrice, t.TRC_CODE as category, t.CREATED_USER as createdUser, t.CREATED_TIMESTAMP as createdTimestamp,
+        t.MODIFIED_USER as modifiedUser, t.MODIFIED_TIMESTAMP as modifiedTimestamp
+        FROM APP_PBE.TI_TRAININGS t
+        JOIN APP_PBE.TRAINING_INSTITUTIONS i on i.ID = t.TRIN_ID
+        WHERE t.TRA_ID = #{trainingId}
+    </select>
 </mapper>

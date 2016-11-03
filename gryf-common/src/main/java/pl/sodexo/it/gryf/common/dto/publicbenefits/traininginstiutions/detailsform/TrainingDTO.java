@@ -1,8 +1,58 @@
 package pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform;
 
+import lombok.Getter;
+import lombok.Setter;
+import pl.sodexo.it.gryf.common.dto.api.AuditableDto;
+
+import java.math.BigDecimal;
+import java.util.Date;
+
 /**
  * Created by Isolution on 2016-10-26.
  */
-public class TrainingDTO {
+public class TrainingDTO extends AuditableDto {
 
+    @Getter
+    @Setter
+    private Long trainingId;
+
+    @Getter
+    @Setter
+    private Long trainingInstitution;
+
+    @Getter
+    @Setter
+    private String institutionName;
+
+    @Getter
+    @Setter
+    private String name;
+
+    @Getter
+    @Setter
+    private BigDecimal price;
+
+    @Getter
+    @Setter
+    private Date startDate;
+
+    @Getter
+    @Setter
+    private Date endDate;
+
+    @Getter
+    @Setter
+    private String place;
+
+    @Getter
+    @Setter
+    private BigDecimal hoursNumber;
+
+    @Getter
+    @Setter
+    private BigDecimal hourPrice;
+
+    @Getter
+    @Setter
+    private String category;
 }

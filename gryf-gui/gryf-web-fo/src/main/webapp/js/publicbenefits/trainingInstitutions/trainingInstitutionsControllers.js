@@ -39,8 +39,8 @@ angular.module("gryf.trainingInstitutions").controller("searchform.TrainingInsCo
 
 var scopeModifyController;
 angular.module("gryf.trainingInstitutions").controller("detailsform.TrainingInsController",
-    ["$scope", "ModifyTrainingInsService", 'GryfModals', 'GryfPopups',
-     function($scope, ModifyTrainingInsService, GryfModals, GryfPopups) {
+    ["$scope", "ModifyTrainingInsService", 'GryfModals', 'GryfPopups', '$route',
+     function($scope, ModifyTrainingInsService, GryfModals, GryfPopups, $route) {
          scopeModifyController = $scope;
          $scope.model = ModifyTrainingInsService.getNewModel();
          $scope.violations = ModifyTrainingInsService.getNewViolations();

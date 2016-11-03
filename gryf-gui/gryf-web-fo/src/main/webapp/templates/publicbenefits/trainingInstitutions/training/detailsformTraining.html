@@ -1,0 +1,113 @@
+<toaster-container toaster-options="{'position-class': 'toast-top-center'}"></toaster-container>
+
+<div>
+    <div>
+        <header id="header">
+            <h1>Edycja szkolenia</h1>
+            <ul>
+                <li>
+                    <a ng-click="save()" class="button button-save">zapisz</a>
+                </li>
+                <li>
+                    <a ng-click="saveAndAdd()" class="button button-save">
+                        zapisz i dodaj następne</a>
+                </li>
+            </ul>
+            <ol>
+                <li>
+                    <a ng-href="{{getPrevUrl()}}" class="button button-new"
+                       target="_self">Anuluj </a>
+                </li>
+            </ol>
+            <ol>
+                <li>
+                    <a ng-href="#" ng-click="newTraining()" class="button button-new"
+                       target="_self">Nowe szkolenie </a>
+                </li>
+            </ol>
+        </header>
+
+        <section>
+            <div class="grid-100">
+                <div class="grid-10">
+                    <strong class="label">Id szkolenia</strong>
+                    <input type="text" ng-model="model.entity.trainingId" maxlength="500" disabled="disabled">
+                </div>
+                <div class="grid-10">
+                    <strong class="label">Id instytucji</strong>
+                    <input type="text" ng-model="model.entity.trainingInstitution" maxlength="500" disabled="disabled">
+                    <a ng-click="openIsLov()" class="button button-save">
+                        Wybierz
+                    </a>
+                </div>
+                <div class="grid-20">
+                    <strong class="label">Nazwa instytucji</strong>
+                    <input type="text" ng-model="model.entity.institutionName" maxlength="500" disabled="disabled">
+                    <gryf-validation-msg path="trainingInstitution"></gryf-validation-msg>
+                </div>
+                <div class="grid-40">
+                    <strong class="label">Nazwa</strong>
+                    <input type="text" ng-model="model.entity.name" maxlength="500">
+                    <gryf-validation-msg path="name"></gryf-validation-msg>
+                </div>
+                <div class="grid-20">
+                    <strong class="label">Kategoria</strong>
+                    <select ng-options="v.code as v.description for v in categoryDictionary" ng-model="model.entity.category">
+                        <option value="">-wybierz-</option>
+                    </select>
+                    <gryf-validation-msg path="category"></gryf-validation-msg>
+                </div>
+            </div>
+            <div class="grid-100">
+                <div class="grid-20">
+                    <strong class="label">Cena (zł)</strong>
+                    <input type="text" ng-model="model.entity.price" maxlength="20">
+                    <gryf-validation-msg path="price"></gryf-validation-msg>
+                </div>
+                <div class="grid-20">
+                    <strong class="label">Liczba godzin</strong>
+                    <input type="text" ng-model="model.entity.hoursNumber" maxlength="20">
+                    <gryf-validation-msg path="hoursNumber"></gryf-validation-msg>
+                </div>
+                <div class="grid-20">
+                    <strong class="label">Cena za godzinę (zł)</strong>
+                    <input type="text" ng-model="model.entity.hourPrice" maxlength="20">
+                    <gryf-validation-msg path="hourPrice"></gryf-validation-msg>
+                </div>
+            </div>
+            <div class="grid-100">
+                <div class="grid-20">
+                    <strong class="label">Data rozpoczęcia</strong>
+                    <input type="text"
+                           placeholder="Data rozpoczęcia"
+                           ng-model="model.entity.startDate"
+                           datepicker-popup="yyyy-MM-dd"
+                           is-open="datepicker.applyFromOpened"
+                           close-text="Zamknij"
+                           clear-text="Czyść"
+                           current-text="Dziś"
+                           ng-click="openDatepicker('applyFromOpened')"/>
+                    <gryf-validation-msg path="startDate"></gryf-validation-msg>
+                </div>
+                <div class="grid-20">
+                    <strong class="label">Data zakończenia</strong>
+                    <input type="text"
+                           placeholder="Data zakończenia"
+                           ng-model="model.entity.endDate"
+                           datepicker-popup="yyyy-MM-dd"
+                           is-open="datepicker.applyToOpened"
+                           close-text="Zamknij"
+                           clear-text="Czyść"
+                           current-text="Dziś"
+                           ng-click="openDatepicker('applyToOpened')"/>
+                    <gryf-validation-msg path="endDate"></gryf-validation-msg>
+                </div>
+                <div class="grid-40">
+                    <strong class="label">Miejsce</strong>
+                    <input type="text" ng-model="model.entity.place" maxlength="200">
+                    <gryf-validation-msg path="place"></gryf-validation-msg>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>

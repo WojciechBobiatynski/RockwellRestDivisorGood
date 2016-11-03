@@ -62,6 +62,13 @@ public class PublicBenefitsViewController {
         return DEFAULT_VIEW;
     }
 
+    @RequestMapping("/training")
+    public String getTrainingView(Model model) {
+        securityChecker.assertFormPrivilege(Privileges.GRF_PBE_TI_TRAININGS);
+        model.addAttribute(MAIN_CONTENT_PARAM_NAME, PAGES_PREFIX + "publicbenefits/trainingIndex.jsp");
+        return DEFAULT_VIEW;
+    }
+
     @RequestMapping("/grantApplications")
     public String getApplicationsView(Model model) {
         securityChecker.assertFormPrivilege(Privileges.GRF_PBE_APPLICATIONS);

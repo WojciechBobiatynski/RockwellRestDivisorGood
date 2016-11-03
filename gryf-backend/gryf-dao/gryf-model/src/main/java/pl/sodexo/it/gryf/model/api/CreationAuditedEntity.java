@@ -8,7 +8,7 @@ import java.util.Date;
 
 @ToString
 @MappedSuperclass
-public class CreationAuditedEntity extends GryfEntity{
+public class CreationAuditedEntity extends GryfEntity {
 
     //FIELDS
 

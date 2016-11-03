@@ -128,6 +128,21 @@
                                     Nowe IS
                                 </a>
                             </li>
+                            <li class="submenu">
+                                <a ng-href="${pageContext.request.contextPath}/publicBenefits/training/"
+                                   gryf-link-privilege="GRF_PBE_TI_TRAININGS">
+                                    Katalog szkoleń
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a ng-href="${pageContext.request.contextPath}/publicBenefits/training/"
+                                                gryf-link-privilege="GRF_PBE_TI_TRAININGS">Lista szkoleń</a>
+                                    <li>
+                                        <a ng-href="${pageContext.request.contextPath}/publicBenefits/training/#/modify"
+                                           gryf-link-privilege="GRF_PBE_TI_TRAININGS_MOD">Nowe szkolenie</a>
+                                    </li>
+                                </ul>
+                            </li>
                         </ul>
                     </li>
                     <li class="submenu">

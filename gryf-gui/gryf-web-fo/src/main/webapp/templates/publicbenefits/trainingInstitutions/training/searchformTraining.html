@@ -1,0 +1,151 @@
+<div>
+    <header id="header">
+        <h1>Wyszukiwanie szkoleń</h1>
+        <ul>
+            <li><a href="#/modify/" class="button button-new">Nowe szkolenie</a></li>
+            <li><a ng-click="clear()" class="button button-refresh">Wyczyść</a></li>
+        </ul>
+    </header>
+
+    <div class="one-column">
+
+        <section class="overflow-x-auto">
+            <table class="table table-condensed">
+                <thead>
+                <tr class="grid-100">
+                    <th class="sortable grid-10" ng-class="getSortingTypeClass('trainingId')">
+                        <div ng-click="getSortedBy('trainingId')">Id szkolenia</div>
+                        <input placeholder="Id" type="number"
+                               ng-model="searchDTO.entity.trainingId">
+                    </th>
+                    <th class="sortable grid-10" ng-class="getSortingTypeClass('institutionId')">
+                        <div ng-click="getSortedBy('institutionId')">Id instytucji</div>
+                        <a ng-click="openIsLov()" class="button button-save">
+                            Wybierz
+                        </a>
+                        <input placeholder="Id instytucji" type="number"
+                               ng-model="searchDTO.entity.institutionId">
+                    </th>
+                    <th class="sortable grid-10" ng-class="getSortingTypeClass('institutionName')">
+                        <div ng-click="getSortedBy('institutionName')">Nazwa instytucji</div>
+                        <input placeholder="Nazwa instytucji" type="text" ng-model="searchDTO.entity.institutionName">
+                    </th>
+                    <th class="sortable grid-15" ng-class="getSortingTypeClass('name')">
+                        <div ng-click="getSortedBy('name')">Nazwa szkolenia</div>
+                        <input placeholder="Nazwa szkolenia"
+                               ng-model="searchDTO.entity.name">
+                    </th>
+                    <th class="sortable grid-5"
+                        ng-class="getSortingTypeClass('price')">
+                        <div ng-click="getSortedBy('price')">
+                            Cena
+                        </div>
+                        <input type="number" placeholder="Min" ng-model="searchDTO.entity.priceFrom"/>
+                        <input type="number" placeholder="Max" ng-model="searchDTO.entity.priceTo"/>
+                    </th>
+                    <th class="sortable grid-10"
+                        ng-class="getSortingTypeClass('startDate')">
+                        <div ng-click="getSortedBy('startDate')">
+                            Data rozpoczęcia
+                        </div>
+                        <input type="text"
+                               placeholder="Data rozpoczęcia"
+                               ng-model="searchDTO.entity.startDate"
+                               datepicker-popup="yyyy-MM-dd"
+                               is-open="datepicker.applyFromOpened"
+                               close-text="Zamknij"
+                               clear-text="Czyść"
+                               current-text="Dziś"
+                               ng-click="openDatepicker('applyFromOpened')"/>
+                    </th>
+                    <th class="sortable grid-10"
+                        ng-class="getSortingTypeClass('endDate')">
+                        <div ng-click="getSortedBy('endDate')">
+                            Data zakończenia
+                        </div>
+                        <input type="text"
+                               placeholder="Data zakończenia"
+                               ng-model="searchDTO.entity.endDate"
+                               datepicker-popup="yyyy-MM-dd"
+                               is-open="datepicker.applyToOpened"
+                               close-text="Zamknij"
+                               clear-text="Czyść"
+                               current-text="Dziś"
+                               ng-click="openDatepicker('applyToOpened')"/>
+                    </th>
+                    <th class="sortable grid-10" ng-class="getSortingTypeClass('place')">
+                        <div ng-click="getSortedBy('place')">Miejsce</div>
+                        <input placeholder="Miejsce"
+                               ng-model="searchDTO.entity.place">
+                    </th>
+                    <th class="sortable grid-5"
+                        ng-class="getSortingTypeClass('hoursNumber')">
+                        <div ng-click="getSortedBy('hoursNumber')">
+                            Liczba godzin
+                        </div>
+                        <input type="number" placeholder="Min" ng-model="searchDTO.entity.hoursNumberFrom"/>
+                        <input type="number" placeholder="Max" ng-model="searchDTO.entity.hoursNumberTo"/>
+                    </th>
+                    <th class="sortable grid-5"
+                        ng-class="getSortingTypeClass('hourPrice')">
+                        <div ng-click="getSortedBy('hourPrice')">
+                            Cena za godzinę
+                        </div>
+                        <input type="number" placeholder="Min" ng-model="searchDTO.entity.hourPriceFrom"/>
+                        <input type="number" placeholder="Max" ng-model="searchDTO.entity.hourPriceTo"/>
+                    </th>
+                    <th class="sortable grid-15" ng-class="getSortingTypeClass('category')">
+                        <div ng-click="getSortedBy('category')">Kategoria</div>
+                        <select ng-options="v.code as v.description for v in categoryDictionary" ng-model="searchDTO.entity.categoryCode">
+                            <option value="">-wybierz-</option>
+                        </select>
+                    </th>
+                    <th>
+                        <a ng-click="find()"
+                           class="button button-search">szukaj</a>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in searchDTO.searchResultList | limitTo: searchResultOptions.displayLimit">
+                    <td>{{::item.trainingId}}</td>
+                    <td>{{::item.institutionId}}</td>
+                    <td>{{::item.institutionName}}</td>
+                    <td>{{::item.name}}</td>
+                    <td>{{::item.price}}</td>
+                    <td>{{::item.startDate | date:'yyyy-MM-dd'}}</td>
+                    <td>{{::item.endDate | date:'yyyy-MM-dd'}}</td>
+                    <td>{{::item.place}}</td>
+                    <td>{{::item.hoursNumber}}</td>
+                    <td>{{::item.hourPrice}}</td>
+                    <td>{{::item.category}}</td>
+                    <td>
+                        <ul class="buttons">
+                            <li><a ng-href="#/modify/{{item.trainingId}}"
+                                   gryf-privilege="GRF_TRAINING_INSTITUTION_MOD"
+                                   class="button button-go">szczegóły</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div ng-show="searchResultOptions.overflow" class="centered-ul">
+                <ul>
+                    <li><a href="#/" ng-click="loadMore()"
+                           class="button button-infinity">wczytaj więcej wyników</a></li>
+                </ul>
+            </div>
+            <div class="" ng-show="model.zipCodesArray.length===0">
+                Brak wyników
+            </div>
+            <div class="msg msg-error" ng-show="searchResultOptions.badQuery">
+                <p>Błąd kryteriów zapytania - niepoprawny format</p>
+            </div>
+        </section>
+
+    </div>
+</div>
+
+
+

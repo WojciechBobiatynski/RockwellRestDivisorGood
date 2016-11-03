@@ -79,8 +79,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr
-                        ng-repeat="item in searchObjModel.searchResultList | limitTo: searchResultOptions.displayLimit">
+                <tr ng-repeat="item in searchObjModel.searchResultList | limitTo: searchResultOptions.displayLimit">
                     <td>{{::item.id}}</td>
                     <td>{{::item.name}}</td>
                     <td>{{::item.vatRegNum}}</td>
