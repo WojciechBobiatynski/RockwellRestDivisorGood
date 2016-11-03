@@ -6,6 +6,7 @@ import lombok.ToString;
 import org.eclipse.persistence.annotations.OptimisticLocking;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.model.api.VersionableEntity;
+import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
 import pl.sodexo.it.gryf.model.publicbenefits.enterprises.Enterprise;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
@@ -80,6 +81,10 @@ public class Order extends VersionableEntity {
     @JoinColumn(name = "INDIVIDUAL_ID", referencedColumnName = "ID")
     @ManyToOne()
     private Individual individual;
+
+    @JoinColumn(name = "CONTRACT_ID", referencedColumnName = "ID")
+    @ManyToOne()
+    private Contract contract;
 
     @JsonManagedReference("status")
     @JoinColumn(name = "STATUS_ID", referencedColumnName = "STATUS_ID")
@@ -160,6 +165,14 @@ public class Order extends VersionableEntity {
 
     public void setIndividual(Individual individual) {
         this.individual = individual;
+    }
+
+    public Contract getContract() {
+        return contract;
+    }
+
+    public void setContract(Contract contract) {
+        this.contract = contract;
     }
 
     public OrderFlowStatus getStatus() {
