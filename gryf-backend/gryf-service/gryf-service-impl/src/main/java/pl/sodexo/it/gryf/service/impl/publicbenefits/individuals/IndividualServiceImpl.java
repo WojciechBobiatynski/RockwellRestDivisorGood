@@ -146,6 +146,10 @@ public class IndividualServiceImpl implements IndividualService {
             EntityConstraintViolation entityConstraintViolation = new EntityConstraintViolation(Individual.CODE_ATTR_NAME,"Niepoprawny kod osoby fizycznej");
             throw new EntityValidationException(Arrays.asList(entityConstraintViolation));
         }
+        if (accountContractPair.isUsed()){
+            EntityConstraintViolation entityConstraintViolation = new EntityConstraintViolation(Individual.CODE_ATTR_NAME,"Wpisany kod jest już zarezerwowany");
+            throw new EntityValidationException(Arrays.asList(entityConstraintViolation));
+        }
         return accountContractPair;
     }
 

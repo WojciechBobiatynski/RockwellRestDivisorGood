@@ -148,4 +148,8 @@ angular.module("gryf.individuals").controller("detailsform.IndividualController"
                     $scope.model.entity.zipCodeCorr = chosedItem;
                 });
             };
+
+            $scope.isModType = function() {
+                return $scope.model.entity.id != null;
+            }
         }]);
