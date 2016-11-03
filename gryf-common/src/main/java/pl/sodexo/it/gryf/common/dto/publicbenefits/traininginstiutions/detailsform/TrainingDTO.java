@@ -2,7 +2,7 @@ package pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsf
 
 import lombok.Getter;
 import lombok.Setter;
-import pl.sodexo.it.gryf.common.dto.api.AuditableDto;
+import pl.sodexo.it.gryf.common.dto.api.VersionableDto;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -10,7 +10,7 @@ import java.util.Date;
 /**
  * Created by Isolution on 2016-10-26.
  */
-public class TrainingDTO extends AuditableDto {
+public class TrainingDTO extends VersionableDto {
 
     @Getter
     @Setter

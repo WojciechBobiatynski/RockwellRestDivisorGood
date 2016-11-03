@@ -3,16 +3,16 @@
 
 <mapper namespace="pl.sodexo.it.gryf.dao.api.search.mapper.TrainingSearchMapper">
     <select id="findTrainings" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchResultDTO" parameterType="list">
-        SELECT t.TRA_ID as trainingId, t.TRIN_ID as institutionId, i.NAME as institutionName, t.NAME, t.PRICE, t.START_DATE as startDate, t.END_DATE as endDate, t.PLACE, t.HOURS_NUMBER as hoursNumber, t.HOUR_PRICE as hourPrice, c.description as category
+        SELECT t.ID as trainingId, t.TRAINING_INSTITUTION_ID as institutionId, i.NAME as institutionName, t.NAME, t.PRICE, t.START_DATE as startDate, t.END_DATE as endDate, t.PLACE, t.HOURS_NUMBER as hoursNumber, t.HOUR_PRICE as hourPrice, c.description as category
         FROM APP_PBE.TI_TRAININGS t
-        JOIN APP_PBE.TI_TRAINING_CATEGORY_DICS c on c.TRC_CODE = t.TRC_CODE
-        JOIN APP_PBE.TRAINING_INSTITUTIONS i on i.ID = t.TRIN_ID
+        JOIN APP_PBE.TI_TRAINING_CATEGORY_DICS c on c.ID = t.TRAINING_CATEGORY_ID
+        JOIN APP_PBE.TRAINING_INSTITUTIONS i on i.ID = t.TRAINING_INSTITUTION_ID
         <where>
             <if test="searchParams.trainingId != null">
-                t.TRA_ID = #{searchParams.trainingId}
+                t.ID = #{searchParams.trainingId}
             </if>
             <if test="searchParams.institutionId != null">
-                AND t.TRIN_ID = #{searchParams.institutionId}
+                AND t.TRAINING_INSTITUTION_ID = #{searchParams.institutionId}
             </if>
             <if test="searchParams.institutionName != null and searchParams.institutionName != ''">
                 AND LOWER(i.NAME) like '%' || LOWER(#{searchParams.institutionName}) || '%'
@@ -48,7 +48,7 @@
                 AND t.HOUR_PRICE &lt;= #{searchParams.hourPriceTo}
             </if>
             <if test="searchParams.categoryCode != null">
-                AND t.TRC_CODE like #{searchParams.categoryCode}
+                AND t.TRAINING_CATEGORY_ID like #{searchParams.categoryCode}
             </if>
         </where>
         <if test="searchParams.sortColumns != null">
@@ -59,15 +59,15 @@
     </select>
 
     <select id="findTrainingCategories" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingCategoryDto" parameterType="list">
-        SELECT t.trc_code as code, ordinal, description FROM APP_PBE.TI_TRAINING_CATEGORY_DICS t
+        SELECT t.ID as code, ordinal, description FROM APP_PBE.TI_TRAINING_CATEGORY_DICS t
     </select>
 
     <select id="findTraining" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingDTO">
-        SELECT t.TRA_ID as trainingId, t.TRIN_ID as trainingInstitution, i.NAME as institutionName, t.NAME, t.PRICE, t.START_DATE as startDate, t.END_DATE as endDate, t.PLACE,
-        t.HOURS_NUMBER as hoursNumber, t.HOUR_PRICE as hourPrice, t.TRC_CODE as category, t.CREATED_USER as createdUser, t.CREATED_TIMESTAMP as createdTimestamp,
+        SELECT t.ID as trainingId, t.TRAINING_INSTITUTION_ID as trainingInstitution, i.NAME as institutionName, t.NAME, t.PRICE, t.START_DATE as startDate, t.END_DATE as endDate, t.PLACE,
+        t.HOURS_NUMBER as hoursNumber, t.HOUR_PRICE as hourPrice, t.TRAINING_CATEGORY_ID as category, t.VERSION, t.CREATED_USER as createdUser, t.CREATED_TIMESTAMP as createdTimestamp,
         t.MODIFIED_USER as modifiedUser, t.MODIFIED_TIMESTAMP as modifiedTimestamp
         FROM APP_PBE.TI_TRAININGS t
-        JOIN APP_PBE.TRAINING_INSTITUTIONS i on i.ID = t.TRIN_ID
-        WHERE t.TRA_ID = #{trainingId}
+        JOIN APP_PBE.TRAINING_INSTITUTIONS i on i.ID = t.TRAINING_INSTITUTION_ID
+        WHERE t.ID = #{trainingId}
     </select>
 </mapper>

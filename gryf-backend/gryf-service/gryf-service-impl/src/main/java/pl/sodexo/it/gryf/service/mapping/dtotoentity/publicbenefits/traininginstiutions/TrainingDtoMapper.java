@@ -6,10 +6,10 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsfo
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.Training;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingCategory;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstitution;
-import pl.sodexo.it.gryf.service.mapping.dtotoentity.AuditableDtoMapper;
+import pl.sodexo.it.gryf.service.mapping.dtotoentity.VersionableDtoMapper;
 
 @Component
-public class TrainingDtoMapper extends AuditableDtoMapper<TrainingDTO, Training> {
+public class TrainingDtoMapper extends VersionableDtoMapper<TrainingDTO, Training> {
 
     @Autowired
     TrainingInstitutionDtoMapper institutionDtoMapper;

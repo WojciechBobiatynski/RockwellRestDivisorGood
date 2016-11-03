@@ -21,7 +21,7 @@ import javax.persistence.Table;
 public class TrainingCategory extends SimpleDictionaryEntity {
 
     @Id
-    @Column(name = "TRC_CODE")
+    @Column(name = "ID")
     @Getter
     @Setter
     private String code;

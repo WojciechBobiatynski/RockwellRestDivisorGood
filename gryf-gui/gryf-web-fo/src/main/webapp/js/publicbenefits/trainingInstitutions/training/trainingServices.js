@@ -241,6 +241,20 @@ angular.module("gryf.training").factory("ModifyTrainingService",
             return GryfModals.openLovModal(GryfModals.MODALS_URL.LOV_TI, BrowseTrainingInsService, 'lg');
         };
 
+        var load = function(responseId) {
+            if ($routeParams.id || responseId) {
+                var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING, {label: "Wczytuję dane"});
+                var promise = $http.get(TRAINING_URL + ($routeParams.id ? $routeParams.id : responseId));
+                promise.then(function(response) {
+                    trainingObject.entity = response.data;
+                });
+                promise.finally(function() {
+                    GryfModals.closeModal(modalInstance);
+                });
+                return promise;
+            }
+        };
+
         return {
             findById: findById,
             getNewModel: getNewModel,

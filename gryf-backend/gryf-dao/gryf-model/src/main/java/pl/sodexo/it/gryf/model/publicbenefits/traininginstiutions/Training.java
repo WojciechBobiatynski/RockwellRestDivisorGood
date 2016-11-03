@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
-import pl.sodexo.it.gryf.model.api.AuditableEntity;
+import pl.sodexo.it.gryf.model.api.VersionableEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,19 +29,19 @@ import java.util.Date;
 @Table(name = "TI_TRAININGS", schema = "APP_PBE")
 @SequenceGenerator(name = "ti_tra_seq", schema = "eagle", sequenceName = "ti_tra_seq", allocationSize = 1)
 @ToString
-public class Training extends AuditableEntity {
+public class Training extends VersionableEntity {
 
     public static final String END_DATE_ATTR_NAME = "endDate";
 
     @Id
-    @Column(name = "TRA_ID")
+    @Column(name = "ID")
     @GeneratedValue(generator = "ti_tra_seq")
     @Getter
     @Setter
     private Long traId;
 
     @OneToOne
-    @JoinColumn(name = "TRIN_ID")
+    @JoinColumn(name = "TRAINING_INSTITUTION_ID")
     @Getter
     @Setter
     @NotNull(message = "Należy wybrać instytucję szkoleniową")
@@ -92,7 +92,7 @@ public class Training extends AuditableEntity {
     private BigDecimal hourPrice;
 
     @OneToOne
-    @JoinColumn(name = "TRC_CODE")
+    @JoinColumn(name = "TRAINING_CATEGORY_ID")
     @Getter
     @Setter
     @NotNull(message = "Należy wybrać kategorię szkolenia")
