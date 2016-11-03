@@ -10,7 +10,8 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.detailsForm.Indiv
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.detailsForm.IndividualDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.searchform.IndividualSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.searchform.IndividualSearchResultDTO;
-import pl.sodexo.it.gryf.common.exception.accounts.GryfInvalidAccountCode;
+import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
+import pl.sodexo.it.gryf.common.exception.EntityValidationException;
 import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.accounts.AccountContractPairRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.individuals.IndividualRepository;
@@ -28,6 +29,9 @@ import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.individuals.
 import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.individuals.searchform.IndividualEntityToSearchResultMapper;
 import pl.sodexo.it.gryf.service.validation.publicbenefits.individuals.IndividualValidator;
 
+import javax.persistence.PersistenceException;
+import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -35,6 +39,8 @@ import java.util.Set;
 @Service
 @Transactional
 public class IndividualServiceImpl implements IndividualService {
+
+    private static final int INVALID_ACCOUNT_FORMAT_ERROR_CODE = 20002;
 
     //FIELDS
 
@@ -90,21 +96,7 @@ public class IndividualServiceImpl implements IndividualService {
     public Long saveIndividual(IndividualDto individualDto, boolean checkPeselDup) {
         Individual individual = individualDtoMapper.convert(individualDto);
         individualValidator.validateIndividual(individual, checkPeselDup);
-        if (individual.getCode() == null) {
-            individual = individualRepository.save(individual);
-            individual.setCode(generateCode(individual.getId()));
-
-        } else {
-            String account = accountContractPairRepository.findAccountByCode(individual.getCode());
-            AccountContractPair accountContractPair = accountContractPairRepository.findByAccountPayment(account);
-            if (accountContractPair == null) {
-                throw new GryfInvalidAccountCode("Niepoprawny kod osoby fizycznej");
-            }
-            individual.setId(getIdFromGeneratedCode(individual.getCode()));
-            individual.setAccountPayment(account);
-            accountContractPair.setUsed(true);
-            accountContractPairRepository.save(accountContractPair);
-        }
+        individual = createIndividualByCode(individual);
 
         String newVerificationCode = verificationService.createVerificationCode();
 
@@ -117,6 +109,27 @@ public class IndividualServiceImpl implements IndividualService {
 
         individualRepository.save(individual);
 
+        sendEmailNotofication(individual, newVerificationCode);
+
+        return individual.getId();
+    }
+
+    private Individual createIndividualByCode(Individual individual) {
+        if (individual.getCode() == null) {
+            individual = individualRepository.save(individual);
+            individual.setCode(generateCode(individual.getId()));
+        } else {
+            String account = getAccount(individual);
+            AccountContractPair accountContractPair = getAccountContractPair(account);
+            individual.setId(getIdFromGeneratedCode(individual.getCode()));
+            individual.setAccountPayment(account);
+            accountContractPair.setUsed(true);
+            accountContractPairRepository.save(accountContractPair);
+        }
+        return individual;
+    }
+
+    private void sendEmailNotofication(Individual individual, String newVerificationCode) {
         String verEmail = null;
         for (IndividualContact ind : individual.getContacts()) {
             if (applicationParameters.getVerEmailContactType().equals(ind.getContactType().getType())) {
@@ -125,8 +138,31 @@ public class IndividualServiceImpl implements IndividualService {
         }
 
         mailService.scheduleMail(mailDtoCreator.createMailDTOForVerificationCode(verEmail, newVerificationCode));
+    }
 
-        return individual.getId();
+    private AccountContractPair getAccountContractPair(String account) {
+        AccountContractPair accountContractPair = accountContractPairRepository.findByAccountPayment(account);
+        if (accountContractPair == null) {
+            EntityConstraintViolation entityConstraintViolation = new EntityConstraintViolation(Individual.CODE_ATTR_NAME,"Niepoprawny kod osoby fizycznej");
+            throw new EntityValidationException(Arrays.asList(entityConstraintViolation));
+        }
+        return accountContractPair;
+    }
+
+    private String getAccount(Individual individual) {
+        String account = null;
+        try {
+            account = accountContractPairRepository.findAccountByCode(individual.getCode());
+        } catch (PersistenceException e){
+           Throwable exc = e.getCause().getCause();
+            if(exc instanceof SQLException){
+               if(((SQLException) exc).getErrorCode() == INVALID_ACCOUNT_FORMAT_ERROR_CODE){
+                   EntityConstraintViolation entityConstraintViolation = new EntityConstraintViolation(Individual.CODE_ATTR_NAME,"Niepoprawny format kodu osoby fizycznej");
+                   throw new EntityValidationException(Arrays.asList(entityConstraintViolation));
+               }
+           };
+        }
+        return account;
     }
 
     @Override
