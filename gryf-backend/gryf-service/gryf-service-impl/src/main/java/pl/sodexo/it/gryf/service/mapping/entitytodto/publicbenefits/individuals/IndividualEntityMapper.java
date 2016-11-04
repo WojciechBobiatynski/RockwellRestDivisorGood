@@ -51,6 +51,10 @@ public class IndividualEntityMapper extends VersionableEntityMapper<Individual, 
         dto.setZipCodeCorr(zipCodeEntityMapper.convert(entity.getZipCodeCorr()));
         dto.setRemarks(entity.getRemarks());
         dto.setContacts(individualContactEntityMapper.convert(entity.getContacts()));
+        if(entity.getIndividualUser() != null){
+            dto.setVerCode(entity.getIndividualUser().getVerificationCode());
+            dto.setLastLoginDate(entity.getIndividualUser().getLastLoginSuccessDate());
+        }
 
         //kolejny przypadek gdzie nie działa stream, dlatego tak
         for(Employment employment : entity.getEmployments()){

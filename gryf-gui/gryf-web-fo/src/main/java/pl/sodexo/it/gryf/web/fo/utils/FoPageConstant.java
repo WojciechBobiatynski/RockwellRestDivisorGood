@@ -20,5 +20,8 @@ public final class FoPageConstant extends PageConstant {
     
     public static final String PATH_FO_ZIP = "/zipCodes/";
     public static final String SUB_PAGE_FO_ZIP = PREFIX_PAGE + "dictionaries/zipCodesIndex.jsp";
+
+    public static final String VER_CODE_GENERATE_PATH = "/verification/generate";
+    public static final String VER_CODE_SEND_PATH = "/verification/send";
 }
 

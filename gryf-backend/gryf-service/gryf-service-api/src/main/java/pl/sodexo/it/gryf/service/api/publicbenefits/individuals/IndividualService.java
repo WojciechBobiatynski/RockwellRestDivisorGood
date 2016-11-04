@@ -33,4 +33,10 @@ public interface IndividualService {
     Set<String> getEmailRecipients(IndividualDto individualDto, Set<String> existingRecipientsSet);
 
     void updateIndividual(IndividualDto individualDto, boolean checkPeselDup);
+
+    /**
+     * Wysyła maila z kodem weryfikacyjnym
+     * @param individualDto - dto osoby fizycznej
+     */
+    void sendEmailNotification(IndividualDto individualDto);
 }

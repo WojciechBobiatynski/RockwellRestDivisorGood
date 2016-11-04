@@ -5,13 +5,20 @@ import org.springframework.web.bind.annotation.*;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.detailsForm.IndividualDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.searchform.IndividualSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.searchform.IndividualSearchResultDTO;
+import pl.sodexo.it.gryf.common.dto.security.individuals.GryfIndUserDto;
 import pl.sodexo.it.gryf.common.enums.Privileges;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.service.api.publicbenefits.individuals.IndividualService;
 import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
+import pl.sodexo.it.gryf.service.api.security.VerificationService;
+import pl.sodexo.it.gryf.service.api.security.individuals.IndividualUserService;
 import pl.sodexo.it.gryf.web.fo.utils.UrlConstants;
 
 import java.util.List;
+
+import static pl.sodexo.it.gryf.common.utils.JsonMapperUtils.writeValueAsString;
+import static pl.sodexo.it.gryf.web.fo.utils.FoPageConstant.VER_CODE_GENERATE_PATH;
+import static pl.sodexo.it.gryf.web.fo.utils.FoPageConstant.VER_CODE_SEND_PATH;
 
 ;
 
@@ -25,6 +32,12 @@ public class IndividualsRestController {
 
     @Autowired
     private SecurityChecker securityChecker;
+
+    @Autowired
+    private VerificationService verificationService;
+
+    @Autowired
+    private IndividualUserService individualUserService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public IndividualDto getNewIndividual() {
@@ -64,5 +77,19 @@ public class IndividualsRestController {
         securityChecker.assertFormPrivilege(Privileges.GRF_ENTERPRISES);
         return individualService.findIndividuals(dto);
 
+    }
+
+    @RequestMapping(value = VER_CODE_GENERATE_PATH + "/{id}", method = RequestMethod.GET)
+    public String getNewVerificationCode(@PathVariable Long id) {
+        //TODO uprawnienia
+        securityChecker.assertFormPrivilege(Privileges.GRF_ENTERPRISES);
+        String newVerificationCode = verificationService.createVerificationCode();
+        GryfIndUserDto gryfIndUserDto = individualUserService.saveNewVerificationCodeForIndividual(id, newVerificationCode);
+        return writeValueAsString(gryfIndUserDto.getVerificationCode());
+    }
+
+    @RequestMapping(value = VER_CODE_SEND_PATH, method = RequestMethod.POST)
+    public void sendMailWithVerCode(@RequestBody IndividualDto individualDto){
+        individualService.sendEmailNotification(individualDto);
     }
 }

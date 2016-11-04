@@ -151,5 +151,13 @@ angular.module("gryf.individuals").controller("detailsform.IndividualController"
 
             $scope.isModType = function() {
                 return $scope.model.entity.id != null;
-            }
+            };
+
+            $scope.generateNewVerCode = function() {
+                return ModifyIndividualsService.getNewVerificationCode();
+            };
+
+            $scope.sendMailWithVerCode = function() {
+                ModifyIndividualsService.sendMailWithVerCode();
+            };
         }]);

@@ -8,6 +8,7 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.enterprises.detailsform.Enter
 import pl.sodexo.it.gryf.common.dto.zipcodes.detailsform.ZipCodeDto;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -77,6 +78,14 @@ public class IndividualDto extends VersionableDto {
     @Getter
     @Setter
     private String remarks;
+
+    @Getter
+    @Setter
+    private String verCode;
+
+    @Getter
+    @Setter
+    private Date lastLoginDate;
 
     @Getter
     @Setter

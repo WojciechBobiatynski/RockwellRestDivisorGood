@@ -141,8 +141,7 @@ public class Individual extends VersionableEntity {
     @Setter
     private List<Employment> employments = new ArrayList<>();
 
-    @OneToOne(cascade = CascadeType.PERSIST)
-    @PrimaryKeyJoinColumn
+    @OneToOne(cascade = CascadeType.PERSIST, mappedBy = "individual")
     @Getter
     @Setter
     private IndividualUser individualUser;

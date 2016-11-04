@@ -13,6 +13,7 @@
                        gryf-privilege="GRF_ENTERPRISE_MOD">zapisz i dodaj
                         następną</a>
                 </li>
+                <!--TODO: dodać odpowiednie uprawnienia-->
             </ul>
             <ol>
                 <li>
@@ -46,12 +47,12 @@
                     <gryf-validation-msg path="lastName"></gryf-validation-msg>
                 </div>
                 <div class="grid-20">
-                    <strong class="label">PESEL</strong>
+                    <strong class="label">PESEL/Login</strong>
                     <input type="text" ng-model="model.entity.pesel" maxlength="11">
                     <gryf-validation-msg path="pesel"></gryf-validation-msg>
                 </div>
             </div>
-            
+
             <div class="grid-100">
                 <div class="grid-20">
                     <strong class="label">Numer dokumentu tożsamości</strong>
@@ -65,8 +66,30 @@
                 </div>
                 <div class="grid-20">
                     <strong class="label">Płeć</strong>
-                    <select ng-options="sex as plec for (sex, plec) in {'M': 'Mężczyzna', 'K': 'Kobieta'}" ng-model="model.entity.sex" ></select>
+                    <select ng-options="sex as plec for (sex, plec) in {'M': 'Mężczyzna', 'K': 'Kobieta'}" ng-model="model.entity.sex"></select>
                     <gryf-validation-msg path="sex"></gryf-validation-msg>
+                </div>
+                <div class="grid-30">
+                    <strong class="label">Kod weryfikacyjny</strong>
+                    <input type="text" ng-model="model.entity.verCode" disabled="disabled">
+                </div>
+            </div>
+            <div class="grid-100">
+                <div class="grid-30">
+                    <strong class="label">Data ostatniego logowania</strong>
+                    <input type="text" ng-model="model.entity.lastLoginDate" disabled="disabled">
+                </div>
+                <div class="grid-40" style="float:right">
+                    <ul>
+                        <li>
+                            <button ng-click="generateNewVerCode()" class="button button-generate" data-ng-disabled="!isModType()"
+                               gryf-privilege="GRF_ENTERPRISE_MOD">Generuj kod weryfikacyjny</button>
+                        </li>
+                        <li>
+                            <button ng-click="sendMailWithVerCode()" class="button button-send" data-ng-disabled="!isModType()"
+                               gryf-privilege="GRF_ENTERPRISE_MOD">Wyślij kod weryfikacyjny</button>
+                        </li>
+                    </ul>
                 </div>
             </div>
             <section>
@@ -84,7 +107,7 @@
                         <th></th>
                     </tr>
                     </thead>
-                    <tr  ng-repeat="enterprise in model.entity.enterprises">
+                    <tr ng-repeat="enterprise in model.entity.enterprises">
                         <td>
                             <p>{{enterprise.id}}</p>
                             <gryf-validation-msg path="enterprises[{{$index}}].id"></gryf-validation-msg>
@@ -111,12 +134,12 @@
                         {{model.entity.zipCodeInvoice.zipCode}}
                         <gryf-validation-msg path="zipCodeInvoice"></gryf-validation-msg>
                         </span>
-                     <span class="grid-70">
+                    <span class="grid-70">
                         {{model.entity.zipCodeInvoice.cityName}}
                         <gryf-validation-msg path="zipCodeInvoice.cityName"></gryf-validation-msg>
                               </span>
                     <div><a href="" ng-click="openInvoiceZipCodesLov()"
-                       class="button button-new">wybierz</a></div>
+                            class="button button-new">wybierz</a></div>
                 </div>
             </div>
             <div class="grid-100">
@@ -187,17 +210,17 @@
                     <th></th>
                 </tr>
                 </thead>
-                <tr  ng-repeat="contact in model.entity.contacts">
+                <tr ng-repeat="contact in model.entity.contacts">
                     <td>
-                        <select ng-options="s as s.name for s in model.contactTypes track by s.type" ng-model="contact.contactType"  />
+                        <select ng-options="s as s.name for s in model.contactTypes track by s.type" ng-model="contact.contactType"/>
                         <gryf-validation-msg path="contacts[{{$index}}].contactTypes"></gryf-validation-msg>
                     </td>
                     <td>
-                        <input type="text" ng-model="contact.contactData" />
+                        <input type="text" ng-model="contact.contactData"/>
                         <gryf-validation-msg path="contacts[{{$index}}].contactData"></gryf-validation-msg>
                     </td>
                     <td>
-                        <input type="text" ng-model="contact.remarks" />
+                        <input type="text" ng-model="contact.remarks"/>
                         <gryf-validation-msg path="contacts[{{$index}}].remarks"></gryf-validation-msg>
                     </td>
                     <td>

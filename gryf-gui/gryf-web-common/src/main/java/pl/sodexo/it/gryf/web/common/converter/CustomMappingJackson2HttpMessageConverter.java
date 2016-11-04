@@ -6,7 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import pl.sodexo.it.gryf.common.utils.JsonDateSerializer;
 import pl.sodexo.it.gryf.common.utils.JsonMapperUtils;
+
+import java.util.Date;
 
 /**
  * Konwerter Jackson2Http dla Message Convertera uwzględniający customowy Deserializer.
@@ -20,6 +23,7 @@ public class CustomMappingJackson2HttpMessageConverter extends MappingJackson2Ht
         super(Jackson2ObjectMapperBuilder.json().applicationContext(ctx).build());
         ObjectMapper objectMapper = getObjectMapper();
         SimpleModule mod = new SimpleModule().addDeserializer(Object.class, JsonMapperUtils.createUntypedNumberDeserializer());
+        mod.addSerializer(Date.class ,new JsonDateSerializer());
         objectMapper.registerModule(mod);
     }
 

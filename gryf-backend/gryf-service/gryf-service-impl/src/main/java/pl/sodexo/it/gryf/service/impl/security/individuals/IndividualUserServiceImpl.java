@@ -83,4 +83,11 @@ public class IndividualUserServiceImpl implements IndividualUserService {
         individualUserDao.save(user);
     }
 
+    @Override
+    public GryfIndUserDto saveNewVerificationCodeForIndividual(Long individualId, String verificationCode) {
+        IndividualUser user = individualUserDao.findByIndividual_Id(individualId);
+        user.setVerificationCode(verificationCode);
+        return individualUserEntityMapper.convert(individualUserDao.save(user));
+    }
+
 }

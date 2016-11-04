@@ -28,4 +28,6 @@ public interface IndividualUserDao extends JpaRepository<IndividualUser, Long> {
             + "JOIN IndividualContact cont ON cont.individual = ind "
             + "WHERE cont.contactType.type = 'VER_EMAIL' AND ind.pesel = :pesel")
     IndividualUser findByPesel(@Param("pesel") String pesel);
+
+    IndividualUser findByIndividual_Id(Long id);
 }

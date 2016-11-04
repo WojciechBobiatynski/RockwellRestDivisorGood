@@ -62,4 +62,12 @@ public interface IndividualUserService {
      */
     void updateIndAfterSuccessLogin (GryfIndUser gryfIndUser);
 
+    /**
+     * Zajudje użytkownika osoby fizycznej na id osoby fizycznej
+     * @param individualId - id osoby fizycznej
+     * @param verificationCode - nowy kod weryfikacyjny
+     * @return Dto użytkownika osoby fizycznej
+     */
+    GryfIndUserDto saveNewVerificationCodeForIndividual(Long individualId, String verificationCode);
+
 }

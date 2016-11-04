@@ -1,7 +1,7 @@
 "use strict";
 
 angular.module("gryf.individuals").factory("BrowseIndividualsService",
-    ["$http", "GryfModals", "GryfTables", function($http, GryfModals, GryfTables) {
+    ["$http", "GryfModals", "GryfTables", function ($http, GryfModals, GryfTables) {
         var FIND_INDIVIDUALS_URL = contextPath + "/rest/publicBenefits/individual/list";
         var searchDTO = new SearchObjModel();
         var searchResultOptions = new SearchResultOptions();
@@ -37,62 +37,62 @@ angular.module("gryf.individuals").factory("BrowseIndividualsService",
             this.badQuery = false;
         }
 
-        var isResultsOverflow = function(zipCodesArray) {
+        var isResultsOverflow = function (zipCodesArray) {
             return zipCodesArray.length > searchResultOptions.displayLimit;
         };
 
-        var find = function(restUrl) {
+        var find = function (restUrl) {
             var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING);
-            if (!restUrl){
+            if (!restUrl) {
                 restUrl = FIND_INDIVIDUALS_URL;
             }
             var promise = $http.get(restUrl, {params: searchDTO.entity});
-            promise.then(function(response) {
+            promise.then(function (response) {
                 //success
                 searchDTO.searchResultList = response.data;
                 searchResultOptions.overflow = isResultsOverflow(response.data);
-            }, function() {
+            }, function () {
                 //error
                 resetSearchResultOptions();
                 searchResultOptions.badQuery = true;
             });
 
-            promise.finally(function() {
+            promise.finally(function () {
                 GryfModals.closeModal(modalInstance);
             });
             return promise;
         };
 
-        var findById = function(id) {
+        var findById = function (id) {
             getNewSearchDTO();
             searchDTO.entity.id = id;
             return $http.get(FIND_INDIVIDUALS_URL, {params: searchDTO.entity});
         };
 
-        var getNewSearchDTO = function() {
+        var getNewSearchDTO = function () {
             searchDTO = new SearchObjModel;
             return searchDTO;
         };
 
-        var resetSearchResultOptions = function() {
+        var resetSearchResultOptions = function () {
             searchResultOptions = new SearchResultOptions;
             return searchResultOptions;
         };
 
-        var getSearchDTO = function() {
+        var getSearchDTO = function () {
             return searchDTO;
         };
 
-        var getSearchResultOptions = function() {
+        var getSearchResultOptions = function () {
             return searchResultOptions;
         };
 
-        var findSortedBy = function(sortColumnName) {
+        var findSortedBy = function (sortColumnName) {
             GryfTables.sortByColumn(searchDTO.entity, sortColumnName);
             return find();
         };
 
-        var loadMore = function() {
+        var loadMore = function () {
             searchDTO.entity.limit += searchResultOptions.displayLimitIncrementer;
             searchResultOptions.displayLimit += searchResultOptions.displayLimitIncrementer;
             return find();
@@ -113,200 +113,227 @@ angular.module("gryf.individuals").factory("BrowseIndividualsService",
 
 angular.module("gryf.individuals").factory("ModifyIndividualsService",
     ["$http", "$routeParams", "GryfModals", "GryfExceptionHandler", "ZipCodesModel", "GryfPopups", "BrowseEnterprisesService",
-     '$location', '$route',
-     function($http, $routeParams, GryfModals, GryfExceptionHandler, ZipCodesModel, GryfPopups, BrowseEnterprisesService,
-              $location, $route) {
-        var INDIVIDUAL_URL = contextPath + "/rest/publicBenefits/individual/";
+        '$location', '$route',
+        function ($http, $routeParams, GryfModals, GryfExceptionHandler, ZipCodesModel, GryfPopups, BrowseEnterprisesService,
+                  $location, $route) {
+            var INDIVIDUAL_URL = contextPath + "/rest/publicBenefits/individual/";
 
-        var ENTITY_TYPE_DICT = "ENT_ENTITY_TYPES";
-        var ENT_SIZE_TYPES = "ENT_SIZE_TYPES";
+            var ENTITY_TYPE_DICT = "ENT_ENTITY_TYPES";
+            var ENT_SIZE_TYPES = "ENT_SIZE_TYPES";
 
-        var FIND_ENTITY_TYPES_URL = contextPath + "/rest/publicBenefits/dictionaries/" + ENTITY_TYPE_DICT;
-        var FIND_ENT_SIZE_TYPES_URL = contextPath + "/rest/publicBenefits/dictionaries/" + ENT_SIZE_TYPES;
+            var VER_CODE_GENERATE_PATH = "verification/generate/";
+            var VER_CODE_SEND_PATH = "verification/send";
 
-        var violations = {};
-        var individualObject = new IndividualObject();
-        
-        var dictionaries = {
-            entityTypes: [],
-            enterpriseSizes: []
-        };
+            var FIND_ENTITY_TYPES_URL = contextPath + "/rest/publicBenefits/dictionaries/" + ENTITY_TYPE_DICT;
+            var FIND_ENT_SIZE_TYPES_URL = contextPath + "/rest/publicBenefits/dictionaries/" + ENT_SIZE_TYPES;
 
-        function IndividualObject() {
-            this.contactTypes = [];
-            this.entity = {
-                id: null,
-                code: null,
-                accountPayment: null,
-                accountRepayment: null,
-                firstName: null,
-                lastName: null,
-                pesel: null,
-                documentNumber: null,
-                documentType: null,
-                sex: null,
-                addressInvoice: null,
-                zipCodeInvoice: null,
-                addressCorr: null,
-                zipCodeCorr: null,
-                remarks: null,
-                enterprises: [],
-                contacts: []
+            var violations = {};
+            var individualObject = new IndividualObject();
+
+            var dictionaries = {
+                entityTypes: [],
+                enterpriseSizes: []
             };
-        };
 
-        var openEnterpriseLov = function() {
-            var TEMPLATE_URL = GryfModals.MODALS_URL.LOV_ENTERPRISES;
-            return GryfModals.openLovModal(TEMPLATE_URL, BrowseEnterprisesService, "lg");
-        };
+            function IndividualObject() {
+                this.contactTypes = [];
+                this.entity = {
+                    id: null,
+                    code: null,
+                    accountPayment: null,
+                    accountRepayment: null,
+                    firstName: null,
+                    lastName: null,
+                    pesel: null,
+                    documentNumber: null,
+                    documentType: null,
+                    sex: null,
+                    addressInvoice: null,
+                    zipCodeInvoice: null,
+                    addressCorr: null,
+                    zipCodeCorr: null,
+                    remarks: null,
+                    verCode: null,
+                    lastLoginDate: null,
+                    enterprises: [],
+                    contacts: []
+                };
+            };
 
-        var getEntityTypes = function() {
-            $http.get(FIND_ENTITY_TYPES_URL).then(function(response) {
-                dictionaries.entityTypes = response.data;
-            });
-        };
+            var openEnterpriseLov = function () {
+                var TEMPLATE_URL = GryfModals.MODALS_URL.LOV_ENTERPRISES;
+                return GryfModals.openLovModal(TEMPLATE_URL, BrowseEnterprisesService, "lg");
+            };
 
-        var getEnterpriseSizes = function() {
-            $http.get(FIND_ENT_SIZE_TYPES_URL).then(function(response) {
-                dictionaries.enterpriseSizes = response.data;
-            });
-        };
-
-        var getDictionaries = function() {
-            getEntityTypes();
-            getEnterpriseSizes();
-
-            return dictionaries;
-        };
-
-        var loadContactTypes = function() {
-            var promise = $http.get(contextPath + "/rest/publicBenefits/contactTypes");
-            promise.then(function(response) {
-                individualObject.contactTypes = response.data;
-            });
-            return promise;
-        };
-
-        var loadIndividuals = function(responseId) {
-            if ($routeParams.id || responseId) {
-                var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING, {label: "Wczytuję dane"});
-                var promise = $http.get(INDIVIDUAL_URL + ($routeParams.id ? $routeParams.id : responseId));
-                promise.then(function(response) {
-                    individualObject.entity = response.data;
+            var getEntityTypes = function () {
+                $http.get(FIND_ENTITY_TYPES_URL).then(function (response) {
+                    dictionaries.entityTypes = response.data;
                 });
-                promise.finally(function() {
-                    GryfModals.closeModal(modalInstance);
+            };
+
+            var getEnterpriseSizes = function () {
+                $http.get(FIND_ENT_SIZE_TYPES_URL).then(function (response) {
+                    dictionaries.enterpriseSizes = response.data;
+                });
+            };
+
+            var getDictionaries = function () {
+                getEntityTypes();
+                getEnterpriseSizes();
+
+                return dictionaries;
+            };
+
+            var loadContactTypes = function () {
+                var promise = $http.get(contextPath + "/rest/publicBenefits/contactTypes");
+                promise.then(function (response) {
+                    individualObject.contactTypes = response.data;
                 });
                 return promise;
-            }
-        };
+            };
+
+            var loadIndividuals = function (responseId) {
+                if ($routeParams.id || responseId) {
+                    var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING, {label: "Wczytuję dane"});
+                    var promise = $http.get(INDIVIDUAL_URL + ($routeParams.id ? $routeParams.id : responseId));
+                    promise.then(function (response) {
+                        individualObject.entity = response.data;
+                    });
+                    promise.finally(function () {
+                        GryfModals.closeModal(modalInstance);
+                    });
+                    return promise;
+                }
+            };
 
 
-        var save = function(additionalParam) {
-            var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING, {label: "Zapisuję dane"});
+            var save = function (additionalParam) {
+                var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING, {label: "Zapisuję dane"});
 
-            var promise;
-            if (individualObject.entity.id) {
-                promise = $http.put(INDIVIDUAL_URL + individualObject.entity.id, individualObject.entity, {params: additionalParam});
-            } else {
-                promise = $http.post(INDIVIDUAL_URL, individualObject.entity, {params: additionalParam});
-            }
-
-            promise.then(function() {
-                GryfPopups.setPopup("success", "Sukces", "Osoba fizyczna poprawnie zapisana");
-            });
-
-            promise.error(function(error) {
-                GryfPopups.setPopup("error", "Błąd", "Nie udało się zapisać Osoby fizycznej");
-                GryfPopups.showPopup();
-
-                var conflictCallbacksObject;
-                if (error.responseType === GryfExceptionHandler.ERRORS.PESEL_INDIVIDUAL_CONFLICT) {
-                    conflictCallbacksObject = {
-                        refresh: function() {
-                            if (!$routeParams.id) {
-                                $location.search('id', error.id);
-                            }
-                            $route.reload();
-                        },
-                        force: function() {
-                            save({checkPeselDup: false}).then(function() {
-                                GryfPopups.showPopup();
-                            });
-                        }
-                    };
+                var promise;
+                if (individualObject.entity.id) {
+                    promise = $http.put(INDIVIDUAL_URL + individualObject.entity.id, individualObject.entity, {params: additionalParam});
                 } else {
-                    conflictCallbacksObject = {
-                        refresh: function() {
-                            if (!$routeParams.id) {
-                                $location.search('id', error.id);
-                            }
-                            $route.reload();
-                        },
-                        force: function() {
-                            individualObject.entity.version = error.version;
-                            save().then(function() {
-                                GryfPopups.showPopup();
-                            });
-                        }
-                    };
+                    promise = $http.post(INDIVIDUAL_URL, individualObject.entity, {params: additionalParam});
                 }
 
-                GryfExceptionHandler.handleSavingError(error, violations, conflictCallbacksObject);
-            });
+                promise.then(function () {
+                    GryfPopups.setPopup("success", "Sukces", "Osoba fizyczna poprawnie zapisana");
+                });
 
-            promise.finally(function() {
-                GryfModals.closeModal(modalInstance);
-            });
+                promise.error(function (error) {
+                    GryfPopups.setPopup("error", "Błąd", "Nie udało się zapisać Osoby fizycznej");
+                    GryfPopups.showPopup();
 
-            return promise;
-        };
+                    var conflictCallbacksObject;
+                    if (error.responseType === GryfExceptionHandler.ERRORS.PESEL_INDIVIDUAL_CONFLICT) {
+                        conflictCallbacksObject = {
+                            refresh: function () {
+                                if (!$routeParams.id) {
+                                    $location.search('id', error.id);
+                                }
+                                $route.reload();
+                            },
+                            force: function () {
+                                save({checkPeselDup: false}).then(function () {
+                                    GryfPopups.showPopup();
+                                });
+                            }
+                        };
+                    } else {
+                        conflictCallbacksObject = {
+                            refresh: function () {
+                                if (!$routeParams.id) {
+                                    $location.search('id', error.id);
+                                }
+                                $route.reload();
+                            },
+                            force: function () {
+                                individualObject.entity.version = error.version;
+                                save().then(function () {
+                                    GryfPopups.showPopup();
+                                });
+                            }
+                        };
+                    }
 
-        var openZipCodesLov = function() {
-            var TEMPLATE_URL = GryfModals.MODALS_URL.LOV_ZIPCODES;
-            return GryfModals.openLovModal(TEMPLATE_URL, ZipCodesModel);
-        };
+                    GryfExceptionHandler.handleSavingError(error, violations, conflictCallbacksObject);
+                });
 
-        var getViolations = function() {
-            return violations;
-        };
+                promise.finally(function () {
+                    GryfModals.closeModal(modalInstance);
+                });
 
-        var getNewViolations = function() {
-            violations = {};
-            return violations;
-        };
+                return promise;
+            };
 
-        var getModel = function() {
-            return individualObject;
-        };
+            var openZipCodesLov = function () {
+                var TEMPLATE_URL = GryfModals.MODALS_URL.LOV_ZIPCODES;
+                return GryfModals.openLovModal(TEMPLATE_URL, ZipCodesModel);
+            };
 
-        var getNewModel = function() {
-            individualObject = new IndividualObject();
-            return individualObject;
-        };
+            var getViolations = function () {
+                return violations;
+            };
 
-        var addContact = function() {
-            individualObject.entity.contacts.push({});
-        };
+            var getNewViolations = function () {
+                violations = {};
+                return violations;
+            };
 
-        var removeContact = function(val) {
-            var index = individualObject.entity.contacts.indexOf(val);
-            individualObject.entity.contacts.splice(index, 1);
-        };
+            var getModel = function () {
+                return individualObject;
+            };
 
+            var getNewModel = function () {
+                individualObject = new IndividualObject();
+                return individualObject;
+            };
 
-        return {
-            loadIndividuals: loadIndividuals,
-            loadContactTypes: loadContactTypes,
-            save: save,
-            getViolations: getViolations,
-            getNewViolations: getNewViolations,
-            getModel: getModel,
-            getNewModel: getNewModel,
-            addItemToList: addContact,
-            removeItemFromList: removeContact,
-            openZipCodesLov: openZipCodesLov,
-            openEnterpriseLov: openEnterpriseLov,
-            getDictionaries: getDictionaries
-        };
-    }]);
+            var addContact = function () {
+                individualObject.entity.contacts.push({});
+            };
+
+            var removeContact = function (val) {
+                var index = individualObject.entity.contacts.indexOf(val);
+                individualObject.entity.contacts.splice(index, 1);
+            };
+
+            var getNewVerificationCode = function () {
+                var promise = $http.get(INDIVIDUAL_URL + VER_CODE_GENERATE_PATH + individualObject.entity.id );
+                promise.then(function (response) {
+                    individualObject.entity.verCode = response.data;
+                    GryfPopups.setPopup("success", "Sukces", "Udało się zmienić kod weryfikacyjny");
+                    GryfPopups.showPopup();
+                });
+            };
+
+            var sendMailWithVerCode = function () {
+                var promise = $http.post(INDIVIDUAL_URL + VER_CODE_SEND_PATH, individualObject.entity);
+                promise.then(function (response) {
+                    GryfPopups.setPopup("success", "Sukces", "Widomość email została wysłana");
+                    GryfPopups.showPopup();
+                });
+                promise.error(function (error) {
+                    GryfPopups.setPopup("error", "Błąd", "Nie udało się wysłać wiadomości email");
+                    GryfPopups.showPopup();
+                });
+            };
+
+            return {
+                loadIndividuals: loadIndividuals,
+                loadContactTypes: loadContactTypes,
+                save: save,
+                getViolations: getViolations,
+                getNewViolations: getNewViolations,
+                getModel: getModel,
+                getNewModel: getNewModel,
+                addItemToList: addContact,
+                removeItemFromList: removeContact,
+                openZipCodesLov: openZipCodesLov,
+                openEnterpriseLov: openEnterpriseLov,
+                getDictionaries: getDictionaries,
+                getNewVerificationCode: getNewVerificationCode,
+                sendMailWithVerCode: sendMailWithVerCode
+            };
+        }]);

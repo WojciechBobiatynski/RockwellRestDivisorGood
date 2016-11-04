@@ -1,7 +1,6 @@
 package pl.sodexo.it.gryf.service.impl.publicbenefits.individuals;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.config.ApplicationParameters;
@@ -18,7 +17,6 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.individuals.Indi
 import pl.sodexo.it.gryf.model.accounts.AccountContractPair;
 import pl.sodexo.it.gryf.model.publicbenefits.api.ContactType;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
-import pl.sodexo.it.gryf.model.publicbenefits.individuals.IndividualContact;
 import pl.sodexo.it.gryf.model.security.individuals.IndividualUser;
 import pl.sodexo.it.gryf.service.api.publicbenefits.individuals.IndividualService;
 import pl.sodexo.it.gryf.service.api.security.VerificationService;
@@ -101,15 +99,12 @@ public class IndividualServiceImpl implements IndividualService {
         String newVerificationCode = verificationService.createVerificationCode();
 
         IndividualUser user = new IndividualUser();
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        user.setVerificationCode(passwordEncoder.encode(newVerificationCode));
+        user.setVerificationCode(newVerificationCode);
         user.setActive(true);
         user.setIndividual(individual);
         individual.setIndividualUser(user);
 
         individualRepository.save(individual);
-
-        sendEmailNotofication(individual, newVerificationCode);
 
         return individual.getId();
     }
@@ -129,15 +124,16 @@ public class IndividualServiceImpl implements IndividualService {
         return individual;
     }
 
-    private void sendEmailNotofication(Individual individual, String newVerificationCode) {
+    @Override
+    public void sendEmailNotification(IndividualDto individualDto) {
         String verEmail = null;
-        for (IndividualContact ind : individual.getContacts()) {
+        for (IndividualContactDto ind : individualDto.getContacts()) {
             if (applicationParameters.getVerEmailContactType().equals(ind.getContactType().getType())) {
                 verEmail = ind.getContactData();
             }
         }
 
-        mailService.scheduleMail(mailDtoCreator.createMailDTOForVerificationCode(verEmail, newVerificationCode));
+        mailService.scheduleMail(mailDtoCreator.createMailDTOForVerificationCode(verEmail, individualDto.getVerCode()));
     }
 
     private AccountContractPair getAccountContractPair(String account) {

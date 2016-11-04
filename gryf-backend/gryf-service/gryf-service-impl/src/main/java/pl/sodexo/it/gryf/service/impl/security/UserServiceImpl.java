@@ -118,8 +118,7 @@ public class UserServiceImpl implements UserService {
             throw new GryfUserNotActiveException("Twoje konto jest nieaktywne. Zgłoś sie do administratora");
         }
 
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        if (!passwordEncoder.matches(verificationCode, user.getVerificationCode())) {
+        if (!verificationCode.equals(user.getVerificationCode())){
             throw new GryfBadCredentialsException("Niepoprawny PESEL lub/i hasło");
         }
 

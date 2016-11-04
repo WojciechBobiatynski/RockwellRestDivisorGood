@@ -9,6 +9,8 @@ public final class GryfConstants {
 
     private GryfConstants(){};
 
+    public static final String DATE_FORMAT = "yyyy-MM-dd";
+
     public static final String VERIFICATION_CODE_EMAIL_TEMPLATE_CODE = "VC_SEND";
     public static final String RESET_LINK_EMAIL_TEMPLATE_CODE = "RESET_LINK";
 
