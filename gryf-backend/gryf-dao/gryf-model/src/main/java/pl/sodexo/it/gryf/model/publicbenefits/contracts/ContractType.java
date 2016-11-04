@@ -13,17 +13,17 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "CONTRACT_TYPES", schema = "APP_PBE")
-public class ContractType extends AuditableEntity implements DictionaryEntity {
+public class ContractType implements DictionaryEntity {
 
     //STATIC FIELDS - ATRIBUTES
-    public static final String DESC_ATTR_NAME = "description";
+    public static final String NAME_ATTR_NAME = "name";
 
     @Id
     @Column(name = "ID")
     private String id;
 
-    @Column(name = "DESCRIPTION")
-    private String description;
+    @Column(name = "NAME")
+    private String name;
 
     @Column(name = "ORDINAL")
     private Integer ordinal;
@@ -38,12 +38,12 @@ public class ContractType extends AuditableEntity implements DictionaryEntity {
         this.id = id;
     }
 
-    public String getDescription() {
-        return description;
+    public String getName() {
+        return name;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Integer getOrdinal() {
@@ -61,7 +61,7 @@ public class ContractType extends AuditableEntity implements DictionaryEntity {
 
     @Override
     public String getDictionaryName() {
-        return description;
+        return name;
     }
 
     @Override

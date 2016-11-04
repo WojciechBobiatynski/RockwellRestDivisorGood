@@ -41,7 +41,7 @@ public class ContractRepositoryImpl extends GenericRepositoryImpl<Contract, Long
             predicatesList.add(cb.equal(from.get(Contract.ID_ATTR_NAME), dto.getContractId()));
         }
         if(!GryfStringUtils.isEmpty(dto.getContractTypeDescription())){
-            predicatesList.add(cb.like(cb.upper(from.get(Contract.CONTRACT_TYPE_ATTR_NAME).<String>get(ContractType.DESC_ATTR_NAME)), getLikeWildCard(dto.getContractTypeDescription())));
+            predicatesList.add(cb.like(cb.upper(from.get(Contract.CONTRACT_TYPE_ATTR_NAME).<String>get(ContractType.NAME_ATTR_NAME)), getLikeWildCard(dto.getContractTypeDescription())));
         }
         if(!GryfStringUtils.isEmpty(dto.getPesel())){
             predicatesList.add(cb.like(cb.upper(from.get(Contract.INDIVIDUAL_ATTR_NAME).<String>get(Individual.PESEL_ATTR_NAME)), getLikeWildCard(dto.getPesel())));
