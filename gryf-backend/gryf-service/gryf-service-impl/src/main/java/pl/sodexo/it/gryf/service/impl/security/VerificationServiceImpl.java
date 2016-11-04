@@ -5,7 +5,6 @@ import org.apache.commons.validator.routines.EmailValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.config.ApplicationParameters;
@@ -27,6 +26,8 @@ import pl.sodexo.it.gryf.service.mapping.MailDtoCreator;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+
+import static pl.sodexo.it.gryf.common.utils.GryfConstants.VER_CODE_CHARS;
 
 /**
  * Implementacja serwisu obsługującego zdarzenia związane z weryfikacją osoby fizycznej
@@ -140,15 +141,14 @@ public class VerificationServiceImpl implements VerificationService {
         String newVerificationCode = createVerificationCode();
         //TODO: usunąć LOGGERA gdy wysyłka maila będzie działać oraz analiza generacji kodu będzie kompletna
         LOGGER.info("Nowe hasło, Pesel={}, Email={}, Hasło={}", gryfIndUserDto.getPesel(), gryfIndUserDto.getVerificationEmail(), newVerificationCode);
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        gryfIndUserDto.setVerificationCode(passwordEncoder.encode(newVerificationCode));
+        gryfIndUserDto.setVerificationCode(newVerificationCode);
         individualUserService.saveIndUser(gryfIndUserDto);
         return newVerificationCode;
     }
 
     //TODO: gdy będzie analiza jak mamy generować kod
     public String createVerificationCode() {
-        return RandomStringUtils.randomAlphabetic(applicationParameters.getVerificationCodeLength());
+        return RandomStringUtils.random(applicationParameters.getVerificationCodeLength(), VER_CODE_CHARS);
     }
 
     @Override
