@@ -15,7 +15,7 @@ import java.util.Date;
  * Created by akmiecinski on 21.10.2016.
  */
 @ToString
-public class GryfIndUserDto extends GryfBlockableUserDto implements Serializable, Verificationable {
+public class GryfIndUserDto extends GryfBlockableUserDto implements Serializable, Verifiable {
 
     private static final long serialVersionUID = 1L;
 

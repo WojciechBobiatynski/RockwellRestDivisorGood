@@ -5,7 +5,7 @@ package pl.sodexo.it.gryf.common.dto.security.individuals;
  *
  * Created by akmiecinski on 04.11.2016.
  */
-public interface Verificationable {
+public interface Verifiable {
 
     String getLogin();
     String getVerificationCode();

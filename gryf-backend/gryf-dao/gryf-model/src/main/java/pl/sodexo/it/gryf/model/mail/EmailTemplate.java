@@ -36,11 +36,6 @@ public class EmailTemplate extends GryfEntity{
      * Szablon informacji o kwalifikacji do programu wysyłany do WUP, placeholdery w DB
      */
     public static final String GA_QLY_GO = "GA_QLY_GO";
-
-    /**
-     * Szablon powiadomienia o wygenerowaniu nowego kodu weryfikacyjnego dla osoby fizycznej
-     */
-    public static final String VC_SEND = "VC_SEND";
     
 
     //FIELDS
