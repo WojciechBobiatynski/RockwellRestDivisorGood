@@ -181,31 +181,17 @@ angular.module("gryf.training").factory("ModifyTrainingService",
                 GryfPopups.setPopup("error", "Błąd", "Nie udało się zapisać szkolenia");
                 GryfPopups.showPopup();
 
-                var conflictCallbacksObject;
-                if (error.responseType === GryfExceptionHandler.ERRORS.VAT_REG_NUM_TRAINING_INSTITUTION_CONFLICT) {
-                    conflictCallbacksObject = {
-                        refresh: function() {
-                            load();
-                        },
-                        force: function() {
-                            save({checkVatRegNumDup: false}).then(function() {
-                                GryfPopups.showPopup();
-                            });
-                        }
-                    };
-                } else {
-                    conflictCallbacksObject = {
-                        refresh: function() {
-                            load();
-                        },
-                        force: function() {
-                            trainingObject.entity.version = error.version;
-                            save().then(function() {
-                                GryfPopups.showPopup();
-                            });
-                        }
-                    };
-                }
+                var conflictCallbacksObject = {
+                    refresh: function() {
+                        load();
+                    },
+                    force: function() {
+                        trainingObject.entity.version = error.version;
+                        save().then(function() {
+                            GryfPopups.showPopup();
+                        });
+                    }
+                };
 
                 GryfExceptionHandler.handleSavingError(error, violations, conflictCallbacksObject);
             });

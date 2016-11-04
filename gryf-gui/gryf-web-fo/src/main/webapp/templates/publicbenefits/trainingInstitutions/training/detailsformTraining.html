@@ -82,11 +82,11 @@
                            placeholder="Data rozpoczęcia"
                            ng-model="model.entity.startDate"
                            datepicker-popup="yyyy-MM-dd"
-                           is-open="datepicker.applyFromOpened"
+                           is-open="datepicker.isTrainingStartDateOpened"
                            close-text="Zamknij"
                            clear-text="Czyść"
                            current-text="Dziś"
-                           ng-click="openDatepicker('applyFromOpened')"/>
+                           ng-click="openDatepicker('isTrainingStartDateOpened')"/>
                     <gryf-validation-msg path="startDate"></gryf-validation-msg>
                 </div>
                 <div class="grid-20">
@@ -95,11 +95,11 @@
                            placeholder="Data zakończenia"
                            ng-model="model.entity.endDate"
                            datepicker-popup="yyyy-MM-dd"
-                           is-open="datepicker.applyToOpened"
+                           is-open="datepicker.isTrainingEndDateOpened"
                            close-text="Zamknij"
                            clear-text="Czyść"
                            current-text="Dziś"
-                           ng-click="openDatepicker('applyToOpened')"/>
+                           ng-click="openDatepicker('isTrainingEndDateOpened')"/>
                     <gryf-validation-msg path="endDate"></gryf-validation-msg>
                 </div>
                 <div class="grid-40">
