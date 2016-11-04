@@ -17,17 +17,15 @@ import pl.sodexo.it.gryf.model.security.individuals.IndividualUser;
 @Transactional(propagation = Propagation.MANDATORY)
 public interface IndividualUserDao extends JpaRepository<IndividualUser, Long> {
 
-    @Query("SELECT usr FROM IndividualUser usr "
-            + "JOIN Individual ind on ind = usr.individual "
-            + "JOIN IndividualContact cont ON cont.individual = ind "
-            + "WHERE cont.contactType.type = 'VER_EMAIL' AND cont.contactData = :email AND ind.pesel = :pesel")
-    IndividualUser findByPeselAndEmail(@Param("pesel") String pesel, @Param("email") String email);
+    IndividualUser findByIndividual_Pesel(String pesel);
 
     @Query("SELECT usr FROM IndividualUser usr "
             + "JOIN Individual ind on ind = usr.individual "
             + "JOIN IndividualContact cont ON cont.individual = ind "
             + "WHERE cont.contactType.type = 'VER_EMAIL' AND ind.pesel = :pesel")
-    IndividualUser findByPesel(@Param("pesel") String pesel);
+    IndividualUser findByPeselWithVerEmail(@Param("pesel") String pesel);
 
     IndividualUser findByIndividual_Id(Long id);
+
+
 }

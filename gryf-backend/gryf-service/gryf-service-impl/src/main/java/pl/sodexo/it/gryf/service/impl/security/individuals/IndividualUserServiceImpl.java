@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import pl.sodexo.it.gryf.common.authentication.AEScryptographer;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.detailsForm.IndividualDto;
 import pl.sodexo.it.gryf.common.dto.security.individuals.GryfIndUserDto;
 import pl.sodexo.it.gryf.common.dto.user.GryfIndUser;
@@ -39,13 +40,13 @@ public class IndividualUserServiceImpl implements IndividualUserService {
     private IndividualDtoMapper individualDtoMapper;
 
     @Override
-    public GryfIndUserDto findByPesel(String pesel) {
-        return individualUserEntityMapper.convert(individualUserDao.findByPesel(pesel));
+    public GryfIndUserDto findByPeselWithVerEmail(String pesel) {
+        return individualUserEntityMapper.convert(individualUserDao.findByPeselWithVerEmail(pesel));
     }
 
     @Override
-    public GryfIndUserDto findByPeselAndEmail(String pesel, String email) {
-        return individualUserEntityMapper.convert(individualUserDao.findByPeselAndEmail(pesel, email));
+    public GryfIndUserDto findByPesel(String pesel) {
+        return individualUserEntityMapper.convert(individualUserDao.findByIndividual_Pesel(pesel));
     }
 
     @Override
@@ -69,7 +70,7 @@ public class IndividualUserServiceImpl implements IndividualUserService {
     @Override
     public GryfIndUserDto createAndSaveNewUser(IndividualDto individualDto, String verificationCode) {
         IndividualUser entity = new IndividualUser();
-        entity.setVerificationCode(verificationCode);
+        entity.setVerificationCode(AEScryptographer.encrypt(verificationCode));
         entity.setIndividual(individualDtoMapper.convert(individualDto));
         entity.setActive(true);
         return individualUserEntityMapper.convert(individualUserDao.save(entity));
@@ -77,7 +78,7 @@ public class IndividualUserServiceImpl implements IndividualUserService {
 
     @Override
     public void updateIndAfterSuccessLogin(GryfIndUser gryfIndUser) {
-        IndividualUser user = individualUserDao.findByPesel(gryfIndUser.getUsername());
+        IndividualUser user = individualUserDao.findByIndividual_Pesel(gryfIndUser.getUsername());
         user.setLastLoginSuccessDate(new Date());
         user.setLoginFailureAttempts(GryfConstants.DEFAULT_LOGIN_FAILURE_ATTEMPTS_NUMBER);
         individualUserDao.save(user);
@@ -86,7 +87,7 @@ public class IndividualUserServiceImpl implements IndividualUserService {
     @Override
     public GryfIndUserDto saveNewVerificationCodeForIndividual(Long individualId, String verificationCode) {
         IndividualUser user = individualUserDao.findByIndividual_Id(individualId);
-        user.setVerificationCode(verificationCode);
+        user.setVerificationCode(AEScryptographer.encrypt(verificationCode));
         return individualUserEntityMapper.convert(individualUserDao.save(user));
     }
 

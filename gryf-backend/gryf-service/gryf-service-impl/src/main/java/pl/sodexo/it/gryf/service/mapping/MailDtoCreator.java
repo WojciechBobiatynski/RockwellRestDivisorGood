@@ -45,7 +45,8 @@ public class MailDtoCreator {
 
     public MailDTO createMailDTOForVerificationCode(String email, String verificationParam) {
         MailDTO mailDTO = new MailDTO();
-        MailPlaceholders mailPlaceholders = mailService.createPlaceholders(EMAIL_BODY_VER_CODE_PLACEHOLDER, verificationParam);
+        MailPlaceholders mailPlaceholders = mailService.createPlaceholders(EMAIL_BODY_VER_CODE_PLACEHOLDER, verificationParam).add(EMAIL_BODY_LOGIN_PLACEHOLDER, "login")
+                .add(EMAIL_BODY_URL_PLACEHOLDER, "www");
         EmailTemplate emailTemplate = emailTemplateRepository.get(VERIFICATION_CODE_EMAIL_TEMPLATE_CODE);
         mailDTO.setTemplateId(emailTemplate.getId());
         mailDTO.setSubject(emailTemplate.getEmailSubjectTemplate());
@@ -55,6 +56,5 @@ public class MailDtoCreator {
         mailDTO.setAttachments(Collections.emptyList());
         return mailDTO;
     }
-
 
 }

@@ -3,6 +3,7 @@ package pl.sodexo.it.gryf.service.impl.publicbenefits.individuals;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.sodexo.it.gryf.common.authentication.AEScryptographer;
 import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.ContactTypeDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.detailsForm.IndividualContactDto;
@@ -99,7 +100,7 @@ public class IndividualServiceImpl implements IndividualService {
         String newVerificationCode = verificationService.createVerificationCode();
 
         IndividualUser user = new IndividualUser();
-        user.setVerificationCode(newVerificationCode);
+        user.setVerificationCode(AEScryptographer.encrypt(newVerificationCode));
         user.setActive(true);
         user.setIndividual(individual);
         individual.setIndividualUser(user);

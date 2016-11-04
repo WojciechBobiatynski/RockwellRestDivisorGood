@@ -13,10 +13,14 @@ public final class GryfConstants {
 
     public static final String VER_CODE_CHARS = "qwertyuipasdfghjklzxcvbnmQWERTYUIPASDFGHJKLZXCVBNM123456789";
 
+    public static final String CHAR_SET_UTF_8_ENCODING = "UTF-8";
+
     public static final String VERIFICATION_CODE_EMAIL_TEMPLATE_CODE = "VC_SEND";
     public static final String RESET_LINK_EMAIL_TEMPLATE_CODE = "RESET_LINK";
 
     public static final String EMAIL_BODY_VER_CODE_PLACEHOLDER = "verificationCode";
+    public static final String EMAIL_BODY_LOGIN_PLACEHOLDER = "login";
+    public static final String EMAIL_BODY_URL_PLACEHOLDER = "url";
     public static final String EMAIL_BODY_RESET_LINK_PLACEHOLDER = "resetLink";
 
     public static final String DEFAULT_FAILURE_LOGIN_URL = "/login?error";

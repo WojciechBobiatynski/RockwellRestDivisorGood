@@ -11,7 +11,7 @@ import java.util.Date;
 import static pl.sodexo.it.gryf.common.utils.GryfConstants.DATE_FORMAT;
 
 /**
- *
+ * Klasa, odpowiedzialna za serializowanie daty do odpowiedniego formatu w JSON
  *
  * Created by akmiecinski on 04.11.2016.
  */

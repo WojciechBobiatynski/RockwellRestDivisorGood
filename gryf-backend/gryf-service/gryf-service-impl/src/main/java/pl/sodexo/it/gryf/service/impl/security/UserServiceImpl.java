@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.sodexo.it.gryf.common.authentication.AEScryptographer;
 import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.common.dto.security.GryfBlockableUserDto;
 import pl.sodexo.it.gryf.common.dto.security.individuals.GryfIndUserDto;
@@ -118,7 +119,7 @@ public class UserServiceImpl implements UserService {
             throw new GryfUserNotActiveException("Twoje konto jest nieaktywne. Zgłoś sie do administratora");
         }
 
-        if (!verificationCode.equals(user.getVerificationCode())){
+        if (!AEScryptographer.encrypt(verificationCode).equals(user.getVerificationCode())){
             throw new GryfBadCredentialsException("Niepoprawny PESEL lub/i hasło");
         }
 

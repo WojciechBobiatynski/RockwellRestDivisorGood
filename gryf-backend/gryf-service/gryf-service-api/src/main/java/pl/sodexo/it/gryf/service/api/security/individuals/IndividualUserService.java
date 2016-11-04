@@ -12,19 +12,18 @@ import pl.sodexo.it.gryf.common.dto.user.GryfIndUser;
 public interface IndividualUserService {
 
     /**
-     * Zajudje użytkownika osoby fizycznej na podstawie numeru pesel
+     * Zajudje użytkownika osoby fizycznej na podstawie numeru pesel wraz z mailem weryfikacyjnym
      * @param pesel - pesel użytkownika
      * @return Dto użytkownika osoby fizycznej
      */
     GryfIndUserDto findByPesel(String pesel);
 
     /**
-     * Zajudje użytkownika osoby fizycznej na podstawie numeru pesel i adresu email
+     * Zajudje użytkownika osoby fizycznej na podstawie numeru pesel wraz z mailem weryfikacyjnym
      * @param pesel - pesel użytkownika
-     * @param email - email użytkownika
      * @return Dto użytkownika osoby fizycznej
      */
-    GryfIndUserDto findByPeselAndEmail(String pesel, String email);
+    GryfIndUserDto findByPeselWithVerEmail(String pesel);
 
     /**
      * Zapis usera osoby fizycznej

@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.sodexo.it.gryf.common.authentication.AEScryptographer;
 import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.common.dto.security.individuals.GryfIndUserDto;
 import pl.sodexo.it.gryf.common.dto.security.individuals.VerificationDto;
@@ -61,9 +62,8 @@ public class VerificationServiceImpl implements VerificationService {
     @Override
     public void resendVerificationCode(VerificationDto verificationDto) throws GryfVerificationException {
         GryfIndUserDto user = validateVerificationData(verificationDto);
-        //TODO: na razie tworzymy nowy kod, docelowo ma być szyfrowany i odszyfrowywany
-        String newVerificationCode = createAndSaveNewVerificationCode(user);
-        mailService.scheduleMail(mailDtoCreator.createMailDTOForVerificationCode(verificationDto.getEmail(), newVerificationCode));
+        String verificationCode = AEScryptographer.decrypt(user.getVerificationCode());
+        mailService.scheduleMail(mailDtoCreator.createMailDTOForVerificationCode(verificationDto.getEmail(), verificationCode));
     }
 
     private GryfIndUserDto validateVerificationData(VerificationDto verificationDto) throws GryfVerificationException {
@@ -85,7 +85,7 @@ public class VerificationServiceImpl implements VerificationService {
     }
 
     private GryfIndUserDto checkEmailPeselPairCorrectness(VerificationDto verificationDto) throws GryfVerificationException {
-        GryfIndUserDto user = individualUserService.findByPesel(verificationDto.getPesel());
+        GryfIndUserDto user = individualUserService.findByPeselWithVerEmail(verificationDto.getPesel());
 
         if (user == null)
             throw new GryfVerificationException("Nie znaleziono użytkownika o podanym numerze PESEL");
@@ -136,17 +136,6 @@ public class VerificationServiceImpl implements VerificationService {
         return lastLoginFailureDate.plusMinutes(applicationParameters.getUserLoginBlockMinutes()).isBefore(LocalDateTime.now());
     }
 
-    @Override
-    public String createAndSaveNewVerificationCode(GryfIndUserDto gryfIndUserDto) {
-        String newVerificationCode = createVerificationCode();
-        //TODO: usunąć LOGGERA gdy wysyłka maila będzie działać oraz analiza generacji kodu będzie kompletna
-        LOGGER.info("Nowe hasło, Pesel={}, Email={}, Hasło={}", gryfIndUserDto.getPesel(), gryfIndUserDto.getVerificationEmail(), newVerificationCode);
-        gryfIndUserDto.setVerificationCode(newVerificationCode);
-        individualUserService.saveIndUser(gryfIndUserDto);
-        return newVerificationCode;
-    }
-
-    //TODO: gdy będzie analiza jak mamy generować kod
     public String createVerificationCode() {
         return RandomStringUtils.random(applicationParameters.getVerificationCodeLength(), VER_CODE_CHARS);
     }

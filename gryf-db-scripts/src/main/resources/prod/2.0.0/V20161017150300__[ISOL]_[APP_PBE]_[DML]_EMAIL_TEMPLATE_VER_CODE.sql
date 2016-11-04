@@ -1,4 +1,0 @@
-MERGE INTO APP_PBE.EMAIL_TEMPLATES msg USING (SELECT 'VC_SEND' ID ,'Twój nowy kod weryfikacyjny to {$verificationCode}
-
-Z powa¿aniem
-Zespó³ ds. obs³ugi klienta' EMAIL_BODY_TEMPLATE, 'Nowy kod weryfikacyjny' EMAIL_SUBJECT_TEMPLATE, 'Powiadomienie o wygenerowaniu nowego kodu weryfikacyjnego dla osoby fizycznej' DESCRIPTION from dual) ins ON (msg.ID = ins.ID) WHEN MATCHED THEN UPDATE SET msg.EMAIL_BODY_TEMPLATE = ins.EMAIL_BODY_TEMPLATE, msg.EMAIL_SUBJECT_TEMPLATE = ins.EMAIL_SUBJECT_TEMPLATE, msg.DESCRIPTION = ins.DESCRIPTION WHEN NOT MATCHED THEN INSERT (ID, EMAIL_BODY_TEMPLATE, EMAIL_SUBJECT_TEMPLATE, DESCRIPTION) VALUES (ins.ID, ins.EMAIL_BODY_TEMPLATE, ins.EMAIL_SUBJECT_TEMPLATE, ins.DESCRIPTION);
