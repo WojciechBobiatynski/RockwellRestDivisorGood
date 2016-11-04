@@ -3,9 +3,11 @@ package pl.sodexo.it.gryf.web.ind.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import pl.sodexo.it.gryf.web.ind.dto.AgreementDto;
 import pl.sodexo.it.gryf.web.ind.dto.IndDto;
 import pl.sodexo.it.gryf.web.ind.dto.ProductDto;
 import pl.sodexo.it.gryf.web.ind.dto.TrainingDto;
+import pl.sodexo.it.gryf.web.ind.dto.TrainingStatus;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,44 +34,37 @@ public class IndRestController {
         indDto.setFirstName("Jacek");
         indDto.setLastName("Kowalski");
         indDto.setPesel("93041500311");
-        indDto.setAgreementId("23");
-        indDto.setAgreementSigningDate(new Date());
-        indDto.setTrainingCategory("INFORMATYCZNE");
+        indDto.setEmail("john.smith@company.com");
+
+        AgreementDto agreementDto1 = new AgreementDto();
+        agreementDto1.setId("ID612/12122016");
+        agreementDto1.setSigningDate(new Date());
+        agreementDto1.setTrainingCategory("Szkolenie XYZ");
+
+        AgreementDto agreementDto2 = new AgreementDto();
+        agreementDto2.setId("ID123/31122016");
+        agreementDto2.setSigningDate(new Date());
+        agreementDto2.setTrainingCategory("Szkolenie ABC");
+
+        List<AgreementDto> agreementList = new ArrayList<>();
+        agreementList.add(agreementDto1);
+        agreementList.add(agreementDto2);
 
         List<ProductDto> productDtoList = new ArrayList<>();
-        ProductDto productDto1 = new ProductDto();
-        productDto1.setExpirationDate(new Date());
-        productDto1.setAvailableProductsCount(123);
-        productDto1.setGrantedProductsCount(180);
-        productDto1.setOrderDate(new Date());
-        productDto1.setOrderId("124");
-        productDto1.setReservedProductsCount(90);
-        productDto1.setUsedProductsCount(45);
-        productDtoList.add(productDto1);
+        productDtoList.add(new ProductDto(new Date(), 36, 12, 12, 12, new Date(), "AZ/1234/12122016"));
+        productDtoList.add(new ProductDto(new Date(), 112, 12, 12, 12, new Date(), "AZ/1235/12122016"));
+        productDtoList.add(new ProductDto(new Date(), 122, 12, 12, 12, new Date(), "AZ/3435/210112017"));
 
-        List<TrainingDto> reservedTraining = new ArrayList<>();
-        TrainingDto trainingDto = new TrainingDto();
-        trainingDto.setStartDate(new Date());
-        trainingDto.setEndDate(new Date());
-        trainingDto.setName("Szkolenie z programowania w języku Java");
-        trainingDto.setTrainingInstitutionName("ALTKOM");
-        trainingDto.setReservedProductsCount(60);
-        trainingDto.setOrderProductsDate(new Date());
-        reservedTraining.add(trainingDto);
-
-
-        List<TrainingDto> settledTraining = new ArrayList<>();
-        TrainingDto trainingDto2 = new TrainingDto();
-        trainingDto2.setStartDate(new Date());
-        trainingDto2.setEndDate(new Date());
-        trainingDto2.setName("Szkolenie z programowania w języku Python");
-        trainingDto2.setTrainingInstitutionName("SAMSUNG");
-        trainingDto2.setSettledProductsCount(22);
-        settledTraining.add(trainingDto2);
+        List<TrainingDto> trainingList = new ArrayList<>();
+        trainingList.add(new TrainingDto("Szkolenie z programowania w języku Java", "ALTKOM", 60, new Date(), new Date(), new Date(), TrainingStatus.SETTLED.getName()));
+        trainingList.add(new TrainingDto("Inne szkolenie", "Instytucja 1", 40, new Date(), new Date(), new Date(), TrainingStatus.RESERVED.getName()));
+        trainingList.add(new TrainingDto("Python Master 3", "SAMSUNG", 22, new Date(), new Date(), new Date(), TrainingStatus.SETTLED.getName()));
+        trainingList.add(new TrainingDto("Kurs na egzaminatora WORD", "WORD Kraków", 54, new Date(), new Date(), new Date(), TrainingStatus.RESERVED.getName()));
+        trainingList.add(new TrainingDto("Kolejne fajne szkolenie", "ITMAGINATION", 12, new Date(), new Date(), new Date(), TrainingStatus.RESERVED.getName()));
 
         indDto.setProducts(productDtoList);
-        indDto.setReservedTraining(reservedTraining);
-        indDto.setSettledTraining(settledTraining);
+        indDto.setTrainings(trainingList);
+        indDto.setAgreements(agreementList);
 
         return indDto;
     }

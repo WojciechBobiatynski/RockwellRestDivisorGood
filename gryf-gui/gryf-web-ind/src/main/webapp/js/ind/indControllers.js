@@ -6,10 +6,8 @@
 
 angular.module("gryf.ind").controller("indController",
     ["$scope", "IndService", function ($scope, IndService) {
-
         $scope.model = IndService.getNewModel();
-        $scope.loadInd = function () {
-            IndService.load();
-        };
-       $scope.loadInd();
+
+        IndService.load();
+        $scope.sendPIN = IndService.sendPIN;
     }]);

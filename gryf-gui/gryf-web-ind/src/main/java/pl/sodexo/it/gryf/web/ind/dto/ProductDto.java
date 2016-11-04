@@ -12,6 +12,7 @@ import java.util.Date;
  * DTO dla bonu/produktu.
  */
 public class ProductDto extends VersionableDto {
+
     @Getter
     @Setter
     private String orderId;
@@ -39,4 +40,16 @@ public class ProductDto extends VersionableDto {
     @Getter
     @Setter
     private Date expirationDate;
+
+    public ProductDto(Date expirationDate, Integer grantedProductsCount, Integer reservedProductsCount,
+                      Integer availableProductsCount, Integer usedProductsCount, Date orderDate, String orderId) {
+        this.setExpirationDate(expirationDate);
+        this.setAvailableProductsCount(availableProductsCount);
+        this.setGrantedProductsCount(grantedProductsCount);
+        this.setOrderDate(orderDate);
+        this.setOrderId(orderId);
+        this.setReservedProductsCount(reservedProductsCount);
+        this.setUsedProductsCount(usedProductsCount);
+    }
+
 }

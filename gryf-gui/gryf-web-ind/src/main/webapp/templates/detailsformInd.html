@@ -2,17 +2,14 @@
 <div>
     <section>
         <header id="header">
-            <h1>Moje dane</h1>
+            <h1>Panel Uczestnika</h1>
         </header>
+        <h1>Dane z umowy</h1>
         <div class="grid-100">
             <div class="grid-30">
                 <div>
-                    <strong class="label">Imię</strong>
-                    <input type="text" ng-model="model.entity.firstName" disabled="disabled">
-                </div>
-                <div>
-                    <strong class="label">Nazwisko</strong>
-                    <input type="text" ng-model="model.entity.lastName" disabled="disabled">
+                    <strong class="label">Imię i nazwisko</strong>
+                    <input type="text" value="{{model.entity.firstName + ' ' + model.entity.lastName}}" disabled="disabled">
                 </div>
                 <div>
                     <strong class="label">Pesel</strong>
@@ -20,58 +17,58 @@
                 </div>
             </div>
             <div class="grid-70">
-                <div>
-                    <strong class="label">ID umowy</strong>
-                    <input type="text" ng-model="model.entity.agreementId" disabled="disabled">
-                </div>
-                <div>
-                    <strong class="label">Data podpisania umowy</strong>
-                    <input type="text" ng-model="model.entity.agreementSigningDate" disabled="disabled">
-                </div>
-                <div>
-                    <strong class="label">Przydzielona kategoria szkolenia</strong>
-                    <input type="text" ng-model="model.entity.trainingCategory" disabled="disabled">
-                </div>
+                <table class="table table-condensed">
+                    <thead>
+                    <tr>
+                        <th class="sortable" ng-class="getSortingTypeClass('id')">
+                            <div>Moje umowy</div>
+                        </th>
+
+                        <th class="sortable" ng-class="getSortingTypeClass('status.id')">
+                            <div>Data podpisania umowy</div>
+                        </th>
+                        <th class="sortable" ng-class="getSortingTypeClass('enterprise.id')">
+                            <div>Kategoria szkolenia</div>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="agr in model.entity.agreements">
+                        <td>{{agr.id}}</td>
+                        <td>{{agr.signingDate}}</td>
+                        <td>{{agr.trainingCategory}}</td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </section>
     <section>
+        <h1>Liczba bonów</h1>
         <div class="grid-100">
-            <h1>Moje bony</h1>
             <table class="table table-condensed">
                 <thead>
                 <tr>
                     <th class="sortable" ng-class="getSortingTypeClass('id')">
-                        <div>Data ważności bonów</div>
+                        <div>Data ważności</div>
                     </th>
-
                     <th class="sortable" ng-class="getSortingTypeClass('status.id')">
-                        <div>Liczba bonów przyznanych</div>
+                        <div>Wszystkie</div>
                     </th>
                     <th class="sortable" ng-class="getSortingTypeClass('enterprise.id')">
-                        <div>Liczba bonów zarezerwowanych</div>
+                        <div>Zarezerwowane</div>
+                    </th>
+                    <th class="sortable" ng-class="getSortingTypeClass('basicData.vatRegNum')">
+                        <div>Dostępne</div>
                     </th>
                     <th class="sortable" ng-class="getSortingTypeClass('basicData.enterpriseName')">
-                        <div>
-                            Liczba bonów wykorzystanych
-                        </div>
-                    </th>
-                    <th class="sortable"
-                        ng-class="getSortingTypeClass('basicData.vatRegNum')">
-                        <div>
-                            Liczba bonów dostępnych
-                        </div>
-                    </th>
-                    <th class="sortable"
-                        ng-class="getSortingTypeClass('basicData.addressInvoice')">
-                        <div>
-                            ID zamówienia na bony
-                        </div>
+                        <div>Wykorzystane</div>
                     </th>
                     <th class="sortable" ng-class="getSortingTypeClass('basicData.zipCodeInvoice.zipCode')">
-                        <div>
-                            Data zamówienia na bony
-                        </div>
+                        <div>Data zamówienia</div>
+                    </th>
+                    <th class="sortable" ng-class="getSortingTypeClass('basicData.addressInvoice')">
+                        <div>ID zamówienia</div>
                     </th>
                 </tr>
                 </thead>
@@ -80,105 +77,61 @@
                     <td>{{product.expirationDate}}</td>
                     <td>{{product.grantedProductsCount}}</td>
                     <td>{{product.reservedProductsCount}}</td>
-                    <td>{{product.usedProductsCount}}</td>
                     <td>{{product.availableProductsCount}}</td>
-                    <td>{{product.orderId}}</td>
+                    <td>{{product.usedProductsCount}}</td>
                     <td>{{product.orderDate}}</td>
+                    <td>{{product.orderId}}</td>
                 </tr>
                 </tbody>
             </table>
         </div>
     </section>
     <section>
+        <h1>Szkolenia</h1>
         <div class="grid-100">
-            <h1>Moje zarezerwowane szkolenia</h1>
             <table class="table table-condensed">
                 <thead>
                 <tr>
-                    <th class="sortable" ng-class="getSortingTypeClass('id')">
-                        <div>Data rozpoczęcia szkolenia</div>
-                    </th>
-                    <th class="sortable" ng-class="getSortingTypeClass('status.id')">
-                        <div>Data zakończenia szkolenia</div>
-                    </th>
                     <th class="sortable" ng-class="getSortingTypeClass('enterprise.id')">
                         <div>Nazwa szkolenia</div>
                     </th>
                     <th class="sortable" ng-class="getSortingTypeClass('basicData.enterpriseName')">
-                        <div>
-                            Nazwa Instytucji Szkoleniowej
-                        </div>
+                        <div>Nazwa Instytucji Szkoleniowej</div>
                     </th>
-                    <th class="sortable"
-                        ng-class="getSortingTypeClass('basicData.vatRegNum')">
-                        <div>
-                            Liczba zarezerwowanych bonów
-                        </div>
+                    <th class="sortable" ng-class="getSortingTypeClass('basicData.vatRegNum')">
+                        <div>Liczba bonów</div>
                     </th>
-                    <th class="sortable"
-                        ng-class="getSortingTypeClass('basicData.addressInvoice')">
-                        <div>
-                            Data rezerwacj bonów / zapisu na szkolenie
-                        </div>
+                    <th class="sortable" ng-class="getSortingTypeClass('basicData.addressInvoice')">
+                        <div>Data zapisu</div>
+                    </th>
+                    <th class="sortable" ng-class="getSortingTypeClass('id')">
+                        <div>Data rozpoczęcia</div>
+                    </th>
+                    <th class="sortable" ng-class="getSortingTypeClass('status.id')">
+                        <div>Data zakończenia</div>
+                    </th>
+                    <th class="sortable" ng-class="getSortingTypeClass('status.id')">
+                        <div>Status</div>
                     </th>
                     <th class="sortable" ng-class="getSortingTypeClass('basicData.zipCodeInvoice.zipCode')">
                         <div>
-                            Prześlij ponownie PIN DO ROZLICZENIA
+                            Akcje
                         </div>
                     </th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="reservedTraining in model.entity.reservedTraining">
-                    <td>{{reservedTraining.startDate}}</td>
-                    <td>{{reservedTraining.endDate}}</td>
-                    <td>{{reservedTraining.name}}</td>
-                    <td>{{reservedTraining.trainingInstitutionName}}</td>
-                    <td>{{reservedTraining.reservedProductsCount}}</td>
-                    <td>{{reservedTraining.orderProductsDate}}</td>
+                <tr ng-repeat="tra in model.entity.trainings">
+                    <td>{{tra.name}}</td>
+                    <td>{{tra.trainingInstitutionName}}</td>
+                    <td>{{tra.reservedProductsCount}}</td>
+                    <td>{{tra.orderProductsDate}}</td>
+                    <td>{{tra.startDate}}</td>
+                    <td>{{tra.endDate}}</td>
+                    <td>{{tra.status}}</td>
                     <td>
-                        <button type="submit" class="button">Prześlij ponownie PIN DO ROZLICZENIA</button>
+                        <button ng-if="tra.status == 'Zarezerwowane'" data-ng-click="sendPIN()" type="submit" class="button">Wyślij PIN</button>
                     </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </section>
-    <section>
-        <div class="grid-100">
-            <h1>Moje rozliczone szkolenia</h1>
-            <table class="table table-condensed">
-                <thead>
-                <tr>
-                    <th class="sortable" ng-class="getSortingTypeClass('id')">
-                        <div>Data rozpoczęcia szkolenia</div>
-                    </th>
-                    <th class="sortable" ng-class="getSortingTypeClass('status.id')">
-                        <div>Data zakończenia szkolenia</div>
-                    </th>
-                    <th class="sortable" ng-class="getSortingTypeClass('enterprise.id')">
-                        <div>Nazwa szkolenia</div>
-                    </th>
-                    <th class="sortable" ng-class="getSortingTypeClass('basicData.enterpriseName')">
-                        <div>
-                            Nazwa Instytucji Szkoleniowej
-                        </div>
-                    </th>
-                    <th class="sortable"
-                        ng-class="getSortingTypeClass('basicData.vatRegNum')">
-                        <div>
-                            Liczba rozliczonych bonów
-                        </div>
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="settledTraining in model.entity.settledTraining">
-                    <td>{{settledTraining.startDate}}</td>
-                    <td>{{settledTraining.endDate}}</td>
-                    <td>{{settledTraining.name}}</td>
-                    <td>{{settledTraining.trainingInstitutionName}}</td>
-                    <td>{{settledTraining.settledProductsCount}}</td>
                 </tr>
                 </tbody>
             </table>

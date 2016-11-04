@@ -5,7 +5,6 @@ import lombok.Setter;
 import lombok.ToString;
 import pl.sodexo.it.gryf.common.dto.api.VersionableDto;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -28,17 +27,10 @@ public class IndDto extends VersionableDto {
     @Setter
     private String pesel;
 
-    @Getter
-    @Setter
-    private String agreementId;
 
     @Getter
     @Setter
-    private String trainingCategory;
-
-    @Getter
-    @Setter
-    private Date agreementSigningDate;
+    private String email;
 
     @Getter
     @Setter
@@ -46,9 +38,9 @@ public class IndDto extends VersionableDto {
 
     @Getter
     @Setter
-    private List<TrainingDto> reservedTraining;
+    private List<TrainingDto> trainings;
 
     @Getter
     @Setter
-    private List<TrainingDto> settledTraining;
+    private List<AgreementDto> agreements;
 }

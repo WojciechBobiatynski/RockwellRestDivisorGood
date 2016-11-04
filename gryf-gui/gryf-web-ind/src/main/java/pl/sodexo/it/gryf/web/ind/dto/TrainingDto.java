@@ -39,4 +39,22 @@ public class TrainingDto extends VersionableDto {
     @Getter
     @Setter
     private Date orderProductsDate;
+
+    @Getter
+    @Setter
+    String status;
+
+    public TrainingDto(String name, String trainingInstitutionName, Integer reservedProductsCount,
+                       Date orderProductsDate, Date startDate, Date endDate, String status) {
+        this.setName(name);
+        this.setTrainingInstitutionName(trainingInstitutionName);
+        this.setReservedProductsCount(reservedProductsCount);
+        this.setOrderProductsDate(orderProductsDate);
+        this.setStartDate(startDate);
+        this.setEndDate(endDate);
+        this.setStatus(status);
+    }
+
+    public TrainingDto() {}
+
 }
