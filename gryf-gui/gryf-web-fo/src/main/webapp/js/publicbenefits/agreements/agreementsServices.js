@@ -4,7 +4,7 @@
 "use strict";
 
 angular.module("gryf.agreements").factory("BrowseContractsService",
-    ["$http", "GryfModals", "GryfTables", function($http, GryfModals, GryfTables) {
+    ["$http", "GryfModals", "GryfHelpers", "GryfTables", function($http, GryfModals, GryfHelpers, GryfTables) {
         var FIND_CONTRACTS_URL = contextPath + "/rest/publicBenefits/contract/list";
         var searchDTO = new SearchObjModel();
         var searchResultOptions = new SearchResultOptions();
@@ -40,6 +40,7 @@ angular.module("gryf.agreements").factory("BrowseContractsService",
 
         var find = function(restUrl) {
             var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING);
+            GryfHelpers.transformDatesToString(searchDTO.entity);
             if (!restUrl){
                 restUrl = FIND_CONTRACTS_URL;
             }

@@ -18,64 +18,64 @@
                         <input placeholder="ID" type="text"
                                ng-model="searchObjModel.entity.contractId">
                     </th>
-                    <th class="sortable" ng-class="getSortingTypeClass('name')">
-                        <div ng-click="getSortedEnterprises('name')">Rodzaj umowy</div>
+                    <th class="sortable" ng-class="getSortingTypeClass('contractType.name')">
+                        <div ng-click="getSortedEnterprises('contractType.name')">Rodzaj umowy</div>
                         <input placeholder="Rodzaj umowy" type="text"
                                ng-model="searchObjModel.entity.contractTypeDescription">
                     </th>
-                    <th class="sortable" ng-class="getSortingTypeClass('vatRegNum')">
-                        <div ng-click="getSortedEnterprises('vatRegNum')">Pesel uczestnika</div>
+                    <th class="sortable" ng-class="getSortingTypeClass('individual.pesel')">
+                        <div ng-click="getSortedEnterprises('individual.pesel')">Pesel uczestnika</div>
                         <input placeholder="Pesel uczestnika"
                                ng-model="searchObjModel.entity.pesel">
                     </th>
-                    <th class="sortable" ng-class="getSortingTypeClass('addressInvoice')">
-                        <div ng-click="getSortedEnterprises('addressInvoice')">Nip MŚP
+                    <th class="sortable" ng-class="getSortingTypeClass('enterprise.vatRegNum')">
+                        <div ng-click="getSortedEnterprises('enterprise.vatRegNum')">Nip MŚP
                         </div>
                         <input placeholder="NIP MŚP"
                                ng-model="searchObjModel.entity.vatRegNum">
                     </th>
                     <th class="sortable"
-                        ng-class="getSortingTypeClass('zipCodeInvoice.zipCode')">
-                        <div ng-click="getSortedEnterprises('zipCodeInvoice.zipCode')">
+                        ng-class="getSortingTypeClass('signDate')">
+                        <div ng-click="getSortedEnterprises('signDate')">
                             Data podpisania
                         </div>
                         <input type="text"
                                placeholder="Data podpisania"
                                ng-model="searchObjModel.entity.signDate"
                                datepicker-popup="yyyy-MM-dd"
-                               is-open="datepicker.orderDateFromOpened"
+                               is-open="datepicker.signDate"
                                close-text="Zamknij"
                                clear-text="Czyść"
                                current-text="Dziś"
-                               ng-click="openDatepicker('orderDateFromOpened')"
+                               ng-click="openDatepicker('signDate')"
                                search-on-enter/>
                     </th>
                     <th class="sortable"
-                        ng-class="getSortingTypeClass('zipCodeInvoice.cityName')">
-                        <div ng-click="getSortedEnterprises('zipCodeInvoice.cityName')">
+                        ng-class="getSortingTypeClass('expiryDate')">
+                        <div ng-click="getSortedEnterprises('expiryDate')">
                             Data ważności
                         </div>
                         <input type="text"
                                placeholder="Data ważności"
                                ng-model="searchObjModel.entity.expiryDate"
                                datepicker-popup="yyyy-MM-dd"
-                               is-open="datepicker.orderDateToOpened"
+                               is-open="datepicker.expiryDate"
                                close-text="Zamknij"
                                clear-text="Czyść"
                                current-text="Dziś"
-                               ng-click="openDatepicker('orderDateToOpened')"
+                               ng-click="openDatepicker('expiryDate')"
                                search-on-enter/>
                     </th>
-                    <th class="sortable" ng-class="getSortingTypeClass('addressCorr')">
-                        <div ng-click="getSortedEnterprises('addressCorr')">
+                    <th class="sortable" ng-class="getSortingTypeClass('grantProgram.programName')">
+                        <div ng-click="getSortedEnterprises('grantProgram.programName')">
                             Program dofinansowania
                         </div>
                         <input placeholder="Program dofinansowania"
                                ng-model="searchObjModel.entity.grantProgramName">
                     </th>
                     <th class="sortable"
-                        ng-class="getSortingTypeClass('zipCodeCorr.zipCode')">
-                        <div ng-click="getSortedEnterprises('zipCodeCorr.zipCode')">
+                        ng-class="getSortingTypeClass('grantProgram.grantOwnerId.name')">
+                        <div ng-click="getSortedEnterprises('grantProgram.grantOwnerId.name')">
                             Dysponent  środków
                         </div>
                         <input placeholder="Dysponent  środków"

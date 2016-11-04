@@ -10,10 +10,8 @@ angular.module('gryf.agreements').controller("searchform.AgreementsController",
         GryfPopups.showPopup();
 
         $scope.datepicker = {
-            minRequiredDateFromOpened: false,
-            minRequiredDateToOpened: false,
-            orderDateFromOpened: true,
-            orderDateToOpened: false
+            signDate: false,
+            expiryDate: false
         };
 
         $scope.openDatepicker = function(value) {
