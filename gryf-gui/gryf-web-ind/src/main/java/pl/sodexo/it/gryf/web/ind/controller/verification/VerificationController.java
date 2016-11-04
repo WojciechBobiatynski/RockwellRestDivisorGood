@@ -14,6 +14,7 @@ import pl.sodexo.it.gryf.service.api.security.VerificationService;
 import javax.servlet.http.HttpServletRequest;
 
 import static pl.sodexo.it.gryf.common.utils.GryfConstants.*;
+import static pl.sodexo.it.gryf.web.common.util.PageUtil.getURLWithContextPath;
 import static pl.sodexo.it.gryf.web.ind.util.IndPageConstant.*;
 
 /**
@@ -41,13 +42,13 @@ public class VerificationController {
         LOGGER.info("resendVerificationCode, PESEL={}, email={}",pesel, email);
 
         VerificationDto verificationDto = new VerificationDto(pesel, email);
-        return sendAndGetComeBackUrl(uiModel, verificationDto);
+        return sendAndGetComeBackUrl(uiModel, verificationDto, request);
     }
 
-    private String sendAndGetComeBackUrl(Model uiModel, VerificationDto verificationDto) {
+    private String sendAndGetComeBackUrl(Model uiModel, VerificationDto verificationDto, HttpServletRequest request) {
         String comebackPage;
         try {
-            verificationService.resendVerificationCode(verificationDto);
+            verificationService.resendVerificationCode(verificationDto, getURLWithContextPath(request));
             comebackPage = PAGE_VERIFICATION_RESEND_SUCCESS;
         } catch (GryfRuntimeException e){
             LOGGER.error("Blad podczas obslugi", e);

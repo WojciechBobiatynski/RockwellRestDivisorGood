@@ -107,7 +107,9 @@ public class UserServiceImpl implements UserService {
     }
 
     private void authenticateIndUser(String pesel, String verificationCode) {
+        //TODO pobierać póxniej przy pomocy spring data jpa dla zachowania spójności - nie będzie potrzeby decryptowania hasła
         GryfIndUserDto user = securitySearchDao.findIndUserByPesel(pesel);
+        user.setVerificationCode(AEScryptographer.decrypt(user.getVerificationCode()));
 
         if (user == null) {
             throw new GryfBadCredentialsException("Niepoprawny PESEL");
@@ -119,7 +121,7 @@ public class UserServiceImpl implements UserService {
             throw new GryfUserNotActiveException("Twoje konto jest nieaktywne. Zgłoś sie do administratora");
         }
 
-        if (!AEScryptographer.encrypt(verificationCode).equals(user.getVerificationCode())){
+        if (!verificationCode.equals(user.getVerificationCode())){
             throw new GryfBadCredentialsException("Niepoprawny PESEL lub/i hasło");
         }
 

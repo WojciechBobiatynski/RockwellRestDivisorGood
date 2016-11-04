@@ -2,6 +2,7 @@ package pl.sodexo.it.gryf.service.mapping.dtotoentity.security.individuals;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import pl.sodexo.it.gryf.common.authentication.AEScryptographer;
 import pl.sodexo.it.gryf.common.dto.security.individuals.GryfIndUserDto;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.individuals.IndividualRepository;
 import pl.sodexo.it.gryf.model.security.individuals.IndividualUser;
@@ -28,7 +29,7 @@ public class GryfIndUserDtoMapper extends VersionableDtoMapper<GryfIndUserDto, I
         super.map(dto, entity);
         entity.setInuId(dto.getInuId());
         entity.setIndividual(individualRepository.get(dto.getIndId()));
-        entity.setVerificationCode(dto.getVerificationCode());
+        entity.setVerificationCode(AEScryptographer.encrypt(dto.getVerificationCode()));
         entity.setActive(dto.isActive());
         entity.setLastResetFailureDate(dto.getLastResetFailureDate());
         entity.setLastLoginSuccessDate(dto.getLastLoginSuccessDate());

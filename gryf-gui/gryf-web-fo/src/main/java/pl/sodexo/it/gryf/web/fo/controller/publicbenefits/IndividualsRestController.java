@@ -14,9 +14,11 @@ import pl.sodexo.it.gryf.service.api.security.VerificationService;
 import pl.sodexo.it.gryf.service.api.security.individuals.IndividualUserService;
 import pl.sodexo.it.gryf.web.fo.utils.UrlConstants;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 import static pl.sodexo.it.gryf.common.utils.JsonMapperUtils.writeValueAsString;
+import static pl.sodexo.it.gryf.web.common.util.PageUtil.getURLWithContextPath;
 import static pl.sodexo.it.gryf.web.fo.utils.FoPageConstant.VER_CODE_GENERATE_PATH;
 import static pl.sodexo.it.gryf.web.fo.utils.FoPageConstant.VER_CODE_SEND_PATH;
 
@@ -89,7 +91,7 @@ public class IndividualsRestController {
     }
 
     @RequestMapping(value = VER_CODE_SEND_PATH, method = RequestMethod.POST)
-    public void sendMailWithVerCode(@RequestBody IndividualDto individualDto){
-        individualService.sendEmailNotification(individualDto);
+    public void sendMailWithVerCode(@RequestBody IndividualDto individualDto, HttpServletRequest request){
+        individualService.sendEmailNotification(individualDto, getURLWithContextPath(request));
     }
 }

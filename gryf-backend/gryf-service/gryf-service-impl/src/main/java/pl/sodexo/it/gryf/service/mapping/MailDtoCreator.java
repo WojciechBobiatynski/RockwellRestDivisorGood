@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.common.dto.mail.MailDTO;
+import pl.sodexo.it.gryf.common.dto.security.individuals.Verificationable;
 import pl.sodexo.it.gryf.common.mail.MailPlaceholders;
 import pl.sodexo.it.gryf.dao.api.crud.repository.mail.EmailTemplateRepository;
 import pl.sodexo.it.gryf.model.mail.EmailTemplate;
@@ -43,15 +44,15 @@ public class MailDtoCreator {
         return mailDTO;
     }
 
-    public MailDTO createMailDTOForVerificationCode(String email, String verificationParam) {
+    public MailDTO createMailDTOForVerificationCode(Verificationable verificationable, String appUrl) {
         MailDTO mailDTO = new MailDTO();
-        MailPlaceholders mailPlaceholders = mailService.createPlaceholders(EMAIL_BODY_VER_CODE_PLACEHOLDER, verificationParam).add(EMAIL_BODY_LOGIN_PLACEHOLDER, "login")
-                .add(EMAIL_BODY_URL_PLACEHOLDER, "www");
+        MailPlaceholders mailPlaceholders = mailService.createPlaceholders(EMAIL_BODY_VER_CODE_PLACEHOLDER, verificationable.getVerificationCode()).add(EMAIL_BODY_LOGIN_PLACEHOLDER, verificationable.getLogin())
+                .add(EMAIL_BODY_URL_PLACEHOLDER, appUrl);
         EmailTemplate emailTemplate = emailTemplateRepository.get(VERIFICATION_CODE_EMAIL_TEMPLATE_CODE);
         mailDTO.setTemplateId(emailTemplate.getId());
         mailDTO.setSubject(emailTemplate.getEmailSubjectTemplate());
         mailDTO.setAddressesFrom(applicationParameters.getGryfPbeAdmEmailFrom());
-        mailDTO.setAddressesTo(email);
+        mailDTO.setAddressesTo(verificationable.getVerificationEmail());
         mailDTO.setBody(mailPlaceholders.replace(emailTemplate.getEmailBodyTemplate()));
         mailDTO.setAttachments(Collections.emptyList());
         return mailDTO;

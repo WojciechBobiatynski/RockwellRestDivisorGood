@@ -126,15 +126,8 @@ public class IndividualServiceImpl implements IndividualService {
     }
 
     @Override
-    public void sendEmailNotification(IndividualDto individualDto) {
-        String verEmail = null;
-        for (IndividualContactDto ind : individualDto.getContacts()) {
-            if (applicationParameters.getVerEmailContactType().equals(ind.getContactType().getType())) {
-                verEmail = ind.getContactData();
-            }
-        }
-
-        mailService.scheduleMail(mailDtoCreator.createMailDTOForVerificationCode(verEmail, individualDto.getVerCode()));
+    public void sendEmailNotification(IndividualDto individualDto, String appUrl) {
+        mailService.scheduleMail(mailDtoCreator.createMailDTOForVerificationCode(individualDto, appUrl));
     }
 
     private AccountContractPair getAccountContractPair(String account) {

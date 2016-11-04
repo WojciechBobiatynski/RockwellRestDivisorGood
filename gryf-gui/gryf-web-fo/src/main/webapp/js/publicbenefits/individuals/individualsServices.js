@@ -153,7 +153,7 @@ angular.module("gryf.individuals").factory("ModifyIndividualsService",
                     addressCorr: null,
                     zipCodeCorr: null,
                     remarks: null,
-                    verCode: null,
+                    verificationCode: null,
                     lastLoginDate: null,
                     enterprises: [],
                     contacts: []
@@ -302,7 +302,7 @@ angular.module("gryf.individuals").factory("ModifyIndividualsService",
             var getNewVerificationCode = function () {
                 var promise = $http.get(INDIVIDUAL_URL + VER_CODE_GENERATE_PATH + individualObject.entity.id );
                 promise.then(function (response) {
-                    individualObject.entity.verCode = response.data;
+                    individualObject.entity.verificationCode = response.data;
                     GryfPopups.setPopup("success", "Sukces", "Udało się zmienić kod weryfikacyjny");
                     GryfPopups.showPopup();
                 });

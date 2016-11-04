@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.sodexo.it.gryf.common.authentication.AEScryptographer;
 import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.common.dto.security.individuals.GryfIndUserDto;
 import pl.sodexo.it.gryf.common.dto.security.individuals.VerificationDto;
@@ -60,10 +59,9 @@ public class VerificationServiceImpl implements VerificationService {
     private MailDtoCreator mailDtoCreator;
 
     @Override
-    public void resendVerificationCode(VerificationDto verificationDto) throws GryfVerificationException {
+    public void resendVerificationCode(VerificationDto verificationDto, String appUrl) throws GryfVerificationException {
         GryfIndUserDto user = validateVerificationData(verificationDto);
-        String verificationCode = AEScryptographer.decrypt(user.getVerificationCode());
-        mailService.scheduleMail(mailDtoCreator.createMailDTOForVerificationCode(verificationDto.getEmail(), verificationCode));
+        mailService.scheduleMail(mailDtoCreator.createMailDTOForVerificationCode(user, appUrl));
     }
 
     private GryfIndUserDto validateVerificationData(VerificationDto verificationDto) throws GryfVerificationException {

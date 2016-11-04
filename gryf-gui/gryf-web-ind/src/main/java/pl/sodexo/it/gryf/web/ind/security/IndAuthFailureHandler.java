@@ -1,6 +1,7 @@
 package pl.sodexo.it.gryf.web.ind.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import pl.sodexo.it.gryf.common.authentication.AEScryptographer;
 import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.common.dto.security.individuals.GryfIndUserDto;
 import pl.sodexo.it.gryf.service.api.security.SecurityService;
@@ -26,7 +27,9 @@ public class IndAuthFailureHandler extends AuthFailureHandler {
     private ApplicationParameters applicationParameters;
 
     protected void blockUserIfExceedLoginAttemptsCounter(String pesel) {
+        //TODO pobierać póxniej przy pomocy spring data jpa dla zachowania spójności - nie będzie potrzeby decryptowania hasła
         GryfIndUserDto indUserDto = securityService.findIndUserByPesel(pesel);
+        indUserDto.setVerificationCode(AEScryptographer.decrypt(indUserDto.getVerificationCode()));
         if (indUserDto == null || !indUserDto.isActive()) {
             return;
         }

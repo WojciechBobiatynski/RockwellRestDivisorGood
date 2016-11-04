@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 import pl.sodexo.it.gryf.common.dto.api.VersionableDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.enterprises.detailsform.EnterpriseDto;
+import pl.sodexo.it.gryf.common.dto.security.individuals.Verificationable;
 import pl.sodexo.it.gryf.common.dto.zipcodes.detailsform.ZipCodeDto;
 
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ import java.util.List;
  * Created by jbentyn on 2016-09-27.
  */
 @ToString
-public class IndividualDto extends VersionableDto {
+public class IndividualDto extends VersionableDto implements Verificationable {
 
     @Getter
     @Setter
@@ -81,7 +82,7 @@ public class IndividualDto extends VersionableDto {
 
     @Getter
     @Setter
-    private String verCode;
+    private String verificationCode;
 
     @Getter
     @Setter
@@ -89,10 +90,20 @@ public class IndividualDto extends VersionableDto {
 
     @Getter
     @Setter
-    private List<IndividualContactDto> contacts  = new ArrayList<>();
+    private List<IndividualContactDto> contacts = new ArrayList<>();
 
     @Getter
     @Setter
     private List<EnterpriseDto> enterprises = new ArrayList<>();
 
+    @Override
+    public String getLogin() {
+        return pesel;
+    }
+
+    @Override
+    public String getVerificationEmail() {
+        return getContacts().stream().filter(individualContactDto -> "VC_SEND".equals(individualContactDto.getContactType())).map(individualContactDto -> individualContactDto.getContactData())
+                .findAny().orElse(null);
+    }
 }

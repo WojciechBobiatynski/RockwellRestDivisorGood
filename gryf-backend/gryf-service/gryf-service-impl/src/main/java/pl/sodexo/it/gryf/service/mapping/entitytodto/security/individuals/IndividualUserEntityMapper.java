@@ -2,6 +2,7 @@ package pl.sodexo.it.gryf.service.mapping.entitytodto.security.individuals;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import pl.sodexo.it.gryf.common.authentication.AEScryptographer;
 import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.common.dto.security.individuals.GryfIndUserDto;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.IndividualContact;
@@ -31,7 +32,7 @@ public class IndividualUserEntityMapper extends VersionableEntityMapper<Individu
         dto.setIndId(entity.getIndividual().getId());
         dto.setPesel(entity.getIndividual().getPesel());
         dto.setActive(entity.isActive());
-        dto.setVerificationCode(entity.getVerificationCode());
+        dto.setVerificationCode(AEScryptographer.decrypt(entity.getVerificationCode()));
         dto.setLastLoginFailureDate(entity.getLastLoginFailureDate());
         dto.setLastLoginSuccessDate(entity.getLastLoginSuccessDate());
         dto.setLastResetFailureDate(entity.getLastResetFailureDate());

@@ -13,9 +13,10 @@ public interface VerificationService {
     /**
      * Metoda przesyłająca nowy kod weryfikacyjny
      * @param verificationDto - obiekt z danymi do weryfikacji
+     * @param appUrl - adres aplikacji na potrzeby wysyłki maila
      * @throws GryfVerificationException - wyjątek dla błędnych danych
      */
-    void resendVerificationCode(VerificationDto verificationDto) throws GryfVerificationException;
+    void resendVerificationCode(VerificationDto verificationDto, String appUrl) throws GryfVerificationException;
 
     /**
      * Metoda która resetuje hasło dla użytkownika instytucji szkoleniowej. Tworzy link do zmiany hasła a następnie go wysyła na zadany adres o ile jest w bazie.

@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 
 import static pl.sodexo.it.gryf.common.utils.GryfConstants.*;
+import static pl.sodexo.it.gryf.web.common.util.PageUtil.getURLWithContextPath;
 import static pl.sodexo.it.gryf.web.ti.util.TiPageConstant.*;
 
 /**
@@ -77,10 +78,6 @@ public class RetrievePasswordController {
             comebackPage = PAGE_RETRIEVE_PASSWORD;
         }
         return comebackPage;
-    }
-
-    private static String getURLWithContextPath(HttpServletRequest request) {
-        return request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
     }
 
     private boolean checkCaptcha(HttpServletRequest request){

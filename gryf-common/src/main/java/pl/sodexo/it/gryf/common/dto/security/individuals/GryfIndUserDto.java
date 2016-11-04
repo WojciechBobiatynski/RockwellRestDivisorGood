@@ -15,7 +15,7 @@ import java.util.Date;
  * Created by akmiecinski on 21.10.2016.
  */
 @ToString
-public class GryfIndUserDto extends GryfBlockableUserDto implements Serializable {
+public class GryfIndUserDto extends GryfBlockableUserDto implements Serializable, Verificationable {
 
     private static final long serialVersionUID = 1L;
 
@@ -54,5 +54,10 @@ public class GryfIndUserDto extends GryfBlockableUserDto implements Serializable
     @Override
     public <T> T accept(GryfBlockableUserVisitor<T> userVisitor) {
         return userVisitor.visitInd(this);
+    }
+
+    @Override
+    public String getLogin() {
+        return pesel;
     }
 }

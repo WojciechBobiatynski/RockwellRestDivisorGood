@@ -53,7 +53,7 @@ public class IndividualEntityMapper extends VersionableEntityMapper<Individual, 
         dto.setRemarks(entity.getRemarks());
         dto.setContacts(individualContactEntityMapper.convert(entity.getContacts()));
         if(entity.getIndividualUser() != null){
-            dto.setVerCode(AEScryptographer.decrypt(entity.getIndividualUser().getVerificationCode()));
+            dto.setVerificationCode(AEScryptographer.decrypt(entity.getIndividualUser().getVerificationCode()));
             dto.setLastLoginDate(entity.getIndividualUser().getLastLoginSuccessDate());
         }
 
