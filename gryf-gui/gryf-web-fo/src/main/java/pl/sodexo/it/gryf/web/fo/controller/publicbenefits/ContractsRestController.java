@@ -8,6 +8,7 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.contracts.detailsform.Contrac
 import pl.sodexo.it.gryf.common.dto.publicbenefits.contracts.searchform.ContractSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.contracts.searchform.ContractSearchResultDTO;
 import pl.sodexo.it.gryf.common.enums.Privileges;
+import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.service.api.publicbenefits.contracts.ContractService;
 import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
 import pl.sodexo.it.gryf.web.fo.utils.UrlConstants;
@@ -42,14 +43,27 @@ public class ContractsRestController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public String saveIndividual(@RequestBody ContractDTO contractDTO) {
+    public Long saveContract(@RequestBody ContractDTO contractDTO) {
         securityChecker.assertFormPrivilege(Privileges.GRF_ENTERPRISE_MOD);
-        contractService.saveContract(contractDTO);
-        return "/";
+        return contractService.saveContract(contractDTO);
     }
 
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public ContractDTO getContract(@PathVariable Long id) {
+        securityChecker.assertServicePrivilege(Privileges.GRF_ENTERPRISES);
+        return contractService.findContract(id);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json")
+    public Long updateContract(@PathVariable Long id, @RequestBody ContractDTO contractDTO) {
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_TI_TRAININGS_MOD);
+        GryfUtils.checkForUpdate(id, contractDTO.getContractId());
+
+        contractService.updateContract(contractDTO);
+        return contractDTO.getContractId();
+    }
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public List<ContractSearchResultDTO> findEnterprises(ContractSearchQueryDTO dto) {
+    public List<ContractSearchResultDTO> findContracts(ContractSearchQueryDTO dto) {
         securityChecker.assertServicePrivilege(Privileges.GRF_ENTERPRISES);
         return contractService.findContracts(dto);
     }

@@ -20,8 +20,10 @@ import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
 import pl.sodexo.it.gryf.service.api.publicbenefits.contracts.ContractService;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.contracts.ContractDtoMapper;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.dictionaries.DictionaryEntityMapper;
+import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.contracts.ContractEntityMapper;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.contracts.searchform.ContractEntityToSearchResultMapper;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.grantprograms.GrantProgramEntityMapper;
+import pl.sodexo.it.gryf.service.validation.publicbenefits.contracts.ContractValidator;
 
 import java.util.Date;
 import java.util.List;
@@ -63,6 +65,12 @@ public class ContractServiceImpl implements ContractService {
     @Autowired
     private ContractEntityToSearchResultMapper contractEntityToSearchResultMapper;
 
+    @Autowired
+    private ContractEntityMapper contractEntityMapper;
+
+    @Autowired
+    private ContractValidator contractValidator;
+
     @Override
     public List<GrantProgramDictionaryDTO> FindGrantProgramsDictionaries() {
         List<GrantProgram> grantPrograms = grantProgramRepository.findProgramsByDate(new Date());
@@ -70,7 +78,8 @@ public class ContractServiceImpl implements ContractService {
     }
     @Override
     public ContractDTO findContract(Long id) {
-        return null;
+        ContractDTO dto = contractEntityMapper.convert(contractRepository.get(id));
+        return dto;
     }
 
     @Override
@@ -88,6 +97,7 @@ public class ContractServiceImpl implements ContractService {
     public Long saveContract(ContractDTO contractDto) {
         Contract contract = contractDtoMapper.convert(contractDto);
         fillContract(contract, contractDto);
+        contractValidator.validateContract(contract);
         return contractRepository.save(contract).getId();
     }
 
@@ -101,7 +111,10 @@ public class ContractServiceImpl implements ContractService {
 
     @Override
     public void updateContract(ContractDTO contractDto) {
-
+        Contract contract = contractDtoMapper.convert(contractDto);
+        fillContract(contract, contractDto);
+        contractValidator.validateContract(contract);
+        contractRepository.update(contract, contract.getId());
     }
 
     @Override

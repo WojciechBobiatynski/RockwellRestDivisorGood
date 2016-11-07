@@ -1,12 +1,14 @@
 package pl.sodexo.it.gryf.model.publicbenefits.contracts;
 
 import lombok.ToString;
+import org.hibernate.validator.constraints.NotEmpty;
 import pl.sodexo.it.gryf.model.api.VersionableEntity;
 import pl.sodexo.it.gryf.model.publicbenefits.enterprises.Enterprise;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
@@ -28,14 +30,17 @@ public class Contract extends VersionableEntity {
 
     @Id
     @Column(name = "ID")
+    @NotEmpty(message = "Id umowy nie może być puste")
     private Long id;
 
     @ManyToOne
     @JoinColumn(name = "CONTRACT_TYPE_ID")
+    @NotEmpty(message = "Typ kontraktu nie może być pusty")
     private ContractType contractType;
 
     @ManyToOne
     @JoinColumn(name = "INDIVIDUAL_ID")
+    @NotEmpty(message = "Dane uczestnika nie mogą być puste")
     private Individual individual;
 
     @ManyToOne
@@ -44,14 +49,17 @@ public class Contract extends VersionableEntity {
 
     @ManyToOne
     @JoinColumn(name = "GRANT_PROGRAM_ID")
+    @NotEmpty(message = "Program dofinansowania nie może być pusty")
     private GrantProgram grantProgram;
 
     @Column(name = "SIGN_DATE")
     @Temporal(TemporalType.TIMESTAMP)
+    @NotNull(message = "Data podpisania umowy nie może być pusta")
     private Date signDate;
 
     @Column(name = "EXPIRY_DATE")
     @Temporal(TemporalType.TIMESTAMP)
+    @NotNull(message = "Data upłynięcia okresu ważności umowy nie może być pusta")
     private Date expiryDate;
 
     //GETTERS && SETTERS

@@ -1,6 +1,8 @@
 /**
  * Created by adziobek on 24.10.2016.
  */
+var scopeBrowseController;
+
 angular.module('gryf.agreements').controller("searchform.AgreementsController",
     ["$scope", "BrowseContractsService", "GryfPopups", function ($scope, BrowseContractsService, GryfPopups) {
         scopeBrowseController = $scope;
@@ -45,42 +47,50 @@ angular.module('gryf.agreements').controller("searchform.AgreementsController",
         }
     }]);
 
+var scopeModifyController;
 angular.module('gryf.agreements').controller("detailsform.AgreementsController",
-    ["$scope", "ModifyContractService", "GryfModals", function ($scope, ModifyContractService, GryfModals) {
+    ["$scope", "ModifyContractService", "GryfModals", "GryfPopups", function ($scope, ModifyContractService, GryfModals, GryfPopups) {
 
-        var NEW_INDIVIDUAL_URL =  contextPath + "'/publicbenefits/agreements/#modify";
+        var NEW_CONTRACT_URL =  contextPath + "'/publicbenefits/agreements/#modify";
 
-
+        scopeModifyController = $scope;
         $scope.grantProgram = ModifyContractService.getNewGrantPrograms();
         $scope.contractType = ModifyContractService.getNewContractTypes();
-        $scope.contract = ModifyContractService.getNewContract();
+        $scope.model = ModifyContractService.getNewContract();
+        $scope.violations = ModifyContractService.getNewViolations();
+        gryfSessionStorage.setUrlToSessionStorage();
+        GryfPopups.showPopup();
 
-        $scope.loadGrantPrograms = function () {
-            ModifyContractService.loadGrantPrograms();
+        $scope.datepicker = {
+            signDate: false,
+            expiryDate: false
         };
 
-        $scope.loadContractTypes = function () {
-            ModifyContractService.loadContractTypes();
+        $scope.openDatepicker = function(value) {
+            $scope.datepicker[value] = true;
+        };
+
+        $scope.loadContract = function () {
+            ModifyContractService.loadContract();
         }
-        $scope.loadGrantPrograms();
-        $scope.loadContractTypes();
+        $scope.loadContract();
 
         $scope.openEnterpriseLov = function() {
             ModifyContractService.openEnterpriseLov().result.then(function(chosenEnterprise) {
-                $scope.contract.enterprise = chosenEnterprise;
+                $scope.model.entity.enterprise = chosenEnterprise;
                 $scope.$broadcast('propagateEnterpriseData', chosenEnterprise);
             });
         };
 
         $scope.openIndividualLov = function() {
             ModifyContractService.openIndividualLov().result.then(function(chosenIndividual) {
-                $scope.contract.individual = chosenIndividual;
+                $scope.model.entity.individual = chosenIndividual;
                 $scope.$broadcast('propagateIndividualData', chosenIndividual);
             });
         };
 
         $scope.saveAndAdd = function() {
-            $scope.save(NEW_INDIVIDUAL_URL);
+            $scope.save(NEW_CONTRACT_URL);
         };
 
         $scope.save = function(redirectUrl) {
@@ -96,12 +106,12 @@ angular.module('gryf.agreements').controller("detailsform.AgreementsController",
             });
 
             var executeSave = function() {
-                ModifyContractService.save().then(function() {
-                    if (!redirectUrl){
-                        redirectUrl = $scope.getPrevUrl();
-                    }
-                    window.location = redirectUrl;
-                });
+                $scope.violations = ModifyContractService.getNewViolations();
+                ModifyContractService.save();
             }
+
+            $scope.getPrevUrl = function() {
+                return gryfSessionStorage.getUrlFromSessionStorage();
+            };
         };
     }]);

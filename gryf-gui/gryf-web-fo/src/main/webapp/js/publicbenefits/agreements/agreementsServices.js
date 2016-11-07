@@ -110,7 +110,8 @@ angular.module("gryf.agreements").factory("BrowseContractsService",
 
 
 angular.module("gryf.agreements").factory("ModifyContractService",
-    ['$http', 'GryfModals', 'BrowseEnterprisesService', 'BrowseIndividualsService', function ($http, GryfModals, BrowseEnterprisesService, BrowseIndividualsService) {
+    ['$http', '$routeParams', 'GryfModals', 'GryfPopups', 'GryfExceptionHandler', 'BrowseEnterprisesService', 'BrowseIndividualsService',
+        function ($http, $routeParams, GryfModals, GryfPopups, GryfExceptionHandler, BrowseEnterprisesService, BrowseIndividualsService) {
 
         var FIND_GRANT_PROGRAMS_DICTIONARIES_URL = contextPath + "/rest/publicBenefits/contract/grantProgramsDictionaries";
         var FIND_CONTRACT_TYPES_DICTIONARIES_URL = contextPath + "/rest/publicBenefits/contract/contractTypes";
@@ -119,6 +120,17 @@ angular.module("gryf.agreements").factory("ModifyContractService",
         var grantProgram = new GrantProgram();
         var contractType = new ContractType();
         var contract = new Contract();
+        var violations = {};
+
+        var getViolations = function() {
+            return violations;
+        };
+
+        var getNewViolations = function() {
+            violations = {};
+            return violations;
+        };
+
         function GrantProgram() {
             this.list = [];
         }
@@ -128,16 +140,18 @@ angular.module("gryf.agreements").factory("ModifyContractService",
         }
 
         function Contract() {
-            this.grantProgram = null,
-            this.contractId = null,
-            this.contractType = null,
-            this.individual = null,
-            this.enterprise = null,
-            this.signDate = null,
-            this.expiryDate = null,
-            this.created = null,
-            this.modified = null
+            this.entity = {
+                grantProgram: null,
+                contractId : null,
+                contractType : null,
+                individual : null,
+                enterprise : null,
+                signDate : null,
+                expiryDate : null,
+                created : null,
+                modified : null
             }
+        }
 
         var getNewGrantPrograms = function () {
             grantProgram = new GrantProgram();
@@ -170,6 +184,25 @@ angular.module("gryf.agreements").factory("ModifyContractService",
             return promise;
         };
 
+        var loadContract = function (responseId ) {
+            loadGrantPrograms();
+            loadContractTypes();
+            if ($routeParams.id || responseId) {
+                var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING, {label: "Wczytuję dane"});
+                var promise = $http.get(CONTRACT_URL + ($routeParams.id ? $routeParams.id : responseId));
+                promise.then(function(response) {
+                    contract.entity = response.data;
+                });
+                promise.finally(function() {
+                    GryfModals.closeModal(modalInstance);
+                });
+                return promise;
+            }else {
+                loadGrantPrograms();
+                loadContractTypes();
+            }
+        };
+
         var openEnterpriseLov = function () {
             var TEMPLATE_URL = GryfModals.MODALS_URL.LOV_ENTERPRISES;
             return GryfModals.openLovModal(TEMPLATE_URL, BrowseEnterprisesService, "lg");
@@ -184,15 +217,35 @@ angular.module("gryf.agreements").factory("ModifyContractService",
             var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING, {label: "Zapisuję dane"});
 
             var promise;
-            promise = $http.post(CONTRACT_URL, contract, {params: additionalParam});
+            if ($routeParams.id){
+                promise = $http.put(CONTRACT_URL + contract.entity.contractId, contract.entity, {params: additionalParam});
+            }else{
+                promise = $http.post(CONTRACT_URL, contract.entity, {params: additionalParam});
+
+            }
 
             promise.then(function() {
                 GryfPopups.setPopup("success", "Sukces", "Umowa poprawnie zapisana");
+                GryfPopups.showPopup();
             });
 
             promise.error(function(error) {
                 GryfPopups.setPopup("error", "Błąd", "Nie udało się zapisać umowy");
                 GryfPopups.showPopup();
+
+                var conflictCallbacksObject = {
+                    refresh: function() {
+                        loadContract();
+                    },
+                    force: function() {
+                        contract.entity.version = error.version;
+                        save().then(function() {
+                            GryfPopups.showPopup();
+                        });
+                    }
+                };
+
+                GryfExceptionHandler.handleSavingError(error, violations, conflictCallbacksObject);
             });
 
             promise.finally(function() {
@@ -208,8 +261,11 @@ angular.module("gryf.agreements").factory("ModifyContractService",
             getNewContract: getNewContract,
             loadGrantPrograms: loadGrantPrograms,
             loadContractTypes: loadContractTypes,
+            loadContract: loadContract,
             save: save,
             openEnterpriseLov: openEnterpriseLov,
-            openIndividualLov: openIndividualLov
+            openIndividualLov: openIndividualLov,
+            getViolation: getViolations,
+            getNewViolations: getNewViolations
         }
     }]);

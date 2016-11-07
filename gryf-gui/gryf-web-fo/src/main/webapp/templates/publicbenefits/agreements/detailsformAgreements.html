@@ -1,13 +1,18 @@
 <toaster-container toaster-options="{'position-class': 'toast-top-center'}"></toaster-container>
 <div>
     <header id="header">
-        <h1>Nowa umowa</h1>
+        <h1>Edycja umowy</h1>
         <ul>
             <li>
-                <a ng-click="saveAndAdd()" class="button button-save"
+                <a ng-click="save()" class="button button-save"
                    gryf-privilege="GRF_PBE_APPLICATION_MOD">
-                    Zapisz
+                    zapisz
                 </a>
+            </li>
+            <li>
+                <a ng-click="saveAndAdd()" class="button button-save"
+                   gryf-privilege="GRF_ENTERPRISE_MOD">zapisz i dodaj
+                    następną</a>
             </li>
         </ul>
         <ol>
@@ -23,12 +28,13 @@
                 <div class="grid-50">
                     <strong class="label">Program dofinansowania</strong>
                     <select ng-options="item as item.name for item in grantProgram.list"
-                            ng-model="contract.grantProgram">
+                            ng-model="model.entity.grantProgram">
                     </select>
+                    <gryf-validation-msg path="grantProgram"></gryf-validation-msg>
                 </div>
                 <div class="grid-50">
                     <strong class="label">Dysponent środków</strong>
-                    <input type="text" ng-model="contract.grantProgram.grantProgramOwnerName" disabled="disabled">
+                    <input type="text" ng-model="model.entity.grantProgram.grantProgramOwnerName" disabled="disabled">
                 </div>
             </div>
         </section>
@@ -37,31 +43,56 @@
             <div class="grid-100">
                 <div>
                     <strong class="label">ID umowy</strong>
-                    <input type="number" ng-model="contract.contractId" required>
+                    <input type="number" ng-model="model.entity.contractId" required>
+                    <gryf-validation-msg path="id"></gryf-validation-msg>
                 </div>
                 <div>
                     <strong class="label">Rodzaj umowy</strong>
-                    <select ng-options="item as item.name for item in contractType.list" ng-model="contract.contractType"></select>
+                    <select ng-options="item.id as item.name for item in contractType.list"
+                            ng-model="model.entity.contractType.id" ></select>
+                    <gryf-validation-msg path="contractType"></gryf-validation-msg>
                 </div>
                 <div>
                     <strong class="label">Dane uczestnika</strong>
-                    <div>Pesel: {{contract.individual.pesel}}</div>
-                    <div>Osoba: {{contract.individual.firstName}} {{contract.individual.lastName}}</div>
-                    <a ng-click="openIndividualLov()" class="button button-save">Wprowadź</a>
+                    <div>Pesel: {{model.entity.individual.pesel}}</div>
+                    <div>Osoba: {{model.entity.individual.firstName}} {{model.entity.individual.lastName}}</div>
+                    <div><a ng-click="openIndividualLov()" class="button button-save">Wprowadź</a></div>
+                    <gryf-validation-msg path="individual"></gryf-validation-msg>
                 </div>
                 <div>
                     <strong class="label">Dane MŚP</strong>
-                    <div>NIP: {{contract.enterprise.vatRegNum}}</div>
-                    <div>Nazwa: {{contract.enterprise.name}}</div>
+                    <div>NIP: {{model.entity.enterprise.vatRegNum}}</div>
+                    <div>Nazwa: {{model.entity.enterprise.name}}</div>
                     <a ng-click="openEnterpriseLov()" class="button button-save">Wprowadź</a>
+                    <gryf-validation-msg path="enterprise"></gryf-validation-msg>
                 </div>
-                <div>
+                <div class="grid-30">
                     <strong class="label">Data podpisania umowy</strong>
-                    <input type="date" ng-model="contract.signDate" required>
+                    <input type="text"
+                           placeholder=""
+                           ng-model="model.entity.signDate"
+                           datepicker-popup="yyyy-MM-dd"
+                           is-open="datepicker.signDate"
+                           close-text="Zamknij"
+                           clear-text="Czyść"
+                           current-text="Dziś"
+                           ng-click="openDatepicker('signDate')"
+                           search-on-enter/>
+                    <gryf-validation-msg path="signDate"></gryf-validation-msg>
                 </div>
-                <div>
+                <div class="grid-30">
                     <strong class="label">Data ważności umowy</strong>
-                    <input type="date" ng-model="contract.expiryDate" required>
+                    <input type="text"
+                           placeholder=""
+                           ng-model="model.entity.expiryDate"
+                           datepicker-popup="yyyy-MM-dd"
+                           is-open="datepicker.expiryDate"
+                           close-text="Zamknij"
+                           clear-text="Czyść"
+                           current-text="Dziś"
+                           ng-click="openDatepicker('expiryDate')"
+                           search-on-enter/>
+                    <gryf-validation-msg path="expiryDate"></gryf-validation-msg>
                 </div>
             </div>
         </section>
