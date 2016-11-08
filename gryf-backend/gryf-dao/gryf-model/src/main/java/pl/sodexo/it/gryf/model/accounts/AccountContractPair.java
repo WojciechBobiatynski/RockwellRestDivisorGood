@@ -15,11 +15,13 @@ import javax.persistence.*;
 @Table(name = "ACCOUNT_CONTRACT_PAIRS", schema = "APP_PBE")
 @NamedQueries({
         @NamedQuery(name = "AccountContractPair.findByAccountPayment", query = "select a from AccountContractPair a where a.accountPayment = :accountPayment"),
+        @NamedQuery(name = "AccountContractPair.findByContractId", query = "select a from AccountContractPair a where a.contractId = :contractId")
 })
 @ToString(exclude = "grantProgram")
 public class AccountContractPair extends VersionableEntity {
 
     public static final String FIND_BY_ACCOUNT_PAYMENT = "AccountContractPair.findByAccountPayment";
+    public static final String FIND_BY_CONTRACT_ID = "AccountContractPair.findByContractId";
 
     @Id
     @Column(name = "ID")

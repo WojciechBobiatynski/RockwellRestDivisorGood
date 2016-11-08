@@ -1,6 +1,5 @@
 package pl.sodexo.it.gryf.model.publicbenefits.contracts;
 
-import pl.sodexo.it.gryf.model.api.AuditableEntity;
 import pl.sodexo.it.gryf.model.api.DictionaryEntity;
 
 import javax.persistence.Column;

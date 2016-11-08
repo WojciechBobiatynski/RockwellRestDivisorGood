@@ -34,7 +34,7 @@ public class Contract extends VersionableEntity {
 
     @ManyToOne
     @JoinColumn(name = "CONTRACT_TYPE_ID")
-    @NotNull(message = "Typ kontraktu nie może być pusty")
+    @NotNull(message = "Rodzaj umowy nie może byc pusty")
     private ContractType contractType;
 
     @ManyToOne

@@ -18,6 +18,13 @@ public interface AccountContractPairRepository extends GenericRepository<Account
     AccountContractPair findByAccountPayment(String accountPayment);
 
     /**
+     * Znajduje parę umowa-konto na podstawie id umowy
+     * @param contractId
+     * @return
+     */
+    AccountContractPair findByContractId(Long contractId);
+
+    /**
      * Generuje numer konta na podstawie kodu
      * @param code - kod
      * @return numer konta

@@ -13,6 +13,8 @@ public interface IndividualRepository extends GenericRepository<Individual, Long
 
     Individual findByPesel(String pesel);
 
+    Individual findById(Long id);
+
     Individual getForUpdate(Long id);
 
     List<Individual> findIndividuals(IndividualSearchQueryDTO dto);

@@ -32,6 +32,17 @@ public class IndividualRepositoryImpl extends GenericRepositoryImpl<Individual, 
     }
 
     @Override
+    public Individual findById(Long id) {
+        try {
+            TypedQuery<Individual> query = entityManager.createNamedQuery(Individual.FIND_BY_ID, Individual.class);
+            query.setParameter("id", id);
+            return query.getSingleResult();
+        } catch (NoResultException exception) {
+            return null;
+        }
+    }
+
+    @Override
     public Individual getForUpdate(Long id) {
         TypedQuery<Individual> query = entityManager.createNamedQuery(Individual.GET_FOR_UPDATE, Individual.class);
         query.setParameter("id", id);

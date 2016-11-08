@@ -37,4 +37,16 @@ public class AccountContractPairRepositoryImpl extends GenericRepositoryImpl<Acc
         query.setParameter(1, code);
         return (String) query.getSingleResult();
     }
+
+    @Override
+    public AccountContractPair findByContractId(Long contractId) {
+        try {
+            TypedQuery<AccountContractPair> query = entityManager.createNamedQuery(AccountContractPair.FIND_BY_CONTRACT_ID, AccountContractPair.class);
+            query.setParameter("contractId", contractId);
+            return query.getSingleResult();
+        } catch (NoResultException exception) {
+            return null;
+        }
+    }
+
 }

@@ -33,6 +33,7 @@ import java.util.Objects;
 @NamedQueries({
         @NamedQuery(name = "Individual.findByPesel", query = "select i from Individual i where i.pesel = :pesel order by i.addressCorr"),
         @NamedQuery(name = "Individual.getForUpdate", query = "select i from Individual i left join fetch i.contacts where i.id = :id"),
+        @NamedQuery(name = "Individual.findById", query = "select i from Individual i where i.id= :id"),
 })
 @OptimisticLocking(cascade=true)
 public class Individual extends VersionableEntity {
@@ -41,6 +42,7 @@ public class Individual extends VersionableEntity {
 
     public static final String FIND_BY_PESEL = "Individual.findByPesel";
     public static final String GET_FOR_UPDATE = "Individual.getForUpdate";
+    public static final String FIND_BY_ID= "Individual.findById";
 
     //STATIC FIELDS - ATRIBUTES
 
