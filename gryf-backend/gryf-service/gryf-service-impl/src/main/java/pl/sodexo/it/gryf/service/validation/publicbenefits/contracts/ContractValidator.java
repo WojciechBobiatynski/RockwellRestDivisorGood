@@ -81,8 +81,6 @@ public class ContractValidator {
                 return;
             }
 
-        } else {
-            violations.add(new EntityConstraintViolation(Contract.ID_ATTR_NAME, "Id umowy nie może być puste", null));
         }
     }
 
