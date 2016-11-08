@@ -17,7 +17,13 @@ import javax.persistence.*;
 @Entity
 @Table(name = "EMPLOYMENTS", schema = "APP_PBE")
 @ToString
+    @NamedQueries({
+            @NamedQuery(name = "Employment.findByIndividualAndEnterpriseId",
+            query = "select e from Employment e where e.individual.id = :individualId and e.enterprise.id = :enterpriseId"),
+})
 public class Employment extends VersionableEntity {
+
+    public static final String FIND_BY_INDIVIDUAL_AND_ENTERPRISE_ID = "Employment.findByIndividualAndEnterpriseId";
 
     @Id
     @Column(name = "EMP_ID")

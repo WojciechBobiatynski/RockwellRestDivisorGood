@@ -63,8 +63,8 @@
                     <strong class="label">Dane MŚP</strong>
                     <div>NIP: {{model.entity.enterprise.vatRegNum}}</div>
                     <div>Nazwa: {{model.entity.enterprise.name}}</div>
-                    <a ng-click="openEnterpriseLov()" class="button button-save"
-                       ng-style="model.entity.contractType.id == 'IND' && {'background-color': '#adadad'}">Wprowadź</a>
+                    <div><a ng-click="openEnterpriseLov()" class="button button-save"
+                       ng-style="model.entity.contractType.id == 'IND' && {'background-color': '#adadad'}">Wprowadź</a></div>
                     <gryf-validation-msg path="enterprise"></gryf-validation-msg>
                 </div>
             </div>
