@@ -27,7 +27,7 @@ public class GryfTiUserDtoMapper extends VersionableDtoMapper<GryfTiUserDto, Tra
     protected void map(GryfTiUserDto dto, TrainingInstitutionUser entity) {
         super.map(dto, entity);
         entity.setId(dto.getId());
-        entity.setTrainingInstitution(trainingInstitutionRepository.get(dto.getTrainingInstitutionId()));
+        entity.setTrainingInstitution(dto.getTrainingInstitutionId() == null ? null : trainingInstitutionRepository.get(dto.getTrainingInstitutionId()));
         entity.setLogin(dto.getLogin());
         entity.setEmail(dto.getEmail());
         entity.setPassword(dto.getPassword());

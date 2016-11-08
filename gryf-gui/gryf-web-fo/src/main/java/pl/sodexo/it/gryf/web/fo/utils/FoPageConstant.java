@@ -23,5 +23,7 @@ public final class FoPageConstant extends PageConstant {
 
     public static final String VER_CODE_GENERATE_PATH = "/verification/generate";
     public static final String VER_CODE_SEND_PATH = "/verification/send";
+
+    public static final String SEND_RESET_PASSWORD_LINK = "/reset";
 }
 

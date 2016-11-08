@@ -1,12 +1,15 @@
 package pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import org.eclipse.persistence.annotations.OptimisticLocking;
 import org.hibernate.validator.constraints.NotEmpty;
 import pl.sodexo.it.gryf.common.validation.VatRegNumFormat;
 import pl.sodexo.it.gryf.model.api.VersionableEntity;
 import pl.sodexo.it.gryf.model.dictionaries.ZipCode;
+import pl.sodexo.it.gryf.model.security.trainingInstitutions.TrainingInstitutionUser;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -25,7 +28,7 @@ import java.util.Objects;
 @SequenceGenerator(name="trin_seq", schema = "eagle", sequenceName = "trin_seq", allocationSize = 1)
 @NamedQueries({
         @NamedQuery(name = "TrainingInstitution.findByVatRegNum", query = "select e from TrainingInstitution e where e.vatRegNum = :vatRegNum order by e.addressCorr"),
-        @NamedQuery(name = "TrainingInstitution.getForUpdate", query = "select e from TrainingInstitution e left join fetch e.contacts where e.id = :id"),
+        @NamedQuery(name = "TrainingInstitution.getForUpdate", query = "select e from TrainingInstitution e left join fetch e.contacts left join fetch e.trainingInstitutionUsers where e.id = :id"),
 })
 @OptimisticLocking(cascade=true)
 public class TrainingInstitution extends VersionableEntity {
@@ -92,6 +95,11 @@ public class TrainingInstitution extends VersionableEntity {
     @JsonManagedReference(TrainingInstitution.CONTACTS_ATTR_NAME)
     @OneToMany(mappedBy = TrainingInstitutionContact.TRAINING_INSTITUTION_ATTR_NAME, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TrainingInstitutionContact> contacts;
+
+    @Getter
+    @Setter
+    @OneToMany(mappedBy = "trainingInstitution", cascade = CascadeType.ALL)
+    private List<TrainingInstitutionUser> trainingInstitutionUsers = new ArrayList<>();
 
     //GETTERS & SETTERS
 

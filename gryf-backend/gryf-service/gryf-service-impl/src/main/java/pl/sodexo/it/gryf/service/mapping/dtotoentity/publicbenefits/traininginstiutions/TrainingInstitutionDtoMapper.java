@@ -7,6 +7,7 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsfo
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstitution;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.VersionableDtoMapper;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.dictionaries.ZipCodeDtoMapper;
+import pl.sodexo.it.gryf.service.mapping.dtotoentity.security.traininginstitutions.GryfTiUserDtoMapper;
 
 /**
  * Maper mapujący dto TrainingInstitutionDto na encję TrainingInstitution
@@ -19,7 +20,10 @@ public class TrainingInstitutionDtoMapper extends VersionableDtoMapper<TrainingI
     private ZipCodeDtoMapper zipCodeDtoMapper;
 
     @Autowired
-    TrainingInstitutionContactDtoMapper trainingInstitutionContactDtoMapper;
+    private TrainingInstitutionContactDtoMapper trainingInstitutionContactDtoMapper;
+
+    @Autowired
+    private GryfTiUserDtoMapper gryfTiUserDtoMapper;
 
     @Override
     protected TrainingInstitution initDestination() {
@@ -41,5 +45,6 @@ public class TrainingInstitutionDtoMapper extends VersionableDtoMapper<TrainingI
         for (TrainingInstitutionContactDto contactDto : dto.getContacts()) {
             entity.addContact(trainingInstitutionContactDtoMapper.convert(contactDto));
         }
+        dto.getUsers().stream().forEach(gryfTiUserDto -> entity.getTrainingInstitutionUsers().add(gryfTiUserDtoMapper.convert(gryfTiUserDto)));
     }
 }

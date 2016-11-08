@@ -107,6 +107,37 @@
 
         <section>
             <header>
+                <h2>Użytkownicy</h2>
+                <ul>
+                    <li><a class="button button-add" ng-click="addTiUser()">Dodaj użytkownika</a></li>
+                </ul>
+            </header>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Email/Login</th>
+                    <th>Data ostatniego logowania</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tr ng-repeat="user in model.entity.users">
+                    <td>
+                        <input type="email" maxlength="250" ng-model="user.email" data-ng-change="user.login=user.email" data-ng-disabled="isModType(user)"/>
+                        <gryf-validation-msg
+                                path="users[{{$index}}].email"></gryf-validation-msg>
+                    </td>
+                    <td>
+                        <input type="text" ng-model="user.lastLoginSuccessDate" disabled="disabled"/>
+                    </td>
+                    <td>
+                        <button class="button button-reset" data-ng-click="sendResetLink(user)" data-ng-disabled="!isModType(user)">Wyślij link resetu hasła</button>
+                    </td>
+                </tr>
+            </table>
+        </section>
+
+        <section>
+            <header>
                 <h2>Kontakty</h2>
                 <ul>
                     <li><a class="button button-add" ng-click="addContact()">Dodaj kontakt</a></li>

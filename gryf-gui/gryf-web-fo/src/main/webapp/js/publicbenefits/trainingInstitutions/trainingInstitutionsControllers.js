@@ -121,4 +121,17 @@ angular.module("gryf.trainingInstitutions").controller("detailsform.TrainingInsC
                  $scope.model.entity.zipCodeCorr = chosedItem;
              });
          };
+
+         $scope.addTiUser = function() {
+             ModifyTrainingInsService.addTiUserToList();
+         };
+
+         $scope.sendResetLink = function(user){
+             ModifyTrainingInsService.sendResetLink(user);
+         };
+
+         $scope.isModType = function(user) {
+             return user.id != null;
+         };
+
      }]);

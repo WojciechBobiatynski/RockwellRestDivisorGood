@@ -5,13 +5,19 @@ import org.springframework.web.bind.annotation.*;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingInstitutionDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingInstitutionSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingInstitutionSearchResultDTO;
+import pl.sodexo.it.gryf.common.dto.security.trainingInstitutions.GryfTiUserDto;
 import pl.sodexo.it.gryf.common.enums.Privileges;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.TrainingInstitutionService;
 import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
+import pl.sodexo.it.gryf.service.api.security.VerificationService;
 import pl.sodexo.it.gryf.web.fo.utils.UrlConstants;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+
+import static pl.sodexo.it.gryf.web.common.util.PageUtil.getURLWithContextPath;
+import static pl.sodexo.it.gryf.web.fo.utils.FoPageConstant.SEND_RESET_PASSWORD_LINK;
 
 /**
  * Created by Michal.CHWEDCZUK.ext on 2015-07-21.
@@ -26,6 +32,8 @@ public class TrainingInstitutionsRestController {
     @Autowired
     private SecurityChecker securityChecker;
 
+    @Autowired
+    private VerificationService verificationService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public TrainingInstitutionDto getTrainingInstitutionById() {
@@ -62,5 +70,12 @@ public class TrainingInstitutionsRestController {
         securityChecker.assertServicePrivilege(Privileges.GRF_TRAINING_INSTITUTIONS);
         return trainingInstitutionService.findTrainingInstitutions(dto);
 
+    }
+
+    @RequestMapping(value = SEND_RESET_PASSWORD_LINK, method = RequestMethod.POST)
+    public void sendResetPasswordLink(@RequestBody GryfTiUserDto gryfTiUserDto, HttpServletRequest request) {
+        //TODO przywileje
+        securityChecker.assertServicePrivilege(Privileges.GRF_TRAINING_INSTITUTIONS);
+        verificationService.resetTiUserPassword(gryfTiUserDto.getEmail(), getURLWithContextPath(request));
     }
 }

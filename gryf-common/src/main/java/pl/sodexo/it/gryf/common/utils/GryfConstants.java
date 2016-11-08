@@ -40,4 +40,6 @@ public final class GryfConstants {
     public static final String JSP_LOGIN_PLACEHOLDER = "login";
     public static final String JSP_PASSWORD_PLACEHOLDER = "password";
     public static final String JSP_REPEATED_PASSWORD_PLACEHOLDER = "repeatedPassword";
+
+    public static final int FIRST_PASSWORD_DEFAULT_LENGTH_FOR_TI = 10;
 }

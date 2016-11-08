@@ -110,6 +110,7 @@ angular.module("gryf.trainingInstitutions").factory("ModifyTrainingInsService",
     ["$http", "$routeParams", "GryfModals", "GryfExceptionHandler", "ZipCodesModel",
      'GryfPopups', function($http, $routeParams, GryfModals, GryfExceptionHandler, ZipCodesModel, GryfPopups) {
         var TRAINING_INS_URL = contextPath + "/rest/publicBenefits/trainingInstitution/";
+        var RESET_LINK_PATH = "reset";
 
         var violations = {};
         var trainingInsObject = new TrainingInsObject();
@@ -127,8 +128,9 @@ angular.module("gryf.trainingInstitutions").factory("ModifyTrainingInsService",
                 addressCorr: null,
                 zipCodeCorr: null,
                 remarks: null,
-                contacts: []
-            }
+                contacts: [],
+                users: []
+            };
         }
 
         var loadContactTypes = function() {
@@ -240,6 +242,21 @@ angular.module("gryf.trainingInstitutions").factory("ModifyTrainingInsService",
             trainingInsObject.entity.contacts.splice(index, 1);
         };
 
+        var addTiUserToList = function() {
+            trainingInsObject.entity.users.push({});
+        };
+
+        var sendResetLink = function(user) {
+            var promise = $http.post(TRAINING_INS_URL + RESET_LINK_PATH + '/', user);
+            promise.then(function (response) {
+                GryfPopups.setPopup("success", "Sukces", "Widomość email z linkiem do resetu hasła została wysłana");
+                GryfPopups.showPopup();
+            });
+            promise.error(function (error) {
+                GryfPopups.setPopup("error", "Błąd", "Nie udało się wysłać wiadomości email");
+                GryfPopups.showPopup();
+            });
+        };
 
         return {
             load: load,
@@ -251,6 +268,8 @@ angular.module("gryf.trainingInstitutions").factory("ModifyTrainingInsService",
             getNewModel: getNewModel,
             addContact: addContact,
             removeContact: removeContact,
-            openZipCodesLov: openZipCodesLov
+            openZipCodesLov: openZipCodesLov,
+            addTiUserToList: addTiUserToList,
+            sendResetLink: sendResetLink
         }
     }]);

@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import pl.sodexo.it.gryf.common.dto.api.VersionableDto;
+import pl.sodexo.it.gryf.common.dto.security.trainingInstitutions.GryfTiUserDto;
 import pl.sodexo.it.gryf.common.dto.zipcodes.detailsform.ZipCodeDto;
 
 import java.util.List;
@@ -53,5 +54,9 @@ public class TrainingInstitutionDto extends VersionableDto {
     @Getter
     @Setter
     private List<TrainingInstitutionContactDto> contacts;
+
+    @Getter
+    @Setter
+    private List<GryfTiUserDto> users;
 
 }
