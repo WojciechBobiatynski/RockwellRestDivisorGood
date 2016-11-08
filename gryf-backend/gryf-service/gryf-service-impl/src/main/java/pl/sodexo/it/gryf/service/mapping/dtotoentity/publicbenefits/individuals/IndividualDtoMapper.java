@@ -41,9 +41,8 @@ public class IndividualDtoMapper extends VersionableDtoMapper<IndividualDto, Ind
 
         Consumer<EnterpriseDto> myConsumer = enterpriseDto -> {
             Employment employment = new Employment();
-            employment.setIndividual(entity);
             employment.setEnterprise(enterpriseRepository.get(enterpriseDto.getId()));
-            entity.getEmployments().add(employment);
+            entity.addEmployment(employment);
         };
 
         entity.setId(dto.getId());

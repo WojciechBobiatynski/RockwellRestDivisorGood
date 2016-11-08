@@ -129,6 +129,9 @@ public class Individual extends VersionableEntity {
     @Column(name = "REMARKS")
     private String remarks;
 
+    @OneToOne(cascade = CascadeType.PERSIST, mappedBy = "individual")
+    private IndividualUser individualUser;
+
     @Valid
     @JsonManagedReference(Individual.CONTACTS_ATTR_NAME)
     @OneToMany(mappedBy = IndividualContact.INDIVIDUAL_ATTR_NAME, cascade = CascadeType.ALL, orphanRemoval = true)
@@ -139,14 +142,7 @@ public class Individual extends VersionableEntity {
     private List<Order> orders;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "individual")
-    @Getter
-    @Setter
-    private List<Employment> employments = new ArrayList<>();
-
-    @OneToOne(cascade = CascadeType.PERSIST, mappedBy = "individual")
-    @Getter
-    @Setter
-    private IndividualUser individualUser;
+    private List<Employment> employments;
 
     //GETTERS & SETTERS
 
@@ -269,6 +265,15 @@ public class Individual extends VersionableEntity {
     public void setRemarks(String remarks) {
         this.remarks = remarks;
     }
+
+    public IndividualUser getIndividualUser() {
+        return individualUser;
+    }
+
+    public void setIndividualUser(IndividualUser individualUser) {
+        this.individualUser = individualUser;
+    }
+
     //LIST METHODS
 
     private List<IndividualContact> getInitializedIndividualContacts() {
@@ -309,6 +314,26 @@ public class Individual extends VersionableEntity {
             getInitializedOrderList().add(order);
         }
         order.setIndividual(this);
+    }
+
+    private List<Employment> getInitializedEmploymentsList() {
+        if (employments == null)
+            employments = new ArrayList<>();
+        return employments;
+    }
+
+    public List<Employment> getEmployments() {
+        return Collections.unmodifiableList(getInitializedEmploymentsList());
+    }
+
+    public void addEmployment(Employment employment) {
+        if (employment.getIndividual() != null && employment.getIndividual() != this) {
+            employment.getIndividual().getInitializedOrderList().remove(employment);
+        }
+        if (employment.getEmpId() == null || !getInitializedOrderList().contains(employment)) {
+            getInitializedEmploymentsList().add(employment);
+        }
+        employment.setIndividual(this);
     }
 
     //EQUALS & HASH CODE
