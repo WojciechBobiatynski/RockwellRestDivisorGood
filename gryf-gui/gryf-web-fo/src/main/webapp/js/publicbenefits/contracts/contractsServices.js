@@ -12,7 +12,7 @@ angular.module("gryf.contracts").factory("BrowseContractsService",
         function SearchObjModel() {
             this.searchResultList = [];
             this.entity = {
-                contractId: null,
+                id: null,
                 contractTypeDescription: null,
                 pesel: null,
                 vatRegNum: null,
@@ -141,8 +141,8 @@ angular.module("gryf.contracts").factory("ModifyContractService",
 
         function Contract() {
             this.entity = {
+                id : null,
                 grantProgram: null,
-                contractId : null,
                 contractType : null,
                 individual : null,
                 enterprise : null,
@@ -218,7 +218,7 @@ angular.module("gryf.contracts").factory("ModifyContractService",
 
             var promise;
             if ($routeParams.id){
-                promise = $http.put(CONTRACT_URL + contract.entity.contractId, contract.entity, {params: additionalParam});
+                promise = $http.put(CONTRACT_URL + contract.entity.id, contract.entity, {params: additionalParam});
             }else{
                 promise = $http.post(CONTRACT_URL, contract.entity, {params: additionalParam});
 

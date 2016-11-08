@@ -16,7 +16,6 @@ import java.util.Date;
 public class ContractDTO extends VersionableDto{
 
     private Long id;
-    private Long contractId;
     private Date signDate;
     private Date expiryDate;
 
@@ -31,14 +30,6 @@ public class ContractDTO extends VersionableDto{
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getContractId() {
-        return contractId;
-    }
-
-    public void setContractId(Long contractId) {
-        this.contractId = contractId;
     }
 
     public Date getSignDate() {

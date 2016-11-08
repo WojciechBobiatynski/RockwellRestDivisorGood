@@ -37,7 +37,7 @@ public class ContractEntityToSearchResultMapper extends GenericMapper<Contract, 
 
     @Override
     protected void map(Contract entity, ContractSearchResultDTO dto) {
-        dto.setContractId(entity.getId());
+        dto.setId(entity.getId());
         dto.setSignDate(entity.getSignDate());
         dto.setExpiryDate(entity.getExpiryDate());
         dto.setContractType(dictionaryEntityMapper.convert(entity.getContractType()));

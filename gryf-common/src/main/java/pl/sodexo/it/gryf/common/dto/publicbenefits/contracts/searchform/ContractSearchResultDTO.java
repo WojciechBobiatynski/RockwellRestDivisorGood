@@ -14,7 +14,7 @@ import java.util.Date;
 @ToString
 public class ContractSearchResultDTO {
 
-    private Long contractId;
+    private Long id;
     private Date signDate;
     private Date expiryDate;
 
@@ -23,12 +23,12 @@ public class ContractSearchResultDTO {
     private IndividualSearchResultDTO individual;
     private EnterpriseSearchResultDTO enterprise;
 
-    public Long getContractId() {
-        return contractId;
+    public Long getId() {
+        return id;
     }
 
-    public void setContractId(Long contractId) {
-        this.contractId = contractId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Date getSignDate() {

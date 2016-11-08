@@ -37,7 +37,6 @@ public class ContractEntityMapper extends VersionableEntityMapper<Contract, Cont
     public void map(Contract entity, ContractDTO dto) {
         super.map(entity, dto);
         dto.setId(entity.getId());
-        dto.setContractId(entity.getId());
         dto.setContractType(dictionaryEntityMapper.convert(entity.getContractType()));
         dto.setGrantProgram(grantProgramEntityMapper.convert(entity.getGrantProgram()));
         if (entity.getIndividual() != null) {

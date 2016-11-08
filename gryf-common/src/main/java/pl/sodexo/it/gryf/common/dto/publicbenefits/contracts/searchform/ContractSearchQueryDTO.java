@@ -11,7 +11,7 @@ import java.util.Date;
  */
 @Data
 public class ContractSearchQueryDTO extends SearchDto {
-    private Long contractId;
+    private Long id;
     private String contractTypeDescription;
     private String pesel;
     private String vatRegNum;

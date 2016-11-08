@@ -16,7 +16,7 @@
                     <th class="sortable" ng-class="getSortingTypeClass('id')">
                         <div ng-click="getSortedEnterprises('id')">Id</div>
                         <input placeholder="ID" type="text"
-                               ng-model="searchObjModel.entity.contractId">
+                               ng-model="searchObjModel.entity.id">
                     </th>
                     <th class="sortable" ng-class="getSortingTypeClass('contractType.name')">
                         <div ng-click="getSortedEnterprises('contractType.name')">Rodzaj umowy</div>
@@ -90,7 +90,7 @@
                 <tbody>
                 <tr
                         ng-repeat="item in searchObjModel.searchResultList | limitTo: searchResultOptions.displayLimit">
-                    <td>{{::item.contractId}}</td>
+                    <td>{{::item.id}}</td>
                     <td>{{::item.contractType.name}}</td>
                     <td>{{::item.individual.pesel}}</td>
                     <td>{{::item.enterprise.vatRegNum}}</td>
@@ -100,7 +100,7 @@
                     <td>{{::item.grantProgram.grantProgramOwnerName}}</td>
                     <td>
                         <ul class="buttons">
-                            <li><a ng-href="#/modify/{{item.contractId}}"
+                            <li><a ng-href="#/modify/{{item.id}}"
                                    class="button button-go">szczegóły</a>
 
                             </li>

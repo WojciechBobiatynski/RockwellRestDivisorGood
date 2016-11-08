@@ -20,7 +20,7 @@ public class ContractDtoMapper extends VersionableDtoMapper<ContractDTO,Contract
 
     protected void map(ContractDTO dto, Contract entity) {
         super.map(dto, entity);
-        entity.setId(dto.getContractId());
+        entity.setId(dto.getId());
         entity.setSignDate(dto.getSignDate());
         entity.setExpiryDate(dto.getExpiryDate());
     }

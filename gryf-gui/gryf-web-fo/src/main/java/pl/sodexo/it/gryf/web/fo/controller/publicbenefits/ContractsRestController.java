@@ -57,10 +57,10 @@ public class ContractsRestController {
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json")
     public Long updateContract(@PathVariable Long id, @RequestBody ContractDTO contractDTO) {
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_TI_TRAININGS_MOD);
-        GryfUtils.checkForUpdate(id, contractDTO.getContractId());
+        GryfUtils.checkForUpdate(id, contractDTO.getId());
 
         contractService.updateContract(contractDTO);
-        return contractDTO.getContractId();
+        return contractDTO.getId();
     }
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public List<ContractSearchResultDTO> findContracts(ContractSearchQueryDTO dto) {
