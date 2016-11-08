@@ -1,0 +1,127 @@
+<div>
+    <header id="header">
+        <h1>Wyszukiwanie Umowy</h1>
+        <ul>
+            <li><a href="#/modify/" class="button button-new">Nowa umowa</a></li>
+            <li><a ng-click="clear()" class="button button-refresh">wyczyść</a></li>
+        </ul>
+    </header>
+
+    <div class="one-column">
+
+        <section class="overflow-x-auto">
+            <table class="table table-condensed">
+                <thead>
+                <tr>
+                    <th class="sortable" ng-class="getSortingTypeClass('id')">
+                        <div ng-click="getSortedEnterprises('id')">Id</div>
+                        <input placeholder="ID" type="text"
+                               ng-model="searchObjModel.entity.contractId">
+                    </th>
+                    <th class="sortable" ng-class="getSortingTypeClass('contractType.name')">
+                        <div ng-click="getSortedEnterprises('contractType.name')">Rodzaj umowy</div>
+                        <input placeholder="Rodzaj umowy" type="text"
+                               ng-model="searchObjModel.entity.contractTypeDescription">
+                    </th>
+                    <th class="sortable" ng-class="getSortingTypeClass('individual.pesel')">
+                        <div ng-click="getSortedEnterprises('individual.pesel')">Pesel uczestnika</div>
+                        <input placeholder="Pesel uczestnika"
+                               ng-model="searchObjModel.entity.pesel">
+                    </th>
+                    <th class="sortable" ng-class="getSortingTypeClass('enterprise.vatRegNum')">
+                        <div ng-click="getSortedEnterprises('enterprise.vatRegNum')">Nip MŚP
+                        </div>
+                        <input placeholder="NIP MŚP"
+                               ng-model="searchObjModel.entity.vatRegNum">
+                    </th>
+                    <th class="sortable"
+                        ng-class="getSortingTypeClass('signDate')">
+                        <div ng-click="getSortedEnterprises('signDate')">
+                            Data podpisania
+                        </div>
+                        <input type="text"
+                               placeholder="Data podpisania"
+                               ng-model="searchObjModel.entity.signDate"
+                               datepicker-popup="yyyy-MM-dd"
+                               is-open="datepicker.signDate"
+                               close-text="Zamknij"
+                               clear-text="Czyść"
+                               current-text="Dziś"
+                               ng-click="openDatepicker('signDate')"
+                               search-on-enter/>
+                    </th>
+                    <th class="sortable"
+                        ng-class="getSortingTypeClass('expiryDate')">
+                        <div ng-click="getSortedEnterprises('expiryDate')">
+                            Data ważności
+                        </div>
+                        <input type="text"
+                               placeholder="Data ważności"
+                               ng-model="searchObjModel.entity.expiryDate"
+                               datepicker-popup="yyyy-MM-dd"
+                               is-open="datepicker.expiryDate"
+                               close-text="Zamknij"
+                               clear-text="Czyść"
+                               current-text="Dziś"
+                               ng-click="openDatepicker('expiryDate')"
+                               search-on-enter/>
+                    </th>
+                    <th class="sortable" ng-class="getSortingTypeClass('grantProgram.programName')">
+                        <div ng-click="getSortedEnterprises('grantProgram.programName')">
+                            Program dofinansowania
+                        </div>
+                        <input placeholder="Program dofinansowania"
+                               ng-model="searchObjModel.entity.grantProgramName">
+                    </th>
+                    <th class="sortable"
+                        ng-class="getSortingTypeClass('grantProgram.grantOwnerId.name')">
+                        <div ng-click="getSortedEnterprises('grantProgram.grantOwnerId.name')">
+                            Dysponent  środków
+                        </div>
+                        <input placeholder="Dysponent  środków"
+                               ng-model="searchObjModel.entity.grantProgramOwnerName">
+                    </th>
+                    <th>
+                        <a ng-click="findContracts()"
+                           class="button button-search">szukaj</a>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr
+                        ng-repeat="item in searchObjModel.searchResultList | limitTo: searchResultOptions.displayLimit">
+                    <td>{{::item.contractId}}</td>
+                    <td>{{::item.contractType.name}}</td>
+                    <td>{{::item.individual.pesel}}</td>
+                    <td>{{::item.enterprise.vatRegNum}}</td>
+                    <td>{{::item.signDate | date:'yyyy-MM-dd'}}</td>
+                    <td>{{::item.expiryDate | date:'yyyy-MM-dd'}}</td>
+                    <td>{{::item.grantProgram.name}}</td>
+                    <td>{{::item.grantProgram.grantProgramOwnerName}}</td>
+                    <td>
+                        <ul class="buttons">
+                            <li><a ng-href="#/modify/{{item.contractId}}"
+                                   class="button button-go">szczegóły</a>
+
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div ng-show="searchResultOptions.overflow" class="centered-ul">
+                <ul>
+                    <li><a href="#/" ng-click="loadMore()"
+                           class="button button-infinity">wczytaj więcej wyników</a></li>
+                </ul>
+            </div>
+            <div class="" ng-show="model.zipCodesArray.length===0">
+                Brak wyników
+            </div>
+            <div class="msg msg-error" ng-show="searchResultOptions.badQuery">
+                <p>Błąd kryteriów zapytania - niepoprawny format</p>
+            </div>
+        </section>
+
+    </div>
+</div>
