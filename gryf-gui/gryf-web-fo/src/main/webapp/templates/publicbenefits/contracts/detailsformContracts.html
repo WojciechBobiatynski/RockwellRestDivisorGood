@@ -28,7 +28,7 @@
                 <div class="grid-50">
                     <strong class="label">Program dofinansowania</strong>
                     <select ng-options="item as item.name for item in grantProgram.list"
-                            ng-model="model.entity.grantProgram">
+                            ng-model="model.entity.grantProgram" ng-disabled="isDisabled">
                     </select>
                     <gryf-validation-msg path="grantProgram"></gryf-validation-msg>
                 </div>
@@ -43,7 +43,7 @@
             <div class="grid-100">
                 <div>
                     <strong class="label">ID umowy</strong>
-                    <input type="number" ng-model="model.entity.id" required>
+                    <input type="number" ng-model="model.entity.id" ng-disabled="isDisabled" required>
                     <gryf-validation-msg path="id"></gryf-validation-msg>
                 </div>
                 <div>

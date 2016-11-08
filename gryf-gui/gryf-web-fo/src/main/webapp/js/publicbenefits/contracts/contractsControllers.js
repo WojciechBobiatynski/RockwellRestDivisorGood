@@ -49,7 +49,7 @@ angular.module('gryf.contracts').controller("searchform.ContractsController",
 
 var scopeModifyController;
 angular.module('gryf.contracts').controller("detailsform.ContractsController",
-    ["$scope", "ModifyContractService", "GryfModals", "GryfPopups", function ($scope, ModifyContractService, GryfModals, GryfPopups) {
+    ["$scope", '$routeParams', "ModifyContractService", "GryfModals", "GryfPopups", function ($scope, $routeParams, ModifyContractService, GryfModals, GryfPopups) {
 
         var NEW_CONTRACT_URL =  contextPath + "'/publicbenefits/contracts/#modify";
 
@@ -65,6 +65,13 @@ angular.module('gryf.contracts').controller("detailsform.ContractsController",
             signDate: false,
             expiryDate: false
         };
+        $scope.isDisabled = false;
+
+        $scope.canEdit = function () {
+            if($routeParams.id != null) {
+                $scope.isDisabled = true;
+            }
+        }
 
         $scope.openDatepicker = function(value) {
             $scope.datepicker[value] = true;
@@ -73,7 +80,9 @@ angular.module('gryf.contracts').controller("detailsform.ContractsController",
         $scope.loadContract = function () {
             ModifyContractService.loadContract();
         }
+
         $scope.loadContract();
+        $scope.canEdit();
 
         $scope.openEnterpriseLov = function() {
             if($scope.model.entity.contractType.id == 'ENT') {
