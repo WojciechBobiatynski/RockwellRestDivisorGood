@@ -28,8 +28,9 @@
                 <div class="grid-50">
                     <strong class="label">Program dofinansowania</strong>
                     <select ng-options="item as item.name for item in grantProgram.list"
-                            ng-model="model.entity.grantProgram" ng-disabled="isDisabled">
+                            ng-model="model.entity.grantProgram" ng-hide="isDisabled">
                     </select>
+                    <input type="text" ng-model="model.entity.grantProgram.name" ng-disabled="isDisabled" ng-show="isDisabled">
                     <gryf-validation-msg path="grantProgram"></gryf-validation-msg>
                 </div>
                 <div class="grid-50">
