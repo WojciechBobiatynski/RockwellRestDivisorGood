@@ -18,6 +18,8 @@ import java.util.List;
 @Component
 public class ContractValidator {
 
+    private static final String INDIVIDUAL_CONTRACT_TYPE_ID ="IND";
+
     @Autowired
     private GryfValidator gryfValidator;
 
@@ -34,6 +36,7 @@ public class ContractValidator {
 
         validateContractDates(contract, violations);
         validateContractId(contract, violations);
+        validateContractType(contract, violations);
 
         //VALIDATE (EXCEPTION)
         gryfValidator.validate(violations);
@@ -73,6 +76,19 @@ public class ContractValidator {
 
         } else {
             violations.add(new EntityConstraintViolation(Contract.ID_ATTR_NAME, "Id umowy nie może być puste", null));
+        }
+    }
+
+    private void validateContractType(Contract contract, List<EntityConstraintViolation> violations) {
+        if (contract.getContractType() == null) {
+            violations.add(new EntityConstraintViolation(Contract.CONTRACT_TYPE_ATTR_NAME, "Rodzaj umowy nie może byc pusty", null));
+            return;
+        }
+        if (contract.getContractType().getId() == INDIVIDUAL_CONTRACT_TYPE_ID) {
+            if (contract.getEnterprise() != null) {
+                violations.add(new EntityConstraintViolation(Contract.ENTERPRISE_ATTR_NAME, "Dane MŚP dla umowy osoby fizycznej powinny "
+                        + "być puste", null));
+            }
         }
     }
 

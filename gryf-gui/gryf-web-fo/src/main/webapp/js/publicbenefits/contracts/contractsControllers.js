@@ -76,10 +76,12 @@ angular.module('gryf.contracts').controller("detailsform.ContractsController",
         $scope.loadContract();
 
         $scope.openEnterpriseLov = function() {
-            ModifyContractService.openEnterpriseLov().result.then(function(chosenEnterprise) {
-                $scope.model.entity.enterprise = chosenEnterprise;
-                $scope.$broadcast('propagateEnterpriseData', chosenEnterprise);
-            });
+            if($scope.model.entity.contractType.id == 'ENT') {
+                ModifyContractService.openEnterpriseLov().result.then(function(chosenEnterprise) {
+                    $scope.model.entity.enterprise = chosenEnterprise;
+                    $scope.$broadcast('propagateEnterpriseData', chosenEnterprise);
+                });
+            }
         };
 
         $scope.openIndividualLov = function() {
@@ -88,6 +90,12 @@ angular.module('gryf.contracts').controller("detailsform.ContractsController",
                 $scope.$broadcast('propagateIndividualData', chosenIndividual);
             });
         };
+
+        $scope.checkContractData = function () {
+            if($scope.model.entity.contractType.id == 'IND') {
+                $scope.model.entity.enterprise = null;
+            }
+        }
 
         $scope.saveAndAdd = function() {
             $scope.save(NEW_CONTRACT_URL);
