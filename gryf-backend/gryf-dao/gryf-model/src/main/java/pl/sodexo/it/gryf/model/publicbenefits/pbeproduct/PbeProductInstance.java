@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.model.publicbenefits.pbeproduct;
 
+import lombok.ToString;
 import pl.sodexo.it.gryf.model.api.VersionableEntity;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 
@@ -10,6 +11,7 @@ import java.util.Objects;
  * Created by Isolution on 2016-11-02.
  */
 @Entity
+@ToString(exclude = {"productEmission", "order", "productInstancePool", "productInstancePoolUse"})
 @Table(name = "PBE_PRODUCT_INSTANCES", schema = "APP_PBE")
 public class PbeProductInstance extends VersionableEntity {
 
@@ -30,12 +32,13 @@ public class PbeProductInstance extends VersionableEntity {
     @ManyToOne
     private PbeProductEmission productEmission;
 
-    @JoinColumn(name = "ORDER_ID", referencedColumnName = "ID")
+    @JoinColumn(name = "PRODUCT_INSTANCE_POOL_ID", referencedColumnName = "ID")
     @ManyToOne
-    private Order order;
+    private PbeProductInstancePool productInstancePool;
 
-    @Column(name = "E_REIMBURSMENT_ID")
-    private Long electonicReimbursment;
+    @JoinColumn(name = "PRODUCT_INSTANCE_POOL_USE_ID", referencedColumnName = "ID")
+    @ManyToOne
+    private PbeProductInstancePoolUse productInstancePoolUse;
 
     //GETTERS & SETTERS
 
@@ -71,14 +74,6 @@ public class PbeProductInstance extends VersionableEntity {
         this.crc = crc;
     }
 
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
-    }
-
     public PbeProductEmission getProductEmission() {
         return productEmission;
     }
@@ -87,12 +82,20 @@ public class PbeProductInstance extends VersionableEntity {
         this.productEmission = productEmission;
     }
 
-    public Long getElectonicReimbursment() {
-        return electonicReimbursment;
+    public PbeProductInstancePool getProductInstancePool() {
+        return productInstancePool;
     }
 
-    public void setElectonicReimbursment(Long electonicReimbursment) {
-        this.electonicReimbursment = electonicReimbursment;
+    public void setProductInstancePool(PbeProductInstancePool productInstancePool) {
+        this.productInstancePool = productInstancePool;
+    }
+
+    public PbeProductInstancePoolUse getProductInstancePoolUse() {
+        return productInstancePoolUse;
+    }
+
+    public void setProductInstancePoolUse(PbeProductInstancePoolUse productInstancePoolUse) {
+        this.productInstancePoolUse = productInstancePoolUse;
     }
 
     //EQUALS & HASH CODE

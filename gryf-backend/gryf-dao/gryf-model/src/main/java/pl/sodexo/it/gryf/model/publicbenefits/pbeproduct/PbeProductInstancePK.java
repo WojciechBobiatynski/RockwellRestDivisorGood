@@ -1,5 +1,7 @@
 package pl.sodexo.it.gryf.model.publicbenefits.pbeproduct;
 
+import lombok.ToString;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
@@ -8,6 +10,7 @@ import java.util.Objects;
 /**
  * Created by Isolution on 2016-11-02.
  */
+@ToString
 @Embeddable
 public class PbeProductInstancePK implements Serializable {
 

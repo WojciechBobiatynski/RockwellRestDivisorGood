@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.model.publicbenefits.pbeproduct;
 
+import lombok.ToString;
 import pl.sodexo.it.gryf.model.api.GryfEntity;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantOwner;
 
@@ -11,6 +12,7 @@ import java.util.Date;
  * Created by Isolution on 2016-11-02.
  */
 @Entity
+@ToString(exclude = {"grantOwner"})
 @Table(name = "PBE_PRODUCTS", schema = "APP_PBE")
 public class PbeProduct extends GryfEntity{
 

@@ -1,4 +1,4 @@
-package pl.sodexo.it.gryf.model.publicbenefits.pbeproduct;
+package pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions;
 
 import lombok.ToString;
 import pl.sodexo.it.gryf.model.api.DictionaryEntity;
@@ -11,12 +11,12 @@ import javax.persistence.Table;
 import java.util.Objects;
 
 /**
- * Created by Isolution on 2016-11-03.
+ * Created by Isolution on 2016-11-04.
  */
 @Entity
 @ToString
-@Table(name = "PBE_PRODUCT_INSTANCE_E_T", schema = "APP_PBE")
-public class PbeProductInstanceEventType extends GryfEntity implements DictionaryEntity {
+@Table(name = "TI_TRAINING_INSTANCE_STATUSES", schema = "APP_PBE")
+public class TrainingInstanceStatus extends GryfEntity implements DictionaryEntity {
 
     @Id
     @Column(name = "ID")
@@ -82,7 +82,7 @@ public class PbeProductInstanceEventType extends GryfEntity implements Dictionar
         if (o == null || getClass() != o.getClass()){
             return false;
         }
-        return Objects.equals(id, ((PbeProductInstanceEventType) o).id);
+        return Objects.equals(id, ((TrainingInstanceStatus) o).id);
     }
 
     @Override

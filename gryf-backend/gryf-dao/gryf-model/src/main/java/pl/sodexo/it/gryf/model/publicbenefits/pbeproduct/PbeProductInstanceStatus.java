@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.model.publicbenefits.pbeproduct;
 
+import lombok.ToString;
 import pl.sodexo.it.gryf.model.api.DictionaryEntity;
 import pl.sodexo.it.gryf.model.api.GryfEntity;
 
@@ -13,6 +14,7 @@ import java.util.Objects;
  * Created by Isolution on 2016-11-02.
  */
 @Entity
+@ToString
 @Table(name = "PBE_PRODUCT_INSTANCE_STATUSES", schema = "APP_PBE")
 public class PbeProductInstanceStatus extends GryfEntity implements DictionaryEntity {
 

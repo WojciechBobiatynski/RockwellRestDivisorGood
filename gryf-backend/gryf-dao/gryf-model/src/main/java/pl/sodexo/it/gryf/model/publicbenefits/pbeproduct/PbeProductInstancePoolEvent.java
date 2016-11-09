@@ -7,27 +7,25 @@ import javax.persistence.*;
 import java.util.Objects;
 
 /**
- * Created by Isolution on 2016-11-03.
+ * Created by Isolution on 2016-11-04.
  */
 @Entity
-@ToString(exclude = {"productInstance"})
-@Table(name = "PBE_PRODUCT_INSTANCE_E", schema = "APP_PBE")
-public class PbeProductInstanceEvent extends VersionableEntity {
+@ToString(exclude = {"productInstancePool"})
+@Table(name = "PBE_PRODUCT_INSTANCE_POOL_E", schema = "APP_PBE")
+public class PbeProductInstancePoolEvent extends VersionableEntity {
 
     @Id
     @Column(name = "ID")
     @GeneratedValue(generator = "pk_seq")
     private Long id;
 
-    @JoinColumns({
-            @JoinColumn(name = "PRD_ID", referencedColumnName = "PRD_ID"),
-            @JoinColumn(name = "NUM", referencedColumnName = "NUM")})
+    @JoinColumn(name = "PRODUCT_INSTANCE_POOL_ID", referencedColumnName = "ID")
     @ManyToOne
-    private PbeProductInstance productInstance;
+    private PbeProductInstancePool productInstancePool;
 
     @JoinColumn(name = "TYPE_ID", referencedColumnName = "ID")
     @ManyToOne
-    private PbeProductInstanceEventType type;
+    private PbeProductInstancePoolEventType type;
 
     @Column(name = "SOURCE_ID")
     private Long sourceId;
@@ -42,19 +40,19 @@ public class PbeProductInstanceEvent extends VersionableEntity {
         this.id = id;
     }
 
-    public PbeProductInstance getProductInstance() {
-        return productInstance;
+    public PbeProductInstancePool getProductInstancePool() {
+        return productInstancePool;
     }
 
-    public void setProductInstance(PbeProductInstance productInstance) {
-        this.productInstance = productInstance;
+    public void setProductInstancePool(PbeProductInstancePool productInstancePool) {
+        this.productInstancePool = productInstancePool;
     }
 
-    public PbeProductInstanceEventType getType() {
+    public PbeProductInstancePoolEventType getType() {
         return type;
     }
 
-    public void setType(PbeProductInstanceEventType type) {
+    public void setType(PbeProductInstancePoolEventType type) {
         this.type = type;
     }
 
@@ -81,6 +79,6 @@ public class PbeProductInstanceEvent extends VersionableEntity {
         if (o == null || getClass() != o.getClass()){
             return false;
         }
-        return Objects.equals(id, ((PbeProductInstanceEvent) o).id);
+        return Objects.equals(id, ((PbeProductInstancePoolEvent) o).id);
     }
 }

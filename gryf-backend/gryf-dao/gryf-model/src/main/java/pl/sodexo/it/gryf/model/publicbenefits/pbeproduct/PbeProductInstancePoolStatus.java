@@ -11,12 +11,12 @@ import javax.persistence.Table;
 import java.util.Objects;
 
 /**
- * Created by Isolution on 2016-11-03.
+ * Created by Isolution on 2016-11-09.
  */
 @Entity
 @ToString
-@Table(name = "PBE_PRODUCT_INSTANCE_E_T", schema = "APP_PBE")
-public class PbeProductInstanceEventType extends GryfEntity implements DictionaryEntity {
+@Table(name = "PBE_PRODUCT_INSTANCE_POOL_STAS", schema = "APP_PBE")
+public class PbeProductInstancePoolStatus extends GryfEntity implements DictionaryEntity {
 
     @Id
     @Column(name = "ID")
@@ -82,7 +82,7 @@ public class PbeProductInstanceEventType extends GryfEntity implements Dictionar
         if (o == null || getClass() != o.getClass()){
             return false;
         }
-        return Objects.equals(id, ((PbeProductInstanceEventType) o).id);
+        return Objects.equals(id, ((PbeProductInstancePoolStatus) o).id);
     }
 
     @Override
