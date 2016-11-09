@@ -115,6 +115,7 @@ angular.module("gryf.contracts").factory("ModifyContractService",
 
         var FIND_GRANT_PROGRAMS_DICTIONARIES_URL = contextPath + "/rest/publicBenefits/contract/grantProgramsDictionaries";
         var FIND_CONTRACT_TYPES_DICTIONARIES_URL = contextPath + "/rest/publicBenefits/contract/contractTypes";
+        var GET_TRAINING_CATEGORY_DICT = contextPath + "/rest/publicBenefits/training/getTrainingCategoriesDict";
         var CONTRACT_URL = contextPath + "/rest/publicBenefits/contract/";
 
         var grantProgram = new GrantProgram();
@@ -144,6 +145,7 @@ angular.module("gryf.contracts").factory("ModifyContractService",
                 id : null,
                 grantProgram: null,
                 contractType : null,
+                trainingCategory: null,
                 individual : null,
                 enterprise : null,
                 signDate : null,
@@ -201,6 +203,12 @@ angular.module("gryf.contracts").factory("ModifyContractService",
                 loadGrantPrograms();
                 loadContractTypes();
             }
+        };
+
+        var getTrainingCategoriesDict = function() {
+            return $http.get(GET_TRAINING_CATEGORY_DICT).then(function(response) {
+                return response.data;
+            });
         };
 
         var openEnterpriseLov = function () {
@@ -262,6 +270,7 @@ angular.module("gryf.contracts").factory("ModifyContractService",
             loadGrantPrograms: loadGrantPrograms,
             loadContractTypes: loadContractTypes,
             loadContract: loadContract,
+            getTrainingCategoriesDict: getTrainingCategoriesDict,
             save: save,
             openEnterpriseLov: openEnterpriseLov,
             openIndividualLov: openIndividualLov,

@@ -81,6 +81,10 @@ angular.module('gryf.contracts').controller("detailsform.ContractsController",
             ModifyContractService.loadContract();
         }
 
+        ModifyContractService.getTrainingCategoriesDict().then(function(data) {
+            $scope.categoryDictionary = data;
+        });
+
         $scope.loadContract();
         $scope.canEdit();
 

@@ -8,6 +8,7 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.enterprises.searchform.Enterp
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.searchform.IndividualSearchResultDTO;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Isolution on 2016-10-27.
@@ -18,6 +19,7 @@ public class ContractDTO extends VersionableDto{
     private Long id;
     private Date signDate;
     private Date expiryDate;
+    private List<String> trainingCategory;
 
     private DictionaryDTO contractType;
     private GrantProgramDictionaryDTO grantProgram;
@@ -46,6 +48,14 @@ public class ContractDTO extends VersionableDto{
 
     public void setExpiryDate(Date expiryDate) {
         this.expiryDate = expiryDate;
+    }
+
+    public List<String> getTrainingCategory() {
+        return trainingCategory;
+    }
+
+    public void setTrainingCategory(List<String> trainingCategory) {
+        this.trainingCategory = trainingCategory;
     }
 
     public DictionaryDTO getContractType() {
