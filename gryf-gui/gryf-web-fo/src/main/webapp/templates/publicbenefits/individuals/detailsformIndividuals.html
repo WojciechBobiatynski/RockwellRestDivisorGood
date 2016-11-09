@@ -59,7 +59,7 @@
                     <input type="text" ng-model="model.entity.documentNumber" maxlength="30">
                     <gryf-validation-msg path="documentNumber"></gryf-validation-msg>
                 </div>
-                <div class="grid-30">
+                <div class="grid-20">
                     <strong class="label">Rodzaj dokumentu tożsamości</strong>
                     <input type="text" ng-model="model.entity.documentType" maxlength="30">
                     <gryf-validation-msg path="documentType"></gryf-validation-msg>
@@ -69,7 +69,12 @@
                     <select ng-options="sex as plec for (sex, plec) in {'M': 'Mężczyzna', 'K': 'Kobieta'}" ng-model="model.entity.sex"></select>
                     <gryf-validation-msg path="sex"></gryf-validation-msg>
                 </div>
-                <div class="grid-30">
+                <div class="grid-20">
+                    <strong class="label">Role</strong>
+                    <select multiple data-ng-options="s as s.description for s in model.indUserRoles track by s.code"ng-model="model.entity.roles"></select>
+                    <gryf-validation-msg path="role"></gryf-validation-msg>
+                </div>
+                <div class="grid-20">
                     <strong class="label">Kod weryfikacyjny</strong>
                     <input type="text" ng-model="model.entity.verificationCode" disabled="disabled">
                 </div>

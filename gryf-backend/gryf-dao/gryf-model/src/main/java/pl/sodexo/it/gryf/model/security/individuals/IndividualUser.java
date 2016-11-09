@@ -5,9 +5,12 @@ import lombok.Setter;
 import lombok.ToString;
 import pl.sodexo.it.gryf.model.api.VersionableEntity;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
+import pl.sodexo.it.gryf.model.security.TeRole;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Encja reprezentuająca użytkownika osoby fizycznej
@@ -70,5 +73,13 @@ public class IndividualUser extends VersionableEntity {
     @Getter
     @Setter
     private Integer resetFailureAttempts = 0;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "TE_IND_USER_IN_ROLES", schema = "APP_PBE", joinColumns = {
+            @JoinColumn(name = "INU_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "TE_ROLE_CODE", referencedColumnName = "CODE")})
+    @Getter
+    @Setter
+    private List<TeRole> roles = new ArrayList<>();
 
 }

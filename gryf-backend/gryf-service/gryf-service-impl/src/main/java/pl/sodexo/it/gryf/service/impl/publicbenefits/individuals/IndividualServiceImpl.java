@@ -24,6 +24,7 @@ import pl.sodexo.it.gryf.service.api.security.VerificationService;
 import pl.sodexo.it.gryf.service.local.api.MailService;
 import pl.sodexo.it.gryf.service.mapping.MailDtoCreator;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.individuals.IndividualDtoMapper;
+import pl.sodexo.it.gryf.service.mapping.dtotoentity.security.RoleDtoMapper;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.individuals.IndividualEntityMapper;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.individuals.searchform.IndividualEntityToSearchResultMapper;
 import pl.sodexo.it.gryf.service.validation.publicbenefits.individuals.IndividualValidator;
@@ -73,6 +74,9 @@ public class IndividualServiceImpl implements IndividualService {
     @Autowired
     private AccountContractPairRepository accountContractPairRepository;
 
+    @Autowired
+    private RoleDtoMapper roleDtoMapper;
+
     //PUBLIC METHODS
 
     @Override
@@ -97,17 +101,23 @@ public class IndividualServiceImpl implements IndividualService {
         individualValidator.validateIndividual(individual, checkPeselDup);
         individual = createIndividualByCode(individual);
 
+        IndividualUser user = createIndividualUser(individual, individualDto);
+        individual.setIndividualUser(user);
+
+        individualRepository.save(individual);
+
+        return individual.getId();
+    }
+
+    private IndividualUser createIndividualUser(Individual individual, IndividualDto individualDto) {
         String newVerificationCode = verificationService.createVerificationCode();
 
         IndividualUser user = new IndividualUser();
         user.setVerificationCode(AEScryptographer.encrypt(newVerificationCode));
         user.setActive(true);
         user.setIndividual(individual);
-        individual.setIndividualUser(user);
-
-        individualRepository.save(individual);
-
-        return individual.getId();
+        user.setRoles(roleDtoMapper.convert(individualDto.getRoles()));
+        return user;
     }
 
     private Individual createIndividualByCode(Individual individual) {

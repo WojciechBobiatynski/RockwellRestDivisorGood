@@ -160,4 +160,9 @@ angular.module("gryf.individuals").controller("detailsform.IndividualController"
             $scope.sendMailWithVerCode = function() {
                 ModifyIndividualsService.sendMailWithVerCode();
             };
+
+            $scope.loadIndUserRoles = function () {
+                ModifyIndividualsService.loadIndUserRoles();
+            };
+            $scope.loadIndUserRoles();
         }]);

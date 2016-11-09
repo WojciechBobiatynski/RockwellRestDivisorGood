@@ -2,8 +2,6 @@ package pl.sodexo.it.gryf.model.publicbenefits.individuals;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 import org.eclipse.persistence.annotations.OptimisticLocking;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -32,7 +30,7 @@ import java.util.Objects;
 @SequenceGenerator(name="ind_seq", schema = "eagle", sequenceName = "ind_seq", allocationSize = 1)
 @NamedQueries({
         @NamedQuery(name = "Individual.findByPesel", query = "select i from Individual i where i.pesel = :pesel order by i.addressCorr"),
-        @NamedQuery(name = "Individual.getForUpdate", query = "select i from Individual i left join fetch i.contacts where i.id = :id"),
+        @NamedQuery(name = "Individual.getForUpdate", query = "select i from Individual i left join fetch i.contacts left join fetch i.individualUser.roles where i.id = :id"),
         @NamedQuery(name = "Individual.findById", query = "select i from Individual i where i.id= :id"),
 })
 @OptimisticLocking(cascade=true)

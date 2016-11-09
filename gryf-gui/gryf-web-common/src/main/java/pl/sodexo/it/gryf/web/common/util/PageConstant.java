@@ -12,5 +12,6 @@ public abstract class PageConstant {
 
     public static final String PATH_SECURITY = "/security";
     public static final String PATH_TI_USER_ROLES = "/ti/roles";
+    public static final String PATH_IND_USER_ROLES = "/ind/roles";
 
 }

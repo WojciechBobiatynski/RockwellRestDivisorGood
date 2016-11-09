@@ -127,6 +127,9 @@ angular.module("gryf.individuals").factory("ModifyIndividualsService",
             var FIND_ENTITY_TYPES_URL = contextPath + "/rest/publicBenefits/dictionaries/" + ENTITY_TYPE_DICT;
             var FIND_ENT_SIZE_TYPES_URL = contextPath + "/rest/publicBenefits/dictionaries/" + ENT_SIZE_TYPES;
 
+            var PATH_SECURITY = "/security";
+            var PATH_IND_USER_ROLES = "/ind/roles";
+
             var violations = {};
             var individualObject = new IndividualObject();
 
@@ -137,6 +140,7 @@ angular.module("gryf.individuals").factory("ModifyIndividualsService",
 
             function IndividualObject() {
                 this.contactTypes = [];
+                this.indUserRoles = [];
                 this.entity = {
                     id: null,
                     code: null,
@@ -156,7 +160,8 @@ angular.module("gryf.individuals").factory("ModifyIndividualsService",
                     verificationCode: null,
                     lastLoginDate: null,
                     enterprises: [],
-                    contacts: []
+                    contacts: [],
+                    roles: []
                 };
             };
 
@@ -320,6 +325,14 @@ angular.module("gryf.individuals").factory("ModifyIndividualsService",
                 });
             };
 
+            var loadIndUserRoles = function() {
+                var promise = $http.get(contextPath + PATH_SECURITY + PATH_IND_USER_ROLES);
+                promise.then(function(response) {
+                    individualObject.indUserRoles = response.data;
+                });
+                return promise;
+            };
+
             return {
                 loadIndividuals: loadIndividuals,
                 loadContactTypes: loadContactTypes,
@@ -334,6 +347,7 @@ angular.module("gryf.individuals").factory("ModifyIndividualsService",
                 openEnterpriseLov: openEnterpriseLov,
                 getDictionaries: getDictionaries,
                 getNewVerificationCode: getNewVerificationCode,
-                sendMailWithVerCode: sendMailWithVerCode
+                sendMailWithVerCode: sendMailWithVerCode,
+                loadIndUserRoles: loadIndUserRoles
             };
         }]);

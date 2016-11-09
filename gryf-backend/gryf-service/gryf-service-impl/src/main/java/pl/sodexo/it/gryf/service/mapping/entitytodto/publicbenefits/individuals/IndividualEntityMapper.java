@@ -9,6 +9,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.VersionableEntityMapper;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.dictionaries.ZipCodeEntityMapper;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.enterprises.EnterpriseEntityMapper;
+import pl.sodexo.it.gryf.service.mapping.entitytodto.security.RoleEntityMapper;
 
 /**
  * Maper mapujący encję Individual na dto  IndividualDto
@@ -26,6 +27,9 @@ public class IndividualEntityMapper extends VersionableEntityMapper<Individual, 
 
     @Autowired
     private EnterpriseEntityMapper enterpriseEntityMapper;
+
+    @Autowired
+    private RoleEntityMapper roleEntityMapper;
 
     @Override
     protected IndividualDto initDestination() {
@@ -55,6 +59,10 @@ public class IndividualEntityMapper extends VersionableEntityMapper<Individual, 
         if(entity.getIndividualUser() != null){
             dto.setVerificationCode(AEScryptographer.decrypt(entity.getIndividualUser().getVerificationCode()));
             dto.setLastLoginDate(entity.getIndividualUser().getLastLoginSuccessDate());
+
+            if(entity.getIndividualUser().getRoles() != null){
+                dto.setRoles(roleEntityMapper.convert(entity.getIndividualUser().getRoles()));
+            }
         }
 
         //kolejny przypadek gdzie nie działa stream, dlatego tak

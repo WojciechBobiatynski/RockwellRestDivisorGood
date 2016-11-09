@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 import pl.sodexo.it.gryf.common.dto.api.VersionableDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.enterprises.detailsform.EnterpriseDto;
+import pl.sodexo.it.gryf.common.dto.security.RoleDto;
 import pl.sodexo.it.gryf.common.dto.security.individuals.Verifiable;
 import pl.sodexo.it.gryf.common.dto.zipcodes.detailsform.ZipCodeDto;
 
@@ -95,6 +96,10 @@ public class IndividualDto extends VersionableDto implements Verifiable {
     @Getter
     @Setter
     private List<EnterpriseDto> enterprises = new ArrayList<>();
+
+    @Getter
+    @Setter
+    private List<RoleDto> roles = new ArrayList<>();
 
     @Override
     public String getLogin() {

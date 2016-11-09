@@ -10,8 +10,7 @@ import pl.sodexo.it.gryf.service.api.security.SecurityService;
 
 import java.util.List;
 
-import static pl.sodexo.it.gryf.web.common.util.PageConstant.PATH_SECURITY;
-import static pl.sodexo.it.gryf.web.common.util.PageConstant.PATH_TI_USER_ROLES;
+import static pl.sodexo.it.gryf.web.common.util.PageConstant.*;
 
 /**
  * Kontroler związany z bezpieczeństwem
@@ -29,6 +28,12 @@ public class SecurityController {
     @ResponseBody
     public List<RoleDto> getRolesForTiUser() {
         return securityService.findRolesForTiUser();
+    }
+
+    @RequestMapping(value = PATH_IND_USER_ROLES, method = RequestMethod.GET)
+    @ResponseBody
+    public List<RoleDto> getRolesForIndUser() {
+        return securityService.findRolesForIndUser();
     }
 
 }

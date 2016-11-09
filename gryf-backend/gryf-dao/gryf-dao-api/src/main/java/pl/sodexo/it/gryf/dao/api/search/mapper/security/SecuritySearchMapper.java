@@ -36,4 +36,11 @@ public interface SecuritySearchMapper {
      * @return lista ról
      */
     List<RoleDto> findRolesForTiUser(@Param("criteria") UserCriteria criteria);
+
+    /**
+     * Metoda wyszukująca role dla użytkownika osoby fizycznej
+     * @param criteria - kryteria użytkownika
+     * @return lista ról
+     */
+    List<RoleDto> findRolesForIndUser(@Param("criteria") UserCriteria criteria);
 }
