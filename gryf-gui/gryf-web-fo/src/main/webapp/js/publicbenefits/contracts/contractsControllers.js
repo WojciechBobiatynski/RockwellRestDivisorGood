@@ -51,7 +51,7 @@ var scopeModifyController;
 angular.module('gryf.contracts').controller("detailsform.ContractsController",
     ["$scope", '$routeParams', "ModifyContractService", "GryfModals", "GryfPopups", function ($scope, $routeParams, ModifyContractService, GryfModals, GryfPopups) {
 
-        var NEW_CONTRACT_URL =  contextPath + "'/publicbenefits/contracts/#modify";
+        var NEW_CONTRACT_URL =  contextPath + "/publicbenefits/contracts/#modify";
 
         scopeModifyController = $scope;
         $scope.grantProgram = ModifyContractService.getNewGrantPrograms();
@@ -119,12 +119,18 @@ angular.module('gryf.contracts').controller("detailsform.ContractsController",
                 if (!result) {
                     return;
                 }
-                executeSave();
+                executeSave(redirectUrl);
             });
 
             var executeSave = function() {
                 $scope.violations = ModifyContractService.getNewViolations();
-                ModifyContractService.save();
+                ModifyContractService.save().then(function () {
+                    if (!redirectUrl) {
+                        redirectUrl = $scope.getPrevUrl();
+                    }else{
+                        $scope.model = {};
+                    }
+                });
             }
 
             $scope.getPrevUrl = function() {
