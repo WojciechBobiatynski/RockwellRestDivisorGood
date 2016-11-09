@@ -112,11 +112,15 @@ angular.module("gryf.trainingInstitutions").factory("ModifyTrainingInsService",
         var TRAINING_INS_URL = contextPath + "/rest/publicBenefits/trainingInstitution/";
         var RESET_LINK_PATH = "reset";
 
+        var PATH_SECURITY = "/security";
+        var PATH_TI_USER_ROLES = "/ti/roles";
+
         var violations = {};
         var trainingInsObject = new TrainingInsObject();
 
         function TrainingInsObject() {
             this.contactTypes = [];
+            this.tiUserRoles = [];
             this.entity = {
                 id: null,
                 code: null,
@@ -258,6 +262,14 @@ angular.module("gryf.trainingInstitutions").factory("ModifyTrainingInsService",
             });
         };
 
+        var loadTiUserRoles = function() {
+            var promise = $http.get(contextPath + PATH_SECURITY + PATH_TI_USER_ROLES);
+            promise.then(function(response) {
+                trainingInsObject.tiUserRoles = response.data;
+            });
+            return promise;
+        };
+
         return {
             load: load,
             loadContactTypes: loadContactTypes,
@@ -270,6 +282,7 @@ angular.module("gryf.trainingInstitutions").factory("ModifyTrainingInsService",
             removeContact: removeContact,
             openZipCodesLov: openZipCodesLov,
             addTiUserToList: addTiUserToList,
-            sendResetLink: sendResetLink
+            sendResetLink: sendResetLink,
+            loadTiUserRoles: loadTiUserRoles
         }
     }]);

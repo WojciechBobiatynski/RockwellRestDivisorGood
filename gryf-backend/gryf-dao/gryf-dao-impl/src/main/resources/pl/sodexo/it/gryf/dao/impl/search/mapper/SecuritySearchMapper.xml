@@ -48,4 +48,15 @@
             ind.pesel = #{pesel}
     </select>
 
+    <select id="findRolesForTiUser" resultType="pl.sodexo.it.gryf.common.dto.security.RoleDto" parameterType="list">
+       SELECT
+            role.CODE           code,
+            role.DESCRIPTION    description,
+            role.CONTEXT        context
+        FROM
+            APP_PBE.TE_ROLES role
+        WHERE
+            role.CONTEXT = #{criteria.config.tiUserContext}
+    </select>
+
 </mapper>

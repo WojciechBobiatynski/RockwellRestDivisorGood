@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.dao.api.search.dao.security;
 
+import pl.sodexo.it.gryf.common.dto.security.RoleDto;
 import pl.sodexo.it.gryf.common.dto.security.individuals.GryfIndUserDto;
 
 import java.util.List;
@@ -26,5 +27,11 @@ public interface SecuritySearchDao {
      * @return Dto reprezentujące użytkonwika osoby fizycznej na potrzeby autentykacji
      */
     GryfIndUserDto findIndUserByPesel(String pesel);
+
+    /**
+     * Metoda wyszukująca role dla instytucji szkoleniowej
+     * @return lista ról
+     */
+    List<RoleDto> findRolesForTiUser();
 
 }

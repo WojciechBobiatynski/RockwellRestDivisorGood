@@ -22,13 +22,13 @@ import java.util.Objects;
 /**
  * Created by tomasz.bilski.ext on 2015-06-22.
  */
-@ToString
+@ToString(exclude = {"trainingInstitutionUsers","contacts"})
 @Entity
 @Table(name = "TRAINING_INSTITUTIONS", schema = "APP_PBE")
 @SequenceGenerator(name="trin_seq", schema = "eagle", sequenceName = "trin_seq", allocationSize = 1)
 @NamedQueries({
         @NamedQuery(name = "TrainingInstitution.findByVatRegNum", query = "select e from TrainingInstitution e where e.vatRegNum = :vatRegNum order by e.addressCorr"),
-        @NamedQuery(name = "TrainingInstitution.getForUpdate", query = "select e from TrainingInstitution e left join fetch e.contacts left join fetch e.trainingInstitutionUsers where e.id = :id"),
+        @NamedQuery(name = "TrainingInstitution.getForUpdate", query = "select e from TrainingInstitution e left join fetch e.contacts left join fetch e.trainingInstitutionUsers u left join fetch u.roles where e.id = :id"),
 })
 @OptimisticLocking(cascade=true)
 public class TrainingInstitution extends VersionableEntity {

@@ -5,8 +5,10 @@ import lombok.Setter;
 import lombok.ToString;
 import pl.sodexo.it.gryf.model.api.VersionableEntity;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstitution;
+import pl.sodexo.it.gryf.model.security.TeRole;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -18,7 +20,7 @@ import java.util.List;
 @Entity
 @Table(name = "TRAINING_INSTITUTION_USERS", schema = "APP_PBE")
 @SequenceGenerator(name = "ti_usr_seq", schema = "eagle", sequenceName = "ti_usr_seq", allocationSize = 1)
-@ToString(exclude = {"password", "trainingInstitution", "tiUserResetAttemptList"})
+@ToString(exclude = {"password", "trainingInstitution", "tiUserResetAttemptList", "roles"})
 public class TrainingInstitutionUser extends VersionableEntity {
 
     @Id
@@ -81,4 +83,14 @@ public class TrainingInstitutionUser extends VersionableEntity {
     @Getter
     @Setter
     private List<TiUserResetAttempt> tiUserResetAttemptList;
+
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "TI_USER_IN_ROLES", schema = "APP_PBE", joinColumns = {
+            @JoinColumn(name = "TI_USER_ID", referencedColumnName = "ID")},
+            inverseJoinColumns = {@JoinColumn(name = "TE_ROLE_CODE", referencedColumnName = "CODE")})
+    @Getter
+    @Setter
+    private List<TeRole> roles = new ArrayList<>();
+
 }

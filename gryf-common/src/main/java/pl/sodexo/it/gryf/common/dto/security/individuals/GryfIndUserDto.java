@@ -4,10 +4,12 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import pl.sodexo.it.gryf.common.dto.security.GryfBlockableUserDto;
+import pl.sodexo.it.gryf.common.dto.security.RoleDto;
 import pl.sodexo.it.gryf.common.user.GryfBlockableUserVisitor;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
 /**
  * Dto reprezentujące użytkownika osoby fizycznej
@@ -60,4 +62,8 @@ public class GryfIndUserDto extends GryfBlockableUserDto implements Serializable
     public String getLogin() {
         return pesel;
     }
+
+    @Getter
+    @Setter
+    private Set<RoleDto> roles;
 }

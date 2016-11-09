@@ -6,14 +6,18 @@ import pl.sodexo.it.gryf.common.dto.security.trainingInstitutions.GryfTiUserDto;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstitutionRepository;
 import pl.sodexo.it.gryf.model.security.trainingInstitutions.TrainingInstitutionUser;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.VersionableDtoMapper;
+import pl.sodexo.it.gryf.service.mapping.dtotoentity.security.RoleDtoMapper;
 
 /**
- * * Komponent mapujący Dto użytkownika instytucji szkoleniowej na encję
+ * Komponent mapujący Dto użytkownika instytucji szkoleniowej na encję
  *
  * Created by akmiecinski on 24.10.2016.
  */
 @Component
 public class GryfTiUserDtoMapper extends VersionableDtoMapper<GryfTiUserDto, TrainingInstitutionUser> {
+
+    @Autowired
+    private RoleDtoMapper roleDtoMapper;
 
     @Autowired
     private TrainingInstitutionRepository trainingInstitutionRepository;
@@ -36,5 +40,8 @@ public class GryfTiUserDtoMapper extends VersionableDtoMapper<GryfTiUserDto, Tra
         entity.setIsActive(dto.isActive());
         entity.setLastLoginFailureDate(dto.getLastLoginFailureDate());
         entity.setLoginFailureAttempts(dto.getLoginFailureAttempts());
+        if(dto.getRoles() != null && !dto.getRoles().isEmpty()){
+            entity.setRoles(roleDtoMapper.convert(dto.getRoles()));
+        }
     }
 }

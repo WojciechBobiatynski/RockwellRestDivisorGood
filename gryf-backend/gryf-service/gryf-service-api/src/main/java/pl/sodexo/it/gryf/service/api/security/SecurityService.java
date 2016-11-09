@@ -1,6 +1,9 @@
 package pl.sodexo.it.gryf.service.api.security;
 
+import pl.sodexo.it.gryf.common.dto.security.RoleDto;
 import pl.sodexo.it.gryf.common.dto.security.individuals.GryfIndUserDto;
+
+import java.util.List;
 
 /**
  * Serwis realizujacy uslugi dotyczące uwierzytelniania uzytkownika po stronie aplikacji
@@ -15,4 +18,11 @@ public interface SecurityService {
      * @return Dto reprezentujące użytkonwika osoby fizycznej na potrzeby autentykacji
      */
     GryfIndUserDto findIndUserByPesel(String pesel);
+
+    /**
+     * Metoda wyszukująca role dla instytucji szkoleniowej
+     * @return lista ról
+     */
+    List<RoleDto> findRolesForTiUser();
+
 }

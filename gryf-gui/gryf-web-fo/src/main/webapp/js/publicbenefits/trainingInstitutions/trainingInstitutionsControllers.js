@@ -3,33 +3,33 @@
 var scopeBrowseController;
 
 angular.module("gryf.trainingInstitutions").controller("searchform.TrainingInsController",
-    ["$scope", "BrowseTrainingInsService", 'GryfPopups', function($scope, BrowseTrainingInsService, GryfPopups) {
+    ["$scope", "BrowseTrainingInsService", 'GryfPopups', function ($scope, BrowseTrainingInsService, GryfPopups) {
         scopeBrowseController = $scope;
         $scope.searchObjModel = BrowseTrainingInsService.getSearchDTO();
         $scope.searchResultOptions = BrowseTrainingInsService.getSearchResultOptions();
         gryfSessionStorage.setUrlToSessionStorage();
         GryfPopups.showPopup();
 
-        $scope.loadMore = function() {
+        $scope.loadMore = function () {
             BrowseTrainingInsService.loadMore();
         };
 
-        $scope.find = function() {
+        $scope.find = function () {
             $scope.searchResultOptions.badQuery = false;
             BrowseTrainingInsService.find();
         };
 
-        $scope.clear = function() {
+        $scope.clear = function () {
             $scope.searchObjModel = BrowseTrainingInsService.getNewSearchDTO();
             $scope.searchResultOptions = BrowseTrainingInsService.resetSearchResultOptions();
         };
 
-        $scope.getSorted = function(sortColumnName) {
+        $scope.getSorted = function (sortColumnName) {
             $scope.searchResultOptions.badQuery = false;
             BrowseTrainingInsService.findSortedBy(sortColumnName);
         };
 
-        $scope.getSortingTypeClass = function(columnName) {
+        $scope.getSortingTypeClass = function (columnName) {
             var sortingType = $scope.searchObjModel.entity.sortTypes[0];
             if (columnName == $scope.searchObjModel.entity.sortColumns[0]) {
                 return sortingType;
@@ -40,98 +40,102 @@ angular.module("gryf.trainingInstitutions").controller("searchform.TrainingInsCo
 var scopeModifyController;
 angular.module("gryf.trainingInstitutions").controller("detailsform.TrainingInsController",
     ["$scope", "ModifyTrainingInsService", 'GryfModals', 'GryfPopups', '$route',
-     function($scope, ModifyTrainingInsService, GryfModals, GryfPopups, $route) {
-         scopeModifyController = $scope;
-         $scope.model = ModifyTrainingInsService.getNewModel();
-         $scope.violations = ModifyTrainingInsService.getNewViolations();
-         gryfSessionStorage.setUrlToSessionStorage();
-         GryfPopups.showPopup();
+        function ($scope, ModifyTrainingInsService, GryfModals, GryfPopups, $route) {
+            scopeModifyController = $scope;
+            $scope.model = ModifyTrainingInsService.getNewModel();
+            $scope.violations = ModifyTrainingInsService.getNewViolations();
+            gryfSessionStorage.setUrlToSessionStorage();
+            GryfPopups.showPopup();
+
+            var NEW_TI_URL = contextPath + "/publicBenefits/trainingInstitutions/#modify";
 
 
-         var NEW_TI_URL = contextPath + "/publicBenefits/trainingInstitutions/#modify";
+            $scope.newTrainingInstitution = function () {
+                var messageText = {
+                    message: "Wywołując tę akcję stracisz niezapisane dane "
+                };
 
+                GryfModals.openModal(GryfModals.MODALS_URL.CONFIRM, messageText).result.then(function (result) {
+                    if (!result) {
+                        return;
+                    }
+                    window.location = NEW_TI_URL;
+                });
 
-         $scope.newTrainingInstitution = function() {
-             var messageText = {
-                 message: "Wywołując tę akcję stracisz niezapisane dane "
-             };
+            };
 
-             GryfModals.openModal(GryfModals.MODALS_URL.CONFIRM, messageText).result.then(function(result) {
-                 if (!result) {
-                     return;
-                 }
-                 window.location = NEW_TI_URL;
-             });
+            $scope.getPrevUrl = function () {
+                return gryfSessionStorage.getUrlFromSessionStorage();
+            };
 
-         };
+            $scope.loadTI = function (id) {
+                ModifyTrainingInsService.load(id);
+            };
+            $scope.loadTI();
 
-         $scope.getPrevUrl = function() {
-             return gryfSessionStorage.getUrlFromSessionStorage();
-         };
+            $scope.loadContactTypes = function () {
+                ModifyTrainingInsService.loadContactTypes();
+            };
+            $scope.loadContactTypes();
 
-         $scope.loadTI = function(id) {
-             ModifyTrainingInsService.load(id);
-         };
-         $scope.loadTI();
+            $scope.saveAndAdd = function () {
+                $scope.save(NEW_TI_URL);
+            };
 
-         $scope.loadContactTypes = function() {
-             ModifyTrainingInsService.loadContactTypes();
-         };
-         $scope.loadContactTypes();
+            $scope.save = function (redirectUrl) {
 
-         $scope.saveAndAdd = function() {
-             $scope.save(NEW_TI_URL);
-         };
+                GryfModals.openModal(GryfModals.MODALS_URL.CONFIRM).result.then(function (result) {
+                    if (!result) {
+                        return;
+                    }
+                    executeSave();
+                });
+                var executeSave = function () {
+                    $scope.violations = ModifyTrainingInsService.getNewViolations();
+                    ModifyTrainingInsService.save().then(function () {
+                        if (!redirectUrl) {
+                            redirectUrl = $scope.getPrevUrl();
+                        }
+                        window.location = redirectUrl;
+                    });
+                };
+            };
 
-         $scope.save = function(redirectUrl) {
+            $scope.addContact = function () {
+                ModifyTrainingInsService.addItemToList();
+            };
 
-             GryfModals.openModal(GryfModals.MODALS_URL.CONFIRM).result.then(function(result) {
-                 if (!result) {
-                     return;
-                 }
-                 executeSave();
-             });
-             var executeSave = function() {
-                 $scope.violations = ModifyTrainingInsService.getNewViolations();
-                 ModifyTrainingInsService.save().then(function() {
-                     if (!redirectUrl) {
-                         redirectUrl = $scope.getPrevUrl();
-                     }
-                     window.location = redirectUrl;
-                 });
-             };
-         };
+            $scope.addContact = function (contact) {
+                ModifyTrainingInsService.addContact(contact);
+            };
 
-         $scope.addContact = function() {
-             ModifyTrainingInsService.addItemToList();
-         };
+            $scope.openInvoiceZipCodesLov = function () {
+                ModifyTrainingInsService.openZipCodesLov().result.then(function (chosedItem) {
+                    $scope.model.entity.zipCodeInvoice = chosedItem;
+                });
+            };
 
-         $scope.addContact = function(contact) {
-             ModifyTrainingInsService.addContact(contact);
-         };
+            $scope.openCorrZipCodesLov = function () {
+                ModifyTrainingInsService.openZipCodesLov().result.then(function (chosedItem) {
+                    $scope.model.entity.zipCodeCorr = chosedItem;
+                });
+            };
 
-         $scope.openInvoiceZipCodesLov = function() {
-             ModifyTrainingInsService.openZipCodesLov().result.then(function(chosedItem) {
-                 $scope.model.entity.zipCodeInvoice = chosedItem;
-             });
-         };
+            $scope.addTiUser = function () {
+                ModifyTrainingInsService.addTiUserToList();
+            };
 
-         $scope.openCorrZipCodesLov = function() {
-             ModifyTrainingInsService.openZipCodesLov().result.then(function(chosedItem) {
-                 $scope.model.entity.zipCodeCorr = chosedItem;
-             });
-         };
+            $scope.sendResetLink = function (user) {
+                ModifyTrainingInsService.sendResetLink(user);
+            };
 
-         $scope.addTiUser = function() {
-             ModifyTrainingInsService.addTiUserToList();
-         };
+            $scope.isModType = function (user) {
+                return user.id != null;
+            };
 
-         $scope.sendResetLink = function(user){
-             ModifyTrainingInsService.sendResetLink(user);
-         };
+            $scope.loadTiUserRoles = function () {
+                ModifyTrainingInsService.loadTiUserRoles();
+            };
+            $scope.loadTiUserRoles();
 
-         $scope.isModType = function(user) {
-             return user.id != null;
-         };
-
-     }]);
+        }]);

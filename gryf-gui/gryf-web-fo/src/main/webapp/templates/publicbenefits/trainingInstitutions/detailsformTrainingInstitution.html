@@ -57,7 +57,7 @@
                         {{model.entity.zipCodeInvoice.zipCode}}
                         <gryf-validation-msg path="zipCodeInvoice"></gryf-validation-msg>
                         </span>
-                     <span class="grid-70">
+                    <span class="grid-70">
                         {{model.entity.zipCodeInvoice.cityName}}
                         <gryf-validation-msg path="zipCodeInvoice.cityName"></gryf-validation-msg>
                               </span>
@@ -116,6 +116,7 @@
                 <thead>
                 <tr>
                     <th>Email/Login</th>
+                    <th>Rola</th>
                     <th>Data ostatniego logowania</th>
                     <th></th>
                 </tr>
@@ -125,6 +126,10 @@
                         <input type="email" maxlength="250" ng-model="user.email" data-ng-change="user.login=user.email" data-ng-disabled="isModType(user)"/>
                         <gryf-validation-msg
                                 path="users[{{$index}}].email"></gryf-validation-msg>
+                    </td>
+                    <td>
+                        <select multiple data-ng-options="s as s.description for s in model.tiUserRoles track by s.code" data-ng-model="user.roles"></select>
+                        <gryf-validation-msg path="users[{{$index}}].role"></gryf-validation-msg>
                     </td>
                     <td>
                         <input type="text" ng-model="user.lastLoginSuccessDate" disabled="disabled"/>

@@ -16,6 +16,8 @@ import pl.sodexo.it.gryf.service.local.api.dictionaries.ContactTypeValidator;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.traininginstiutions.TrainingInstitutionEntityMapper;
 
 import java.util.List;
+import java.util.function.IntConsumer;
+import java.util.stream.IntStream;
 
 /**
  * Walidator dla encji TrainingInstitution
@@ -45,18 +47,38 @@ public class TrainingInstitutionValidator {
         //CONTACT DATA - VALIDATION
         validateContacts(trainingInstitution.getContacts(), violations);
 
+        validateTiUser(trainingInstitution, violations);
+
         //VALIDATE (EXCEPTION)
         gryfValidator.validate(violations);
 
         //VAT REG NUM EXIST - VALIDATION
         if (checkVatRegNumDup) {
-            List<TrainingInstitution> trainingInstitutionList = trainingInstitutionRepository.findByVatRegNum(trainingInstitution.getVatRegNum());
-            validateVatRegNumExist(trainingInstitutionEntityMapper.convert(trainingInstitutionList), trainingInstitution);
+            validateVatRegNumExist(trainingInstitution);
+        }
+
+    }
+
+    private void validateTiUser(TrainingInstitution trainingInstitution, List<EntityConstraintViolation> violations) {
+        //TODO wynieść stringi do stałych
+        IntConsumer myConsumer = (index) -> {
+            if (trainingInstitution.getTrainingInstitutionUsers().get(index).getRoles() == null || trainingInstitution.getTrainingInstitutionUsers().get(index).getRoles().isEmpty()) {
+                String path = String.format("%s[%s].%s", "users", index, "role");
+                violations.add(new EntityConstraintViolation(path, "Brak ról dla użytkownika"));
+            }
+            if(trainingInstitution.getTrainingInstitutionUsers().get(index).getEmail() == null){
+                String path = String.format("%s[%s].%s", "users", index, "email");
+                violations.add(new EntityConstraintViolation(path, "Brak adresu email/loginu"));
+            }
+        };
+
+        if (trainingInstitution.getTrainingInstitutionUsers() != null) {
+            IntStream.range(0, trainingInstitution.getTrainingInstitutionUsers().size()).forEach(myConsumer);
         }
     }
 
     //PROTECTED METHODS
-//TODO wydzielić wspólnna metode na podstawie Contact
+    //TODO wydzielić wspólnna metode na podstawie Contact
     private void validateContacts(List<TrainingInstitutionContact> contacts, List<EntityConstraintViolation> violations) {
         int contactsSize = contacts.size();
         TrainingInstitutionContact[] contactTab = contacts.toArray(new TrainingInstitutionContact[contactsSize]);
@@ -71,7 +93,12 @@ public class TrainingInstitutionValidator {
         }
     }
 
-    private void validateVatRegNumExist(List<TrainingInstitutionDto> trainingInstitutions, TrainingInstitution trainingInstitution) {
+    private void validateVatRegNumExist(TrainingInstitution trainingInstitution) {
+        List<TrainingInstitution> trainingInstitutionList = trainingInstitutionRepository.findByVatRegNum(trainingInstitution.getVatRegNum());
+        if (trainingInstitutionList.isEmpty()) {
+            return;
+        }
+        List<TrainingInstitutionDto> trainingInstitutions = trainingInstitutionEntityMapper.convert(trainingInstitutionList);
         trainingInstitutions.removeIf(dto -> trainingInstitution.getId().equals(dto.getId()));
         if (trainingInstitutions.size() > 0) {
             throw new VatRegNumTrainingInstitutionExistException("W systemie istnieja zapisane podmioty o danym numerze NIP", trainingInstitutions);

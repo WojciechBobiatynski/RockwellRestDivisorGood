@@ -82,4 +82,8 @@ public interface ApplicationParameters {
     String getPublicCaptchaKey();
 
     String getSecretCaptchaKey();
+
+    String getTiUserContext();
+
+    String getIndUserContext();
 }

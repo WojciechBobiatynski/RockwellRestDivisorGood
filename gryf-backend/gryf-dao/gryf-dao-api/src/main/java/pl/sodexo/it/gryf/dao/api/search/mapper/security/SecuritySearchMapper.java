@@ -2,6 +2,7 @@ package pl.sodexo.it.gryf.dao.api.search.mapper.security;
 
 import org.apache.ibatis.annotations.Param;
 import pl.sodexo.it.gryf.common.criteria.UserCriteria;
+import pl.sodexo.it.gryf.common.dto.security.RoleDto;
 import pl.sodexo.it.gryf.common.dto.security.individuals.GryfIndUserDto;
 
 import java.util.List;
@@ -28,4 +29,11 @@ public interface SecuritySearchMapper {
      * @return Dto reprezentujące użytkonwika osoby fizycznej na potrzeby autentykacji
      */
     GryfIndUserDto findIndUserByPesel(@Param("criteria") UserCriteria criteria, @Param("pesel") String pesel);
+
+    /**
+     * Metoda wyszukująca role dla instytucji szkoleniowej
+     * @param criteria - kryteria użytkownika
+     * @return lista ról
+     */
+    List<RoleDto> findRolesForTiUser(@Param("criteria") UserCriteria criteria);
 }

@@ -56,6 +56,8 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     private Integer resetLinkActiveMinutes = 30;
     private String secretCaptchaKey = "6Lf2YwoUAAAAAAakGiKVaC-hAwLqDKQn4RQqEt7Y";
     private String publicCaptchaKey = "6Lf2YwoUAAAAAJLQuF5yQzLcdSim4KNQ4Ur_WWgm";
+    private String indUserContext = "IND";
+    private String tiUserContext = "TI";
 
     //LIFECYCLE METHODS
 
@@ -212,6 +214,14 @@ public class ApplicationParametersImpl implements ApplicationParameters {
         String dbSecretCaptchaKey = (String) findParameter("GRYF_SECRET_CAPTCHA_KEY");
         if (dbSecretCaptchaKey != null) {
             secretCaptchaKey = dbSecretCaptchaKey;
+        }
+        String dbIndUserContext = (String) findParameter("GRYF_IND_USER_CONTEXT");
+        if (dbIndUserContext != null) {
+            indUserContext = dbIndUserContext;
+        }
+        String dbTiUserContext = (String) findParameter("GRYF_TI_USER_CONTEXT");
+        if (dbTiUserContext != null) {
+            tiUserContext = dbTiUserContext;
         }
     }
 
@@ -410,6 +420,16 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     @Override
     public String getSecretCaptchaKey() {
         return secretCaptchaKey;
+    }
+
+    @Override
+    public String getTiUserContext() {
+        return tiUserContext;
+    }
+
+    @Override
+    public String getIndUserContext() {
+        return indUserContext;
     }
 
     //PRIVATE METHODS
