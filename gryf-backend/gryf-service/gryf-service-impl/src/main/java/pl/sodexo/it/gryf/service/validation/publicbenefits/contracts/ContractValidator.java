@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.dao.api.crud.repository.accounts.AccountContractPairRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.contracts.ContractRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.employments.EmploymentRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.individuals.IndividualRepository;
 import pl.sodexo.it.gryf.model.accounts.AccountContractPair;
@@ -35,6 +36,9 @@ public class ContractValidator {
     @Autowired
     private EmploymentRepository employmentRepository;
 
+    @Autowired
+    private ContractRepository contractRepository;
+
     public void validateContract(Contract contract) {
 
         //GENERAL VALIDATION
@@ -57,6 +61,13 @@ public class ContractValidator {
     private void validateContractId(Contract contract, List<EntityConstraintViolation> violations) {
         if (contract.getId() != null) {
             String message = "";
+
+            if (contractRepository.get(contract.getId()) != null) {
+                message = "Istnieje już umowa o podanym id";
+                violations.add(new EntityConstraintViolation(Contract.ID_ATTR_NAME, message, null));
+                return;
+            }
+
             AccountContractPair accountContractPair = accountContractPairRepository.findByContractId(contract.getId());
             if (accountContractPair == null) {
                 message = "Podane id umowy nie wystepuje w bazie";
@@ -75,7 +86,7 @@ public class ContractValidator {
                 violations.add(new EntityConstraintViolation(Contract.ID_ATTR_NAME, message, null));
                 return;
             }
-            if (accountContractPair.getAccountPayment() != individual.getAccountPayment()) {
+            if (!accountContractPair.getAccountPayment().equals(individual.getAccountPayment())) {
                 message = "Numer subkonta przypisany do umowy jest inny niż posiadany przez uczestnika";
                 violations.add(new EntityConstraintViolation(Contract.ID_ATTR_NAME, message, null));
                 return;

@@ -59,7 +59,6 @@ public class Contract extends VersionableEntity {
 
     @Column(name = "EXPIRY_DATE")
     @Temporal(TemporalType.TIMESTAMP)
-    @NotNull(message = "Data upłynięcia okresu ważności umowy nie może być pusta")
     private Date expiryDate;
 
     //GETTERS && SETTERS

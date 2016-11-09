@@ -113,7 +113,6 @@ public class ContractServiceImpl implements ContractService {
     public void updateContract(ContractDTO contractDto) {
         Contract contract = contractDtoMapper.convert(contractDto);
         fillContract(contract, contractDto);
-        contractValidator.validateContract(contract);
         contractRepository.update(contract, contract.getId());
     }
 
