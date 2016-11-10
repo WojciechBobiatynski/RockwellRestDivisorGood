@@ -44,8 +44,6 @@
     </properties>
 
     <modules>
-        <module>gryf-web</module>
-        
         <module>gryf-gui</module>
         <module>gryf-backend</module>
         <module>gryf-common</module>
