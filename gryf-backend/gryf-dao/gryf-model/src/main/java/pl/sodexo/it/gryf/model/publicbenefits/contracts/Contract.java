@@ -5,10 +5,14 @@ import pl.sodexo.it.gryf.model.api.VersionableEntity;
 import pl.sodexo.it.gryf.model.publicbenefits.enterprises.Enterprise;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
+import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingCategory;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Isolution on 2016-10-27.
@@ -60,6 +64,12 @@ public class Contract extends VersionableEntity {
     @Column(name = "EXPIRY_DATE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date expiryDate;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "CONTRACT_TRAINING_CATEGORIES", schema = "APP_PBE",
+            joinColumns = {@JoinColumn(name = "CONTRACT_ID", referencedColumnName = "ID")},
+            inverseJoinColumns = {@JoinColumn(name = "TRAINING_CATEGORY_ID", referencedColumnName = "ID")})
+    private List<TrainingCategory> categories;
 
     //GETTERS && SETTERS
 
@@ -117,5 +127,23 @@ public class Contract extends VersionableEntity {
 
     public void setExpiryDate(Date expiryDate) {
         this.expiryDate = expiryDate;
+    }
+
+    //LIST METHODS
+
+    private List<TrainingCategory> getInitializedCategories() {
+        if (categories == null)
+            categories = new ArrayList<>();
+        return categories;
+    }
+
+    public List<TrainingCategory> getCategories() {
+        return Collections.unmodifiableList(getInitializedCategories());
+    }
+
+    public void addCategory(TrainingCategory category) {
+        if (category.getId() == null || !getInitializedCategories().contains(category)) {
+            getInitializedCategories().add(category);
+        }
     }
 }

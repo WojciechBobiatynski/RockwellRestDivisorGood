@@ -3,6 +3,7 @@ package pl.sodexo.it.gryf.service.impl.publicbenefits.contracts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import pl.sodexo.it.gryf.common.dto.other.DictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.other.GrantProgramDictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.contracts.detailsform.ContractDTO;
@@ -13,10 +14,12 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.contracts.Contra
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.enterprises.EnterpriseRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.grantprograms.GrantProgramRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.individuals.IndividualRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingCategoryRepository;
 import pl.sodexo.it.gryf.dao.api.search.dao.ContractSearchDao;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.ContractType;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
+import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingCategory;
 import pl.sodexo.it.gryf.service.api.publicbenefits.contracts.ContractService;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.contracts.ContractDtoMapper;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.dictionaries.DictionaryEntityMapper;
@@ -69,6 +72,9 @@ public class ContractServiceImpl implements ContractService {
     private ContractEntityMapper contractEntityMapper;
 
     @Autowired
+    private TrainingCategoryRepository trainingCategoryRepository;
+
+    @Autowired
     private ContractValidator contractValidator;
 
     @Override
@@ -106,6 +112,13 @@ public class ContractServiceImpl implements ContractService {
         entity.setEnterprise(dto.getEnterprise() != null ? enterpriseRepository.get(dto.getEnterprise().getId()) : null);
         entity.setGrantProgram(dto.getGrantProgram() != null ? grantProgramRepository.get(dto.getGrantProgram().getGrantProgramOwnerId()) : null);
         entity.setContractType(dto.getContractType() != null ? contractTypeRepository.get((String)dto.getContractType().getId()) : null);
+        for(String categoryId : dto.getTrainingCategory()){
+            if(!StringUtils.isEmpty(categoryId)) {
+                TrainingCategory category = trainingCategoryRepository.get(categoryId);
+                entity.addCategory(category);
+            }
+        }
+
         return entity;
     }
 
