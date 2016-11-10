@@ -235,12 +235,6 @@
                                    gryf-link-privilege="GRF_PBE_REIMB">Lista rozliczeń
                                 </a>
                             </li>
-                            <li>
-                                <a ng-href="${pageContext.request.contextPath}/publicBenefits/electronic/reimbursements/#modify"
-                                <%--TODO: dodać uprawnienia--%>
-                                   gryf-link-privilege="GRF_PBE_REIMB">Nowe rozliczenie
-                                </a>
-                            </li>
                         </ul>
                     </li>
                 </ul>

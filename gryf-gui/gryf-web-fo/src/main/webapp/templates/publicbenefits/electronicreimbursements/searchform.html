@@ -1,5 +1,132 @@
-<div>
-    Szukaj rozliczenia
+<header id="header">
+    <h1>Lista rozliczeń elektronicznych</h1>
+    <ul>
+        <li><a ng-click="clear()" class="button button-refresh">wyczyść</a></li>
+    </ul>
+</header>
+<div class="one-column">
+    <section class="overflow-x-auto">
+        <table class="table table-condensed">
+            <thead>
+            <tr>
+                <th class="sortable"
+                    ng-class="getSortingTypeClass('id')">
+                    <div ng-click="getSortedBy('id')">
+                        Numer rozliczenia
+                    </div>
+                    <input placeholder="Numer rozliczenia" type="text"
+                           ng-model="searchDTO.entity.id">
+                </th>
+                <th class="sortable"
+                    ng-class="getSortingTypeClass('invoiceNumber')">
+                    <div ng-click="getSortedBy('invoiceNumber')">
+                        Nazwa szkolenia
+                    </div>
+                    <input placeholder="Nazwa szkolenia" type="text"
+                           ng-model="searchDTO.entity.invoiceNumber">
+                </th>
+                <th class="sortable"
+                    ng-class="getSortingTypeClass('reimbursementDelivery.trainingInstitution.vatRegNum')">
+                    <div ng-click="getSortedBy('reimbursementDelivery.trainingInstitution.vatRegNum')">
+                        PESEL Uczestnika
+                    </div>
+                    <input placeholder="PESEL Uczestnika" type="text"
+                           ng-model="searchDTO.entity.trainingInstitutionVatRegNum">
+                </th>
+                <th class="sortable"
+                    ng-class="getSortingTypeClass('reimbursementDelivery.trainingInstitution.name')">
+                    <div ng-click="getSortedBy('reimbursementDelivery.trainingInstitution.name')">
+                        Imię uczestnika
+                    </div>
+                    <input placeholder="Imię uczestnika" type="text"
+                           ng-model="searchDTO.entity.trainingInstitutionName">
+                </th>
+                <th class="sortable"
+                    ng-class="getSortingTypeClass('status')">
+                    <div ng-click="getSortedBy('status')">
+                        Nazwisko uczestnika
+                    </div>
+                    <input placeholder="Nazwisko uczestnika" type="text"
+                           ng-model="searchDTO.entity.trainingInstitutionName">
+                </th>
+                <th class="sortable"
+                    ng-class="getSortingTypeClass('reimbursementDelivery.deliveryDate')">
+                    <div ng-click="getSortedBy('reimbursementDelivery.deliveryDate')">
+                        Data rozliczenia
+                    </div>
+                    <input type="text"
+                           placeholder="Data od"
+                           ng-model="searchDTO.entity.deliveryDateFrom"
+                           datepicker-popup="yyyy-MM-dd"
+                           is-open="datepicker.deliveryDateFromOpened"
+                           close-text="Zamknij"
+                           clear-text="Czyść"
+                           current-text="Dziś"
+                           ng-click="openDatepicker('deliveryDateFromOpened')"/>
+                    <input type="text"
+                           placeholder="Data do"
+                           ng-model="searchDTO.entity.deliveryDateTo"
+                           datepicker-popup="yyyy-MM-dd"
+                           is-open="datepicker.deliveryDateToOpened"
+                           close-text="Zamknij"
+                           clear-text="Czyść"
+                           current-text="Dziś"
+                           ng-click="openDatepicker('deliveryDateToOpened')"/>
+                </th>
+                <th class="sortable"
+                    ng-class="getSortingTypeClass('status')">
+                    <div ng-click="getSortedBy('status')">
+                        Status rozliczenia
+                    </div>
+                    <select ng-model="searchDTO.entity.statusId"
+                            ng-options="v.id as v.name for v in reimbursementStatuses"></select>
+                </th>
+                <th>
+                    <a ng-click="find()"
+                       class="button button-search">szukaj</a>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in searchDTO.searchResultList | limitTo: searchResultOptions.displayLimit">
+                <td>{{::item.id}}</td>
+                <td>{{::item.trainingName}}</td>
+                <td>{{::item.pesel}}</td>
+                <td>{{::item.name}}</td>
+                <td>{{::item.surname}}</td>
+                <td>{{::item.deliveryDate | date:'yyyy-MM-dd'}}</td>
+                <td>{{::item.announcementDate | date:'yyyy-MM-dd'}}</td>
+                <td>{{::item.reimbursementDate | date:'yyyy-MM-dd'}}</td>
+                <td>{{::item.status}}</td>
+                <td>
+                    <ul class="buttons">
+                        <li>
+                            <a ng-href="#/announceReimbursements/{{item.id}}"
+                               class="button button-go"
+                               gryf-privilege="">Obsługa</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div ng-show="searchResultOptions.overflow" class="centered-ul">
+            <ul>
+                <li><a ng-href="" ng-click="loadMore()"
+                       class="button button-infinity">
+                    wczytaj więcej wyników</a>
+                </li>
+            </ul>
+        </div>
+        <div class="" ng-show="model.zipCodesArray.length===0">
+            Brak wyników
+        </div>
+        <div class="msg msg-error" ng-show="searchResultOptions.badQuery">
+            <p>Błąd kryteriów zapytania - niepoprawny format</p>
+        </div>
+    </section>
+
+</div>
 </div>
 
 
