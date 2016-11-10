@@ -1,0 +1,162 @@
+<section>
+   <div class="block">
+      <div class="multiSection">
+         <div class="grid-50">
+            <br/>
+            <strong class="label">Prosimy podać PESEL oraz kod weryfikacyjny Uczestnika</strong>
+         </div>
+         <div class="grid-50 multiSection">
+            <div class="grid-50">
+               <strong class="label">PESEL Uczestnika</strong>
+               <input type="text" ng-model="personData.pesel">
+            </div>
+            <div class="grid-50">
+               <strong class="label">Kod weryfikacyjny Uczestnika</strong>
+               <input type="text" ng-model="personData.verificationCode">
+            </div>
+         </div>
+      </div>
+      <div class="grid-100 text-right">
+         <button>Rezerwuj nowe szkolenie</button>
+      </div>
+   </div>
+</section>
+
+<section>
+   <strong class="label">Dane Uczestnika i liczba bonów</strong>
+   <div class="block">
+      <div class="multiSection">
+         <div class="grid-20">
+            <strong class="label">Imię i nazwisko uczestnika</strong>
+            <div>Jan Kowalski</div>
+         </div>
+         <div class="grid-20">
+            <strong class="label">PESEL</strong>
+            <div>94585421235</div>
+         </div>
+         <div class="grid-30">
+            <table>
+               <thead class="text-left">
+                  <th class="grid-10">
+                     <strong class="label">Liczba dostępnych bonów</strong>
+                  </th>
+                  <th class="grid-10">
+                     <strong class="label">Data ważności</strong>
+                  </th>
+               </thead>
+               <tbody class="tableData">
+                  <tr ng-repeat="item in [{p1: 124, p2: '2017-11-12'}, {p1: 285, p2: '2013-08-05'}]" ng-class="{'row-even': $even, 'row-odd': $odd}">
+                     <td>{{::item.p1}}</td>
+                     <td>{{::item.p2}}</td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+         <div class="grid-30 text-right">
+               <button class="grid-50" data-ng-click="setValue(33)">Rezerwuj szkolenie dla innego uczestnika</button>
+         </div>
+      </div>
+   </div>
+</section>
+
+<section>
+   <table>
+      <thead>
+      <tr class="grid-100 tableHeader-names">
+         <th class="sortable grid-10" ng-class="getSortingTypeClass('trainingId')">
+            <div ng-click="getSortedBy('trainingId')">Nazwa szkolenia</div>
+         </th>
+         <th class="sortable grid-5" ng-class="getSortingTypeClass('price')">
+            <div ng-click="getSortedBy('price')">Cena szkolenia (PLN)</div>
+         </th>
+         <th class="sortable grid-10" ng-class="getSortingTypeClass('institutionName')">
+            <div ng-click="getSortedBy('institutionName')">Liczba godzin szkoleniowych</div>
+         </th>
+         <th class="sortable grid-15" ng-class="getSortingTypeClass('name')">
+            <div ng-click="getSortedBy('name')">Maks. liczba rozliczonych bonów</div>
+         </th>
+         <th class="sortable grid-10" ng-class="getSortingTypeClass('startDate')">
+            <div ng-click="getSortedBy('startDate')">Data rozpoczęcia</div>
+         </th>
+         <th class="sortable grid-10" ng-class="getSortingTypeClass('endDate')">
+            <div ng-click="getSortedBy('endDate')">Data zakończenia</div>
+         </th>
+         <th class="sortable grid-10" ng-class="getSortingTypeClass('place')">
+            <div ng-click="getSortedBy('place')">Miejsce szkolenia</div>
+         </th>
+         <th class="sortable grid-15" ng-class="getSortingTypeClass('category')">
+            <div ng-click="getSortedBy('category')">Kategoria</div>
+         </th>
+      </tr>
+      <tr class="grid-100 tableHeader-options">
+         <th class="grid-10">
+            <input placeholder="Id" type="number" ng-model="searchDTO.entity.trainingId">
+         </th>
+         <th class="grid-5">
+            <input type="number" placeholder="Min" ng-model="searchDTO.entity.priceFrom"/>
+            <input type="number" placeholder="Max" ng-model="searchDTO.entity.priceTo"/>
+         </th>
+         <th class="grid-10">
+            <input placeholder="Nazwa instytucji" type="text" ng-model="searchDTO.entity.institutionName">
+         </th>
+         <th class="grid-15">
+            <input placeholder="Nazwa szkolenia" ng-model="searchDTO.entity.name">
+         </th>
+         <th class="grid-10">
+            <input type="text" placeholder="Data rozpoczęcia" ng-model="searchDTO.entity.startDate"
+                   datepicker-popup="yyyy-MM-dd" is-open="datepicker.isTrainingStartDateOpened"
+                   close-text="Zamknij" clear-text="Czyść" current-text="Dziś"
+                   ng-click="openDatepicker('isTrainingStartDateOpened')"/>
+         </th>
+         <th class="grid-10">
+            <input type="text" placeholder="Data zakończenia" ng-model="searchDTO.entity.endDate"
+                   datepicker-popup="yyyy-MM-dd" s-open="datepicker.isTrainingEndDateOpened"
+                   close-text="Zamknij" clear-text="Czyść" current-text="Dziś"
+                   ng-click="openDatepicker('isTrainingEndDateOpened')"/>
+         </th>
+         <th class="grid-10">
+            <input placeholder="Miejsce" ng-model="searchDTO.entity.place">
+         </th>
+         <th class="grid-15">
+            <select ng-options="v as v for v in ['kategoria 1', 'kategoria 2', 'kategoria 3', 'kategoria 4']" ng-model="test" multiple>
+               <option value="">-wybierz-</option>
+            </select>
+         </th>
+         <th>
+            <button ng-click="find()">Wyszukaj</button>
+         </th>
+      </tr>
+      </thead>
+      <tbody class="tableData">
+      <tr ng-repeat="item in [1, 2, 3, 4, 5, 6]" ng-class="{'row-even': $even, 'row-odd': $odd}">
+         <td>{{::item}}</td>
+         <td>{{::item}}</td>
+         <td>{{::item}}</td>
+         <td>{{::item}}</td>
+         <td>{{::item}}</td>
+         <td>{{::item}}</td>
+         <td>{{::item}}</td>
+         <td>{{::item}}</td>
+         <td>
+            <ul class="buttons">
+               <li><a ng-href="#/modify/{{item.trainingId}}"
+                      gryf-privilege="GRF_TRAINING_INSTITUTION_MOD"
+                      class="button button-go">szczegóły</a>
+               </li>
+            </ul>
+         </td>
+      </tr>
+      </tbody>
+   </table>
+   <div ng-show="searchResultOptions.overflow" class="centered-ul">
+      <ul>
+         <li><a href="#/" ng-click="loadMore()" class="button button-infinity">wczytaj więcej wyników</a></li>
+      </ul>
+   </div>
+   <div class="" ng-show="model.zipCodesArray.length===0">
+      Brak wyników
+   </div>
+   <div class="msg msg-error" ng-show="searchResultOptions.badQuery">
+      <p>Błąd kryteriów zapytania - niepoprawny format</p>
+   </div>
+</section>

@@ -5,7 +5,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import static pl.sodexo.it.gryf.web.common.util.PageUtil.setUpMainContent;
 import static pl.sodexo.it.gryf.web.ti.util.TiPageConstant.*;
 
 /**
@@ -17,15 +16,15 @@ import static pl.sodexo.it.gryf.web.ti.util.TiPageConstant.*;
 @RequestMapping(PATH_MAIN)
 public class TiMainViewController {
 
+    public static final String PAGE_MAIN = "/WEB-INF/page/index.jsp";
+
     @RequestMapping(value = PATH_TI_LOGIN, method = RequestMethod.GET)
     public String login() {
         return PAGE_TI_LOGIN;
     }
 
     @RequestMapping(PATH_MAIN)
-    public String welcome(Model model) {
-        setUpMainContent(model, SUB_PAGE_TI_WELCOME);
+    public String dashboard(Model model) {
         return PAGE_MAIN;
     }
-    
 }

@@ -1,0 +1,66 @@
+<div class="multiSection">
+
+    <section class="grid-30">
+        <strong class="label">Metryka Instytucji Szkoleniowej</strong>
+        <div class="block">
+            <strong class="label">Nazwa</strong>
+            <div class="grid-100">Jan Kowalski KOWALTEX</div>
+
+            <strong class="label">Adres do FV</strong>
+            <div class="grid-100">02-699 Warszawa</div>
+
+            <strong class="label">Adres korespondencyjny</strong>
+            <div class="grid-100">04-123 Warszawa</div>
+
+            <strong class="label">Login użytkownika</strong>
+            <div class="grid-100">kowaltex@kowaltex.pl</div>
+        </div>
+    </section>
+
+    <section class="grid-70">
+        <strong class="label">Szybkie akcje na szkoleniach Uczestnika</strong>
+        <div class="block">
+            <strong class="label">
+                Korzystając z poniższej wyszukiwarki w szybki sposób rozpoczniecie Państwo procesowanie sprawy dla Uczestnika.
+                Prosimy podać PESEL oraz kod weryfikacyjny w celu rezerwacji szkolenia dla uczestnika.
+            </strong>
+            <div class="multiSection">
+                <div class="grid-50">
+                    <strong class="label">PESEL Uczestnika</strong>
+                    <input type="text" ng-model="personData.pesel">
+                </div>
+                <div class="grid-50">
+                    <strong class="label">Kod weryfikacyjny</strong>
+                    <input type="text" ng-model="personData.verificationCode">
+                </div>
+            </div>
+
+            <div class="grid-100 text-right">
+                <button data-ng-click="getValue()">Rezerwuj nowe szkolenie</button>
+            </div>
+
+            <br/>
+
+            <div class="multiSection">
+                <div class="grid-33">
+                    <strong class="label">PESEL Uczestnika</strong>
+                    <input type="text">
+                </div>
+                <div class="grid-33">
+                    <strong class="label">Imię Uczestnika</strong>
+                    <input type="text">
+                </div>
+                <div class="grid-33">
+                    <strong class="label">Nazwisko Uczestnika</strong>
+                    <input type="text">
+                </div>
+            </div>
+
+            <div class="grid-100 text-right">
+                <button>Anuluj rezerwację</button>
+                <button>Zatwierdź PIN</button>
+                <button>Rozlicz szkolenie</button>
+            </div>
+        </div>
+    </section>
+</div>
