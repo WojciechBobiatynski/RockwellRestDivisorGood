@@ -10,5 +10,5 @@ public class TrainingCategoryDto extends SimpleDictionaryDto {
 
     @Getter
     @Setter
-    private String code;
+    private String id;
 }

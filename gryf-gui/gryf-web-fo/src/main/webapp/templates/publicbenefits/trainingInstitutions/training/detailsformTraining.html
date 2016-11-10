@@ -52,7 +52,7 @@
                 </div>
                 <div class="grid-20">
                     <strong class="label">Kategoria</strong>
-                    <select ng-options="v.code as v.description for v in categoryDictionary | orderBy:'ordinal'" ng-model="model.entity.category">
+                    <select ng-options="v.id as v.name for v in categoryDictionary | orderBy:'ordinal'" ng-model="model.entity.category">
                         <option value="">-wybierz-</option>
                     </select>
                     <gryf-validation-msg path="category"></gryf-validation-msg>

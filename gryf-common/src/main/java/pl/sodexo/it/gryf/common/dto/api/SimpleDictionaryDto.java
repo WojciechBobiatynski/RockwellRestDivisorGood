@@ -15,5 +15,5 @@ public abstract class SimpleDictionaryDto extends GryfDto {
 
     @Getter
     @Setter
-    private String description;
+    private String name;
 }

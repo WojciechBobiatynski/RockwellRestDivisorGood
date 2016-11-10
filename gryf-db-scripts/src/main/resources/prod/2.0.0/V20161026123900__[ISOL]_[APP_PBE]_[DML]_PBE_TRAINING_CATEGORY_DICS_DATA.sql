@@ -1,3 +1,4 @@
-INSERT INTO APP_PBE.PBE_TRAINING_CATEGORY_DICS VALUES ('JAZ', 'Szkolenie jêzykowe', 0, 'system', SYSDATE, 'system', SYSDATE);
-INSERT INTO APP_PBE.PBE_TRAINING_CATEGORY_DICS VALUES ('KCY', 'Szkolenie z zakresu kompetencji cyfrowych', 1, 'system', SYSDATE, 'system', SYSDATE);
-INSERT INTO APP_PBE.PBE_TRAINING_CATEGORY_DICS VALUES ('INN', 'Inne certyfikowane szkolenie', 2, 'system', SYSDATE, 'system', SYSDATE);
+INSERT INTO APP_PBE.TI_TRAINING_CATEGORIES VALUES ('JAZ', 'Szkolenie jêzykowe', 1);
+INSERT INTO APP_PBE.TI_TRAINING_CATEGORIES VALUES ('KCY', 'Szkolenie z zakresu kompetencji cyfrowych', 2);
+INSERT INTO APP_PBE.TI_TRAINING_CATEGORIES VALUES ('INN', 'Inne certyfikowane szkolenie', 3);
+INSERT INTO APP_PBE.TI_TRAINING_CATEGORIES VALUES ('EGZ', 'Egzamin', 4);

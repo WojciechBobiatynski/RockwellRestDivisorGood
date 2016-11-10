@@ -40,7 +40,7 @@ public class TrainingDtoMapper extends VersionableDtoMapper<TrainingDTO, Trainin
         }
         if(dto.getCategory() != null) {
             entity.setCategory(new TrainingCategory());
-            entity.getCategory().setCode(dto.getCategory());
+            entity.getCategory().setId(dto.getCategory());
         }
     }
 }

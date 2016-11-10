@@ -3,9 +3,9 @@
 
 <mapper namespace="pl.sodexo.it.gryf.dao.api.search.mapper.TrainingSearchMapper">
     <select id="findTrainings" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchResultDTO" parameterType="list">
-        SELECT t.ID as trainingId, t.TRAINING_INSTITUTION_ID as institutionId, i.NAME as institutionName, t.NAME, t.PRICE, t.START_DATE as startDate, t.END_DATE as endDate, t.PLACE, t.HOURS_NUMBER as hoursNumber, t.HOUR_PRICE as hourPrice, c.description as category
+        SELECT t.ID as trainingId, t.TRAINING_INSTITUTION_ID as institutionId, i.NAME as institutionName, t.NAME, t.PRICE, t.START_DATE as startDate, t.END_DATE as endDate, t.PLACE, t.HOURS_NUMBER as hoursNumber, t.HOUR_PRICE as hourPrice, c.name as category
         FROM APP_PBE.TI_TRAININGS t
-        JOIN APP_PBE.TI_TRAINING_CATEGORY_DICS c on c.ID = t.TRAINING_CATEGORY_ID
+        JOIN APP_PBE.TI_TRAINING_CATEGORIES c on c.ID = t.TRAINING_CATEGORY_ID
         JOIN APP_PBE.TRAINING_INSTITUTIONS i on i.ID = t.TRAINING_INSTITUTION_ID
         <where>
             <if test="searchParams.trainingId != null">
@@ -59,7 +59,7 @@
     </select>
 
     <select id="findTrainingCategories" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingCategoryDto" parameterType="list">
-        SELECT t.ID as code, ordinal, description FROM APP_PBE.TI_TRAINING_CATEGORY_DICS t
+        SELECT id, ordinal, name FROM APP_PBE.TI_TRAINING_CATEGORIES
     </select>
 
     <select id="findTraining" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingDTO">

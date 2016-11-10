@@ -58,7 +58,7 @@
             </div>
             <div>
                 <strong class="label">Kategoria szkolenia</strong>
-                <select multiple ng-options="v.code as v.description for v in categoryDictionary | orderBy:'ordinal'" ng-model="model.entity.trainingCategory">
+                <select multiple ng-options="v.id as v.name for v in categoryDictionary | orderBy:'ordinal'" ng-model="model.entity.trainingCategory">
                 </select>
                 <gryf-validation-msg path="trainingCategory"></gryf-validation-msg>
             </div>

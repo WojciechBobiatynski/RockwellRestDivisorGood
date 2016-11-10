@@ -16,6 +16,6 @@ public class TrainingCategoryDtoMapper extends GryfDtoMapper<TrainingCategoryDto
     @Override
     protected void map(TrainingCategoryDto dto, TrainingCategory entity) {
         super.map(dto, entity);
-        entity.setCode(entity.getCode());
+        entity.setId(entity.getId());
     }
 }
