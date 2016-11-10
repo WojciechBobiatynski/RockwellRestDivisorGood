@@ -4,16 +4,16 @@
         <strong class="label">Metryka Instytucji Szkoleniowej</strong>
         <div class="block">
             <strong class="label">Nazwa</strong>
-            <div class="grid-100">Jan Kowalski KOWALTEX</div>
+            <div class="grid-100">{{loggedUserInfo.name}}</div>
 
             <strong class="label">Adres do FV</strong>
-            <div class="grid-100">02-699 Warszawa</div>
+            <div class="grid-100">{{loggedUserInfo.addressInvoice}}</div>
 
             <strong class="label">Adres korespondencyjny</strong>
-            <div class="grid-100">04-123 Warszawa</div>
+            <div class="grid-100">{{loggedUserInfo.addressCorr}}</div>
 
             <strong class="label">Login użytkownika</strong>
-            <div class="grid-100">kowaltex@kowaltex.pl</div>
+            <div class="grid-100">{{loggedUserInfo.login}}</div>
         </div>
     </section>
 

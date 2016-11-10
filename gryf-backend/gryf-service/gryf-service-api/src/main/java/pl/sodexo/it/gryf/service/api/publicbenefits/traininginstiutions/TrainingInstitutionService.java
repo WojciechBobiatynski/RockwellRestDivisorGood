@@ -15,6 +15,8 @@ public interface TrainingInstitutionService {
 
     List<TrainingInstitutionSearchResultDTO> findTrainingInstitutions(TrainingInstitutionSearchQueryDTO trainingInstitution);
 
+    TrainingInstitutionSearchResultDTO findTrainingInstitutionByUserLogin(String login);
+
     TrainingInstitutionDto createTrainingInstitution();
 
     Long saveTrainingInstitution(TrainingInstitutionDto trainingInstitutionDto, boolean checkVatRegNumDup);

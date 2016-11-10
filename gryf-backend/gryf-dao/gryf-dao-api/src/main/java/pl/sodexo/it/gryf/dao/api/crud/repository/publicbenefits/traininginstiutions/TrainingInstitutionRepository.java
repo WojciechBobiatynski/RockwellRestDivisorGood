@@ -16,4 +16,6 @@ public interface TrainingInstitutionRepository extends GenericRepository<Trainin
     TrainingInstitution getForUpdate(Long id);
 
     List<TrainingInstitution> findTrainingInstitutions(TrainingInstitutionSearchQueryDTO dto);
+
+    TrainingInstitution findTrainingInstitutionByUserLogin(String login);
 }

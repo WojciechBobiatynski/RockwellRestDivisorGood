@@ -37,11 +37,11 @@ angular.module('gryf.config').factory('generalExceptionHandlerInterceptor', ['$q
         timerIntervalKeeper: null
     };
 
-    document.getElementById('prolongSession').onclick = function() {
+  /*  document.getElementById('prolongSession').onclick = function() {
         $injector.invoke(['$http', function($http) {
             $http.get(contextPath + '/prolongSession');
         }]);
-    };
+    };*/
 
     return {
         responseError: function(rejection) {
@@ -62,7 +62,7 @@ angular.module('gryf.config').factory('generalExceptionHandlerInterceptor', ['$q
             return $q.reject(rejection);
         },
         response: function(response) {
-            document.getElementById('timeoutBox').style.opacity = 0;
+         /*   document.getElementById('timeoutBox').style.opacity = 0;
             clearTimeout(timers.messageKeeper);
             clearTimeout(timers.timeoutKeeper);
             clearInterval(timers.timerIntervalKeeper);
@@ -79,7 +79,7 @@ angular.module('gryf.config').factory('generalExceptionHandlerInterceptor', ['$q
 
             timers.timeoutKeeper = setTimeout(function() {
                 location.href = contextPath + '/logout';
-            }, sessionTimeoutInMs);
+            }, sessionTimeoutInMs);*/
             return response;
         }
     };

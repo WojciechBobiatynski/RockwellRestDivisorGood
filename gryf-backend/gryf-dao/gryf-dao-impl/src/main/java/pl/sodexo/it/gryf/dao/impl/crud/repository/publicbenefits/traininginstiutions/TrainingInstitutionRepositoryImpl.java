@@ -93,4 +93,10 @@ public class TrainingInstitutionRepositoryImpl extends GenericRepositoryImpl<Tra
         return query.getResultList();
     }
 
+    @Override
+    public TrainingInstitution findTrainingInstitutionByUserLogin(String login) {
+        TypedQuery<TrainingInstitution> query = entityManager.createQuery("select t from TrainingInstitution t join t.trainingInstitutionUsers u where u.login = :login", TrainingInstitution.class);
+        query.setParameter("login", login);
+        return query.getSingleResult();
+    }
 }

@@ -56,12 +56,6 @@
 <body ng-app="gryf.ti">
 <div class="container">
 
-<section id="timeoutBox">
-    <p>Twoja sesja wygaśnie za <span id="timerCounter">60</span> sekund.</p>
-
-    <p><span id="prolongSession">Przedłuż sesję</span></p>
-</section>
-
 <div class="header">
     <div class="grid">
         <image class="left" src="${pageContext.request.contextPath}/images/header_01.jpg" />

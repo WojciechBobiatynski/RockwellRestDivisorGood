@@ -63,6 +63,12 @@ public class TrainingInstitutionServiceImpl implements TrainingInstitutionServic
     }
 
     @Override
+    public TrainingInstitutionSearchResultDTO findTrainingInstitutionByUserLogin(String login) {
+        TrainingInstitution trainingInstitution = trainingInstitutionRepository.findTrainingInstitutionByUserLogin(login);
+        return trainingInstitutionEntityToSearchResultMapper.convert(trainingInstitution);
+    }
+
+    @Override
     public TrainingInstitutionDto createTrainingInstitution() {
         return new TrainingInstitutionDto();
     }
