@@ -59,13 +59,13 @@ public class TrainingServiceImpl implements TrainingService {
     public Long saveTraining(TrainingDTO trainingDto) {
         Training training = trainingDtoMapper.convert(trainingDto);
         trainingValidator.validateTraining(training);
-        return trainingRepository.save(training).getTraId();
+        return trainingRepository.save(training).getId();
     }
 
     @Override
     public void updateTraining(TrainingDTO trainingDto) {
         Training training = trainingDtoMapper.convert(trainingDto);
         trainingValidator.validateTraining(training);
-        trainingRepository.update(training, training.getTraId());
+        trainingRepository.update(training, training.getId());
     }
 }

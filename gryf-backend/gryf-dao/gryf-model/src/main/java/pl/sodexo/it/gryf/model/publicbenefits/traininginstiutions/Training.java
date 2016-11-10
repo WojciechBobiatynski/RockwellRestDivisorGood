@@ -19,6 +19,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * Encja reprezentuająca szkolenie
@@ -36,65 +37,146 @@ public class Training extends VersionableEntity {
     @Id
     @Column(name = "ID")
     @GeneratedValue(generator = "ti_tra_seq")
-    @Getter
-    @Setter
-    private Long traId;
+    private Long id;
 
     @OneToOne
     @JoinColumn(name = "TRAINING_INSTITUTION_ID")
-    @Getter
-    @Setter
     @NotNull(message = "Należy wybrać instytucję szkoleniową")
     private TrainingInstitution trainingInstitution;
 
     @Column(name = "NAME")
-    @Getter
-    @Setter
     @NotEmpty(message = "Nazwa szkolenia nie może być pusta")
     private String name;
 
     @Column(name = "PRICE")
-    @Getter
-    @Setter
     @NotNull(message = "Należy podać cenę szkolenia")
     private BigDecimal price;
 
-    @Getter
-    @Setter
     @Column(name = "START_DATE")
     @Temporal(TemporalType.TIMESTAMP)
     @NotNull(message = "Należy podać datę rozpoczęcia szkolenia")
     private Date startDate;
 
-    @Getter
-    @Setter
     @Column(name = "END_DATE")
     @Temporal(TemporalType.TIMESTAMP)
     @NotNull(message = "Należy podać datę zakończenia szkolenia")
     private Date endDate;
 
     @Column(name = "PLACE")
-    @Getter
-    @Setter
     @NotEmpty(message = "Należy podać miejsce szkolenia")
     private String place;
 
     @Column(name = "HOURS_NUMBER")
-    @Getter
-    @Setter
     @NotNull(message = "Należy podać liczbę godzin szkolenia")
     private BigDecimal hoursNumber;
 
     @Column(name = "HOUR_PRICE")
-    @Getter
-    @Setter
     @NotNull(message = "Należy podać cenę za godzinę szkolenia")
     private BigDecimal hourPrice;
 
     @OneToOne
     @JoinColumn(name = "TRAINING_CATEGORY_ID")
-    @Getter
-    @Setter
     @NotNull(message = "Należy wybrać kategorię szkolenia")
     private TrainingCategory category;
+
+    //GETTERS & SETTERS
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public TrainingInstitution getTrainingInstitution() {
+        return trainingInstitution;
+    }
+
+    public void setTrainingInstitution(TrainingInstitution trainingInstitution) {
+        this.trainingInstitution = trainingInstitution;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public String getPlace() {
+        return place;
+    }
+
+    public void setPlace(String place) {
+        this.place = place;
+    }
+
+    public BigDecimal getHoursNumber() {
+        return hoursNumber;
+    }
+
+    public void setHoursNumber(BigDecimal hoursNumber) {
+        this.hoursNumber = hoursNumber;
+    }
+
+    public BigDecimal getHourPrice() {
+        return hourPrice;
+    }
+
+    public void setHourPrice(BigDecimal hourPrice) {
+        this.hourPrice = hourPrice;
+    }
+
+    public TrainingCategory getCategory() {
+        return category;
+    }
+
+    public void setCategory(TrainingCategory category) {
+        this.category = category;
+    }
+
+    //EQUALS & HASH CODE
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o){
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()){
+            return false;
+        }
+        return Objects.equals(id, ((Training) o).id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id) % 102;
+    }
+
 }

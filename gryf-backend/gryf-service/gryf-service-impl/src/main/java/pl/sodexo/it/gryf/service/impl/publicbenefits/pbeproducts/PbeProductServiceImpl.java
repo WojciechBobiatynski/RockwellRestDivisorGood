@@ -4,11 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.pbeproducts.*;
-import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstanceRepository;
-import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstanceStatusRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.*;
 import pl.sodexo.it.gryf.model.publicbenefits.pbeproduct.PbeProductInstanceEvent;
 import pl.sodexo.it.gryf.model.publicbenefits.pbeproduct.PbeProductInstancePoolEvent;
 import pl.sodexo.it.gryf.model.publicbenefits.pbeproduct.PbeProductInstancePoolUse;
+import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingCategoryCatalogGrantProgram;
+import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingCategoryCatalogParam;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstance;
 import pl.sodexo.it.gryf.service.api.publicbenefits.pbeproducts.PbeProductService;
 
@@ -55,6 +56,15 @@ public class PbeProductServiceImpl implements PbeProductService {
     @Autowired
     private PbeProductInstancePoolUseRepository productInstancePoolUseRepository;
 
+    @Autowired
+    private TrainingCategoryCatalogRepository trainingCategoryCatalogRepository;
+
+    @Autowired
+    private TrainingCategoryCatalogParamRepository trainingCategoryCatalogParamRepository;
+
+    @Autowired
+    private TrainingCategoryCatalogGrantProgramRepository trainingCategoryCatalogGrantProgramRepository;
+
     @Override
     public void test() {
 
@@ -81,5 +91,17 @@ public class PbeProductServiceImpl implements PbeProductService {
         PbeProductInstancePoolUse productInstancePoolUse = productInstancePoolUseRepository.get(10L);
         System.out.println("productInstancePoolUse=" + productInstancePoolUse);
         System.out.println("productInstancePoolUse.getProductInstancePool()=" + productInstancePoolUse.getProductInstancePool());
+
+        System.out.println("-----------");
+        TrainingCategoryCatalogGrantProgram trainingCategoryCatalogGrantProgram = trainingCategoryCatalogGrantProgramRepository.get(1L);
+        System.out.println("trainingCategoryCatalogGrantProgram=" + trainingCategoryCatalogGrantProgram);
+        System.out.println("trainingCategoryCatalogGrantProgram.getGrantProgram()=" + trainingCategoryCatalogGrantProgram.getGrantProgram());
+        System.out.println("trainingCategoryCatalogGrantProgram.getCatalog()=" + trainingCategoryCatalogGrantProgram.getCatalog());
+
+        System.out.println("-----------");
+        TrainingCategoryCatalogParam trainingCategoryCatalogParam = trainingCategoryCatalogParamRepository.get(1L);
+        System.out.println("trainingCategoryCatalogParam=" + trainingCategoryCatalogParam);
+        System.out.println("trainingCategoryCatalogParam.getGrantProgram()=" + trainingCategoryCatalogParam.getGrantProgram());
+        System.out.println("trainingCategoryCatalogParam.getCategory()=" + trainingCategoryCatalogParam.getCategory());
     }
 }

@@ -32,9 +32,17 @@ public class TrainingInstitutionContact extends Contact {
     @JoinColumn(name = "TRAINING_INSTITUTION_ID")
     @JsonBackReference(TrainingInstitution.CONTACTS_ATTR_NAME)
     @NotNull(message = "IS nie może być puste")
-    @Getter
-    @Setter
     private TrainingInstitution trainingInstitution;
+
+    //GETTERS & SETTERS
+
+    public TrainingInstitution getTrainingInstitution() {
+        return trainingInstitution;
+    }
+
+    public void setTrainingInstitution(TrainingInstitution trainingInstitution) {
+        this.trainingInstitution = trainingInstitution;
+    }
 
     //EQUALS & HASH CODE
 

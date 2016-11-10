@@ -25,7 +25,7 @@ public class TrainingDtoMapper extends VersionableDtoMapper<TrainingDTO, Trainin
     @Override
     protected void map(TrainingDTO dto, Training entity) {
         super.map(dto, entity);
-        entity.setTraId(dto.getTrainingId());
+        entity.setId(dto.getTrainingId());
         entity.setName(dto.getName());
         entity.setPrice(dto.getPrice());
         entity.setStartDate(dto.getStartDate());
