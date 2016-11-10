@@ -86,6 +86,7 @@ public class PbeProductServiceImpl implements PbeProductService {
         System.out.println("trainingInstance=" + trainingInstance);
         System.out.println("trainingInstance.getTraining()=" + trainingInstance.getTraining());
         System.out.println("trainingInstance.getIndividual()=" + trainingInstance.getIndividual());
+        System.out.println("trainingInstance.getGrantProgram()=" + trainingInstance.getGrantProgram());
 
         System.out.println("-----------");
         PbeProductInstancePoolUse productInstancePoolUse = productInstancePoolUseRepository.get(10L);

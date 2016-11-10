@@ -1,14 +1,11 @@
 package pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 import pl.sodexo.it.gryf.model.api.VersionableEntity;
+import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.Objects;
 
@@ -32,6 +29,10 @@ public class TrainingInstance extends VersionableEntity {
     @ManyToOne
     @JoinColumn(name = "INDIVIDUAL_ID", referencedColumnName = "ID")
     private Individual individual;
+
+    @ManyToOne
+    @JoinColumn(name = "GRANT_PROGRAM_ID", referencedColumnName = "ID")
+    private GrantProgram grantProgram;
 
     @ManyToOne
     @JoinColumn(name = "STATUS_ID", referencedColumnName = "ID")
@@ -78,6 +79,14 @@ public class TrainingInstance extends VersionableEntity {
 
     public void setIndividual(Individual individual) {
         this.individual = individual;
+    }
+
+    public GrantProgram getGrantProgram() {
+        return grantProgram;
+    }
+
+    public void setGrantProgram(GrantProgram grantProgram) {
+        this.grantProgram = grantProgram;
     }
 
     public void setStatus(TrainingInstanceStatus status) {
