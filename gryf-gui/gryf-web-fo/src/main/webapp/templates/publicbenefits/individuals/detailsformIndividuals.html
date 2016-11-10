@@ -217,7 +217,7 @@
                 </thead>
                 <tr ng-repeat="contact in model.entity.contacts">
                     <td>
-                        <select ng-options="s as s.name for s in model.contactTypes track by s.type" ng-model="contact.contactType"/>
+                        <select ng-options="contactType as contactType.name for contactType in model.contactTypes track by contactType.type " ng-model="contact.contactType"/>
                         <gryf-validation-msg path="contacts[{{$index}}].contactTypes"></gryf-validation-msg>
                     </td>
                     <td>
@@ -229,7 +229,7 @@
                         <gryf-validation-msg path="contacts[{{$index}}].remarks"></gryf-validation-msg>
                     </td>
                     <td>
-                        <a class="button button-delete" ng-click="removeContact(contact)">Usuń</a>
+                        <button class="button button-delete" ng-click="removeContact(contact)" data-ng-disabled="isVerEmail(contact)">Usuń</button>
                     </td>
                 </tr>
             </table>

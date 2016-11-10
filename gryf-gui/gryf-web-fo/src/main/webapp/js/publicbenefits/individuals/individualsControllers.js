@@ -165,4 +165,12 @@ angular.module("gryf.individuals").controller("detailsform.IndividualController"
                 ModifyIndividualsService.loadIndUserRoles();
             };
             $scope.loadIndUserRoles();
+            
+            $scope.isVerEmail = function (contact) {
+                if(contact.contactType === undefined){
+                    return false;
+                }
+                return contact.contactType.type === 'VER_EMAIL';
+            };
+            
         }]);

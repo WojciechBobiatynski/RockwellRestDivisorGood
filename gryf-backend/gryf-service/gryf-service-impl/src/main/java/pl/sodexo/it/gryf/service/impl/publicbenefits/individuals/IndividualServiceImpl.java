@@ -98,12 +98,10 @@ public class IndividualServiceImpl implements IndividualService {
     @Override
     public Long saveIndividual(IndividualDto individualDto, boolean checkPeselDup) {
         Individual individual = individualDtoMapper.convert(individualDto);
-        individualValidator.validateIndividual(individual, checkPeselDup);
-        individual = createIndividualByCode(individual);
-
         IndividualUser user = createIndividualUser(individual, individualDto);
         individual.setIndividualUser(user);
-
+        individualValidator.validateIndividual(individual, checkPeselDup);
+        individual = createIndividualByCode(individual);
         individualRepository.save(individual);
 
         return individual.getId();

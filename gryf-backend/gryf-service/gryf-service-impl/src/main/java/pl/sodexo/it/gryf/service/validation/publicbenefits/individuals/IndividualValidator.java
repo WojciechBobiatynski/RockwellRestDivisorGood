@@ -58,9 +58,20 @@ public class IndividualValidator {
             validatePeselExist(individual, violations);
         }
 
+        validateRole(individual, violations);
+
         //VALIDATE (EXCEPTION)
         gryfValidator.validate(violations);
 
+    }
+
+    private void validateRole(Individual individual, List<EntityConstraintViolation> violations) {
+        if(individual.getIndividualUser() == null){
+            return;
+        }
+        if(individual.getIndividualUser().getRoles() == null || individual.getIndividualUser().getRoles().isEmpty()){
+            violations.add(new EntityConstraintViolation("role", "Brak ról dla użytkownika"));
+        }
     }
 
     private void validateAccountRepayment(Individual individual, List<EntityConstraintViolation> violations) {

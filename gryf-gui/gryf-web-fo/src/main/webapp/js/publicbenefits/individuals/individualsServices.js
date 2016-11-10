@@ -195,7 +195,7 @@ angular.module("gryf.individuals").factory("ModifyIndividualsService",
                     individualObject.contactTypes = response.data;
                 });
                 return promise;
-            };
+            }
 
             var loadIndividuals = function (responseId) {
                 if ($routeParams.id || responseId) {
@@ -208,6 +208,17 @@ angular.module("gryf.individuals").factory("ModifyIndividualsService",
                         GryfModals.closeModal(modalInstance);
                     });
                     return promise;
+                } else {
+                    //TODO: brać z aplikacji, nie ręcznie
+                    individualObject.entity.contacts.push(
+                        {
+                            contactType: {
+                                type: "VER_EMAIL", name: "Email kodu weryfikacyjnego", validationClass: null
+                            },
+                            contactData: '',
+                            remarks: ''
+                        }
+                    )
                 }
             };
 
@@ -305,7 +316,7 @@ angular.module("gryf.individuals").factory("ModifyIndividualsService",
             };
 
             var getNewVerificationCode = function () {
-                var promise = $http.get(INDIVIDUAL_URL + VER_CODE_GENERATE_PATH + individualObject.entity.id );
+                var promise = $http.get(INDIVIDUAL_URL + VER_CODE_GENERATE_PATH + individualObject.entity.id);
                 promise.then(function (response) {
                     individualObject.entity.verificationCode = response.data;
                     GryfPopups.setPopup("success", "Sukces", "Udało się zmienić kod weryfikacyjny");
@@ -325,9 +336,9 @@ angular.module("gryf.individuals").factory("ModifyIndividualsService",
                 });
             };
 
-            var loadIndUserRoles = function() {
+            var loadIndUserRoles = function () {
                 var promise = $http.get(contextPath + PATH_SECURITY + PATH_IND_USER_ROLES);
-                promise.then(function(response) {
+                promise.then(function (response) {
                     individualObject.indUserRoles = response.data;
                 });
                 return promise;
@@ -350,4 +361,5 @@ angular.module("gryf.individuals").factory("ModifyIndividualsService",
                 sendMailWithVerCode: sendMailWithVerCode,
                 loadIndUserRoles: loadIndUserRoles
             };
-        }]);
+        }])
+;
