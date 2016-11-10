@@ -91,9 +91,10 @@
                 <configuration>
                     <regex>false</regex>
                     <ignoreMissingFile>false</ignoreMissingFile>
-                    <file>
-                        ${project.build.directory}/${project.build.finalName}/WEB-INF/page/ind-login.jsp
-                    </file>
+                    <includes>
+                        <include>${project.build.directory}/${project.build.finalName}/WEB-INF/page/*.jsp</include>
+                        <include>${project.build.directory}/${project.build.finalName}/WEB-INF/page/**/*.jsp</include>
+                    </includes>
                     <replacements>
                         <replacement>
                             <token>##BUILD_NUMBER</token>
