@@ -230,7 +230,7 @@
                         </a>
                         <ul>
                             <li>
-                                <a ng-href="${pageContext.request.contextPath}/publicBenefits/electronic/reimbursements/#searchReimbursements"
+                                <a ng-href="${pageContext.request.contextPath}/publicBenefits/electronic/reimbursements/#search"
                                 <%--TODO: dodać uprawnienia--%>
                                    gryf-link-privilege="GRF_PBE_REIMB">Lista rozliczeń
                                 </a>

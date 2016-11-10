@@ -1,9 +1,8 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>Title</title>
-</head>
-<body>
+<script src="${pageContext.request.contextPath}/js/components/gryf-config.js"></script>
+<script src="${pageContext.request.contextPath}/js/publicbenefits/electronicreimbursements/gryf-electronicreimbursements.js"></script>
+<script src="${pageContext.request.contextPath}/js/publicbenefits/electronicreimbursements/electronicReimbursementsServices.js"></script>
+<script src="${pageContext.request.contextPath}/js/publicbenefits/electronicreimbursements/electronicReimbursementsControllers.js"></script>
 
-</body>
-</html>
+<div ng-app="gryf.electronicreimbursements" keypress-events>
+    <div class="mainContent" ng-view></div>
+</div>
