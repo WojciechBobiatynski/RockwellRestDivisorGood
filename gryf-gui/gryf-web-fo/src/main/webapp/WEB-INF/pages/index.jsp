@@ -136,7 +136,7 @@
                                 <ul>
                                     <li>
                                         <a ng-href="${pageContext.request.contextPath}/publicBenefits/training/"
-                                                gryf-link-privilege="GRF_PBE_TI_TRAININGS">Lista szkoleń</a>
+                                           gryf-link-privilege="GRF_PBE_TI_TRAININGS">Lista szkoleń</a>
                                     <li>
                                         <a ng-href="${pageContext.request.contextPath}/publicBenefits/training/#/modify"
                                            gryf-link-privilege="GRF_PBE_TI_TRAININGS_MOD">Nowe szkolenie</a>
@@ -222,6 +222,27 @@
                             </li>
                         </ul>
                     </li>
+                    <li class="submenu">
+                        <a
+                                ng-href="${pageContext.request.contextPath}/publicBenefits/electronic/reimbursements"
+                        <%--TODO: dodać uprawnienia--%>
+                                gryf-link-privilege="GRF_PBE_REIMB">Rozliczenia elektroniczne
+                        </a>
+                        <ul>
+                            <li>
+                                <a ng-href="${pageContext.request.contextPath}/publicBenefits/electronic/reimbursements/#searchReimbursements"
+                                <%--TODO: dodać uprawnienia--%>
+                                   gryf-link-privilege="GRF_PBE_REIMB">Lista rozliczeń
+                                </a>
+                            </li>
+                            <li>
+                                <a ng-href="${pageContext.request.contextPath}/publicBenefits/electronic/reimbursements/#modify"
+                                <%--TODO: dodać uprawnienia--%>
+                                   gryf-link-privilege="GRF_PBE_REIMB">Nowe rozliczenie
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
             </li>
             <li>
@@ -245,7 +266,7 @@
             <li>
                 <a title="administracja">Administracja</a>
                 <ul>
-                    <li >
+                    <li>
                         <%--TODO uprawnienia--%>
                         <a ng-href="${pageContext.request.contextPath}/administration/generatePrintNumbers/#"
                            gryf-link-privilege="GRF_ZIP_CODES">Generacja numerów dla bonów</a>

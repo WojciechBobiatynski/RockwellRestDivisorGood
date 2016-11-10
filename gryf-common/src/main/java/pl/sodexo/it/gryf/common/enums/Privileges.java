@@ -63,6 +63,9 @@ public enum Privileges {
     GRF_PBE_REIMB_CANCEL,
     GRF_PBE_REIMB_FINISH,
 
+    //ELECTRONIC REIMBURSEMENTS
+    GRF_PBE_E_REIMBURSEMENTS,
+
     //TEST
 
     GRF_TEST,
