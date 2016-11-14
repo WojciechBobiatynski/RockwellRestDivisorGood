@@ -1,6 +1,7 @@
 package pl.sodexo.it.gryf.service.mapping;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -15,19 +16,21 @@ public abstract class GenericMapper<Source, Destination> {
     protected abstract void map(Source source, Destination destination);
 
     public Destination convert(Source source) {
+        if (source == null)
+            return null;
+
         Destination destination = initDestination();
-        if (source != null) {
-            map(source, destination);
-        }
+        map(source, destination);
         return destination;
     }
 
     public List<Destination> convert(List<Source> sourceList) {
+        if (sourceList == null)
+            return Collections.emptyList();
+
         List<Destination> result = new ArrayList<>();
-        if (sourceList != null) {
-            for(Source source:sourceList){
-                result.add(convert(source));
-            }
+        for (Source source : sourceList) {
+            result.add(convert(source));
         }
         return result;
     }
