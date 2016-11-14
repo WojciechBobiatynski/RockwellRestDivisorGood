@@ -1,6 +1,7 @@
 package pl.sodexo.it.gryf.service.api.publicbenefits.individuals;
 
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.detailsForm.IndividualDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.IndDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.searchform.IndividualSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.searchform.IndividualSearchResultDTO;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
@@ -17,7 +18,7 @@ public interface IndividualService {
 
     IndividualDto findIndividual(Long id);
 
-    IndividualDto findIndividualAfterLogin();
+    IndDto findIndividualAfterLogin();
 
     IndividualDto findIndividualByPesel(String pesel);
 

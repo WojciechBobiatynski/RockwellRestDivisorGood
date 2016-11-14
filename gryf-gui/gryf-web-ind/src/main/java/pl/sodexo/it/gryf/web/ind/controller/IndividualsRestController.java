@@ -32,7 +32,7 @@ public class IndividualsRestController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public IndDto getIndividualAfterLogin() {
-        // individualService.findIndividualAfterLogin();
+        individualService.findIndividualAfterLogin();
         IndDto indDto = getDefaultInd();
         return indDto;
     }
@@ -60,9 +60,9 @@ public class IndividualsRestController {
         agreementList.add(agreementDto2);
 
         List<ProductDto> productDtoList = new ArrayList<>();
-        productDtoList.add(new ProductDto(new Date(), 36, 12, 12, 12, new Date(), "AZ/1234/12122016"));
-        productDtoList.add(new ProductDto(new Date(), 112, 12, 12, 12, new Date(), "AZ/1235/12122016"));
-        productDtoList.add(new ProductDto(new Date(), 122, 12, 12, 12, new Date(), "AZ/3435/210112017"));
+       // productDtoList.add(new ProductDto(new Date(), 36, 12, 12, 12, new Date(), "AZ/1234/12122016"));
+       // productDtoList.add(new ProductDto(new Date(), 112, 12, 12, 12, new Date(), "AZ/1235/12122016"));
+        //productDtoList.add(new ProductDto(new Date(), 122, 12, 12, 12, new Date(), "AZ/3435/210112017"));
 
         List<TrainingDto> trainingList = new ArrayList<>();
        /* trainingList.add(new TrainingDto("Szkolenie z programowania w języku Java", "ALTKOM", 60, new Date(), new Date(), new Date(), TrainingStatus.SETTLED.getName()));

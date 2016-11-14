@@ -14,14 +14,49 @@
             AND TRIM(contact.CONTACT_DATA) = #{verification.email}
             AND TRIM(ind.PESEL) = #{verification.pesel}
     </select>
-    <select id="findIndividualAfterLogin" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.detailsForm.IndividualDto">
+    <select id="findIndividualAfterLogin" resultMap="indDto">
         SELECT
             ind.ID                          id,
             ind.FIRST_NAME                  firstName,
             ind.LAST_NAME                   lastName,
-            ind.PESEL                       pesel
+            ind.PESEL                       pesel,
+            con.ID                          id,
+            con.SIGN_DATE                   signingDate,
+            pool.ID                         id,
+            pool.EXPIRY_DATE                expirationDate,
+            pool.ALL_NUM                    grantedProductsCount,
+            pool.RESERVED_NUM               reservedProductsCount,
+            pool.AVAILABLE_NUM              availableProductsCount,
+            pool.USED_NUM                   usedProductsCount,
+            pool.ORDER_ID                   orderId
         FROM APP_PBE.INDIVIDUALS ind
+              LEFT OUTER JOIN APP_PBE.CONTRACTS con ON ind.ID = con.INDIVIDUAL_ID
+              LEFT OUTER JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOLS pool ON ind.ID = pool.INDIVIDUAL_ID
         WHERE
             ind.ID = #{criteria.gryfUser.individualId}
     </select>
+
+    <resultMap id="indDto" type="pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.IndDto" autoMapping="true">
+        <id property="id" column="ID"/>
+        <result property="firstName" column="FIRST_NAME"/>
+        <result property="lastName" column="LAST_NAME"/>
+        <result property="pesel" column="PESEL"/>
+        <collection property="agreements" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.AgreementDto"
+            autoMapping="true">
+            <id property="id" column="ID"/>
+            <result property="signingDate" column="SIGN_DATE"/>
+        </collection>
+        <collection property="products" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.ProductDto"
+                    autoMapping="true">
+            <id property="id" column="ID"/>
+            <result property="expirationDate" column="EXPIRY_DATE"/>
+            <result property="grantedProductsCount" column="ALL_NUM"/>
+            <result property="reservedProductsCount" column="RESERVED_NUM"/>
+            <result property="availableProductsCount" column="AVAILABLE_NUM"/>
+            <result property="usedProductsCount" column="USED_NUM"/>
+          <!--  <result property="orderDate" column="SIGN_DATE"/>-->
+            <result property="orderId" column="ORDER_ID"/>
+        </collection>
+    </resultMap>
+
 </mapper>

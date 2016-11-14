@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.criteria.UserCriteria;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.detailsForm.IndividualDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.IndDto;
 import pl.sodexo.it.gryf.common.dto.security.individuals.VerificationDto;
 import pl.sodexo.it.gryf.dao.api.search.dao.IndividualSearchDao;
 import pl.sodexo.it.gryf.dao.api.search.mapper.IndividualSearchMapper;
@@ -28,7 +28,7 @@ public class IndividualSearchDaoImpl implements IndividualSearchDao {
     }
 
     @Override
-    public IndividualDto findIndividualAfterLogin() {
+    public IndDto findIndividualAfterLogin() {
         return individualSearchMapper.findIndividualAfterLogin(new UserCriteria());
     }
 }
