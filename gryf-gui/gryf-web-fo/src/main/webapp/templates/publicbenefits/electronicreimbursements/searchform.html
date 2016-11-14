@@ -15,7 +15,7 @@
                         Numer rozliczenia
                     </div>
                     <input placeholder="Numer rozliczenia" type="text"
-                           ng-model="searchDTO.entity.id">
+                           ng-model="elctRmbsCriteria.rmbsNumber">
                 </th>
                 <th class="sortable"
                     ng-class="getSortingTypeClass('invoiceNumber')">
@@ -23,7 +23,7 @@
                         Nazwa szkolenia
                     </div>
                     <input placeholder="Nazwa szkolenia" type="text"
-                           ng-model="searchDTO.entity.invoiceNumber">
+                           ng-model="elctRmbsCriteria.trainingName">
                 </th>
                 <th class="sortable"
                     ng-class="getSortingTypeClass('reimbursementDelivery.trainingInstitution.vatRegNum')">
@@ -31,7 +31,7 @@
                         PESEL Uczestnika
                     </div>
                     <input placeholder="PESEL Uczestnika" type="text"
-                           ng-model="searchDTO.entity.trainingInstitutionVatRegNum">
+                           ng-model="elctRmbsCriteria.pesel">
                 </th>
                 <th class="sortable"
                     ng-class="getSortingTypeClass('reimbursementDelivery.trainingInstitution.name')">
@@ -39,7 +39,7 @@
                         Imię uczestnika
                     </div>
                     <input placeholder="Imię uczestnika" type="text"
-                           ng-model="searchDTO.entity.trainingInstitutionName">
+                           ng-model="elctRmbsCriteria.participantName">
                 </th>
                 <th class="sortable"
                     ng-class="getSortingTypeClass('status')">
@@ -47,7 +47,7 @@
                         Nazwisko uczestnika
                     </div>
                     <input placeholder="Nazwisko uczestnika" type="text"
-                           ng-model="searchDTO.entity.trainingInstitutionName">
+                           ng-model="elctRmbsCriteria.participantSurname">
                 </th>
                 <th class="sortable"
                     ng-class="getSortingTypeClass('reimbursementDelivery.deliveryDate')">
@@ -56,7 +56,7 @@
                     </div>
                     <input type="text"
                            placeholder="Data od"
-                           ng-model="searchDTO.entity.deliveryDateFrom"
+                           ng-model="elctRmbsCriteria.rmbsDateFrom"
                            datepicker-popup="yyyy-MM-dd"
                            is-open="datepicker.deliveryDateFromOpened"
                            close-text="Zamknij"
@@ -65,7 +65,7 @@
                            ng-click="openDatepicker('deliveryDateFromOpened')"/>
                     <input type="text"
                            placeholder="Data do"
-                           ng-model="searchDTO.entity.deliveryDateTo"
+                           ng-model="elctRmbsCriteria.rmbsDateTo"
                            datepicker-popup="yyyy-MM-dd"
                            is-open="datepicker.deliveryDateToOpened"
                            close-text="Zamknij"
@@ -78,7 +78,7 @@
                     <div ng-click="getSortedBy('status')">
                         Status rozliczenia
                     </div>
-                    <select ng-model="searchDTO.entity.statusId"
+                    <select ng-model="elctRmbsCriteria.rmbsStatus"
                             ng-options="v.id as v.name for v in reimbursementStatuses"></select>
                 </th>
                 <th>
@@ -127,7 +127,3 @@
     </section>
 
 </div>
-</div>
-
-
-

@@ -97,11 +97,11 @@ public class PublicBenefitsViewController {
         return DEFAULT_VIEW;
     }
 
-    @RequestMapping("/electronic/reimbursements")
+    @RequestMapping(PATH_ELECTRONIC_REIMBURSEMENTS)
     public String getElectronicReimbursementsView(Model model) {
         //TODO dodać uprawnienie do bazy i odkomentować
 //        securityChecker.assertFormPrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS);
-        model.addAttribute(MAIN_CONTENT_PARAM_NAME, PAGES_PREFIX + "publicbenefits/electronicReimbursementsIndex.jsp");
+        model.addAttribute(MAIN_CONTENT_PARAM_NAME, PAGES_PREFIX + PAGE_ELECTRONIC_REIMBURSEMENTS_SEARCH);
         return DEFAULT_VIEW;
     }
 

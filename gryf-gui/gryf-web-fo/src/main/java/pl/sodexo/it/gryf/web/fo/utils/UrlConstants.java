@@ -27,4 +27,7 @@ public final class UrlConstants {
      * to store link for individual page content.
      */
     public static final String MAIN_CONTENT_PARAM_NAME = "pageMainContent";
+
+    public static final String PATH_ELECTRONIC_REIMBURSEMENTS = "/electronic/reimbursements";
+    public static final String PAGE_ELECTRONIC_REIMBURSEMENTS_SEARCH = "publicbenefits/electronicReimbursementsIndex.jsp";
 }

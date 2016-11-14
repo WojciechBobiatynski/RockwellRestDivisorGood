@@ -3,13 +3,16 @@ package pl.sodexo.it.gryf.common.dto.api;
 import lombok.ToString;
 import pl.sodexo.it.gryf.common.enums.SortType;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by tomasz.bilski.ext on 2015-06-17.
  */
 @ToString
-public abstract class SearchDto {
+public abstract class SearchDto implements Serializable{
+
+    private static final long serialVersionUID = 1L;
 
     //FIELDS
 
