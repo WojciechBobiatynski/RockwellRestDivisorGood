@@ -8,11 +8,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.detailsForm.IndividualDto;
 import pl.sodexo.it.gryf.common.dto.security.UserDto;
 import pl.sodexo.it.gryf.common.dto.user.GryfIndUser;
 import pl.sodexo.it.gryf.common.exception.authentication.GryfBadCredentialsException;
 import pl.sodexo.it.gryf.common.exception.authentication.GryfPasswordExpiredException;
 import pl.sodexo.it.gryf.common.exception.authentication.GryfUserNotActiveException;
+import pl.sodexo.it.gryf.service.api.publicbenefits.individuals.IndividualService;
 import pl.sodexo.it.gryf.service.api.security.UserService;
 
 import java.util.List;
@@ -30,6 +32,9 @@ public class IndUserAuthenticationProvider implements AuthenticationProvider {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private IndividualService individualService;
+
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         UsernamePasswordAuthenticationToken incomingAuthToken = (UsernamePasswordAuthenticationToken) authentication;
@@ -40,6 +45,7 @@ public class IndUserAuthenticationProvider implements AuthenticationProvider {
         LOGGER.debug("[AUTH] Logowanie uzytkownika IND, login={}", login);
         List<GrantedAuthority> grantedAuthorities = getGrantedAuthorities(login, password);
         GryfIndUser indUser = new GryfIndUser(new UserDto(login), grantedAuthorities);
+        indUser.setIndividualId(getIndividualId(login));
         UsernamePasswordAuthenticationToken successAuthToken = new UsernamePasswordAuthenticationToken(indUser, credentials, grantedAuthorities);
         LOGGER.info("[AUTH] Wlogowany uzytkownik IND, indUser={}, grantedAuthorities={}", indUser, grantedAuthorities);
 
@@ -59,6 +65,12 @@ public class IndUserAuthenticationProvider implements AuthenticationProvider {
             LOGGER.info("[AUTH] Blad autoryzacji. Haslo uzytownika wygaslo, login={}", login);
             throw new CredentialsExpiredException(e.getMessage() ,e);
         }
+    }
+
+    private Long getIndividualId(String login) {
+        IndividualDto individualDto = individualService.findIndividualByPesel(login);
+        if (individualDto == null) {return null;}
+        return individualDto.getId();
     }
 
     @Override

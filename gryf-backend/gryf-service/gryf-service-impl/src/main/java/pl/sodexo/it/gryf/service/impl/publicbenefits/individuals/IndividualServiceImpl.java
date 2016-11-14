@@ -15,6 +15,7 @@ import pl.sodexo.it.gryf.common.exception.EntityValidationException;
 import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.accounts.AccountContractPairRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.individuals.IndividualRepository;
+import pl.sodexo.it.gryf.dao.api.search.dao.IndividualSearchDao;
 import pl.sodexo.it.gryf.model.accounts.AccountContractPair;
 import pl.sodexo.it.gryf.model.publicbenefits.api.ContactType;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
@@ -46,6 +47,9 @@ public class IndividualServiceImpl implements IndividualService {
 
     @Autowired
     private IndividualRepository individualRepository;
+
+    @Autowired
+    IndividualSearchDao individualSearchDao;
 
     @Autowired
     private ApplicationParameters applicationParameters;
@@ -82,6 +86,16 @@ public class IndividualServiceImpl implements IndividualService {
     @Override
     public IndividualDto findIndividual(Long id) {
         return individualEntityMapper.convert(individualRepository.getForUpdate(id));
+    }
+
+    @Override
+    public IndividualDto findIndividualAfterLogin() {
+        return individualSearchDao.findIndividualAfterLogin();
+    }
+
+    @Override
+    public IndividualDto findIndividualByPesel(String pesel) {
+        return individualEntityMapper.convert(individualRepository.findByPesel(pesel));
     }
 
     @Override
@@ -141,11 +155,11 @@ public class IndividualServiceImpl implements IndividualService {
     private AccountContractPair getAccountContractPair(String account) {
         AccountContractPair accountContractPair = accountContractPairRepository.findByAccountPayment(account);
         if (accountContractPair == null) {
-            EntityConstraintViolation entityConstraintViolation = new EntityConstraintViolation(Individual.CODE_ATTR_NAME,"Niepoprawny kod osoby fizycznej");
+            EntityConstraintViolation entityConstraintViolation = new EntityConstraintViolation(Individual.CODE_ATTR_NAME, "Niepoprawny kod osoby fizycznej");
             throw new EntityValidationException(Arrays.asList(entityConstraintViolation));
         }
-        if (accountContractPair.isUsed()){
-            EntityConstraintViolation entityConstraintViolation = new EntityConstraintViolation(Individual.CODE_ATTR_NAME,"Wpisany kod jest już zarezerwowany");
+        if (accountContractPair.isUsed()) {
+            EntityConstraintViolation entityConstraintViolation = new EntityConstraintViolation(Individual.CODE_ATTR_NAME, "Wpisany kod jest już zarezerwowany");
             throw new EntityValidationException(Arrays.asList(entityConstraintViolation));
         }
         return accountContractPair;
@@ -155,14 +169,15 @@ public class IndividualServiceImpl implements IndividualService {
         String account = null;
         try {
             account = accountContractPairRepository.findAccountByCode(individual.getCode());
-        } catch (PersistenceException e){
-           Throwable exc = e.getCause().getCause();
-            if(exc instanceof SQLException){
-               if(((SQLException) exc).getErrorCode() == INVALID_ACCOUNT_FORMAT_ERROR_CODE){
-                   EntityConstraintViolation entityConstraintViolation = new EntityConstraintViolation(Individual.CODE_ATTR_NAME,"Niepoprawny format kodu osoby fizycznej");
-                   throw new EntityValidationException(Arrays.asList(entityConstraintViolation));
-               }
-           };
+        } catch (PersistenceException e) {
+            Throwable exc = e.getCause().getCause();
+            if (exc instanceof SQLException) {
+                if (((SQLException) exc).getErrorCode() == INVALID_ACCOUNT_FORMAT_ERROR_CODE) {
+                    EntityConstraintViolation entityConstraintViolation = new EntityConstraintViolation(Individual.CODE_ATTR_NAME, "Niepoprawny format kodu osoby fizycznej");
+                    throw new EntityValidationException(Arrays.asList(entityConstraintViolation));
+                }
+            }
+            ;
         }
         return account;
     }

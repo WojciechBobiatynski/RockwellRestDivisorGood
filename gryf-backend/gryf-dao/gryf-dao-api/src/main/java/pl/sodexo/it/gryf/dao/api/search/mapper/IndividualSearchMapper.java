@@ -2,6 +2,7 @@ package pl.sodexo.it.gryf.dao.api.search.mapper;
 
 import org.apache.ibatis.annotations.Param;
 import pl.sodexo.it.gryf.common.criteria.UserCriteria;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.detailsForm.IndividualDto;
 import pl.sodexo.it.gryf.common.dto.security.individuals.VerificationDto;
 
 /**
@@ -18,4 +19,5 @@ public interface IndividualSearchMapper {
      */
     Long findIndividualIdByPeselAndEmail(@Param("criteria") UserCriteria criteria, @Param("verification")VerificationDto verificationDto);
 
+    IndividualDto findIndividualAfterLogin(@Param("criteria") UserCriteria criteria);
 }

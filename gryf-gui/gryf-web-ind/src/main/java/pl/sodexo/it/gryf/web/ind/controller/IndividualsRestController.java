@@ -1,8 +1,11 @@
 package pl.sodexo.it.gryf.web.ind.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import pl.sodexo.it.gryf.service.api.publicbenefits.individuals.IndividualService;
+import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
 import pl.sodexo.it.gryf.web.ind.dto.AgreementDto;
 import pl.sodexo.it.gryf.web.ind.dto.IndDto;
 import pl.sodexo.it.gryf.web.ind.dto.ProductDto;
@@ -22,8 +25,15 @@ import java.util.List;
 @RequestMapping(value = "/rest/ind", produces = "application/json;charset=UTF-8")
 public class IndividualsRestController {
 
+    @Autowired
+    IndividualService individualService;
+
+    @Autowired
+    private SecurityChecker securityChecker;
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public IndDto getTrainingInstitutionById() {
+    public IndDto getIndividualAfterLogin() {
+        individualService.findIndividualAfterLogin();
         IndDto indDto = getDefaultInd();
         return indDto;
     }

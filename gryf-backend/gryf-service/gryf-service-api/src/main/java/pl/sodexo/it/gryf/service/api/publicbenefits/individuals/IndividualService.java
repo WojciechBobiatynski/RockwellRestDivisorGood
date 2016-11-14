@@ -17,6 +17,10 @@ public interface IndividualService {
 
     IndividualDto findIndividual(Long id);
 
+    IndividualDto findIndividualAfterLogin();
+
+    IndividualDto findIndividualByPesel(String pesel);
+
     List<IndividualSearchResultDTO> findIndividuals(IndividualSearchQueryDTO individual);
 
     IndividualDto createIndividual();

@@ -14,5 +14,14 @@
             AND TRIM(contact.CONTACT_DATA) = #{verification.email}
             AND TRIM(ind.PESEL) = #{verification.pesel}
     </select>
-
+    <select id="findIndividualAfterLogin" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.detailsForm.IndividualDto">
+        SELECT
+            ind.ID                          id,
+            ind.FIRST_NAME                  firstName,
+            ind.LAST_NAME                   lastName,
+            ind.PESEL                       pesel
+        FROM APP_PBE.INDIVIDUALS ind
+        WHERE
+            ind.ID = #{criteria.gryfUser.individualId}
+    </select>
 </mapper>

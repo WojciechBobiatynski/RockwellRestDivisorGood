@@ -15,6 +15,8 @@ import java.util.Collection;
 @ToString(callSuper = true)
 public class GryfIndUser extends GryfUser {
 
+    private Long individualId;
+
     public GryfIndUser(UserDto user, Collection<? extends GrantedAuthority> authorities) {
         super(user, authorities);
         userType = UserType.INDIVIDUAL;
@@ -23,5 +25,13 @@ public class GryfIndUser extends GryfUser {
     @Override
     public <T> T accept(UserVisitor<T> userVisitor) {
         return userVisitor.visitInd(this);
+    }
+
+    public Long getIndividualId() {
+        return individualId;
+    }
+
+    public void setIndividualId(Long individualId) {
+        this.individualId = individualId;
     }
 }
