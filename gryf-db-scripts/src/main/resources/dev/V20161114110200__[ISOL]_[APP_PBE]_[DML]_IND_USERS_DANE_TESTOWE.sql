@@ -1,0 +1,1 @@
+update APP_PBE.INDIVIDUAL_USERS set VERIFICATION_CODE = 'ktUB4qTBLqvNRhReDNhm8g==' where INU_ID = 1;
