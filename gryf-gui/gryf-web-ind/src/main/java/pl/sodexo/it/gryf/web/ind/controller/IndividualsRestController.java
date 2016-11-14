@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import pl.sodexo.it.gryf.service.api.publicbenefits.individuals.IndividualService;
 import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
-import pl.sodexo.it.gryf.web.ind.dto.AgreementDto;
-import pl.sodexo.it.gryf.web.ind.dto.IndDto;
-import pl.sodexo.it.gryf.web.ind.dto.ProductDto;
-import pl.sodexo.it.gryf.web.ind.dto.TrainingDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.AgreementDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.IndDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.ProductDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.TrainingDto;
 
 import java.util.ArrayList;
 import java.util.Date;

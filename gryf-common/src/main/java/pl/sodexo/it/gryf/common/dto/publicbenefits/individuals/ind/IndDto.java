@@ -1,4 +1,4 @@
-package pl.sodexo.it.gryf.web.ind.dto;
+package pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind;
 
 import lombok.Getter;
 import lombok.Setter;
