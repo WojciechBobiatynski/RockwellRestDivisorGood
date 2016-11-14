@@ -4,14 +4,16 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.math.BigInteger;
-
 @ToString
-public abstract class SimpleDictionaryDto extends GryfDto {
+public class SimpleDictionaryDto extends GryfDto {
 
     @Getter
     @Setter
-    private BigInteger ordinal;
+    private String id;
+
+    @Getter
+    @Setter
+    private Integer ordinal;
 
     @Getter
     @Setter

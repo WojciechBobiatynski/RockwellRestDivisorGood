@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.criteria.UserCriteria;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingCategoryDto;
+import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchResultDTO;
@@ -31,7 +31,7 @@ public class TrainingSearchDaoImpl implements TrainingSearchDao {
     }
 
     @Override
-    public List<TrainingCategoryDto> findTrainingCategories() {
+    public List<SimpleDictionaryDto> findTrainingCategories() {
         return trainingSearchMapper.findTrainingCategories(new UserCriteria());
     }
 

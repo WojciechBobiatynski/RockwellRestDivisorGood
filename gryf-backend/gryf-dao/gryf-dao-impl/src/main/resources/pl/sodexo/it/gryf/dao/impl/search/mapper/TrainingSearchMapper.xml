@@ -58,7 +58,7 @@
         </if>
     </select>
 
-    <select id="findTrainingCategories" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingCategoryDto" parameterType="list">
+    <select id="findTrainingCategories" resultType="pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto" parameterType="list">
         SELECT id, ordinal, name FROM APP_PBE.TI_TRAINING_CATEGORIES
     </select>
 

@@ -3,7 +3,7 @@ package pl.sodexo.it.gryf.service.impl.publicbenefits.traininginstiutions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingCategoryDto;
+import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchResultDTO;
@@ -46,7 +46,7 @@ public class TrainingServiceImpl implements TrainingService {
     }
 
     @Override
-    public List<TrainingCategoryDto> getTrainingCategoriesDict() {
+    public List<SimpleDictionaryDto> getTrainingCategoriesDict() {
         return trainingSearchDao.findTrainingCategories();
     }
 

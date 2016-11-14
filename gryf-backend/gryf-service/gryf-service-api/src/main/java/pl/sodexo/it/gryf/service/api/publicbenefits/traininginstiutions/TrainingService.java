@@ -1,6 +1,6 @@
 package pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions;
 
-import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingCategoryDto;
+import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchResultDTO;
@@ -16,7 +16,7 @@ public interface TrainingService {
 
     List<TrainingSearchResultDTO> findTrainings(TrainingSearchQueryDTO training);
 
-    List<TrainingCategoryDto> getTrainingCategoriesDict();
+    List<SimpleDictionaryDto> getTrainingCategoriesDict();
 
     TrainingDTO createTraining();
 
