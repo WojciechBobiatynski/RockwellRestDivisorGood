@@ -1,7 +1,7 @@
 CREATE TABLE APP_PBE.E_REIMBURSEMENTS
 (
 	ID NUMBER NOT NULL,    -- Identyfikator rozliczenia elektronicznego. Klucz g³ówny
-	TI_TRAINING_ID NUMBER NOT NULL,    -- Klucz obcy do TI_TRAININGS
+	TI_TR_INST_ID NUMBER NOT NULL,    -- Klucz obcy do TI_TRAINING_INSTANCES
 	STATUS_ID VARCHAR2(5) NOT NULL,    -- Status rozliczenia. Klucz obcy do E_REIMBURSEMENT_STATUSES
 	REIMBURSEMENT_DATE DATE,    -- Data rozliczenia (wykonania przelewu)
 	VERSION NUMBER NOT NULL,    -- Standardowa kolumna wersji na potrzeby optymistycznego blokowania (Gryf)
@@ -13,7 +13,7 @@ CREATE TABLE APP_PBE.E_REIMBURSEMENTS
 
 COMMENT ON TABLE APP_PBE.E_REIMBURSEMENTS IS '@Author(Adam Kmieciñski); @Project(Gryf-PBE); @Date(2016-11-14);@Purpose(Tabela przechowuj¹ca dane z e-rozliczeniami);';
 COMMENT ON COLUMN APP_PBE.E_REIMBURSEMENTS.ID IS 'Identyfikator rozliczenia elektronicznego. Klucz g³ówny. Sekwencja PBE_E_REIMB_SEQ';
-COMMENT ON COLUMN APP_PBE.E_REIMBURSEMENTS.TI_TRAINING_ID IS 'Klucz obcy do TI_TRAININGS';
+COMMENT ON COLUMN APP_PBE.E_REIMBURSEMENTS.TI_TR_INST_ID IS 'Klucz obcy do TI_TRAINING_INSTANCES';
 COMMENT ON COLUMN APP_PBE.E_REIMBURSEMENTS.STATUS_ID IS 'Status rozliczenia. Klucz obcy do E_REIMBURSEMENT_STATUSES';
 COMMENT ON COLUMN APP_PBE.E_REIMBURSEMENTS.REIMBURSEMENT_DATE IS 'Data rozliczenia (wykonania przelewu)';
 COMMENT ON COLUMN APP_PBE.E_REIMBURSEMENTS.VERSION IS 'Standardowa kolumna wersji na potrzeby optymistycznego blokowania (Gryf)';
@@ -43,7 +43,7 @@ ALTER TABLE APP_PBE.E_REIMBURSEMENTS
 
 ALTER TABLE APP_PBE.E_REIMBURSEMENTS
  ADD CONSTRAINT FK_E_RMBS_TI_TR_ID
-	FOREIGN KEY (TI_TRAINING_ID) REFERENCES APP_PBE.TI_TRAININGS (ID);
+	FOREIGN KEY (TI_TR_INST_ID) REFERENCES APP_PBE.TI_TRAINING_INSTANCES (ID);
 
 --------------------------------------------SEQUENCE--------------------------------------------
 CREATE SEQUENCE EAGLE.PBE_E_REIMB_SEQ
