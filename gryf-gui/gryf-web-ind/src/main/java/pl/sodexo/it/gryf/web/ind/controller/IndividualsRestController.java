@@ -20,7 +20,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(value = "/rest/ind", produces = "application/json;charset=UTF-8")
-public class IndRestController {
+public class IndividualsRestController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public IndDto getTrainingInstitutionById() {
