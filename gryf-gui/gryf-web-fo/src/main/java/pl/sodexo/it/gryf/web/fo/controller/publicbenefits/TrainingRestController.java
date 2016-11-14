@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingCategoryDto;
+import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchResultDTO;
@@ -64,7 +64,7 @@ public class TrainingRestController {
     }
 
     @RequestMapping(value = "/getTrainingCategoriesDict", method = RequestMethod.GET)
-    public List<TrainingCategoryDto> getTrainingCategoriesDict() {
+    public List<SimpleDictionaryDto> getTrainingCategoriesDict() {
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_TI_TRAININGS);
         return trainingService.getTrainingCategoriesDict();
     }
