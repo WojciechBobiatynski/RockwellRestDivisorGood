@@ -15,7 +15,7 @@ public class ProductDto extends VersionableDto {
 
     @Getter
     @Setter
-    private String orderId;
+    private Date expirationDate;
 
     @Getter
     @Setter
@@ -27,11 +27,11 @@ public class ProductDto extends VersionableDto {
 
     @Getter
     @Setter
-    private Integer usedProductsCount;
+    private Integer availableProductsCount;
 
     @Getter
     @Setter
-    private Integer availableProductsCount;
+    private Integer usedProductsCount;
 
     @Getter
     @Setter
@@ -39,7 +39,9 @@ public class ProductDto extends VersionableDto {
 
     @Getter
     @Setter
-    private Date expirationDate;
+    private String orderId;
+
+
 
     public ProductDto(Date expirationDate, Integer grantedProductsCount, Integer reservedProductsCount,
                       Integer availableProductsCount, Integer usedProductsCount, Date orderDate, String orderId) {

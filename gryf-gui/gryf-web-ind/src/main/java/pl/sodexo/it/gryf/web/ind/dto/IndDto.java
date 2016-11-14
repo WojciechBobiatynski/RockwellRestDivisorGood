@@ -27,11 +27,6 @@ public class IndDto extends VersionableDto {
     @Setter
     private String pesel;
 
-
-    @Getter
-    @Setter
-    private String email;
-
     @Getter
     @Setter
     private List<ProductDto> products;
