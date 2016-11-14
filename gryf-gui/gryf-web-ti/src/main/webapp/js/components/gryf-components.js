@@ -148,7 +148,8 @@ angular.module('gryf.exceptionHandler').factory('GryfExceptionHandler', ['GryfMo
         VALIDATION_WITH_CONFIRM_ERROR: "VALIDATION_WITH_CONFIRM_ERROR",
         VAT_REG_NUM_ENTERPRISE_CONFLICT: "VAT_REG_NUM_ENTERPRISE_CONFLICT",
         PESEL_INDIVIDUAL_CONFLICT: "PESEL_INDIVIDUAL_CONFLICT",
-        VAT_REG_NUM_TRAINING_INSTITUTION_CONFLICT: "VAT_REG_NUM_TRAINING_INSTITUTION_CONFLICT"
+        VAT_REG_NUM_TRAINING_INSTITUTION_CONFLICT: "VAT_REG_NUM_TRAINING_INSTITUTION_CONFLICT",
+        IND_USER_VERIFICATION_EXCEPTION: "IND_USER_VERIFICATION_EXCEPTION"
 
     };
 
@@ -244,6 +245,11 @@ angular.module('gryf.exceptionHandler').factory('GryfExceptionHandler', ['GryfMo
                     });
                 error.violations.forEach(function(element) {
                     scopeViolationsObject[element.path] = element;
+                });
+                break;
+            case ERRORS.IND_USER_VERIFICATION_EXCEPTION:
+                GryfModals.openModal(GryfModals.MODALS_URL.ERROR_INFO, {
+                    message: error.message
                 });
                 break;
         }
