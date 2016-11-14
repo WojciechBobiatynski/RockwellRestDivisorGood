@@ -28,10 +28,14 @@
             pool.RESERVED_NUM               reservedProductsCount,
             pool.AVAILABLE_NUM              availableProductsCount,
             pool.USED_NUM                   usedProductsCount,
-            pool.ORDER_ID                   orderId
+            pool.ORDER_ID                   orderId,
+            train.ID                        id,
+            train.ASSIGNED_NUM              productsCount,
+            train.REGISTER_DATE             signDate
         FROM APP_PBE.INDIVIDUALS ind
               LEFT OUTER JOIN APP_PBE.CONTRACTS con ON ind.ID = con.INDIVIDUAL_ID
               LEFT OUTER JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOLS pool ON ind.ID = pool.INDIVIDUAL_ID
+              LEFT OUTER JOIN APP_PBE.TI_TRAINING_INSTANCES train ON ind.ID = train.INDIVIDUAL_ID
         WHERE
             ind.ID = #{criteria.gryfUser.individualId}
     </select>
@@ -56,6 +60,19 @@
             <result property="usedProductsCount" column="USED_NUM"/>
           <!--  <result property="orderDate" column="SIGN_DATE"/>-->
             <result property="orderId" column="ORDER_ID"/>
+        </collection>
+        <collection property="trainings" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.TrainingDto"
+                    autoMapping="true">
+            <id property="id" column="ID"/>
+            <result property="productsCount" column="ASSIGNED_NUM"/>
+            <result property="signDate" column="REGISTER_DATE"/>
+
+            <!--
+            <result property="name" column="EXPIRY_DATE"/>
+            <result property="trainingInstitutionName" column="ALL_NUM"/>
+            <result property="startDate" column="USED_NUM"/>
+            <result property="endDate" column="SIGN_DATE"/>
+            <result property="trainingStatus" column="ORDER_ID"/>-->
         </collection>
     </resultMap>
 

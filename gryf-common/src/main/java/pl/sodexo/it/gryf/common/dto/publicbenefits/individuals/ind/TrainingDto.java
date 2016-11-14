@@ -12,6 +12,11 @@ import java.util.Date;
  * DTO dla szkolenia.
  */
 public class TrainingDto extends VersionableDto {
+
+    @Getter
+    @Setter
+    private Long id;
+
     @Getter
     @Setter
     private String name;

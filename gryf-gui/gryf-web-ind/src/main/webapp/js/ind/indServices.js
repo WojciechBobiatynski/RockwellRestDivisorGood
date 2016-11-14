@@ -14,12 +14,9 @@ angular.module("gryf.ind").factory("IndService",
                 firstName: null,
                 lastName: null,
                 pesel: null,
-                agreementId: null,
-                trainingCategory: null,
-                agreementSigningDate: null,
                 products: [],
-                reservedTraining: [],
-                settledTraining: []
+                trainings: [],
+                agreements: []
             }
         }
 
