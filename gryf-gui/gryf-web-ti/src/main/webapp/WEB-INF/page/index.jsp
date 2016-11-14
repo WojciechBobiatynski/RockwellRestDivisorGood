@@ -33,25 +33,22 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.12.1/ui-bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.12.1/ui-bootstrap-tpls.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.2/angular-ui-router.js"></script>
-
-    <script src="${pageContext.request.contextPath}/js/components/gryf-config.js"></script>
     <script src="${pageContext.request.contextPath}/js/components/angular-load.js"></script>
     <script src="${pageContext.request.contextPath}/js/components/angular-input-masks-standalone.min.js"></script>
     <script src="${pageContext.request.contextPath}/js/components/angular-toastr.tpls.min.js"></script>
-    <script src="${pageContext.request.contextPath}/js/components/gryf-components.js"></script>
     <script src="${pageContext.request.contextPath}/js/components/ng-file-upload.min.js"></script>
 
+    <script src="${pageContext.request.contextPath}/js/components/gryf-config.js"></script>
+    <script src="${pageContext.request.contextPath}/js/app.js"></script>
+    <script src="${pageContext.request.contextPath}/js/components/gryf-components.js"></script>
     <script src="${pageContext.request.contextPath}/js/components/gryf-ti-menu.js"></script>
-
     <script src="${pageContext.request.contextPath}/js/dashboard/gryf-dashboard.js"></script>
     <script src="${pageContext.request.contextPath}/js/dashboard/dashboardServices.js"></script>
     <script src="${pageContext.request.contextPath}/js/dashboard/dashboardControllers.js"></script>
-
     <script src="${pageContext.request.contextPath}/js/trainingReservation/gryf-trainingReservation.js"></script>
     <script src="${pageContext.request.contextPath}/js/trainingReservation/trainingReservationControllers.js"></script>
     <script src="${pageContext.request.contextPath}/js/trainingReservation/trainingReservationServices.js"></script>
-
-    <script src="${pageContext.request.contextPath}/js/components/personDataCache/personDataCacheService.js"></script>
+    <script src="${pageContext.request.contextPath}/js/components/userService/userService.js"></script>
 </head>
 <body ng-app="gryf.ti">
 <div class="container">

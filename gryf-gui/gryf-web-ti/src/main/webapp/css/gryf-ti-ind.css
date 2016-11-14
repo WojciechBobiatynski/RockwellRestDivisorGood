@@ -271,3 +271,11 @@ table {
 .modal-full-height .modal-content .modal-body {padding-bottom: 100px;}
 .modal-full-height .modal-footer {position: absolute;  padding-bottom: 13px;  width: 100%; background: #fff; bottom:0;}
 
+
+/* validation */
+
+.msg-error {
+    color: red;
+    font-size: 11px;
+}
+

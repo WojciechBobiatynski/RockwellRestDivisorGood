@@ -1,8 +1,6 @@
 "use strict";
 
-angular.module('gryf.ti', ['gryf.config']);
-
-angular.module('gryf.ti', ['gryf.privileges', 'gryf.helpers', 'gryf.modals', 'gryf.config']).controller('MenuController',
+angular.module('gryf.ti').controller('MenuController',
     ['$scope', 'AltShortcutHandler', "$state", function($scope, AltShortcutHandler, $state) {
         var CODES = {
             "m": 77,

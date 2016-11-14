@@ -5,10 +5,16 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.pbeproducts.PbeP
 import pl.sodexo.it.gryf.dao.impl.crud.repository.GenericRepositoryImpl;
 import pl.sodexo.it.gryf.model.publicbenefits.pbeproduct.PbeProductInstancePool;
 
-/**
- * Created by Isolution on 2016-11-07.
- */
+import javax.persistence.TypedQuery;
+import java.util.List;
+
 @Repository
 public class PbeProductInstancePoolRepositoryImpl extends GenericRepositoryImpl<PbeProductInstancePool, Long> implements PbeProductInstancePoolRepository {
 
+    @Override
+    public List<PbeProductInstancePool> findByIndividualUser(Long userId) {
+        TypedQuery<PbeProductInstancePool> query = entityManager.createQuery("select pi from PbeProductInstancePool pi where pi.individual.id = :userId", PbeProductInstancePool.class);
+        query.setParameter("userId", userId);
+        return query.getResultList();
+    }
 }

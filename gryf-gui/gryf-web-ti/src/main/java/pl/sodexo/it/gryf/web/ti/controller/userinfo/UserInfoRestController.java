@@ -24,5 +24,4 @@ public class UserInfoRestController {
         //securityChecker.assertServicePrivilege(Privileges.GRF_TRAINING_INSTITUTIONS);
         return trainingInstitutionService.findTrainingInstitutionByUserLogin(GryfUser.getLoggedUserLogin());
     }
-
 }

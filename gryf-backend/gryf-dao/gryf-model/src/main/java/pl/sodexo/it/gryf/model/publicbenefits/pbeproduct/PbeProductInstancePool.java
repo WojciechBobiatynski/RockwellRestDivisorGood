@@ -5,7 +5,16 @@ import pl.sodexo.it.gryf.model.api.VersionableEntity;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -24,6 +33,10 @@ public class PbeProductInstancePool extends VersionableEntity {
     @ManyToOne
     @JoinColumn(name = "STATUS_ID", referencedColumnName = "ID")
     private PbeProductInstancePoolStatus status;
+
+    @Column(name = "EXPIRY_DATE")
+    @Temporal(TemporalType.DATE)
+    private Date expiryDate;
 
     @Column(name = "ALL_NUM")
     private Integer allNum;
@@ -120,6 +133,14 @@ public class PbeProductInstancePool extends VersionableEntity {
 
     public void setOrder(Order order) {
         this.order = order;
+    }
+
+    public Date getExpiryDate() {
+        return expiryDate;
+    }
+
+    public void setExpiryDate(Date expiryDate) {
+        this.expiryDate = expiryDate;
     }
 
     //EQUALS & HASH CODE

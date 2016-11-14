@@ -1,8 +1,8 @@
-angular.module("gryf.ti").controller("DashboardController", ["$scope", "DashboardService", "PersonDataCacheService", function($scope, DashboardService, PersonDataCacheService) {
-    $scope.personData = PersonDataCacheService.getPesonData();
-    $scope.loggedUserInfo = {};
+angular.module("gryf.ti").controller("DashboardController", ["$scope", "DashboardService", "UserService", "TrainingReservationService",
+    function($scope, DashboardService, UserService, TrainingReservationService) {
 
-    DashboardService.getLoggedUserInfo().then(function(response) {
-        $scope.loggedUserInfo = response.data;
-    });
+    $scope.individualUser = UserService.getIndividualUser();
+    $scope.loggedUserInfo = UserService.getLoggedUserInfo();
+
+    $scope.loadProductInstancePoolsOfUser = TrainingReservationService.loadProductInstancePoolsOfUser;
 }]);
