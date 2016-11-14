@@ -1,11 +1,14 @@
 angular.module('gryf.electronicreimbursements').factory("electronicReimbursementsService",
-    ['$http', function($http) {
+    ['$http', 'GryfModals', 'GryfHelpers', 'GryfTables', function($http, GryfModals, GryfHelpers, GryfTables) {
 
-        var FIND_REIMBURSEMENTS_URL = contextPath + "/rest/publicBenefits/electronic/reimbursements/reimbursements";
+        var FIND_RMBS_LIST_URL = contextPath + "/rest/publicBenefits/electronic/reimbursements/list";
+        var FIND_RMBS_STATUSES_LIST_URL = contextPath + "/rest/publicBenefits/electronic/reimbursements/statuses";
+
 
         var elctRmbsCriteria = new ElctRmbsCriteria();
         var searchResultOptions = new SearchResultOptions();
-        var foundRmbs = {};
+        var rmbsStatuses = [];
+        var foundRmbs = [];
 
         function ElctRmbsCriteria() {
             this.rmbsNumber =  null,
@@ -50,10 +53,37 @@ angular.module('gryf.electronicreimbursements').factory("electronicReimbursement
             return foundRmbs;
         };
 
+        var find = function(findUrl) {
+            var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING);
+
+            GryfHelpers.transformDatesToString(foundRmbs);
+            if (!findUrl) {
+                findUrl = FIND_RMBS_LIST_URL;
+            }
+            var promise = $http.get(findUrl, {params: elctRmbsCriteria});
+            promise.then(function(response) {
+                //success
+                foundRmbs = response.data;
+                searchResultOptions.overflow = response.data.length > searchResultOptions.displayLimit;
+            }, function() {
+                //error
+                searchResultOptions.badQuery = true;
+            });
+
+            promise.finally(function() {
+                GryfModals.closeModal(modalInstance);
+            });
+            return promise;
+        };
+
         var loadMore = function() {
             elctRmbsCriteria.limit += searchResultOptions.displayLimitIncrementer;
             searchResultOptions.displayLimit += searchResultOptions.displayLimitIncrementer;
             return find();
+        };
+
+        var getReimbursementsStatuses = function() {
+            return $http.get(FIND_RMBS_STATUSES_LIST_URL);
         };
 
         return {
@@ -61,6 +91,8 @@ angular.module('gryf.electronicreimbursements').factory("electronicReimbursement
             getSearchResultOptions: getSearchResultOptions,
             getNewSearchResultOptions: getNewSearchResultOptions,
             getFoundRmbs: getFoundRmbs,
-            loadMore: loadMore
+            find: find,
+            loadMore: loadMore,
+            getReimbursementsStatuses: getReimbursementsStatuses
         };
     }]);

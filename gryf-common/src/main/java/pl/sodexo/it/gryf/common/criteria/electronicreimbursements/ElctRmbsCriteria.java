@@ -4,8 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import pl.sodexo.it.gryf.common.criteria.UserCriteria;
+import pl.sodexo.it.gryf.common.enums.SortType;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Kryteria wyszukiwania dla listy rozliczeń elektronicznych
@@ -48,4 +50,16 @@ public class ElctRmbsCriteria extends UserCriteria {
     @Getter
     @Setter
     private String rmbsStatus;
+
+    @Getter
+    @Setter
+    private Integer limit;
+
+    @Getter
+    @Setter
+    private List<String> sortColumns;
+
+    @Getter
+    @Setter
+    protected List<SortType> sortTypes;
 }

@@ -1,23 +1,22 @@
-package pl.sodexo.it.gryf.dao.api.search.mapper;
+package pl.sodexo.it.gryf.dao.api.search.dao;
 
-import org.apache.ibatis.annotations.Param;
 import pl.sodexo.it.gryf.common.criteria.electronicreimbursements.ElctRmbsCriteria;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsDto;
 
 import java.util.List;
 
 /**
- * Mapper do operacji na e-rozliczeniach
+ * Dao dla operacji na erozliczeniach
  *
  * Created by akmiecinski on 14.11.2016.
  */
-public interface ElectronicReimbursementsSearchMapper {
+public interface ElectronicReimbursementsDao {
 
     /**
      * Metoda zwracająca listę rozliczeń na podstawie kryteriów wyszkuwiania
      * @param criteria - kryteria wyszkuiwania
      * @return - lista rozliczeń
      */
-    List<ElctRmbsDto> findEcltRmbsListByCriteria(@Param("criteria") ElctRmbsCriteria criteria);
+    List<ElctRmbsDto> findEcltRmbsListByCriteria(ElctRmbsCriteria criteria);
 
 }

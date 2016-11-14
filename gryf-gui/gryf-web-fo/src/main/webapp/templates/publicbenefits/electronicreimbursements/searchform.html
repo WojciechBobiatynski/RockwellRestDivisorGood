@@ -58,20 +58,20 @@
                            placeholder="Data od"
                            ng-model="elctRmbsCriteria.rmbsDateFrom"
                            datepicker-popup="yyyy-MM-dd"
-                           is-open="datepicker.deliveryDateFromOpened"
+                           is-open="datepicker.reimbursementDateFromOpened"
                            close-text="Zamknij"
                            clear-text="Czyść"
                            current-text="Dziś"
-                           ng-click="openDatepicker('deliveryDateFromOpened')"/>
+                           ng-click="openDatepicker('reimbursementDateFromOpened')"/>
                     <input type="text"
                            placeholder="Data do"
                            ng-model="elctRmbsCriteria.rmbsDateTo"
                            datepicker-popup="yyyy-MM-dd"
-                           is-open="datepicker.deliveryDateToOpened"
+                           is-open="datepicker.reimbursementDateToOpened"
                            close-text="Zamknij"
                            clear-text="Czyść"
                            current-text="Dziś"
-                           ng-click="openDatepicker('deliveryDateToOpened')"/>
+                           ng-click="openDatepicker('reimbursementDateToOpened')"/>
                 </th>
                 <th class="sortable"
                     ng-class="getSortingTypeClass('status')">
@@ -88,16 +88,14 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="item in searchDTO.searchResultList | limitTo: searchResultOptions.displayLimit">
-                <td>{{::item.id}}</td>
+            <tr ng-repeat="item in foundRmbs | limitTo: searchResultOptions.displayLimit">
+                <td>{{::item.rmbsNumber}}</td>
                 <td>{{::item.trainingName}}</td>
                 <td>{{::item.pesel}}</td>
-                <td>{{::item.name}}</td>
-                <td>{{::item.surname}}</td>
-                <td>{{::item.deliveryDate | date:'yyyy-MM-dd'}}</td>
-                <td>{{::item.announcementDate | date:'yyyy-MM-dd'}}</td>
-                <td>{{::item.reimbursementDate | date:'yyyy-MM-dd'}}</td>
-                <td>{{::item.status}}</td>
+                <td>{{::item.participantName}}</td>
+                <td>{{::item.participantSurname}}</td>
+                <td>{{::item.rmbsDate | date:'yyyy-MM-dd'}}</td>
+                <td>{{::item.rmbsStatus}}</td>
                 <td>
                     <ul class="buttons">
                         <li>

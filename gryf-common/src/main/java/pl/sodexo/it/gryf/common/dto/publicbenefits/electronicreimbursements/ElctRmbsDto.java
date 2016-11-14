@@ -39,11 +39,7 @@ public class ElctRmbsDto implements Serializable {
 
     @Getter
     @Setter
-    private Date rmbsDateFrom;
-
-    @Getter
-    @Setter
-    private Date rmbsDateTo;
+    private Date rmbsDate;
 
     @Getter
     @Setter
