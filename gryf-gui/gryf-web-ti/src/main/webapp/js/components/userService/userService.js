@@ -21,7 +21,7 @@ angular.module("gryf.ti").factory("UserService", function($http) {
     }
 
     var resetIndividualUser = function() {
-        individualUser.data = null;
+        individualUser.data = {pesel: null, verificationCode: null}
     }
 
     return {

@@ -1,7 +1,7 @@
 package pl.sodexo.it.gryf.common.dto.security.individuals;
 
 /**
- * Dto przechowujące parę pesel - kod weryfikacyjny osoby fizycznej
+ * Dto przechowujące pesel i kod weryfikacyjny osoby fizycznej
  */
 public class IndUserAuthDataDto {
 
