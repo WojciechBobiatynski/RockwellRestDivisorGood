@@ -17,6 +17,10 @@ public class IndDto extends VersionableDto {
 
     @Getter
     @Setter
+    private Long id;
+
+    @Getter
+    @Setter
     private String firstName;
 
     @Getter
@@ -38,4 +42,6 @@ public class IndDto extends VersionableDto {
     @Getter
     @Setter
     private List<AgreementDto> agreements;
+
+
 }

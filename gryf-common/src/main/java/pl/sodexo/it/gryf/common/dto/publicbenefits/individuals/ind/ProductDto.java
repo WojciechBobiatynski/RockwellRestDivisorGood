@@ -15,6 +15,10 @@ public class ProductDto extends VersionableDto {
 
     @Getter
     @Setter
+    private Long id;
+
+    @Getter
+    @Setter
     private Date expirationDate;
 
     @Getter
@@ -40,18 +44,5 @@ public class ProductDto extends VersionableDto {
     @Getter
     @Setter
     private String orderId;
-
-
-
-    public ProductDto(Date expirationDate, Integer grantedProductsCount, Integer reservedProductsCount,
-                      Integer availableProductsCount, Integer usedProductsCount, Date orderDate, String orderId) {
-        this.setExpirationDate(expirationDate);
-        this.setAvailableProductsCount(availableProductsCount);
-        this.setGrantedProductsCount(grantedProductsCount);
-        this.setOrderDate(orderDate);
-        this.setOrderId(orderId);
-        this.setReservedProductsCount(reservedProductsCount);
-        this.setUsedProductsCount(usedProductsCount);
-    }
 
 }

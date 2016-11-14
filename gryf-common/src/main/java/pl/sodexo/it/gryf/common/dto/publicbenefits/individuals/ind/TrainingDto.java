@@ -40,6 +40,5 @@ public class TrainingDto extends VersionableDto {
     @Setter
     TrainingStatus trainingStatus;
 
-    public TrainingDto() {
-    }
+
 }
