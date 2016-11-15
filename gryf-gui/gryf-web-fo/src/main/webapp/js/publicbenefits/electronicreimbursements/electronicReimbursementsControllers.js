@@ -1,10 +1,10 @@
 "use strict";
 
 angular.module('gryf.electronicreimbursements').controller("searchform.electronicReimbursementsController",
-    ['$scope', 'electronicReimbursementsService', function($scope, electronicReimbursementsService) {
+    ['$scope', 'electronicReimbursementsService', function ($scope, electronicReimbursementsService) {
         $scope.elctRmbsCriteria = electronicReimbursementsService.getNewCriteria();
-        $scope.foundRmbs = electronicReimbursementsService.getFoundRmbs();
         $scope.searchResultOptions = electronicReimbursementsService.getSearchResultOptions();
+        $scope.elctRmbsModel = electronicReimbursementsService.getElctRmbsModel();
 
         $scope.datepicker = {
             reimbursementDateFromOpened: false,
@@ -15,14 +15,18 @@ angular.module('gryf.electronicreimbursements').controller("searchform.electroni
             electronicReimbursementsService.find();
         };
 
-        $scope.openDatepicker = function(fieldName) {
+        $scope.openDatepicker = function (fieldName) {
             $scope.datepicker[fieldName] = true;
         };
+
+        ($scope.loadReimbursementsStatuses = function () {
+            electronicReimbursementsService.loadReimbursementsStatuses();
+        })();
 
     }]);
 
 
 angular.module('gryf.electronicreimbursements').controller("detailsform.electronicReimbursementsController",
-    ['$scope', 'electronicReimbursementsService', function($scope, electronicReimbursementsService) {
+    ['$scope', 'electronicReimbursementsService', function ($scope, electronicReimbursementsService) {
 
     }]);

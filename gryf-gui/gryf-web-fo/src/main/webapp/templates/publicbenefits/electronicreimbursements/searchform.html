@@ -79,7 +79,7 @@
                         Status rozliczenia
                     </div>
                     <select ng-model="elctRmbsCriteria.rmbsStatus"
-                            ng-options="v.id as v.name for v in reimbursementStatuses"></select>
+                            ng-options="v.name as v.name for v in elctRmbsModel.rmbsStatuses"></select>
                 </th>
                 <th>
                     <a ng-click="find()"
@@ -88,7 +88,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="item in foundRmbs | limitTo: searchResultOptions.displayLimit">
+            <tr ng-repeat="item in elctRmbsModel.foundRmbs | limitTo: searchResultOptions.displayLimit">
                 <td>{{::item.rmbsNumber}}</td>
                 <td>{{::item.trainingName}}</td>
                 <td>{{::item.pesel}}</td>

@@ -7,8 +7,7 @@ angular.module('gryf.electronicreimbursements').factory("electronicReimbursement
 
         var elctRmbsCriteria = new ElctRmbsCriteria();
         var searchResultOptions = new SearchResultOptions();
-        var rmbsStatuses = [];
-        var foundRmbs = [];
+        var elctRmbsModel = new ElctRmbsModel();
 
         function ElctRmbsCriteria() {
             this.rmbsNumber =  null,
@@ -23,6 +22,12 @@ angular.module('gryf.electronicreimbursements').factory("electronicReimbursement
             this.sortColumns= [],
             this.limit= 10
         };
+
+        function ElctRmbsModel() {
+            this.rmbsStatuses = [];
+            this.foundRmbs = [];
+
+        }
 
         function SearchResultOptions() {
             this.displayLimit = 10;
@@ -49,24 +54,22 @@ angular.module('gryf.electronicreimbursements').factory("electronicReimbursement
             return searchResultOptions;
         };
 
-        var getFoundRmbs = function () {
-            return foundRmbs;
+        var getElctRmbsModel = function () {
+            return elctRmbsModel;
         };
 
         var find = function(findUrl) {
             var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING);
 
-            GryfHelpers.transformDatesToString(foundRmbs);
+            GryfHelpers.transformDatesToString(elctRmbsModel.foundRmbs);
             if (!findUrl) {
                 findUrl = FIND_RMBS_LIST_URL;
             }
             var promise = $http.get(findUrl, {params: elctRmbsCriteria});
             promise.then(function(response) {
-                //success
-                foundRmbs = response.data;
+                elctRmbsModel.foundRmbs = response.data;
                 searchResultOptions.overflow = response.data.length > searchResultOptions.displayLimit;
             }, function() {
-                //error
                 searchResultOptions.badQuery = true;
             });
 
@@ -82,17 +85,21 @@ angular.module('gryf.electronicreimbursements').factory("electronicReimbursement
             return find();
         };
 
-        var getReimbursementsStatuses = function() {
-            return $http.get(FIND_RMBS_STATUSES_LIST_URL);
+        var loadReimbursementsStatuses = function() {
+            var promise = $http.get(FIND_RMBS_STATUSES_LIST_URL);
+            promise.then(function (response) {
+                elctRmbsModel.rmbsStatuses = response.data;
+            });
+            return promise;
         };
 
         return {
             getNewCriteria: getNewElctRmbsCriteria,
             getSearchResultOptions: getSearchResultOptions,
             getNewSearchResultOptions: getNewSearchResultOptions,
-            getFoundRmbs: getFoundRmbs,
+            getElctRmbsModel: getElctRmbsModel,
             find: find,
             loadMore: loadMore,
-            getReimbursementsStatuses: getReimbursementsStatuses
+            loadReimbursementsStatuses: loadReimbursementsStatuses
         };
     }]);

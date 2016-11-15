@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import pl.sodexo.it.gryf.common.criteria.electronicreimbursements.ElctRmbsCriteria;
+import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsDto;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.ElectronicReimbursementsService;
 import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
@@ -39,9 +40,9 @@ public class ElectronicReimbursementsRestController {
 
     @RequestMapping(value = PATH_ELECTRONIC_REIMBURSEMENTS_STATUSES_LIST, method = RequestMethod.GET)
     @ResponseBody
-    public List<ElctRmbsDto> findElctRmbsStatuses(){
+    public List<SimpleDictionaryDto> findElctRmbsStatuses(){
         //        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS);
-        return electronicReimbursementsService.findEcltRmbsListByCriteria(null);
+        return electronicReimbursementsService.findElctRmbsStatuses();
     }
 
 }

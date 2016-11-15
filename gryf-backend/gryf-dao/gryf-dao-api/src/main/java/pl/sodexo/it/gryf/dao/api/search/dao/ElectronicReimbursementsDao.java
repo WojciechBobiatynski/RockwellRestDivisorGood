@@ -1,6 +1,7 @@
 package pl.sodexo.it.gryf.dao.api.search.dao;
 
 import pl.sodexo.it.gryf.common.criteria.electronicreimbursements.ElctRmbsCriteria;
+import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsDto;
 
 import java.util.List;
@@ -18,5 +19,11 @@ public interface ElectronicReimbursementsDao {
      * @return - lista rozliczeń
      */
     List<ElctRmbsDto> findEcltRmbsListByCriteria(ElctRmbsCriteria criteria);
+
+    /**
+     * Metoda zwracająca listę statusów rozliczeń
+     * @return - lista statusów
+     */
+    List<SimpleDictionaryDto> findElctRmbsStatuses();
 
 }

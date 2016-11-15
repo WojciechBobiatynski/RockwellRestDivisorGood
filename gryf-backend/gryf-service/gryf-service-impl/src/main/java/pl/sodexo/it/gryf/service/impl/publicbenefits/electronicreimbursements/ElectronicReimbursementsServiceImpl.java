@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.criteria.electronicreimbursements.ElctRmbsCriteria;
+import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsDto;
 import pl.sodexo.it.gryf.dao.api.search.dao.ElectronicReimbursementsDao;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.ElectronicReimbursementsService;
@@ -25,5 +26,10 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     @Override
     public List<ElctRmbsDto> findEcltRmbsListByCriteria(ElctRmbsCriteria criteria) {
         return electronicReimbursementsDao.findEcltRmbsListByCriteria(criteria);
+    }
+
+    @Override
+    public List<SimpleDictionaryDto> findElctRmbsStatuses() {
+        return electronicReimbursementsDao.findElctRmbsStatuses();
     }
 }
