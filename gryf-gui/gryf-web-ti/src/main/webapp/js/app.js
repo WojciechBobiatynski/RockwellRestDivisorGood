@@ -1,3 +1,3 @@
-angular.module("gryf.ti", ['gryf.privileges', 'gryf.helpers', 'gryf.modals', 'gryf.config']).run(function(UserService) {
+angular.module("gryf.ti", ['gryf.privileges', 'gryf.helpers', 'gryf.modals', 'gryf.config', 'ngResource']).run(function(UserService) {
     UserService.loadUserInfo();
 });

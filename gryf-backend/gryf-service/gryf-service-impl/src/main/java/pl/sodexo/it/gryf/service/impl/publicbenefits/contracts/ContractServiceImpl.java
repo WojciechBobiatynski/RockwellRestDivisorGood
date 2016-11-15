@@ -134,4 +134,15 @@ public class ContractServiceImpl implements ContractService {
         List<ContractType> contractTypes = contractTypeRepository.findAll();
         return dictionaryEntityMapper.convert(contractTypes);
     }
+
+    @Override
+    public GrantProgramDictionaryDTO findGrantProgramOfFirstUserContract(String pesel) {
+        Contract contract = contractRepository.findFirstContractOfUser(pesel);
+
+        if(contract != null) {
+            return grantProgramEntityMapper.convert(contract.getGrantProgram());
+        } else {
+            return null;
+        }
+    }
 }

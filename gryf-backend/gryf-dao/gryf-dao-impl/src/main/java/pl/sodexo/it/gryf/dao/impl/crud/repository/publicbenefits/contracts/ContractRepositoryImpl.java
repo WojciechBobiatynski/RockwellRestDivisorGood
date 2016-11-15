@@ -10,7 +10,9 @@ import pl.sodexo.it.gryf.model.publicbenefits.contracts.ContractType;
 import pl.sodexo.it.gryf.model.publicbenefits.enterprises.Enterprise;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantOwner;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
+import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgramLimit;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
+import pl.sodexo.it.gryf.model.publicbenefits.pbeproduct.PbeProductInstancePool;
 
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -77,6 +79,20 @@ public class ContractRepositoryImpl extends GenericRepositoryImpl<Contract, Long
         limit(dto, query);
 
         return query.getResultList();
+    }
+
+    @Override
+    public Contract findFirstContractOfUser(String pesel) {
+        TypedQuery<Contract> query = entityManager.createQuery("select c from Contract c where c.individual.pesel = :pesel order by c.signDate asc", Contract.class);
+        query.setMaxResults(1);
+        query.setParameter("pesel", pesel);
+
+        List<Contract> result = query.getResultList();
+        if(result.isEmpty()) {
+            return null;
+        } else {
+            return result.get(0);
+        }
     }
 }
 

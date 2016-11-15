@@ -5,9 +5,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.pbeproductinstancepool.PbeProductInstancePoolDto;
+import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.UserTrainingReservationDataDto;
 import pl.sodexo.it.gryf.common.dto.security.individuals.IndUserAuthDataDto;
+import pl.sodexo.it.gryf.service.api.publicbenefits.contracts.ContractService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.pbeproductinstancepool.PbeProductInstancePoolService;
+import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.TrainingService;
 import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
 import pl.sodexo.it.gryf.web.ti.util.UrlConstants;
 
@@ -21,11 +24,24 @@ public class TrainingReservationRestController {
     private PbeProductInstancePoolService productInstancePoolService;
 
     @Autowired
+    private TrainingService trainingService;
+
+    @Autowired
+    private ContractService contractService;
+
+    @Autowired
     private SecurityChecker securityChecker;
 
-    @RequestMapping(value = "/availableProductPool", method = RequestMethod.POST)
-    public List<PbeProductInstancePoolDto> getTrainingInstitutionOfLoggedUser(@RequestBody IndUserAuthDataDto userAuthDataDto) {
+    @RequestMapping(value = "/userTrainingReservationData", method = RequestMethod.POST)
+    public UserTrainingReservationDataDto findUserTrainingReservationData(@RequestBody IndUserAuthDataDto userAuthDataDto) {
         //securityChecker.assertServicePrivilege(Privileges.GRF_TRAINING_INSTITUTIONS);
-        return productInstancePoolService.findProductInstancePoolsOfUser(userAuthDataDto);
+        return productInstancePoolService.findUserTrainingReservationData(userAuthDataDto);
     }
+
+    @RequestMapping(value = "/trainingCategoriesDict", method = RequestMethod.GET)
+    public List<SimpleDictionaryDto> getTrainingCategoriesDict() {
+        //securityChecker.assertServicePrivilege(Privileges.GRF_PBE_TI_TRAININGS);
+        return trainingService.getTrainingCategoriesDict();
+    }
+
 }

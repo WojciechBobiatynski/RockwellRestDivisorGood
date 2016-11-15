@@ -4,5 +4,5 @@ angular.module("gryf.ti").controller("DashboardController", ["$scope", "Dashboar
     $scope.individualUser = UserService.getIndividualUser();
     $scope.loggedUserInfo = UserService.getLoggedUserInfo();
 
-    $scope.loadProductInstancePoolsOfUser = TrainingReservationService.loadProductInstancePoolsOfUser;
+    $scope.loadUserTrainingReservationData = TrainingReservationService.loadUserTrainingReservationData;
 }]);

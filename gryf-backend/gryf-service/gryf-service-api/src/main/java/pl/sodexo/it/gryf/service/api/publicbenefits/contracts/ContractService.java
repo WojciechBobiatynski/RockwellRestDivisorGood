@@ -26,4 +26,6 @@ public interface ContractService {
     void updateContract(ContractDTO contractDto);
 
     List<DictionaryDTO> findContractTypesDictionaries();
+
+    GrantProgramDictionaryDTO findGrantProgramOfFirstUserContract(String pesel);
 }

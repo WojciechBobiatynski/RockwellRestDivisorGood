@@ -1,4 +1,4 @@
-<section ng-hide="userProductInstancePools.data">
+<section ng-hide="userTrainingReservationData.data">
    <div class="block">
       <div class="multiSection">
          <div class="grid-50">
@@ -19,22 +19,22 @@
          </div>
       </div>
       <div class="grid-100 text-right">
-         <button data-ng-click="loadProductInstancePoolsOfUser(individualUser.data)">Rezerwuj nowe szkolenie</button>
+         <button data-ng-click="loadUserTrainingReservationData()">Rezerwuj nowe szkolenie</button>
       </div>
    </div>
 </section>
 
-<section ng-show="userProductInstancePools.data">
+<section ng-show="userTrainingReservationData.data">
    <strong class="label">Dane Uczestnika i liczba bonów</strong>
    <div class="block">
       <div class="multiSection">
          <div class="grid-20">
             <strong class="label">Imię i nazwisko uczestnika</strong>
-            <div>Jan Kowalski</div>
+            <div>{{userTrainingReservationData.data.firstName + " " + userTrainingReservationData.data.lastName}}</div>
          </div>
-         <div class="grid-20">
+         <div class="grid-10">
             <strong class="label">PESEL</strong>
-            <div>94585421235</div>
+            <div>{{userTrainingReservationData.data.pesel}}</div>
          </div>
          <div class="grid-30">
             <table>
@@ -47,21 +47,25 @@
                   </th>
                </thead>
                <tbody class="tableData">
-                  <tr ng-repeat="pool in userProductInstancePools.data" ng-class="{'row-even': $even, 'row-odd': $odd}">
+                  <tr ng-repeat="pool in userTrainingReservationData.data.productInstancePools" ng-class="{'row-even': $even, 'row-odd': $odd}">
                      <td>{{::pool.availableNum}}</td>
                      <td>{{::pool.expiryDate}}</td>
                   </tr>
                </tbody>
             </table>
          </div>
-         <div class="grid-30 text-right">
-               <button class="grid-50" data-ng-click="reserveTrainingForAnotherUser()">Rezerwuj szkolenie dla innego uczestnika</button>
+         <div class="grid-20">
+            <strong class="label">Program dofinansowania</strong>
+            <div ng-repeat="program in userTrainingReservationData.data.grantPrograms">{{program.name}}</div>
+         </div>
+         <div class="grid-20 text-right">
+               <button class="grid-80" data-ng-click="reserveTrainingForAnotherUser()">Rezerwuj szkolenie dla innego uczestnika</button>
          </div>
       </div>
    </div>
 </section>
 
-<section ng-show="userProductInstancePools.data">
+<section ng-show="userTrainingReservationData.data">
    <table>
       <thead>
       <tr class="grid-100 tableHeader-names">
@@ -120,7 +124,7 @@
             <input placeholder="Miejsce" ng-model="searchDTO.entity.place">
          </th>
          <th class="grid-15">
-            <select ng-options="v as v for v in ['kategoria 1', 'kategoria 2', 'kategoria 3', 'kategoria 4']" ng-model="test" multiple>
+            <select ng-options="v.id as v.name for v in dictionaries.trainingCategories | orderBy:'ordinal'" ng-model="selectedCategory" multiple>
                <option value="">-wybierz-</option>
             </select>
          </th>

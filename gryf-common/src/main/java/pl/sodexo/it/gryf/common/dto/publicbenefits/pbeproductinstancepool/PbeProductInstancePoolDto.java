@@ -7,11 +7,6 @@ import pl.sodexo.it.gryf.common.dto.api.VersionableDto;
 
 import java.util.Date;
 
-/**
- * Klasa bazowa dla dto klas kontaktów
- *
- * Created by jbentyn on 2016-10-04.
- */
 @ToString
 public class PbeProductInstancePoolDto extends VersionableDto {
 
@@ -21,9 +16,9 @@ public class PbeProductInstancePoolDto extends VersionableDto {
 
     @Getter
     @Setter
-    private Date expiryDate;
+    private Integer availableNum;
 
     @Getter
     @Setter
-    private Integer availableNum;
+    private Date expiryDate;
 }

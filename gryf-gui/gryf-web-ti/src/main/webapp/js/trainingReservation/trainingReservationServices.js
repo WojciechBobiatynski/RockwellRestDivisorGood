@@ -1,15 +1,15 @@
 angular.module("gryf.ti").factory("TrainingReservationService", function($http, GryfModals, GryfPopups, GryfExceptionHandler) {
 
     var TRAINING_RESERVATION_URL = contextPath + "/rest/trainingreservation";
-    var userProductInstancePool = {data: null}
+    var userTrainingReservationData = {data: null}
     var violations = {};
 
-    var loadProductInstancePoolsOfUser = function(personData) {
+    var loadUserTrainingReservationData = function(personData) {
         var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING, {label: "Wczytuję dane"});
 
-        return $http.post(TRAINING_RESERVATION_URL + "/availableProductPool/", personData
+        return $http.post(TRAINING_RESERVATION_URL + "/userTrainingReservationData/", personData
         ).success(function(data) {
-            userProductInstancePool.data = data;
+            userTrainingReservationData.data = data;
         }).error(function(error) {
             GryfPopups.setPopup("error", "Błąd", "Nie udało się wczytaj danych użytkownika");
             GryfPopups.showPopup();
@@ -21,12 +21,12 @@ angular.module("gryf.ti").factory("TrainingReservationService", function($http, 
         });
     }
 
-    var getProductInstancePoolsOfUser = function() {
-        return userProductInstancePool;
+    var getUserTrainingReservationData = function() {
+        return userTrainingReservationData;
     }
 
-    var resetProductInstancePoolsOfUser = function() {
-        userProductInstancePool.data = null;
+    var resetUserTrainingReservationData = function() {
+        userTrainingReservationData.data = null;
     }
 
     var getNewViolations = function() {
@@ -35,9 +35,9 @@ angular.module("gryf.ti").factory("TrainingReservationService", function($http, 
     };
 
     return {
-        loadProductInstancePoolsOfUser: loadProductInstancePoolsOfUser,
-        getProductInstancePoolsOfUser: getProductInstancePoolsOfUser,
-        resetProductInstancePoolsOfUser: resetProductInstancePoolsOfUser,
+        loadUserTrainingReservationData: loadUserTrainingReservationData,
+        getUserTrainingReservationData: getUserTrainingReservationData,
+        resetUserTrainingReservationData: resetUserTrainingReservationData,
         getNewViolations: getNewViolations
     }
 });

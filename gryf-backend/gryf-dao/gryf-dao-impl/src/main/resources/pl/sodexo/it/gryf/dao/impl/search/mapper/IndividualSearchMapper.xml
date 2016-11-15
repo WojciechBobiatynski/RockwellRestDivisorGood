@@ -92,5 +92,40 @@
             <result property="trainingStatusId" column="trainingStatusId"/>
         </collection>
     </resultMap>
+    
+    <select id="findDataForTrainingReservation" resultMap="userTrainingReservationData">
+         SELECT
+            ind.FIRST_NAME AS firstName,
+            ind.LAST_NAME AS lastName,
+            ind.PESEL AS pesel,
+            pip.ID AS productPoolId,
+            pip.AVAILABLE_NUM AS availableNum,
+            pip.EXPIRY_DATE AS expiryDate,
+            gpr.ID AS programId,
+            gpr.PROGRAM_NAME AS name
+        FROM APP_PBE.INDIVIDUALS ind
+            LEFT JOIN APP_PBE.CONTRACTS con ON con.INDIVIDUAL_ID = ind.ID
+            LEFT JOIN APP_PBE.GRANT_PROGRAMS gpr ON gpr.ID = con.GRANT_PROGRAM_ID
+            LEFT JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOLS pip ON pip.INDIVIDUAL_ID = ind.ID
+        WHERE
+            ind.PESEL = #{pesel}
+    </select>
+
+    <resultMap id="userTrainingReservationData" type="pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.UserTrainingReservationDataDto" autoMapping="true">
+        <result property="firstName" column="firstName"/>
+        <result property="lastName" column="lastName"/>
+        <result property="pesel" column="pesel"/>
+
+        <collection property="productInstancePools" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.pbeproductinstancepool.PbeProductInstancePoolDto" autoMapping="true">
+            <id property="id" column="productPoolId"/>
+            <result property="availableNum" column="availableNum"/>
+            <result property="expiryDate" column="expiryDate"/>
+        </collection>
+
+        <collection property="grantPrograms" ofType="pl.sodexo.it.gryf.common.dto.other.GrantProgramDictionaryDTO" autoMapping="true">
+            <id property="id" column="programId"/>
+            <result property="name" column="name"/>
+        </collection>
+    </resultMap>
 
 </mapper>

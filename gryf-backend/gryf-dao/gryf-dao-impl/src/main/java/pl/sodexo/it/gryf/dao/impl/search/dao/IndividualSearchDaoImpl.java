@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.criteria.UserCriteria;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.IndDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.UserTrainingReservationDataDto;
 import pl.sodexo.it.gryf.common.dto.security.individuals.VerificationDto;
 import pl.sodexo.it.gryf.dao.api.search.dao.IndividualSearchDao;
 import pl.sodexo.it.gryf.dao.api.search.mapper.IndividualSearchMapper;
@@ -25,6 +26,11 @@ public class IndividualSearchDaoImpl implements IndividualSearchDao {
     @Override
     public Long findIndividualIdByPeselAndEmail(VerificationDto verificationDto) {
         return individualSearchMapper.findIndividualIdByPeselAndEmail(new UserCriteria(), verificationDto);
+    }
+
+    @Override
+    public UserTrainingReservationDataDto findDataForTrainingReservation(String pesel) {
+        return individualSearchMapper.findDataForTrainingReservation(pesel);
     }
 
     @Override

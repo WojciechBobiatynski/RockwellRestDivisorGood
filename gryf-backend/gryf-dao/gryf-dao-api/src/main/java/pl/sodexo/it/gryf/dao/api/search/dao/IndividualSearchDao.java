@@ -1,6 +1,7 @@
 package pl.sodexo.it.gryf.dao.api.search.dao;
 
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.IndDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.UserTrainingReservationDataDto;
 import pl.sodexo.it.gryf.common.dto.security.individuals.VerificationDto;
 
 /**
@@ -22,4 +23,11 @@ public interface IndividualSearchDao {
      * @return
      */
     IndDto findIndividualAfterLogin();
+
+    /**
+     * Wyszukuje dane osoby fizycznej niezbędne na formatce rezerwacji szkolenia
+     * @param pesel - pesel osoby fizycznej
+     * @return date osoby fizycznej niezbędne do rezerwacji szkolenia
+     */
+    UserTrainingReservationDataDto findDataForTrainingReservation(String pesel);
 }

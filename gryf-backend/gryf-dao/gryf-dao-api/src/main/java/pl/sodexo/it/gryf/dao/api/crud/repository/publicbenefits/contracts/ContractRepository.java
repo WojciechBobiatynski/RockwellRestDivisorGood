@@ -12,4 +12,6 @@ import java.util.List;
 public interface ContractRepository extends GenericRepository<Contract, Long> {
 
     List<Contract> findContracts(ContractSearchQueryDTO dto);
+
+    Contract findFirstContractOfUser(String pesel);
 }

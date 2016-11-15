@@ -9,6 +9,7 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.ContactTypeDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.detailsForm.IndividualContactDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.detailsForm.IndividualDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.IndDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.UserTrainingReservationDataDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.searchform.IndividualSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.searchform.IndividualSearchResultDTO;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
@@ -50,7 +51,7 @@ public class IndividualServiceImpl implements IndividualService {
     private IndividualRepository individualRepository;
 
     @Autowired
-    IndividualSearchDao individualSearchDao;
+    private IndividualSearchDao individualSearchDao;
 
     @Autowired
     private ApplicationParameters applicationParameters;
@@ -223,4 +224,8 @@ public class IndividualServiceImpl implements IndividualService {
         return Long.parseLong(code.substring(applicationParameters.getGryfIndividualCodePrefix().length()));
     }
 
+    @Override
+    public UserTrainingReservationDataDto findUserTrainingReservationData(String pesel) {
+        return individualSearchDao.findDataForTrainingReservation(pesel);
+    }
 }
