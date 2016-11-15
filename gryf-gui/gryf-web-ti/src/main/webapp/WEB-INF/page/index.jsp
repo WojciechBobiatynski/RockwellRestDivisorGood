@@ -67,7 +67,7 @@
     <li ng-class="{'active': isActive('dashboard')}"><a ui-sref="dashboard">Pulpit</a></li>
     <li ng-class="{'active': isActive('trainingReservation')}"><a ui-sref="trainingReservation">Rezerwuj szkolenie</a></li>
     <li ng-class="{'active': isActive('/v3')}"><a ng-href="${pageContext.request.contextPath}/page2">Zatwierdź PIN Uczestnika</a></li>
-    <li ng-class="{'active': isActive('reimbursement')}"><a ui-sref="reimbursements">Rozliczenia i korekty</a></li>
+    <li ng-class="{'active': isActive('reimbursements')}"><a ui-sref="reimbursements">Rozliczenia i korekty</a></li>
     <li ng-class="{'active': isActive('/v5')}"><a ng-href="${pageContext.request.contextPath}/page4">Anuluj rezerwację</a></li>
     <li ng-class="{'active': isActive('/v6')}"><a ng-href="${pageContext.request.contextPath}/page5">Nasze szkolenia</a></li>
     <li><a ng-href="${pageContext.request.contextPath}/logout">Wyloguj</a></li>
