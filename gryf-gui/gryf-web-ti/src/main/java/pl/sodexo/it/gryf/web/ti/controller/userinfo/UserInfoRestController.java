@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingInstitutionSearchResultDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingInstitutionDto;
 import pl.sodexo.it.gryf.common.dto.user.GryfUser;
 import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.TrainingInstitutionService;
 import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
@@ -20,8 +20,9 @@ public class UserInfoRestController {
     private SecurityChecker securityChecker;
 
     @RequestMapping(value = "/trainingInstitution", method = RequestMethod.GET)
-    public TrainingInstitutionSearchResultDTO getTrainingInstitutionOfLoggedUser() {
+    public TrainingInstitutionDto getTrainingInstitutionOfLoggedUser() {
         //securityChecker.assertServicePrivilege(Privileges.GRF_TRAINING_INSTITUTIONS);
-        return trainingInstitutionService.findTrainingInstitutionByUserLogin(GryfUser.getLoggedUserLogin());
+        Long loggedUserInstitutionId = GryfUser.getLoggedTiUserInstitutionId();
+        return trainingInstitutionService.findTrainingInstitution(loggedUserInstitutionId);
     }
 }

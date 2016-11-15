@@ -79,6 +79,16 @@ public abstract class GryfUser extends User {
         return user.getLogin();
     }
 
+    public static Long getLoggedTiUserInstitutionId() {
+        GryfTiUser loggedUser = (GryfTiUser) GryfUser.getLoggedUser();
+
+        if (loggedUser == null){
+            return null;
+        }
+
+        return loggedUser.getTrainingInstitutionId();
+    }
+
     public static boolean isAnonymousUser() {
         return SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken;
     }

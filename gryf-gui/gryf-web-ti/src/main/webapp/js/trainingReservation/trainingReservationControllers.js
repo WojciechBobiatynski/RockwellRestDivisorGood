@@ -23,6 +23,7 @@ angular.module("gryf.ti").controller("TrainingReservationController",
     $scope.reserveTrainingForAnotherUser = function() {
         TrainingReservationService.resetUserTrainingReservationData();
         UserService.resetIndividualUser();
+        $scope.clear();
     }
 
     function resetViolations() {
@@ -52,5 +53,11 @@ angular.module("gryf.ti").controller("TrainingReservationController",
         $scope.datepicker[value] = true;
     };
 
+    $scope.clear = function() {
+        $scope.searchDTO = TrainingSearchService.getNewSearchDTO();
+        $scope.searchResultOptions = TrainingSearchService.getNewSearchResultOptions();
+    };
+
+    $scope.clear();
     $scope.loadDictionaries();
 }]);

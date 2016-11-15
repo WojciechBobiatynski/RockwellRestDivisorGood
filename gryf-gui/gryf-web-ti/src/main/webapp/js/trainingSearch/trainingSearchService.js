@@ -1,6 +1,5 @@
-angular.module("gryf.ti").factory("TrainingSearchService", function($http, GryfModals, GryfTables) {
-    var FIND_TRAINING_INS_URL = contextPath + "/rest/publicBenefits/training/list";
-    var GET_TRAINING_CATEGORY_DICT = contextPath + "/rest/publicBenefits/training/getTrainingCategoriesDict";
+angular.module("gryf.ti").factory("TrainingSearchService", function($http, GryfModals, GryfTables, GryfHelpers) {
+    var FIND_TRAINING_URL = contextPath + "/rest/trainingreservation/training/list";
 
     var searchDTO = new SearchObjModel();
     var searchResultOptions = new SearchResultOptions();
@@ -21,7 +20,8 @@ angular.module("gryf.ti").factory("TrainingSearchService", function($http, GryfM
             hoursNumberTo: null,
             hourPriceFrom: null,
             hourPriceTo: null,
-            categoryCode: null,
+            categoryCodes: null,
+
 
             limit: 10,
             sortColumns: [],
@@ -62,7 +62,7 @@ angular.module("gryf.ti").factory("TrainingSearchService", function($http, GryfM
         var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING);
         GryfHelpers.transformDatesToString(searchDTO.entity);
         if (!restUrl) {
-            restUrl = FIND_TRAINING_INS_URL;
+            restUrl = FIND_TRAINING_URL;
         }
         var promise = $http.get(restUrl, {params: searchDTO.entity});
         promise.then(function(response) {
@@ -90,12 +90,6 @@ angular.module("gryf.ti").factory("TrainingSearchService", function($http, GryfM
         return GryfTables.getSortingTypeClass(entity, columnName);
     };
 
-    var getTrainingCategoriesDict = function() {
-        return $http.get(GET_TRAINING_CATEGORY_DICT).then(function(response) {
-            return response.data;
-        });
-    };
-
     var resetSearchResultOptions = function() {
         searchResultOptions = new SearchResultOptions;
         return searchResultOptions;
@@ -106,10 +100,8 @@ angular.module("gryf.ti").factory("TrainingSearchService", function($http, GryfM
         getSearchResultOptions: getSearchResultOptions,
         find: find,
         findSortedBy: findSortedBy,
-        getTrainingCategoriesDict: getTrainingCategoriesDict,
         getNewSearchDTO: getNewSearchDTO,
         getNewSearchResultOptions: getNewSearchResultOptions,
         getSortingTypeClass: getSortingTypeClass
-
     };
 });

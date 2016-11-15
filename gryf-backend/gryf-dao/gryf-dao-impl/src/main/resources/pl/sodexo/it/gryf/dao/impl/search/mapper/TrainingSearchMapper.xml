@@ -47,8 +47,10 @@
             <if test="searchParams.hourPriceTo != null">
                 AND t.HOUR_PRICE &lt;= #{searchParams.hourPriceTo}
             </if>
-            <if test="searchParams.categoryCode != null">
-                AND t.TRAINING_CATEGORY_ID like #{searchParams.categoryCode}
+            <if test="searchParams.categoryCodes != null and searchParams.categoryCodes.size() > 0">
+                <foreach item="code" index="index" collection="searchParams.categoryCodes" open="AND (" separator=" OR " close=")">
+                    t.TRAINING_CATEGORY_ID like #{code}
+                </foreach>
             </if>
         </where>
         <if test="searchParams.sortColumns != null">

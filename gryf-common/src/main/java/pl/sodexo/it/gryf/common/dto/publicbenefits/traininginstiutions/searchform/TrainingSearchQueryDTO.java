@@ -8,6 +8,7 @@ import pl.sodexo.it.gryf.common.dto.api.SearchDto;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 import static pl.sodexo.it.gryf.common.utils.GryfConstants.DATE_FORMAT;
 
@@ -50,6 +51,10 @@ public class TrainingSearchQueryDTO extends SearchDto {
 
     @Getter
     @Setter
+    private Long maxProductCount;
+
+    @Getter
+    @Setter
     private String place;
 
     @Getter
@@ -70,5 +75,5 @@ public class TrainingSearchQueryDTO extends SearchDto {
 
     @Getter
     @Setter
-    private String categoryCode;
+    private List<String> categoryCodes;
 }

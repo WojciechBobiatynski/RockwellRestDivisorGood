@@ -7,8 +7,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.UserTrainingReservationDataDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchQueryDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchResultDTO;
 import pl.sodexo.it.gryf.common.dto.security.individuals.IndUserAuthDataDto;
-import pl.sodexo.it.gryf.service.api.publicbenefits.contracts.ContractService;
+import pl.sodexo.it.gryf.common.dto.user.GryfUser;
 import pl.sodexo.it.gryf.service.api.publicbenefits.pbeproductinstancepool.PbeProductInstancePoolService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.TrainingService;
 import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
@@ -27,9 +29,6 @@ public class TrainingReservationRestController {
     private TrainingService trainingService;
 
     @Autowired
-    private ContractService contractService;
-
-    @Autowired
     private SecurityChecker securityChecker;
 
     @RequestMapping(value = "/userTrainingReservationData", method = RequestMethod.POST)
@@ -44,4 +43,11 @@ public class TrainingReservationRestController {
         return trainingService.getTrainingCategoriesDict();
     }
 
+    @RequestMapping(value = "/training/list", method = RequestMethod.GET)
+    public List<TrainingSearchResultDTO> findTrainings(TrainingSearchQueryDTO dto) {
+        //securityChecker.assertServicePrivilege(Privileges.GRF_PBE_TI_TRAININGS);
+        Long loggedUserInstitutionId = GryfUser.getLoggedTiUserInstitutionId();
+        dto.setInstitutionId(loggedUserInstitutionId);
+        return trainingService.findTrainings(dto);
+    }
 }

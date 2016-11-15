@@ -24,7 +24,7 @@ angular.module("gryf.training").factory("BrowseTrainingService",
                 hoursNumberTo: null,
                 hourPriceFrom: null,
                 hourPriceTo: null,
-                categoryCode: null,
+                categoryCodes: null,
 
                 limit: 10,
                 sortColumns: [],
