@@ -26,7 +26,4 @@ public class PrintNumberDto {
 
     private Long productInstanceNumber;
 
-    private String generatedPrintNumber;
-
-    private Integer generatedChecksum;
 }

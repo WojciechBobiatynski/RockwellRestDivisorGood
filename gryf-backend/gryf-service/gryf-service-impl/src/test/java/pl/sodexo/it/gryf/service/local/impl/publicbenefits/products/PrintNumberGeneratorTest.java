@@ -9,6 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.products.PrintNumberDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.products.PrintNumberResultDto;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.products.PrintNumberChecksumProvider;
 
 import java.text.DateFormat;
@@ -61,12 +62,12 @@ public class PrintNumberGeneratorTest {
         dto.setTypeNumber(30);
         dto.setValidDate(asDate("2016-10-12"));
 
-        dto = printNumberGenerator.generate(dto);
+        PrintNumberResultDto resultDto = printNumberGenerator.generate(dto);
 
-        assertEquals("Wygenerowany numer bonu musi miec długość 30", 30, dto.getGeneratedPrintNumber().length());
+        assertEquals("Wygenerowany numer bonu musi miec długość 30", 30, resultDto.getGeneratedPrintNumber().length());
 
         String pattern = "31300015000161012\\d{4}000000001";
-        assertTrue("Wygenerowany numer musi zgadzać się z numerem założonym z dokładnością do liczby losowej i CRC :", dto.getGeneratedPrintNumber().matches(pattern));
+        assertTrue("Wygenerowany numer musi zgadzać się z numerem założonym z dokładnością do liczby losowej i CRC :", resultDto.getGeneratedPrintNumber().matches(pattern));
 
     }
 

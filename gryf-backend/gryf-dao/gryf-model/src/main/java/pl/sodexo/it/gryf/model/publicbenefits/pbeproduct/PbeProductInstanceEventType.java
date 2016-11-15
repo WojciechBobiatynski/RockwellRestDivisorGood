@@ -18,6 +18,15 @@ import java.util.Objects;
 @Table(name = "PBE_PRODUCT_INSTANCE_E_T", schema = "APP_PBE")
 public class PbeProductInstanceEventType extends GryfEntity implements DictionaryEntity {
 
+    //STATIC FEILDS - TYPE CODE
+
+    public static final String NEW_CODE = "NEW";
+    public static final String RES_CODE = "RES";
+    public static final String USE_CODE = "USE";
+    public static final String REIMB_CODE = "REIMB";
+
+    //FIELDS
+
     @Id
     @Column(name = "ID")
     private String id;

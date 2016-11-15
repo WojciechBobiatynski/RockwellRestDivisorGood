@@ -2,6 +2,7 @@ package pl.sodexo.it.gryf.model.publicbenefits.grantprograms;
 
 import lombok.ToString;
 import pl.sodexo.it.gryf.model.api.GryfEntity;
+import pl.sodexo.it.gryf.model.publicbenefits.pbeproduct.PbeProduct;
 import pl.sodexo.it.gryf.model.stock.products.Product;
 
 import javax.persistence.*;
@@ -30,8 +31,16 @@ public class GrantProgramProduct extends GryfEntity {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "GRANT_PROGRAM_ID", referencedColumnName = "ID")
+    private GrantProgram program;
+
+    @ManyToOne
     @JoinColumn(name = "PRD_ID", referencedColumnName = "ID")
     private Product product;
+
+    @ManyToOne
+    @JoinColumn(name = "PBE_PRD_ID", referencedColumnName = "PRD_ID")
+    private PbeProduct pbePproduct;
 
     @Column(name = "DATE_FROM")
     @Temporal(TemporalType.TIMESTAMP)
@@ -40,10 +49,6 @@ public class GrantProgramProduct extends GryfEntity {
     @Column(name = "DATE_TO")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateTo;
-
-    @ManyToOne
-    @JoinColumn(name = "GRANT_PROGRAM_ID", referencedColumnName = "ID")
-    private GrantProgram program;
 
     //GETTERS & SETTERS
 
@@ -55,12 +60,28 @@ public class GrantProgramProduct extends GryfEntity {
         this.id = id;
     }
 
+    public GrantProgram getProgram() {
+        return program;
+    }
+
+    public void setProgram(GrantProgram program) {
+        this.program = program;
+    }
+
     public Product getProduct() {
         return product;
     }
 
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    public PbeProduct getPbePproduct() {
+        return pbePproduct;
+    }
+
+    public void setPbePproduct(PbeProduct pbePproduct) {
+        this.pbePproduct = pbePproduct;
     }
 
     public Date getDateFrom() {
@@ -77,14 +98,6 @@ public class GrantProgramProduct extends GryfEntity {
 
     public void setDateTo(Date dateTo) {
         this.dateTo = dateTo;
-    }
-
-    public GrantProgram getProgram() {
-        return program;
-    }
-
-    public void setProgram(GrantProgram grantProgramId) {
-        this.program = grantProgramId;
     }
 
     //EQUALS & HASH CODE

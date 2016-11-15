@@ -18,6 +18,12 @@ import java.util.Objects;
 @Table(name = "PBE_PRODUCT_INSTANCE_POOL_STAS", schema = "APP_PBE")
 public class PbeProductInstancePoolStatus extends GryfEntity implements DictionaryEntity {
 
+    //STATIC FEILDS - STATUSES CODE
+
+    public static final String ACTIVE_CODE = "ACTIVE";
+    public static final String USE_CODE = "USE";
+    public static final String REIMB_CODE = "REIMB";
+
     @Id
     @Column(name = "ID")
     private String id;

@@ -2,17 +2,22 @@ package pl.sodexo.it.gryf.model.publicbenefits.pbeproduct;
 
 import lombok.ToString;
 import pl.sodexo.it.gryf.model.api.VersionableEntity;
+import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Objects;
 
 /**
  * Created by Isolution on 2016-11-02.
  */
 @Entity
-@ToString(exclude = {"productEmission", "order", "productInstancePool", "productInstancePoolUse"})
+@ToString(exclude = {"productEmission", "productInstancePool", "productInstancePoolUse"})
 @Table(name = "PBE_PRODUCT_INSTANCES", schema = "APP_PBE")
+@NamedQueries({
+        @NamedQuery(name = "PbeProductInstance.findAvaiableByProduct", query = "select pi from PbeProductInstance pi " +
+                                    "where pi.productEmission.product.id = :productId  and pi.status.id = :statusId order by pi.id.number")})
 public class PbeProductInstance extends VersionableEntity {
 
     @EmbeddedId
@@ -21,6 +26,10 @@ public class PbeProductInstance extends VersionableEntity {
     @ManyToOne
     @JoinColumn(name = "STATUS_ID", referencedColumnName = "ID")
     private PbeProductInstanceStatus status;
+
+    @Column(name = "EXPIRY_DATE")
+    @Temporal(TemporalType.DATE)
+    private Date expiryDate;
 
     @Column(name = "PRINT_NUM")
     private String printNumber;
@@ -56,6 +65,14 @@ public class PbeProductInstance extends VersionableEntity {
 
     public void setStatus(PbeProductInstanceStatus status) {
         this.status = status;
+    }
+
+    public Date getExpiryDate() {
+        return expiryDate;
+    }
+
+    public void setExpiryDate(Date expiryDate) {
+        this.expiryDate = expiryDate;
     }
 
     public String getPrintNumber() {

@@ -6,6 +6,6 @@ import pl.sodexo.it.gryf.model.publicbenefits.pbeproduct.PbeProductInstancePoolE
 /**
  * Created by Isolution on 2016-11-07.
  */
-public interface PbeProductInstancePoolEventTypeRepository extends GenericRepository<PbeProductInstancePoolEventType, Long> {
+public interface PbeProductInstancePoolEventTypeRepository extends GenericRepository<PbeProductInstancePoolEventType, String> {
 
 }

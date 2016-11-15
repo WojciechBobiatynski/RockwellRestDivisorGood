@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.products.PrintNumberDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.products.PrintNumberResultDto;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.products.PrintNumberChecksumProvider;
 
 import java.text.DateFormat;
@@ -32,7 +33,7 @@ public class PrintNumberGenerator {
     @Autowired
     private ApplicationParameters applicationParameters;
 
-    public PrintNumberDto generate(PrintNumberDto printNumberDto) {
+    public PrintNumberResultDto generate(PrintNumberDto printNumberDto) {
         Integer checksum = printNumberChecksumProvider.generateChecksum(printNumberDto);
 
         StringBuilder builder = new StringBuilder();
@@ -44,10 +45,10 @@ public class PrintNumberGenerator {
                 .append(getRandomFormatted())
                 .append(getProductInstanceNumberFormatted(printNumberDto));
 
-        printNumberDto.setGeneratedPrintNumber(builder.toString());
-        printNumberDto.setGeneratedChecksum(checksum);
-
-        return printNumberDto;
+        PrintNumberResultDto result = new PrintNumberResultDto();
+        result.setGeneratedPrintNumber(builder.toString());
+        result.setGeneratedChecksum(checksum);
+        return result;
     }
 
     private String getChecksumFormatted(Integer checksum) {
