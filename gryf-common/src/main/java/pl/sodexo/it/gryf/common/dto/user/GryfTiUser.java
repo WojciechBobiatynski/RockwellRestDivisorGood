@@ -1,5 +1,7 @@
 package pl.sodexo.it.gryf.common.dto.user;
 
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import pl.sodexo.it.gryf.common.dto.security.UserDto;
@@ -14,6 +16,10 @@ import java.util.Collection;
  */
 @ToString(callSuper = true)
 public class GryfTiUser extends GryfUser {
+
+    @Getter
+    @Setter
+    private Long trainingInstitutionId;
 
     public GryfTiUser(UserDto user, Collection<? extends GrantedAuthority> authorities) {
         super(user, authorities);

@@ -106,6 +106,11 @@ public class UserServiceImpl implements UserService {
         trainingInstitutionUserDao.save(tiUser);
     }
 
+    @Override
+    public Long findTrainingInstitutionIdForTiUser(String tiUserLogin) {
+        return securitySearchDao.findTrainingInstitutionIdForTiUser(tiUserLogin);
+    }
+
     private void authenticateIndUser(String pesel, String verificationCode) {
         //TODO pobierać póxniej przy pomocy spring data jpa dla zachowania spójności - nie będzie potrzeby decryptowania hasła
         GryfIndUserDto user = securitySearchDao.findIndUserByPesel(pesel);

@@ -44,4 +44,11 @@ public interface UserService {
      * @param gryfTiUser - zalogowany uzytkownik
      */
     void updateTiAfterSuccessLogin (GryfTiUser gryfTiUser);
+
+    /**
+     * Metoda wyszukująca id instytucji szkoleniowej dla użytkownika instytucji szkoleniowej
+     * @param tiUserLogin
+     * @return login instytucji szkoleniowej
+     */
+    Long findTrainingInstitutionIdForTiUser(String tiUserLogin);
 }

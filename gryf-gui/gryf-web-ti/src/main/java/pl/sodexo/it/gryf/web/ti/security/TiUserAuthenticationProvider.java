@@ -40,6 +40,7 @@ public class TiUserAuthenticationProvider implements AuthenticationProvider {
         LOGGER.debug("[AUTH] Logowanie uzytkownika TI, login={}", login);
         List<GrantedAuthority> grantedAuthorities = getGrantedAuthorities(login, password);
         GryfTiUser tiUser = new GryfTiUser(new UserDto(login), grantedAuthorities);
+        tiUser.setTrainingInstitutionId(userService.findTrainingInstitutionIdForTiUser(login));
         UsernamePasswordAuthenticationToken successAuthToken = new UsernamePasswordAuthenticationToken(tiUser, credentials, grantedAuthorities);
         LOGGER.info("[AUTH] Wlogowany uzytkownik TI, tiUser={}, grantedAuthorities={}", tiUser, grantedAuthorities);
 

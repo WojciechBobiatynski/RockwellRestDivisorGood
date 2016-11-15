@@ -43,4 +43,11 @@ public interface SecuritySearchMapper {
      * @return lista ról
      */
     List<RoleDto> findRolesForIndUser(@Param("criteria") UserCriteria criteria);
+
+    /**
+     * Metoda wyszukująca id instytucji szkoleniowej dla użytkownika instytucji szkoleniowej
+     * @param tiUserLogin
+     * @return login instytucji szkoleniowej
+     */
+    Long findTrainingInstitutionIdForTiUser(@Param("tiUserLogin") String tiUserLogin);
 }

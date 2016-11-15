@@ -48,4 +48,9 @@ public class SecuritySearchDaoImpl implements SecuritySearchDao {
     public List<RoleDto> findRolesForIndUser() {
         return securitySearchMapper.findRolesForIndUser(new UserCriteria());
     }
+
+    @Override
+    public Long findTrainingInstitutionIdForTiUser(String tiUserLogin) {
+        return securitySearchMapper.findTrainingInstitutionIdForTiUser(tiUserLogin);
+    }
 }

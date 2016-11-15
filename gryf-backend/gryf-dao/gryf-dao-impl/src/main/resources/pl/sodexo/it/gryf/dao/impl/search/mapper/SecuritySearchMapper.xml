@@ -70,4 +70,13 @@
             role.CONTEXT = #{criteria.config.indUserContext}
     </select>
 
+    <select id="findTrainingInstitutionIdForTiUser" resultType="java.lang.Long">
+        SELECT
+            ti_user.TRAINING_ISTITUTION_ID
+        FROM
+            APP_PBE.TRAINING_INSTITUTION_USERS ti_user
+        WHERE
+            ti_user.LOGIN = #{tiUserLogin}
+    </select>
+
 </mapper>

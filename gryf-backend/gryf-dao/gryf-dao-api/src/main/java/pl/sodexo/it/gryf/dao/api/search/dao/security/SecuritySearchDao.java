@@ -40,4 +40,11 @@ public interface SecuritySearchDao {
      */
     List<RoleDto> findRolesForIndUser();
 
+    /**
+     * Metoda wyszukująca id instytucji szkoleniowej dla użytkownika instytucji szkoleniowej
+     * @param tiUserLogin
+     * @return login instytucji szkoleniowej
+     */
+    Long findTrainingInstitutionIdForTiUser(String tiUserLogin);
+
 }
