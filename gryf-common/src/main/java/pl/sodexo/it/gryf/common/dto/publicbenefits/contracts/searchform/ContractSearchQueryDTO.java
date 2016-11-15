@@ -6,6 +6,8 @@ import pl.sodexo.it.gryf.common.dto.api.SearchDto;
 
 import java.util.Date;
 
+import static pl.sodexo.it.gryf.common.utils.GryfConstants.DATE_FORMAT;
+
 /**
  * Created by Isolution on 2016-10-27.
  */
@@ -16,10 +18,10 @@ public class ContractSearchQueryDTO extends SearchDto {
     private String pesel;
     private String vatRegNum;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = DATE_FORMAT)
     private Date signDate;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = DATE_FORMAT)
     private Date expiryDate;
     private String grantProgramName;
     private String grantProgramOwnerName;

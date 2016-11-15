@@ -3,11 +3,14 @@ package pl.sodexo.it.gryf.common.criteria.electronicreimbursements;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 import pl.sodexo.it.gryf.common.criteria.UserCriteria;
 import pl.sodexo.it.gryf.common.enums.SortType;
 
 import java.util.Date;
 import java.util.List;
+
+import static pl.sodexo.it.gryf.common.utils.GryfConstants.DATE_FORMAT;
 
 /**
  * Kryteria wyszukiwania dla listy rozliczeń elektronicznych
@@ -41,10 +44,12 @@ public class ElctRmbsCriteria extends UserCriteria {
 
     @Getter
     @Setter
+    @DateTimeFormat(pattern = DATE_FORMAT)
     private Date rmbsDateFrom;
 
     @Getter
     @Setter
+    @DateTimeFormat(pattern = DATE_FORMAT)
     private Date rmbsDateTo;
 
     @Getter

@@ -34,10 +34,10 @@
             <if test="criteria.participantSurname != null and criteria.participantSurname != ''">
                 AND LOWER(ind.LAST_NAME) like '%' || LOWER(#{criteria.participantSurname}) || '%'
             </if>
-            <if test="criteria.rmbsDateFrom != null and criteria.rmbsDateFrom != ''">
-                AND TRIM(ermbs.REIMBURSEMENT_DATE) gt;= TRIM(#{criteria.rmbsDateFrom})
+            <if test="criteria.rmbsDateFrom != null">
+                AND TRIM(ermbs.REIMBURSEMENT_DATE) &gt;= TRIM(#{criteria.rmbsDateFrom})
             </if>
-            <if test="criteria.rmbsDateTo != null and criteria.rmbsDateTo != ''">
+            <if test="criteria.rmbsDateTo != null">
                 AND TRIM(ermbs.REIMBURSEMENT_DATE) &lt;= TRIM(#{criteria.rmbsDateTo})
             </if>
             <if test="criteria.rmbsStatus != null and criteria.rmbsStatus != ''">

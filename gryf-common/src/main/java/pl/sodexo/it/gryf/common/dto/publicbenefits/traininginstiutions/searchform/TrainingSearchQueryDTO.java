@@ -9,6 +9,8 @@ import pl.sodexo.it.gryf.common.dto.api.SearchDto;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import static pl.sodexo.it.gryf.common.utils.GryfConstants.DATE_FORMAT;
+
 @ToString
 public class TrainingSearchQueryDTO extends SearchDto {
 
@@ -38,12 +40,12 @@ public class TrainingSearchQueryDTO extends SearchDto {
 
     @Getter
     @Setter
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = DATE_FORMAT)
     private Date startDate;
 
     @Getter
     @Setter
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = DATE_FORMAT)
     private Date endDate;
 
     @Getter
