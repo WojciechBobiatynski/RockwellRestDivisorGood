@@ -2,8 +2,6 @@ package pl.sodexo.it.gryf.model.publicbenefits.pbeproduct;
 
 import lombok.ToString;
 import pl.sodexo.it.gryf.model.api.VersionableEntity;
-import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
-import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -17,7 +15,7 @@ import java.util.Objects;
 @Table(name = "PBE_PRODUCT_INSTANCES", schema = "APP_PBE")
 @NamedQueries({
         @NamedQuery(name = "PbeProductInstance.findAvaiableByProduct", query = "select pi from PbeProductInstance pi " +
-                                    "where pi.productEmission.product.id = :productId  and pi.status.id = :statusId order by pi.id.number")})
+                                    "where pi.productEmission.product.id = :productId  and pi.status.id = :statusId order by pi.productEmission.emissionDate, pi.id.number")})
 public class PbeProductInstance extends VersionableEntity {
 
     @EmbeddedId
