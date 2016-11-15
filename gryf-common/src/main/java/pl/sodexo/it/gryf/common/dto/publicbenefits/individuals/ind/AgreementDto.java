@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by adziobek on 20.10.2016.
@@ -18,7 +19,7 @@ public class AgreementDto {
 
     @Getter
     @Setter
-    private String trainingCategory;
+    private List<String> trainingCategoriesNames;
 
     @Getter
     @Setter
