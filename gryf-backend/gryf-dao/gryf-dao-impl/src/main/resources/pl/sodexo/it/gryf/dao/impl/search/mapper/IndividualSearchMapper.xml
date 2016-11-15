@@ -16,59 +16,63 @@
     </select>
     <select id="findIndividualAfterLogin" resultMap="indDto">
         SELECT
-            ind.ID                          id,
+            ind.ID                          individualId,
             ind.FIRST_NAME                  firstName,
             ind.LAST_NAME                   lastName,
             ind.PESEL                       pesel,
-            con.ID                          id,
+            con.ID                          contractId,
             con.SIGN_DATE                   signingDate,
-            pool.ID                         id,
+            pool.ID                         poolId,
             pool.EXPIRY_DATE                expirationDate,
             pool.ALL_NUM                    grantedProductsCount,
             pool.RESERVED_NUM               reservedProductsCount,
             pool.AVAILABLE_NUM              availableProductsCount,
             pool.USED_NUM                   usedProductsCount,
             pool.ORDER_ID                   orderId,
-            train.ID                        id,
+            train.ID                        trainingId,
             train.ASSIGNED_NUM              productsCount,
             train.REGISTER_DATE             signDate,
-            orders.ORDER_DATE               orderDate
+            orders.ORDER_DATE               orderDate,
+            traintCateg.NAME                trainingCategoriesNames
         FROM APP_PBE.INDIVIDUALS ind
               LEFT OUTER JOIN APP_PBE.CONTRACTS con ON ind.ID = con.INDIVIDUAL_ID
               LEFT OUTER JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOLS pool ON ind.ID = pool.INDIVIDUAL_ID
               LEFT OUTER JOIN APP_PBE.TI_TRAINING_INSTANCES train ON ind.ID = train.INDIVIDUAL_ID
               LEFT OUTER JOIN APP_PBE.ORDERS orders ON pool.ORDER_ID = orders.ID
+              LEFT OUTER JOIN APP_PBE.CONTRACT_TRAINING_CATEGORIES contrTrainCateg ON con.ID = contrTrainCateg.CONTRACT_ID
+              LEFT OUTER JOIN APP_PBE.TI_TRAINING_CATEGORIES traintCateg ON contrTrainCateg.TRAINING_CATEGORY_ID = traintCateg.ID
         WHERE
             ind.ID = #{criteria.gryfUser.individualId}
     </select>
 
     <resultMap id="indDto" type="pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.IndDto" autoMapping="true">
-        <id property="id" column="ID"/>
-        <result property="firstName" column="FIRST_NAME"/>
-        <result property="lastName" column="LAST_NAME"/>
-        <result property="pesel" column="PESEL"/>
-        <collection property="agreements" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.AgreementDto"
+        <id property="id" column="individualId"/>
+        <result property="firstName" column="firstName"/>
+        <result property="lastName" column="lastName"/>
+        <result property="pesel" column="pesel"/>
+        <collection property="agreements" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.AgreementDto" autoMapping="true">
+            <id property="id" column="contractId"/>
+            <result property="signingDate" column="signingDate"/>
+            <collection property="trainingCategoriesNames" ofType="java.lang.String" javaType="list"
             autoMapping="true">
-            <id property="id" column="ID"/>
-            <result property="signingDate" column="SIGN_DATE"/>
-<!-- kategories szkolenia na umowie-->
+                <result property="trainingCategoriesNames" column="trainingCategoriesNames"/>
+            </collection>
         </collection>
-        <collection property="products" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.ProductDto"
-                    autoMapping="true">
-            <id property="id" column="ID"/>
-            <result property="expirationDate" column="EXPIRY_DATE"/>
-            <result property="grantedProductsCount" column="ALL_NUM"/>
-            <result property="reservedProductsCount" column="RESERVED_NUM"/>
-            <result property="availableProductsCount" column="AVAILABLE_NUM"/>
-            <result property="usedProductsCount" column="USED_NUM"/>
-            <result property="orderDate" column="ORDER_DATE"/>
-            <result property="orderId" column="ORDER_ID"/>
+        <collection property="products" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.ProductDto" autoMapping="true">
+            <id property="id" column="poolId"/>
+            <result property="expirationDate" column="expirationDate"/>
+            <result property="grantedProductsCount" column="grantedProductsCount"/>
+            <result property="reservedProductsCount" column="reservedProductsCount"/>
+            <result property="availableProductsCount" column="availableProductsCount"/>
+            <result property="usedProductsCount" column="usedProductsCount"/>
+            <result property="orderDate" column="orderDate"/>
+            <result property="orderId" column="orderId"/>
         </collection>
         <collection property="trainings" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.TrainingDto"
                     autoMapping="true">
-            <id property="id" column="ID"/>
-            <result property="productsCount" column="ASSIGNED_NUM"/>
-            <result property="signDate" column="REGISTER_DATE"/>
+            <id property="id" column="trainingId"/>
+            <result property="productsCount" column="productsCount"/>
+            <result property="signDate" column="signDate"/>
 
             <!--
             <result property="name" column="EXPIRY_DATE"/>
