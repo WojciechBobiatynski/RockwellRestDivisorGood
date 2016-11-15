@@ -41,7 +41,7 @@ public abstract class GryfUser extends User {
         }
     }
 
-    public String getUserTypeString() {
+    public String getUserType() {
         if (userType == null) return "NO_TYPE";
         return userType.toString();
     }

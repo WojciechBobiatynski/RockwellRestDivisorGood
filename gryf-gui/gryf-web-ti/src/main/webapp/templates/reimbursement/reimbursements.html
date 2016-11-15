@@ -1,10 +1,94 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<section>
+    <table>
+        <thead>
+        <tr class="grid-100 tableHeader-names">
+            <th class="sortable grid-15" ng-class="getSortingTypeClass('trainingId')">
+                <div ng-click="getSortedBy('trainingId')">Numer rozliczenia</div>
+            </th>
+            <th class="sortable grid-15" ng-class="getSortingTypeClass('price')">
+                <div ng-click="getSortedBy('price')">Nazwa szkolenia</div>
+            </th>
+            <th class="sortable grid-15" ng-class="getSortingTypeClass('institutionName')">
+                <div ng-click="getSortedBy('institutionName')">PESEL Uczestnika</div>
+            </th>
+            <th class="sortable grid-10" ng-class="getSortingTypeClass('name')">
+                <div ng-click="getSortedBy('name')">Imię uczestnika</div>
+            </th>
+            <th class="sortable grid-15" ng-class="getSortingTypeClass('startDate')">
+                <div ng-click="getSortedBy('startDate')">Nazwisko uczestnika</div>
+            </th>
+            <th class="sortable grid-15" ng-class="getSortingTypeClass('endDate')">
+                <div ng-click="getSortedBy('endDate')">Data rozliczenia</div>
+            </th>
+            <th class="sortable grid-15" ng-class="getSortingTypeClass('place')">
+                <div ng-click="getSortedBy('place')">Status rozliczenia</div>
+            </th>
+        </tr>
+        <tr class="grid-100 tableHeader-options">
+            <th class="grid-15">
+                <input placeholder="Numer rozliczenia" type="text" ng-model="elctRmbsCriteria.rmbsNumber">
+            </th>
+            <th class="grid-15">
+                <input type="text" placeholder="Nazwa szkolenia" ng-model="elctRmbsCriteria.trainingName"/>
+            </th>
+            <th class="grid-15">
+                <input placeholder="PESEL uczestnika" type="text" ng-model="elctRmbsCriteria.pesel">
+            </th>
+            <th class="grid-10">
+                <input placeholder="Imię uczestnika" ng-model="elctRmbsCriteria.participantName">
+            </th>
+            <th class="grid-15">
+                <input placeholder="Nazwisko uczestnika" ng-model="elctRmbsCriteria.participantSurname">
+            </th>
+            <th class="grid-15">
+                <input type="text" placeholder="Data rozpoczęcia" ng-model="elctRmbsCriteria.rmbsDateFrom"
+                       datepicker-popup="yyyy-MM-dd" is-open="datepicker.isRmbsDateFromOpened"
+                       close-text="Zamknij" clear-text="Czyść" current-text="Dziś"
+                       ng-click="openDatepicker('isTrainingStartDateOpened')"/>
 
-</body>
-</html>
+                <input type="text" placeholder="Data zakończenia" ng-model="elctRmbsCriteria.rmbsDateTo"
+                       datepicker-popup="yyyy-MM-dd" s-open="datepicker.isRmbsDateToOpened"
+                       close-text="Zamknij" clear-text="Czyść" current-text="Dziś"
+                       ng-click="openDatepicker('isTrainingEndDateOpened')"/>
+            </th>
+            <th class="grid-15">
+                <select ng-model="elctRmbsCriteria.rmbsStatus"
+                        ng-options="v.name as v.name for v in elctRmbsModel.rmbsStatuses"></select>
+            </th>
+            <th>
+                <button ng-click="find()">Wyszukaj</button>
+            </th>
+        </tr>
+        </thead>
+        <tbody class="tableData">
+        <tr ng-repeat="item in elctRmbsModel.foundRmbs | limitTo: searchResultOptions.displayLimit" ng-class="{'row-even': $even, 'row-odd': $odd}">
+            <td>{{::item}}</td>
+            <td>{{::item}}</td>
+            <td>{{::item}}</td>
+            <td>{{::item}}</td>
+            <td>{{::item}}</td>
+            <td>{{::item}}</td>
+            <td>{{::item}}</td>
+            <td>
+                <ul class="buttons">
+                    <li><a ng-href="#/modify/{{item.trainingId}}"
+                           gryf-privilege="GRF_TRAINING_INSTITUTION_MOD"
+                           class="button button-go">szczegóły</a>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div ng-show="searchResultOptions.overflow" class="centered-ul">
+        <ul>
+            <li><a href="#/" ng-click="loadMore()" class="button button-infinity">wczytaj więcej wyników</a></li>
+        </ul>
+    </div>
+    <div class="" ng-show="model.zipCodesArray.length===0">
+        Brak wyników
+    </div>
+    <div class="msg msg-error" ng-show="searchResultOptions.badQuery">
+        <p>Błąd kryteriów zapytania - niepoprawny format</p>
+    </div>
+</section>

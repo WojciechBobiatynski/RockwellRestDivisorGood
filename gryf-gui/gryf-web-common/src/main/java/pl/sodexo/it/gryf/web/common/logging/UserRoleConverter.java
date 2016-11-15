@@ -17,7 +17,7 @@ public class UserRoleConverter extends ClassicConverter {
         if (user == null) {
             return "NO_ROLE";
         }
-        return user.getUserTypeString();
+        return user.getUserType();
     }
 
 }

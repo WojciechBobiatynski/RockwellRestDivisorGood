@@ -5,19 +5,19 @@
 
     <select id="findEcltRmbsListByCriteria" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsDto" parameterType="list">
         SELECT
-        ermbs.ID rmbsNumber,
-        ti.NAME trainingName,
-        ind.PESEL pesel,
-        ind.FIRST_NAME participantName,
-        ind.LAST_NAME participantSurname,
-        ermbs.REIMBURSEMENT_DATE rmbsDate,
-        status.NAME rmbsStatus
+            ermbs.ID rmbsNumber,
+            ti.NAME trainingName,
+            ind.PESEL pesel,
+            ind.FIRST_NAME participantName,
+            ind.LAST_NAME participantSurname,
+            ermbs.REIMBURSEMENT_DATE rmbsDate,
+            status.NAME rmbsStatus
         FROM
-        APP_PBE.E_REIMBURSEMENTS ermbs
-        LEFT JOIN APP_PBE.TI_TRAINING_INSTANCES ti_in ON ti_in.ID = ermbs.TI_TR_INST_ID
-        LEFT JOIN APP_PBE.TI_TRAININGS ti ON ti.ID = ti_in.TRAINING_ID
-        LEFT JOIN APP_PBE.INDIVIDUALS ind ON ind.ID = ti_in.INDIVIDUAL_ID
-        LEFT JOIN APP_PBE.E_REIMBURSEMENT_STATUSES status ON status.ID = ermbs.STATUS_ID
+            APP_PBE.E_REIMBURSEMENTS ermbs
+            LEFT JOIN APP_PBE.TI_TRAINING_INSTANCES ti_in ON ti_in.ID = ermbs.TI_TR_INST_ID
+            LEFT JOIN APP_PBE.TI_TRAININGS ti ON ti.ID = ti_in.TRAINING_ID
+            LEFT JOIN APP_PBE.INDIVIDUALS ind ON ind.ID = ti_in.INDIVIDUAL_ID
+            LEFT JOIN APP_PBE.E_REIMBURSEMENT_STATUSES status ON status.ID = ermbs.STATUS_ID
         <where>
             <if test="criteria.rmbsNumber != null and criteria.rmbsNumber != ''">
                 ermbs.ID = #{criteria.rmbsNumber}
@@ -42,6 +42,9 @@
             </if>
             <if test="criteria.rmbsStatus != null and criteria.rmbsStatus != ''">
                 AND status.NAME = #{criteria.rmbsStatus}
+            </if>
+            <if test="criteria.gryfUser.userType == 'TRAINING_INSTITUTION'">
+                AND ti.TRAINING_INSTITUTION_ID = #{criteria.gryfUser.trainingInstitutionId}
             </if>
         </where>
         <if test="criteria.sortColumns != null">
