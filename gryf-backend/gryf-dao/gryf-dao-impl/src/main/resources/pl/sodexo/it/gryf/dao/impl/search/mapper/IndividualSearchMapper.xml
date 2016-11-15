@@ -29,18 +29,27 @@
             pool.AVAILABLE_NUM              availableProductsCount,
             pool.USED_NUM                   usedProductsCount,
             pool.ORDER_ID                   orderId,
-            train.ID                        trainingId,
-            train.ASSIGNED_NUM              productsCount,
-            train.REGISTER_DATE             signDate,
+            trainingInstance.ID             trainingId,
+            trainingInstance.ASSIGNED_NUM   productsCount,
+            trainingInstance.REGISTER_DATE  signDate,
             orders.ORDER_DATE               orderDate,
-            traintCateg.NAME                trainingCategoriesNames
+            traintCateg.NAME                trainingCategoriesNames,
+            training.NAME                   trainingName,
+            training.START_DATE             trainingStartDate,
+            training.END_DATE               trainingEndDate,
+            trainingInstitution.NAME        trainingInstitutionName,
+            trainingInstanceStatus.NAME     trainingStatus,
+            trainingInstanceStatus.ID       trainingStatusId
         FROM APP_PBE.INDIVIDUALS ind
               LEFT OUTER JOIN APP_PBE.CONTRACTS con ON ind.ID = con.INDIVIDUAL_ID
               LEFT OUTER JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOLS pool ON ind.ID = pool.INDIVIDUAL_ID
-              LEFT OUTER JOIN APP_PBE.TI_TRAINING_INSTANCES train ON ind.ID = train.INDIVIDUAL_ID
+              LEFT OUTER JOIN APP_PBE.TI_TRAINING_INSTANCES trainingInstance ON ind.ID = trainingInstance.INDIVIDUAL_ID
               LEFT OUTER JOIN APP_PBE.ORDERS orders ON pool.ORDER_ID = orders.ID
               LEFT OUTER JOIN APP_PBE.CONTRACT_TRAINING_CATEGORIES contrTrainCateg ON con.ID = contrTrainCateg.CONTRACT_ID
               LEFT OUTER JOIN APP_PBE.TI_TRAINING_CATEGORIES traintCateg ON contrTrainCateg.TRAINING_CATEGORY_ID = traintCateg.ID
+              LEFT OUTER JOIN APP_PBE.TI_TRAININGS training ON trainingInstance.TRAINING_ID = training.ID
+              LEFT OUTER JOIN APP_PBE.TRAINING_INSTITUTIONS trainingInstitution ON training.TRAINING_INSTITUTION_ID = trainingInstitution.ID
+              LEFT OUTER JOIN APP_PBE.TI_TRAINING_INSTANCE_STATUSES trainingInstanceStatus ON trainingInstance.STATUS_ID = trainingInstanceStatus.ID
         WHERE
             ind.ID = #{criteria.gryfUser.individualId}
     </select>
@@ -50,7 +59,8 @@
         <result property="firstName" column="firstName"/>
         <result property="lastName" column="lastName"/>
         <result property="pesel" column="pesel"/>
-        <collection property="agreements" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.AgreementDto" autoMapping="true">
+        <collection property="agreements" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.AgreementDto"
+                    autoMapping="true">
             <id property="id" column="contractId"/>
             <result property="signingDate" column="signingDate"/>
             <collection property="trainingCategoriesNames" ofType="java.lang.String" javaType="list"
@@ -58,7 +68,8 @@
                 <result property="trainingCategoriesNames" column="trainingCategoriesNames"/>
             </collection>
         </collection>
-        <collection property="products" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.ProductDto" autoMapping="true">
+        <collection property="products" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.ProductDto"
+                    autoMapping="true">
             <id property="id" column="poolId"/>
             <result property="expirationDate" column="expirationDate"/>
             <result property="grantedProductsCount" column="grantedProductsCount"/>
@@ -71,15 +82,14 @@
         <collection property="trainings" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.TrainingDto"
                     autoMapping="true">
             <id property="id" column="trainingId"/>
+            <result property="name" column="trainingName"/>
+            <result property="trainingInstitutionName" column="trainingInstitutionName"/>
             <result property="productsCount" column="productsCount"/>
             <result property="signDate" column="signDate"/>
-
-            <!--
-            <result property="name" column="EXPIRY_DATE"/>
-            <result property="trainingInstitutionName" column="ALL_NUM"/>
-            <result property="startDate" column="USED_NUM"/>
-            <result property="endDate" column="SIGN_DATE"/>
-            <result property="trainingStatus" column="ORDER_ID"/>-->
+            <result property="startDate" column="trainingStartDate"/>
+            <result property="endDate" column="trainingEndDate"/>
+            <result property="trainingStatus" column="trainingStatus"/>
+            <result property="trainingStatusId" column="trainingStatusId"/>
         </collection>
     </resultMap>
 

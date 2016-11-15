@@ -36,7 +36,7 @@
                     <tr ng-repeat="agr in model.entity.agreements">
                         <td>{{agr.id}}</td>
                         <td>{{agr.signingDate}}</td>
-                        <td>{{agr.trainingCategoriesNames}}</td>
+                        <td><span ng-repeat = "category in agr.trainingCategoriesNames">{{category}}{{$last ? '' : ', '}}</span></td>
                     </tr>
                     </tbody>
                 </table>
@@ -128,9 +128,9 @@
                     <td>{{tra.signDate}}</td>
                     <td>{{tra.startDate}}</td>
                     <td>{{tra.endDate}}</td>
-                    <td>{{tra.status}}</td>
+                    <td>{{tra.trainingStatus}}</td>
                     <td>
-                        <button ng-if="tra.status == 'Zarezerwowane'" data-ng-click="sendPIN()" type="submit" class="button">Wyślij PIN</button>
+                        <button ng-if="tra.trainingStatusId == 'RES'" data-ng-click="sendPIN()" type="submit" class="button">Wyślij PIN</button>
                     </td>
                 </tr>
                 </tbody>

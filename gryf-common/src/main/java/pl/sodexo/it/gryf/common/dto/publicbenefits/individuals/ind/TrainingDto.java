@@ -43,7 +43,11 @@ public class TrainingDto extends VersionableDto {
 
     @Getter
     @Setter
-    TrainingStatus trainingStatus;
+    String trainingStatus;
+
+    @Getter
+    @Setter
+    String trainingStatusId;
 
 
 }
