@@ -109,20 +109,26 @@ angular.module('gryf.orders').factory("BrowseOrdersService",
 
 angular.module('gryf.orders').factory("ModifyOrdersService",
     ['$http', 'GryfModals', '$routeParams', 'GryfPopups', 'angularLoad', '$q', 'GryfExceptionHandler',
-     'Upload', 'GryfHelpers', '$location', '$route',
+     'Upload', 'GryfHelpers', '$location', '$route','BrowseContractsService',
      function($http, GryfModals, $routeParams, GryfPopups, angularLoad, $q, GryfExceptionHandler,
-              Upload, GryfHelpers, $location, $route) {
+              Upload, GryfHelpers, $location, $route, BrowseContractsService) {
          var ORDER_URL = contextPath + "/rest/publicBenefits/order/modify/";
          var TEMPLATE_SPECIFIC_FOLDER = contextPath + "/";
          var ORDER_EXECUTE_ACTION_URL = contextPath + "/rest/publicBenefits/order/action/";
 
          var entityObject = new EntityObject();
          var violations = {};
+         var order = new Order();
 
          var orderStatus = {
              loaded: false
          };
 
+        function Order() {
+            this.entity = {
+                contract : null
+            }
+        }
         function EntityObject() {
             //OrderDTO
             this.id = null;
@@ -130,6 +136,10 @@ angular.module('gryf.orders').factory("ModifyOrdersService",
             this.actions = [];
             this.version = null;
         }
+
+        var getNewOrder = function(){
+             return order;
+        };
 
         var getOrderStatus = function() {
             return orderStatus;
@@ -157,6 +167,11 @@ angular.module('gryf.orders').factory("ModifyOrdersService",
                 return promise;
             }
         };
+
+         var openContractLov = function () {
+             var TEMPLATE_URL = GryfModals.MODALS_URL.LOV_CONTRACTS;
+             return GryfModals.openLovModal(TEMPLATE_URL, BrowseContractsService, "lg");
+         };
 
          var executeAction = function(actionId, orderId, acceptedViolationsPathParam) {
              var files = findAllFileAttachments();
@@ -263,7 +278,9 @@ angular.module('gryf.orders').factory("ModifyOrdersService",
             getOrderStatus: getOrderStatus,
             executeAction: executeAction,
             getViolations: getViolations,
-            getNewViolations: getNewViolations
+            getNewViolations: getNewViolations,
+            openContractLov: openContractLov,
+            getNewOrder: getNewOrder
         };
     }]);
 

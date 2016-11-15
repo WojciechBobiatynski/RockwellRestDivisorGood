@@ -61,8 +61,15 @@ angular.module('gryf.orders').controller("detailsform.OrdersController",
         $scope.entityObject = ModifyOrdersService.getEntityObject();
         $scope.orderStatus = ModifyOrdersService.getOrderStatus();
         $scope.violations = ModifyOrdersService.getViolations();
-
+        $scope.model = ModifyOrdersService.getNewOrder();
         $scope.isGrantAppFixed = false;
+
+        $scope.openContractLov = function() {
+            ModifyOrdersService.openContractLov().result.then(function(chosenContract) {
+                $scope.model.entity.contract = chosenContract;
+                $scope.$broadcast('propagateContractData', chosenContract);
+            });
+        };
 
         $scope.toggleGrantAppView = function() {
             $scope.isGrantAppFixed = !$scope.isGrantAppFixed;

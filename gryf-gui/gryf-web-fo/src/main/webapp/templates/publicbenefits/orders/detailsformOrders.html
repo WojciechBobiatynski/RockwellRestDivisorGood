@@ -9,7 +9,13 @@
             </li>
         </ul>
     </header>
-
+    <div>
+        <strong class="label">Wybierz umowę</strong>
+<!--        <div>Pesel: {{model.entity.individual.pesel}}</div>
+        <div>Osoba: {{model.entity.individual.firstName}} {{model.entity.individual.lastName}}</div>-->
+        <div><a ng-click="openContractLov()" class="button button-save">Wprowadź</a></div>
+        <gryf-validation-msg path="contract"></gryf-validation-msg>
+    </div>
     <section>
         <div ng-repeat="item in entityObject.elements">
             <div class="width-100" ng-include="templateUrl(item)"></div>

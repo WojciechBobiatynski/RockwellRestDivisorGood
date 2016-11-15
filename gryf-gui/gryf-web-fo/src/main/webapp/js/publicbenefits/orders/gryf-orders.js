@@ -1,7 +1,7 @@
 'use strict';
 
 var app = angular.module('gryf.orders',
-    ['gryf.config', 'angularLoad', 'ngFileUpload', "ui.utils.masks"]);
+    ['gryf.config', 'gryf.contracts', 'angularLoad', 'ngFileUpload', "ui.utils.masks"]);
 
 app.config(['$routeProvider', function($routeProvider) {
     $routeProvider

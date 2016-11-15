@@ -25,6 +25,10 @@ angular.module('gryf.modals').factory('GryfModals', ['$rootScope', '$modal', fun
             templateUrl: contextPath + "/templates/modals/modal-individuals-lov.html",
             restURL: "" //standard rest url for searching on dedicated form
         },
+        LOV_CONTRACTS: {
+            templateUrl: contextPath + "/templates/modals/modal-contracts-lov.html",
+            restURL: "" //standard rest url for searching on dedicated form
+        },
         LOV_TI: {
             templateUrl: contextPath + "/templates/modals/modal-trainingInstitution-lov.html",
             restURL: "" //standard rest url for searching on dedicated form
