@@ -74,7 +74,7 @@
                 <div>NIP: {{model.entity.enterprise.vatRegNum}}</div>
                 <div>Nazwa: {{model.entity.enterprise.name}}</div>
                 <div><a ng-click="openEnterpriseLov()" class="button button-save"
-                        ng-style="model.entity.contractType.id == 'IND' && {'background-color': '#adadad'}">Wprowadź</a></div>
+                        ng-style="model.entity.contractType.id != 'ENT' && {'background-color': '#adadad'}">Wprowadź</a></div>
                 <gryf-validation-msg path="enterprise"></gryf-validation-msg>
             </div>
         </div>
