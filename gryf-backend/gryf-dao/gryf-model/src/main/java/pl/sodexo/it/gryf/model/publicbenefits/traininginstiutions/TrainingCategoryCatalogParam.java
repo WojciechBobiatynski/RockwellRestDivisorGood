@@ -18,7 +18,7 @@ import java.util.Objects;
 @NamedQueries(
         {@NamedQuery(name = "TrainingCategoryCatalogParam.findByCategoryAndGrantProgramInDate", query="select distinct tccp from TrainingCategoryCatalogParam tccp " +
                 "where tccp.category.id = :categoryId " +
-                "and  tccp.grantProgram.id = : grantProgramId " +
+                "and  tccp.grantProgram.id = :grantProgramId " +
                 "and (tccp.dateFrom is null or tccp.dateFrom <= :date) " +
                 "and (tccp.dateTo is null or :tccp <= tccp.dateTo)")})
 public class TrainingCategoryCatalogParam extends GryfEntity {
