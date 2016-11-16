@@ -3,6 +3,7 @@ package pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions;
 import lombok.ToString;
 import pl.sodexo.it.gryf.model.api.GryfEntity;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
+import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgramProduct;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -14,12 +15,32 @@ import java.util.Objects;
 @Entity
 @ToString(exclude = {"grantProgram", "category"})
 @Table(name = "TI_TRAINING_CATEGORY_PARAMS", schema = "APP_PBE")
+@NamedQueries(
+        {@NamedQuery(name = "TrainingCategoryCatalogParam.findByCategoryAndGrantProgramInDate", query="select distinct tccp from TrainingCategoryCatalogParam tccp " +
+                "where tccp.category.id = :categoryId " +
+                "and  tccp.grantProgram.id = : grantProgramId " +
+                "and (tccp.dateFrom is null or tccp.dateFrom <= :date) " +
+                "and (tccp.dateTo is null or :tccp <= tccp.dateTo)")})
 public class TrainingCategoryCatalogParam extends GryfEntity {
 
     //FIELDS
 
     @Id
     private Long id;
+
+    @Column(name = "PRODUCT_INSTANCE_FOR_HOUR")
+    private Integer productInstanceForHour;
+
+    @Column(name = "MAX_PRODUCT_INSTANCE")
+    private Integer maxProductInstance;
+
+    @ManyToOne
+    @JoinColumn(name = "CATEGORY_ID", insertable=false, updatable=false)
+    private TrainingCategory category;
+
+    @ManyToOne
+    @JoinColumn(name = "GRANT_PROGRAM_ID", insertable=false, updatable=false)
+    private GrantProgram grantProgram;
 
     @Column(name = "DATE_FROM")
     @Temporal(TemporalType.TIMESTAMP)
@@ -29,14 +50,6 @@ public class TrainingCategoryCatalogParam extends GryfEntity {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateTo;
 
-    @ManyToOne
-    @JoinColumn(name = "GRANT_PROGRAM_ID", insertable=false, updatable=false)
-    private GrantProgram grantProgram;
-
-    @ManyToOne
-    @JoinColumn(name = "CATEGORY_ID", insertable=false, updatable=false)
-    private TrainingCategory category;
-
     //GETTERS & SETTERS
 
     public Long getId() {
@@ -45,6 +58,38 @@ public class TrainingCategoryCatalogParam extends GryfEntity {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Integer getProductInstanceForHour() {
+        return productInstanceForHour;
+    }
+
+    public void setProductInstanceForHour(Integer productInstanceForHour) {
+        this.productInstanceForHour = productInstanceForHour;
+    }
+
+    public Integer getMaxProductInstance() {
+        return maxProductInstance;
+    }
+
+    public void setMaxProductInstance(Integer maxProductInstance) {
+        this.maxProductInstance = maxProductInstance;
+    }
+
+    public TrainingCategory getCategory() {
+        return category;
+    }
+
+    public void setCategory(TrainingCategory category) {
+        this.category = category;
+    }
+
+    public GrantProgram getGrantProgram() {
+        return grantProgram;
+    }
+
+    public void setGrantProgram(GrantProgram grantProgram) {
+        this.grantProgram = grantProgram;
     }
 
     public Date getDateFrom() {
@@ -61,22 +106,6 @@ public class TrainingCategoryCatalogParam extends GryfEntity {
 
     public void setDateTo(Date dateTo) {
         this.dateTo = dateTo;
-    }
-
-    public GrantProgram getGrantProgram() {
-        return grantProgram;
-    }
-
-    public void setGrantProgram(GrantProgram grantProgram) {
-        this.grantProgram = grantProgram;
-    }
-
-    public TrainingCategory getCategory() {
-        return category;
-    }
-
-    public void setCategory(TrainingCategory category) {
-        this.category = category;
     }
 
     //EQUALS & HASH CODE

@@ -46,7 +46,7 @@ public class TrainingDTO extends VersionableDto {
 
     @Getter
     @Setter
-    private BigDecimal hoursNumber;
+    private Integer hoursNumber;
 
     @Getter
     @Setter

@@ -21,6 +21,7 @@ public class PbeProductInstanceStatus extends GryfEntity implements DictionaryEn
     //STATIC FEILDS - STATUSES CODE
 
     public static final String NEW_CODE = "NEW";
+    public static final String ASSIGN_CODE = "ASSIGN";
     public static final String RES_CODE = "RES";
     public static final String USE_CODE = "USE";
     public static final String REIMB_CODE = "REIMB";

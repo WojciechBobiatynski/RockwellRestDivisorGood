@@ -5,15 +5,7 @@ import pl.sodexo.it.gryf.model.api.VersionableEntity;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
 
@@ -23,6 +15,10 @@ import java.util.Objects;
 @Entity
 @ToString(exclude = {"individual", "order"})
 @Table(name = "PBE_PRODUCT_INSTANCE_POOLS", schema = "APP_PBE")
+@NamedQueries({
+        @NamedQuery(name = "PbeProductInstancePool.findAvaiableForUse", query = "select p from PbeProductInstancePool p " +
+                "where p.individual.id = :individualId and p.order.contract.grantProgram.id = :grantProgramId and p.status.id = :statusId and p.expiryDate <= :expiryDate order by p.expiryDate")})
+
 public class PbeProductInstancePool extends VersionableEntity {
 
     @Id
@@ -60,6 +56,10 @@ public class PbeProductInstancePool extends VersionableEntity {
     @ManyToOne
     @JoinColumn(name = "ORDER_ID")
     private Order order;
+
+    @OneToOne
+    @JoinColumn(name = "PRD_ID")
+    private PbeProduct product;
 
     //GETTERS & SETTERS
 
@@ -141,6 +141,14 @@ public class PbeProductInstancePool extends VersionableEntity {
 
     public void setExpiryDate(Date expiryDate) {
         this.expiryDate = expiryDate;
+    }
+
+    public PbeProduct getProduct() {
+        return product;
+    }
+
+    public void setProduct(PbeProduct product) {
+        this.product = product;
     }
 
     //EQUALS & HASH CODE

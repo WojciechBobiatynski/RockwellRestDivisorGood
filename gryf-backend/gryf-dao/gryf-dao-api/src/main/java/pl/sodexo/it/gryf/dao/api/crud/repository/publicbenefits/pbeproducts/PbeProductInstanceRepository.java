@@ -12,4 +12,6 @@ import java.util.List;
 public interface PbeProductInstanceRepository extends GenericRepository<PbeProductInstance, PbeProductInstancePK> {
 
     List<PbeProductInstance> findAvaiableByProduct(String productId, Integer productInstanceNum);
+
+    List<PbeProductInstance> findAssignedByPool(Long poolId, Integer productInstanceNum);
 }

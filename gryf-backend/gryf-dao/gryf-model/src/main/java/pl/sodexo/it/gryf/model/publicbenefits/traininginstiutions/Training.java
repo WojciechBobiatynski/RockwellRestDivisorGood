@@ -53,12 +53,12 @@ public class Training extends VersionableEntity {
     private BigDecimal price;
 
     @Column(name = "START_DATE")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     @NotNull(message = "Należy podać datę rozpoczęcia szkolenia")
     private Date startDate;
 
     @Column(name = "END_DATE")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     @NotNull(message = "Należy podać datę zakończenia szkolenia")
     private Date endDate;
 
@@ -68,7 +68,7 @@ public class Training extends VersionableEntity {
 
     @Column(name = "HOURS_NUMBER")
     @NotNull(message = "Należy podać liczbę godzin szkolenia")
-    private BigDecimal hoursNumber;
+    private Integer hoursNumber;
 
     @Column(name = "HOUR_PRICE")
     @NotNull(message = "Należy podać cenę za godzinę szkolenia")
@@ -137,11 +137,11 @@ public class Training extends VersionableEntity {
         this.place = place;
     }
 
-    public BigDecimal getHoursNumber() {
+    public Integer getHoursNumber() {
         return hoursNumber;
     }
 
-    public void setHoursNumber(BigDecimal hoursNumber) {
+    public void setHoursNumber(Integer hoursNumber) {
         this.hoursNumber = hoursNumber;
     }
 

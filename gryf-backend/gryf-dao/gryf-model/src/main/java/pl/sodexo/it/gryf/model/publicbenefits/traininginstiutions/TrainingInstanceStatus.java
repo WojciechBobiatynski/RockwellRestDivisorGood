@@ -18,6 +18,14 @@ import java.util.Objects;
 @Table(name = "TI_TRAINING_INSTANCE_STATUSES", schema = "APP_PBE")
 public class TrainingInstanceStatus extends GryfEntity implements DictionaryEntity {
 
+    //STATIC FEILDS - STATUSES CODE
+
+    public static final String RES_CODE = "RES";
+    public static final String DONE_CODE = "DONE";
+    public static final String REIMB_CODE = "REIMB";
+
+    //FIELDS
+
     @Id
     @Column(name = "ID")
     private String id;

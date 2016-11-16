@@ -15,4 +15,6 @@ public interface PbeProductInstancePoolService {
     //ACTION METHODS
 
     void createProductInstancePool(Long orderId);
+
+    void createTrainingInstance(Long trainingId, Long individualId, Long grantProgramId, Integer toReservedNum);
 }

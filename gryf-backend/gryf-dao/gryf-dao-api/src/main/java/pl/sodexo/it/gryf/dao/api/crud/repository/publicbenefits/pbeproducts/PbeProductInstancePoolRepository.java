@@ -3,6 +3,7 @@ package pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.pbeproducts;
 import pl.sodexo.it.gryf.dao.api.crud.repository.GenericRepository;
 import pl.sodexo.it.gryf.model.publicbenefits.pbeproduct.PbeProductInstancePool;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -11,4 +12,6 @@ import java.util.List;
 public interface PbeProductInstancePoolRepository extends GenericRepository<PbeProductInstancePool, Long> {
 
     List<PbeProductInstancePool> findByIndividualUser(Long userId);
+
+    List<PbeProductInstancePool> findAvaiableByIndividualAndExpiryDate(Long individualId, Long grantProgramId, Date expiryDate);
 }

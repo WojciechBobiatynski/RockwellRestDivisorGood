@@ -25,4 +25,13 @@ public class PbeProductInstanceRepositoryImpl extends GenericRepositoryImpl<PbeP
         query.setMaxResults(productInstanceNum);
         return query.getResultList();
     }
+
+    public List<PbeProductInstance> findAssignedByPool(Long poolId, Integer productInstanceNum){
+        TypedQuery<PbeProductInstance> query = entityManager.createNamedQuery("PbeProductInstance.findAssignedByPool", PbeProductInstance.class);
+        query.setParameter("poolId", poolId);
+        query.setParameter("statusId", PbeProductInstanceStatus.ASSIGN_CODE);
+        query.setMaxResults(productInstanceNum);
+        return query.getResultList();
+    }
+
 }
