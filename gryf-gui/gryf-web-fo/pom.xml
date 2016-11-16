@@ -20,7 +20,7 @@
     </properties>
     
     <build>
-        <finalName>gryf-fo-web</finalName>
+        <finalName>gryf-web</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
