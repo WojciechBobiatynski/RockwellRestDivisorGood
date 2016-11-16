@@ -1,24 +1,28 @@
-angular.module("gryf.ti").factory("DictionaryService", function($cacheFactory, $resource) {
-    var REST_URL = contextPath + "/rest/trainingreservation/";
+angular.module("gryf.ti").factory("DictionaryService", function($cacheFactory, $http) {
+    var REST_URL = contextPath + "/rest/";
 
-    var DICTIONARIES_NAMES = {
-        TRAINING_CATEGORIES: "trainingCategoriesDict"
+    var DICTIONARY = {
+        TRAINING_CATEGORIES: "trainingreservation/trainingCategoriesDict",
+        REIMBURSEMENT_STATUSES: "reimbursements/statuses"
     };
 
     var dictionaryCache = $cacheFactory("DictionaryService");
-    var dictionaryResource = $resource(REST_URL + ":name", {dictionaryName: "@name"});
 
     var loadDictionary = function(dictionaryName) {
         var dictionary = dictionaryCache.get(dictionaryName);
         if (!dictionary) {
-            dictionary = dictionaryResource.query({name: dictionaryName});
+            dictionary = []
+            $http.get(REST_URL + dictionaryName).then(function(resp) {
+                angular.copy(resp.data, dictionary);
+            });
             dictionaryCache.put(dictionaryName, dictionary);
         }
         return dictionary;
     }
 
     return {
-        DICTIONARIES_NAMES: DICTIONARIES_NAMES,
+        DICTIONARY: DICTIONARY,
         loadDictionary: loadDictionary
     }
 });
+

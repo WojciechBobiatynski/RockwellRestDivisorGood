@@ -9,7 +9,7 @@ angular.module("gryf.ti").controller("OurTrainingsController",
     $scope.selectedCategories = {};
 
     $scope.loadDictionaries = function() {
-        $scope.dictionaries.trainingCategories = DictionaryService.loadDictionary(DictionaryService.DICTIONARIES_NAMES.TRAINING_CATEGORIES);
+        $scope.dictionaries.trainingCategories = DictionaryService.loadDictionary(DictionaryService.DICTIONARY.TRAINING_CATEGORIES);
     }
 
     $scope.find = function() {

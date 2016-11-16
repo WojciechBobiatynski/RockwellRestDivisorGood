@@ -1,5 +1,5 @@
-angular.module("gryf.ti").controller("ReimbursementsController", ["$scope", "ReimbursementsService",
-    function($scope, ReimbursementsService) {
+angular.module("gryf.ti").controller("ReimbursementsController", ["$scope", "ReimbursementsService", "DictionaryService",
+    function($scope, ReimbursementsService, DictionaryService) {
         $scope.elctRmbsCriteria = ReimbursementsService.getNewCriteria();
         $scope.searchResultOptions = ReimbursementsService.getSearchResultOptions();
         $scope.elctRmbsModel = ReimbursementsService.getElctRmbsModel();
@@ -17,7 +17,5 @@ angular.module("gryf.ti").controller("ReimbursementsController", ["$scope", "Rei
             $scope.datepicker[fieldName] = true;
         };
 
-        ($scope.loadReimbursementsStatuses = function () {
-            ReimbursementsService.loadReimbursementsStatuses();
-        })();
+        $scope.elctRmbsModel.rmbsStatuses = DictionaryService.loadDictionary(DictionaryService.DICTIONARY.REIMBURSEMENT_STATUSES);
 }]);
