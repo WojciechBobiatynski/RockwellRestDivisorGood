@@ -108,6 +108,12 @@ angular.module("gryf.training").factory("BrowseTrainingService",
             return searchResultOptions;
         };
 
+        var loadMore = function() {
+            searchDTO.entity.limit += searchResultOptions.displayLimitIncrementer;
+            searchResultOptions.displayLimit += searchResultOptions.displayLimitIncrementer;
+            return find();
+        };
+
         return {
             getSearchDTO: getSearchDTO,
             getSearchResultOptions: getSearchResultOptions,
@@ -117,8 +123,8 @@ angular.module("gryf.training").factory("BrowseTrainingService",
             getNewSearchDTO: getNewSearchDTO,
             getNewSearchResultOptions: getNewSearchResultOptions,
             getSortingTypeClass: getSortingTypeClass,
-            openTrainingInstitutionLov: openTrainingInstitutionLov
-
+            openTrainingInstitutionLov: openTrainingInstitutionLov,
+            loadMore: loadMore
         };
     }]);
 

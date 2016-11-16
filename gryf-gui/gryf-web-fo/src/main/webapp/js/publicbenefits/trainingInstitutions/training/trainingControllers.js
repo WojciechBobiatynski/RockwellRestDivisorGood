@@ -48,6 +48,9 @@ angular.module("gryf.training").controller("searchform.TrainingController",
             $scope.categoryDictionary = data;
         });
 
+        $scope.loadMore = function() {
+            BrowseTrainingService.loadMore();
+        };
 
         $scope.clear();
     }]);
