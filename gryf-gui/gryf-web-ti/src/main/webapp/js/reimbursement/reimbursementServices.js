@@ -84,21 +84,12 @@ angular.module("gryf.ti").factory("ReimbursementsService",
         return find();
     };
 
-    var loadReimbursementsStatuses = function() {
-        var promise = $http.get(FIND_RMBS_STATUSES_LIST_URL);
-        promise.then(function (response) {
-            elctRmbsModel.rmbsStatuses = response.data;
-        });
-        return promise;
-    };
-
     return {
         getNewCriteria: getNewElctRmbsCriteria,
         getSearchResultOptions: getSearchResultOptions,
         getNewSearchResultOptions: getNewSearchResultOptions,
         getElctRmbsModel: getElctRmbsModel,
         find: find,
-        loadMore: loadMore,
-        loadReimbursementsStatuses: loadReimbursementsStatuses
+        loadMore: loadMore
     };
 }]);
