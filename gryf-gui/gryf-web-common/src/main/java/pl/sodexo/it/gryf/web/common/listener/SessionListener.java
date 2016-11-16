@@ -32,7 +32,7 @@ public class SessionListener implements HttpSessionListener {
     private int getSessionTimeout(HttpSessionEvent sessionEvent){
         HttpSession session = sessionEvent.getSession();
         ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(session.getServletContext());
-        ApplicationParameters applicationParameters = (ApplicationParameters) ctx.getBean("applicationParameters");
+        ApplicationParameters applicationParameters = ctx.getBean(ApplicationParameters.class);
         return applicationParameters.getSessionTimeout();
     }
 
