@@ -1,6 +1,7 @@
 package pl.sodexo.it.gryf.model.publicbenefits.contracts;
 
 import lombok.ToString;
+import org.hibernate.validator.constraints.NotEmpty;
 import pl.sodexo.it.gryf.model.api.VersionableEntity;
 import pl.sodexo.it.gryf.model.publicbenefits.enterprises.Enterprise;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
@@ -39,7 +40,7 @@ public class Contract extends VersionableEntity {
 
     @ManyToOne
     @JoinColumn(name = "CONTRACT_TYPE_ID")
-    @NotNull(message = "Rodzaj umowy nie może byc pusty")
+    @NotNull(message = "Rodzaj umowy nie może być pusty")
     private ContractType contractType;
 
     @ManyToOne
@@ -69,6 +70,7 @@ public class Contract extends VersionableEntity {
     @JoinTable(name = "CONTRACT_TRAINING_CATEGORIES", schema = "APP_PBE",
             joinColumns = {@JoinColumn(name = "CONTRACT_ID", referencedColumnName = "ID")},
             inverseJoinColumns = {@JoinColumn(name = "TRAINING_CATEGORY_ID", referencedColumnName = "ID")})
+    @NotEmpty(message = "Kategoria szkolenia nie może być pusta")
     private List<TrainingCategory> categories;
 
     //GETTERS && SETTERS
