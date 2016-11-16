@@ -1002,7 +1002,10 @@ table th[class*="col-"] {
     background-color: #ebcccc;
 }
 
-
 .text-muted{
     color: #bababa;
+}
+
+input.ng-valid {
+    box-shadow: none;
 }
