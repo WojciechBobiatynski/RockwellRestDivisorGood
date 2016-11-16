@@ -56,6 +56,8 @@
     <script src="${pageContext.request.contextPath}/js/reimbursement/reimbursementControllers.js"></script>
     <script src="${pageContext.request.contextPath}/js/reimbursement/reimbursementServices.js"></script>
     <script src="${pageContext.request.contextPath}/js/trainingSearch/trainingSearchService.js"></script>
+    <script src="${pageContext.request.contextPath}/js/ourTrainings/gryf-ourTrainings.js"></script>
+    <script src="${pageContext.request.contextPath}/js/ourTrainings/ourTrainingsController.js"></script>
 </head>
 <body ng-app="gryf.ti">
 <div class="container">
@@ -73,7 +75,7 @@
     <li ng-class="{'active': isActive('/v3')}"><a ng-href="${pageContext.request.contextPath}/page2">Zatwierdź PIN Uczestnika</a></li>
     <li ng-class="{'active': isActive('reimbursements')}"><a ui-sref="reimbursements">Rozliczenia i korekty</a></li>
     <li ng-class="{'active': isActive('/v5')}"><a ng-href="${pageContext.request.contextPath}/page4">Anuluj rezerwację</a></li>
-    <li ng-class="{'active': isActive('/v6')}"><a ng-href="${pageContext.request.contextPath}/page5">Nasze szkolenia</a></li>
+    <li ng-class="{'active': isActive('ourTrainings')}"><a ui-sref="ourTrainings">Nasze szkolenia</a></li>
     <li><a ng-href="${pageContext.request.contextPath}/logout">Wyloguj</a></li>
 </ul>
 <hr class="grid navbar-separator"/>
