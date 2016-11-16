@@ -11,8 +11,8 @@
     </header>
     <div>
         <strong class="label">Wybierz umowę</strong>
-<!--        <div>Pesel: {{model.entity.individual.pesel}}</div>
-        <div>Osoba: {{model.entity.individual.firstName}} {{model.entity.individual.lastName}}</div>-->
+        <div>Typ umowy: {{model.entity.contract.contractType.name}}</div>
+        <div>Osoba: {{model.entity.contract.individual.firstName}} {{model.entity.contract.individual.lastName}}</div>
         <div><a ng-click="openContractLov()" class="button button-save">Wprowadź</a></div>
         <gryf-validation-msg path="contract"></gryf-validation-msg>
     </div>
