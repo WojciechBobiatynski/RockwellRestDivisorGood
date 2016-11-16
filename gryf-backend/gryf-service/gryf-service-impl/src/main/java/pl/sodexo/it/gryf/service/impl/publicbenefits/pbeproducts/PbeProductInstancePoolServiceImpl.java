@@ -192,7 +192,7 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
         trainingInstance = trainingInstanceRepository.save(trainingInstance);
 
         //POBRANIE PULI BONÓW KTÓRE MOŻNA WYKORZYSTAC
-        List<PbeProductInstancePool> pools = productInstancePoolRepository.findAvaiableByIndividualAndExpiryDate(individualId, grantProgramId, training.getEndDate());
+        List<PbeProductInstancePool> pools = productInstancePoolRepository.findAvaiableForUse(individualId, grantProgramId, training.getEndDate());
 
         //VALIDACJA
         validatePoolReservation(training, grantProgram, toReservedNum, pools);
