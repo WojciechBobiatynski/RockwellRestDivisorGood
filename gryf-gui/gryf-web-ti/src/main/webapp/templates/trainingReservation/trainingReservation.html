@@ -19,7 +19,7 @@
          </div>
       </div>
       <div class="grid-100 text-right">
-         <button data-ng-click="loadUserTrainingReservationData()">Rezerwuj nowe szkolenie</button>
+         <button class="standardButton" data-ng-click="loadUserTrainingReservationData()">Rezerwuj nowe szkolenie</button>
       </div>
    </div>
 </section>
@@ -59,7 +59,7 @@
             <div ng-repeat="program in userTrainingReservationData.data.grantPrograms">{{program.name}}</div>
          </div>
          <div class="grid-20 text-right">
-               <button class="grid-80" data-ng-click="reserveTrainingForAnotherUser()">Rezerwuj szkolenie dla innego uczestnika</button>
+               <button class="grid-80 standardButton" data-ng-click="reserveTrainingForAnotherUser()">Rezerwuj szkolenie dla innego uczestnika</button>
          </div>
       </div>
    </div>
@@ -69,17 +69,14 @@
    <table>
       <thead>
       <tr class="grid-100 tableHeader-names">
-         <th class="sortable grid-20" ng-class="getSortingTypeClass('trainingId')">
-            <div ng-click="getSortedBy('trainingId')">Nazwa szkolenia</div>
+         <th class="sortable grid-20" ng-class="getSortingTypeClass('name')">
+            <div ng-click="getSortedBy('name')">Nazwa szkolenia</div>
          </th>
          <th class="sortable grid-10" ng-class="getSortingTypeClass('price')">
             <div ng-click="getSortedBy('price')">Cena szkolenia (PLN)</div>
          </th>
-         <th class="sortable grid-10" ng-class="getSortingTypeClass('institutionName')">
-            <div ng-click="getSortedBy('institutionName')">Liczba godzin szkoleniowych</div>
-         </th>
-         <th class="sortable grid-15" ng-class="getSortingTypeClass('name')">
-            <div ng-click="getSortedBy('name')">Maks. liczba rozliczonych bonów</div>
+         <th class="sortable grid-10" ng-class="getSortingTypeClass('hoursNumber')">
+            <div ng-click="getSortedBy('hoursNumber')">Liczba godzin szkoleniowych</div>
          </th>
          <th class="sortable grid-10" ng-class="getSortingTypeClass('startDate')">
             <div ng-click="getSortedBy('startDate')">Data rozpoczęcia</div>
@@ -90,24 +87,21 @@
          <th class="sortable grid-10" ng-class="getSortingTypeClass('place')">
             <div ng-click="getSortedBy('place')">Miejsce</div>
          </th>
-         <th class="sortable grid-15" ng-class="getSortingTypeClass('category')">
+         <th class="sortable grid-25" ng-class="getSortingTypeClass('category')">
             <div ng-click="getSortedBy('category')">Kategoria</div>
          </th>
       </tr>
       <tr class="grid-100 tableHeader-options">
-         <th class="grid-10">
+         <th class="grid-20">
             <input type="text" ng-model="searchDTO.entity.name">
          </th>
-         <th class="grid-5">
+         <th class="grid-10">
             <input type="number" placeholder="Min" ng-model="searchDTO.entity.priceFrom"/>
             <input type="number" placeholder="Max" ng-model="searchDTO.entity.priceTo"/>
          </th>
          <th class="grid-10">
-            <input type="number" ng-model="searchDTO.entity.hoursNumberFrom">
-            <input type="number" ng-model="searchDTO.entity.hoursNumberTo">
-         </th>
-         <th class="grid-15">
-            <input type="number" ng-model="searchDTO.entity.maxProductCount">
+            <input type="number" placeholder="Min" ng-model="searchDTO.entity.hoursNumberFrom">
+            <input type="number" placeholder="Max" ng-model="searchDTO.entity.hoursNumberTo">
          </th>
          <th class="grid-10">
             <input type="text" ng-model="searchDTO.entity.startDate"
@@ -124,13 +118,13 @@
          <th class="grid-10">
             <input ng-model="searchDTO.entity.place">
          </th>
-         <th class="grid-15">
+         <th class="grid-25">
             <select ng-options="v.id as v.name for v in dictionaries.trainingCategories | orderBy:'ordinal'" ng-model="searchDTO.entity.categoryCodes" multiple>
                <option value="">-wybierz-</option>
             </select>
          </th>
-         <th>
-            <button ng-click="find()">Wyszukaj</button>
+         <th class="grid-5">
+            <button class="standardButton" ng-click="find()">Wyszukaj</button>
          </th>
       </tr>
       </thead>
@@ -138,7 +132,6 @@
       <tr ng-repeat="item in searchDTO.searchResultList | limitTo: searchResultOptions.displayLimit" ng-class="{'row-even': $even, 'row-odd': $odd}">
          <td>{{::item.name}}</td>
          <td>{{::item.price}}</td>
-         <td>{{::item.hoursNumber}}</td>
          <td>{{::item.hoursNumber}}</td>
          <td>{{::item.startDate}}</td>
          <td>{{::item.endDate}}</td>
@@ -155,9 +148,11 @@
       </tr>
       </tbody>
    </table>
-   <div ng-show="searchResultOptions.overflow" class="centered-ul">
+   <div ng-show="searchResultOptions.overflow" class="text-center">
       <ul>
-         <li><a href="#/" ng-click="loadMore()" class="button button-infinity">wczytaj więcej wyników</a></li>
+         <li>
+            <button ng-click="loadMore()" class="standardButton">Wczytaj więcej wyników</button>
+         </li>
       </ul>
    </div>
    <div class="emptyResult" ng-show="searchDTO.searchResultList.length == 0">

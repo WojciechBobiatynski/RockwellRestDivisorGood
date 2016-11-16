@@ -31,6 +31,7 @@ angular.module("gryf.ti").controller("TrainingReservationController",
     }
 
     $scope.find = function() {
+        $scope.searchResultOptions = TrainingSearchService.getNewSearchResultOptions();
         $scope.searchResultOptions.badQuery = false;
         TrainingSearchService.find();
     };
@@ -54,10 +55,14 @@ angular.module("gryf.ti").controller("TrainingReservationController",
     };
 
     $scope.clear = function() {
-        $scope.searchDTO = TrainingSearchService.getNewSearchDTO();
         $scope.searchResultOptions = TrainingSearchService.getNewSearchResultOptions();
+        $scope.searchDTO = TrainingSearchService.getNewSearchDTO();
     };
 
-    $scope.clear();
+    $scope.loadMore = function() {
+        TrainingSearchService.loadMore();
+    };
+
     $scope.loadDictionaries();
+    $scope.clear();
 }]);

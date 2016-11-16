@@ -95,6 +95,12 @@ angular.module("gryf.ti").factory("TrainingSearchService", function($http, GryfM
         return searchResultOptions;
     };
 
+    var loadMore = function() {
+        searchDTO.entity.limit += searchResultOptions.displayLimitIncrementer;
+        searchResultOptions.displayLimit += searchResultOptions.displayLimitIncrementer;
+        return find();
+    };
+
     return {
         getSearchDTO: getSearchDTO,
         getSearchResultOptions: getSearchResultOptions,
@@ -102,6 +108,7 @@ angular.module("gryf.ti").factory("TrainingSearchService", function($http, GryfM
         findSortedBy: findSortedBy,
         getNewSearchDTO: getNewSearchDTO,
         getNewSearchResultOptions: getNewSearchResultOptions,
-        getSortingTypeClass: getSortingTypeClass
+        getSortingTypeClass: getSortingTypeClass,
+        loadMore: loadMore
     };
 });

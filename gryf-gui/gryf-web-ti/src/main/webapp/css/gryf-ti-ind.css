@@ -38,6 +38,10 @@ body > .grid {
     text-align: left;
 }
 
+.text-center {
+    text-align: center;
+}
+
 .footer {
     overflow: auto;
     text-align: center;
@@ -111,7 +115,7 @@ a, a:hover {
     padding: 10px;
 }
 
-button {
+.standardButton {
     background-color: #6aa84f;
     color: white;
     border: none;
@@ -292,3 +296,67 @@ table {
     font-size: 11px;
 }
 
+/* DATA PICKER */
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    display: none;
+    float: left;
+    min-width: 160px;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    font-size: 14px;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, .15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+}
+
+.btn-danger {
+    color: #fff;
+    background-color: #d9534f;
+    border-color: #d43f3a;
+}
+
+.btn-sm, .btn-group-sm > .btn {
+    padding: 5px 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-info {
+    color: #fff;
+    background-color: #5bc0de;
+    border-color: #46b8da;
+}
+
+.btn-success {
+    color: #fff;
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+}
+
+.sortable.DESC div:after {
+    content: "\25B2";
+    color: #ff5757;
+}
+
+.sortable.ASC div:after {
+    content: "\25BC";
+    color: #ff5757;
+}
+
+.sortable {
+    cursor: pointer;
+}
