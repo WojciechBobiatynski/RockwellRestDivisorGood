@@ -1,6 +1,5 @@
 package pl.sodexo.it.gryf.common.dto.user;
 
-import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import pl.sodexo.it.gryf.common.dto.security.UserDto;
 import pl.sodexo.it.gryf.common.user.UserVisitor;
@@ -12,7 +11,6 @@ import java.util.Collection;
  * 
  * Created by akuchna on 2016-09-28.
  */
-@ToString(callSuper = true)
 public class GryfFoUser extends GryfUser {
 
     private static final long serialVersionUID = 1L;
