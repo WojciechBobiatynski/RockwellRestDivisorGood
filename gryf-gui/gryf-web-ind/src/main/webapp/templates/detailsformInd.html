@@ -130,7 +130,7 @@
                     <td>{{tra.endDate}}</td>
                     <td>{{tra.trainingStatus}}</td>
                     <td>
-                        <button ng-if="tra.trainingStatusId == 'RES'" data-ng-click="sendPIN()" type="submit" class="button">Wyślij PIN</button>
+                        <button ng-if="tra.trainingStatusId == 'RES'" data-ng-click="sendPIN(tra.id)" type="submit" class="button">Wyślij PIN</button>
                     </td>
                 </tr>
                 </tbody>

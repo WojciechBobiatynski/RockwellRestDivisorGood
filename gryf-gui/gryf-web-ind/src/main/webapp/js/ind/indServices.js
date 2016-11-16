@@ -7,6 +7,7 @@ angular.module("gryf.ind").factory("IndService",
     ["$http", "GryfModals", "GryfPopups", function($http, GryfModals, GryfPopups) {
 
         var FIND_IND_URL = contextPath + "/rest/ind/";
+        var SEND_REIMBURSMENT_PIN_URL = contextPath + "/ind/reimbursmentPin/send";
         var indObject = new IndObject();
 
         function IndObject() {
@@ -37,20 +38,58 @@ angular.module("gryf.ind").factory("IndService",
                 return promise;
         };
 
-        var sendPIN = function() {
+        var sendPIN = function (trainingInstanceId) {
             var messageText = {message: "PIN zostanie wysłany na adres email: " + indObject.entity.verificationEmail};
-            GryfModals.openModal(GryfModals.MODALS_URL.CONFIRM, messageText).result.then(function(result) {
-                if(result) {
-                    GryfPopups.setPopup("success", "", "PIN został pomyślnie wysłany");
-                    GryfPopups.showPopup();
+            GryfModals.openModal(GryfModals.MODALS_URL.CONFIRM, messageText).result.then(function (result) {
+                if (result) {
+                    sendPINAction(trainingInstanceId);
+                   // GryfPopups.setPopup("success", "", "PIN został pomyślnie wysłany");
+                   // GryfPopups.showPopup();
                 }
             });
+        };
+
+        var sendPINAction = function (trainingInstanceId) {
+
+            var promise;
+            promise = $http.post(SEND_REIMBURSMENT_PIN_URL + '/'+ trainingInstanceId);
+
+            promise.then(function () {
+                GryfPopups.setPopup("success", "Sukces", "PIN został pomyślnie wysłany");
+                GryfPopups.showPopup();
+            });
+
+            promise.error(function (error) {
+                GryfPopups.setPopup("error", "Błąd", "Nie udało się wysłać PINU");
+                GryfPopups.showPopup();
+
+           /*     var conflictCallbacksObject = {
+                    refresh: function () {
+                        loadContract();
+                    },
+                    force: function () {
+                        contract.entity.version = error.version;
+                        save().then(function () {
+                            GryfPopups.showPopup();
+                        });
+                    }
+                };
+
+                GryfExceptionHandler.handleSavingError(error, violations, conflictCallbacksObject);*/
+            });
+
+           /* promise.finally(function () {
+                GryfModals.closeModal(modalInstance);
+            });*/
+
+            return promise;
         }
 
         return {
             load: load,
             getNewModel: getNewModel,
-            sendPIN: sendPIN
+            sendPIN: sendPIN,
+            sendPINAction: sendPINAction
         }
     }]);
 

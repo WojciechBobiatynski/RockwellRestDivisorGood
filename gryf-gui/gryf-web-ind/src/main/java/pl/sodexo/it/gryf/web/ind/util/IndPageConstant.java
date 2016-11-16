@@ -24,4 +24,9 @@ public final class IndPageConstant extends PageConstant {
     public static final String PATH_VERIFICATION_RESEND_CODE = "verification/resend";
 
     public static final String PAGE_VERIFICATION_RESEND_SUCCESS = PREFIX_PAGE + "verification/sendVerCodeSuccess.jsp";
+
+    public static final String PATH_REIMBURSMENT_PIN_SEND = "/ind/reimbursmentPin/send";
+
+    public static final String PAGE_REIMBURSMENT_PIN_SEND_SUCCESS = PREFIX_PAGE + "index.jsp";
+
 }
