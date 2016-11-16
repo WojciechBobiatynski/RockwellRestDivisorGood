@@ -20,6 +20,7 @@
             ind.FIRST_NAME                  firstName,
             ind.LAST_NAME                   lastName,
             ind.PESEL                       pesel,
+            indcont.CONTACT_DATA            verificationEmail,
             con.ID                          contractId,
             con.SIGN_DATE                   signingDate,
             pool.ID                         poolId,
@@ -41,6 +42,7 @@
             trainingInstanceStatus.NAME     trainingStatus,
             trainingInstanceStatus.ID       trainingStatusId
         FROM APP_PBE.INDIVIDUALS ind
+              LEFT OUTER JOIN APP_PBE.INDIVIDUAL_CONTACTS indcont ON ind.ID = indcont.IND_ID
               LEFT OUTER JOIN APP_PBE.CONTRACTS con ON ind.ID = con.INDIVIDUAL_ID
               LEFT OUTER JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOLS pool ON ind.ID = pool.INDIVIDUAL_ID
               LEFT OUTER JOIN APP_PBE.TI_TRAINING_INSTANCES trainingInstance ON ind.ID = trainingInstance.INDIVIDUAL_ID
@@ -52,6 +54,7 @@
               LEFT OUTER JOIN APP_PBE.TI_TRAINING_INSTANCE_STATUSES trainingInstanceStatus ON trainingInstance.STATUS_ID = trainingInstanceStatus.ID
         WHERE
             ind.ID = #{criteria.gryfUser.individualId}
+            AND indcont.CONTACT_TYPE = 'VER_EMAIL'
     </select>
 
     <resultMap id="indDto" type="pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.IndDto" autoMapping="true">
@@ -59,6 +62,7 @@
         <result property="firstName" column="firstName"/>
         <result property="lastName" column="lastName"/>
         <result property="pesel" column="pesel"/>
+        <result property="verificationEmail" column="verificationEmail"/>
         <collection property="agreements" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.AgreementDto"
                     autoMapping="true">
             <id property="id" column="contractId"/>

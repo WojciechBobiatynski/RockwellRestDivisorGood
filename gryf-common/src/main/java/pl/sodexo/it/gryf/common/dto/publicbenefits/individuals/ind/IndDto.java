@@ -33,6 +33,10 @@ public class IndDto extends VersionableDto {
 
     @Getter
     @Setter
+    private String verificationEmail;
+
+    @Getter
+    @Setter
     private List<ProductDto> products;
 
     @Getter

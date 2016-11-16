@@ -38,7 +38,7 @@ angular.module("gryf.ind").factory("IndService",
         };
 
         var sendPIN = function() {
-            var messageText = {message: "PIN zostanie wysłany na adres email: " + indObject.entity.email};
+            var messageText = {message: "PIN zostanie wysłany na adres email: " + indObject.entity.verificationEmail};
             GryfModals.openModal(GryfModals.MODALS_URL.CONFIRM, messageText).result.then(function(result) {
                 if(result) {
                     GryfPopups.setPopup("success", "", "PIN został pomyślnie wysłany");
