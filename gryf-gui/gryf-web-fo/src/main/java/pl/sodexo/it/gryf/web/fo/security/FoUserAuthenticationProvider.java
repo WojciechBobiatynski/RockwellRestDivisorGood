@@ -43,7 +43,7 @@ public class FoUserAuthenticationProvider implements AuthenticationProvider {
         List<GrantedAuthority> grantedAuthorities = getGrantedAuthorities(login, password);
         GryfFoUser gryfFoUser = new GryfFoUser(new UserDto(login), grantedAuthorities);
         UsernamePasswordAuthenticationToken succesAuthToken = new UsernamePasswordAuthenticationToken(gryfFoUser, credentials, grantedAuthorities);
-        LOGGER.info("[AUTH] Wlogowany uzytkownik, gryfFoUser={}, grantedAuthorities={}", gryfFoUser, grantedAuthorities);
+        LOGGER.info("[AUTH] Wlogowany uzytkownik, gryfFoUser={}", gryfFoUser);
 
         return succesAuthToken;
     }

@@ -24,4 +24,9 @@ public class GryfFoUser extends GryfUser {
     public <T> T accept(UserVisitor<T> userVisitor) {
         return userVisitor.visitFo(this);
     }
+
+    @Override
+    public String toString() {
+        return "GryfFoUser[login=" + super.getUser().getLogin() + "]";
+    }
 }
