@@ -3,10 +3,12 @@ package pl.sodexo.it.gryf.service.impl.publicbenefits.traininginstiutions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.sodexo.it.gryf.common.criteria.trainingtoreimburse.TrainingToReimburseCriteria;
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchResultDTO;
+import pl.sodexo.it.gryf.common.dto.trainingtoreimburse.TrainingToReimburseDto;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingRepository;
 import pl.sodexo.it.gryf.dao.api.search.dao.TrainingSearchDao;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.Training;
@@ -67,5 +69,10 @@ public class TrainingServiceImpl implements TrainingService {
         Training training = trainingDtoMapper.convert(trainingDto);
         trainingValidator.validateTraining(training);
         trainingRepository.update(training, training.getId());
+    }
+
+    @Override
+    public List<TrainingToReimburseDto> findTrainingToReimburseListByCriteria(TrainingToReimburseCriteria criteria) {
+        return trainingSearchDao.findTrainingToReimburseListByCriteria(criteria);
     }
 }

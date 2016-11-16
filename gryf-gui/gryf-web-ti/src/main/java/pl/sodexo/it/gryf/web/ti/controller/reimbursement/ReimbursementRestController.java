@@ -24,7 +24,6 @@ import static pl.sodexo.it.gryf.web.ti.util.UrlConstants.PATH_REIMBURSEMENT_LIST
  */
 @RestController
 @RequestMapping(value = UrlConstants.PATH_REIMBURSEMENT_REST, produces = "application/json;charset=UTF-8")
-
 public class ReimbursementRestController {
 
     @Autowired

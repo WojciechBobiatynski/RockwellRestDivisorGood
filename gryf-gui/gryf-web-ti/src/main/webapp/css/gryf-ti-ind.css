@@ -80,7 +80,7 @@ body > .grid {
     cursor: pointer;
 }
 
-li.active a {
+li.active > a {
     color: #2cb12c;
 }
 

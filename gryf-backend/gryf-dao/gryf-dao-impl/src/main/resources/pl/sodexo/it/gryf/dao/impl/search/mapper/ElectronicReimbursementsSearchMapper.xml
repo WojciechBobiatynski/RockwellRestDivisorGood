@@ -26,7 +26,7 @@
                 AND LOWER(ti.NAME) like '%' || LOWER(#{criteria.trainingName}) || '%'
             </if>
             <if test="criteria.pesel != null and criteria.pesel != ''">
-                AND ind.NAME like '%' || #{criteria.pesel} || '%'
+                AND ind.PESEL like '%' || #{criteria.pesel} || '%'
             </if>
             <if test="criteria.participantName != null and criteria.participantName != ''">
                 AND LOWER(ind.FIRST_NAME) like '%' || LOWER(#{criteria.participantName}) || '%'
@@ -42,6 +42,9 @@
             </if>
             <if test="criteria.rmbsStatus != null and criteria.rmbsStatus != ''">
                 AND status.NAME = #{criteria.rmbsStatus}
+            </if>
+            <if test="criteria.limit != null">
+                AND ROWNUM &lt;= #{criteria.limit}
             </if>
             <if test="criteria.gryfUser.userType == 'TRAINING_INSTITUTION'">
                 AND ti.TRAINING_INSTITUTION_ID = #{criteria.gryfUser.trainingInstitutionId}

@@ -55,6 +55,9 @@
     <script src="${pageContext.request.contextPath}/js/reimbursement/gryf-reimbursement.js"></script>
     <script src="${pageContext.request.contextPath}/js/reimbursement/reimbursementControllers.js"></script>
     <script src="${pageContext.request.contextPath}/js/reimbursement/reimbursementServices.js"></script>
+    <script src="${pageContext.request.contextPath}/js/trainingtoreimburse/gryf-trainingToReimburse.js"></script>
+    <script src="${pageContext.request.contextPath}/js/trainingtoreimburse/trainingToReimburseControllers.js"></script>
+    <script src="${pageContext.request.contextPath}/js/trainingtoreimburse/trainingToReimburseServices.js"></script>
     <script src="${pageContext.request.contextPath}/js/trainingSearch/trainingSearchService.js"></script>
     <script src="${pageContext.request.contextPath}/js/ourTrainings/gryf-ourTrainings.js"></script>
     <script src="${pageContext.request.contextPath}/js/ourTrainings/ourTrainingsController.js"></script>
@@ -73,7 +76,16 @@
     <li ng-class="{'active': isActive('dashboard')}"><a ui-sref="dashboard">Pulpit</a></li>
     <li ng-class="{'active': isActive('trainingReservation')}"><a ui-sref="trainingReservation">Rezerwuj szkolenie</a></li>
     <li ng-class="{'active': isActive('/v3')}"><a ng-href="${pageContext.request.contextPath}/page2">Zatwierdź PIN Uczestnika</a></li>
-    <li ng-class="{'active': isActive('reimbursements')}"><a ui-sref="reimbursements">Rozliczenia i korekty</a></li>
+    <li ng-class="{'active': isActive('reimbursements')}"><a ui-sref="reimbursements">Rozliczenia i korekty</a>
+    <ul>
+        <li ng-class="{'active': isActive('trainingToReimburse')}">
+            <a ui-sref="trainingToReimburse">Szkolenia do rozliczenia</a>
+        </li>
+        <li ng-class="{'active': isActive('reimbursements')}">
+            <a ui-sref="reimbursements">Rozliczenia</a>
+        </li>
+    </ul>
+    </li>
     <li ng-class="{'active': isActive('/v5')}"><a ng-href="${pageContext.request.contextPath}/page4">Anuluj rezerwację</a></li>
     <li ng-class="{'active': isActive('ourTrainings')}"><a ui-sref="ourTrainings">Nasze szkolenia</a></li>
     <li><a ng-href="${pageContext.request.contextPath}/logout">Wyloguj</a></li>

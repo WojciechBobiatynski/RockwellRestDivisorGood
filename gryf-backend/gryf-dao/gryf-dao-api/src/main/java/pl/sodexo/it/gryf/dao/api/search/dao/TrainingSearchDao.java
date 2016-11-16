@@ -1,9 +1,11 @@
 package pl.sodexo.it.gryf.dao.api.search.dao;
 
+import pl.sodexo.it.gryf.common.criteria.trainingtoreimburse.TrainingToReimburseCriteria;
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchResultDTO;
+import pl.sodexo.it.gryf.common.dto.trainingtoreimburse.TrainingToReimburseDto;
 
 import java.util.List;
 
@@ -17,5 +19,12 @@ public interface TrainingSearchDao {
     List<SimpleDictionaryDto> findTrainingCategories();
 
     TrainingDTO findTraining(Long trainingId);
+
+    /**
+     * Metoda która znajduje wszystkie szkolenia do rozliczenia na podstawie wybranych kryteriów wyszkuwiania
+     * @param criteria - kryteria wyszukiwania
+     * @return lista szkoleń do rozliczenia
+     */
+    List<TrainingToReimburseDto> findTrainingToReimburseListByCriteria(TrainingToReimburseCriteria criteria);
 
 }
