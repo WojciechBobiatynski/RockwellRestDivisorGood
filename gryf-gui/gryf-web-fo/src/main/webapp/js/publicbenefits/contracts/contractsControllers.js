@@ -131,9 +131,8 @@ angular.module('gryf.contracts').controller("detailsform.ContractsController",
                 ModifyContractService.save().then(function () {
                     if (!redirectUrl) {
                         redirectUrl = $scope.getPrevUrl();
-                    }else{
-                        $scope.model = {};
                     }
+                    window.location = redirectUrl;
                 });
             }
 
