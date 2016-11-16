@@ -17,7 +17,7 @@ angular.module("gryf.ti").controller("TrainingReservationController",
     }
 
     $scope.loadDictionaries = function() {
-        $scope.dictionaries.trainingCategories = DictionaryService.loadDictionary(DictionaryService.DICTIONARY.REIMBURSEMENT_STATUSES);
+        $scope.dictionaries.trainingCategories = DictionaryService.loadDictionary(DictionaryService.DICTIONARY.TRAINING_CATEGORIES);
     }
 
     $scope.reserveTrainingForAnotherUser = function() {
