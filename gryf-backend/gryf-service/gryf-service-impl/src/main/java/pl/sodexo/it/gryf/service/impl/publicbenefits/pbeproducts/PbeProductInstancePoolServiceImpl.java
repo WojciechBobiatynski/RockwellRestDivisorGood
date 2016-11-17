@@ -161,8 +161,11 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
         GrantProgram grantProgram = contract.getGrantProgram();
         Integer productInstanceNum = 30;//TODO: tbilski - pole z zamówienia
 
+        //POBRANIE PRODUKTU NA PODSTWIE GRANT PROGRAMU
+        GrantProgramProduct gpProduct = findGrantProgramProduct(grantProgram.getId(), new Date());
+
         //STWORZENIE PULI BONÓW
-        PbeProductInstancePool pool = createProductInstancePool(order, contract, individual, productInstanceNum);
+        PbeProductInstancePool pool = createProductInstancePool(order, contract, individual, gpProduct.getPbePproduct(), productInstanceNum);
         pool = productInstancePoolRepository.save(pool);
 
         //STWORZENIE EVENTU DO PULI BONÓW
@@ -174,7 +177,7 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
         PbeProductInstanceEventType reservedEventType = productInstanceEventTypeRepository.get(PbeProductInstanceEventType.RES_CODE);
 
         //POBRANIE INSTANCJI PRODUKTOW
-        List<PbeProductInstance> productInstances = findAvaiableProductInstanceByGrantProgram(grantProgram, productInstanceNum);
+        List<PbeProductInstance> productInstances = findAvaiableProductInstanceByGrantProgram(gpProduct.getPbePproduct(), productInstanceNum);
         for(PbeProductInstance instance : productInstances){
 
             //ZMIANY NA INSTANCJACH PRODUKTOW
@@ -429,7 +432,8 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
         return printNumberGenerator.generate(dto);
     }
 
-    private PbeProductInstancePool createProductInstancePool(Order order, Contract contract, Individual individual, Integer productInstanceNum){
+    private PbeProductInstancePool createProductInstancePool(Order order, Contract contract, Individual individual,
+                                                                PbeProduct product, Integer productInstanceNum){
         PbeProductInstancePool pool = new PbeProductInstancePool();
         pool.setStatus(productInstancePoolStatusRepository.get(PbeProductInstancePoolStatus.ACTIVE_CODE));
         pool.setExpiryDate(contract.getExpiryDate());
@@ -440,6 +444,7 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
         pool.setRembursNum(0);
         pool.setIndividual(individual);
         pool.setOrder(order);
+        pool.setProduct(product);
         return pool;
     }
 
@@ -463,9 +468,8 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
         instance.setCrc(piPrintNumber.getGeneratedChecksum());
     }
 
-    private List<PbeProductInstance> findAvaiableProductInstanceByGrantProgram(GrantProgram grantProgram, Integer productInstanceNum){
-        GrantProgramProduct gpProduct = findGrantProgramProduct(grantProgram.getId(), new Date());
-        List<PbeProductInstance> productInstances = productInstanceRepository.findAvaiableByProduct(gpProduct.getPbePproduct().getId(), productInstanceNum);
+    private List<PbeProductInstance> findAvaiableProductInstanceByGrantProgram(PbeProduct product, Integer productInstanceNum){
+        List<PbeProductInstance> productInstances = productInstanceRepository.findAvaiableByProduct(product.getId(), productInstanceNum);
         if(productInstances.size() != productInstanceNum){
             gryfValidator.validate ("Nie ma wystarczajacej liczby bonów aby zerealizować zamówienie.");
         }

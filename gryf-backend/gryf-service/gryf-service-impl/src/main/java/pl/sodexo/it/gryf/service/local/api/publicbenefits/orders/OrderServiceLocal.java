@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.service.local.api.publicbenefits.orders;
 
+import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 
@@ -19,6 +20,14 @@ public interface OrderServiceLocal {
      * @return zamowienie
      */
     Order createOrder(GrantApplication grantApplication);
+
+    /**
+     * Metoda tworzy i zapisuje do bazy obiekt zamowienia na podstawie umowy.
+     *
+     * @param contract umowa
+     * @return zamowienie
+     */
+    Order createOrder(Contract contract);
 
     /**
      * Metoda zwraca kwotę do wpłaty przez przedsiębiorstwo (MŚP) za przyznane bony szkoniowe

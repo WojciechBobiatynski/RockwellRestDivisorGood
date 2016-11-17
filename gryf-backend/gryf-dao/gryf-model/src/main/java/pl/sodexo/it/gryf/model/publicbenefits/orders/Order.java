@@ -40,6 +40,7 @@ import java.util.*;
                                                                             "AND p.successStatus = 'Y') ")
 })
 @OptimisticLocking(cascade=true)
+@SequenceGenerator(name="order_seq", schema = "eagle", sequenceName = "order_seq", allocationSize = 1)
 public class Order extends VersionableEntity {
 
     
@@ -61,7 +62,7 @@ public class Order extends VersionableEntity {
     @Id
     @NotNull
     @Column(name = "ID")
-    @GeneratedValue(generator = "ent_seq")
+    @GeneratedValue(generator = "order_seq")
     private Long id;
 
     @JsonBackReference("orders")

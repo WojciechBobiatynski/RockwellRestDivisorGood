@@ -5,6 +5,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderFlowRepository;
+import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationVersion;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
@@ -54,6 +55,18 @@ public class OrderServiceLocalImpl implements OrderServiceLocal {
 
         OrderFlowService orderFlowService = (OrderFlowService) BeanUtils.findBean(context, orderFlow.getServiceBeanName());
         Order order = orderFlowService.createOrder(grantApplication, orderFlow);
+        orderFlowElementService.addElementsByOrderStatus(order);
+        return order;
+    }
+
+    @Override
+    public Order createOrder(Contract contract) {
+        //TODO: tbilski na podstawie tabelki
+        //GrantApplicationVersion grantApplicationVersion = grantApplication.getApplicationVersion();
+        OrderFlow orderFlow = orderFlowRepository.get(100L);//findOrderFlow(grantApplicationVersion.getId());
+
+        OrderFlowService orderFlowService = (OrderFlowService) BeanUtils.findBean(context, orderFlow.getServiceBeanName());
+        Order order = orderFlowService.createOrder(contract, orderFlow);
         orderFlowElementService.addElementsByOrderStatus(order);
         return order;
     }

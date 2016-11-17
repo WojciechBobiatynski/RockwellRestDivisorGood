@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import pl.sodexo.it.gryf.common.dto.user.GryfUser;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.grantprograms.GrantProgramProductRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderRepository;
+import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationBasicData;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgramProduct;
+import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlow;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
@@ -53,8 +55,24 @@ public abstract class OrderFlowBaseService implements OrderFlowService {
         order.setOperator(GryfUser.getLoggedUserLogin());
         order.setProduct(findGrantProgramProduct(grantApplication.getProgram().getId(),grantApplication.getReceiptDate()).getProduct());
         
-        orderRepository.save(order);
-        return order;
+        return orderRepository.save(order);
+    }
+
+    @Override
+    public Order createOrder(Contract contract, OrderFlow orderFlow) {
+        Individual individual = contract.getIndividual();
+
+        Order order = new Order();
+        order.setOrderFlow(orderFlow);
+        order.setEnterprise(contract.getEnterprise());
+        order.setStatus(orderFlow.getInitialStatus());
+        order.setOrderDate(new Date());
+        order.setAddressCorr(individual.getAddressCorr());
+        order.setZipCodeCorrId((individual.getZipCodeCorr() != null) ? individual.getZipCodeCorr().getId() : null);
+        order.setOperator(GryfUser.getLoggedUserLogin());
+        order.setContract(contract);
+
+        return orderRepository.save(order);
     }
     
   /**

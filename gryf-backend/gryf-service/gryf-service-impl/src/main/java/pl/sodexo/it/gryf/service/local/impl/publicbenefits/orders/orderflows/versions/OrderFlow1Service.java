@@ -2,6 +2,7 @@ package pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.orderflows.ve
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlow;
@@ -27,4 +28,5 @@ public class OrderFlow1Service extends OrderFlowBaseService{
         orderElementComplexTypeGrantedVouchersInfoService.addVouchersInfoElements(order);
         return order;
     }
+
 }

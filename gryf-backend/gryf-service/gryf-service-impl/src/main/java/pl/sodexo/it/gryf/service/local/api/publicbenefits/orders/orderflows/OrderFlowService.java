@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.orderflows;
 
+import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlow;
@@ -20,4 +21,13 @@ public interface OrderFlowService {
      * @return zamówienie
      */
     Order createOrder(GrantApplication grantApplication, OrderFlow orderFlow);
+
+    /**
+     * Tworzy zamówienie dla danego wnioosku w danym order flow.
+     * Nie dodaje elementów do zamówienia na podstawie inicjalnego statusu.
+     * @param contract umowa
+     * @param orderFlow order flow
+     * @return zamówienie
+     */
+    Order createOrder(Contract contract, OrderFlow orderFlow);
 }

@@ -11,7 +11,6 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.O
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.transitions.OrderFlowTransitionDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.searchform.OrderSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.searchform.OrderSearchResultDTO;
-import pl.sodexo.it.gryf.common.dto.user.GryfUser;
 import pl.sodexo.it.gryf.common.exception.InvalidObjectIdException;
 import pl.sodexo.it.gryf.common.exception.StaleDataException;
 import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
@@ -22,17 +21,16 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderFlow
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderFlowStatusTransitionRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderRepository;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
-import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.*;
 import pl.sodexo.it.gryf.service.api.publicbenefits.orders.OrderService;
 import pl.sodexo.it.gryf.service.local.api.FileService;
+import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.OrderServiceLocal;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.elements.OrderElementService;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.orders.OrderFlowTransitionDTOProvider;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.orders.searchform.OrderEntityToSearchResultMapper;
 import pl.sodexo.it.gryf.service.utils.BeanUtils;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -55,10 +53,10 @@ public class OrderServiceImpl implements OrderService {
     private OrderElementRepository orderElementRepository;
 
     @Autowired
-    private OrderRepository orderRepository;
+    protected OrderServiceLocal orderServiceLocal;
 
     @Autowired
-    private OrderFlowRepository orderFlowRepository;
+    private OrderRepository orderRepository;
 
     @Autowired
     private ContractRepository contractRepository;
@@ -125,21 +123,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Long fastSave(Long contractId){
         Contract contract = contractRepository.get(contractId);
-        OrderFlow orderFlow = orderFlowRepository.get(100L);
-        Individual individual = contract.getIndividual();
-
-        Order order = new Order();
-        order.setOrderFlow(orderFlow);
-        order.setEnterprise(contract.getEnterprise());
-        order.setStatus(orderFlow.getInitialStatus());
-        order.setOrderDate(new Date());
-        order.setAddressCorr(individual.getAddressCorr());
-        order.setZipCodeCorrId((individual.getZipCodeCorr() != null) ? individual.getZipCodeCorr().getId() : null);
-        order.setOperator(GryfUser.getLoggedUserLogin());
-        order.setContract(contract);
-
-        order = orderRepository.save(order);
-
+        Order order = orderServiceLocal.createOrder(contract);
         return order.getId();
     }
 
