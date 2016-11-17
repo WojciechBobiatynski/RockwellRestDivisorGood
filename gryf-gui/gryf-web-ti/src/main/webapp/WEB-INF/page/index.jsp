@@ -43,16 +43,16 @@
     <script src="${pageContext.request.contextPath}/js/app.js"></script>
     <script src="${pageContext.request.contextPath}/js/components/gryf-components.js"></script>
     <script src="${pageContext.request.contextPath}/js/components/gryf-ti-menu.js"></script>
-    <script src="${pageContext.request.contextPath}/js/components/dictionaryService/dictionaryService.js"></script>
-    <script src="${pageContext.request.contextPath}/js/components/userService/userService.js"></script>
+    <script src="${pageContext.request.contextPath}/js/components/dictionaryservice/dictionaryService.js"></script>
+    <script src="${pageContext.request.contextPath}/js/components/userservice/userService.js"></script>
 
     <script src="${pageContext.request.contextPath}/js/dashboard/gryf-dashboard.js"></script>
     <script src="${pageContext.request.contextPath}/js/dashboard/dashboardServices.js"></script>
     <script src="${pageContext.request.contextPath}/js/dashboard/dashboardControllers.js"></script>
-    <script src="${pageContext.request.contextPath}/js/trainingReservation/gryf-trainingReservation.js"></script>
-    <script src="${pageContext.request.contextPath}/js/trainingReservation/trainingReservationControllers.js"></script>
-    <script src="${pageContext.request.contextPath}/js/trainingReservation/trainingReservationServices.js"></script>
-    <script src="${pageContext.request.contextPath}/js/trainingReservation/reservationModal/reservationModalControllers.js"></script>
+    <script src="${pageContext.request.contextPath}/js/trainingreservation/gryf-trainingReservation.js"></script>
+    <script src="${pageContext.request.contextPath}/js/trainingreservation/trainingReservationControllers.js"></script>
+    <script src="${pageContext.request.contextPath}/js/trainingreservation/trainingReservationServices.js"></script>
+    <script src="${pageContext.request.contextPath}/js/trainingreservation/modal/reservationModalControllers.js"></script>
     <script src="${pageContext.request.contextPath}/js/reimbursement/gryf-reimbursement.js"></script>
     <script src="${pageContext.request.contextPath}/js/reimbursement/reimbursementControllers.js"></script>
     <script src="${pageContext.request.contextPath}/js/reimbursement/reimbursementServices.js"></script>
@@ -60,8 +60,11 @@
     <script src="${pageContext.request.contextPath}/js/trainingtoreimburse/trainingToReimburseControllers.js"></script>
     <script src="${pageContext.request.contextPath}/js/trainingtoreimburse/trainingToReimburseServices.js"></script>
     <script src="${pageContext.request.contextPath}/js/trainingSearch/trainingSearchService.js"></script>
-    <script src="${pageContext.request.contextPath}/js/ourTrainings/gryf-ourTrainings.js"></script>
-    <script src="${pageContext.request.contextPath}/js/ourTrainings/ourTrainingsController.js"></script>
+    <script src="${pageContext.request.contextPath}/js/ourtrainings/gryf-ourTrainings.js"></script>
+    <script src="${pageContext.request.contextPath}/js/ourtrainings/ourTrainingsController.js"></script>
+    <script src="${pageContext.request.contextPath}/js/canceltrainingreservation/gryf-cancelTrainingReservation.js"></script>
+    <script src="${pageContext.request.contextPath}/js/canceltrainingreservation/cancelTrainingReservationController.js"></script>
+    <script src="${pageContext.request.contextPath}/js/canceltrainingreservation/cancelTrainingReservationService.js"></script>
 </head>
 <body ng-app="gryf.ti">
 <div class="container">
@@ -87,7 +90,7 @@
         </li>
     </ul>
     </li>
-    <li ng-class="{'active': isActive('/v5')}"><a ng-href="${pageContext.request.contextPath}/page4">Anuluj rezerwację</a></li>
+    <li ng-class="{'active': isActive('cancelReservation')}"><a ui-sref="cancelReservation">Anuluj rezerwację</a></li>
     <li ng-class="{'active': isActive('ourTrainings')}"><a ui-sref="ourTrainings">Nasze szkolenia</a></li>
     <li><a ng-href="${pageContext.request.contextPath}/logout">Wyloguj</a></li>
 </ul>
