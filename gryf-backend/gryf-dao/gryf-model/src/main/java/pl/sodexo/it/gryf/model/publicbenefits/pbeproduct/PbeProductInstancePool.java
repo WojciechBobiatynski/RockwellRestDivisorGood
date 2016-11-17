@@ -13,7 +13,7 @@ import java.util.Objects;
  * Created by Isolution on 2016-11-04.
  */
 @Entity
-@ToString(exclude = {"individual", "order"})
+@ToString(exclude = {"individual", "order", "product"})
 @Table(name = "PBE_PRODUCT_INSTANCE_POOLS", schema = "APP_PBE")
 @NamedQueries({
         @NamedQuery(name = "PbeProductInstancePool.findAvaiableForUse", query = "select p from PbeProductInstancePool p " +
