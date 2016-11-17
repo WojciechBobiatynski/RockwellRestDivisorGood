@@ -64,8 +64,7 @@ body > .grid {
     border: 4px solid #6aa84f;
 }
 
-.navbar > li:last-child
-{
+.navbar > li:last-child {
     text-align: right;
 }
 
@@ -111,8 +110,11 @@ a, a:hover {
 
 .block {
     background-color: white;
-    border-top: 4px solid #6aa84f;
     padding: 10px;
+}
+
+.borderTopGreen {
+    border-top: 4px solid #6aa84f;
 }
 
 .standardButton {
@@ -426,4 +428,25 @@ table {
 
 .sortable {
     cursor: pointer;
+}
+
+.blackLabel {
+    margin-bottom: 15px;
+    margin-top: 15px;
+    display: table;
+    color: black;
+    display: inline-table;
+}
+
+.paddedBlock {
+    padding: 0px 0px 20px 40px;
+}
+
+.paddedBlock .multiSection > div > div {
+    padding: 5px 0px 0px 5px;
+    color: dimgray;
+}
+
+.paddedBlock strong {
+    color: black;
 }

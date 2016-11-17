@@ -34,3 +34,8 @@ angular.module("gryf.ti").controller("TrainingToReimburseController", ["$scope",
         };
 
 }]);
+
+angular.module("gryf.ti").controller("ReimburseController", ["$scope", "TrainingToReimburseService","DictionaryService",
+    function($scope, TrainingToReimburseService, DictionaryService) {
+
+    }]);

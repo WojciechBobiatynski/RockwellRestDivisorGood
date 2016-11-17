@@ -5,5 +5,9 @@ angular.module("gryf.ti").config(["$stateProvider", function($stateProvider) {
         url: "/trainingToReimburse",
         templateUrl: contextPath + "/templates/trainingtoreimburse/trainingToReimburse.html",
         controller: "TrainingToReimburseController"
+    }).state("reimburse", {
+        url: "/reimburse/:trainingInstanceId",
+        templateUrl: contextPath + "/templates/trainingtoreimburse/reimburse.html",
+        controller: "ReimburseController"
     });
 }]);

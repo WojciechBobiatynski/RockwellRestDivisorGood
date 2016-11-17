@@ -83,7 +83,7 @@
                     <li><a ng-href="#/modify/{{item.trainingInstanceId}}"
                            class="button button-go">szczegóły</a>
                     </li>
-                    <li><a ng-href="#/reimburse/{{item.trainingInstanceId}}"
+                    <li><a ui-sref="reimburse({trainingInstanceId: item.trainingInstanceId})"
                            class="button button-go">rozlicz</a>
                     </li>
                 </ul>
