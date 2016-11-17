@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import pl.sodexo.it.gryf.common.criteria.trainingtoreimburse.TrainingToReimburseCriteria;
+import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.trainingtoreimburse.TrainingToReimburseDto;
 import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.TrainingService;
 import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
@@ -14,6 +15,7 @@ import pl.sodexo.it.gryf.web.ti.util.UrlConstants;
 import java.util.List;
 
 import static pl.sodexo.it.gryf.web.ti.util.UrlConstants.PATH_TRAINING_TO_REIMBURSE_LIST;
+import static pl.sodexo.it.gryf.web.ti.util.UrlConstants.PATH_TRAINING_TO_REIMBURSE_STATUSES_LIST;
 
 /**
  * Kontroler dla szkoleń do rozliczenia
@@ -37,11 +39,11 @@ public class TrainingToReimburseRestController {
         return trainingService.findTrainingToReimburseListByCriteria(trainingToReimburseCriteria);
     }
 
-//    @RequestMapping(value = PATH_TRAINING_TO_REIMBURSE_STATUSES_LIST, method = RequestMethod.GET)
-//    @ResponseBody
-//    public List<SimpleDictionaryDto> findElctRmbsStatuses(){
-//        //        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS);
-//        return electronicReimbursementsService.findElctRmbsStatuses();
-//    }
+    @RequestMapping(value = PATH_TRAINING_TO_REIMBURSE_STATUSES_LIST, method = RequestMethod.GET)
+    @ResponseBody
+    public List<SimpleDictionaryDto> findElctRmbsStatuses(){
+        //        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS);
+        return trainingService.findTiTrainingInstancesStatuses();
+    }
 
 }

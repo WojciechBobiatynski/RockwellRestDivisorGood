@@ -132,4 +132,15 @@
         </if>
     </select>
 
+    <select id="findTiTrainingInstancesStatuses" resultType="pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto" parameterType="list">
+        SELECT
+            dic.ID          id,
+            dic.NAME        name,
+            dic.ORDINAL     ordinal
+        FROM
+            APP_PBE.TI_TRAINING_INSTANCE_STATUSES dic
+        ORDER BY
+            dic.ordinal
+    </select>
+
 </mapper>

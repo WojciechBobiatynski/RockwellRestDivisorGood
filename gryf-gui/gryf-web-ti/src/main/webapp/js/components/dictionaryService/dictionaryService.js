@@ -3,7 +3,8 @@ angular.module("gryf.ti").factory("DictionaryService", function($cacheFactory, $
 
     var DICTIONARY = {
         TRAINING_CATEGORIES: "trainingreservation/trainingCategoriesDict",
-        REIMBURSEMENT_STATUSES: "reimbursements/statuses"
+        REIMBURSEMENT_STATUSES: "reimbursements/statuses",
+        TRAINING_TO_REIMBURSE_STATUSES: "trainingToReimburse/statuses"
     };
 
     var dictionaryCache = $cacheFactory("DictionaryService");
@@ -11,14 +12,14 @@ angular.module("gryf.ti").factory("DictionaryService", function($cacheFactory, $
     var loadDictionary = function(dictionaryName) {
         var dictionary = dictionaryCache.get(dictionaryName);
         if (!dictionary) {
-            dictionary = []
+            dictionary = [];
             $http.get(REST_URL + dictionaryName).then(function(resp) {
                 angular.copy(resp.data, dictionary);
             });
             dictionaryCache.put(dictionaryName, dictionary);
         }
         return dictionary;
-    }
+    };
 
     return {
         DICTIONARY: DICTIONARY,

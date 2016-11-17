@@ -27,4 +27,10 @@ public interface TrainingSearchDao {
      */
     List<TrainingToReimburseDto> findTrainingToReimburseListByCriteria(TrainingToReimburseCriteria criteria);
 
+    /**
+     * Metoda zwracająca listę statusów instancji szkoleń
+     * @return - lista statusów
+     */
+    List<SimpleDictionaryDto>  findTiTrainingInstancesStatuses();
+
 }

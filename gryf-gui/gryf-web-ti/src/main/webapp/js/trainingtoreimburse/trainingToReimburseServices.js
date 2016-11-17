@@ -84,21 +84,12 @@ angular.module("gryf.ti").factory("TrainingToReimburseService",
             return find();
         };
 
-        var loadTrainingStatuses = function () {
-            var promise = $http.get(FIND_TRAINING_STATUSES_LIST_URL);
-            promise.then(function (response) {
-                trainingModel.trainingStatuses = response.data;
-            });
-            return promise;
-        };
-
         return {
             getNewCriteria: getNewTrainingCriteria,
             getSearchResultOptions: getSearchResultOptions,
             getNewSearchResultOptions: getNewSearchResultOptions,
             getTrainingModel: getTrainingModel,
             find: find,
-            loadMore: loadMore,
-            loadTrainingStatuses: loadTrainingStatuses
+            loadMore: loadMore
         };
     }]);

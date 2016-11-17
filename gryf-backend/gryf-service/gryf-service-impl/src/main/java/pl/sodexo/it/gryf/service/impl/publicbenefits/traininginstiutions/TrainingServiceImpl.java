@@ -75,4 +75,9 @@ public class TrainingServiceImpl implements TrainingService {
     public List<TrainingToReimburseDto> findTrainingToReimburseListByCriteria(TrainingToReimburseCriteria criteria) {
         return trainingSearchDao.findTrainingToReimburseListByCriteria(criteria);
     }
+
+    @Override
+    public List<SimpleDictionaryDto> findTiTrainingInstancesStatuses() {
+        return trainingSearchDao.findTiTrainingInstancesStatuses();
+    }
 }

@@ -32,4 +32,10 @@ public interface TrainingService {
      * @return lista szkoleń do rozliczenia
      */
     List<TrainingToReimburseDto> findTrainingToReimburseListByCriteria(TrainingToReimburseCriteria criteria);
+
+    /**
+     * Metoda zwracająca listę statusów instancji szkoleń
+     * @return - lista statusów
+     */
+    List<SimpleDictionaryDto>  findTiTrainingInstancesStatuses();
 }

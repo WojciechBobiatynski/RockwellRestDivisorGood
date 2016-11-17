@@ -46,4 +46,9 @@ public class TrainingSearchDaoImpl implements TrainingSearchDao {
     public List<TrainingToReimburseDto> findTrainingToReimburseListByCriteria(TrainingToReimburseCriteria criteria) {
         return trainingSearchMapper.findTrainingToReimburseListByCriteria(criteria);
     }
+
+    @Override
+    public List<SimpleDictionaryDto> findTiTrainingInstancesStatuses() {
+        return trainingSearchMapper.findTiTrainingInstancesStatuses(new UserCriteria());
+    }
 }

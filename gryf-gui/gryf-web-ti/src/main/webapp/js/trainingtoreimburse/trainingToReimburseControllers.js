@@ -1,5 +1,5 @@
-angular.module("gryf.ti").controller("TrainingToReimburseController", ["$scope", "TrainingToReimburseService",
-    function($scope, TrainingToReimburseService) {
+angular.module("gryf.ti").controller("TrainingToReimburseController", ["$scope", "TrainingToReimburseService","DictionaryService",
+    function($scope, TrainingToReimburseService, DictionaryService) {
         $scope.trainingCriteria = TrainingToReimburseService.getNewCriteria();
         $scope.searchResultOptions = TrainingToReimburseService.getSearchResultOptions();
         $scope.trainingModel = TrainingToReimburseService.getTrainingModel();
@@ -19,7 +19,5 @@ angular.module("gryf.ti").controller("TrainingToReimburseController", ["$scope",
             $scope.datepicker[fieldName] = true;
         };
 
-        ($scope.loadTrainingStatuses = function () {
-            TrainingToReimburseService.loadTrainingStatuses();
-        })();
+        $scope.trainingModel.trainingStatuses = DictionaryService.loadDictionary(DictionaryService.DICTIONARY.TRAINING_TO_REIMBURSE_STATUSES);
 }]);

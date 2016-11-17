@@ -3,9 +3,9 @@ package pl.sodexo.it.gryf.common.dto.trainingtoreimburse;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import pl.sodexo.it.gryf.common.dto.api.GryfDto;
 import pl.sodexo.it.gryf.common.enums.SortType;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -15,7 +15,7 @@ import java.util.List;
  * Created by akmiecinski on 14.11.2016.
  */
 @ToString
-public class TrainingToReimburseDto extends GryfDto {
+public class TrainingToReimburseDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

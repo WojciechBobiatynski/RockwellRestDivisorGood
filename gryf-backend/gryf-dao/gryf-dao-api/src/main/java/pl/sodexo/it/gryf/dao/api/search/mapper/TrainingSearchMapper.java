@@ -28,4 +28,11 @@ public interface TrainingSearchMapper {
      * @return lista szkoleń do rozliczenia
      */
     List<TrainingToReimburseDto> findTrainingToReimburseListByCriteria(@Param("criteria") TrainingToReimburseCriteria criteria);
+
+    /**
+     * Metoda zwracająca listę statusów instancji szkoleń
+     * @param criteria kryteria użytkownika
+     * @return - lista statusów
+     */
+    List<SimpleDictionaryDto>  findTiTrainingInstancesStatuses(@Param("criteria")UserCriteria criteria);
 }
