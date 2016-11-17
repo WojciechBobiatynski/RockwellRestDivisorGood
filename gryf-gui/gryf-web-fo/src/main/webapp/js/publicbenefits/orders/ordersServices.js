@@ -118,17 +118,11 @@ angular.module('gryf.orders').factory("ModifyOrdersService",
 
          var entityObject = new EntityObject();
          var violations = {};
-         var order = new Order();
 
          var orderStatus = {
              loaded: false
          };
 
-        function Order() {
-            this.entity = {
-                contract : null
-            }
-        }
         function EntityObject() {
             //OrderDTO
             this.id = null;
@@ -136,10 +130,6 @@ angular.module('gryf.orders').factory("ModifyOrdersService",
             this.actions = [];
             this.version = null;
         }
-
-        var getNewOrder = function(){
-             return order;
-        };
 
         var getOrderStatus = function() {
             return orderStatus;
@@ -171,6 +161,18 @@ angular.module('gryf.orders').factory("ModifyOrdersService",
          var openContractLov = function () {
              var TEMPLATE_URL = GryfModals.MODALS_URL.LOV_CONTRACTS;
              return GryfModals.openLovModal(TEMPLATE_URL, BrowseContractsService, "lg");
+         };
+
+
+         var fastSave = function(contractId) {
+                 var promise = $http.post(contextPath + "/rest/publicBenefits/order/fastSave/" + contractId);
+                 promise.then(function(response) {
+                     window.location = contextPath + "/publicBenefits/orders/#/modify/" + response.data;
+                 });
+                 promise.finally(function() {
+                     GryfModals.closeModal(modalInstance);
+                 });
+                 return promise;
          };
 
          var executeAction = function(actionId, orderId, acceptedViolationsPathParam) {
@@ -280,7 +282,7 @@ angular.module('gryf.orders').factory("ModifyOrdersService",
             getViolations: getViolations,
             getNewViolations: getNewViolations,
             openContractLov: openContractLov,
-            getNewOrder: getNewOrder
+            fastSave: fastSave
         };
     }]);
 

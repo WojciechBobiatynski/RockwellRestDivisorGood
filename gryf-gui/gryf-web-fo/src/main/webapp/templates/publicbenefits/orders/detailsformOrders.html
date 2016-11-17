@@ -9,7 +9,7 @@
             </li>
         </ul>
     </header>
-    <div>
+    <div ng-show="isContractLovShow">
         <strong class="label">Wybierz umowę</strong>
         <div>Typ umowy: {{model.entity.contract.contractType.name}}</div>
         <div>Osoba: {{model.entity.contract.individual.firstName}} {{model.entity.contract.individual.lastName}}</div>

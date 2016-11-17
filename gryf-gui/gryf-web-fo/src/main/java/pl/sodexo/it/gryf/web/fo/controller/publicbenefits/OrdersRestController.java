@@ -57,6 +57,11 @@ public class OrdersRestController {
         return orderService.findOrders(searchDTO);
     }
 
+    @RequestMapping(value = "/fastSave/{contractId}", method = RequestMethod.POST)
+    public Long fastSave(@PathVariable Long contractId) {
+        return orderService.fastSave(contractId);
+    }
+
     @RequestMapping(value = "/action/{orderId}/{actionId}/{version}", method = RequestMethod.POST)
     public Long executeAction(@PathVariable Long orderId,
                               @PathVariable Long actionId,

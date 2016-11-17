@@ -48,4 +48,6 @@ public interface OrderService {
      * @param id identyfikator zamowienia
      */
     void manageLocking(Long id);
+
+    Long fastSave(Long contractId);
 }

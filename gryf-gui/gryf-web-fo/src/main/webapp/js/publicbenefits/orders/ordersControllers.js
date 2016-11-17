@@ -51,7 +51,7 @@ angular.module('gryf.orders').controller("searchform.OrdersController",
 
 var scopeModifyOrdersController;
 angular.module('gryf.orders').controller("detailsform.OrdersController",
-    ['$scope', 'ModifyOrdersService', 'GryfHelpers', 'GryfPopups', function($scope, ModifyOrdersService, GryfHelpers, GryfPopups) {
+    ['$scope', 'ModifyOrdersService', 'GryfHelpers', 'GryfPopups', '$routeParams', function($scope, ModifyOrdersService, GryfHelpers, GryfPopups, $routeParams) {
         scopeModifyOrdersController = $scope;
         gryfSessionStorage.setUrlToSessionStorage();
         GryfPopups.showPopup();
@@ -61,13 +61,12 @@ angular.module('gryf.orders').controller("detailsform.OrdersController",
         $scope.entityObject = ModifyOrdersService.getEntityObject();
         $scope.orderStatus = ModifyOrdersService.getOrderStatus();
         $scope.violations = ModifyOrdersService.getViolations();
-        $scope.model = ModifyOrdersService.getNewOrder();
         $scope.isGrantAppFixed = false;
 
+        $scope.isContractLovShow = $routeParams.id ? false : true;
         $scope.openContractLov = function() {
             ModifyOrdersService.openContractLov().result.then(function(chosenContract) {
-                $scope.model.entity.contract = chosenContract;
-                $scope.$broadcast('propagateContractData', chosenContract);
+                ModifyOrdersService.fastSave(chosenContract.id);
             });
         };
 

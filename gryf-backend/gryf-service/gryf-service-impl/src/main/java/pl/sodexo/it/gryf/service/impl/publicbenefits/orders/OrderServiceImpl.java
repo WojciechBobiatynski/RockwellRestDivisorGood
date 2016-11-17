@@ -11,13 +11,18 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.O
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.transitions.OrderFlowTransitionDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.searchform.OrderSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.searchform.OrderSearchResultDTO;
+import pl.sodexo.it.gryf.common.dto.user.GryfUser;
 import pl.sodexo.it.gryf.common.exception.InvalidObjectIdException;
 import pl.sodexo.it.gryf.common.exception.StaleDataException;
 import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.common.utils.JsonMapperUtils;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.contracts.ContractRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderElementRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderFlowRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderFlowStatusTransitionRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderRepository;
+import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
+import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.*;
 import pl.sodexo.it.gryf.service.api.publicbenefits.orders.OrderService;
 import pl.sodexo.it.gryf.service.local.api.FileService;
@@ -27,6 +32,7 @@ import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.orders.searc
 import pl.sodexo.it.gryf.service.utils.BeanUtils;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,6 +56,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
+    private OrderFlowRepository orderFlowRepository;
+
+    @Autowired
+    private ContractRepository contractRepository;
 
     @Autowired
     private OrderFlowStatusTransitionRepository orderFlowStatusTransitionRepository;
@@ -108,6 +120,27 @@ public class OrderServiceImpl implements OrderService {
     public void manageLocking(Long id) {
         Order order = orderRepository.get(id);
         throw new StaleDataException(order.getId(), order);
+    }
+
+    @Override
+    public Long fastSave(Long contractId){
+        Contract contract = contractRepository.get(contractId);
+        OrderFlow orderFlow = orderFlowRepository.get(100L);
+        Individual individual = contract.getIndividual();
+
+        Order order = new Order();
+        order.setOrderFlow(orderFlow);
+        order.setEnterprise(contract.getEnterprise());
+        order.setStatus(orderFlow.getInitialStatus());
+        order.setOrderDate(new Date());
+        order.setAddressCorr(individual.getAddressCorr());
+        order.setZipCodeCorrId((individual.getZipCodeCorr() != null) ? individual.getZipCodeCorr().getId() : null);
+        order.setOperator(GryfUser.getLoggedUserLogin());
+        order.setContract(contract);
+
+        order = orderRepository.save(order);
+
+        return order.getId();
     }
 
     /**
