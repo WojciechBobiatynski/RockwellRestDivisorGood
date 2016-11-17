@@ -146,6 +146,7 @@ a, a:hover {
 .grid-85 {width:85%;}
 .grid-90 {width:90%;}
 .grid-95 {width:95%;}
+.grid-100 {width:100%;}
 
 .grid-10, .grid-15, .grid-20, .grid-25, .grid-30, .grid-33, .grid-35,
 .grid-40, .grid-45, .grid-50, .grid-55, .grid-60, .grid-65,
@@ -451,4 +452,14 @@ table {
 
 .grayBackground {
     background-color: #cecece !important;
+}
+
+.childrenInOneLine span{
+    float:left;
+    margin-right: 20px;
+}
+
+.childrenInOneLine input{
+    float:left;
+    width:70%
 }
