@@ -3,6 +3,9 @@
 insert into APP_PBE.TI_TRAINING_INSTANCE_STATUSES (ID, NAME, ORDINAL) values ('RES', 'Zarezerwowane', 1);
 insert into APP_PBE.TI_TRAINING_INSTANCE_STATUSES (ID, NAME, ORDINAL) values ('DONE', 'Odbyte', 2);
 insert into APP_PBE.TI_TRAINING_INSTANCE_STATUSES (ID, NAME, ORDINAL) values ('REIMB', 'Rozliczone', 3);
+insert into APP_PBE.TI_TRAINING_INSTANCE_STATUSES (ID, NAME, ORDINAL) values ('CANCEL', 'Anulowane', 4);
+
+
 
 --PBE_PRODUCT_INSTANCE_STATUSES
 insert into APP_PBE.PBE_PRODUCT_INSTANCE_STATUSES (ID, NAME, ORDINAL) values ('NEW', 'Nowy', 1);

@@ -17,4 +17,8 @@ public interface PbeProductInstancePoolService {
     void createProductInstancePool(Long orderId);
 
     void createTrainingInstance(Long trainingId, Long individualId, Long grantProgramId, Integer toReservedNum);
+
+    void useTrainingInstance(Long trainingId, String pin);
+
+    void cancelTrainingInstance(Long trainingId);
 }

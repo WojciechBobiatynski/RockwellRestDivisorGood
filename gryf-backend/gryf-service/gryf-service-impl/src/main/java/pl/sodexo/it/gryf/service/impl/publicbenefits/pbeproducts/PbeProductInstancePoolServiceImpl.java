@@ -201,6 +201,62 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
         createProductInstancePoolUses(trainingInstance, pools, toReservedNum);
     }
 
+    public void useTrainingInstance(Long trainingId, String pin){
+        //TODO: tbilski sprawdzić pin
+
+        //POBRANIE STATUSOW
+        PbeProductInstanceStatus productInstStatUse = productInstanceStatusRepository.get(PbeProductInstanceStatus.USE_CODE);
+        TrainingInstanceStatus trainingInstStatUse = trainingInstanceStatusRepository.get(TrainingInstanceStatus.DONE_CODE);
+
+        //UAKTUALNINIE INSTANCJI
+        TrainingInstance instance = trainingInstanceRepository.get(trainingId);
+        instance.setStatus(trainingInstStatUse);
+
+        //ITERACJA PO UZYCIACH PULI
+        List<PbeProductInstancePoolUse> poolUses = instance.getPollUses();
+        for(PbeProductInstancePoolUse poolUse : poolUses){
+
+            //UAKTUALNINIE PULI
+            PbeProductInstancePool pool = poolUse.getProductInstancePool();
+            pool.setReservedNum(pool.getReservedNum() - poolUse.getAssignedNum());
+            pool.setUsedNum(pool.getUsedNum() + poolUse.getAssignedNum());
+
+            //ITERACJA PO INSTANCJACH PRODUKTU
+            List<PbeProductInstance> instances = poolUse.getPollUses();
+            for(PbeProductInstance i : instances){
+                i.setStatus(productInstStatUse);
+            }
+        }
+    }
+
+    public void cancelTrainingInstance(Long trainingId){
+
+        //POBRANIE STATUSOW
+        PbeProductInstanceStatus productInstStatAssign = productInstanceStatusRepository.get(PbeProductInstanceStatus.ASSIGN_CODE);
+        TrainingInstanceStatus trainingInstStatCancel = trainingInstanceStatusRepository.get(TrainingInstanceStatus.CANCEL_CODE);
+
+        //UAKTUALNINIE INSTANCJI
+        TrainingInstance instance = trainingInstanceRepository.get(trainingId);
+        instance.setStatus(trainingInstStatCancel);
+
+        //ITERACJA PO UZYCIACH PULI
+        List<PbeProductInstancePoolUse> poolUses = instance.getPollUses();
+        for(PbeProductInstancePoolUse poolUse : poolUses){
+
+            //UAKTUALNINIE PULI
+            PbeProductInstancePool pool = poolUse.getProductInstancePool();
+            pool.setReservedNum(pool.getReservedNum() - poolUse.getAssignedNum());
+            pool.setAvailableNum(pool.getUsedNum() + poolUse.getAssignedNum());
+
+            //ITERACJA PO INSTANCJACH PRODUKTU
+            List<PbeProductInstance> instances = poolUse.getPollUses();
+            for(PbeProductInstance i : instances){
+                i.setStatus(productInstStatAssign);
+                poolUse.removePollUse(i);
+            }
+        }
+    }
+
     //PRIVATE METHODS
 
     private void createProductInstancePoolUses(TrainingInstance trainingInstance, List<PbeProductInstancePool> pools, int toReservedNum){

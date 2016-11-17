@@ -23,6 +23,7 @@ public class TrainingInstanceStatus extends GryfEntity implements DictionaryEnti
     public static final String RES_CODE = "RES";
     public static final String DONE_CODE = "DONE";
     public static final String REIMB_CODE = "REIMB";
+    public static final String CANCEL_CODE = "CANCEL";
 
     //FIELDS
 

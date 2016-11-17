@@ -2,16 +2,20 @@ package pl.sodexo.it.gryf.model.publicbenefits.pbeproduct;
 
 import lombok.ToString;
 import pl.sodexo.it.gryf.model.api.VersionableEntity;
+import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationContactData;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstance;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 /**
  * Created by Isolution on 2016-11-08.
  */
 @Entity
-@ToString(exclude = {"trainingInstance", "productInstancePool", "reimbursment"})
+@ToString(exclude = {"trainingInstance", "productInstancePool", "productInstances"})
 @Table(name = "PBE_PRODUCT_INSTANCE_POOL_USES", schema = "APP_PBE")
 public class PbeProductInstancePoolUse extends VersionableEntity {
 
@@ -30,6 +34,9 @@ public class PbeProductInstancePoolUse extends VersionableEntity {
     @ManyToOne
     @JoinColumn(name = "PRODUCT_INSTANCE_POOL_ID", referencedColumnName = "ID")
     private PbeProductInstancePool productInstancePool;
+
+    @OneToMany(mappedBy = "productInstancePoolUse")
+    private List<PbeProductInstance> productInstances;
 
     //GETTERS & SETTERS
 
@@ -63,6 +70,33 @@ public class PbeProductInstancePoolUse extends VersionableEntity {
 
     public void setProductInstancePool(PbeProductInstancePool productInstancePool) {
         this.productInstancePool = productInstancePool;
+    }
+
+    //LIST METHODS
+
+    private List<PbeProductInstance> getInitializedProductInstancesList() {
+        if (productInstances == null)
+            productInstances = new ArrayList<>();
+        return productInstances;
+    }
+
+    public List<PbeProductInstance> getPollUses() {
+        return Collections.unmodifiableList(getInitializedProductInstancesList());
+    }
+
+    public void addPollUse(PbeProductInstance productInstance) {
+        if (productInstance.getProductInstancePoolUse() != null && productInstance.getProductInstancePoolUse() != this) {
+            productInstance.getProductInstancePoolUse().getInitializedProductInstancesList().remove(productInstance);
+        }
+        if (productInstance.getId() == null || !getInitializedProductInstancesList().contains(productInstance)) {
+            getInitializedProductInstancesList().add(productInstance);
+        }
+        productInstance.setProductInstancePoolUse(this);
+    }
+
+    public void removePollUse(PbeProductInstance productInstance) {
+        getInitializedProductInstancesList().remove(productInstance);
+        productInstance.setProductInstancePoolUse(null);
     }
 
     //EQUALS & HASH CODE

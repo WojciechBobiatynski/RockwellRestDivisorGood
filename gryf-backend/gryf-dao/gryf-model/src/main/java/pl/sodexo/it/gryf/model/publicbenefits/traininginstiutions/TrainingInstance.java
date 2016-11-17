@@ -1,13 +1,18 @@
 package pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.ToString;
 import pl.sodexo.it.gryf.model.api.VersionableEntity;
+import pl.sodexo.it.gryf.model.publicbenefits.enterprises.Enterprise;
+import pl.sodexo.it.gryf.model.publicbenefits.enterprises.EnterpriseContact;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
+import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
+import pl.sodexo.it.gryf.model.publicbenefits.pbeproduct.PbeProductInstancePoolUse;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.Objects;
+import javax.validation.Valid;
+import java.util.*;
 
 /**
  * Created by Isolution on 2016-11-07.
@@ -50,6 +55,9 @@ public class TrainingInstance extends VersionableEntity {
 
     @Column(name = "E_REIMBURSMENT_ID")
     private Long reimbursment;
+
+    @OneToMany(mappedBy = "trainingInstance")
+    private List<PbeProductInstancePoolUse> pollUses;
 
     //GETTERS & SETTERS
 
@@ -123,6 +131,28 @@ public class TrainingInstance extends VersionableEntity {
 
     public void setReimbursment(Long reimbursment) {
         this.reimbursment = reimbursment;
+    }
+
+    //LIST METHODS
+
+    private List<PbeProductInstancePoolUse> getInitializedPollUsesList() {
+        if (pollUses == null)
+            pollUses = new ArrayList<>();
+        return pollUses;
+    }
+
+    public List<PbeProductInstancePoolUse> getPollUses() {
+        return Collections.unmodifiableList(getInitializedPollUsesList());
+    }
+
+    public void addPollUse(PbeProductInstancePoolUse pollUse) {
+        if (pollUse.getTrainingInstance() != null && pollUse.getTrainingInstance() != this) {
+            pollUse.getTrainingInstance().getInitializedPollUsesList().remove(pollUse);
+        }
+        if (pollUse.getId() == null || !getInitializedPollUsesList().contains(pollUse)) {
+            getInitializedPollUsesList().add(pollUse);
+        }
+        pollUse.setTrainingInstance(this);
     }
 
     //EQUALS & HASH CODE
