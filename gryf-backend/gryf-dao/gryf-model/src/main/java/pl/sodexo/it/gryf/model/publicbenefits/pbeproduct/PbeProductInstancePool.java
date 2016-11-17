@@ -17,7 +17,7 @@ import java.util.Objects;
 @Table(name = "PBE_PRODUCT_INSTANCE_POOLS", schema = "APP_PBE")
 @NamedQueries({
         @NamedQuery(name = "PbeProductInstancePool.findAvaiableForUse", query = "select p from PbeProductInstancePool p " +
-                "where p.individual.id = :individualId and p.order.contract.grantProgram.id = :grantProgramId and p.status.id = :statusId and p.expiryDate <= :expiryDate order by p.expiryDate")})
+                "where p.individual.id = :individualId and p.order.contract.grantProgram.id = :grantProgramId and p.status.id = :statusId and :expiryDate <= p.expiryDate order by p.expiryDate")})
 
 public class PbeProductInstancePool extends VersionableEntity {
 

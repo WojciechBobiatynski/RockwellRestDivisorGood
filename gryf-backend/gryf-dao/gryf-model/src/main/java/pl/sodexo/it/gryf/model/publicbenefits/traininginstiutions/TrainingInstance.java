@@ -20,6 +20,7 @@ import java.util.*;
 @Entity
 @ToString(exclude = {"training", "individual"})
 @Table(name = "TI_TRAINING_INSTANCES", schema = "APP_PBE")
+@SequenceGenerator(name="ti_tra_ins_seq", schema = "eagle", sequenceName = "ti_tra_ins_seq", allocationSize = 1)
 public class TrainingInstance extends VersionableEntity {
 
     @Id

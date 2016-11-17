@@ -19,5 +19,9 @@ public class TrainingReservationDto {
 
     @Getter
     @Setter
+    private Long contractId;
+
+    @Getter
+    @Setter
     private Integer toReservedNum;
 }

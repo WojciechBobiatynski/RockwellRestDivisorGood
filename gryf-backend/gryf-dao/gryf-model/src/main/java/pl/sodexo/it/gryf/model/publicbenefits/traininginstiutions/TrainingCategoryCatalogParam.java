@@ -20,7 +20,7 @@ import java.util.Objects;
                 "where tccp.category.id = :categoryId " +
                 "and  tccp.grantProgram.id = :grantProgramId " +
                 "and (tccp.dateFrom is null or tccp.dateFrom <= :date) " +
-                "and (tccp.dateTo is null or :tccp <= tccp.dateTo)")})
+                "and (tccp.dateTo is null or :date <= tccp.dateTo)")})
 public class TrainingCategoryCatalogParam extends GryfEntity {
 
     //FIELDS

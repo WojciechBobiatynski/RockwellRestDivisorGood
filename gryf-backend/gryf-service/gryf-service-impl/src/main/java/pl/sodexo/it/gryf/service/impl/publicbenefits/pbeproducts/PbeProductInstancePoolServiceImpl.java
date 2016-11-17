@@ -11,6 +11,7 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.products.PrintNumberResultDto
 import pl.sodexo.it.gryf.common.dto.publicbenefits.trainingreservation.TrainingReservationDto;
 import pl.sodexo.it.gryf.common.dto.security.individuals.IndUserAuthDataDto;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.contracts.ContractRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.grantprograms.GrantProgramProductRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.grantprograms.GrantProgramRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.individuals.IndividualRepository;
@@ -116,6 +117,9 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
     @Autowired
     private PbeProductInstancePoolUseRepository productInstancePoolUseRepository;
 
+    @Autowired
+    private ContractRepository contractRepository;
+
     //PRIVATE FIELDS - VALIDATORS
 
     @Autowired
@@ -198,7 +202,9 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
 
         Training training = trainingRepository.get(reservationDto.getTrainingId());
         Individual individual = individualRepository.get(reservationDto.getIndividualId());
-        GrantProgram grantProgram = grantProgramRepository.get(reservationDto.getGrantProgramId());
+        Contract contract = contractRepository.get(reservationDto.getContractId());
+        GrantProgram grantProgram = contract.getGrantProgram();
+        int toReservedNum = reservationDto.getToReservedNum();
 
         //UTWORZENIE INSTANCJI SZKOLENIA
         TrainingInstance trainingInstance = new TrainingInstance();
@@ -206,19 +212,22 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
         trainingInstance.setIndividual(individual);
         trainingInstance.setGrantProgram(grantProgram);
         trainingInstance.setStatus(trainingInstanceStatusRepository.get(TrainingInstanceStatus.RES_CODE));
-        trainingInstance.setAssignedNum(reservationDto.getToReservedNum());
+        trainingInstance.setAssignedNum(toReservedNum);
         trainingInstance.setRegisterDate(new Date());
         trainingInstance.setReimbursmentPin("44444");//TODO: tbilski
         trainingInstance = trainingInstanceRepository.save(trainingInstance);
 
         //POBRANIE PULI BONÓW KTÓRE MOŻNA WYKORZYSTAC
-        List<PbeProductInstancePool> pools = productInstancePoolRepository.findAvaiableForUse(reservationDto.getTrainingId(), reservationDto.getGrantProgramId(), training.getEndDate());
+        List<PbeProductInstancePool> pools = productInstancePoolRepository.findAvaiableForUse(individual.getId(), grantProgram.getId(), training.getEndDate());
 
         //VALIDACJA
-        validatePoolReservation(training, grantProgram, reservationDto.getToReservedNum(), pools);
+        List<EntityConstraintViolation> violations = Lists.newArrayList();
+        validatePoolReservation(violations, training, grantProgram, toReservedNum, pools);
+        validateTrainingReservation(violations, contract, training);
+        gryfValidator.validate(violations);
 
         //UTWORZENIE WYKORZYSTANIA
-        createProductInstancePoolUses(trainingInstance, pools, reservationDto.getToReservedNum());
+        createProductInstancePoolUses(trainingInstance, pools, toReservedNum);
     }
 
     public void useTrainingInstance(Long trainingId, String pin){
@@ -314,75 +323,77 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
         }
     }
 
-    private void validatePoolReservation(Training training, GrantProgram grantProgram, Integer toReservedNum, List<PbeProductInstancePool> pools){
-        List<EntityConstraintViolation> violations = Lists.newArrayList();
+    private void validateTrainingReservation(List<EntityConstraintViolation> violations, Contract contract, Training training) {
+        if(training.getCategory() != null){
+            if(!contract.getCategories().contains(training.getCategory())){
+                violations.add(new EntityConstraintViolation("Umowa zawarta przez użytkownika nie finansuje szkolenia z danej kategorii."));
+            }
+        }
+    }
+
+     private void validatePoolReservation(List<EntityConstraintViolation> violations, Training training,
+                                        GrantProgram grantProgram, Integer toReservedNum, List<PbeProductInstancePool> pools){
 
         //NIE ZNALEZLISMY ZADNYCH PULI BONOW DO ROZLICZENIA
         if (pools.isEmpty()) {
             violations.add(new EntityConstraintViolation("Użytkownik nie posiada żadnej puli bonów, "
                     + "które można użyć do rezerwacji wybranego szkolenia."));
-        }
+        }else {
 
-        //ILOSC JAKA CHCEMY ZAREZERWOWAC PRZEKRACZA ILOSC DOSTEPNYCH BONOW W ZNALEZIONYCH PULACH
-        int avaiableNum = sumAvaiableNum(pools);
-        if (avaiableNum < toReservedNum) {
-            violations.add(new EntityConstraintViolation("Użytkownik nie posiada odpowiedniej liczby "
-                    + "ważnych bonów do rezerwacji wybranego szkolenia."));
-        }
+            //ILOSC JAKA CHCEMY ZAREZERWOWAC PRZEKRACZA ILOSC DOSTEPNYCH BONOW W ZNALEZIONYCH PULACH
+            int avaiableNum = sumAvaiableNum(pools);
+            if (avaiableNum < toReservedNum) {
+                violations.add(new EntityConstraintViolation("Użytkownik nie posiada odpowiedniej liczby " + "ważnych bonów do rezerwacji wybranego szkolenia."));
+            }
 
-        TrainingCategoryCatalogParam tccParam = findTrainingCategoryCatalogParam(training.getCategory().getId(), grantProgram.getId(), new Date());
+            TrainingCategoryCatalogParam tccParam = findTrainingCategoryCatalogParam(training.getCategory().getId(), grantProgram.getId(), new Date());
 
-        //WALIDACJE PO GODZINACH SZKOLENIA (TYPOWE SZKOLENIE)
-        if (tccParam.getProductInstanceForHour() != null) {
-            int productInstanceForHour = tccParam.getProductInstanceForHour();
+            //WALIDACJE PO GODZINACH SZKOLENIA (TYPOWE SZKOLENIE)
+            if (tccParam.getProductInstanceForHour() != null) {
+                int productInstanceForHour = tccParam.getProductInstanceForHour();
 
-            if (training.getHoursNumber() != null) {
+                if (training.getHoursNumber() != null) {
 
-                //ILOSC BONÓW KTÓRĄ CHCEMY PRZEZNACZY PRZEKRACZA ILOSC BOBNÓW JAKA JEST POTRZEBNA NA WSZYSTKIE GODZINY SZKOLENIA
-                //NA PRZYKLAD szkolenie IT: 1h = 2bony, szkolenie ma 10h, maksymlanie możemy przeznaczyć 20 bonów, przeznaczamy 21
-                int maxToReimbursmentNum = training.getHoursNumber() * productInstanceForHour;
-                if (maxToReimbursmentNum < toReservedNum) {
-                    violations.add(new EntityConstraintViolation(
-                            String.format(" Wskazana ilość bonów (%s) przekracza maksymalną ilość bonów (%s) "
-                                    + "na rezerwację wybranego szkolenia.", toReservedNum, maxToReimbursmentNum)));
-                }
+                    //ILOSC BONÓW KTÓRĄ CHCEMY PRZEZNACZY PRZEKRACZA ILOSC BOBNÓW JAKA JEST POTRZEBNA NA WSZYSTKIE GODZINY SZKOLENIA
+                    //NA PRZYKLAD szkolenie IT: 1h = 2bony, szkolenie ma 10h, maksymlanie możemy przeznaczyć 20 bonów, przeznaczamy 21
+                    int maxToReimbursmentNum = training.getHoursNumber() * productInstanceForHour;
+                    if (maxToReimbursmentNum < toReservedNum) {
+                        violations.add(new EntityConstraintViolation(
+                                String.format(" Wskazana ilość bonów (%s) przekracza maksymalną ilość bonów (%s) " + "na rezerwację wybranego szkolenia.", toReservedNum, maxToReimbursmentNum)));
+                    }
 
-                //ROZLICZAMY GODZINY CZESCIA BONOW A NIE CALOSCIA
-                //NA PRZYKLAD: szklenie IT: 1h = 2bony, 2h - 4bony, 3h - 6bonów, itd
-                int modToReservedNum = toReservedNum % productInstanceForHour;
-                if(modToReservedNum != 0){
-                    violations.add(new EntityConstraintViolation(
-                            String.format("Wybrana ilość bonów nie jest zgodna z wybraną kategorią szkolenia. "
-                                    + "Ilość bonów musi stanowić wielokrotność %s.", productInstanceForHour)));
+                    //ROZLICZAMY GODZINY CZESCIA BONOW A NIE CALOSCIA
+                    //NA PRZYKLAD: szklenie IT: 1h = 2bony, 2h - 4bony, 3h - 6bonów, itd
+                    int modToReservedNum = toReservedNum % productInstanceForHour;
+                    if (modToReservedNum != 0) {
+                        violations.add(new EntityConstraintViolation(
+                                String.format("Wybrana ilość bonów nie jest zgodna z wybraną kategorią szkolenia. " + "Ilość bonów musi stanowić wielokrotność %s.", productInstanceForHour)));
+                    }
                 }
             }
-        }
 
-        //WALIDACJE PO CALKOWITEJ WARTOSCI (EGZAMIN)
-        if (tccParam.getMaxProductInstance() != null) {
-            int maxProductInstance = tccParam.getMaxProductInstance();
+            //WALIDACJE PO CALKOWITEJ WARTOSCI (EGZAMIN)
+            if (tccParam.getMaxProductInstance() != null) {
+                int maxProductInstance = tccParam.getMaxProductInstance();
 
-            //PRZEKROCZYLISMY MAKSYMALNA ILOSC BONOW DO ROZLICZENIA EGZAMINU
-            //NA PRZYKLAD: maksymalnie 40 bonów, cena bonu 15PLN, maksymalnie możemy dać 600PLN
-            if (maxProductInstance < toReservedNum) {
-                violations.add(new EntityConstraintViolation(
-                        String.format(" Wskazana ilość bonów (%s) przekracza maksymalną ilość bonów (%s) "
-                                + "na rezerwację wybranego szkolenia.", toReservedNum, maxProductInstance)));
-            }
+                //PRZEKROCZYLISMY MAKSYMALNA ILOSC BONOW DO ROZLICZENIA EGZAMINU
+                //NA PRZYKLAD: maksymalnie 40 bonów, cena bonu 15PLN, maksymalnie możemy dać 600PLN
+                if (maxProductInstance < toReservedNum) {
+                    violations.add(new EntityConstraintViolation(
+                            String.format(" Wskazana ilość bonów (%s) przekracza maksymalną ilość bonów (%s) " + "na rezerwację wybranego szkolenia.", toReservedNum, maxProductInstance)));
+                }
 
-            //REZERWUJEMY WIECEJ BONÓW NIŻ POTRZEBA:
-            //NA PRZYKLAD: koszt egaminu 150PLN, cena bonu 15PLN, potrzeba 15bonów, rezerwujemy 16
-            PbeProduct product = pools.get(0).getProduct();
-            BigDecimal productValue = product.getValue();
-            BigDecimal amountToReimbursment = productValue.multiply(new BigDecimal(toReservedNum));
-            if(amountToReimbursment.subtract(training.getPrice()).signum() > 0){
-                violations.add(new EntityConstraintViolation(
-                        String.format(" Wskazana ilość bonów (%s) przekracza maksymalną ilość bonów (%s) "
-                                + "na rezerwację wybranego szkolenia.", toReservedNum, maxProductInstance)));
+                //REZERWUJEMY WIECEJ BONÓW NIŻ POTRZEBA:
+                //NA PRZYKLAD: koszt egaminu 150PLN, cena bonu 15PLN, potrzeba 15bonów, rezerwujemy 16
+                PbeProduct product = pools.get(0).getProduct();
+                BigDecimal productValue = product.getValue();
+                BigDecimal amountToReimbursment = productValue.multiply(new BigDecimal(toReservedNum));
+                if (amountToReimbursment.subtract(training.getPrice()).signum() > 0) {
+                    violations.add(new EntityConstraintViolation(
+                            String.format(" Wskazana ilość bonów (%s) przekracza maksymalną ilość bonów (%s) " + "na rezerwację wybranego szkolenia.", toReservedNum, maxProductInstance)));
+                }
             }
         }
-
-        gryfValidator.validate(violations);
     }
 
     private TrainingCategoryCatalogParam findTrainingCategoryCatalogParam(String categoryId, Long grantProgramId, Date date){
