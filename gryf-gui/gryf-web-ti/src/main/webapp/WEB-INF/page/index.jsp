@@ -59,7 +59,7 @@
     <script src="${pageContext.request.contextPath}/js/trainingtoreimburse/gryf-trainingToReimburse.js"></script>
     <script src="${pageContext.request.contextPath}/js/trainingtoreimburse/trainingToReimburseControllers.js"></script>
     <script src="${pageContext.request.contextPath}/js/trainingtoreimburse/trainingToReimburseServices.js"></script>
-    <script src="${pageContext.request.contextPath}/js/trainingSearch/trainingSearchService.js"></script>
+    <script src="${pageContext.request.contextPath}/js/trainingsearch/trainingSearchService.js"></script>
     <script src="${pageContext.request.contextPath}/js/ourtrainings/gryf-ourTrainings.js"></script>
     <script src="${pageContext.request.contextPath}/js/ourtrainings/ourTrainingsController.js"></script>
     <script src="${pageContext.request.contextPath}/js/canceltrainingreservation/gryf-cancelTrainingReservation.js"></script>

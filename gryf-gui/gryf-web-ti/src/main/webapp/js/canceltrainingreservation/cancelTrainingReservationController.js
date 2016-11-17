@@ -1,8 +1,8 @@
-angular.module("gryf.ti").controller("TrainingToReimburseController", ["$scope", "TrainingToReimburseService","DictionaryService",
-    function($scope, TrainingToReimburseService, DictionaryService) {
-        $scope.trainingCriteria = TrainingToReimburseService.getNewCriteria();
-        $scope.searchResultOptions = TrainingToReimburseService.getSearchResultOptions();
-        $scope.trainingModel = TrainingToReimburseService.getTrainingModel();
+angular.module("gryf.ti").controller("CancelTrainingReservationController", ["$scope", "CancelTrainingReservationService","DictionaryService",
+    function($scope, CancelTrainingReservationService, DictionaryService) {
+        $scope.trainingCriteria = CancelTrainingReservationService.getNewCriteria();
+        $scope.searchResultOptions = CancelTrainingReservationService.getSearchResultOptions();
+        $scope.trainingModel = CancelTrainingReservationService.getTrainingModel();
 
         $scope.datepicker = {
             isStartDateFromOpened: false,
@@ -12,7 +12,7 @@ angular.module("gryf.ti").controller("TrainingToReimburseController", ["$scope",
         };
 
         $scope.find = function () {
-            TrainingToReimburseService.find();
+            CancelTrainingReservationService.find();
         };
 
         $scope.openDatepicker = function (fieldName) {
@@ -23,7 +23,7 @@ angular.module("gryf.ti").controller("TrainingToReimburseController", ["$scope",
 
         function setStatus(){
             angular.forEach($scope.trainingModel.trainingStatuses, function(status){
-                if(status.id === 'DONE'){
+                if(status.id === 'RES'){
                     $scope.trainingCriteria.trainingStatusId = status.id;
                 }
             });
@@ -34,8 +34,3 @@ angular.module("gryf.ti").controller("TrainingToReimburseController", ["$scope",
         };
 
 }]);
-
-angular.module("gryf.ti").controller("ReimburseController", ["$scope", "TrainingToReimburseService","DictionaryService",
-    function($scope, TrainingToReimburseService, DictionaryService) {
-
-    }]);

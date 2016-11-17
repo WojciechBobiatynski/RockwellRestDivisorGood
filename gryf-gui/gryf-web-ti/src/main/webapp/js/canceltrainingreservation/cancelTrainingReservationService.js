@@ -1,4 +1,4 @@
-angular.module("gryf.ti").factory("TrainingToReimburseService",
+angular.module("gryf.ti").factory("CancelTrainingReservationService",
     ['$http', 'GryfModals', 'GryfPopups', 'GryfExceptionHandler', 'GryfHelpers', function ($http, GryfModals, GryfPopups, GryfExceptionHandler, GryfHelpers) {
         var FIND_TRAINING_LIST_URL = contextPath + "/rest/trainingToReimburse/list";
         var FIND_TRAINING_STATUSES_LIST_URL = contextPath + "/rest/trainingToReimburse/statuses";

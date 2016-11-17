@@ -1,4 +1,4 @@
-angular.module("gryf.ti").controller("CancelTrainingReservationController", ["$scope", "TrainingToReimburseService","DictionaryService",
+angular.module("gryf.ti").controller("TrainingToReimburseController", ["$scope", "TrainingToReimburseService","DictionaryService",
     function($scope, TrainingToReimburseService, DictionaryService) {
         $scope.trainingCriteria = TrainingToReimburseService.getNewCriteria();
         $scope.searchResultOptions = TrainingToReimburseService.getSearchResultOptions();
@@ -34,3 +34,8 @@ angular.module("gryf.ti").controller("CancelTrainingReservationController", ["$s
         };
 
 }]);
+
+angular.module("gryf.ti").controller("ReimburseController", ["$scope", "TrainingToReimburseService","DictionaryService",
+    function($scope, TrainingToReimburseService, DictionaryService) {
+
+    }]);

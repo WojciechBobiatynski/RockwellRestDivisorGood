@@ -1,0 +1,105 @@
+<section>
+   <table>
+      <thead>
+      <tr class="grid-100 tableHeader-names">
+         <th class="sortable grid-15" ng-class="getSortingTypeClass('trainingName')">
+            <div ng-click="getSortedBy('trainingName')">Nazwa szkolenia</div>
+         </th>
+         <th class="sortable grid-15" ng-class="getSortingTypeClass('participantPesel')">
+            <div ng-click="getSortedBy('participantPesel')">PESEL Uczestnika</div>
+         </th>
+         <th class="sortable grid-10" ng-class="getSortingTypeClass('participantName')">
+            <div ng-click="getSortedBy('participantName')">Imię uczestnika</div>
+         </th>
+         <th class="sortable grid-15" ng-class="getSortingTypeClass('participantSurname')">
+            <div ng-click="getSortedBy('participantSurname')">Nazwisko uczestnika</div>
+         </th>
+         <th class="sortable grid-15" ng-class="getSortingTypeClass('startDate')">
+            <div ng-click="getSortedBy('startDate')">Data rozpoczęcia</div>
+         </th>
+         <th class="sortable grid-15" ng-class="getSortingTypeClass('endDate')">
+            <div ng-click="getSortedBy('endDate')">Data zakończenia</div>
+         </th>
+         <th class="sortable grid-15" ng-class="getSortingTypeClass('trainingStatus')">
+            <div ng-click="getSortedBy('trainingStatus')">Status szkolenia</div>
+         </th>
+      </tr>
+      <tr class="grid-100 tableHeader-options">
+         <th class="grid-15">
+            <input placeholder="Nazwa szkolenia" type="text" ng-model="trainingCriteria.trainingName">
+         </th>
+         <th class="grid-15">
+            <input type="text" placeholder="Nazwa szkolenia" ng-model="trainingCriteria.participantPesel"/>
+         </th>
+         <th class="grid-15">
+            <input placeholder="PESEL uczestnika" type="text" ng-model="trainingCriteria.participantName">
+         </th>
+         <th class="grid-10">
+            <input placeholder="Imię uczestnika" ng-model="trainingCriteria.participantSurname">
+         </th>
+         <th class="grid-15">
+            <input type="text" placeholder="Data od..." ng-model="trainingCriteria.startDateFrom"
+                   datepicker-popup="yyyy-MM-dd" is-open="datepicker.isStartDateFromOpened"
+                   close-text="Zamknij" clear-text="Czyść" current-text="Dziś"
+                   ng-click="openDatepicker('isStartDateFromOpened')"/>
+
+            <input type="text" placeholder="Data do..." ng-model="trainingCriteria.startDateTo"
+                   datepicker-popup="yyyy-MM-dd" is-open="datepicker.isStartDateToOpened"
+                   close-text="Zamknij" clear-text="Czyść" current-text="Dziś"
+                   ng-click="openDatepicker('isStartDateToOpened')"/>
+         </th>
+         <th class="grid-15">
+            <input type="text" placeholder="Data od..." ng-model="trainingCriteria.endDateFrom"
+                   datepicker-popup="yyyy-MM-dd" is-open="datepicker.isEndDateFromOpened"
+                   close-text="Zamknij" clear-text="Czyść" current-text="Dziś"
+                   ng-click="openDatepicker('isEndDateFromOpened')"/>
+
+            <input type="text" placeholder="Data do..." ng-model="trainingCriteria.endDateTo"
+                   datepicker-popup="yyyy-MM-dd" is-open="datepicker.isEndDateToOpened"
+                   close-text="Zamknij" clear-text="Czyść" current-text="Dziś"
+                   ng-click="openDatepicker('isEndDateToOpened')"/>
+         </th>
+         <th class="grid-15">
+            <select ng-model="trainingCriteria.trainingStatusId"
+                    ng-options="v.id as v.name for v in trainingModel.trainingStatuses" data-ng-disabled="isStatusDisabled()"></select>
+         </th>
+         <th>
+            <button class="standardButton" ng-click="find()">Wyszukaj</button>
+         </th>
+      </tr>
+      </thead>
+      <tbody class="tableData">
+      <tr ng-repeat="item in trainingModel.foundTrainings | limitTo: searchResultOptions.displayLimit" ng-class="{'row-even': $even, 'row-odd': $odd}">
+         <td>{{::item.trainingName}}</td>
+         <td>{{::item.participantPesel}}</td>
+         <td>{{::item.participantName}}</td>
+         <td>{{::item.participantSurname}}</td>
+         <td>{{::item.startDate}}</td>
+         <td>{{::item.endDate}}</td>
+         <td>{{::item.trainingStatus}}</td>
+         <td>
+            <ul class="buttons">
+               <!--TODO:przywileje i modify-->
+               <li><a ng-href="#/modify/{{item.trainingInstanceId}}"
+                      class="button button-go">szczegóły</a>
+               </li>
+               <li><a ui-sref="reimburse({trainingInstanceId: item.trainingInstanceId})"
+                      class="button button-go">rozlicz</a>
+               </li>
+            </ul>
+         </td>
+      </tr>
+      </tbody>
+   </table>
+   <div ng-show="searchResultOptions.overflow" class="centered-ul">
+      <ul>
+         <li><a href="#/" ng-click="loadMore()" class="button button-infinity">wczytaj więcej wyników</a></li>
+      </ul>
+   </div>
+   <div class="" ng-show="model.zipCodesArray.length===0">
+      Brak wyników
+   </div>
+   <div class="msg msg-error" ng-show="searchResultOptions.badQuery">
+      <p>Błąd kryteriów zapytania - niepoprawny format</p>
+   </div>
+</section>
