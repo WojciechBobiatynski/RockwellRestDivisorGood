@@ -45,6 +45,7 @@
     <script src="${pageContext.request.contextPath}/js/components/gryf-ti-menu.js"></script>
     <script src="${pageContext.request.contextPath}/js/components/dictionaryservice/dictionaryService.js"></script>
     <script src="${pageContext.request.contextPath}/js/components/userservice/userService.js"></script>
+    <script src="${pageContext.request.contextPath}/js/components/directives/documentDirective.js"></script>
 
     <script src="${pageContext.request.contextPath}/js/dashboard/gryf-dashboard.js"></script>
     <script src="${pageContext.request.contextPath}/js/dashboard/dashboardServices.js"></script>

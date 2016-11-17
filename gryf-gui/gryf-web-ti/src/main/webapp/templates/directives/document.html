@@ -1,0 +1,40 @@
+<div class="grid-100">
+    <table>
+        <thead>
+        <tr class="grid-100 tableHeader-names">
+            <th class=grid-20">
+                <div>Rodzaj załącznika</div>
+            </th>
+            <th class="grid-20">
+                <div>Numer dokumentu (np. FV) lub opis</div>
+            </th>
+            <th class="grid-20">
+                <div>Opis dodatkowy</div>
+            </th>
+            <th class="grid-20">
+            </th>
+            <th class="grid-20">
+            </th>
+        </tr>
+        </thead>
+        <tbody class="tableData">
+        <tr ng-repeat="item in [1,2,3,4,5]" ng-class="{'row-even': $even, 'row-odd': $odd}">
+            <td><select/></td>
+            <td><input type="text"/></td>
+            <td><input type="text"/></td>
+            <td><a></a></td>
+            <td>
+                <ul class="buttons">
+                    <!--TODO:przywileje-->
+                    <li>
+                        <a/>
+                    </li>
+                    <li>
+                        <a/>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
