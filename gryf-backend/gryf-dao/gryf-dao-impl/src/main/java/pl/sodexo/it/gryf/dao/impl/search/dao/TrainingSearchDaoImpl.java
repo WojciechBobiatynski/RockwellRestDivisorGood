@@ -51,4 +51,9 @@ public class TrainingSearchDaoImpl implements TrainingSearchDao {
     public List<SimpleDictionaryDto> findTiTrainingInstancesStatuses() {
         return trainingSearchMapper.findTiTrainingInstancesStatuses(new UserCriteria());
     }
+
+    @Override
+    public TrainingSearchResultDTO findTrainingOfInstitutionById(Long trainingId) {
+        return trainingSearchMapper.findTrainingOfInstitutionById(new UserCriteria(), trainingId);
+    }
 }

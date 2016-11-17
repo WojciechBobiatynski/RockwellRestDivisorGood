@@ -33,4 +33,6 @@ public interface TrainingSearchDao {
      */
     List<SimpleDictionaryDto>  findTiTrainingInstancesStatuses();
 
+    TrainingSearchResultDTO findTrainingOfInstitutionById(Long trainingId);
+
 }

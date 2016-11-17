@@ -8,13 +8,21 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.detailsForm.Indiv
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.UserTrainingReservationDataDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.products.PrintNumberDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.products.PrintNumberResultDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.trainingreservation.TrainingReservationDto;
 import pl.sodexo.it.gryf.common.dto.security.individuals.IndUserAuthDataDto;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.grantprograms.GrantProgramProductRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.grantprograms.GrantProgramRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.individuals.IndividualRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderRepository;
-import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.pbeproducts.*;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.pbeproducts.PbeProductInstanceEventRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.pbeproducts.PbeProductInstanceEventTypeRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.pbeproducts.PbeProductInstancePoolEventRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.pbeproducts.PbeProductInstancePoolRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.pbeproducts.PbeProductInstancePoolStatusRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.pbeproducts.PbeProductInstancePoolUseRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.pbeproducts.PbeProductInstanceRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.pbeproducts.PbeProductInstanceStatusRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingCategoryCatalogParamRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstanceRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstanceStatusRepository;
@@ -24,7 +32,16 @@ import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgramProduct;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
-import pl.sodexo.it.gryf.model.publicbenefits.pbeproduct.*;
+import pl.sodexo.it.gryf.model.publicbenefits.pbeproduct.PbeProduct;
+import pl.sodexo.it.gryf.model.publicbenefits.pbeproduct.PbeProductInstance;
+import pl.sodexo.it.gryf.model.publicbenefits.pbeproduct.PbeProductInstanceEvent;
+import pl.sodexo.it.gryf.model.publicbenefits.pbeproduct.PbeProductInstanceEventType;
+import pl.sodexo.it.gryf.model.publicbenefits.pbeproduct.PbeProductInstancePool;
+import pl.sodexo.it.gryf.model.publicbenefits.pbeproduct.PbeProductInstancePoolEvent;
+import pl.sodexo.it.gryf.model.publicbenefits.pbeproduct.PbeProductInstancePoolEventType;
+import pl.sodexo.it.gryf.model.publicbenefits.pbeproduct.PbeProductInstancePoolStatus;
+import pl.sodexo.it.gryf.model.publicbenefits.pbeproduct.PbeProductInstancePoolUse;
+import pl.sodexo.it.gryf.model.publicbenefits.pbeproduct.PbeProductInstanceStatus;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.Training;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingCategoryCatalogParam;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstance;
@@ -38,9 +55,7 @@ import pl.sodexo.it.gryf.service.local.impl.publicbenefits.products.PrintNumberG
 import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.pbeproductinstancepool.PbeProductInstancePoolEntityMapper;
 import pl.sodexo.it.gryf.service.validation.publicbenefits.trainingreservation.TrainingReservationValidator;
 
-import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -175,10 +190,12 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
     }
 
     @Override
-    public void createTrainingInstance(Long trainingId, Long individualId, Long grantProgramId, Integer toReservedNum) {
-        Training training = trainingRepository.get(trainingId);
-        Individual individual = individualRepository.get(individualId);
-        GrantProgram grantProgram = grantProgramRepository.get(grantProgramId);
+    public void createTrainingInstance(TrainingReservationDto reservationDto) {
+        trainingReservationValidator.validateTrainingReservation(reservationDto);
+
+        Training training = trainingRepository.get(reservationDto.getTrainingId());
+        Individual individual = individualRepository.get(reservationDto.getIndividualId());
+        GrantProgram grantProgram = grantProgramRepository.get(reservationDto.getGrantProgramId());
 
         //UTWORZENIE INSTANCJI SZKOLENIA
         TrainingInstance trainingInstance = new TrainingInstance();
@@ -186,19 +203,19 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
         trainingInstance.setIndividual(individual);
         trainingInstance.setGrantProgram(grantProgram);
         trainingInstance.setStatus(trainingInstanceStatusRepository.get(TrainingInstanceStatus.RES_CODE));
-        trainingInstance.setAssignedNum(toReservedNum);
+        trainingInstance.setAssignedNum(reservationDto.getToReservedNum());
         trainingInstance.setRegisterDate(new Date());
         trainingInstance.setReimbursmentPin("44444");//TODO: tbilski
         trainingInstance = trainingInstanceRepository.save(trainingInstance);
 
         //POBRANIE PULI BONÓW KTÓRE MOŻNA WYKORZYSTAC
-        List<PbeProductInstancePool> pools = productInstancePoolRepository.findAvaiableForUse(individualId, grantProgramId, training.getEndDate());
+        List<PbeProductInstancePool> pools = productInstancePoolRepository.findAvaiableForUse(reservationDto.getTrainingId(), reservationDto.getGrantProgramId(), training.getEndDate());
 
         //VALIDACJA
-        validatePoolReservation(training, grantProgram, toReservedNum, pools);
+        validatePoolReservation(training, grantProgram, reservationDto.getToReservedNum(), pools);
 
         //UTWORZENIE WYKORZYSTANIA
-        createProductInstancePoolUses(trainingInstance, pools, toReservedNum);
+        createProductInstancePoolUses(trainingInstance, pools, reservationDto.getToReservedNum());
     }
 
     public void useTrainingInstance(Long trainingId, String pin){

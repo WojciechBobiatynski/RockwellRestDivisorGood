@@ -36,7 +36,6 @@ public class TrainingSearchResultDTO {
     @Setter
     private Date endDate;
 
-
     @Getter
     @Setter
     private Long productCount;

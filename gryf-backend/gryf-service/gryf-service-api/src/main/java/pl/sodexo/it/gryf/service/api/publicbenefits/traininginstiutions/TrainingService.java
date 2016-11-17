@@ -38,4 +38,11 @@ public interface TrainingService {
      * @return - lista statusów
      */
     List<SimpleDictionaryDto>  findTiTrainingInstancesStatuses();
+
+    /**
+     * Zwraca szkolenie na podstawie jego id oraz kontekstu zalogowanego użytkownika
+     * @param id identyfikator szkolenia
+     * @return dto szkolenia
+     */
+    TrainingSearchResultDTO findTrainingOfInstitutionById(Long id);
 }

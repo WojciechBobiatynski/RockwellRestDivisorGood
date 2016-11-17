@@ -1,5 +1,6 @@
 angular.module("gryf.ti").factory("TrainingSearchService", function($http, GryfModals, GryfTables, GryfHelpers) {
     var FIND_TRAINING_URL = contextPath + "/rest/trainingreservation/training/list";
+    var FIND_SINGLE_TRAINING_URL = contextPath + "/rest/trainingreservation/training/";
 
     var searchDTO = new SearchObjModel();
     var searchResultOptions = new SearchResultOptions();
@@ -81,6 +82,13 @@ angular.module("gryf.ti").factory("TrainingSearchService", function($http, GryfM
         return promise;
     };
 
+    var findById = function(trainingId) {
+        return $http.get(FIND_SINGLE_TRAINING_URL + trainingId).error(function() {
+            GryfPopups.setPopup("error", "Błąd", "Nie można pobrać szkolenia o wskazanym id");
+            GryfPopups.showPopup();
+        });
+    }
+
     var findSortedBy = function(sortColumnName) {
         GryfTables.sortByColumn(searchDTO.entity, sortColumnName);
         return find();
@@ -105,6 +113,7 @@ angular.module("gryf.ti").factory("TrainingSearchService", function($http, GryfM
         getSearchDTO: getSearchDTO,
         getSearchResultOptions: getSearchResultOptions,
         find: find,
+        findById: findById,
         findSortedBy: findSortedBy,
         getNewSearchDTO: getNewSearchDTO,
         getNewSearchResultOptions: getNewSearchResultOptions,

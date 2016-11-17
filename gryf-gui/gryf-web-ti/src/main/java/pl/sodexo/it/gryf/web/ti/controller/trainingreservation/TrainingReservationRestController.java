@@ -1,6 +1,7 @@
 package pl.sodexo.it.gryf.web.ti.controller.trainingreservation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -9,6 +10,7 @@ import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.UserTrainingReservationDataDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchResultDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.trainingreservation.TrainingReservationDto;
 import pl.sodexo.it.gryf.common.dto.security.individuals.IndUserAuthDataDto;
 import pl.sodexo.it.gryf.common.dto.user.GryfUser;
 import pl.sodexo.it.gryf.service.api.publicbenefits.pbeproductinstancepool.PbeProductInstancePoolService;
@@ -30,6 +32,7 @@ public class TrainingReservationRestController {
 
     @Autowired
     private SecurityChecker securityChecker;
+    //TODO: security checker for all requests
 
     @RequestMapping(value = "/userTrainingReservationData", method = RequestMethod.POST)
     public UserTrainingReservationDataDto findUserTrainingReservationData(@RequestBody IndUserAuthDataDto userAuthDataDto) {
@@ -49,5 +52,17 @@ public class TrainingReservationRestController {
         Long loggedUserInstitutionId = GryfUser.getLoggedTiUserInstitutionId();
         dto.setInstitutionId(loggedUserInstitutionId);
         return trainingService.findTrainings(dto);
+    }
+
+    @RequestMapping(value = "/training/{id}", method = RequestMethod.GET)
+    public TrainingSearchResultDTO findTrainingById(@PathVariable("id") Long trainingId) {
+        //securityChecker.assertServicePrivilege(Privileges.GRF_PBE_TI_TRAININGS);
+        return trainingService.findTrainingOfInstitutionById(trainingId);
+    }
+
+    @RequestMapping(value = "/reserveTraining", method = RequestMethod.POST)
+    public void reserveTraining(@RequestBody TrainingReservationDto reservationDto) {
+        //securityChecker.assertServicePrivilege(Privileges.GRF_PBE_TI_TRAININGS);
+        productInstancePoolService.createTrainingInstance(reservationDto);
     }
 }

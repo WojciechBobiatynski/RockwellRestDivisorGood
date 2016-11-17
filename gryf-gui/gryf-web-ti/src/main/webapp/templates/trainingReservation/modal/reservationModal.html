@@ -1,0 +1,44 @@
+<div class="modal-head">
+    <div class="modal-title">Rezerwacja szkolenia</div>
+    <button class="close"ng-click="close(true)">&times;</button>
+</div>
+<div class="modal-body">
+    <span class="alert-text">W celu rezerwacji szkolenia prosimy o wpisanie liczby rezerwowanych bonów i potwierdzenie operacji</span>
+    <div class="row-30"></div>
+    <div class="grid-100">
+        <div class="grid-40 centered">
+            <strong class="label">Liczba rezerwowanych bonów (minimum 1)</strong>
+            <input type="number" min="0" ng-model="toReservedNum">
+            <gryf-validation-msg path="toReservedNum"></gryf-validation-msg>
+        </div>
+    </div>
+    <div class="row-30"></div>
+    <table>
+        <thead>
+        <tr class="grid-100 tableHeader-names">
+            <th class="grid-20">Nazwa szkolenia</th>
+            <th class="grid-10">PESEL</th>
+            <th class="grid-10">Imię</th>
+            <th class="grid-10">Nazwisko</th>
+            <th class="grid-10">Liczba bonów</th>
+            <th class="grid-15">Data rozpoczęcia</th>
+            <th class="grid-15">Data zakończenia</th>
+        </tr>
+        </thead>
+        <tbody class="tableData">
+        <tr>
+            <td>{{training.data.name}}</td>
+            <td>{{userTrainingReservationData.data.pesel}}</td>
+            <td>{{userTrainingReservationData.data.firstName}}</td>
+            <td>{{userTrainingReservationData.data.lastName}}</td>
+            <td>{{training.data.productCount}}</td>
+            <td>{{training.data.startDate}}</td>
+            <td>{{training.data.endDate}}</td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="row-30"></div>
+    <div class="grid-100 text-center">
+        <button class="row-10 standardButton" ng-click="reserveTraining()">Rezerwuję szkolenie</button>
+    </div>
+</div>

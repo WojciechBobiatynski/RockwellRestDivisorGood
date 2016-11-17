@@ -102,6 +102,7 @@
             ind.FIRST_NAME AS firstName,
             ind.LAST_NAME AS lastName,
             ind.PESEL AS pesel,
+            ind.ID AS userId,
             pip.ID AS productPoolId,
             pip.AVAILABLE_NUM AS availableNum,
             pip.EXPIRY_DATE AS expiryDate,
@@ -119,6 +120,7 @@
         <result property="firstName" column="firstName"/>
         <result property="lastName" column="lastName"/>
         <result property="pesel" column="pesel"/>
+        <result property="id" column="userId"/>
 
         <collection property="productInstancePools" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.pbeproductinstancepool.PbeProductInstancePoolDto" autoMapping="true">
             <id property="id" column="productPoolId"/>

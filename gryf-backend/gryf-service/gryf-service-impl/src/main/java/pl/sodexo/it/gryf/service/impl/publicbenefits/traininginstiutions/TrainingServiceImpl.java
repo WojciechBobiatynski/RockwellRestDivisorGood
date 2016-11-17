@@ -80,4 +80,9 @@ public class TrainingServiceImpl implements TrainingService {
     public List<SimpleDictionaryDto> findTiTrainingInstancesStatuses() {
         return trainingSearchDao.findTiTrainingInstancesStatuses();
     }
+
+    @Override
+    public TrainingSearchResultDTO findTrainingOfInstitutionById(Long id) {
+        return trainingSearchDao.findTrainingOfInstitutionById(id);
+    }
 }

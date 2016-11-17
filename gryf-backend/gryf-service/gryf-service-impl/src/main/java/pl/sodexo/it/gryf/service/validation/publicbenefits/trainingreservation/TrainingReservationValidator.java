@@ -5,6 +5,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.detailsForm.IndividualDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.trainingreservation.TrainingReservationDto;
 import pl.sodexo.it.gryf.common.dto.security.individuals.IndUserAuthDataDto;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.common.exception.verification.GryfIndUserVerificationException;
@@ -29,6 +30,19 @@ public class TrainingReservationValidator {
 
         if(CollectionUtils.isEmpty(violations)) {
             validateAuthorizationData(userAuthDataDto.getVerificationCode(), individualDto);
+        }
+
+        //VALIDATE (EXCEPTION)
+        gryfValidator.validate(violations);
+    }
+
+    public void validateTrainingReservation(TrainingReservationDto reservationDto) {
+
+        //GENERAL VALIDATION
+        List<EntityConstraintViolation> violations = new ArrayList<>();
+
+        if(reservationDto.getToReservedNum() == null || reservationDto.getToReservedNum() <= 0) {
+            violations.add(new EntityConstraintViolation("toReservedNum", "Wartość pola 'Liczba rezerwowanych bonów' jest niepoprawna"));
         }
 
         //VALIDATE (EXCEPTION)

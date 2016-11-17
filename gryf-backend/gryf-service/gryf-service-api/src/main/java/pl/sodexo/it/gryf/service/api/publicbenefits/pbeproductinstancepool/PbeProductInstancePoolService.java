@@ -1,6 +1,7 @@
 package pl.sodexo.it.gryf.service.api.publicbenefits.pbeproductinstancepool;
 
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.UserTrainingReservationDataDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.trainingreservation.TrainingReservationDto;
 import pl.sodexo.it.gryf.common.dto.security.individuals.IndUserAuthDataDto;
 
 /**
@@ -16,7 +17,7 @@ public interface PbeProductInstancePoolService {
 
     void createProductInstancePool(Long orderId);
 
-    void createTrainingInstance(Long trainingId, Long individualId, Long grantProgramId, Integer toReservedNum);
+    void createTrainingInstance(TrainingReservationDto reservationDto);
 
     void useTrainingInstance(Long trainingId, String pin);
 

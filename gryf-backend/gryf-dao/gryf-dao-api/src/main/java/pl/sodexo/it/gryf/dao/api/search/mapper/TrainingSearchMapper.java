@@ -34,5 +34,13 @@ public interface TrainingSearchMapper {
      * @param criteria kryteria użytkownika
      * @return - lista statusów
      */
-    List<SimpleDictionaryDto>  findTiTrainingInstancesStatuses(@Param("criteria")UserCriteria criteria);
+    List<SimpleDictionaryDto>  findTiTrainingInstancesStatuses(@Param("criteria") UserCriteria criteria);
+
+    /**
+     * Metoda zwracająca dto szkolenie na podstawie jego id oraz kryteriów użytkownika
+     * @param criteria kryteria użytkownika
+     * @param trainingId id szkolenia
+     * @return dto szkolenia
+     */
+    TrainingSearchResultDTO findTrainingOfInstitutionById(@Param("criteria") UserCriteria criteria, @Param("trainingId") Long trainingId);
 }
