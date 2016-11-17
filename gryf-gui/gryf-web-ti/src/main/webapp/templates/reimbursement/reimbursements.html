@@ -44,12 +44,12 @@
                 <input type="text" placeholder="Data rozpoczęcia" ng-model="elctRmbsCriteria.rmbsDateFrom"
                        datepicker-popup="yyyy-MM-dd" is-open="datepicker.isRmbsDateFromOpened"
                        close-text="Zamknij" clear-text="Czyść" current-text="Dziś"
-                       ng-click="openDatepicker('isTrainingStartDateOpened')"/>
+                       ng-click="openDatepicker('isRmbsDateFromOpened')"/>
 
                 <input type="text" placeholder="Data zakończenia" ng-model="elctRmbsCriteria.rmbsDateTo"
-                       datepicker-popup="yyyy-MM-dd" s-open="datepicker.isRmbsDateToOpened"
+                       datepicker-popup="yyyy-MM-dd" is-open="datepicker.isRmbsDateToOpened"
                        close-text="Zamknij" clear-text="Czyść" current-text="Dziś"
-                       ng-click="openDatepicker('isTrainingEndDateOpened')"/>
+                       ng-click="openDatepicker('isRmbsDateToOpened')"/>
             </th>
             <th class="grid-15">
                 <select ng-model="elctRmbsCriteria.rmbsStatus"

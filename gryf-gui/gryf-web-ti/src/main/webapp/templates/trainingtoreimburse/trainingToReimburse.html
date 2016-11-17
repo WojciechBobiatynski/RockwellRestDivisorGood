@@ -41,30 +41,30 @@
                 <input type="text" placeholder="Data od..." ng-model="trainingCriteria.startDateFrom"
                        datepicker-popup="yyyy-MM-dd" is-open="datepicker.isStartDateFromOpened"
                        close-text="Zamknij" clear-text="Czyść" current-text="Dziś"
-                       ng-click="openDatepicker('isTrainingStartDateOpened')"/>
+                       ng-click="openDatepicker('isStartDateFromOpened')"/>
 
                 <input type="text" placeholder="Data do..." ng-model="trainingCriteria.startDateTo"
-                       datepicker-popup="yyyy-MM-dd" s-open="datepicker.isStartDateToOpened"
+                       datepicker-popup="yyyy-MM-dd" is-open="datepicker.isStartDateToOpened"
                        close-text="Zamknij" clear-text="Czyść" current-text="Dziś"
-                       ng-click="openDatepicker('isTrainingEndDateOpened')"/>
+                       ng-click="openDatepicker('isStartDateToOpened')"/>
             </th>
             <th class="grid-15">
                 <input type="text" placeholder="Data od..." ng-model="trainingCriteria.endDateFrom"
                        datepicker-popup="yyyy-MM-dd" is-open="datepicker.isEndDateFromOpened"
                        close-text="Zamknij" clear-text="Czyść" current-text="Dziś"
-                       ng-click="openDatepicker('isTrainingStartDateOpened')"/>
+                       ng-click="openDatepicker('isEndDateFromOpened')"/>
 
                 <input type="text" placeholder="Data do..." ng-model="trainingCriteria.endDateTo"
-                       datepicker-popup="yyyy-MM-dd" s-open="datepicker.isEndDateToOpened"
+                       datepicker-popup="yyyy-MM-dd" is-open="datepicker.isEndDateToOpened"
                        close-text="Zamknij" clear-text="Czyść" current-text="Dziś"
-                       ng-click="openDatepicker('isTrainingEndDateOpened')"/>
+                       ng-click="openDatepicker('isEndDateToOpened')"/>
             </th>
             <th class="grid-15">
                 <select ng-model="trainingCriteria.trainingStatus"
                         ng-options="v.name as v.name for v in trainingModel.trainingStatuses"></select>
             </th>
             <th>
-                <button ng-click="find()">Wyszukaj</button>
+                <button class="standardButton" ng-click="find()">Wyszukaj</button>
             </th>
         </tr>
         </thead>
