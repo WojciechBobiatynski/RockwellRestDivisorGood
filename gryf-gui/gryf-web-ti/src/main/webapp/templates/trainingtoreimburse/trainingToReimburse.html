@@ -60,8 +60,8 @@
                        ng-click="openDatepicker('isEndDateToOpened')"/>
             </th>
             <th class="grid-15">
-                <select ng-model="trainingCriteria.trainingStatus"
-                        ng-options="v as v.name for v in trainingModel.trainingStatuses" data-ng-disabled="isStatusDisabled()"></select>
+                <select ng-model="trainingCriteria.trainingStatusId"
+                        ng-options="v.id as v.name for v in trainingModel.trainingStatuses" data-ng-disabled="isStatusDisabled()"></select>
             </th>
             <th>
                 <button class="standardButton" ng-click="find()">Wyszukaj</button>
@@ -80,9 +80,11 @@
             <td>
                 <ul class="buttons">
                     <!--TODO:przywileje i modify-->
-                    <li><a ng-href="#/modify/{{item.trainingId}}"
-                           gryf-privilege="GRF_TRAINING_INSTITUTION_MOD"
+                    <li><a ng-href="#/modify/{{item.trainingInstanceId}}"
                            class="button button-go">szczegóły</a>
+                    </li>
+                    <li><a ng-href="#/reimburse/{{item.trainingInstanceId}}"
+                           class="button button-go">rozlicz</a>
                     </li>
                 </ul>
             </td>

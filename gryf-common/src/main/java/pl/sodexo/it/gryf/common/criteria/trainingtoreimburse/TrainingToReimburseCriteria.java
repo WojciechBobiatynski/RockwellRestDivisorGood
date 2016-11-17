@@ -60,7 +60,7 @@ public class TrainingToReimburseCriteria extends UserCriteria {
 
     @Getter
     @Setter
-    private String trainingStatus;
+    private String trainingStatusId;
 
     @Getter
     @Setter

@@ -16,7 +16,7 @@ angular.module("gryf.ti").factory("TrainingToReimburseService",
             this.startDateTo = null,
             this.endDateFrom = null,
             this.endDateTo = null,
-            this.trainingStatus = null,
+            this.trainingStatusId = null,
             this.sortTypes = [],
             this.sortColumns = [],
             this.limit = 10

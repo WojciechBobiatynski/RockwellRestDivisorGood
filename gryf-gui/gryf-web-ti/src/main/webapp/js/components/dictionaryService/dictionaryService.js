@@ -1,4 +1,4 @@
-angular.module("gryf.ti").factory("DictionaryService", function($cacheFactory, $http) {
+angular.module("gryf.ti").factory("DictionaryService", function ($cacheFactory, $http) {
     var REST_URL = contextPath + "/rest/";
 
     var DICTIONARY = {
@@ -9,11 +9,14 @@ angular.module("gryf.ti").factory("DictionaryService", function($cacheFactory, $
 
     var dictionaryCache = $cacheFactory("DictionaryService");
 
-    var loadDictionary = function(dictionaryName, callback) {
+    var loadDictionary = function (dictionaryName, callback) {
         var dictionary = dictionaryCache.get(dictionaryName);
+        if (dictionary && typeof callback === 'function') {
+            callback();
+        }
         if (!dictionary) {
             dictionary = [];
-            $http.get(REST_URL + dictionaryName).then(function(resp) {
+            $http.get(REST_URL + dictionaryName).then(function (resp) {
                 angular.copy(resp.data, dictionary);
                 if (typeof callback === 'function') {
                     callback();

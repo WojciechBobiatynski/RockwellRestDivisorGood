@@ -118,8 +118,8 @@
             <if test="criteria.endDateTo != null">
                 AND TRIM(ti.END_DATE) &lt;= TRIM(#{criteria.endDateTo})
             </if>
-            <if test="criteria.trainingStatus != null and criteria.trainingStatus != ''">
-                AND status.NAME = #{criteria.trainingStatus}
+            <if test="criteria.trainingStatusId != null and criteria.trainingStatusId != ''">
+                AND status.ID = #{criteria.trainingStatusId}
             </if>
             <if test="criteria.limit != null">
                 AND ROWNUM &lt;= #{criteria.limit}

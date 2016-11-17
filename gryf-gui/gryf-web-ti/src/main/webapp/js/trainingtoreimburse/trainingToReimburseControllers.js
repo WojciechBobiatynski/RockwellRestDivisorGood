@@ -1,10 +1,8 @@
-var test;
 angular.module("gryf.ti").controller("TrainingToReimburseController", ["$scope", "TrainingToReimburseService","DictionaryService",
     function($scope, TrainingToReimburseService, DictionaryService) {
         $scope.trainingCriteria = TrainingToReimburseService.getNewCriteria();
         $scope.searchResultOptions = TrainingToReimburseService.getSearchResultOptions();
         $scope.trainingModel = TrainingToReimburseService.getTrainingModel();
-        test = $scope;
 
         $scope.datepicker = {
             isStartDateFromOpened: false,
@@ -26,13 +24,13 @@ angular.module("gryf.ti").controller("TrainingToReimburseController", ["$scope",
         function setStatus(){
             angular.forEach($scope.trainingModel.trainingStatuses, function(status){
                 if(status.id === 'DONE'){
-                    $scope.trainingCriteria.trainingStatus = status;
+                    $scope.trainingCriteria.trainingStatusId = status.id;
                 }
             });
         };
 
         $scope.isStatusDisabled = function(){
-            return $scope.trainingCriteria.trainingStatus != null;
-        }
+            return $scope.trainingCriteria.trainingStatusId != null;
+        };
 
 }]);
