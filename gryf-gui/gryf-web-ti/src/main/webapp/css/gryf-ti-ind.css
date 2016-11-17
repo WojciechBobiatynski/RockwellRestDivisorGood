@@ -431,9 +431,7 @@ table {
 }
 
 .blackLabel {
-    margin-bottom: 15px;
-    margin-top: 15px;
-    display: table;
+    margin: 15px 0px 15px 10px;
     color: black;
     display: inline-table;
 }
@@ -443,10 +441,14 @@ table {
 }
 
 .paddedBlock .multiSection > div > div {
-    padding: 5px 0px 0px 5px;
+    padding: 5px 0px 0px 10px;
     color: dimgray;
 }
 
 .paddedBlock strong {
     color: black;
+}
+
+.grayBackground {
+    background-color: #cecece !important;
 }
