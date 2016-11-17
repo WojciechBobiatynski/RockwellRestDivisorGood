@@ -21,7 +21,7 @@ import pl.sodexo.it.gryf.web.ti.util.UrlConstants;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = UrlConstants.TRAINING_RESERVATION_REST, produces = "application/json;charset=UTF-8")
+@RequestMapping(value = UrlConstants.PATH_TRAINING_RESERVATION_REST, produces = "application/json;charset=UTF-8")
 public class TrainingReservationRestController {
 
     @Autowired

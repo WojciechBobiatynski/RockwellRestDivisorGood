@@ -6,7 +6,6 @@ angular.module("gryf.ti").controller("ReservationModalController", ["$scope", "$
     $scope.userTrainingReservationData = TrainingReservationService.getUserTrainingReservationData();
     $scope.violations = TrainingReservationService.getNewViolations();
 
-
     TrainingSearchService.findById($stateParams.trainingId).success(function(data) {
         $scope.training.data = data;
     });
@@ -21,9 +20,9 @@ angular.module("gryf.ti").controller("ReservationModalController", ["$scope", "$
         trainingReservationDto.toReservedNum = $scope.toReservedNum;
 
         TrainingReservationService.reserveTraining(trainingReservationDto);
-    }
+    };
 
     function resetViolations() {
         $scope.violations = TrainingReservationService.getNewViolations();
-    }
+    };
 }]);

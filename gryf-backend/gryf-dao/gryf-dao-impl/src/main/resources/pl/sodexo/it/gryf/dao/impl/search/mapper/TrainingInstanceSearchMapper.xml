@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="pl.sodexo.it.gryf.dao.api.search.mapper.TrainingInstanceSearchMapper">
+
+    <select id="findTrainingToReimburseListByCriteria" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstancesDto" parameterType="list">
+        SELECT
+            ti_in.ID                      trainingInstanceId,
+            ti.NAME                       trainingName,
+            ind.PESEL                     participantPesel,
+            ind.FIRST_NAME                participantName,
+            ind.LAST_NAME                 participantSurname,
+            ti.START_DATE                 startDate,
+            ti.END_DATE                   endDate,
+            status.NAME                   trainingStatus
+        FROM
+            APP_PBE.TI_TRAININGS ti
+            JOIN APP_PBE.TI_TRAINING_INSTANCES ti_in ON ti.ID = ti_in.TRAINING_ID
+            LEFT JOIN APP_PBE.TI_TRAININGS ti ON ti.ID = ti_in.TRAINING_ID
+            LEFT JOIN APP_PBE.INDIVIDUALS ind ON ind.ID = ti_in.INDIVIDUAL_ID
+            LEFT JOIN APP_PBE.TI_TRAINING_INSTANCE_STATUSES status ON status.ID = ti_in.STATUS_ID
+        <where>
+            <if test="criteria.trainingName != null and criteria.trainingName != ''">
+                AND LOWER(ti.NAME) like '%' || LOWER(#{criteria.trainingName}) || '%'
+            </if>
+            <if test="criteria.participantPesel != null and criteria.participantPesel != ''">
+                AND ind.PESEL like '%' || #{criteria.participantPesel} || '%'
+            </if>
+            <if test="criteria.participantName != null and criteria.participantName != ''">
+                AND LOWER(ind.FIRST_NAME) like '%' || LOWER(#{criteria.participantName}) || '%'
+            </if>
+            <if test="criteria.participantSurname != null and criteria.participantSurname != ''">
+                AND LOWER(ind.LAST_NAME) like '%' || LOWER(#{criteria.participantSurname}) || '%'
+            </if>
+            <if test="criteria.startDateFrom != null">
+                AND TRIM(ti.START_DATE) &gt;= TRIM(#{criteria.startDateFrom})
+            </if>
+            <if test="criteria.startDateTo != null">
+                AND TRIM(ti.START_DATE) &lt;= TRIM(#{criteria.startDateTo})
+            </if>
+            <if test="criteria.endDateFrom != null">
+                AND TRIM(ti.END_DATE) &gt;= TRIM(#{criteria.endDateFrom})
+            </if>
+            <if test="criteria.endDateTo != null">
+                AND TRIM(ti.END_DATE) &lt;= TRIM(#{criteria.endDateTo})
+            </if>
+            <if test="criteria.trainingStatusId != null and criteria.trainingStatusId != ''">
+                AND status.ID = #{criteria.trainingStatusId}
+            </if>
+            <if test="criteria.limit != null">
+                AND ROWNUM &lt;= #{criteria.limit}
+            </if>
+        </where>
+        <if test="criteria.sortColumns != null">
+            <foreach item="columnName" index="index" collection="criteria.sortColumns" open="ORDER BY " separator="," close="">
+                ${columnName} ${criteria.sortTypes[index]}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="findTiTrainingInstancesStatuses" resultType="pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto" parameterType="list">
+        SELECT
+            dic.ID          id,
+            dic.NAME        name,
+            dic.ORDINAL     ordinal
+        FROM
+            APP_PBE.TI_TRAINING_INSTANCE_STATUSES dic
+        ORDER BY
+            dic.ordinal
+    </select>
+
+</mapper>

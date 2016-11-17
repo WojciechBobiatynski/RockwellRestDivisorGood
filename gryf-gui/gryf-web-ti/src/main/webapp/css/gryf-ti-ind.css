@@ -280,6 +280,13 @@ table {
     color: #3281d6;
 }
 
+.separator-vertical {
+    width: 30px;
+    margin-left: 10px;
+    margin-right: 10px;
+    background: repeating-linear-gradient(180deg, #ffffff 2px, #ffffff 20px, #cccccc 20px, #cccccc 21px);
+}
+
 /* --------MODALS-------- */
 
 .rounded, .box-content, .modal-content {border-radius: 5px;}

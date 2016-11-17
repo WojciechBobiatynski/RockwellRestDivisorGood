@@ -1,4 +1,4 @@
-package pl.sodexo.it.gryf.common.criteria.trainingtoreimburse;
+package pl.sodexo.it.gryf.common.criteria.traininginstance;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -13,12 +13,12 @@ import java.util.List;
 import static pl.sodexo.it.gryf.common.utils.GryfConstants.DATE_FORMAT;
 
 /**
- * Kryteria wyszukiwania dla szkoleń do rozliczenia
+ * Kryteria wyszukiwania dla instancji szkoleń
  *
  * Created by akmiecinski on 14.11.2016.
  */
 @ToString
-public class TrainingToReimburseCriteria extends UserCriteria {
+public class TrainingInstanceCriteria extends UserCriteria {
 
     private static final long serialVersionUID = 1L;
 

@@ -1,4 +1,4 @@
-package pl.sodexo.it.gryf.common.dto.trainingtoreimburse;
+package pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -10,12 +10,12 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Kryteria wyszukiwania dla szkoleń do rozliczenia
+ * Kryteria wyszukiwania dla instancji szkoleń
  *
  * Created by akmiecinski on 14.11.2016.
  */
 @ToString
-public class TrainingToReimburseDto implements Serializable {
+public class TrainingInstancesDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

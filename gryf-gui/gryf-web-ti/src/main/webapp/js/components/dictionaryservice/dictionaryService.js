@@ -4,7 +4,7 @@ angular.module("gryf.ti").factory("DictionaryService", function ($cacheFactory, 
     var DICTIONARY = {
         TRAINING_CATEGORIES: "trainingreservation/trainingCategoriesDict",
         REIMBURSEMENT_STATUSES: "reimbursements/statuses",
-        TRAINING_TO_REIMBURSE_STATUSES: "trainingToReimburse/statuses"
+        TRAINING_INSTANCE_STATUSES: "trainingInstance/statuses"
     };
 
     var dictionaryCache = $cacheFactory("DictionaryService");
