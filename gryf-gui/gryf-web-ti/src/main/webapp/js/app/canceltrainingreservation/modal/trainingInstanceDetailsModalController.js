@@ -3,8 +3,7 @@ function($scope, $stateParams, TrainingInstanceSearchService) {
     $scope.close = $scope.$close;
     $scope.trainingInstance = {data: null};
 
-    TrainingInstanceSearchService.findById($stateParams.trainingInstanceId).success(function(data) {
+    TrainingInstanceSearchService.findDetailsById($stateParams.trainingInstanceId).success(function(data) {
         $scope.trainingInstance.data = data;
-        alert(data);
     });
 }]);

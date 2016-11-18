@@ -3,7 +3,7 @@
 
 <mapper namespace="pl.sodexo.it.gryf.dao.api.search.mapper.TrainingInstanceSearchMapper">
 
-    <select id="findTrainingToReimburseListByCriteria" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstancesDto" parameterType="list">
+    <select id="findTrainingToReimburseListByCriteria" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceDto" parameterType="list">
         SELECT
             ti_in.ID                      trainingInstanceId,
             ti.NAME                       trainingName,
@@ -56,6 +56,34 @@
                 ${columnName} ${criteria.sortTypes[index]}
             </foreach>
         </if>
+    </select>
+
+    <select id="findTrainingInstanceDetails" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceDetailsDto">
+        SELECT
+        tin.ID                        trainingInstanceId,
+        tra.NAME                      trainingName,
+        cat.NAME                      trainingCategory,
+        tra.PLACE                     trainingPlace,
+        tra.PRICE                     trainingPrice,
+        tra.HOURS_NUMBER              trainingHoursNumber,
+        tra.HOUR_PRICE                trainingHourPrice,
+        tra.START_DATE                startDate,
+        tra.END_DATE                  endDate,
+        ind.PESEL                     participantPesel,
+        ind.FIRST_NAME                participantName,
+        ind.LAST_NAME                 participantSurname
+        FROM APP_PBE.TI_TRAINING_INSTANCES tin
+        JOIN APP_PBE.TI_TRAININGS tra ON tra.ID = tin.TRAINING_ID
+        JOIN APP_PBE.TI_TRAINING_CATEGORIES cat ON cat.ID = tra.TRAINING_CATEGORY_ID
+        JOIN APP_PBE.INDIVIDUALS ind ON ind.ID = tin.INDIVIDUAL_ID
+        <where>
+            <if test="trainingInstanceId != null">
+                tin.ID = #{trainingInstanceId}
+            </if>
+            <if test="criteria.gryfUser.userType == 'TRAINING_INSTITUTION'">
+                AND tra.TRAINING_INSTITUTION_ID = #{criteria.gryfUser.trainingInstitutionId}
+            </if>
+        </where>
     </select>
 
     <select id="findTiTrainingInstancesStatuses" resultType="pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto" parameterType="list">

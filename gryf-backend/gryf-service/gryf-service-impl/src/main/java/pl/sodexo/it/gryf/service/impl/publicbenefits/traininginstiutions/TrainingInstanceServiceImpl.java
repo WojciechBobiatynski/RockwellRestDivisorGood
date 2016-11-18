@@ -5,7 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.criteria.traininginstance.TrainingInstanceCriteria;
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstancesDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceDetailsDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceDto;
 import pl.sodexo.it.gryf.dao.api.search.dao.TrainingInstanceSearchDao;
 import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.TrainingInstanceService;
 
@@ -22,8 +23,13 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
     private TrainingInstanceSearchDao trainingInstanceSearchDao;
 
     @Override
-    public List<TrainingInstancesDto> findTrainingInstanceListByCriteria(TrainingInstanceCriteria criteria) {
+    public List<TrainingInstanceDto> findTrainingInstanceListByCriteria(TrainingInstanceCriteria criteria) {
         return trainingInstanceSearchDao.findTrainingToReimburseListByCriteria(criteria);
+    }
+
+    @Override
+    public TrainingInstanceDetailsDto findTrainingInstanceDetails(Long trainingInstanceId) {
+        return trainingInstanceSearchDao.findTrainingInstanceDetails(trainingInstanceId);
     }
 
     @Override

@@ -12,7 +12,7 @@ angular.module("gryf.ti").factory("DictionaryService", function ($cacheFactory, 
     var loadDictionary = function (dictionaryName, callback) {
         var dictionary = dictionaryCache.get(dictionaryName);
         if (dictionary && typeof callback === 'function') {
-            callback();
+            callback(dictionary);
         }
         if (!dictionary) {
             dictionary = [];

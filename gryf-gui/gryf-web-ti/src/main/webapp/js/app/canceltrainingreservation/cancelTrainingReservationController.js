@@ -3,6 +3,7 @@ angular.module("gryf.ti").controller("CancelTrainingReservationController", ["$s
         $scope.trainingCriteria = TrainingInstanceSearchService.getNewCriteria();
         $scope.searchResultOptions = TrainingInstanceSearchService.getSearchResultOptions();
         $scope.trainingModel = TrainingInstanceSearchService.getTrainingModel();
+        $scope.trainingStatuses = {data: null};
 
         $scope.datepicker = {
             isStartDateFromOpened: false,
@@ -19,18 +20,27 @@ angular.module("gryf.ti").controller("CancelTrainingReservationController", ["$s
             $scope.datepicker[fieldName] = true;
         };
 
-        $scope.trainingModel.trainingStatuses = DictionaryService.loadDictionary(DictionaryService.DICTIONARY.TRAINING_INSTANCE_STATUSES, setStatus);
+        $scope.trainingStatuses.data = DictionaryService.loadDictionary(DictionaryService.DICTIONARY.TRAINING_INSTANCE_STATUSES, setStatus);
 
-        function setStatus(){
-            angular.forEach($scope.trainingModel.trainingStatuses, function(status){
-                if(status.id === 'RES'){
+        function setStatus(data) {
+            if(data) {
+                $scope.trainingStatuses.data = data;
+            }
+            angular.forEach($scope.trainingStatuses.data, function(status) {
+                if(status.id === 'RES') {
                     $scope.trainingCriteria.trainingStatusId = status.id;
                 }
             });
-        };
+        }
 
-        $scope.isStatusDisabled = function(){
+        $scope.isStatusDisabled = function() {
             return $scope.trainingCriteria.trainingStatusId != null;
         };
+
+        $scope.clear = function() {
+            $scope.trainingModel = TrainingInstanceSearchService.getNewTrainingModel();
+        };
+
+        $scope.clear();
 
 }]);

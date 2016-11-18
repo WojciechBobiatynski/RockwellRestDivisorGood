@@ -10,7 +10,7 @@ import pl.sodexo.it.gryf.web.ti.util.UrlConstants;
  * Created by akmiecinski on 15.11.2016.
  */
 @RestController
-@RequestMapping(value = UrlConstants.PATH_TRAINING_INSTANCE_REST, produces = "application/json;charset=UTF-8")
+@RequestMapping(value = UrlConstants.PATH_TRAINING_TO_REIMBURSE_REST, produces = "application/json;charset=UTF-8")
 public class TrainingToReimburseRestController {
 
 }

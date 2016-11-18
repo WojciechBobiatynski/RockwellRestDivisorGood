@@ -2,7 +2,8 @@ package pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions;
 
 import pl.sodexo.it.gryf.common.criteria.traininginstance.TrainingInstanceCriteria;
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstancesDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceDetailsDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceDto;
 
 import java.util.List;
 
@@ -16,7 +17,14 @@ public interface TrainingInstanceService {
      * @param criteria - kryteria wyszukiwania
      * @return lista szkoleń do rozliczenia
      */
-    List<TrainingInstancesDto> findTrainingInstanceListByCriteria(TrainingInstanceCriteria criteria);
+    List<TrainingInstanceDto> findTrainingInstanceListByCriteria(TrainingInstanceCriteria criteria);
+
+    /**
+     * Metoda która znajduje szczegółowe dane na temat instancji szkolenia
+     * @param trainingInstanceId - identyfikator instancji szkolenia
+     * @return szczegółowe dane na temat instancji szkolenia
+     */
+    TrainingInstanceDetailsDto findTrainingInstanceDetails(Long trainingInstanceId);
 
     /**
      * Metoda zwracająca listę statusów instancji szkoleń
