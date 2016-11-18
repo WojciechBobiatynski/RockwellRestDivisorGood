@@ -18,5 +18,18 @@ angular.module("gryf.ti").config(["$stateProvider", function($stateProvider) {
                 $state.go("^");
             });
         }]
-    });;
+    }),
+        $stateProvider.state('cancelTrainingReservation', {
+            parent: 'cancelReservation',
+            url: '/cancelTrainingReservation/{trainingInstanceId}',
+            onEnter: ['$state', '$modal', function($state, $modal) {
+                $modal.open({
+                    templateUrl: contextPath + "/templates/canceltrainingreservation/modal/cancelTrainingInstanceDetailsModal.html",
+                    size: "md",
+                    controller: "CancelTrainingReservationModalController"
+                }).result.finally(function() {
+                    $state.go("^");
+                });
+            }]
+        });
 }]);

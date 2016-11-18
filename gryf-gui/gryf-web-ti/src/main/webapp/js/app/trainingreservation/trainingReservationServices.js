@@ -51,11 +51,29 @@ angular.module("gryf.ti").factory("TrainingReservationService", function($http, 
         });
     };
 
+    var cancelTrainingReservation = function(trainingInstanceId) {
+        var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING, {label: "Zapisuję"});
+
+        return $http.put(TRAINING_RESERVATION_URL + "/cancelTrainingReservation/" + trainingInstanceId
+        ).success(function(data) {
+            userTrainingReservationData.data = data;
+        }).error(function(error) {
+            GryfPopups.setPopup("error", "Błąd", "Nie udało się anulować zapisu na szkolenie");
+            GryfPopups.showPopup();
+
+            GryfExceptionHandler.handleSavingError(error, violations, null);
+
+        }).finally(function() {
+            GryfModals.closeModal(modalInstance);
+        });
+    };
+
     return {
         loadUserTrainingReservationData: loadUserTrainingReservationData,
         getUserTrainingReservationData: getUserTrainingReservationData,
         resetUserTrainingReservationData: resetUserTrainingReservationData,
         getNewViolations: getNewViolations,
-        reserveTraining: reserveTraining
+        reserveTraining: reserveTraining,
+        cancelTrainingReservation: cancelTrainingReservation
     }
 });

@@ -61,6 +61,7 @@
     <select id="findTrainingInstanceDetails" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceDetailsDto">
         SELECT
         tin.ID                        trainingInstanceId,
+        tin.ASSIGNED_NUM              productAssignedNum,
         tra.NAME                      trainingName,
         cat.NAME                      trainingCategory,
         tra.PLACE                     trainingPlace,

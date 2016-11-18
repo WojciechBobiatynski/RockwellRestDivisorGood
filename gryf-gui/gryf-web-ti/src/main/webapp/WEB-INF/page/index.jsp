@@ -68,6 +68,7 @@
     <script src="${pageContext.request.contextPath}/js/app/canceltrainingreservation/cancelTrainingReservationController.js"></script>
     <script src="${pageContext.request.contextPath}/js/app/canceltrainingreservation/cancelTrainingReservationService.js"></script>
     <script src="${pageContext.request.contextPath}/js/app/canceltrainingreservation/modal/trainingInstanceDetailsModalController.js"></script>
+    <script src="${pageContext.request.contextPath}/js/app/canceltrainingreservation/modal/cancelTrainingReservationModalController.js"></script>
 </head>
 <body ng-app="gryf.ti">
 <div class="container">

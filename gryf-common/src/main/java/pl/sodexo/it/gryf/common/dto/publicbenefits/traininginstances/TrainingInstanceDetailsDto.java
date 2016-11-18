@@ -19,6 +19,10 @@ public class TrainingInstanceDetailsDto implements Serializable {
 
     @Getter
     @Setter
+    private Integer productAssignedNum;
+
+    @Getter
+    @Setter
     private String trainingName;
 
     @Getter
@@ -53,6 +57,7 @@ public class TrainingInstanceDetailsDto implements Serializable {
     @Setter
     private String participantSurname;
 
+
     @Getter
     @Setter
     private Date startDate;
@@ -60,5 +65,4 @@ public class TrainingInstanceDetailsDto implements Serializable {
     @Getter
     @Setter
     private Date endDate;
-
 }
