@@ -4,7 +4,7 @@ angular.module("gryf.ti").factory("TrainingInstanceSearchService",
 
         var FIND_TRAINING_STATUSES_LIST_URL = contextPath + "/rest/trainingToReimburse/statuses";
         var FIND_TRAINING_INSTANCE_LIST_URL = contextPath + "/rest/trainingInstance/list";
-        var FIND_TRAINING_INSTANCE_DETAILS_URL = contextPath + "/rest/trainingInstance/";
+        var FIND_TRAINING_INSTANCE_DETAILS_URL = contextPath + "/rest/trainingInstance/details/";
 
         var trainingCriteria = new TrainingCriteria();
         var searchResultOptions = new SearchResultOptions();
@@ -60,6 +60,11 @@ angular.module("gryf.ti").factory("TrainingInstanceSearchService",
             return trainingModel;
         };
 
+        var getNewTrainingModel = function () {
+            trainingModel = new TrainingModel();
+            return trainingModel;
+        };
+
         var find = function (findUrl) {
             var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING);
 
@@ -81,7 +86,7 @@ angular.module("gryf.ti").factory("TrainingInstanceSearchService",
             return promise;
         };
 
-        var findById = function(trainingInstanceId) {
+        var findDetailsById = function(trainingInstanceId) {
             return $http.get(FIND_TRAINING_INSTANCE_DETAILS_URL + trainingInstanceId).error(function() {
                 GryfPopups.setPopup("error", "Błąd", "Nie można pobrać instancji szkolenia o wskazanym id");
                 GryfPopups.showPopup();
@@ -99,8 +104,9 @@ angular.module("gryf.ti").factory("TrainingInstanceSearchService",
             getSearchResultOptions: getSearchResultOptions,
             getNewSearchResultOptions: getNewSearchResultOptions,
             getTrainingModel: getTrainingModel,
+            getNewTrainingModel: getNewTrainingModel,
             find: find,
-            findById: findById,
+            findDetailsById: findDetailsById,
             loadMore: loadMore
         };
     }]);

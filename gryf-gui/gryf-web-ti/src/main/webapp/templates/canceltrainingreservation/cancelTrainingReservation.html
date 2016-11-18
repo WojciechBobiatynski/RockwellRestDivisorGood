@@ -61,7 +61,7 @@
          </th>
          <th class="grid-15">
             <select ng-model="trainingCriteria.trainingStatusId"
-                    ng-options="v.id as v.name for v in trainingModel.trainingStatuses" data-ng-disabled="isStatusDisabled()"></select>
+                    ng-options="v.id as v.name for v in trainingStatuses.data" data-ng-disabled="true"></select>
          </th>
          <th>
             <button class="standardButton" ng-click="find()">Wyszukaj</button>

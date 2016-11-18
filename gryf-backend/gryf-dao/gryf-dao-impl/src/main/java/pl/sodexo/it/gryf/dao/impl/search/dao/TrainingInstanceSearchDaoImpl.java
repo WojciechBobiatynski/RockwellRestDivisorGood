@@ -7,7 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.criteria.UserCriteria;
 import pl.sodexo.it.gryf.common.criteria.traininginstance.TrainingInstanceCriteria;
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstancesDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceDetailsDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceDto;
 import pl.sodexo.it.gryf.dao.api.search.dao.TrainingInstanceSearchDao;
 import pl.sodexo.it.gryf.dao.api.search.mapper.TrainingInstanceSearchMapper;
 
@@ -24,8 +25,13 @@ public class TrainingInstanceSearchDaoImpl implements TrainingInstanceSearchDao 
     private TrainingInstanceSearchMapper trainingInstanceSearchMapper;
 
     @Override
-    public List<TrainingInstancesDto> findTrainingToReimburseListByCriteria(TrainingInstanceCriteria criteria) {
+    public List<TrainingInstanceDto> findTrainingToReimburseListByCriteria(TrainingInstanceCriteria criteria) {
         return trainingInstanceSearchMapper.findTrainingToReimburseListByCriteria(criteria);
+    }
+
+    @Override
+    public TrainingInstanceDetailsDto findTrainingInstanceDetails(Long trainingInstanceId) {
+        return trainingInstanceSearchMapper.findTrainingInstanceDetails(new UserCriteria(), trainingInstanceId);
     }
 
     @Override

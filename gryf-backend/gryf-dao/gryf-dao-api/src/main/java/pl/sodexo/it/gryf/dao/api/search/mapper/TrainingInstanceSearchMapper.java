@@ -4,7 +4,8 @@ import org.apache.ibatis.annotations.Param;
 import pl.sodexo.it.gryf.common.criteria.UserCriteria;
 import pl.sodexo.it.gryf.common.criteria.traininginstance.TrainingInstanceCriteria;
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstancesDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceDetailsDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceDto;
 
 import java.util.List;
 
@@ -18,7 +19,15 @@ public interface TrainingInstanceSearchMapper {
      * @param criteria - kryteria wyszukiwania
      * @return lista szkoleń do rozliczenia
      */
-    List<TrainingInstancesDto> findTrainingToReimburseListByCriteria(@Param("criteria") TrainingInstanceCriteria criteria);
+    List<TrainingInstanceDto> findTrainingToReimburseListByCriteria(@Param("criteria") TrainingInstanceCriteria criteria);
+
+    /**
+     * Metoda która znajduje szczegółowe dane na temat instancji szkolenia
+     * @param criteria - kryteria użytkownika
+     * @param trainingInstanceId - identyfikator instancji szkolenia
+     * @return szczegółowe dane na temat instancji szkolenia
+     */
+    TrainingInstanceDetailsDto findTrainingInstanceDetails(@Param("criteria") UserCriteria criteria, @Param("trainingInstanceId") Long trainingInstanceId);
 
     /**
      * Metoda zwracająca listę statusów instancji szkoleń
