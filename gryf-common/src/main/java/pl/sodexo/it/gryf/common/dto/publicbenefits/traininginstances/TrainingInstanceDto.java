@@ -15,7 +15,7 @@ import java.util.List;
  * Created by akmiecinski on 14.11.2016.
  */
 @ToString
-public class TrainingInstancesDto implements Serializable {
+public class TrainingInstanceDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
