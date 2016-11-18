@@ -103,11 +103,12 @@
             ind.LAST_NAME AS lastName,
             ind.PESEL AS pesel,
             ind.ID AS userId,
-            pip.ID AS productPoolId,
-            pip.AVAILABLE_NUM AS availableNum,
-            pip.EXPIRY_DATE AS expiryDate,
+            pip.ID AS poolId,
+            pip.AVAILABLE_NUM AS poolAvailableNum,
+            pip.EXPIRY_DATE AS poolExpiryDate,
+            con.ID AS contractId,
             gpr.ID AS programId,
-            gpr.PROGRAM_NAME AS name
+            gpr.PROGRAM_NAME AS programName
         FROM APP_PBE.INDIVIDUALS ind
             LEFT JOIN APP_PBE.CONTRACTS con ON con.INDIVIDUAL_ID = ind.ID
             LEFT JOIN APP_PBE.GRANT_PROGRAMS gpr ON gpr.ID = con.GRANT_PROGRAM_ID
@@ -123,14 +124,17 @@
         <result property="id" column="userId"/>
 
         <collection property="productInstancePools" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.pbeproductinstancepool.PbeProductInstancePoolDto" autoMapping="true">
-            <id property="id" column="productPoolId"/>
-            <result property="availableNum" column="availableNum"/>
-            <result property="expiryDate" column="expiryDate"/>
+            <id property="id" column="poolId"/>
+            <result property="availableNum" column="poolAvailableNum"/>
+            <result property="expiryDate" column="poolExpiryDate"/>
         </collection>
 
-        <collection property="grantPrograms" ofType="pl.sodexo.it.gryf.common.dto.other.GrantProgramDictionaryDTO" autoMapping="true">
-            <id property="id" column="programId"/>
-            <result property="name" column="name"/>
+        <collection property="contracts" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.contracts.searchform.ContractSearchResultDTO" autoMapping="true">
+            <id property="id" column="contractId"/>
+            <association property="grantProgram" javaType="pl.sodexo.it.gryf.common.dto.other.GrantProgramDictionaryDTO">
+                <id property="id" column="programId"/>
+                <result property="name" column="programName"/>
+            </association>
         </collection>
     </resultMap>
 

@@ -15,10 +15,6 @@ public class TrainingReservationDto {
 
     @Getter
     @Setter
-    private Long grantProgramId;
-
-    @Getter
-    @Setter
     private Long contractId;
 
     @Getter

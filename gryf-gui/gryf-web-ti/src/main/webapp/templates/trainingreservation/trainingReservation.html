@@ -56,7 +56,7 @@
          </div>
          <div class="grid-20">
             <strong class="label">Program dofinansowania</strong>
-            <div ng-repeat="program in userTrainingReservationData.data.grantPrograms">{{program.name}}</div>
+            <div ng-repeat="contract in userTrainingReservationData.data.contracts">{{contract.grantProgram.name}}</div>
          </div>
          <div class="grid-20 text-right">
                <button class="grid-80 standardButton" data-ng-click="reserveTrainingForAnotherUser()">Rezerwuj szkolenie dla innego uczestnika</button>

@@ -2,7 +2,7 @@ package pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind;
 
 import lombok.Getter;
 import lombok.Setter;
-import pl.sodexo.it.gryf.common.dto.other.GrantProgramDictionaryDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.contracts.searchform.ContractSearchResultDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.pbeproductinstancepool.PbeProductInstancePoolDto;
 
 import java.util.List;
@@ -30,7 +30,7 @@ public class UserTrainingReservationDataDto {
 
     @Getter
     @Setter
-    private List<GrantProgramDictionaryDTO> grantPrograms;
+    private List<ContractSearchResultDTO> contracts;
 
     @Getter
     @Setter
