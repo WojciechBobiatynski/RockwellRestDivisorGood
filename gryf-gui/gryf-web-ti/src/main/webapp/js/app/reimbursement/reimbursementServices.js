@@ -3,7 +3,6 @@ angular.module("gryf.ti").factory("ReimbursementsService",
         var PATH_RMBS = "/rest/reimbursements";
         var FIND_RMBS_LIST_URL = contextPath + PATH_RMBS + "/list";
         var FIND_RMBS_STATUSES_LIST_URL = contextPath + PATH_RMBS + "/statuses";
-        var FIND_RMBS_BY_ID = contextPath + PATH_RMBS + "/modify";
 
         var elctRmbsCriteria = new ElctRmbsCriteria();
         var searchResultOptions = new SearchResultOptions();
@@ -98,6 +97,7 @@ angular.module("gryf.ti").factory("ReimbursementsService",
 angular.module("gryf.ti").factory("ReimbursementsServiceModify",
     ['$http', 'GryfModals', 'GryfPopups', 'GryfExceptionHandler', 'GryfHelpers', function ($http, GryfModals, GryfPopups, GryfExceptionHandler, GryfHelpers) {
         var PATH_RMBS = "/rest/reimbursements";
+        var CREATE_RMBS_BY_ID = contextPath + PATH_RMBS + "/create/";
         var FIND_RMBS_BY_ID = contextPath + PATH_RMBS + "/modify/";
 
         var rmbsModel = new RmbsModel();
@@ -111,10 +111,6 @@ angular.module("gryf.ti").factory("ReimbursementsServiceModify",
         };
 
         var findById = function(reimbursementId) {
-            if (!reimbursementId) {
-                return;
-            }
-
             var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING);
 
             var promise = $http.get(FIND_RMBS_BY_ID + reimbursementId);
@@ -128,9 +124,21 @@ angular.module("gryf.ti").factory("ReimbursementsServiceModify",
             return promise;
         };
 
+        var createReimbursement = function(trainingInstanceId){
+            var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING);
+
+            var promise = $http.post(CREATE_RMBS_BY_ID, trainingInstanceId);
+            promise.finally(function () {
+                GryfModals.closeModal(modalInstance);
+            });
+
+            return promise;
+        };
+
         return {
             getRmbsModel: getRmbsModel,
-            findById: findById
+            findById: findById,
+            createReimbursement: createReimbursement
         }
 
     }]);

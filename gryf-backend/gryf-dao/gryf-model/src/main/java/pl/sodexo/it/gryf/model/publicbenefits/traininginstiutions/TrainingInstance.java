@@ -1,17 +1,12 @@
 package pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.ToString;
 import pl.sodexo.it.gryf.model.api.VersionableEntity;
-import pl.sodexo.it.gryf.model.publicbenefits.enterprises.Enterprise;
-import pl.sodexo.it.gryf.model.publicbenefits.enterprises.EnterpriseContact;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
-import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 import pl.sodexo.it.gryf.model.publicbenefits.pbeproduct.PbeProductInstancePoolUse;
 
 import javax.persistence.*;
-import javax.validation.Valid;
 import java.util.*;
 
 /**
@@ -53,9 +48,6 @@ public class TrainingInstance extends VersionableEntity {
 
     @Column(name = "REIMBURSMENT_PIN")
     private String reimbursmentPin;
-
-    @Column(name = "E_REIMBURSMENT_ID")
-    private Long reimbursment;
 
     @OneToMany(mappedBy = "trainingInstance")
     private List<PbeProductInstancePoolUse> pollUses;
@@ -124,14 +116,6 @@ public class TrainingInstance extends VersionableEntity {
 
     public void setReimbursmentPin(String reimbursmentPin) {
         this.reimbursmentPin = reimbursmentPin;
-    }
-
-    public Long getReimbursment() {
-        return reimbursment;
-    }
-
-    public void setReimbursment(Long reimbursment) {
-        this.reimbursment = reimbursment;
     }
 
     //LIST METHODS

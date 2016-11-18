@@ -83,8 +83,7 @@
                     <li><a ng-href="#/modify/{{item.trainingInstanceId}}"
                            class="button button-go">szczegóły</a>
                     </li>
-                    <li><a ui-sref="reimburse({reimbursementId: item.reimbursementId})"
-                           class="button button-go">rozlicz</a>
+                    <li><button class="button button-go" data-ng-click="createReimbursementAndNav(item.trainingInstanceId)">rozlicz</button>
                     </li>
                 </ul>
             </td>

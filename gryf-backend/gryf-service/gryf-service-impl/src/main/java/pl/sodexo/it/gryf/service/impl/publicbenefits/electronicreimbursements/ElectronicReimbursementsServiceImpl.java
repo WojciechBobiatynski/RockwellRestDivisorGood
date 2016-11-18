@@ -32,4 +32,9 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     public List<SimpleDictionaryDto> findElctRmbsStatuses() {
         return electronicReimbursementsDao.findElctRmbsStatuses();
     }
+
+    @Override
+    public Long createRmbsByTrainingInstanceId(Long trainingInstanceId) {
+        return null;
+    }
 }

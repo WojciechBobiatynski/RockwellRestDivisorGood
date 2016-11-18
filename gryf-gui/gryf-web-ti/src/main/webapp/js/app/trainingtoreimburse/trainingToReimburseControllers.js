@@ -1,5 +1,5 @@
-angular.module("gryf.ti").controller("TrainingToReimburseController", ["$scope", "TrainingInstanceSearchService","DictionaryService",
-    function($scope, TrainingInstanceSearchService, DictionaryService) {
+angular.module("gryf.ti").controller("TrainingToReimburseController", ["$scope", "TrainingInstanceSearchService","DictionaryService", "ReimbursementsServiceModify",
+    function($scope, TrainingInstanceSearchService, DictionaryService, ReimbursementsServiceModify) {
         $scope.trainingCriteria = TrainingInstanceSearchService.getNewCriteria();
         $scope.searchResultOptions = TrainingInstanceSearchService.getSearchResultOptions();
         $scope.trainingModel = TrainingInstanceSearchService.getTrainingModel();
@@ -31,6 +31,10 @@ angular.module("gryf.ti").controller("TrainingToReimburseController", ["$scope",
 
         $scope.isStatusDisabled = function(){
             return $scope.trainingCriteria.trainingStatusId != null;
+        };
+
+        $scope.createReimbursementAndNav = function(trainingInstanceId){
+            ReimbursementsServiceModify.createReimbursement(trainingInstanceId);
         };
 
 }]);

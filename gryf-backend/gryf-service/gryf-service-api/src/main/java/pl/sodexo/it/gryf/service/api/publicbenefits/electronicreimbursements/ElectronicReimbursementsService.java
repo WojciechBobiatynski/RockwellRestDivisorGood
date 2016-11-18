@@ -26,4 +26,11 @@ public interface ElectronicReimbursementsService {
      */
     List<SimpleDictionaryDto> findElctRmbsStatuses();
 
+    /**
+     * Tworzy nowe rozliczenie na podstawie Id instancji szkolenia
+     * @param trainingInstanceId - id instancji szkolenia
+     * @return id rozliczenia
+     */
+    Long createRmbsByTrainingInstanceId(Long trainingInstanceId);
+
 }
