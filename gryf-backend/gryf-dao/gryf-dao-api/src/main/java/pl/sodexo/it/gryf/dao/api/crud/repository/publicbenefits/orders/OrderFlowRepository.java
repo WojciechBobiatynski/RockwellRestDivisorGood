@@ -10,6 +10,4 @@ import java.util.List;
  * Created by jbentyn on 2016-09-20.
  */
 public interface OrderFlowRepository extends GenericRepository<OrderFlow, Long> {
-
-    List<OrderFlow> findByGrantApplicationVersionInDate(Long versionId, Date date);
 }

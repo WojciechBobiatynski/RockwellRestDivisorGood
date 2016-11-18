@@ -8,8 +8,12 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderFlow
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationVersion;
+import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlow;
+import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowForGrantApplicationVersion;
+import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowForGrantProgram;
+import pl.sodexo.it.gryf.service.local.api.ParamInDateService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.OrderServiceLocal;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.orderflows.OrderFlowElementService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.orderflows.OrderFlowService;
@@ -36,6 +40,10 @@ public class OrderServiceLocalImpl implements OrderServiceLocal {
     @Autowired
     private OrderFlowRepository orderFlowRepository;
 
+    @Autowired
+    private ParamInDateService paramInDateService;
+
+
     @Override
     public BigDecimal getPaymentAmount(Order order) {
         if (order == null)
@@ -49,9 +57,9 @@ public class OrderServiceLocalImpl implements OrderServiceLocal {
 
     @Override
     public Order createOrder(GrantApplication grantApplication) {
-
         GrantApplicationVersion grantApplicationVersion = grantApplication.getApplicationVersion();
-        OrderFlow orderFlow = findOrderFlow(grantApplicationVersion.getId());
+        OrderFlowForGrantApplicationVersion orderFlowForGraAppVer = paramInDateService.findOrderFlowForGrantApplicationVersion(grantApplicationVersion.getId(), new Date());
+        OrderFlow orderFlow = orderFlowForGraAppVer.getOrderFlow();
 
         OrderFlowService orderFlowService = (OrderFlowService) BeanUtils.findBean(context, orderFlow.getServiceBeanName());
         Order order = orderFlowService.createOrder(grantApplication, orderFlow);
@@ -61,9 +69,9 @@ public class OrderServiceLocalImpl implements OrderServiceLocal {
 
     @Override
     public Order createOrder(Contract contract) {
-        //TODO: tbilski na podstawie tabelki
-        //GrantApplicationVersion grantApplicationVersion = grantApplication.getApplicationVersion();
-        OrderFlow orderFlow = orderFlowRepository.get(100L);//findOrderFlow(grantApplicationVersion.getId());
+        GrantProgram grantProgram = contract.getGrantProgram();
+        OrderFlowForGrantProgram orderForGrPr = paramInDateService.findOrderFlowForGrantProgram(grantProgram.getId(), new Date());
+        OrderFlow orderFlow = orderForGrPr.getOrderFlow();
 
         OrderFlowService orderFlowService = (OrderFlowService) BeanUtils.findBean(context, orderFlow.getServiceBeanName());
         Order order = orderFlowService.createOrder(contract, orderFlow);
@@ -71,22 +79,5 @@ public class OrderServiceLocalImpl implements OrderServiceLocal {
         return order;
     }
 
-    /**
-     * Metoda wyszukuje objekt OrderFlow na podstawie id wersji wniosku. Metoda sprawdza czy w bazie znajduje się dokałdnie
-     * jedna instancja objetu OrderFlow dla danej wersji. Jeżeli nie bedzie znajdować sietylko jedna instancja zostanie wygenerowany wyjatek.
-     *
-     * @param id id wersji aplikacji
-     * @return objekt typu OrderFlow
-     */
-    private OrderFlow findOrderFlow(Long id) {
-        List<OrderFlow> orderFlows = orderFlowRepository.findByGrantApplicationVersionInDate(id, new Date());
-        if (orderFlows.size() == 0) {
-            throw new RuntimeException(String.format("Nie znaleziono żadnego order flow dla wersji [%s]", id));
-        }
-        if (orderFlows.size() > 1) {
-            throw new RuntimeException(String.format("Dla danej wersji wniosku [%s] znaleziono wiecej niż jeden order flow", id));
-        }
-        return orderFlows.get(0);
-    }
 }
 

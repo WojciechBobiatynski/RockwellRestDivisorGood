@@ -9,7 +9,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.pbeproduct.PbeProductInstanceEvent
 import pl.sodexo.it.gryf.model.publicbenefits.pbeproduct.PbeProductInstancePoolEvent;
 import pl.sodexo.it.gryf.model.publicbenefits.pbeproduct.PbeProductInstancePoolUse;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingCategoryCatalogGrantProgram;
-import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingCategoryCatalogParam;
+import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingCategoryParam;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstance;
 import pl.sodexo.it.gryf.service.api.publicbenefits.pbeproducts.PbeProductService;
 
@@ -60,7 +60,7 @@ public class PbeProductServiceImpl implements PbeProductService {
     private TrainingCategoryCatalogRepository trainingCategoryCatalogRepository;
 
     @Autowired
-    private TrainingCategoryCatalogParamRepository trainingCategoryCatalogParamRepository;
+    private TrainingCategoryParamRepository trainingCategoryParamRepository;
 
     @Autowired
     private TrainingCategoryCatalogGrantProgramRepository trainingCategoryCatalogGrantProgramRepository;
@@ -100,9 +100,9 @@ public class PbeProductServiceImpl implements PbeProductService {
         System.out.println("trainingCategoryCatalogGrantProgram.getCatalog()=" + trainingCategoryCatalogGrantProgram.getCatalog());
 
         System.out.println("-----------");
-        TrainingCategoryCatalogParam trainingCategoryCatalogParam = trainingCategoryCatalogParamRepository.get(1L);
-        System.out.println("trainingCategoryCatalogParam=" + trainingCategoryCatalogParam);
-        System.out.println("trainingCategoryCatalogParam.getGrantProgram()=" + trainingCategoryCatalogParam.getGrantProgram());
-        System.out.println("trainingCategoryCatalogParam.getCategory()=" + trainingCategoryCatalogParam.getCategory());
+        TrainingCategoryParam trainingCategoryParam = trainingCategoryParamRepository.get(1L);
+        System.out.println("trainingCategoryParam=" + trainingCategoryParam);
+        System.out.println("trainingCategoryParam.getGrantProgram()=" + trainingCategoryParam.getGrantProgram());
+        System.out.println("trainingCategoryParam.getCategory()=" + trainingCategoryParam.getCategory());
     }
 }

@@ -24,7 +24,7 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.pbeproducts.PbeP
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.pbeproducts.PbeProductInstancePoolUseRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.pbeproducts.PbeProductInstanceRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.pbeproducts.PbeProductInstanceStatusRepository;
-import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingCategoryCatalogParamRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingCategoryParamRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstanceRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstanceStatusRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingRepository;
@@ -44,12 +44,13 @@ import pl.sodexo.it.gryf.model.publicbenefits.pbeproduct.PbeProductInstancePoolS
 import pl.sodexo.it.gryf.model.publicbenefits.pbeproduct.PbeProductInstancePoolUse;
 import pl.sodexo.it.gryf.model.publicbenefits.pbeproduct.PbeProductInstanceStatus;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.Training;
-import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingCategoryCatalogParam;
+import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingCategoryParam;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstance;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstanceStatus;
 import pl.sodexo.it.gryf.service.api.publicbenefits.individuals.IndividualService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.pbeproductinstancepool.PbeProductInstancePoolService;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
+import pl.sodexo.it.gryf.service.local.api.ParamInDateService;
 import pl.sodexo.it.gryf.service.local.impl.publicbenefits.products.PbeProductInstanceEventBuilder;
 import pl.sodexo.it.gryf.service.local.impl.publicbenefits.products.PbeProductInstancePoolEventBuilder;
 import pl.sodexo.it.gryf.service.local.impl.publicbenefits.products.PrintNumberGenerator;
@@ -112,7 +113,7 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
     private TrainingInstanceRepository trainingInstanceRepository;
 
     @Autowired
-    private TrainingCategoryCatalogParamRepository trainingCategoryCatalogParamRepository;
+    private TrainingCategoryParamRepository trainingCategoryCatalogParamRepository;
 
     @Autowired
     private PbeProductInstancePoolUseRepository productInstancePoolUseRepository;
@@ -145,6 +146,9 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
     @Autowired
     private IndividualService individualService;
 
+    @Autowired
+    private ParamInDateService paramInDateService;
+
     //PUBLIC METHODS - FIND
 
     @Override
@@ -166,14 +170,15 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
         Integer productInstanceNum = 30;//TODO: tbilski - pole z zamówienia
 
         //POBRANIE PRODUKTU NA PODSTWIE GRANT PROGRAMU
-        GrantProgramProduct gpProduct = findGrantProgramProduct(grantProgram.getId(), new Date());
+        GrantProgramProduct gpProduct = paramInDateService.findGrantProgramProduct(grantProgram.getId(), new Date());
 
         //STWORZENIE PULI BONÓW
         PbeProductInstancePool pool = createProductInstancePool(order, contract, individual, gpProduct.getPbePproduct(), productInstanceNum);
         pool = productInstancePoolRepository.save(pool);
 
         //STWORZENIE EVENTU DO PULI BONÓW
-        PbeProductInstancePoolEvent event = productInstancePoolEventBuilder.createPbeProductInstancePoolEvent(pool, PbeProductInstancePoolEventType.ACTIVE_CODE, order.getId());
+        PbeProductInstancePoolEvent event = productInstancePoolEventBuilder.createPbeProductInstancePoolEvent(pool,
+                                                                            PbeProductInstancePoolEventType.ACTIVE_CODE, order.getId());
         productInstancePoolEventRepository.save(event);
 
         //POBRANIE STATUSOW I TYPOW DLA REZERWOWANYCH INSTANCJI
@@ -218,7 +223,8 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
         trainingInstance = trainingInstanceRepository.save(trainingInstance);
 
         //POBRANIE PULI BONÓW KTÓRE MOŻNA WYKORZYSTAC
-        List<PbeProductInstancePool> pools = productInstancePoolRepository.findAvaiableForUse(individual.getId(), grantProgram.getId(), training.getEndDate());
+        List<PbeProductInstancePool> pools = productInstancePoolRepository.findAvaiableForUse(individual.getId(),
+                                                                            grantProgram.getId(), training.getEndDate());
 
         //VALIDACJA
         List<EntityConstraintViolation> violations = Lists.newArrayList();
@@ -346,7 +352,8 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
                 violations.add(new EntityConstraintViolation("Użytkownik nie posiada odpowiedniej liczby " + "ważnych bonów do rezerwacji wybranego szkolenia."));
             }
 
-            TrainingCategoryCatalogParam tccParam = findTrainingCategoryCatalogParam(training.getCategory().getId(), grantProgram.getId(), new Date());
+            TrainingCategoryParam tccParam = paramInDateService.findTrainingCategoryParam(training.getCategory().getId(),
+                                                                                                    grantProgram.getId(), new Date());
 
             //WALIDACJE PO GODZINACH SZKOLENIA (TYPOWE SZKOLENIE)
             if (tccParam.getProductInstanceForHour() != null) {
@@ -394,44 +401,6 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
                 }
             }
         }
-    }
-
-    private TrainingCategoryCatalogParam findTrainingCategoryCatalogParam(String categoryId, Long grantProgramId, Date date){
-        List<TrainingCategoryCatalogParam> params = trainingCategoryCatalogParamRepository.findByCategoryAndGrantProgramInDate(
-                                                                                            categoryId,  grantProgramId, date);
-        if(params.size() == 0){
-            throw new RuntimeException(String.format("Błąd parmetryzacji w tabeli APP_PBE.TI_TRAINING_CATEGORY_PARAMS. Nie znaleziono żadnego "
-                            + "parametru dla kategorii [%s], programu dofinansowania [%s] obowiązującego dnia [%s]",
-                            categoryId, grantProgramId, date));
-        }
-        if(params.size() > 1){
-            throw new RuntimeException(String.format("Błąd parmetryzacji w tabeli APP_PBE.TI_TRAINING_CATEGORY_PARAMS. Dla danej "
-                            + "dla kategorii [%s], programu dofinansowania [%s] znaleziono więcej niż jeden parametr obowiązujący dnia [%s]",
-                            categoryId, grantProgramId, date));
-        }
-        return params.get(0);
-
-    }
-
-    private GrantProgramProduct findGrantProgramProduct(Long grantProgramId, Date date){
-        List<GrantProgramProduct> grantProgramProducts = grantProgramProductRepository.findByGrantProgramInDate(grantProgramId, date);
-        if(grantProgramProducts.size() == 0){
-            throw new RuntimeException(String.format("Błąd parmetryzacji w tabeli APP_PBE.GRANT_PROGRAM_PRODUCTS. Nie znaleziono żadnego "
-                            + "produktu dla programu [%s] obowiązującego dnia [%s]",
-                    grantProgramId, date));
-        }
-        if(grantProgramProducts.size() > 1){
-            throw new RuntimeException(String.format("Błąd parmetryzacji w tabeli APP_PBE.GRANT_PROGRAM_PRODUCTS. Dla danej "
-                            + "programu [%s] znaleziono więcej niż jeden produkt obowiązujący dnia [%s]",
-                    grantProgramId, date));
-        }
-        GrantProgramProduct p = grantProgramProducts.get(0);
-        if(p.getPbePproduct() == null){
-            throw new RuntimeException(String.format("Błąd parmetryzacji w tabeli APP_PBE.GRANT_PROGRAM_PRODUCTS. Dla danej programu "
-                            + "[%s] znaleziono jeden jeden produkt obowiązujący dnia [%s] ale bez ustawionej kolumny PBE_PRD_ID",
-                    grantProgramId, date));
-        }
-        return p;
     }
 
     private PrintNumberResultDto generatePrintNumber(PbeProduct product, Contract contract, PbeProductInstance instance){

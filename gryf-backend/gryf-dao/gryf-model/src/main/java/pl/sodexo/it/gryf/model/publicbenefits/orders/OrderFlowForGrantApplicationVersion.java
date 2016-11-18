@@ -1,6 +1,7 @@
 package pl.sodexo.it.gryf.model.publicbenefits.orders;
 
 import lombok.ToString;
+import pl.sodexo.it.gryf.model.api.GryfEntity;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationVersion;
 
 import javax.persistence.*;
@@ -13,7 +14,13 @@ import java.util.Objects;
 @ToString(exclude = {"grantApplicationVersion", "orderFlow"})
 @Entity
 @Table(name = "ORDER_FLOWS_FOR_GAPP_VERSIONS", schema = "APP_PBE")
-public class OrderFlowForGrantApplicationVersion {
+@NamedQueries({
+        @NamedQuery(name = "OrderFlowForGrantApplicationVersion.findByGrantApplicationVersionInDate",
+                query = "select distinct offgav from OrderFlowForGrantApplicationVersion offgav " +
+                "where offgav.grantApplicationVersion.id = :versionId " +
+                "and (offgav.dateFrom is null or offgav.dateFrom <= :date) " +
+                "and (offgav.dateTo is null or :date <= offgav.dateTo)")})
+public class OrderFlowForGrantApplicationVersion extends GryfEntity{
 
     //FIELDS
 

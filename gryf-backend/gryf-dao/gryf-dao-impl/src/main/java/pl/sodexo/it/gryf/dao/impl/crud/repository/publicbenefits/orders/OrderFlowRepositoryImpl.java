@@ -14,13 +14,4 @@ import java.util.List;
  */
 @Repository
 public class OrderFlowRepositoryImpl extends GenericRepositoryImpl<OrderFlow, Long> implements OrderFlowRepository {
-
-    @Override
-    public List<OrderFlow> findByGrantApplicationVersionInDate(Long versionId, Date date) {
-        TypedQuery<OrderFlow> query = entityManager.createNamedQuery(OrderFlow.FIND_BY_GRANT_APPLICATION_VERSION_IN_DATE, OrderFlow.class);
-        query.setParameter("versionId", versionId);
-        query.setParameter("date", date);
-        return query.getResultList();
-    }
-
 }

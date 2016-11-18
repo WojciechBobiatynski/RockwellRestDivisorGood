@@ -17,7 +17,7 @@ public class IndividualContactRepositoryImpl extends GenericRepositoryImpl<Indiv
     @Override
     public IndividualContact findByIndividualAndContactType(Long individualId, String contactType) {
         try {
-          TypedQuery<IndividualContact> query = entityManager.createNamedQuery(IndividualContact.FIND_BY_INDIVIDUAL_AND_CONTACT_TYPE, IndividualContact.class);
+          TypedQuery<IndividualContact> query = entityManager.createNamedQuery("IndividualContact.findByIndividualAndContactType", IndividualContact.class);
           query.setParameter("individualId", individualId);
           query.setParameter("contactType", contactType);
           return query.getSingleResult();

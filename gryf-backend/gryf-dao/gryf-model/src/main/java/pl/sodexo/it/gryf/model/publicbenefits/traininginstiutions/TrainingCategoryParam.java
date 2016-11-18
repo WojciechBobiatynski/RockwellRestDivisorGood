@@ -3,7 +3,6 @@ package pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions;
 import lombok.ToString;
 import pl.sodexo.it.gryf.model.api.GryfEntity;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
-import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgramProduct;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -16,12 +15,12 @@ import java.util.Objects;
 @ToString(exclude = {"grantProgram", "category"})
 @Table(name = "TI_TRAINING_CATEGORY_PARAMS", schema = "APP_PBE")
 @NamedQueries(
-        {@NamedQuery(name = "TrainingCategoryCatalogParam.findByCategoryAndGrantProgramInDate", query="select distinct tccp from TrainingCategoryCatalogParam tccp " +
+        {@NamedQuery(name = "TrainingCategoryParam.findByCategoryAndGrantProgramInDate", query="select distinct tccp from TrainingCategoryParam tccp " +
                 "where tccp.category.id = :categoryId " +
                 "and  tccp.grantProgram.id = :grantProgramId " +
                 "and (tccp.dateFrom is null or tccp.dateFrom <= :date) " +
                 "and (tccp.dateTo is null or :date <= tccp.dateTo)")})
-public class TrainingCategoryCatalogParam extends GryfEntity {
+public class TrainingCategoryParam extends GryfEntity {
 
     //FIELDS
 
@@ -118,7 +117,7 @@ public class TrainingCategoryCatalogParam extends GryfEntity {
         if (o == null || getClass() != o.getClass()){
             return false;
         }
-        return Objects.equals(id, ((TrainingCategoryCatalogParam) o).id);
+        return Objects.equals(id, ((TrainingCategoryParam) o).id);
     }
 
     @Override

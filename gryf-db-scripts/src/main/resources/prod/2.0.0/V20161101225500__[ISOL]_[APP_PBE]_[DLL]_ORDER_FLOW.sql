@@ -31,13 +31,17 @@ delete from APP_PBE.GRANT_OWNERS where ID = 100;
 Insert into APP_PBE.GRANT_OWNERS (ID,NAME,EMAIL_ADDRESSES_GRANT_APP_INFO) values (100,'Sodexo - Kierunek Kariera','marcel.golunski@sodexo.com');
 Insert into APP_PBE.GRANT_PROGRAMS (ID,GRANT_OWNER_ID,PROGRAM_NAME,START_DATE,END_DATE) values (100, 100,'Kierunek Kariera',to_date('16/10/01','RR/MM/DD'),null);
 
+
+
 Insert into APP_PBE.ORDER_FLOW_STATUSES (STATUS_ID,STATUS_NAME) values ('NEWKK', 'Nowe');
 Insert into APP_PBE.ORDER_FLOW_STATUSES (STATUS_ID,STATUS_NAME) values ('PAIDKK', 'Op³acone');
 Insert into APP_PBE.ORDER_FLOW_STATUSES (STATUS_ID,STATUS_NAME) values ('PROCESSDKK', 'Zrealizowane');
 Insert into APP_PBE.ORDER_FLOW_STATUSES (STATUS_ID,STATUS_NAME) values ('SENTKK', 'Wys³ane');
 Insert into APP_PBE.ORDER_FLOW_STATUSES (STATUS_ID,STATUS_NAME) values ('CANCELLDKK', 'Anulowane');
 
-Insert into APP_PBE.ORDER_FLOWS (ID,NAME,INITIAL_STATUS_ID) values ('100','Przepyw zamówienia - Kierunek Kariera','NEWKK');
+Insert into APP_PBE.ORDER_FLOWS (ID,NAME,INITIAL_STATUS_ID) values (100,'Przepyw zamówienia - Kierunek Kariera','NEWKK');
+Insert into APP_PBE.ORDER_FLOWS_FOR_GR_PROGRAMS(ID, GRANT_PROGRAM_ID, ORDER_FLOW_ID, DATE_FROM, DATE_TO) values (1, 100, 100, null, null);
+
 
 
 

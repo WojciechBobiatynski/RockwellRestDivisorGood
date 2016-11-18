@@ -19,21 +19,12 @@ import java.util.Objects;
 @ToString(exclude = {"initialStatus", "orders", "orderFlowStatusTransitions"})
 @Entity
 @Table(name = "ORDER_FLOWS", schema = "APP_PBE")
-@NamedQueries({
-        @NamedQuery(name = OrderFlow.FIND_BY_GRANT_APPLICATION_VERSION_IN_DATE, query = "select distinct offgav.orderFlow from OrderFlowForGrantApplicationVersion offgav " +
-                                                                                        "where offgav.grantApplicationVersion.id = :versionId " +
-                                                                                        "and (offgav.dateFrom is null or offgav.dateFrom <= :date) " +
-                                                                                        "and (offgav.dateTo is null or :date <= offgav.dateTo)")})
 public class OrderFlow extends GryfEntity {
 
     //STATIC FIELDS - COMPONENT NAME FIELDS
 
     private static final String ORDER_FLOW_SERVICE_PREFIX = "orderFlow";
     private static final String ORDER_FLOW_SERVICE_SUFFIX = "Service";
-
-    //STATIC FIELDS - NAMED QUERY
-
-    public static final String FIND_BY_GRANT_APPLICATION_VERSION_IN_DATE = "OrderFlow.findByGrantApplicationVersionInDate";
 
     //FIELDS
 
