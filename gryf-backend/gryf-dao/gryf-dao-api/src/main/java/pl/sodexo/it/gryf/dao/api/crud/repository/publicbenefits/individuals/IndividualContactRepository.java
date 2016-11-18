@@ -7,5 +7,5 @@ import pl.sodexo.it.gryf.model.publicbenefits.individuals.IndividualContact;
  * Created by adziobek on 18.11.2016.
  */
 public interface IndividualContactRepository extends GenericRepository<IndividualContact, Long> {
-    IndividualContact findByIndividualAndContactType(Long individualId, String contactType);
+    IndividualContact findByIndividualAndContactType(Long individualId, String contactTypeType);
 }

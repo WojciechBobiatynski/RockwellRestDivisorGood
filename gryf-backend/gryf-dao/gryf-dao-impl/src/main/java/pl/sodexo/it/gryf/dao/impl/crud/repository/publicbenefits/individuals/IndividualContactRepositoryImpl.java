@@ -15,11 +15,11 @@ import javax.persistence.TypedQuery;
 public class IndividualContactRepositoryImpl extends GenericRepositoryImpl<IndividualContact, Long> implements IndividualContactRepository {
 
     @Override
-    public IndividualContact findByIndividualAndContactType(Long individualId, String contactType) {
+    public IndividualContact findByIndividualAndContactType(Long individualId, String contactTypeType) {
         try {
           TypedQuery<IndividualContact> query = entityManager.createNamedQuery("IndividualContact.findByIndividualAndContactType", IndividualContact.class);
           query.setParameter("individualId", individualId);
-          query.setParameter("contactType", contactType);
+          query.setParameter("contactTypeType", contactTypeType);
           return query.getSingleResult();
         } catch (NoResultException exception) {
         return null;
