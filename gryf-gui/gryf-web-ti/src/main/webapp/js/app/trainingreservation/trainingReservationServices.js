@@ -39,6 +39,9 @@ angular.module("gryf.ti").factory("TrainingReservationService", function($http, 
 
         return $http.post(TRAINING_RESERVATION_URL + "/reserveTraining", trainingReservationDto
         ).success(function(data) {
+            GryfPopups.setPopup("success", "Sukces", "Osoba została zapisana na szkolenie");
+            GryfPopups.showPopup();
+
             userTrainingReservationData.data = data;
         }).error(function(error) {
             GryfPopups.setPopup("error", "Błąd", "Nie udało się zapisać osoby na szkolenie");
@@ -56,6 +59,9 @@ angular.module("gryf.ti").factory("TrainingReservationService", function($http, 
 
         return $http.put(TRAINING_RESERVATION_URL + "/cancelTrainingReservation/" + trainingInstanceId
         ).success(function(data) {
+            GryfPopups.setPopup("success", "Sukces", "Anulowano zapis osoby na szkolenie");
+            GryfPopups.showPopup();
+
             userTrainingReservationData.data = data;
         }).error(function(error) {
             GryfPopups.setPopup("error", "Błąd", "Nie udało się anulować zapisu na szkolenie");
