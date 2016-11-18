@@ -34,8 +34,3 @@ angular.module("gryf.ti").controller("TrainingToReimburseController", ["$scope",
         };
 
 }]);
-
-angular.module("gryf.ti").controller("ReimburseController", ["$scope", "TrainingInstanceSearchService","DictionaryService",
-    function($scope, TrainingInstanceSearchService, DictionaryService) {
-
-    }]);

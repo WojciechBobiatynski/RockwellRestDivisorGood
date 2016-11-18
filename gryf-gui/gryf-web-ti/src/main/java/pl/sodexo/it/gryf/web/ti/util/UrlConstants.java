@@ -10,6 +10,7 @@ public final class UrlConstants {
     public static final String PATH_REIMBURSEMENT_REST = "/rest/reimbursements";
     public static final String PATH_REIMBURSEMENT_LIST = "/list";
     public static final String PATH_REIMBURSEMENTS_STATUSES_LIST = "/statuses";
+    public static final String PATH_REIMBURSEMENTS_MODIFY = "/modify";
 
 
     public static final String PATH_TRAINING_TO_REIMBURSE_REST = "/rest/trainingToReimburse";
