@@ -2,12 +2,14 @@ package pl.sodexo.it.gryf.service.mapping;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import pl.sodexo.it.gryf.common.authentication.AEScryptographer;
 import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.common.dto.mail.MailDTO;
 import pl.sodexo.it.gryf.common.dto.security.individuals.Verifiable;
 import pl.sodexo.it.gryf.common.mail.MailPlaceholders;
 import pl.sodexo.it.gryf.dao.api.crud.repository.mail.EmailTemplateRepository;
 import pl.sodexo.it.gryf.model.mail.EmailTemplate;
+import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstance;
 import pl.sodexo.it.gryf.service.local.api.MailService;
 
 import java.util.Collections;
@@ -58,4 +60,49 @@ public class MailDtoCreator {
         return mailDTO;
     }
 
+    public MailDTO createMailDTOForPinSend(TrainingInstance ti, String email) {
+
+        String pin = getDecryptedPin(ti.getReimbursmentPin());
+        MailPlaceholders mailPlaceholders = mailService.createPlaceholders("individualName", ti.getIndividual().getFirstName())
+                .add("reimbursmentPin", pin)
+                .add("trainingName", ti.getTraining().getName())
+                .add("trainingPlace", ti.getTraining().getPlace())
+                .add("assignedProductNum", String.valueOf(ti.getAssignedNum()))
+                .add("trainingStartDate", String.valueOf(ti.getTraining().getStartDate()))
+                .add("trainingInstitutionName", ti.getTraining().getTrainingInstitution().getName());
+        EmailTemplate emailTemplate = emailTemplateRepository.get(SEND_TRAINING_REIMBURSMENT_PIN_TEMPLATE_CODE);
+        return createAndFillMailDTO(emailTemplate, email, mailPlaceholders);
+    }
+
+    public MailDTO createMailDTOForPinResend(TrainingInstance ti, String email) {
+        String pin = getDecryptedPin(ti.getReimbursmentPin());
+        MailPlaceholders mailPlaceholders = mailService.createPlaceholders("individualName", ti.getIndividual().getFirstName())
+                .add("reimbursmentPin", pin)
+                .add("trainingName", ti.getTraining().getName())
+                .add("trainingPlace", ti.getTraining().getPlace())
+                .add("assignedProductNum", String.valueOf(ti.getAssignedNum()))
+                .add("trainingStartDate", String.valueOf(ti.getTraining().getStartDate()))
+                .add("trainingInstitutionName", ti.getTraining().getTrainingInstitution().getName());
+        EmailTemplate emailTemplate = emailTemplateRepository.get(RESEND_TRAINING_REIMBURSMENT_PIN_TEMPLATE_CODE);
+        return createAndFillMailDTO(emailTemplate, email, mailPlaceholders);
+    }
+
+    private String getDecryptedPin(String reimbursmentPin) {
+        if (reimbursmentPin == null) {
+            return "";
+        }
+        return  AEScryptographer.decrypt(reimbursmentPin);
+    }
+
+    private MailDTO createAndFillMailDTO(EmailTemplate emailTemplate, String email, MailPlaceholders mailPlaceholders) {
+        MailDTO mailDTO = new MailDTO();
+        mailDTO.setTemplateId(emailTemplate.getId());
+        mailDTO.setSubject(emailTemplate.getEmailSubjectTemplate());
+        mailDTO.setAddressesFrom(applicationParameters.getGryfPbeAdmEmailFrom());
+        mailDTO.setAddressesTo(email);
+        mailDTO.setBody(mailPlaceholders.replace(emailTemplate.getEmailBodyTemplate()));
+        mailDTO.setAttachments(Collections.emptyList());
+
+        return mailDTO;
+    }
 }

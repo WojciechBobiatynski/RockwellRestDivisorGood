@@ -7,7 +7,7 @@ angular.module("gryf.ind").factory("IndService",
     ["$http", "GryfModals", "GryfPopups", function($http, GryfModals, GryfPopups) {
 
         var FIND_IND_URL = contextPath + "/rest/ind/";
-        var SEND_REIMBURSMENT_PIN_URL = contextPath + "/ind/reimbursmentPin/send";
+        var SEND_REIMBURSMENT_PIN_URL = contextPath + "/rest/ind/reimbursmentPin/resend";
         var indObject = new IndObject();
 
         function IndObject() {

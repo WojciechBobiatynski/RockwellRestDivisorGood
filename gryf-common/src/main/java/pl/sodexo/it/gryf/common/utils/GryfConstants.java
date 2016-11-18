@@ -17,6 +17,8 @@ public final class GryfConstants {
 
     public static final String VERIFICATION_CODE_EMAIL_TEMPLATE_CODE = "VC_SEND";
     public static final String RESET_LINK_EMAIL_TEMPLATE_CODE = "RESET_LINK";
+    public static final String SEND_TRAINING_REIMBURSMENT_PIN_TEMPLATE_CODE = "PIN_SEND";
+    public static final String RESEND_TRAINING_REIMBURSMENT_PIN_TEMPLATE_CODE = "PIN_RESEND";
 
     public static final String EMAIL_BODY_VER_CODE_PLACEHOLDER = "verificationCode";
     public static final String EMAIL_BODY_LOGIN_PLACEHOLDER = "login";

@@ -31,4 +31,16 @@ public interface TrainingInstanceService {
      * @return - lista statusów
      */
     List<SimpleDictionaryDto> findTrainingInstanceStatuses();
+
+    /**
+     * Metoda przesyłająca pin do szkolenia do uczestnika
+     * @param trainingInstanceId
+     */
+    void sendReimbursmentPin(Long trainingInstanceId);
+
+    /**
+     * Metoda ponownie przesyłająca pin do szkolenia do uczestnika
+     * @param trainingInstanceId
+     */
+    void resendReimbursmentPin(Long trainingInstanceId);
 }

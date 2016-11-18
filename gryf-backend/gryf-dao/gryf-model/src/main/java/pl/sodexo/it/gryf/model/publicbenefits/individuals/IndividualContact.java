@@ -3,18 +3,24 @@ package pl.sodexo.it.gryf.model.publicbenefits.individuals;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.ToString;
 import pl.sodexo.it.gryf.model.publicbenefits.api.Contact;
+import pl.sodexo.it.gryf.model.publicbenefits.api.ContactType;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @ToString(exclude = "individual")
 @Entity
 @Table(name = "INDIVIDUAL_CONTACTS", schema = "APP_PBE")
+@NamedQueries({
+        @NamedQuery(name = "IndividualContact.findByIndividualAndContactType", query = "select ic from IndividualContact ic where ic.individual.id = :individualId "
+                + "and ic.contactType.type = :contactType"),
+})
 public class IndividualContact extends Contact {
+
+    //STATIC FIELDS - NAMED QUERY
+
+    public static final String FIND_BY_INDIVIDUAL_AND_CONTACT_TYPE = "IndividualContact.findByIndividualAndContactType";
 
     //STATIC FIELDS - ATRIBUTES
 

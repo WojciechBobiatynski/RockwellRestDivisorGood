@@ -1,11 +1,11 @@
 package pl.sodexo.it.gryf.web.ind.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.IndDto;
 import pl.sodexo.it.gryf.service.api.publicbenefits.individuals.IndividualService;
+import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.TrainingInstanceService;
 import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
 
 /**
@@ -21,6 +21,9 @@ public class IndividualsRestController {
     IndividualService individualService;
 
     @Autowired
+    TrainingInstanceService trainingInstanceService;
+
+    @Autowired
     private SecurityChecker securityChecker;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -29,4 +32,9 @@ public class IndividualsRestController {
         return individualService.findIndividualAfterLogin();
     }
 
+    @RequestMapping(value = "/reimbursmentPin/resend/{trainingInstanceId}", method = RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.OK)
+    public void resendReimbursmentPin(@PathVariable("trainingInstanceId") Long trainingInstanceId) {
+        trainingInstanceService.resendReimbursmentPin(trainingInstanceId);
+    }
 }
