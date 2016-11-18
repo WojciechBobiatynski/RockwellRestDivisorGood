@@ -305,7 +305,7 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
             //PRZEPISANIE BONOW
             int toChange = (p.getAvailableNum() > leftToReservedNum) ? leftToReservedNum : p.getAvailableNum();
             p.setAvailableNum(p.getAvailableNum() - toChange);
-            p.setUsedNum(p.getUsedNum() + toChange);
+            p.setReservedNum(p.getReservedNum() + toChange);
             if(p.getAvailableNum() == 0){
                 p.setStatus(poolStatusUse);
             }
