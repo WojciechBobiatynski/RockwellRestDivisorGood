@@ -1,10 +1,10 @@
 MERGE INTO APP_PBE.EMAIL_TEMPLATES msg USING (SELECT 'PIN_SEND' ID ,'Witaj: {$individualName}
 
 PIN: {$reimbursmentPin}
-SZKOLENIE:{$trainingName}, {$trainingPlace}, {$trainingInstitutionName}, {$trainingStartDate}, liczba bonÃ³w: {$assignedProductNum}
-Z powaï¿½aniem
-Zespï¿½ ds. obsï¿½ugi klienta' EMAIL_BODY_TEMPLATE, 'Pin do szkolenia' EMAIL_SUBJECT_TEMPLATE,
- 'PrzesÅ‚anie pinu do szkolenia' DESCRIPTION from dual) ins
+SZKOLENIE:{$trainingName}, {$trainingPlace}, {$trainingInstitutionName}, {$trainingStartDate}, liczba bonów: {$assignedProductNum}
+Z powa¿aniem
+Zespó³ ds. obs³ugi klienta' EMAIL_BODY_TEMPLATE, 'Pin do szkolenia' EMAIL_SUBJECT_TEMPLATE,
+ 'Przes³anie pinu do szkolenia' DESCRIPTION from dual) ins
 
 ON (msg.ID = ins.ID) WHEN MATCHED THEN UPDATE SET msg.EMAIL_BODY_TEMPLATE = ins.EMAIL_BODY_TEMPLATE,
  msg.EMAIL_SUBJECT_TEMPLATE = ins.EMAIL_SUBJECT_TEMPLATE,
@@ -15,10 +15,10 @@ ins.EMAIL_SUBJECT_TEMPLATE, ins.DESCRIPTION);
 MERGE INTO APP_PBE.EMAIL_TEMPLATES msg USING (SELECT 'PIN_RESEND' ID ,'Witaj: {$individualName}
 
 PIN: {$reimbursmentPin}
-SZKOLENIE:{$trainingName}, {$trainingPlace}, {$trainingInstitutionName}, {$trainingStartDate}, liczba bonÃ³w: {$assignedProductNum}
-Z powaï¿½aniem
-Zespï¿½ ds. obsï¿½ugi klienta' EMAIL_BODY_TEMPLATE, 'Pin do szkolenia' EMAIL_SUBJECT_TEMPLATE,
- 'PrzesÅ‚anie pinu do szkolenia' DESCRIPTION from dual) ins
+SZKOLENIE:{$trainingName}, {$trainingPlace}, {$trainingInstitutionName}, {$trainingStartDate}, liczba bonów: {$assignedProductNum}
+Z powa¿aniem
+Zespó³ ds. obs³ugi klienta' EMAIL_BODY_TEMPLATE, 'Pin do szkolenia' EMAIL_SUBJECT_TEMPLATE,
+ 'Przes³anie pinu do szkolenia' DESCRIPTION from dual) ins
 
 ON (msg.ID = ins.ID) WHEN MATCHED THEN UPDATE SET msg.EMAIL_BODY_TEMPLATE = ins.EMAIL_BODY_TEMPLATE,
  msg.EMAIL_SUBJECT_TEMPLATE = ins.EMAIL_SUBJECT_TEMPLATE,
