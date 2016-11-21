@@ -48,6 +48,7 @@
     <script src="${pageContext.request.contextPath}/js/components/directives/documentDirective.js"></script>
     <script src="${pageContext.request.contextPath}/js/components/traininginstancesearchservice/trainingInstanceSearchService.js"></script>
     <script src="${pageContext.request.contextPath}/js/components/trainingsearchservice/trainingSearchService.js"></script>
+    <script src="${pageContext.request.contextPath}/js/components/sharedModals/trainingInstanceDetailsModalController.js"></script>
 
     <script src="${pageContext.request.contextPath}/js/app/dashboard/gryf-dashboard.js"></script>
     <script src="${pageContext.request.contextPath}/js/app/dashboard/dashboardServices.js"></script>
@@ -67,8 +68,11 @@
     <script src="${pageContext.request.contextPath}/js/app/canceltrainingreservation/gryf-cancelTrainingReservation.js"></script>
     <script src="${pageContext.request.contextPath}/js/app/canceltrainingreservation/cancelTrainingReservationController.js"></script>
     <script src="${pageContext.request.contextPath}/js/app/canceltrainingreservation/cancelTrainingReservationService.js"></script>
-    <script src="${pageContext.request.contextPath}/js/app/canceltrainingreservation/modal/trainingInstanceDetailsModalController.js"></script>
     <script src="${pageContext.request.contextPath}/js/app/canceltrainingreservation/modal/cancelTrainingReservationModalController.js"></script>
+    <script src="${pageContext.request.contextPath}/js/app/confirmpin/gryf-confirmPin.js"></script>
+    <script src="${pageContext.request.contextPath}/js/app/confirmpin/confirmPinController.js"></script>
+    <script src="${pageContext.request.contextPath}/js/app/confirmpin/confirmPinService.js"></script>
+    <script src="${pageContext.request.contextPath}/js/app/confirmpin/modal/confirmPinModalController.js"></script>
 </head>
 <body ng-app="gryf.ti">
 <div class="container">
@@ -83,16 +87,17 @@
 <ul id="menu" class="navbar grid" ng-controller="MenuController">
     <li ng-class="{'active': isActive('dashboard')}"><a ui-sref="dashboard">Pulpit</a></li>
     <li ng-class="{'active': isActive('trainingReservation')}"><a ui-sref="trainingReservation">Rezerwuj szkolenie</a></li>
-    <li ng-class="{'active': isActive('/v3')}"><a ng-href="${pageContext.request.contextPath}/page2">Zatwierdź PIN Uczestnika</a></li>
-    <li class="submenu" ng-class="{'active': isActive('reimbursements')}"><a ui-sref="reimbursements">Rozliczenia i korekty</a>
-    <ul>
-        <li ng-class="{'active': isActive('trainingToReimburse')}">
-            <a ui-sref="trainingToReimburse">Szkolenia do rozliczenia</a>
-        </li>
-        <li ng-class="{'active': isActive('reimbursements')}">
-            <a ui-sref="reimbursements">Rozliczenia</a>
-        </li>
-    </ul>
+    <li ng-class="{'active': isActive('confirmPin')}"><a ui-sref="confirmPin">Zatwierdź PIN Uczestnika</a></li>
+    <li class="submenu" ng-class="{'active': (isActive('trainingToReimburse') || isActive('reimbursements'))}">
+        <a ui-sref="reimbursements">Rozliczenia i korekty</a>
+        <ul>
+            <li ng-class="{'active': isActive('trainingToReimburse')}">
+                <a ui-sref="trainingToReimburse">Szkolenia do rozliczenia</a>
+            </li>
+            <li ng-class="{'active': isActive('reimbursements')}">
+                <a ui-sref="reimbursements">Rozliczenia</a>
+            </li>
+        </ul>
     </li>
     <li ng-class="{'active': isActive('cancelReservation')}"><a ui-sref="cancelReservation">Anuluj rezerwację</a></li>
     <li ng-class="{'active': isActive('ourTrainings')}"><a ui-sref="ourTrainings">Nasze szkolenia</a></li>

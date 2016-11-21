@@ -90,7 +90,7 @@ ul {
     padding-right: 10px;
 }
 
-.active a {
+.active > a {
     color: #6aa84f;
 }
 

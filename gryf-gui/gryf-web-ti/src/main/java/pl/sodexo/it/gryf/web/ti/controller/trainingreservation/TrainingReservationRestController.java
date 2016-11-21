@@ -71,4 +71,11 @@ public class TrainingReservationRestController {
         //securityChecker.assertServicePrivilege(Privileges.GRF_PBE_TI_TRAININGS);
         productInstancePoolService.cancelTrainingInstance(trainingInstanceId);
     }
+
+    @RequestMapping(value = "/confirmPin/{trainingInstanceId}/{pinCode}", method = RequestMethod.PUT)
+    public void cancelTrainingReservation(@PathVariable("trainingInstanceId") Long trainingInstanceId,
+                                          @PathVariable("pinCode") String pinCode) {
+        //securityChecker.assertServicePrivilege(Privileges.GRF_PBE_TI_TRAININGS);
+        productInstancePoolService.useTrainingInstance(trainingInstanceId, pinCode);
+    }
 }

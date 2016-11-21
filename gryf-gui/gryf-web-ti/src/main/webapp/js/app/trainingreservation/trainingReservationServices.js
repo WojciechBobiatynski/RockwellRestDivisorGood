@@ -74,12 +74,33 @@ angular.module("gryf.ti").factory("TrainingReservationService", function($http, 
         });
     };
 
+    var confirmPin = function(trainingInstanceId, pinCode) {
+        var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING, {label: "Zapisuję"});
+
+        return $http.put(TRAINING_RESERVATION_URL + "/confirmPin/" + trainingInstanceId + "/" + pinCode
+        ).success(function(data) {
+            GryfPopups.setPopup("success", "Sukces", "Potwierdzono uczestnictwo w szkoleniu");
+            GryfPopups.showPopup();
+
+            userTrainingReservationData.data = data;
+        }).error(function(error) {
+            GryfPopups.setPopup("error", "Błąd", "Nie udało się potwierdzić uczestnictwa w szkoleniu");
+            GryfPopups.showPopup();
+
+            GryfExceptionHandler.handleSavingError(error, violations, null);
+
+        }).finally(function() {
+            GryfModals.closeModal(modalInstance);
+        });
+    }
+
     return {
         loadUserTrainingReservationData: loadUserTrainingReservationData,
         getUserTrainingReservationData: getUserTrainingReservationData,
         resetUserTrainingReservationData: resetUserTrainingReservationData,
         getNewViolations: getNewViolations,
         reserveTraining: reserveTraining,
-        cancelTrainingReservation: cancelTrainingReservation
+        cancelTrainingReservation: cancelTrainingReservation,
+        confirmPin: confirmPin
     }
 });

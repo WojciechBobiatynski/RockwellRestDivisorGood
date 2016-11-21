@@ -1,0 +1,46 @@
+<div class="modal-head">
+    <div class="modal-title">Potwierdzenie obecności uczestnika</div>
+    <button class="close"ng-click="close(true)">&times;</button>
+</div>
+<div class="modal-body">
+    <span class="alert-text">
+        Zamierzasz potwierdzić obecność Uczestnika na wskazanym poniżej szkoleniu - czy potwierdzasz operację?
+    </span>
+    <div class="row-30"></div>
+    <div class="grid-100">
+        <div class="grid-40 centered">
+            <strong class="label">PIN od Uczestnika</strong>
+            <input type="text" ng-model="pinCode">
+            <gryf-validation-msg path="pinCode"></gryf-validation-msg>
+        </div>
+    </div>
+    <div class="row-30"></div>
+    <table>
+        <thead>
+        <tr class="grid-100 tableHeader-names">
+            <th class="grid-20">Nazwa szkolenia</th>
+            <th class="grid-10">PESEL</th>
+            <th class="grid-10">Imię</th>
+            <th class="grid-10">Nazwisko</th>
+            <th class="grid-10">Liczba potwierdzonych bonów</th>
+            <th class="grid-15">Data rozpoczęcia</th>
+            <th class="grid-15">Data zakończenia</th>
+        </tr>
+        </thead>
+        <tbody class="tableData">
+        <tr>
+            <td>{{trainingInstance.data.trainingName}}</td>
+            <td>{{trainingInstance.data.participantPesel}}</td>
+            <td>{{trainingInstance.data.participantName}}</td>
+            <td>{{trainingInstance.data.participantSurname}}</td>
+            <td>{{trainingInstance.data.productAssignedNum}}</td>
+            <td>{{trainingInstance.data.startDate}}</td>
+            <td>{{trainingInstance.data.endDate}}</td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="row-30"></div>
+    <div class="grid-100 text-center">
+        <button class="row-10 standardButton" ng-click="confirmPin()">Zatwierdź PINem</button>
+    </div>
+</div>

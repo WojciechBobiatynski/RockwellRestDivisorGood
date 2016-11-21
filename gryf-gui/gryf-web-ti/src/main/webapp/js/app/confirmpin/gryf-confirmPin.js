@@ -1,26 +1,26 @@
 "use strict";
 
 angular.module("gryf.ti").config(["$stateProvider", function($stateProvider) {
-    $stateProvider.state("cancelReservation", {
-        url: "/cancelReservation",
-        templateUrl: contextPath + "/templates/canceltrainingreservation/cancelTrainingReservation.html",
-        controller: "CancelTrainingReservationController"
+    $stateProvider.state("confirmPin", {
+        url: "/confirmPin",
+        templateUrl: contextPath + "/templates/confirmPin/confirmPin.html",
+        controller: "ConfirmPinController"
     }),
-    $stateProvider.state("cancelTrainingReservation", {
-        parent: "cancelReservation",
-        url: "/cancelTrainingReservation/{trainingInstanceId}",
+    $stateProvider.state("confirmPinModal", {
+        parent: "confirmPin",
+        url: "/confirmPin/{trainingInstanceId}",
         onEnter: ["$state", "$modal", function($state, $modal) {
             $modal.open({
-                templateUrl: contextPath + "/templates/canceltrainingreservation/modal/cancelTrainingInstanceDetailsModal.html",
+                templateUrl: contextPath + "/templates/confirmPin/modal/confirmPinModal.html",
                 size: "md",
-                controller: "CancelTrainingReservationModalController"
+                controller: "ConfirmPinModalController"
             }).result.finally(function() {
                 $state.go("^");
             });
         }]
     }),
-    $stateProvider.state("cancelReservation.trainingInstanceDetails", {
-        parent: "cancelReservation",
+    $stateProvider.state("confirmPin.trainingInstanceDetails", {
+        parent: "confirmPin",
         url: "/trainingInstanceDetails/{trainingInstanceId}",
         onEnter: ["$state", "$modal", function($state, $modal) {
             $modal.open({
