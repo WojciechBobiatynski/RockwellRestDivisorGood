@@ -1,6 +1,7 @@
 package pl.sodexo.it.gryf.service.api.publicbenefits.orders;
 
 import pl.sodexo.it.gryf.common.dto.other.FileDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.CreateOrderDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.searchform.OrderSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.searchform.OrderSearchResultDTO;
 
@@ -48,6 +49,10 @@ public interface OrderService {
      * @param id identyfikator zamowienia
      */
     void manageLocking(Long id);
+
+    CreateOrderDTO getCreateOrderDTO(Long contractId);
+
+    Long saveOrder(CreateOrderDTO dto);
 
     Long fastSave(Long contractId);
 }

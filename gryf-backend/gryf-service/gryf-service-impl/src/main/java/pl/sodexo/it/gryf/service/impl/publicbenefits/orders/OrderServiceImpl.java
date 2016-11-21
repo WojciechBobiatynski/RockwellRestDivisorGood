@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.dto.other.FileDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.CreateOrderDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.OrderDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.transitions.OrderFlowTransitionDTO;
@@ -111,6 +112,15 @@ public class OrderServiceImpl implements OrderService {
         dto.setName(GryfStringUtils.findFileNameInPath(orderElement.getValueVarchar()));
         dto.setInputStream(fileService.getInputStream(orderElement.getValueVarchar()));
         return dto;
+    }
+
+    public CreateOrderDTO getCreateOrderDTO(Long contractId){
+        CreateOrderDTO dto = new CreateOrderDTO();
+        return dto;
+    }
+
+    public Long saveOrder(CreateOrderDTO dto){
+        return 3000L;
     }
 
     @Override
