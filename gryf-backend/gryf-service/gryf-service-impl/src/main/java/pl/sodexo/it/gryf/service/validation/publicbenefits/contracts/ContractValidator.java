@@ -40,7 +40,7 @@ public class ContractValidator {
     @Autowired
     private ContractRepository contractRepository;
 
-    public void validateContract(Contract contract) {
+    public void validateContractSave(Contract contract) {
 
         //GENERAL VALIDATION
         List<EntityConstraintViolation> violations = gryfValidator.generateViolation(contract);
@@ -53,6 +53,20 @@ public class ContractValidator {
         //VALIDATE (EXCEPTION)
         gryfValidator.validate(violations);
     }
+
+    public void validateContractUpdate(Contract contract) {
+
+        //GENERAL VALIDATION
+        List<EntityConstraintViolation> violations = gryfValidator.generateViolation(contract);
+
+        validateContractDates(contract, violations);
+        validateContractType(contract, violations);
+        validateTrainingParticipantData(contract, violations);
+
+        //VALIDATE (EXCEPTION)
+        gryfValidator.validate(violations);
+    }
+
     private void validateContractDates(Contract contract, List<EntityConstraintViolation> violations) {
         Date currentDate = new Date();
         Date signDate  = contract.getSignDate();
@@ -104,15 +118,16 @@ public class ContractValidator {
     }
 
     private void validateContractType(Contract contract, List<EntityConstraintViolation> violations) {
-        if (contract.getContractType() == null) {
-            violations.add(new EntityConstraintViolation(Contract.CONTRACT_TYPE_ATTR_NAME, "Rodzaj umowy nie może byc pusty", null));
-            return;
-        }
-        if (isIndividualContractType(contract)) {
+        if (contractTypeIdNotNull(contract) && isIndividualContractType(contract)) {
             if (contract.getEnterprise() != null) {
                 violations.add(new EntityConstraintViolation(Contract.ENTERPRISE_ATTR_NAME, "Dane MŚP dla umowy osoby fizycznej powinny " + "być puste", null));
             }
         }
+    }
+
+    private boolean contractTypeIdNotNull(Contract contract) {
+        if (contract.getContractType() == null || contract.getContractType().getId() == null) return false;
+        return true;
     }
 
     private void validateTrainingParticipantData(Contract contract, List<EntityConstraintViolation> violations) {

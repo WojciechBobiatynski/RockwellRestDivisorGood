@@ -103,7 +103,7 @@ public class ContractServiceImpl implements ContractService {
     public Long saveContract(ContractDTO contractDto) {
         Contract contract = contractDtoMapper.convert(contractDto);
         fillContract(contract, contractDto);
-        contractValidator.validateContract(contract);
+        contractValidator.validateContractSave(contract);
         return contractRepository.save(contract).getId();
     }
 
@@ -111,7 +111,7 @@ public class ContractServiceImpl implements ContractService {
         entity.setIndividual(dto.getIndividual() != null ? individualRepository.get(dto.getIndividual().getId()) : null);
         entity.setEnterprise(dto.getEnterprise() != null ? enterpriseRepository.get(dto.getEnterprise().getId()) : null);
         entity.setGrantProgram(dto.getGrantProgram() != null ? grantProgramRepository.get(dto.getGrantProgram().getGrantProgramOwnerId()) : null);
-        entity.setContractType(dto.getContractType() != null ? contractTypeRepository.get((String)dto.getContractType().getId()) : null);
+        entity.setContractType(dto.getContractType().getId() != null ? contractTypeRepository.get((String)dto.getContractType().getId()) : null);
         if (dto.getTrainingCategory() != null) {
             for(String categoryId : dto.getTrainingCategory()){
                 if(!StringUtils.isEmpty(categoryId)) {
@@ -128,6 +128,7 @@ public class ContractServiceImpl implements ContractService {
     public void updateContract(ContractDTO contractDto) {
         Contract contract = contractDtoMapper.convert(contractDto);
         fillContract(contract, contractDto);
+        contractValidator.validateContractUpdate(contract);
         contractRepository.update(contract, contract.getId());
     }
 
