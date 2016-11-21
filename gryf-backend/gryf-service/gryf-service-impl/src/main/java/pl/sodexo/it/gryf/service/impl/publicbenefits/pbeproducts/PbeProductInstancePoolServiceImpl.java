@@ -233,7 +233,6 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
     }
 
     public void useTrainingInstance(Long trainingId, String pin){
-        //TODO: tbilski sprawdzić pin
 
         //POBRANIE STATUSOW
         PbeProductInstanceStatus productInstStatUse = productInstanceStatusRepository.get(PbeProductInstanceStatus.USE_CODE);
