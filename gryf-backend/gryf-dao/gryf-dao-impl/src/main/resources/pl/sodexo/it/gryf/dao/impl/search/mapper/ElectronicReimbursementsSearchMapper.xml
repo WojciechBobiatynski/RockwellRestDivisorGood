@@ -74,7 +74,9 @@
           tr_cat_par.PRODUCT_INSTANCE_FOR_HOUR          productInstanceForHour,
           tr_cat_par.MAX_PRODUCT_INSTANCE               maxProductInstance,
           tr_in.ASSIGNED_NUM                            usedProductsNumber,
-          prd.VALUE                                     productValue
+          prd.VALUE                                     productValue,
+          tr.HOURS_NUMBER                               trainingHoursNumber,
+          tr.PRICE                                      trainingPrice
         FROM
           APP_PBE.TI_TRAINING_INSTANCES tr_in
           JOIN APP_PBE.TI_TRAININGS tr ON tr.ID = tr_in.TRAINING_ID

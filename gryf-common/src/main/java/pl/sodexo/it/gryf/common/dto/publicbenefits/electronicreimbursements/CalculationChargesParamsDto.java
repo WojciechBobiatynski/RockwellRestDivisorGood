@@ -34,4 +34,12 @@ public class CalculationChargesParamsDto {
     @Setter
     private BigDecimal productValue;
 
+    @Getter
+    @Setter
+    private Integer trainingHoursNumber;
+
+    @Getter
+    @Setter
+    private BigDecimal trainingPrice;
+
 }
