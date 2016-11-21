@@ -5,6 +5,7 @@ import pl.sodexo.it.gryf.common.dto.other.DictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.*;
 import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
+import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationBasicData;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationContactData;
@@ -104,6 +105,33 @@ public final class OrderElementDTOProvider {
         dto.setPesel((order.getIndividual() != null) ? order.getIndividual().getPesel() : null);
         return dto;
     }
+
+    public static OrderElementComplexTypeBasicContractInfoDTO createOrderElementComplexTypeBasicContractInfoDTO(OrderElementDTOBuilder builder) {
+        OrderElementComplexTypeBasicContractInfoDTO dto = (OrderElementComplexTypeBasicContractInfoDTO) createOrderElementDTO(builder, new OrderElementComplexTypeBasicContractInfoDTO());
+        Order order = builder.getOrder();
+        if(order.getContract() != null){
+            Contract contract = order.getContract();
+            dto.setContractId(contract.getId());
+            dto.setContractTypeName(contract.getContractType() != null ? contract.getContractType().getName() : null);
+            dto.setContractSignDate(contract.getSignDate());
+            dto.setContractExpiryDate(contract.getExpiryDate());
+            if(contract.getGrantProgram() != null){
+                dto.setGrantProgramName(contract.getGrantProgram().getProgramName());
+            }
+            if(contract.getIndividual() != null){
+                dto.setIndividualFirstName(contract.getIndividual().getFirstName());
+                dto.setIndividualLastName(contract.getIndividual().getLastName());
+                dto.setIndividualPesel(contract.getIndividual().getPesel());
+            }
+            if(contract.getEnterprise() != null){
+                dto.setEnterpriseName(contract.getEnterprise().getName());
+                dto.setEnterpriseVatRegNum(contract.getEnterprise().getVatRegNum());
+            }
+        }
+
+        return dto;
+    }
+
 
     public static OrderElementComplexTypeEmailDTO createOrderElementComplexTypeEmailDTO(OrderElementDTOBuilder builder, MailDTO mailDTO){
         OrderElementComplexTypeEmailDTO dto = (OrderElementComplexTypeEmailDTO) createOrderElementDTO(builder, new OrderElementComplexTypeEmailDTO());

@@ -141,7 +141,11 @@ public class OrderServiceImpl implements OrderService {
             OrderFlowElementType ofet = ofe.getOrderFlowElementType();
 
             OrderElementService service = (OrderElementService) BeanUtils.findBean(context, ofet.getServiceBeanName());
-            elements.add(service.createElement(builder));
+            OrderElementDTO elementDTO = service.createElement(builder);
+            if(elementDTO != null){
+                elements.add(elementDTO);
+            }
+
         }
 
         return OrderDTO.create(order.getId(), elements, orderFlowStatusTransitions, order.getVersion());
