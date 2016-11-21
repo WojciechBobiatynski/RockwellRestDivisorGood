@@ -1,6 +1,5 @@
 package pl.sodexo.it.gryf.service.impl.security;
 
-import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,8 +25,6 @@ import pl.sodexo.it.gryf.service.mapping.MailDtoCreator;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
-
-import static pl.sodexo.it.gryf.common.utils.GryfConstants.VER_CODE_CHARS;
 
 /**
  * Implementacja serwisu obsługującego zdarzenia związane z weryfikacją osoby fizycznej
@@ -132,10 +129,6 @@ public class VerificationServiceImpl implements VerificationService {
         }
         LocalDateTime lastLoginFailureDate = LocalDateTime.ofInstant(user.getLastLoginFailureDate().toInstant(), ZoneId.systemDefault());
         return lastLoginFailureDate.plusMinutes(applicationParameters.getUserLoginBlockMinutes()).isBefore(LocalDateTime.now());
-    }
-
-    public String createVerificationCode() {
-        return RandomStringUtils.random(applicationParameters.getVerificationCodeLength(), VER_CODE_CHARS);
     }
 
     @Override

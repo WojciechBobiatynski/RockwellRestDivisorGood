@@ -49,6 +49,8 @@ import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstan
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstanceStatus;
 import pl.sodexo.it.gryf.service.api.publicbenefits.individuals.IndividualService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.pbeproductinstancepool.PbeProductInstancePoolService;
+import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.TrainingInstanceService;
+import pl.sodexo.it.gryf.service.api.utils.GryfAccessCodeGenerator;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
 import pl.sodexo.it.gryf.service.local.api.ParamInDateService;
 import pl.sodexo.it.gryf.service.local.impl.publicbenefits.products.PbeProductInstanceEventBuilder;
@@ -149,6 +151,12 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
     @Autowired
     private ParamInDateService paramInDateService;
 
+    @Autowired
+    TrainingInstanceService trainingInstanceService;
+
+    @Autowired
+    GryfAccessCodeGenerator gryfAccessCodeGenerator;
+
     //PUBLIC METHODS - FIND
 
     @Override
@@ -219,7 +227,7 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
         trainingInstance.setStatus(trainingInstanceStatusRepository.get(TrainingInstanceStatus.RES_CODE));
         trainingInstance.setAssignedNum(toReservedNum);
         trainingInstance.setRegisterDate(new Date());
-        trainingInstance.setReimbursmentPin("44444");//TODO: tbilski
+        trainingInstance.setReimbursmentPin(gryfAccessCodeGenerator.createReimbursmentPin());
         trainingInstance = trainingInstanceRepository.save(trainingInstance);
 
         //POBRANIE PULI BONÓW KTÓRE MOŻNA WYKORZYSTAC
@@ -234,6 +242,9 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
 
         //UTWORZENIE WYKORZYSTANIA
         createProductInstancePoolUses(trainingInstance, pools, toReservedNum);
+
+        //WYSŁANIE MAILA Z PINEM DO SZKOLENIA DO OSOBY FIZYCZNEJ
+        trainingInstanceService.sendReimbursmentPin(trainingInstance.getId());
     }
 
     public void useTrainingInstance(Long trainingId, String pin){

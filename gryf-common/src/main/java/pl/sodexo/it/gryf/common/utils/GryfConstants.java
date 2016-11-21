@@ -10,9 +10,6 @@ public final class GryfConstants {
     private GryfConstants(){};
 
     public static final String DATE_FORMAT = "yyyy-MM-dd";
-
-    public static final String VER_CODE_CHARS = "qwertyuipasdfghjklzxcvbnmQWERTYUIPASDFGHJKLZXCVBNM123456789";
-
     public static final String CHAR_SET_UTF_8_ENCODING = "UTF-8";
 
     public static final String VERIFICATION_CODE_EMAIL_TEMPLATE_CODE = "VC_SEND";

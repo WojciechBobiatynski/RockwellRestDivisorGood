@@ -23,7 +23,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.api.ContactType;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
 import pl.sodexo.it.gryf.model.security.individuals.IndividualUser;
 import pl.sodexo.it.gryf.service.api.publicbenefits.individuals.IndividualService;
-import pl.sodexo.it.gryf.service.api.security.VerificationService;
+import pl.sodexo.it.gryf.service.api.utils.GryfAccessCodeGenerator;
 import pl.sodexo.it.gryf.service.local.api.MailService;
 import pl.sodexo.it.gryf.service.mapping.MailDtoCreator;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.individuals.IndividualDtoMapper;
@@ -75,7 +75,7 @@ public class IndividualServiceImpl implements IndividualService {
     private MailDtoCreator mailDtoCreator;
 
     @Autowired
-    private VerificationService verificationService;
+    GryfAccessCodeGenerator gryfAccessCodeGenerator;
 
     @Autowired
     private AccountContractPairRepository accountContractPairRepository;
@@ -124,7 +124,7 @@ public class IndividualServiceImpl implements IndividualService {
     }
 
     private IndividualUser createIndividualUser(Individual individual, IndividualDto individualDto) {
-        String newVerificationCode = verificationService.createVerificationCode();
+        String newVerificationCode = gryfAccessCodeGenerator.createVerificationCode();
 
         IndividualUser user = new IndividualUser();
         user.setVerificationCode(AEScryptographer.encrypt(newVerificationCode));

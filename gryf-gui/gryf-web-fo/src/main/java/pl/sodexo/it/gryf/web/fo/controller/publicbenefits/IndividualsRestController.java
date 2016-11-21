@@ -10,8 +10,8 @@ import pl.sodexo.it.gryf.common.enums.Privileges;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.service.api.publicbenefits.individuals.IndividualService;
 import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
-import pl.sodexo.it.gryf.service.api.security.VerificationService;
 import pl.sodexo.it.gryf.service.api.security.individuals.IndividualUserService;
+import pl.sodexo.it.gryf.service.api.utils.GryfAccessCodeGenerator;
 import pl.sodexo.it.gryf.web.fo.utils.UrlConstants;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,7 +36,7 @@ public class IndividualsRestController {
     private SecurityChecker securityChecker;
 
     @Autowired
-    private VerificationService verificationService;
+    GryfAccessCodeGenerator gryfAccessCodeGenerator;
 
     @Autowired
     private IndividualUserService individualUserService;
@@ -85,7 +85,7 @@ public class IndividualsRestController {
     public String getNewVerificationCode(@PathVariable Long id) {
         //TODO uprawnienia
         securityChecker.assertFormPrivilege(Privileges.GRF_ENTERPRISES);
-        String newVerificationCode = verificationService.createVerificationCode();
+        String newVerificationCode = gryfAccessCodeGenerator.createVerificationCode();
         GryfIndUserDto gryfIndUserDto = individualUserService.saveNewVerificationCodeForIndividual(id, newVerificationCode);
         return writeValueAsString(gryfIndUserDto.getVerificationCode());
     }
