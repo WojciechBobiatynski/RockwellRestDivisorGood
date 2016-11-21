@@ -167,7 +167,7 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
         Contract contract = order.getContract();
         Individual individual = contract.getIndividual();
         GrantProgram grantProgram = contract.getGrantProgram();
-        Integer productInstanceNum = 30;//TODO: tbilski - pole z zamówienia
+        Integer productInstanceNum = 10;//TODO: tbilski - pole z zamówienia
 
         //POBRANIE PRODUKTU NA PODSTWIE GRANT PROGRAMU
         GrantProgramProduct gpProduct = paramInDateService.findGrantProgramProduct(grantProgram.getId(), new Date());
