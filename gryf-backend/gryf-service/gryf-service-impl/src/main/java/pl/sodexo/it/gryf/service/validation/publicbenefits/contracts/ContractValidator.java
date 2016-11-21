@@ -13,6 +13,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.employment.Employment;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -53,7 +54,14 @@ public class ContractValidator {
         gryfValidator.validate(violations);
     }
     private void validateContractDates(Contract contract, List<EntityConstraintViolation> violations) {
-        if (contract.getSignDate() != null && contract.getExpiryDate() != null && contract.getExpiryDate().before(contract.getSignDate())) {
+        Date currentDate = new Date();
+        Date signDate  = contract.getSignDate();
+        if ( signDate!= null) {
+            if (signDate.after(currentDate)) {
+                violations.add(new EntityConstraintViolation(Contract.SIGN_DATE_ATTR_NAME, "Data podpisania umowy nie może być późniejsza niż dziś", null));
+            }
+        }
+        if (signDate != null && contract.getExpiryDate() != null && contract.getExpiryDate().before(signDate)) {
             violations.add(new EntityConstraintViolation(Contract.EXPIRY_DATE_ATTR_NAME, "Data upływu ważności umowy nie mooże być wcześniejsza od daty jej podpisania", null));
         }
     }
