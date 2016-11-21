@@ -17,8 +17,7 @@ public class OrderElementComplexTypeBasicContractInfoService extends OrderElemen
 
     @Override
     public OrderElementComplexTypeBasicContractInfoDTO createElement(OrderElementDTOBuilder builder) {
-        return null;
-        //return OrderElementDTOProvider.createOrderElementComplexTypeBasicContractInfoDTO(builder);
+        return OrderElementDTOProvider.createOrderElementComplexTypeBasicContractInfoDTO(builder);
     }
 
     @Override

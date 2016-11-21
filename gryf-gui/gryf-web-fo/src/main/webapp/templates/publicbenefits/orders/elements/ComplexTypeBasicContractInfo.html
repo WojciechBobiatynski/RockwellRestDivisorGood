@@ -1,0 +1,51 @@
+<div class="width-100">------------------
+    <div class="grid-100">    
+        <header>
+            <h2>{{item.name}}</h2>
+        </header>
+    </div>        
+    <div class="grid-100">
+        <div class="grid-10">
+            <strong class="label">Id umowy</strong>
+            <input type="text" ng-model="item.contractId" readonly="readonly">
+        </div>
+        <div class="grid-10">
+            <strong class="label">Rodzaj umowy</strong>
+            <input type="text" ng-model="item.contractTypeName" readonly="readonly">
+        </div>
+        <div class="grid-20">
+            <strong class="label">Data podpisania umowy</strong>
+            <input type="text" ng-model="item.contractSignDate" readonly="readonly">
+        </div>
+        <div class="grid-20">
+            <strong class="label">Data wygaśnięcia umowy</strong>
+            <input type="text" ng-model="item.contractExpiryDate" readonly="readonly">
+        </div>
+        <div class="grid-20">
+            <strong class="label">Program dofinansowania</strong>
+            <input type="text" ng-model="item.grantProgramName" readonly="readonly">
+        </div>
+    </div>
+    <div class="grid-100">
+        <div class="grid-20">
+            <strong class="label">Imię Uczestnika</strong>
+            <input type="text" ng-model="item.individualFirstName" readonly="readonly">
+        </div>
+        <div class="grid-20">
+            <strong class="label">Nazwisko Uczestnika</strong>
+            <input type="text" ng-model="item.individualLastName" readonly="readonly">
+        </div>
+        <div class="grid-20">
+            <strong class="label">PESEL Uczestnika</strong>
+            <input type="text" ng-model="item.individualPesel" readonly="readonly">
+        </div>
+        <div class="grid-20" ng-if="item.enterpriseName">
+            <strong class="label">Nazwa firmy</strong>
+            <input type="text" ng-model="item.enterpriseName" readonly="readonly">
+        </div>
+        <div class="grid-20" ng-if="item.enterpriseVatRegNum">
+            <strong class="label">NIP firmy</strong>
+            <input type="text" ng-model="item.enterpriseVatRegNum" readonly="readonly">
+        </div>
+    </div>
+</div>------------------
