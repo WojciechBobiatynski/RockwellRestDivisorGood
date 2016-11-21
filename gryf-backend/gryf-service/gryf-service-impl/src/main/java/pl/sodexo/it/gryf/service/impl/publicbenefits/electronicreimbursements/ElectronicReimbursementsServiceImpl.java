@@ -19,6 +19,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.Ereimburse
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstance;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.ElectronicReimbursementsService;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -70,13 +71,13 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         return ereimbursement;
     }
 
-    private void calculateCharges(Ereimbursement ereimbursement, Long trainingInstanceId){
+    private void calculateCharges(Ereimbursement ereimbursement, Long trainingInstanceId) {
         CalculationChargesParamsDto params = electronicReimbursementsDao.findCalculationChargesParamsForTrInstId(trainingInstanceId);
-        if(params == null){
+        if (params == null) {
             throw new NoCalculationParamsException();
         }
-        ereimbursement.setSxoIndAmountDueTotal(params.getUsedProductsNumber().multiply(params.getProductValue()));
-        ereimbursement.setIndSxoAmountDueTotal(params.getTrainingHourPrice().subtract(params.getProductValue()).multiply(params.getUsedProductsNumber()));
+        ereimbursement.setSxoIndAmountDueTotal(new BigDecimal(params.getUsedProductsNumber()).multiply(params.getProductValue()));
+        ereimbursement.setIndSxoAmountDueTotal(params.getTrainingHourPrice().subtract(params.getProductValue()).multiply(new BigDecimal(params.getUsedProductsNumber())));
     }
 
     private void setTrainingInstanceWithAppropiateStatus(Long trainingInstanceId, Ereimbursement ereimbursement) {

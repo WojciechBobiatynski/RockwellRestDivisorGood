@@ -20,19 +20,18 @@ public class CalculationChargesParamsDto {
 
     @Getter
     @Setter
-    private BigDecimal productInstanceForHour;
+    private Integer productInstanceForHour;
 
     @Getter
     @Setter
-    private BigDecimal maxProductInstance;
+    private Integer maxProductInstance;
 
     @Getter
     @Setter
-    private BigDecimal usedProductsNumber;
+    private Integer usedProductsNumber;
 
     @Getter
     @Setter
     private BigDecimal productValue;
-
 
 }
