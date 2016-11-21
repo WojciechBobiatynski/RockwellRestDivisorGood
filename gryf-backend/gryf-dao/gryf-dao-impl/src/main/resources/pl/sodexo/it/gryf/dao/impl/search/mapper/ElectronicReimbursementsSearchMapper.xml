@@ -68,4 +68,28 @@
             dic.ordinal
     </select>
 
+    <select id="findCalculationChargesParamsForTrInstId" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CalculationChargesParamsDto">
+        SELECT
+          tr.HOUR_PRICE                                 trainingHourPrice,
+          tr_cat_par.PRODUCT_INSTANCE_FOR_HOUR          productInstanceForHour,
+          tr_cat_par.MAX_PRODUCT_INSTANCE               maxProductInstance,
+          tr_in.ASSIGNED_NUM                            usedProductsNumber,
+          prd.VALUE                                     productValue
+        FROM
+          APP_PBE.TI_TRAINING_INSTANCES tr_in
+          JOIN APP_PBE.TI_TRAININGS tr ON tr.ID = tr_in.TRAINING_ID
+          JOIN APP_PBE.TI_TRAINING_CATEGORIES tr_cat ON tr_cat.ID = tr.TRAINING_CATEGORY_ID
+          JOIN APP_PBE.GRANT_PROGRAMS gr_pr ON gr_pr.ID = tr_in.GRANT_PROGRAM_ID
+          JOIN APP_PBE.TI_TRAINING_CATEGORY_PARAMS tr_cat_par ON (tr_cat.ID = tr_cat_par.CATEGORY_ID AND gr_pr.ID = tr_cat_par.GRANT_PROGRAM_ID)
+          JOIN APP_PBE.GRANT_OWNERS gr_own ON gr_own.ID = gr_pr.GRANT_OWNER_ID
+          JOIN APP_PBE.PBE_PRODUCTS prd ON prd.GRANT_OWNER_ID = gr_own.ID
+        WHERE
+          tr_in.ID = #{trainingInstanceId}
+          AND tr_cat_par.DATE_FROM &lt;= SYSDATE
+          AND NVL(tr_cat_par.DATE_TO, SYSDATE) &gt;= SYSDATE
+          <if test="criteria.gryfUser.userType == 'TRAINING_INSTITUTION'">
+                AND tr.TRAINING_INSTITUTION_ID = #{criteria.gryfUser.trainingInstitutionId}
+          </if>
+    </select>
+
 </mapper>

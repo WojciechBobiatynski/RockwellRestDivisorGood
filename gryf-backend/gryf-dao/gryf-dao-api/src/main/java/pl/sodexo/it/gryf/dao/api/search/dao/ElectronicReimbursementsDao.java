@@ -2,6 +2,7 @@ package pl.sodexo.it.gryf.dao.api.search.dao;
 
 import pl.sodexo.it.gryf.common.criteria.electronicreimbursements.ElctRmbsCriteria;
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CalculationChargesParamsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsDto;
 
 import java.util.List;
@@ -25,5 +26,13 @@ public interface ElectronicReimbursementsDao {
      * @return - lista statusów
      */
     List<SimpleDictionaryDto> findElctRmbsStatuses();
+
+    /**
+     * Metoda znajdująca parametry do obliczenia składek na rolizczeniu dla instancji szkolenia
+     *
+     * @param trainingInstanceId - id instytucji szkoleniowej
+     * @return
+     */
+    CalculationChargesParamsDto findCalculationChargesParamsForTrInstId(Long trainingInstanceId);
 
 }

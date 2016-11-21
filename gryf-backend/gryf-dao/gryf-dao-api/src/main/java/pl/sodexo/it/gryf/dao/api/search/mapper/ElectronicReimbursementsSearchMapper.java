@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Param;
 import pl.sodexo.it.gryf.common.criteria.UserCriteria;
 import pl.sodexo.it.gryf.common.criteria.electronicreimbursements.ElctRmbsCriteria;
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CalculationChargesParamsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsDto;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public interface ElectronicReimbursementsSearchMapper {
 
     /**
      * Metoda zwracająca listę rozliczeń na podstawie kryteriów wyszkuwiania
+     *
      * @param criteria - kryteria wyszkuiwania
      * @return - lista rozliczeń
      */
@@ -24,9 +26,19 @@ public interface ElectronicReimbursementsSearchMapper {
 
     /**
      * Metoda zwracająca listę statusów rozliczeń
+     *
      * @param criteria kryteria użytkownika
      * @return - lista statusów
      */
-    List<SimpleDictionaryDto> findElctRmbsStatuses(@Param("criteria")UserCriteria criteria);
+    List<SimpleDictionaryDto> findElctRmbsStatuses(@Param("criteria") UserCriteria criteria);
+
+    /**
+     * Metoda znajdująca parametry do obliczenia składek na rolizczeniu dla instancji szkolenia
+     *
+     * @param criteria - kryteria użytkownika
+     * @param trainingInstanceId - id instytucji szkoleniowej
+     * @return
+     */
+    CalculationChargesParamsDto findCalculationChargesParamsForTrInstId(@Param("criteria") UserCriteria criteria, @Param("trainingInstanceId") Long trainingInstanceId);
 
 }

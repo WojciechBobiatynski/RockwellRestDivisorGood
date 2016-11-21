@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.service.impl.publicbenefits.traininginstiutions;
 
+import com.googlecode.ehcache.annotations.Cacheable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,6 +53,7 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
     }
 
     @Override
+    @Cacheable(cacheName = "trainingInstanceStatuses")
     public List<SimpleDictionaryDto> findTrainingInstanceStatuses() {
         return trainingInstanceSearchDao.findTiTrainingInstancesStatuses();
     }

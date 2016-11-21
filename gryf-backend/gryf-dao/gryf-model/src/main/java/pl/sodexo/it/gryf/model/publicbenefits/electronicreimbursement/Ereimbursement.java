@@ -9,6 +9,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstan
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -32,11 +33,15 @@ public class Ereimbursement extends VersionableEntity {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "TI_TR_INST_ID", referencedColumnName = "ID", insertable = false, updatable = false)
+    @JoinColumn(name = "TI_TR_INST_ID", referencedColumnName = "ID")
+    @Getter
+    @Setter
     private TrainingInstance trainingInstance;
 
     @ManyToOne
     @JoinColumn(name = "STATUS_ID", referencedColumnName = "ID")
+    @Getter
+    @Setter
     private EreimbursementStatus ereimbursementStatus;
 
     @Column(name = "REIMBURSEMENT_DATE")
@@ -48,11 +53,11 @@ public class Ereimbursement extends VersionableEntity {
     @Column(name = "SXO_IND_AMOUNT_DUE_TOTAL")
     @Getter
     @Setter
-    private Integer sxoIndAmountDueTotal;
+    private BigDecimal sxoIndAmountDueTotal;
 
     @Column(name = "IND_SXO_AMOUNT_DUE_TOTAL")
     @Getter
     @Setter
-    private Integer indSxoAmountDueTotal;
+    private BigDecimal indSxoAmountDueTotal;
 
 }

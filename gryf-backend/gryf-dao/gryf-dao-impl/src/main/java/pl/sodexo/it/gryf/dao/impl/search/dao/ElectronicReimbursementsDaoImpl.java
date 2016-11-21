@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.criteria.UserCriteria;
 import pl.sodexo.it.gryf.common.criteria.electronicreimbursements.ElctRmbsCriteria;
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CalculationChargesParamsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsDto;
 import pl.sodexo.it.gryf.dao.api.search.dao.ElectronicReimbursementsDao;
 import pl.sodexo.it.gryf.dao.api.search.mapper.ElectronicReimbursementsSearchMapper;
@@ -33,5 +34,10 @@ public class ElectronicReimbursementsDaoImpl implements ElectronicReimbursements
     @Override
     public List<SimpleDictionaryDto> findElctRmbsStatuses() {
         return electronicReimbursementsSearchMapper.findElctRmbsStatuses(new UserCriteria());
+    }
+
+    @Override
+    public CalculationChargesParamsDto findCalculationChargesParamsForTrInstId(Long trainingInstanceId) {
+        return electronicReimbursementsSearchMapper.findCalculationChargesParamsForTrInstId(new UserCriteria(), trainingInstanceId);
     }
 }

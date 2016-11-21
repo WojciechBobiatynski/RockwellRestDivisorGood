@@ -14,9 +14,8 @@
             ti.END_DATE                   endDate,
             status.NAME                   trainingStatus
         FROM
-            APP_PBE.TI_TRAININGS ti
-            JOIN APP_PBE.TI_TRAINING_INSTANCES ti_in ON ti.ID = ti_in.TRAINING_ID
-            LEFT JOIN APP_PBE.TI_TRAININGS ti ON ti.ID = ti_in.TRAINING_ID
+            APP_PBE.TI_TRAINING_INSTANCES ti_in
+            JOIN APP_PBE.TI_TRAININGS ti ON ti.ID = ti_in.TRAINING_ID
             LEFT JOIN APP_PBE.INDIVIDUALS ind ON ind.ID = ti_in.INDIVIDUAL_ID
             LEFT JOIN APP_PBE.TI_TRAINING_INSTANCE_STATUSES status ON status.ID = ti_in.STATUS_ID
         <where>
@@ -46,6 +45,9 @@
             </if>
             <if test="criteria.trainingStatusId != null and criteria.trainingStatusId != ''">
                 AND status.ID = #{criteria.trainingStatusId}
+            </if>
+            <if test="criteria.gryfUser.userType == 'TRAINING_INSTITUTION'">
+                AND ti.TRAINING_INSTITUTION_ID = #{criteria.gryfUser.trainingInstitutionId}
             </if>
             <if test="criteria.limit != null">
                 AND ROWNUM &lt;= #{criteria.limit}

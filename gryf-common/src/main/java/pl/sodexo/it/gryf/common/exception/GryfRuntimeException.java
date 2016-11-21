@@ -9,6 +9,10 @@ public abstract class GryfRuntimeException extends RuntimeException {
 
     protected String message;
 
+    public GryfRuntimeException(){
+        super();
+    };
+
     public GryfRuntimeException(String message) {
         super(message);
         this.message = message;
