@@ -34,7 +34,7 @@ angular.module('gryf.contracts').controller("searchform.ContractsController",
             $scope.searchResultOptions = BrowseContractsService.resetSearchResultOptions();
         };
 
-        $scope.getSortedEnterprises = function(sortColumnName) {
+        $scope.getSortedContracts = function(sortColumnName) {
             $scope.searchResultOptions.badQuery = false;
             BrowseContractsService.findSortedBy(sortColumnName);
         };
