@@ -1,8 +1,8 @@
 'use strict';
 
-var app = angular.module('gryf.individuals', ['gryf.config', 'gryf.dictionaries', 'gryf.enterprises']);
+angular.module('gryf.individuals', ['gryf.config', 'gryf.dictionaries', 'gryf.enterprises']);
 
-app.config(['$routeProvider', function($routeProvider) {
+angular.module('gryf.individuals').config(['$routeProvider', function($routeProvider) {
     $routeProvider
         .when('/', {
             templateUrl: contextPath + '/templates/publicbenefits/individuals/searchformIndividuals.html',

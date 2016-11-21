@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('gryf.dictionaries', ['gryf.config']);
+angular.module('gryf.dictionaries', ['gryf.config']);
 
 angular.module('gryf.dictionaries').config(['$routeProvider', function($routeProvider) {
     $routeProvider
