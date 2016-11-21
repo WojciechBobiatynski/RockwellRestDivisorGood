@@ -281,7 +281,7 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
             //UAKTUALNINIE PULI
             PbeProductInstancePool pool = poolUse.getProductInstancePool();
             pool.setReservedNum(pool.getReservedNum() - poolUse.getAssignedNum());
-            pool.setAvailableNum(pool.getUsedNum() + poolUse.getAssignedNum());
+            pool.setAvailableNum(pool.getAvailableNum() + poolUse.getAssignedNum());
 
             //ITERACJA PO INSTANCJACH PRODUKTU
             List<PbeProductInstance> instances = poolUse.getPollUses();
