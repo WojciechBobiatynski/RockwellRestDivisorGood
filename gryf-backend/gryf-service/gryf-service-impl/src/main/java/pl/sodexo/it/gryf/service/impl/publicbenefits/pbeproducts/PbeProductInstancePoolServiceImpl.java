@@ -17,14 +17,7 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.grantprograms.Gr
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.grantprograms.GrantProgramRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.individuals.IndividualRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderRepository;
-import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.pbeproducts.PbeProductInstanceEventRepository;
-import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.pbeproducts.PbeProductInstanceEventTypeRepository;
-import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.pbeproducts.PbeProductInstancePoolEventRepository;
-import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.pbeproducts.PbeProductInstancePoolRepository;
-import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.pbeproducts.PbeProductInstancePoolStatusRepository;
-import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.pbeproducts.PbeProductInstancePoolUseRepository;
-import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.pbeproducts.PbeProductInstanceRepository;
-import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.pbeproducts.PbeProductInstanceStatusRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.pbeproducts.*;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingCategoryParamRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstanceRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstanceStatusRepository;
@@ -34,16 +27,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgramProduct;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
-import pl.sodexo.it.gryf.model.publicbenefits.pbeproduct.PbeProduct;
-import pl.sodexo.it.gryf.model.publicbenefits.pbeproduct.PbeProductInstance;
-import pl.sodexo.it.gryf.model.publicbenefits.pbeproduct.PbeProductInstanceEvent;
-import pl.sodexo.it.gryf.model.publicbenefits.pbeproduct.PbeProductInstanceEventType;
-import pl.sodexo.it.gryf.model.publicbenefits.pbeproduct.PbeProductInstancePool;
-import pl.sodexo.it.gryf.model.publicbenefits.pbeproduct.PbeProductInstancePoolEvent;
-import pl.sodexo.it.gryf.model.publicbenefits.pbeproduct.PbeProductInstancePoolEventType;
-import pl.sodexo.it.gryf.model.publicbenefits.pbeproduct.PbeProductInstancePoolStatus;
-import pl.sodexo.it.gryf.model.publicbenefits.pbeproduct.PbeProductInstancePoolUse;
-import pl.sodexo.it.gryf.model.publicbenefits.pbeproduct.PbeProductInstanceStatus;
+import pl.sodexo.it.gryf.model.publicbenefits.pbeproduct.*;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.Training;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingCategoryParam;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstance;
@@ -257,6 +241,7 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
 
         //UAKTUALNINIE INSTANCJI
         TrainingInstance instance = trainingInstanceRepository.get(trainingId);
+        checkPin(instance, pin);
         instance.setStatus(trainingInstStatUse);
 
         //ITERACJA PO UZYCIACH PULI
@@ -273,6 +258,13 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
             for(PbeProductInstance i : instances){
                 i.setStatus(productInstStatUse);
             }
+        }
+    }
+
+    private void checkPin(TrainingInstance instance, String pin) {
+        String trainingPin = AEScryptographer.decrypt(instance.getReimbursmentPin());
+        if (!trainingPin.equals(pin)) {
+            gryfValidator.validate("Pin nie jest zgodny z pinem ze szkolenia");
         }
     }
 
