@@ -18,6 +18,13 @@
                                focus-on-f7
                                search-on-enter >
                     </th>
+                    <th class="sortable" ng-class="getSortingTypeClass('grantProgramName')">
+                        <div ng-click="getSortedBy('grantProgramName')">Program dofinansowania</div>
+                        <select
+                                ng-options="v.id as v.name for v in grantPrograms"
+                                ng-model="searchDTO.entity.grantProgramId"
+                                ng-change="grantProgramChanged();"></select>
+                    </th>
                     <th class="sortable" ng-class="getSortingTypeClass('status')">
                         <div ng-click="getSortedBy('status')">Status zamówienia</div>
                         <select

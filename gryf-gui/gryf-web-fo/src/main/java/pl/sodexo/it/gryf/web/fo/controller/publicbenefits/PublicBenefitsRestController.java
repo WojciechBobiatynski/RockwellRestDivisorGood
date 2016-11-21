@@ -7,9 +7,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import pl.sodexo.it.gryf.common.dto.other.DictionaryDTO;
+import pl.sodexo.it.gryf.common.dto.other.GrantProgramDictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.ContactTypeDto;
 import pl.sodexo.it.gryf.service.api.dictionaries.ContactTypeService;
 import pl.sodexo.it.gryf.service.api.other.DictionaryService;
+import pl.sodexo.it.gryf.service.api.publicbenefits.contracts.ContractService;
 
 import java.util.List;
 
@@ -26,6 +28,9 @@ public class PublicBenefitsRestController {
     @Autowired
     private DictionaryService dictionaryService;
 
+    @Autowired
+    private ContractService contractService;
+
     //PUBLIC METHODS - SERVICES CONTACT TYPES
 
     @RequestMapping(value = "/contactTypes", method = RequestMethod.GET)
@@ -40,7 +45,12 @@ public class PublicBenefitsRestController {
     @ResponseBody
     public List<DictionaryDTO> findDictionaries(@PathVariable String dictionaryCodeValue) {
         return dictionaryService.findDictionaries(dictionaryCodeValue);
+    }
 
+    @RequestMapping(value = "/grantPrograms", method = RequestMethod.GET)
+    @ResponseBody
+    public List<GrantProgramDictionaryDTO> findGrantProgramNames() {
+        return contractService.FindGrantProgramsDictionaries();
     }
 
 }

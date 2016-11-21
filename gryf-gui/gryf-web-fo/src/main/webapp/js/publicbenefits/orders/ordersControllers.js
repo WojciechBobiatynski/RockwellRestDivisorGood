@@ -44,9 +44,21 @@ angular.module('gryf.orders').controller("searchform.OrdersController",
              $scope.searchResultOptions = BrowseOrdersService.getNewSearchResultOptions();
          };
 
-         BrowseOrdersService.getOrderStatuses().then(function(response) {
-             $scope.orderStatuses = response.data;
+         $scope.getOrderStatuses = function () {
+             BrowseOrdersService.getOrderStatuses().then(function(response) {
+                 $scope.orderStatuses = response.data;
+             });
+         }
+         $scope.getOrderStatuses();
+
+         BrowseOrdersService.getGrantProgramNames().then(function(response) {
+             $scope.grantPrograms = response.data;
          });
+
+         $scope.grantProgramChanged = function () {
+             $scope.getOrderStatuses();
+         }
+
      }]);
 
 var scopeModifyOrdersController;

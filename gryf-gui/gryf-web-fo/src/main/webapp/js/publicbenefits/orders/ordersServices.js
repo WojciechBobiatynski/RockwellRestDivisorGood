@@ -7,6 +7,7 @@ angular.module('gryf.orders').factory("BrowseOrdersService",
         ////////////////////////////////
         var FIND_ORDERS_URL = contextPath + "/rest/publicBenefits/order/list";
         var FIND_ORDER_STATUSES_URL = contextPath + "/rest/publicBenefits/dictionaries/ORDER_FLOW_STATUSES";
+        var FIND_GRANT_PROGRAM_NAMES_URL = contextPath + "/rest/publicBenefits/grantPrograms";
 
 
         ////////////////////////////////
@@ -90,6 +91,10 @@ angular.module('gryf.orders').factory("BrowseOrdersService",
             return $http.get(FIND_ORDER_STATUSES_URL);
         };
 
+        var getGrantProgramNames = function () {
+            return $http.get(FIND_GRANT_PROGRAM_NAMES_URL);
+        }
+
         var loadMore = function() {
             searchDTO.entity.limit += searchResultOptions.displayLimitIncrementer;
             searchResultOptions.displayLimit += searchResultOptions.displayLimitIncrementer;
@@ -103,7 +108,8 @@ angular.module('gryf.orders').factory("BrowseOrdersService",
             getOrderStatuses: getOrderStatuses,
             loadMore: loadMore,
             getNewSearchDTO: getNewSearchDTO,
-            getNewSearchResultOptions: getNewSearchResultOptions
+            getNewSearchResultOptions: getNewSearchResultOptions,
+            getGrantProgramNames: getGrantProgramNames
         }
     }]);
 
