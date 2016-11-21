@@ -13,6 +13,7 @@ import pl.sodexo.it.gryf.service.api.utils.GryfAccessCodeGenerator;
 public class GryfAccessCodeGeneratorImpl implements GryfAccessCodeGenerator {
 
     public static final String VER_CODE_CHARS = "qwertyuipasdfghjklzxcvbnmQWERTYUIPASDFGHJKLZXCVBNM123456789";
+    public static final String PIN_CHARS = "qwertyuipasdfghjkzxcvbnmQWERTYUPASDFGHJKLZXCVBNM23456789";
 
     @Autowired
     private ApplicationParameters applicationParameters;
@@ -24,6 +25,6 @@ public class GryfAccessCodeGeneratorImpl implements GryfAccessCodeGenerator {
 
     @Override
     public String createReimbursmentPin() {
-        return RandomStringUtils.random(applicationParameters.getVerificationCodeLength(), VER_CODE_CHARS);
+        return RandomStringUtils.random(applicationParameters.getVerificationCodeLength(), PIN_CHARS);
     }
 }

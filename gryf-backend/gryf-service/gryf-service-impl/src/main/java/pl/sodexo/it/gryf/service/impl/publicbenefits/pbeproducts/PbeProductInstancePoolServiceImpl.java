@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.sodexo.it.gryf.common.authentication.AEScryptographer;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.detailsForm.IndividualDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.UserTrainingReservationDataDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.products.PrintNumberDto;
@@ -227,7 +228,7 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
         trainingInstance.setStatus(trainingInstanceStatusRepository.get(TrainingInstanceStatus.RES_CODE));
         trainingInstance.setAssignedNum(toReservedNum);
         trainingInstance.setRegisterDate(new Date());
-        trainingInstance.setReimbursmentPin(gryfAccessCodeGenerator.createReimbursmentPin());
+        trainingInstance.setReimbursmentPin(AEScryptographer.encrypt(gryfAccessCodeGenerator.createReimbursmentPin()));
         trainingInstance = trainingInstanceRepository.save(trainingInstance);
 
         //POBRANIE PULI BONÓW KTÓRE MOŻNA WYKORZYSTAC
