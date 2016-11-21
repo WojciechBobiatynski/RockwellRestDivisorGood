@@ -36,7 +36,7 @@ angular.module("gryf.ti").controller("TrainingToReimburseController", ["$scope",
         $scope.createReimbursementAndNav = function(trainingInstanceId){
             ReimbursementsServiceModify.createReimbursement(trainingInstanceId).then(function (response) {
                 $scope.find();
-                $state.go('reimburse', response.data)
+                $state.go('reimburse', {'reimbursementId' :response.data})
             });
         };
 

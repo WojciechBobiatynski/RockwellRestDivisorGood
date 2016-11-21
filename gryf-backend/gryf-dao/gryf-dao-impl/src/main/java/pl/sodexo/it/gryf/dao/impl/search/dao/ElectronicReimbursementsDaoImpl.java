@@ -9,6 +9,7 @@ import pl.sodexo.it.gryf.common.criteria.electronicreimbursements.ElctRmbsCriter
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CalculationChargesParamsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto;
 import pl.sodexo.it.gryf.dao.api.search.dao.ElectronicReimbursementsDao;
 import pl.sodexo.it.gryf.dao.api.search.mapper.ElectronicReimbursementsSearchMapper;
 
@@ -39,5 +40,10 @@ public class ElectronicReimbursementsDaoImpl implements ElectronicReimbursements
     @Override
     public CalculationChargesParamsDto findCalculationChargesParamsForTrInstId(Long trainingInstanceId) {
         return electronicReimbursementsSearchMapper.findCalculationChargesParamsForTrInstId(new UserCriteria(), trainingInstanceId);
+    }
+
+    @Override
+    public ElctRmbsHeadDto findEcltRmbsById(Long ermbsId) {
+        return electronicReimbursementsSearchMapper.findEcltRmbsById(new UserCriteria(), ermbsId);
     }
 }

@@ -91,7 +91,7 @@ angular.module("gryf.ti").factory("TrainingInstanceSearchService",
                 GryfPopups.setPopup("error", "Błąd", "Nie można pobrać instancji szkolenia o wskazanym id");
                 GryfPopups.showPopup();
             });
-        }
+        };
 
         var loadMore = function () {
             trainingCriteria.limit += searchResultOptions.displayLimitIncrementer;

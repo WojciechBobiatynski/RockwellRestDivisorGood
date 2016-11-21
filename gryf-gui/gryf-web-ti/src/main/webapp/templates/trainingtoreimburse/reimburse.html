@@ -6,52 +6,43 @@
             <div class="multiSection">
                 <div class="grid-30">
                     <strong>Nazwa szkolenia</strong>
-                    <div>{{userTrainingReservationData.data.pesel}}</div>
-                    <div>Nazwa szkolenia z bardzo długimi literałami, który powinien się łamać do wyświetlenia pełnej nazwy szkoelnia/kursu</div>
+                    <div>{{rmbsModel.trainingInstance.trainingName}}</div>
                 </div>
                 <div class="grid-30">
                     <strong>Cena za szkolenie (PLN)</strong>
-                    <div>{{userTrainingReservationData.data.pesel}}</div>
-                    <div>1200 PLN</div>
+                    <div>{{rmbsModel.trainingInstance.trainingPrice}}</div>
                 </div>
                 <div class="grid-30">
                     <strong>Maksymalna liczba godzin rozliczanych bonami</strong>
-                    <div>{{userTrainingReservationData.data.pesel}}</div>
-                    <div>245</div>
+                    <div></div>
                 </div>
             </div>
             <div class="multiSection">
                 <div class="grid-30">
                     <strong>Kategoria szkolenia</strong>
-                    <div>{{userTrainingReservationData.data.pesel}}</div>
-                    <div>Kateogoria X</div>
+                    <div>{{rmbsModel.trainingInstance.trainingCategory}}</div>
                 </div>
                 <div class="grid-30">
                     <strong>Ilość godzin lekcyjnych</strong>
-                    <div>{{userTrainingReservationData.data.pesel}}</div>
-                    <div>3</div>
+                    <div>{{rmbsModel.trainingInstance.trainingHoursNumber}}</div>
                 </div>
                 <div class="grid-30">
                     <strong>Data rozpoczęcia</strong>
-                    <div>{{userTrainingReservationData.data.pesel}}</div>
-                    <div>12.12.2017</div>
+                    <div>{{rmbsModel.trainingInstance.startDate}}</div>
                 </div>
             </div>
             <div class="multiSection">
                 <div class="grid-30">
                     <strong>Miejsce szkolenia</strong>
-                    <div>{{userTrainingReservationData.data.pesel}}</div>
-                    <div>Wieluń</div>
+                    <div>{{rmbsModel.trainingInstance.trainingPlace}}</div>
                 </div>
                 <div class="grid-30">
                     <strong>Cena 1h szkolenia (PLN)</strong>
-                    <div>{{userTrainingReservationData.data.pesel}}</div>
-                    <div>400 PLN</div>
+                    <div>{{rmbsModel.trainingInstance.trainingHourPrice}}</div>
                 </div>
                 <div class="grid-30">
                     <strong>Data zakończenia</strong>
-                    <div>{{userTrainingReservationData.data.pesel}}</div>
-                    <div>12.12.2007</div>
+                    <div>{{rmbsModel.trainingInstance.endDate}}</div>
                 </div>
             </div>
         </div>
@@ -62,42 +53,35 @@
             <div class="multiSection">
                 <div class="grid-30">
                     <strong>PESEL Uczestnika</strong>
-                    <div>{{userTrainingReservationData.data.pesel}}</div>
-                    <div>22222222222</div>
+                    <div>{{rmbsModel.trainingInstance.participantPesel}}</div>
                 </div>
                 <div class="grid-30">
                     <strong>Liczba bonów zarezerwowanych na szkolenie</strong>
                     <div>{{userTrainingReservationData.data.pesel}}</div>
-                    <div>123</div>
                 </div>
                 <div class="grid-30">
                     <strong>Kwota należna od Operatora Finansowego</strong>
-                    <div>{{userTrainingReservationData.data.pesel}}</div>
-                    <div>3456 PLN</div>
+                    <div>{{rmbsModel.model.sxoIndAmountDueTotal}} PLN</div>
                 </div>
             </div>
             <div class="multiSection">
                 <div class="grid-30">
                     <strong>Imię Uczestnika</strong>
-                    <div>{{userTrainingReservationData.data.pesel}}</div>
-                    <div>Jan</div>
+                    <div>{{rmbsModel.trainingInstance.participantName}}</div>
                 </div>
                 <div class="grid-30">
                     <strong>Data ważności bonów</strong>
                     <div>{{userTrainingReservationData.data.pesel}}</div>
-                    <div>12.12.2912</div>
                 </div>
             </div>
             <div class="multiSection">
                 <div class="grid-30">
                     <strong>Nazwisko Uczestnika</strong>
-                    <div>{{userTrainingReservationData.data.pesel}}</div>
-                    <div>Kowlaski</div>
+                    <div>{{rmbsModel.trainingInstance.participantSurname}}</div>
                 </div>
                 <div class="grid-30">
-                    <strong>Kwota dopłaty od</strong>
-                    <div>{{userTrainingReservationData.data.pesel}}</div>
-                    <div>400 PLN</div>
+                    <strong>Kwota dopłaty od Użytkownika</strong>
+                    <div>{{rmbsModel.model.indSxoAmountDueTotal}} PLN</div>
                 </div>
             </div>
         </div>
@@ -107,7 +91,7 @@
         <div class="paddedBlock">
             <div class="multiSection">
                 <div class="grid-100">
-                    <strong>Nazwa szkolenia</strong>
+                    <strong>Warunek rozliczenia</strong>
                     <div>Rozliczenie szkolenia możliwe jest po zdaniu egzaminu i potwierdzeniu kwalifikacji odpowiednim certyfikatem. Uczetsnik zobowiązany jest do przedłożenia Faktury, kopii
                         zaświadczenia o ukończeniu szkolenia oraz kopii certyfikatu lub kopii potwierdzenia o niezndanym egzaminie
                     </div>

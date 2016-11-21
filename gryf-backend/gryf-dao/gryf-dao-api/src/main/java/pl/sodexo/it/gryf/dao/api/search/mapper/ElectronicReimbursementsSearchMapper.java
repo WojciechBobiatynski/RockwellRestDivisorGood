@@ -6,6 +6,7 @@ import pl.sodexo.it.gryf.common.criteria.electronicreimbursements.ElctRmbsCriter
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CalculationChargesParamsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto;
 
 import java.util.List;
 
@@ -40,5 +41,13 @@ public interface ElectronicReimbursementsSearchMapper {
      * @return
      */
     CalculationChargesParamsDto findCalculationChargesParamsForTrInstId(@Param("criteria") UserCriteria criteria, @Param("trainingInstanceId") Long trainingInstanceId);
+
+    /**
+     * Znajduje szczegóły rozliczenia dla bonów elektronicznych na podstawie Id
+     * @param criteria - krytertia użytkownika
+     * @param ermbsId - id rozliczenia
+     * @return Dto rozliczenia
+     */
+    ElctRmbsHeadDto findEcltRmbsById(@Param("criteria") UserCriteria criteria, @Param("ermbsId") Long ermbsId);
 
 }

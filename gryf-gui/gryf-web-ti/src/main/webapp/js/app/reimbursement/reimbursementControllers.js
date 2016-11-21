@@ -21,9 +21,15 @@ angular.module("gryf.ti").controller("ReimbursementsController", ["$scope", "Rei
 
 }]);
 
-angular.module("gryf.ti").controller("ReimbursementModifyController", ["$scope", "ReimbursementsServiceModify", "DictionaryService","$stateParams",
-    function ($scope, ReimbursementsServiceModify, DictionaryService, $stateParams) {
+angular.module("gryf.ti").controller("ReimbursementModifyController", ["$scope", "ReimbursementsServiceModify", "DictionaryService","$stateParams","TrainingInstanceSearchService",
+    function ($scope, ReimbursementsServiceModify, DictionaryService, $stateParams, TrainingInstanceSearchService) {
         $scope.rmbsModel = ReimbursementsServiceModify.getRmbsModel();
-        ReimbursementsServiceModify.findById($stateParams.reimbursementId);
+
+        ReimbursementsServiceModify.findById($stateParams.reimbursementId).success(function(data) {
+            TrainingInstanceSearchService.findDetailsById(data.trainingInstanceId).success(function(data) {
+                $scope.rmbsModel.trainingInstance = data;
+            });
+        });
+
 
 }]);

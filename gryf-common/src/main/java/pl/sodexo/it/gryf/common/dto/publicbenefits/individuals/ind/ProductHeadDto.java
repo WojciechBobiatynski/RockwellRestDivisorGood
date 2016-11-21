@@ -2,6 +2,7 @@ package pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind;
 
 import lombok.Getter;
 import lombok.Setter;
+import pl.sodexo.it.gryf.common.dto.api.VersionableDto;
 
 import java.util.Date;
 
@@ -10,26 +11,18 @@ import java.util.Date;
  *
  * DTO dla bonu/produktu.
  */
-public class ProductDto extends ProductHeadDto {
+public class ProductHeadDto extends VersionableDto {
 
     @Getter
     @Setter
-    private Integer grantedProductsCount;
+    private Long id;
 
     @Getter
     @Setter
-    private Integer availableProductsCount;
+    private Date expirationDate;
 
     @Getter
     @Setter
-    private Integer usedProductsCount;
-
-    @Getter
-    @Setter
-    private Date orderDate;
-
-    @Getter
-    @Setter
-    private String orderId;
+    private Integer reservedProductsCount;
 
 }

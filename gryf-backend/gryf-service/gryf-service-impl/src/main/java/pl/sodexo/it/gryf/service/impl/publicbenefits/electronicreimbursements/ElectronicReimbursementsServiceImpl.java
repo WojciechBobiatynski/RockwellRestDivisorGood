@@ -8,6 +8,7 @@ import pl.sodexo.it.gryf.common.criteria.electronicreimbursements.ElctRmbsCriter
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CalculationChargesParamsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto;
 import pl.sodexo.it.gryf.common.exception.NoCalculationParamsException;
 import pl.sodexo.it.gryf.common.utils.GryfConstants;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementRepository;
@@ -63,6 +64,11 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         calculateCharges(ereimbursement, trainingInstanceId);
         setTrainingInstanceWithAppropiateStatus(trainingInstanceId, ereimbursement);
         return ereimbursementRepository.save(ereimbursement).getId();
+    }
+
+    @Override
+    public ElctRmbsHeadDto findEcltRmbsById(Long ermbsId) {
+        return electronicReimbursementsDao.findEcltRmbsById(ermbsId);
     }
 
     private Ereimbursement createNewEreimbursement() {

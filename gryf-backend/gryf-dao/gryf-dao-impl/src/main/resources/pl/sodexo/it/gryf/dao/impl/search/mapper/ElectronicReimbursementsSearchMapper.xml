@@ -92,4 +92,21 @@
           </if>
     </select>
 
+
+    <resultMap id="ecltRmbsHeadMap" type="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto" autoMapping="true" >
+        <id column="ermbsId" property="ermbsId"/>
+        <collection property="products" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.ProductHeadDto" autoMapping="true" columnPrefix="prd_"/>
+    </resultMap>
+    <select id="findEcltRmbsById" resultMap="ecltRmbsHeadMap">
+        SELECT
+          ermbs.ID                                  ermbsId,
+          ermbs.TI_TR_INST_ID                       trainingInstanceId,
+          ermbs.SXO_IND_AMOUNT_DUE_TOTAL            sxoIndAmountDueTotal,
+          ermbs.IND_SXO_AMOUNT_DUE_TOTAL            indSxoAmountDueTotal
+        FROM
+          APP_PBE.E_REIMBURSEMENTS ermbs
+        WHERE
+          ermbs.ID = #{ermbsId}
+    </select>
+
 </mapper>
