@@ -104,9 +104,14 @@
           ermbs.ID                                  ermbsId,
           ermbs.TI_TR_INST_ID                       trainingInstanceId,
           ermbs.SXO_IND_AMOUNT_DUE_TOTAL            sxoIndAmountDueTotal,
-          ermbs.IND_SXO_AMOUNT_DUE_TOTAL            indSxoAmountDueTotal
+          ermbs.IND_SXO_AMOUNT_DUE_TOTAL            indSxoAmountDueTotal,
+          pool_uses.ASSIGNED_NUM                    prd_reservedProductsCount,
+          pool.EXPIRY_DATE                          prd_expirationDate
         FROM
           APP_PBE.E_REIMBURSEMENTS ermbs
+          JOIN APP_PBE.TI_TRAINING_INSTANCES tr_in ON tr_in.ID = ermbs.TI_TR_INST_ID
+          LEFT JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOL_USES pool_uses ON pool_uses.TRAINING_INSTANCE_ID = tr_in.ID
+          LEFT JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOLS pool on pool_uses.PRODUCT_INSTANCE_POOL_ID = pool.ID
         WHERE
           ermbs.ID = #{ermbsId}
     </select>

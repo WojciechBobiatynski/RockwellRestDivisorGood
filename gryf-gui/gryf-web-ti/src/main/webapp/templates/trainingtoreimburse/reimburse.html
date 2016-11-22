@@ -57,7 +57,7 @@
                 </div>
                 <div class="grid-30">
                     <strong>Liczba bonów zarezerwowanych na szkolenie</strong>
-                    <div>{{userTrainingReservationData.data.pesel}}</div>
+                    <div data-ng-repeat="prd in rmbsModel.model.products">{{prd.reservedProductsCount}}</div>
                 </div>
                 <div class="grid-30">
                     <strong>Kwota należna od Operatora Finansowego</strong>
@@ -71,7 +71,7 @@
                 </div>
                 <div class="grid-30">
                     <strong>Data ważności bonów</strong>
-                    <div>{{userTrainingReservationData.data.pesel}}</div>
+                    <div data-ng-repeat="prd in rmbsModel.model.products">{{prd.expirationDate}}</div>
                 </div>
             </div>
             <div class="multiSection">

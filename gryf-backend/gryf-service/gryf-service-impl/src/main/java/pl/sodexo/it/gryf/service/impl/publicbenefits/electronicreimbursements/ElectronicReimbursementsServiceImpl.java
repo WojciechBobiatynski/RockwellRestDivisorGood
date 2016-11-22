@@ -88,7 +88,7 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     }
 
     private void calculateSxoAmount(Ereimbursement ereimbursement, CalculationChargesParamsDto params) {
-        if(params.getMaxProductInstance() == null){
+        if (params.getMaxProductInstance() == null) {
             calculateSxoAmountForTrainings(ereimbursement, params);
         } else {
             calculateSxoAmountForExam(ereimbursement, params);
@@ -97,15 +97,15 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     }
 
     private void calculateSxoAmountForTrainings(Ereimbursement ereimbursement, CalculationChargesParamsDto params) {
-        BigDecimal priceOfOneHour = params.getTrainingHourPrice().subtract(new BigDecimal(params.getUsedProductsNumber()));
-        BigDecimal normalizeHourPrice = priceOfOneHour.compareTo(params.getProductValue()) < 0 ? priceOfOneHour : params.getProductValue();
-        BigDecimal sxoAmount = new BigDecimal(params.getUsedProductsNumber()).multiply(normalizeHourPrice);
+        BigDecimal normalizeHourPrice = new BigDecimal(params.getProductInstanceForHour()).multiply(params.getProductValue());
+        BigDecimal realHourPrice = params.getTrainingHourPrice().compareTo(normalizeHourPrice) < 0 ? params.getTrainingHourPrice() : normalizeHourPrice;
+        BigDecimal sxoAmount = new BigDecimal(params.getUsedProductsNumber()).multiply(realHourPrice).divide(new BigDecimal(params.getProductInstanceForHour()));
         ereimbursement.setSxoIndAmountDueTotal(sxoAmount);
     }
 
     private void calculateSxoAmountForExam(Ereimbursement ereimbursement, CalculationChargesParamsDto params) {
         BigDecimal usedProductsAmount = new BigDecimal(params.getUsedProductsNumber()).multiply(params.getProductValue());
-        if (usedProductsAmount.compareTo(params.getTrainingPrice()) > 0){
+        if (usedProductsAmount.compareTo(params.getTrainingPrice()) > 0) {
             ereimbursement.setSxoIndAmountDueTotal(params.getTrainingPrice());
         } else {
             ereimbursement.setSxoIndAmountDueTotal(usedProductsAmount);
@@ -122,12 +122,17 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     }
 
     private void calculateIndAmountForTraining(Ereimbursement ereimbursement, CalculationChargesParamsDto params) {
-        BigDecimal normalizedUsedHourPrice = new BigDecimal(params.getUsedProductsNumber()).multiply(params.getTrainingHourPrice()).divide(new BigDecimal(params.getProductInstanceForHour()));
-        BigDecimal normalizedUsedProductsPrice = new BigDecimal(params.getUsedProductsNumber()).multiply(params.getProductValue());
-        BigDecimal usedHoursPriceCostDifference = normalizedUsedHourPrice.subtract(normalizedUsedProductsPrice);
-        BigDecimal hoursPaidWithMoney = new BigDecimal(params.getTrainingHoursNumber() - params.getUsedProductsNumber() / params.getProductInstanceForHour());
-        BigDecimal supplementOfNotUsingAllProducts = params.getTrainingHourPrice().multiply(hoursPaidWithMoney);
-        ereimbursement.setIndSxoAmountDueTotal(usedHoursPriceCostDifference.add(supplementOfNotUsingAllProducts));
+        BigDecimal normalizedProductHourPrice = new BigDecimal(params.getProductInstanceForHour()).multiply(params.getProductValue());
+        BigDecimal trainingHourDifferenceCost = BigDecimal.ZERO;
+        BigDecimal hoursPaidWithCashCost;
+        Integer hoursPaidWithCash = params.getTrainingHoursNumber()-params.getUsedProductsNumber()/params.getProductInstanceForHour();
+        if(params.getTrainingHourPrice().compareTo(normalizedProductHourPrice) > 0){
+            trainingHourDifferenceCost = new BigDecimal(params.getUsedProductsNumber()).multiply(params.getTrainingHourPrice().subtract(normalizedProductHourPrice));
+            hoursPaidWithCashCost = new BigDecimal(hoursPaidWithCash).multiply(normalizedProductHourPrice);
+        } else {
+            hoursPaidWithCashCost = new BigDecimal(hoursPaidWithCash).multiply(params.getTrainingHourPrice());
+        }
+        ereimbursement.setIndSxoAmountDueTotal(trainingHourDifferenceCost.add(hoursPaidWithCashCost));
     }
 
     private void calculateIndAmountForExam(Ereimbursement ereimbursement, CalculationChargesParamsDto params) {
