@@ -19,6 +19,8 @@ public class OrderSearchQueryDTO extends SearchDto {
 
     private Long id;
 
+    private Long grantProgramId;
+
     private String statusId;
 
     private Date orderDateFrom;
@@ -55,6 +57,14 @@ public class OrderSearchQueryDTO extends SearchDto {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getGrantProgramId() {
+        return grantProgramId;
+    }
+
+    public void setGrantProgramId(Long grantProgramId) {
+        this.grantProgramId = grantProgramId;
     }
 
     public String getStatusId() {

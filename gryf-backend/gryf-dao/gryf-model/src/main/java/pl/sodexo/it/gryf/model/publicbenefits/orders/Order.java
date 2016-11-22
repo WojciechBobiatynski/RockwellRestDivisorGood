@@ -9,6 +9,7 @@ import pl.sodexo.it.gryf.model.api.VersionableEntity;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
 import pl.sodexo.it.gryf.model.publicbenefits.enterprises.Enterprise;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication;
+import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
 import pl.sodexo.it.gryf.model.stock.products.Product;
 
@@ -74,6 +75,11 @@ public class Order extends VersionableEntity {
     @JoinColumn(name = "GRANT_APPLICATION_ID", referencedColumnName = "ID")
     @OneToOne
     private GrantApplication application;
+
+    @JsonBackReference("orders")
+    @JoinColumn(name = "GRANT_PROGRAM_ID", referencedColumnName = "ID")
+    @ManyToOne(optional = false)
+    private GrantProgram grantProgram;
 
     @JoinColumn(name = "ENTERPRISE_ID", referencedColumnName = "ID")
     @ManyToOne()
@@ -150,6 +156,14 @@ public class Order extends VersionableEntity {
 
     public void setApplication(GrantApplication application) {
         this.application = application;
+    }
+
+    public GrantProgram getGrantProgram() {
+        return grantProgram;
+    }
+
+    public void setGrantProgram(GrantProgram grantProgram) {
+        this.grantProgram = grantProgram;
     }
 
     public Enterprise getEnterprise() {

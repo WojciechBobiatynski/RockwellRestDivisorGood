@@ -5,6 +5,7 @@ import lombok.ToString;
 import pl.sodexo.it.gryf.model.api.DictionaryEntity;
 import pl.sodexo.it.gryf.model.api.GryfEntity;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationInProgram;
+import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 
 import javax.persistence.*;
 import java.util.*;
@@ -59,6 +60,10 @@ public class GrantProgram extends GryfEntity implements DictionaryEntity {
     @JsonManagedReference("applicationInPrograms")
     @OneToMany(mappedBy = "grantProgram")
     private List<GrantApplicationInProgram> applicationInPrograms;
+
+    @JsonManagedReference("orders")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "grantProgram")
+    private List<Order> orders;
 
     //GETTERS & SETTERS
 

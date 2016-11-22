@@ -127,6 +127,7 @@
                 <tbody>
                 <tr ng-repeat="item in searchDTO.searchResultList | limitTo: searchResultOptions.displayLimit">
                     <td>{{::item.id}}</td>
+                    <td>Kierunek kariera</td>
                     <td>{{::item.status.name}}</td>
                     <td>{{::item.orderDate | date:'yyyy-MM-dd'}}</td>
                     <td>{{::item.applicationId}}</td>

@@ -47,6 +47,7 @@ public abstract class OrderFlowBaseService implements OrderFlowService {
         order.setId(grantApplication.getId());
         order.setOrderFlow(orderFlow);
         order.setApplication(grantApplication);
+        order.setGrantProgram(grantApplication.getProgram());
         order.setEnterprise(grantApplication.getEnterprise());
         order.setStatus(orderFlow.getInitialStatus());
         order.setOrderDate(grantApplication.getReceiptDate());
@@ -63,6 +64,7 @@ public abstract class OrderFlowBaseService implements OrderFlowService {
         Individual individual = contract.getIndividual();
 
         Order order = new Order();
+        order.setGrantProgram(contract.getGrantProgram());
         order.setOrderFlow(orderFlow);
         order.setEnterprise(contract.getEnterprise());
         order.setStatus(orderFlow.getInitialStatus());
