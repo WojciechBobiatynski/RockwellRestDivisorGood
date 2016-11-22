@@ -5,6 +5,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import pl.sodexo.it.gryf.common.dto.other.DictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.other.FileDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.CreateOrderDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.OrderDTO;
@@ -18,6 +19,7 @@ import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.common.utils.JsonMapperUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.contracts.ContractRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderElementRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderFlowStatusRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderFlowStatusTransitionRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderRepository;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
@@ -26,6 +28,7 @@ import pl.sodexo.it.gryf.service.api.publicbenefits.orders.OrderService;
 import pl.sodexo.it.gryf.service.local.api.FileService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.OrderServiceLocal;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.elements.OrderElementService;
+import pl.sodexo.it.gryf.service.mapping.entitytodto.dictionaries.DictionaryEntityMapper;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.orders.OrderFlowTransitionDTOProvider;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.orders.searchform.OrderEntityToSearchResultMapper;
 import pl.sodexo.it.gryf.service.utils.BeanUtils;
@@ -66,6 +69,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private OrderEntityToSearchResultMapper orderEntityToSearchResultMapper;
+
+    @Autowired
+    OrderFlowStatusRepository orderFlowStatusRepository;
+
+    @Autowired
+    DictionaryEntityMapper dictionaryEntityMapper;
 
     //PUBLIC METHODS
 
@@ -156,6 +165,11 @@ public class OrderServiceImpl implements OrderService {
         }
 
         return OrderDTO.create(order.getId(), elements, orderFlowStatusTransitions, order.getVersion());
+    }
+
+    public List<DictionaryDTO> getOrderFlowStatusesByGrantProgram(Long grantProgramId) {
+        List<OrderFlowStatus> orderFlowStatuses = orderFlowStatusRepository.findByGrantProgram(grantProgramId);
+        return dictionaryEntityMapper.convert(orderFlowStatuses);
     }
 
 }

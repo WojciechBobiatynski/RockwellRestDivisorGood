@@ -54,6 +54,9 @@ public class OrdersRestController {
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public List<OrderSearchResultDTO> findOrders(OrderSearchQueryDTO searchDTO) {
+        if(searchDTO.getGrantProgramId() != null){
+            orderService.getOrderFlowStatusesByGrantProgram(searchDTO.getGrantProgramId());
+        }
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_ORDERS);
         return orderService.findOrders(searchDTO);
     }

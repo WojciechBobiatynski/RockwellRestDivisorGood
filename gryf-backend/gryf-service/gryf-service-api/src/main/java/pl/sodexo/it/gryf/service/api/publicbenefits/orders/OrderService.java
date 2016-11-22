@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.service.api.publicbenefits.orders;
 
+import pl.sodexo.it.gryf.common.dto.other.DictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.other.FileDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.CreateOrderDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.searchform.OrderSearchQueryDTO;
@@ -64,4 +65,11 @@ public interface OrderService {
      */
     void manageLocking(Long id);
 
+
+    /**
+     * Zwraca listę ze statusami dla danego grant programu
+     * @param grantProgramId
+     * @return
+     */
+    List<DictionaryDTO> getOrderFlowStatusesByGrantProgram(Long grantProgramId);
 }

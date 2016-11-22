@@ -21,6 +21,12 @@ import java.util.Objects;
 @ToString(exclude = {"orderFlows", "orders", "orderFlowStatusTransitions", "orderFlowElementsInStatus"})
 @Entity
 @Table(name = "ORDER_FLOW_STATUSES", schema = "APP_PBE")
+@NamedQueries({@NamedQuery(name = "OrderFlowStatus.findByGrantProgram", query = "select distinct t.nextStatus from OrderFlowForGrantProgram o " +
+        "join o.orderFlow oflow join oflow.orderFlowStatusTransitions t " +
+        "where o.grantProgram.id = :grantProgramId " +
+        "union " +
+        "select distinct t.status from OrderFlowForGrantProgram o join o.orderFlow oflow join oflow.orderFlowStatusTransitions t " +
+        "where o.grantProgram.id = :grantProgramId ")})
 public class OrderFlowStatus extends GryfEntity implements DictionaryEntity {
 
     //STATIC FIELDS - ATRIBUTES
