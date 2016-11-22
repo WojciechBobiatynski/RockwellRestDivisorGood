@@ -11,6 +11,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.enterprises.Enterprise;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
+import pl.sodexo.it.gryf.model.publicbenefits.pbeproduct.PbeProduct;
 import pl.sodexo.it.gryf.model.stock.products.Product;
 
 import javax.persistence.*;
@@ -110,7 +111,11 @@ public class Order extends VersionableEntity {
     @ManyToOne
     @JoinColumn(name = "PRODUCT_ID", referencedColumnName = "ID")
     private Product product;
-    
+
+    @ManyToOne
+    @JoinColumn(name = "PBE_PRD_ID", referencedColumnName = "PRD_ID")
+    private PbeProduct pbeProduct;
+
     @Size(max = 200)
     @Column(name = "ADDRESS_CORR")
     private String addressCorr;
@@ -221,6 +226,14 @@ public class Order extends VersionableEntity {
 
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    public PbeProduct getPbeProduct() {
+        return pbeProduct;
+    }
+
+    public void setPbeProduct(PbeProduct pbePproduct) {
+        this.pbeProduct = pbePproduct;
     }
 
     public String getAddressCorr() {

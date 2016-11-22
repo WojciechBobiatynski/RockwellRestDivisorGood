@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.orderflows;
 
+import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.CreateOrderDTO;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
@@ -30,4 +31,11 @@ public interface OrderFlowService {
      * @return zamówienie
      */
     Order createOrder(Contract contract, OrderFlow orderFlow);
+
+    /**
+     * Tworzy objet dto potrzeby do zapisu wniosku
+     * @param contract umowa
+     * @return dto
+     */
+    CreateOrderDTO createCreateOrderDTO(Contract contract);
 }

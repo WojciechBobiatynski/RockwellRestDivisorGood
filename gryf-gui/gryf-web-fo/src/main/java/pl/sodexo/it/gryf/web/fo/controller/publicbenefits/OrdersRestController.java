@@ -59,13 +59,13 @@ public class OrdersRestController {
     }
 
     @RequestMapping(value = "/load/{contractId}", method = RequestMethod.GET)
-    public CreateOrderDTO getCreateOrderDTO(@PathVariable Long contractId) {
-        return orderService.getCreateOrderDTO(contractId);
+    public CreateOrderDTO createCreateOrderDTO(@PathVariable Long contractId) {
+        return orderService.createCreateOrderDTO(contractId);
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public Long saveOrder(@RequestBody CreateOrderDTO createOrderDTO) {
-        return orderService.saveOrder(createOrderDTO);
+        return orderService.createOrder(createOrderDTO);
     }
 
     @RequestMapping(value = "/action/{orderId}/{actionId}/{version}", method = RequestMethod.POST)

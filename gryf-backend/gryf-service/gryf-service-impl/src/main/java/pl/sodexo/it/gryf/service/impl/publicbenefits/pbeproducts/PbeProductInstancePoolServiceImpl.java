@@ -24,7 +24,6 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiuti
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingRepository;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
-import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgramProduct;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 import pl.sodexo.it.gryf.model.publicbenefits.pbeproduct.*;
@@ -162,11 +161,8 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
         GrantProgram grantProgram = contract.getGrantProgram();
         Integer productInstanceNum = 10;//TODO: tbilski - pole z zamówienia
 
-        //POBRANIE PRODUKTU NA PODSTWIE GRANT PROGRAMU
-        GrantProgramProduct gpProduct = paramInDateService.findGrantProgramProduct(grantProgram.getId(), new Date());
-
         //STWORZENIE PULI BONÓW
-        PbeProductInstancePool pool = createProductInstancePool(order, contract, individual, gpProduct.getPbePproduct(), productInstanceNum);
+        PbeProductInstancePool pool = createProductInstancePool(order, contract, individual, order.getPbeProduct(), productInstanceNum);
         pool = productInstancePoolRepository.save(pool);
 
         //STWORZENIE EVENTU DO PULI BONÓW
@@ -179,7 +175,7 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
         PbeProductInstanceEventType reservedEventType = productInstanceEventTypeRepository.get(PbeProductInstanceEventType.RES_CODE);
 
         //POBRANIE INSTANCJI PRODUKTOW
-        List<PbeProductInstance> productInstances = findAvaiableProductInstanceByGrantProgram(gpProduct.getPbePproduct(), productInstanceNum);
+        List<PbeProductInstance> productInstances = findAvaiableProductInstanceByGrantProgram(order.getPbeProduct(), productInstanceNum);
         for(PbeProductInstance instance : productInstances){
 
             //ZMIANY NA INSTANCJACH PRODUKTOW

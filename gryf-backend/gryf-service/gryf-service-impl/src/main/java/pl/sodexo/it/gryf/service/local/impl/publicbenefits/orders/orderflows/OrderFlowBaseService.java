@@ -1,19 +1,26 @@
 package pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.orderflows;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.CreateOrderDTO;
 import pl.sodexo.it.gryf.common.dto.user.GryfUser;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.grantprograms.GrantProgramProductRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderRepository;
+import pl.sodexo.it.gryf.model.dictionaries.ZipCode;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
+import pl.sodexo.it.gryf.model.publicbenefits.enterprises.Enterprise;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationBasicData;
+import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
+import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgramParam;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgramProduct;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlow;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
+import pl.sodexo.it.gryf.service.local.api.ParamInDateService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.orderflows.OrderFlowService;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -34,15 +41,20 @@ public abstract class OrderFlowBaseService implements OrderFlowService {
 
     @Autowired
     private GryfValidator gryfValidator;
+
+    @Autowired
+    private ParamInDateService paramInDateService;
             
     //PUBLIC METHODS
 
     @Override
     public Order createOrder(GrantApplication grantApplication, OrderFlow orderFlow){
         GrantApplicationBasicData basicData = grantApplication.getBasicData();
-
         validateCreateOrder(grantApplication);
-        
+
+        GrantProgramProduct gpProduct = paramInDateService.findGrantProgramProduct(grantApplication.getProgram().getId(),
+                                                            GrantProgramProduct.Type.PRODUCT, grantApplication.getReceiptDate());
+
         Order order = new Order();
         order.setId(grantApplication.getId());
         order.setOrderFlow(orderFlow);
@@ -54,7 +66,7 @@ public abstract class OrderFlowBaseService implements OrderFlowService {
         order.setAddressCorr(basicData.getAddressCorr());
         order.setZipCodeCorrId((basicData.getZipCodeCorr() != null) ? basicData.getZipCodeCorr().getId() : null);
         order.setOperator(GryfUser.getLoggedUserLogin());
-        order.setProduct(findGrantProgramProduct(grantApplication.getProgram().getId(),grantApplication.getReceiptDate()).getProduct());
+        order.setProduct(gpProduct.getProduct());
         
         return orderRepository.save(order);
     }
@@ -62,6 +74,8 @@ public abstract class OrderFlowBaseService implements OrderFlowService {
     @Override
     public Order createOrder(Contract contract, OrderFlow orderFlow) {
         Individual individual = contract.getIndividual();
+        GrantProgramProduct gpProduct = paramInDateService.findGrantProgramProduct(contract.getGrantProgram().getId(),
+                                                                    GrantProgramProduct.Type.PBE_PRODUCT, new Date());
 
         Order order = new Order();
         order.setGrantProgram(contract.getGrantProgram());
@@ -73,26 +87,68 @@ public abstract class OrderFlowBaseService implements OrderFlowService {
         order.setZipCodeCorrId((individual.getZipCodeCorr() != null) ? individual.getZipCodeCorr().getId() : null);
         order.setOperator(GryfUser.getLoggedUserLogin());
         order.setContract(contract);
+        order.setPbeProduct(gpProduct.getPbeProduct());
 
         return orderRepository.save(order);
     }
-    
-  /**
-     * Metoda wyszukuje obiekt GrantProgramProduct na podstawie id programu doginansowania i daty wpłynięcia wniosku. Metoda sprawdza czy w bazie znajduje się dokałdnie
-     * jedna instancja obiektu GrantProgramProduct dla zadanych parametrów. .
-     * @param 
-     */
-    private GrantProgramProduct findGrantProgramProduct(Long grantProgramId, Date date){
-        List<GrantProgramProduct> GrantProgramProducts = grantProgramProductRepository.findByGrantProgramInDate(grantProgramId, date);
-        if(GrantProgramProducts.size() == 0){
-            throw new RuntimeException(String.format("Błąd parmetryzacji w tabeli APP_PBE.GRANT_PROGRAM_PRODUCTS. Nie znaleziono żadnego produktu dla programu [%s] obowiązującego dnia [%s]", grantProgramId, date));
-        }
-        if(GrantProgramProducts.size() > 1){
-            throw new RuntimeException(String.format("Błąd parmetryzacji w tabeli APP_PBE.GRANT_PROGRAM_PRODUCTS. Dla danej programu [%s] znaleziono więcej niż jeden produkt obowiązujący dnia [%s]", grantProgramId, date));
-        }
-        return GrantProgramProducts.get(0);
-    }    
 
+    @Override
+    public CreateOrderDTO createCreateOrderDTO(Contract contract){
+        Individual individual = contract.getIndividual();
+        Enterprise enterprise = contract.getEnterprise();
+        GrantProgram grantProgram = contract.getGrantProgram();
+        GrantProgramParam ocpParam = paramInDateService.findGrantProgramParam(grantProgram.getId(), GrantProgramParam.OWN_CONTRIBUTION_PERCENT, new Date());
+        GrantProgramProduct gpProduct = paramInDateService.findGrantProgramProduct(contract.getGrantProgram().getId(),
+                GrantProgramProduct.Type.PBE_PRODUCT, new Date());
+
+        BigDecimal ownContributionPercent = new BigDecimal(ocpParam.getValue());
+
+        CreateOrderDTO dto = new CreateOrderDTO();
+        dto.setContractId(contract.getId());
+        dto.setContractTypeName(contract.getContractType() != null ? contract.getContractType().getName() : null);
+        dto.setContractSignDate(contract.getSignDate());
+        dto.setContractExpiryDate(contract.getExpiryDate());
+
+        dto.setGrantProgramName(grantProgram.getProgramName());
+        if(individual != null){
+            dto.setIndividualFirstName(individual.getFirstName());
+            dto.setIndividualLastName(individual.getLastName());
+            dto.setIndividualPesel(individual.getPesel());
+        }
+        if(enterprise != null){
+            dto.setEnterpriseName(enterprise.getName());
+            dto.setEnterpriseVatRegNum(enterprise.getVatRegNum());
+        }
+        if(enterprise != null){
+            ZipCode zipCodeInvoice = enterprise.getZipCodeInvoice();
+            if(enterprise.getAddressInvoice() != null && zipCodeInvoice != null){
+                dto.setAddressInvoice(getAddressStr(enterprise.getAddressInvoice(), zipCodeInvoice));
+            }
+            ZipCode zipCodeCorr = enterprise.getZipCodeCorr();
+            if(enterprise.getAddressCorr() != null && zipCodeCorr != null){
+                dto.setAddressCorr(getAddressStr(enterprise.getAddressCorr(), zipCodeCorr));
+            }
+        }else if(individual != null){
+            ZipCode zipCodeInvoice = individual.getZipCodeInvoice();
+            if(individual.getAddressInvoice() != null && zipCodeInvoice != null){
+                dto.setAddressInvoice(getAddressStr(individual.getAddressInvoice(), zipCodeInvoice));
+            }
+            ZipCode zipCodeCorr = individual.getZipCodeCorr();
+            if(individual.getAddressCorr() != null && zipCodeCorr != null){
+                dto.setAddressCorr(getAddressStr(individual.getAddressCorr(), zipCodeCorr));
+            }
+        }
+
+        dto.setProductInstanceNum(null);
+        dto.setProductInstanceAmount(gpProduct.getPbeProduct().getValue());
+        dto.setOwnContributionPercen(ownContributionPercent);
+        dto.setOwnContributionAmont(null);
+        dto.setGrantAmount(null);
+        dto.setOrderAmount(null);
+
+        return dto;
+    }
+    
     /**
      * Metoda wykonuje sprawdzenia przed utworzeniem zamówienia
      * @param grantApplication wniosek o dofinansowanie
@@ -106,8 +162,10 @@ public abstract class OrderFlowBaseService implements OrderFlowService {
                     " w programie dofinasowania " + grantApplication.getProgram().getProgramName() +
                     ". Id niezakończonego zamówienia: " + orders.get(0).getId()) ;
        }
-        
-        
+    }
+
+    private String getAddressStr(String address, ZipCode zipcode){
+        return String.format("%s, %s %s", address, zipcode.getZipCode(), zipcode.getCityName());
     }
 
 

@@ -13,6 +13,20 @@ import java.util.List;
 public interface OrderService {
 
     /**
+     * tworzy obiekt potrzebny do stworzenai zamowienia
+     * @param contractId identyfikator umowy
+     * @return obiekt dto
+     */
+    CreateOrderDTO createCreateOrderDTO(Long contractId);
+
+    /**
+     * Metoda tworzy i zapisuje obiekt zamowienia na podstawie dto.
+     * @param dto parametr dto
+     * @return identyfikator zamowienia
+     */
+    Long createOrder(CreateOrderDTO dto);
+
+    /**
      * Metoda zwraca zserializowany obiekt OrderDTO, na podstawie którego generowany jest widok szczegółów zamówienia,
      * w którym mamy możliwosć podglądu.
      * @param id od zamówienia
@@ -50,9 +64,4 @@ public interface OrderService {
      */
     void manageLocking(Long id);
 
-    CreateOrderDTO getCreateOrderDTO(Long contractId);
-
-    Long saveOrder(CreateOrderDTO dto);
-
-    Long fastSave(Long contractId);
 }

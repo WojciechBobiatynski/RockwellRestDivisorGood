@@ -23,7 +23,8 @@ import java.util.Objects;
                                                                             "and (gpp.dateTo is null or :date <= gpp.dateTo)")})
 public class GrantProgramProduct extends GryfEntity {
 
-    
+    public enum Type{PRODUCT, PBE_PRODUCT}
+
     public static final String FIND_BY_GRANT_PROGRAM_IN_DATE = "GrantProgramProduct.findByGrantProgramInDate";    
     
     @Id
@@ -40,7 +41,7 @@ public class GrantProgramProduct extends GryfEntity {
 
     @ManyToOne
     @JoinColumn(name = "PBE_PRD_ID", referencedColumnName = "PRD_ID")
-    private PbeProduct pbePproduct;
+    private PbeProduct pbeProduct;
 
     @Column(name = "DATE_FROM")
     @Temporal(TemporalType.TIMESTAMP)
@@ -76,12 +77,12 @@ public class GrantProgramProduct extends GryfEntity {
         this.product = product;
     }
 
-    public PbeProduct getPbePproduct() {
-        return pbePproduct;
+    public PbeProduct getPbeProduct() {
+        return pbeProduct;
     }
 
-    public void setPbePproduct(PbeProduct pbePproduct) {
-        this.pbePproduct = pbePproduct;
+    public void setPbeProduct(PbeProduct pbePproduct) {
+        this.pbeProduct = pbePproduct;
     }
 
     public Date getDateFrom() {
