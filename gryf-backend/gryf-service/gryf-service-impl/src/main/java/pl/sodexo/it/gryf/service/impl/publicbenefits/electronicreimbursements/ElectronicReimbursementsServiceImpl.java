@@ -21,7 +21,6 @@ import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstan
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.ElectronicReimbursementsService;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.List;
 
 /**
@@ -88,6 +87,32 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
 
     }
 
+    private void calculateSxoAmount(Ereimbursement ereimbursement, CalculationChargesParamsDto params) {
+        if(params.getMaxProductInstance() == null){
+            calculateSxoAmountForTrainings(ereimbursement, params);
+        } else {
+            calculateSxoAmountForExam(ereimbursement, params);
+        }
+
+    }
+
+    private void calculateSxoAmountForTrainings(Ereimbursement ereimbursement, CalculationChargesParamsDto params) {
+        BigDecimal priceOfOneHour = params.getTrainingHourPrice().subtract(new BigDecimal(params.getUsedProductsNumber()));
+        BigDecimal normalizeHourPrice = priceOfOneHour.compareTo(params.getProductValue()) < 0 ? priceOfOneHour : params.getProductValue();
+        BigDecimal sxoAmount = new BigDecimal(params.getUsedProductsNumber()).multiply(normalizeHourPrice);
+        ereimbursement.setSxoIndAmountDueTotal(sxoAmount);
+    }
+
+    private void calculateSxoAmountForExam(Ereimbursement ereimbursement, CalculationChargesParamsDto params) {
+        BigDecimal usedProductsAmount = new BigDecimal(params.getUsedProductsNumber()).multiply(params.getProductValue());
+        if (usedProductsAmount.compareTo(params.getTrainingPrice()) > 0){
+            ereimbursement.setSxoIndAmountDueTotal(params.getTrainingPrice());
+        } else {
+            ereimbursement.setSxoIndAmountDueTotal(usedProductsAmount);
+        }
+
+    }
+
     private void calculateIndAmount(Ereimbursement ereimbursement, CalculationChargesParamsDto params) {
         if (params.getMaxProductInstance() == null) {
             calculateIndAmountForTraining(ereimbursement, params);
@@ -106,40 +131,7 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     }
 
     private void calculateIndAmountForExam(Ereimbursement ereimbursement, CalculationChargesParamsDto params) {
-        Integer maxProductsNumber;
-        BigDecimal trainingCostLimitDifference = BigDecimal.ZERO;
-        if (isTrainingPriceLowerThanMaxProgramLimit(params)) {
-            BigDecimal result = params.getTrainingPrice().divide(params.getProductValue(), 0, RoundingMode.HALF_UP);
-            maxProductsNumber = result.intValue();
-        } else {
-            trainingCostLimitDifference = params.getTrainingPrice().subtract(params.getProductValue().multiply(new BigDecimal(params.getMaxProductInstance())));
-            maxProductsNumber = params.getMaxProductInstance();
-        }
-        ereimbursement.setIndSxoAmountDueTotal(new BigDecimal(maxProductsNumber - params.getUsedProductsNumber()).multiply(params.getProductValue()).add(trainingCostLimitDifference));
-    }
-
-    private boolean isTrainingPriceLowerThanMaxProgramLimit(CalculationChargesParamsDto params) {
-        return params.getTrainingPrice().compareTo(params.getProductValue().multiply(new BigDecimal(params.getMaxProductInstance()))) < 0;
-    }
-
-    private void calculateSxoAmount(Ereimbursement ereimbursement, CalculationChargesParamsDto params) {
-        if(params.getMaxProductInstance() == null){
-            calculateSxoAmountForTrainings(ereimbursement, params);
-        } else {
-            calculateSxoAmountForExam(ereimbursement, params);
-        }
-
-    }
-
-    private void calculateSxoAmountForTrainings(Ereimbursement ereimbursement, CalculationChargesParamsDto params) {
-        BigDecimal priceOfOneHour = params.getTrainingHourPrice().subtract(new BigDecimal(params.getUsedProductsNumber()));
-        BigDecimal normalizeHourPrice = priceOfOneHour.compareTo(params.getProductValue()) < 0 ? priceOfOneHour : params.getProductValue();
-        BigDecimal sxoAmount = new BigDecimal(params.getUsedProductsNumber()).multiply(normalizeHourPrice);
-        ereimbursement.setSxoIndAmountDueTotal(sxoAmount);
-    }
-
-    private void calculateSxoAmountForExam(Ereimbursement ereimbursement, CalculationChargesParamsDto params) {
-        ereimbursement.setSxoIndAmountDueTotal(new BigDecimal(params.getUsedProductsNumber()).multiply(params.getProductValue()));
+        ereimbursement.setIndSxoAmountDueTotal(params.getTrainingPrice().subtract(ereimbursement.getSxoIndAmountDueTotal()));
     }
 
     private void setTrainingInstanceWithAppropiateStatus(Long trainingInstanceId, Ereimbursement ereimbursement) {
