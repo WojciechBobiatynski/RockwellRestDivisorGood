@@ -1,6 +1,6 @@
 var app = angular.module('gryf.config',
-    ['ngRoute', 'ui.bootstrap', 'gryf.modals', 'ngAnimate', 'gryf.popups',
-     'gryf.privileges', 'gryf.tables', 'gryf.exceptionHandler', 'gryf.helpers']);
+    ['ui.bootstrap', 'gryf.modals', 'ngAnimate', 'gryf.popups',
+     'gryf.privileges', 'gryf.tables', 'gryf.exceptionHandler', 'gryf.helpers', "ui.router"]);
 
 angular.module('gryf.config').controller('ConfigController', function ($scope, exceptionsService) {
 
@@ -85,7 +85,7 @@ angular.module('gryf.config').factory('generalExceptionHandlerInterceptor', ['$q
     };
 }]);
 
-angular.module('gryf.config').config(['$httpProvider','$routeProvider', function($httpProvider, $routeProvider) {
+/*angular.module('gryf.config').config(['$httpProvider','$routeProvider', function($httpProvider, $routeProvider) {
     $httpProvider.defaults.headers.common["X-CSRF-TOKEN"] = xsrf;
     $httpProvider.interceptors.push('generalExceptionHandlerInterceptor');
     $routeProvider
@@ -93,7 +93,7 @@ angular.module('gryf.config').config(['$httpProvider','$routeProvider', function
             {
                 templateUrl: contextPath + '/templates/exception.jsp'
             })
-}]);
+}]);*/
 
 angular.module('gryf.config').config(['$provide', '$controllerProvider', function($provide, $controllerProvider) {
     app._controller = app.controller;

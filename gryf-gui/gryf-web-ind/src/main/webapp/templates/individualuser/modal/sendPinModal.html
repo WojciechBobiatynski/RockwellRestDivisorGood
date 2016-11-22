@@ -1,0 +1,13 @@
+<div class="modal-head blue">
+    <div class="modal-title">Wysyłka kodu PIN</div>
+    <button class="close"ng-click="close(true)">&times;</button>
+</div>
+<div class="modal-body">
+    <span class="alert-text">
+        PIN zostanie wysłany na adres email: {{model.entity.verificationEmail}}
+    </span>
+    <div class="row-30"></div>
+    <div class="grid-100 text-center">
+        <button class="row-10 standardButton blue" ng-click="sendPin()">Wyślij PIN</button>
+    </div>
+</div>

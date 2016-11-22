@@ -16,7 +16,7 @@ public final class IndPageConstant extends PageConstant {
     public static final String PATH_IND_LOGIN = "/login";
     public static final String PAGE_IND_LOGIN = PREFIX_PAGE + "ind-login.jsp";
 
-    public static final String SUB_PAGE_IND_WELCOME = PREFIX_PAGE + "indIndex.jsp";
+    public static final String MAIN_PAGE = PREFIX_PAGE + "index.jsp";
 
     public static final String PATH_VERIFICATION = "/verification";
     public static final String PAGE_VERIFICATION = PREFIX_PAGE + "verification/remindVerificationCode.jsp";
@@ -24,8 +24,6 @@ public final class IndPageConstant extends PageConstant {
     public static final String PATH_VERIFICATION_RESEND_CODE = "verification/resend";
 
     public static final String PAGE_VERIFICATION_RESEND_SUCCESS = PREFIX_PAGE + "verification/sendVerCodeSuccess.jsp";
-
-    public static final String PATH_REIMBURSMENT_PIN_SEND = "/ind/reimbursmentPin/send";
 
     public static final String PAGE_REIMBURSMENT_PIN_SEND_SUCCESS = PREFIX_PAGE + "index.jsp";
 

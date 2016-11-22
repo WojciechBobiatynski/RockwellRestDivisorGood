@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import pl.sodexo.it.gryf.service.api.security.VerificationService;
 
-import static pl.sodexo.it.gryf.web.common.util.PageUtil.setUpMainContent;
 import static pl.sodexo.it.gryf.web.ind.util.IndPageConstant.*;
 
 /**
@@ -22,7 +21,6 @@ import static pl.sodexo.it.gryf.web.ind.util.IndPageConstant.*;
 public class IndMainViewController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(IndMainViewController.class);
-    public static final String PAGE_MAIN_IND = "/WEB-INF/page/index.jsp";
 
     @Autowired
     private VerificationService verificationService;
@@ -34,7 +32,6 @@ public class IndMainViewController {
 
     @RequestMapping(PATH_MAIN)
     public String welcome(Model model) {
-        setUpMainContent(model, SUB_PAGE_IND_WELCOME);
-        return PAGE_MAIN_IND;
+        return MAIN_PAGE;
     }
 }

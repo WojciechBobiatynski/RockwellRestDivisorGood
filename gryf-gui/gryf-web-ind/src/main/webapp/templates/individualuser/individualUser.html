@@ -1,0 +1,134 @@
+<section>
+    <strong class="label">Dane z umowy</strong>
+    <div class="block borderTop blue">
+        <div class="multiSection">
+            <div class="block grid-15">
+                <strong class="label">Imię i nazwisko</strong>
+                <div class="grid-100">{{model.entity.firstName + ' ' + model.entity.lastName}}</div>
+
+                <strong class="label">PESEL</strong>
+                <div class="grid-100">{{model.entity.pesel}}</div>
+            </div>
+            <div class="block grid-85">
+                <table>
+                    <thead class="text-left">
+                    <th class="grid-10">
+                        <strong class="label">Moje umowy</strong>
+                    </th>
+                    <th class="grid-15">
+                        <strong class="label">Data podpisania umowy</strong>
+                    </th>
+                    <th class="grid-50">
+                        <strong class="label">Kategorie szkoleń</strong>
+                    </th>
+                    </thead>
+                    <tbody class="tableData">
+                        <tr ng-repeat="agr in model.entity.agreements" ng-class="{'row-even': $even, 'row-odd': $odd}">
+                            <td>{{::agr.id}}</td>
+                            <td>{{::agr.signingDate}}</td>
+                            <td><span ng-repeat = "category in agr.trainingCategoriesNames">{{category}}{{$last ? '' : ', '}}</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="row-20"></div>
+<section>
+    <strong class="label">Liczba bonów</strong>
+    <div class="block borderTop blue">
+        <div class="block">
+            <table>
+                <thead class="text-left">
+                <th class="grid-10">
+                    <strong class="label">Data ważności</strong>
+                </th>
+                <th class="grid-10">
+                    <strong class="label">Wszystkie</strong>
+                </th>
+                <th class="grid-10">
+                    <strong class="label">Zarezerwowane</strong>
+                </th>
+                <th class="grid-10">
+                    <strong class="label">Dostępne</strong>
+                </th>
+                <th class="grid-10">
+                    <strong class="label">Wykorzystane</strong>
+                </th>
+                <th class="grid-10">
+                    <strong class="label">Data zamówienia</strong>
+                </th>
+                <th class="grid-10">
+                    <strong class="label">ID zamówienia</strong>
+                </th>
+                </thead>
+                <tbody class="tableData">
+                <tr ng-repeat="product in model.entity.products" ng-class="{'row-even': $even, 'row-odd': $odd}">
+                    <td>{{product.expirationDate}}</td>
+                    <td>{{product.grantedProductsCount}}</td>
+                    <td>{{product.reservedProductsCount}}</td>
+                    <td>{{product.availableProductsCount}}</td>
+                    <td>{{product.usedProductsCount}}</td>
+                    <td>{{product.orderDate}}</td>
+                    <td>{{product.orderId}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+<div class="row-20"></div>
+<section>
+    <strong class="label">Szkolenia</strong>
+    <div class="block borderTop blue">
+        <div class="block">
+            <table>
+                <thead class="tableHeader-names text-left">
+                    <th class="grid-20">
+                        <strong class="label">Nazwa szkolenia</strong>
+                    </th>
+                    <th class="grid-20">
+                        <strong class="label">Nazwa Instytucji Szkoleniowej</strong>
+                    </th>
+                    <th class="grid-10">
+                        <strong class="label">Liczba bonów</strong>
+                    </th>
+                    <th class="grid-10">
+                        <strong class="label">Data zapisu</strong>
+                    </th>
+                    <th class="grid-10">
+                        <strong class="label">Data rozpoczęcia</strong>
+                    </th>
+                    <th class="grid-10">
+                        <strong class="label">Data zakończenia</strong>
+                    </th>
+                    <th class="grid-10">
+                        <strong class="label">Status</strong>
+                    </th>
+                    <th class="grid-10">
+                        <strong class="label">Akcje</strong>
+                    </th>
+                </thead>
+                <tbody class="tableData">
+                <tr ng-repeat="tra in model.entity.trainings" ng-class="{'row-even': $even, 'row-odd': $odd}">
+                    <td>{{tra.name}}</td>
+                    <td>{{tra.trainingInstitutionName}}</td>
+                    <td>{{tra.productsCount}}</td>
+                    <td>{{tra.signDate}}</td>
+                    <td>{{tra.startDate}}</td>
+                    <td>{{tra.endDate}}</td>
+                    <td>{{tra.trainingStatus}}</td>
+                    <td>
+                        <ul class="text-center no-margin-padding">
+                            <li ng-if="tra.trainingStatusId == 'RES'"
+                                ui-sref="sendPinModal({trainingInstanceId: tra.id})"
+                                class="textButton blue">WYŚLIJ PIN</li>
+                        </ul>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
