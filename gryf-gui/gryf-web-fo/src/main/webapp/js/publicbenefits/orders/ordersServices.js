@@ -115,9 +115,9 @@ angular.module('gryf.orders').factory("BrowseOrdersService",
 
 angular.module('gryf.orders').factory("ModifyOrdersService",
     ['$http', 'GryfModals', '$routeParams', 'GryfPopups', 'angularLoad', '$q', 'GryfExceptionHandler',
-     'Upload', 'GryfHelpers', '$location', '$route','BrowseContractsService',
+     'Upload', 'GryfHelpers', '$location', '$route',
      function($http, GryfModals, $routeParams, GryfPopups, angularLoad, $q, GryfExceptionHandler,
-              Upload, GryfHelpers, $location, $route, BrowseContractsService) {
+              Upload, GryfHelpers, $location, $route) {
          var ORDER_URL = contextPath + "/rest/publicBenefits/order/modify/";
          var TEMPLATE_SPECIFIC_FOLDER = contextPath + "/";
          var ORDER_EXECUTE_ACTION_URL = contextPath + "/rest/publicBenefits/order/action/";
@@ -163,23 +163,6 @@ angular.module('gryf.orders').factory("ModifyOrdersService",
                 return promise;
             }
         };
-
-         var openContractLov = function () {
-             var TEMPLATE_URL = GryfModals.MODALS_URL.LOV_CONTRACTS;
-             return GryfModals.openLovModal(TEMPLATE_URL, BrowseContractsService, "lg");
-         };
-
-
-         var fastSave = function(contractId) {
-                 var promise = $http.post(contextPath + "/rest/publicBenefits/order/fastSave/" + contractId);
-                 promise.then(function(response) {
-                     window.location = contextPath + "/publicBenefits/orders/#/modify/" + response.data;
-                 });
-                 promise.finally(function() {
-                     GryfModals.closeModal(modalInstance);
-                 });
-                 return promise;
-         };
 
          var executeAction = function(actionId, orderId, acceptedViolationsPathParam) {
              var files = findAllFileAttachments();
@@ -286,9 +269,7 @@ angular.module('gryf.orders').factory("ModifyOrdersService",
             getOrderStatus: getOrderStatus,
             executeAction: executeAction,
             getViolations: getViolations,
-            getNewViolations: getNewViolations,
-            openContractLov: openContractLov,
-            fastSave: fastSave
+            getNewViolations: getNewViolations
         };
     }]);
 
