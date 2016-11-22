@@ -112,14 +112,16 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
 
     private void caluclateForExam(Ereimbursement ereimbursement, CalculationChargesParamsDto params) {
         Integer maxProductsNumber;
+        BigDecimal traningCostLimitDifference = BigDecimal.ZERO;
         if (isTrainingPriceLowerThanMaxProgramLimit(params)) {
             BigDecimal result = params.getTrainingPrice().divide(params.getProductValue());
             result.setScale(0, RoundingMode.HALF_UP);
             maxProductsNumber = result.intValue();
         } else {
+            traningCostLimitDifference = params.getTrainingPrice().subtract(params.getProductValue().multiply(new BigDecimal(params.getMaxProductInstance())));
             maxProductsNumber = params.getMaxProductInstance();
         }
-        ereimbursement.setIndSxoAmountDueTotal(new BigDecimal(maxProductsNumber - params.getUsedProductsNumber()).multiply(params.getProductValue()));
+        ereimbursement.setIndSxoAmountDueTotal(new BigDecimal(maxProductsNumber - params.getUsedProductsNumber()).multiply(params.getProductValue()).add(traningCostLimitDifference));
     }
 
     private boolean isTrainingPriceLowerThanMaxProgramLimit(CalculationChargesParamsDto params) {
