@@ -17,6 +17,10 @@ app.config(['$routeProvider', function($routeProvider) {
             templateUrl: contextPath + '/templates/publicbenefits/orders/previewformOrders.html',
             controller: 'previewform.OrdersController'
         })
+        .when('/create', {
+            templateUrl: contextPath + '/templates/publicbenefits/orders/createformOrders.html',
+            controller: 'createform.OrdersController'
+        })
         .otherwise({
             redirectTo: '/'
         });

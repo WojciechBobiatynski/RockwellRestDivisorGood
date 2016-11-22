@@ -18,11 +18,14 @@ import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.common.utils.JsonMapperUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.contracts.ContractRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderElementRepository;
-import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderFlowRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderFlowStatusTransitionRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderRepository;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
-import pl.sodexo.it.gryf.model.publicbenefits.orders.*;
+import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
+import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
+import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElementDTOBuilder;
+import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowElement;
+import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowElementType;
 import pl.sodexo.it.gryf.service.api.publicbenefits.orders.OrderService;
 import pl.sodexo.it.gryf.service.local.api.FileService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.OrderServiceLocal;
@@ -31,6 +34,7 @@ import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.orders.Order
 import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.orders.searchform.OrderEntityToSearchResultMapper;
 import pl.sodexo.it.gryf.service.utils.BeanUtils;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -116,6 +120,8 @@ public class OrderServiceImpl implements OrderService {
 
     public CreateOrderDTO getCreateOrderDTO(Long contractId){
         CreateOrderDTO dto = new CreateOrderDTO();
+        dto.setOwnContributionPercen(new BigDecimal(13));
+        dto.setProductInstanceAmount(new BigDecimal(15));
         return dto;
     }
 

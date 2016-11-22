@@ -63,7 +63,7 @@ angular.module('gryf.orders').controller("searchform.OrdersController",
 
 var scopeModifyOrdersController;
 angular.module('gryf.orders').controller("detailsform.OrdersController",
-    ['$scope', 'ModifyOrdersService', 'GryfHelpers', 'GryfPopups', '$routeParams', function($scope, ModifyOrdersService, GryfHelpers, GryfPopups, $routeParams) {
+    ['$scope', 'ModifyOrdersService', 'GryfHelpers', 'GryfPopups', function($scope, ModifyOrdersService, GryfHelpers, GryfPopups) {
         scopeModifyOrdersController = $scope;
         gryfSessionStorage.setUrlToSessionStorage();
         GryfPopups.showPopup();
@@ -74,13 +74,6 @@ angular.module('gryf.orders').controller("detailsform.OrdersController",
         $scope.orderStatus = ModifyOrdersService.getOrderStatus();
         $scope.violations = ModifyOrdersService.getViolations();
         $scope.isGrantAppFixed = false;
-
-        $scope.isContractLovShow = $routeParams.id ? false : true;
-        $scope.openContractLov = function() {
-            ModifyOrdersService.openContractLov().result.then(function(chosenContract) {
-                ModifyOrdersService.fastSave(chosenContract.id);
-            });
-        };
 
         $scope.toggleGrantAppView = function() {
             $scope.isGrantAppFixed = !$scope.isGrantAppFixed;
@@ -245,4 +238,47 @@ angular.module('gryf.orders').controller("previewform.OrdersController",
             return null;
         }
 
-     }]);
+}]);
+
+angular.module('gryf.orders').controller("createform.OrdersController", ['$scope', 'CreateOrdersService', 'GryfHelpers', 'GryfPopups',
+    function($scope, CreateOrdersService, GryfHelpers, GryfPopups) {
+
+    gryfSessionStorage.setUrlToSessionStorage();
+
+    $scope.violations = CreateOrdersService.getViolations();
+    $scope.createOrderDto = CreateOrdersService.getCreateOrderDto();
+
+    $scope.openContractLov = function() {
+        CreateOrdersService.openContractLov().result.then(function(contract) {
+            CreateOrdersService.loadCreateOrderDto(contract.id);
+        });
+    };
+
+    $scope.recalculateFields = function(){
+        var dto = $scope.createOrderDto.data;
+
+        if(dto.productInstanceNum && dto.productInstanceAmount && dto.ownContributionPercen) {
+            $scope.createOrderDto.data.ownContributionAmont = dto.productInstanceNum * dto.productInstanceAmount * dto.ownContributionPercen / 100;
+        } else {
+            $scope.createOrderDto.data.ownContributionAmont = null;
+        }
+
+        if(dto.productInstanceNum && dto.productInstanceAmount && dto.ownContributionAmont) {
+            $scope.createOrderDto.data.grantAmount = dto.productInstanceNum * dto.productInstanceAmount - dto.ownContributionAmont;
+        } else {
+            $scope.createOrderDto.data.grantAmount = null;
+        }
+
+        if(dto.ownContributionAmont && dto.grantAmount) {
+            $scope.createOrderDto.data.orderAmount = dto.ownContributionAmont + dto.grantAmount;
+        } else {
+            $scope.createOrderDto.data.orderAmount = null;
+        }
+    };
+
+    $scope.save = function() {
+        CreateOrdersService.saveOrder();
+        $scope.violations = CreateOrdersService.getNewViolations();
+    }
+
+}]);

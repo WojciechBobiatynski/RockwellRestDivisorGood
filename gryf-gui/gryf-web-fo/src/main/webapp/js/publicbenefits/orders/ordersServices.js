@@ -359,3 +359,76 @@ angular.module('gryf.orders').factory("PreviewOrdersService",
          }
 
      }]);
+
+angular.module('gryf.orders').factory("CreateOrdersService",
+    ['$http', 'GryfModals', 'GryfPopups', 'GryfExceptionHandler', 'GryfHelpers','BrowseContractsService',
+    function($http, GryfModals, GryfPopups, GryfExceptionHandler, GryfHelpers, BrowseContractsService) {
+
+        var GET_CREATE_ORDER_REST_URL = contextPath + "/rest/publicBenefits/order/";
+
+        var createOrderDto = {data: null};
+        var violations = {};
+
+        var openContractLov = function () {
+            var TEMPLATE_URL = GryfModals.MODALS_URL.LOV_CONTRACTS;
+            return GryfModals.openLovModal(TEMPLATE_URL, BrowseContractsService, "lg");
+        };
+
+        var loadCreateOrderDto = function(contractId) {
+            var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING);
+            var promise = $http.get(GET_CREATE_ORDER_REST_URL + "load/" + contractId);
+            promise.then(function(response) {
+                createOrderDto.data = response.data;
+            });
+            promise.finally(function() {
+                GryfModals.closeModal(modalInstance);
+            });
+            return promise;
+        };
+
+        var getCreateOrderDto = function() {
+            return createOrderDto;
+        };
+
+        var saveOrder = function() {
+            var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING);
+            var promise = $http.post(GET_CREATE_ORDER_REST_URL + "save/", createOrderDto.data);
+            promise.then(function(response) {
+                GryfPopups.setPopup("success", "Sukces", "Zamówienie zostało poprawnie utworzone");
+                GryfPopups.showPopup();
+                window.location = contextPath + "/publicBenefits/orders/#/modify/" + response.data;
+            });
+            promise.error(function(error) {
+                GryfPopups.setPopup("error", "Błąd", "Nie udało się utworzyć zamównienia");
+                GryfPopups.showPopup();
+
+                GryfExceptionHandler.handleSavingError(error, violations, null);
+            });
+            promise.finally(function() {
+                GryfModals.closeModal(modalInstance);
+            });
+            return promise;
+        };
+
+        var getEntityObject = function() {
+            return entityObject;
+        };
+
+        var getViolations = function() {
+            return violations;
+        };
+
+        var getNewViolations = function() {
+            violations = {};
+            return violations;
+        };
+
+        return {
+            loadCreateOrderDto: loadCreateOrderDto,
+            getCreateOrderDto: getCreateOrderDto,
+            getViolations: getViolations,
+            getNewViolations: getNewViolations,
+            openContractLov: openContractLov,
+            saveOrder: saveOrder
+        };
+}]);

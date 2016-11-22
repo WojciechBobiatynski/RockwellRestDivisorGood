@@ -186,7 +186,7 @@
                                    gryf-link-privilege="GRF_PBE_ORDERS">Lista zamówień</a>
                             </li>
                             <li>
-                                <a ng-href="${pageContext.request.contextPath}/publicBenefits/orders/#modify"
+                                <a ng-href="${pageContext.request.contextPath}/publicBenefits/orders/#create"
                                    gryf-link-privilege="GRF_PBE_ORDERS">Nowe zamówienie</a>
                             </li>
                         </ul>

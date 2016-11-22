@@ -1,0 +1,115 @@
+<div>
+    <header id="header">
+        <h1>Nowe zamówienie</h1>
+        <ul>
+            <li>
+                <a ng-click="save()" class="button button-save">zapisz</a>
+            </li>
+        </ul>
+    </header>
+    <section>
+        <div class="width-100">
+            <div class="grid-100">
+                <header>
+                    <h2>Informacje o umowie</h2>
+                </header>
+            </div>
+            <div class="grid-100">
+                <div class="grid-10">
+                    <strong class="label">Id umowy</strong>
+                    <input type="text" ng-model="createOrderDto.data.contractId" maxlength="500" disabled="disabled">
+                    <a ng-click="openContractLov()" class="button button-save">Wybierz</a>
+                    <gryf-validation-msg path="contractId"></gryf-validation-msg>
+                </div>
+                <div class="grid-10">
+                    <strong class="label">Rodzaj umowy</strong>
+                    <input type="text" ng-model="createOrderDto.data.contractTypeName" readonly="readonly">
+                </div>
+                <div class="grid-20">
+                    <strong class="label">Data podpisania umowy</strong>
+                    <input type="text" ng-model="createOrderDto.data.contractSignDate" readonly="readonly">
+                </div>
+                <div class="grid-20">
+                    <strong class="label">Data wygaśnięcia umowy</strong>
+                    <input type="text" ng-model="createOrderDto.data.contractExpiryDate" readonly="readonly">
+                </div>
+                <div class="grid-20">
+                    <strong class="label">Program dofinansowania</strong>
+                    <input type="text" ng-model="createOrderDto.data.grantProgramName" readonly="readonly">
+                </div>
+            </div>
+            <div class="grid-100">
+                <div class="grid-20">
+                    <strong class="label">Imię Uczestnika</strong>
+                    <input type="text" ng-model="createOrderDto.data.individualFirstName" readonly="readonly">
+                </div>
+                <div class="grid-20">
+                    <strong class="label">Nazwisko Uczestnika</strong>
+                    <input type="text" ng-model="createOrderDto.data.individualLastName" readonly="readonly">
+                </div>
+                <div class="grid-20">
+                    <strong class="label">PESEL Uczestnika</strong>
+                    <input type="text" ng-model="createOrderDto.data.individualPesel" readonly="readonly">
+                </div>
+                <div class="grid-20" ng-if="item.enterpriseName">
+                    <strong class="label">Nazwa firmy</strong>
+                    <input type="text" ng-model="createOrderDto.data.enterpriseName" readonly="readonly">
+                </div>
+                <div class="grid-20" ng-if="item.enterpriseVatRegNum">
+                    <strong class="label">NIP firmy</strong>
+                    <input type="text" ng-model="createOrderDto.data.enterpriseVatRegNum" readonly="readonly">
+                </div>
+            </div>
+        </div>
+        <div class="width-100">
+            <div class="grid-100">
+                <header>
+                    <h2>Adresy</h2>
+                </header>
+            </div>
+            <div class="grid-100">
+                <div class="grid-20">
+                    <strong class="label">Adres na fakturze</strong>
+                    <input type="text" ng-model="createOrderDto.data.addressInvoice">
+                </div>
+                <div class="grid-20">
+                    <strong class="label">Adres korespondencyjny</strong>
+                    <input type="text" ng-model="createOrderDto.data.addressCorr">
+                </div>
+            </div>
+        </div>
+        <div class="width-100">
+            <div class="grid-100">
+                <header>
+                    <h2>Informacje o zamówieniu</h2>
+                </header>
+            </div>
+            <div class="grid-100">
+                <div class="grid-20">
+                    <strong class="label">Liczba bonów</strong>
+                    <input type="number" step="1" ng-model="createOrderDto.data.productInstanceNum" ng-change="recalculateFields();">
+                    <gryf-validation-msg path="productInstanceNum"></gryf-validation-msg>
+                </div>
+                <div class="grid-20">
+                    <strong class="label">Procent wkładu własnego</strong>
+                    <input type="number" ng-model="createOrderDto.data.ownContributionPercen" readonly="readonly">
+                </div>
+                <div class="grid-20">
+                    <strong class="label">Kwota wkładu własnego</strong>
+                    <input type="number" ng-model="createOrderDto.data.ownContributionAmont" readonly="readonly">
+                    <gryf-validation-msg path="ownContributionAmont"></gryf-validation-msg>
+                </div>
+                <div class="grid-20">
+                    <strong class="label">Kwota dofinansowania</strong>
+                    <input type="number" ng-model="createOrderDto.data.grantAmount" readonly="readonly">
+                    <gryf-validation-msg path="grantAmount"></gryf-validation-msg>
+                </div>
+                <div class="grid-20">
+                    <strong class="label">Kwota zamówienia</strong>
+                    <input type="number" ng-model="createOrderDto.data.orderAmount" readonly="readonly">
+                    <gryf-validation-msg path="orderAmount"></gryf-validation-msg>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

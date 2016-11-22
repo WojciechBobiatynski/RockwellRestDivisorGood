@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pl.sodexo.it.gryf.common.dto.other.FileDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.CreateOrderDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.action.IncomingOrderElementDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.searchform.OrderSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.searchform.OrderSearchResultDTO;
@@ -57,9 +58,14 @@ public class OrdersRestController {
         return orderService.findOrders(searchDTO);
     }
 
-    @RequestMapping(value = "/fastSave/{contractId}", method = RequestMethod.POST)
-    public Long fastSave(@PathVariable Long contractId) {
-        return orderService.fastSave(contractId);
+    @RequestMapping(value = "/load/{contractId}", method = RequestMethod.GET)
+    public CreateOrderDTO getCreateOrderDTO(@PathVariable Long contractId) {
+        return orderService.getCreateOrderDTO(contractId);
+    }
+
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    public Long saveOrder(@RequestBody CreateOrderDTO createOrderDTO) {
+        return orderService.saveOrder(createOrderDTO);
     }
 
     @RequestMapping(value = "/action/{orderId}/{actionId}/{version}", method = RequestMethod.POST)
