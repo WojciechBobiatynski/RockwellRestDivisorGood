@@ -9,6 +9,7 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderRepo
 import pl.sodexo.it.gryf.dao.impl.crud.repository.GenericRepositoryImpl;
 import pl.sodexo.it.gryf.model.publicbenefits.enterprises.Enterprise;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication;
+import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
@@ -55,6 +56,9 @@ public class OrderRepositoryImpl extends GenericRepositoryImpl<Order, Long> impl
         }
         if(dto.getApplicationId() != null){
             predicates.add(cb.equal(from.get(Order.APPLICATION_ATTR_NAME).get(GrantApplication.ID_ATTR_NAME), dto.getApplicationId()));
+        }
+        if(dto.getGrantProgramId() != null){
+            predicates.add(cb.equal(from.get(Order.GRANT_PROGRAM_ATTR_NAME).get(GrantProgram.ID_ATTR_NAME), dto.getGrantProgramId()));
         }
         if(dto.getEnterpriseId() != null){
             predicates.add(cb.equal(from.get(Order.ENTERPRISE_ATTR_NAME).get(Enterprise.ID_ATTR_NAME), dto.getEnterpriseId()));

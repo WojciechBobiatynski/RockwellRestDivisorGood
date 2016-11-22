@@ -50,6 +50,7 @@ public class Order extends VersionableEntity {
     public static final String STATUS_ATTR_NAME = "status";
     public static final String ORDER_DATE_ATTR_NAME = "orderDate";
     public static final String APPLICATION_ATTR_NAME = "application";
+    public static final String GRANT_PROGRAM_ATTR_NAME = "grantProgram";
     public static final String ENTERPRISE_ATTR_NAME = "enterprise";
     public static final String INDIVIDUAL_ATTR_NAME = "individual";
     public static final String OPERATOR_ATTR_NAME = "operator";

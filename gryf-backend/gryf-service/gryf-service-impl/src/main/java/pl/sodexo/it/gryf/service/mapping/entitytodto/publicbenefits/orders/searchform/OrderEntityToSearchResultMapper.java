@@ -32,6 +32,7 @@ public class OrderEntityToSearchResultMapper extends GryfEntityMapper<Order, Ord
     public void map(Order entity, OrderSearchResultDTO dto) {
         super.map(entity, dto);
         dto.setId(entity.getId());
+        dto.setGrantProgramName((entity.getGrantProgram() != null) ? entity.getGrantProgram().getProgramName() : null);
         dto.setStatus(dictionaryEntityMapper.convert(entity.getStatus()));
         dto.setOrderDate(entity.getOrderDate());
         dto.setApplicationId((entity.getApplication() != null) ? entity.getApplication().getId() : null);

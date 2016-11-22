@@ -18,6 +18,8 @@ public class OrderSearchResultDTO extends GryfDto {
 
     private Long id;
 
+    private String grantProgramName;
+
     private DictionaryDTO status;
 
     private Date orderDate;
@@ -48,6 +50,14 @@ public class OrderSearchResultDTO extends GryfDto {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getGrantProgramName() {
+        return grantProgramName;
+    }
+
+    public void setGrantProgramName(String grantProgramName) {
+        this.grantProgramName = grantProgramName;
     }
 
     public DictionaryDTO getStatus() {

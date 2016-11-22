@@ -29,6 +29,7 @@ public class GrantProgram extends GryfEntity implements DictionaryEntity {
 
     //STATIC FIELDS - ATRIBUTES
 
+    public static final String ID_ATTR_NAME = "id";
     public static final String PROGRAM_NAME_ATTR_NAME = "programName";
     public static final String PROGRAM_OWNER_ATTR_NAME = "grantOwnerId";
 
