@@ -83,8 +83,7 @@ public class TrainingInstanceDetailsDto implements Serializable {
         Integer maxProductsNumber;
         if(maxProductInstance != null){
             if(isTrainingPriceLowerThanMaxProgramLimit()){
-                BigDecimal result = trainingPrice.divide(prdValue);
-                result.setScale(0, RoundingMode.HALF_UP);
+                BigDecimal result = trainingPrice.divide(prdValue, 0, RoundingMode.HALF_UP);
                 maxProductsNumber = result.intValue();
             } else {
                 maxProductsNumber = maxProductInstance;
