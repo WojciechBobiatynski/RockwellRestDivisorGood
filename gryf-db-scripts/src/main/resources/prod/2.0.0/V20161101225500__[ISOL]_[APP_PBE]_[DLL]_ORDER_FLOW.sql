@@ -60,6 +60,7 @@ Insert into APP_PBE.ORDER_FLOW_STATUS_TRANSITIONS (ORDER_FLOW_ID,STATUS_ID,ACTIO
 Insert into APP_PBE.ORDER_FLOW_STATUS_TRANSITIONS (ORDER_FLOW_ID,STATUS_ID,ACTION_ID,ACTION_NAME,ACTION_DESCRIPTION,ACTION_CLASS,NEXT_STATUS_ID,AUG_ID_REQUIRED) values (100,'CANCELLDKK',10041,'TEST','TEST',null,'NEWKK',null);
 
 Insert into APP_PBE.ORDER_FLOW_ELEMENT_TYPES (ID,DESCRIPTION,COMPONENT_NAME) values ('C_CONTRA','Element z³o¿ony reprezentuj¹cy podstawowe dane o umowie. Front: html i JS, Backend: serwisy, DTOsy do obs³ugi elementu z³o¿onego powo³ywane s¹ dynamicznie na podstawie nazwy przechowywanej w kolumnie COMPONENT_NAME','ComplexTypeBasicContractInfo');
+Insert into APP_PBE.ORDER_FLOW_ELEMENT_TYPES (ID,DESCRIPTION,COMPONENT_NAME) values ('C_PBEPRO','Element z³o¿ony reprezentuj¹cy podstawowe dane o bonach elektronicznych. Front: html i JS, Backend: serwisy, DTOsy do obs³ugi elementu z³o¿onego powo³ywane s¹ dynamicznie na podstawie nazwy przechowywanej w kolumnie COMPONENT_NAME','ComplexTypePbeProductInfo');
 
 
 Insert into APP_PBE.ORDER_FLOW_ELEMENTS (ELEMENT_ID,ELEMENT_NAME,ELEMENT_TYPE_ID,ELEMENT_TYPE_PARAMS,ELEMENT_DESCRIPTION) values ('ORDINF_KK','Informacje o zamówieniu','C_BSORDIFO',null,'Element z³o¿ony przetrzymuj¹cy podstawowe informacje o zamówieniu');
@@ -67,6 +68,8 @@ Insert into APP_PBE.ORDER_FLOW_ELEMENTS (ELEMENT_ID,ELEMENT_NAME,ELEMENT_TYPE_ID
 
 Insert into APP_PBE.ORDER_FLOW_ELEMENTS (ELEMENT_ID,ELEMENT_NAME,ELEMENT_TYPE_ID,ELEMENT_TYPE_PARAMS,ELEMENT_DESCRIPTION) values ('ADRINV_KK','Adres na fakturze','ATTR_V','MAX_LENGTH=100','Element przetrzymuj¹cy adres na fakturze');
 Insert into APP_PBE.ORDER_FLOW_ELEMENTS (ELEMENT_ID,ELEMENT_NAME,ELEMENT_TYPE_ID,ELEMENT_TYPE_PARAMS,ELEMENT_DESCRIPTION) values ('ADRCOR_KK','Adres korespondencyjny','ATTR_V','MAX_LENGTH=100','Element przetrzymuj¹cy adres korespondencyjny');
+
+Insert into APP_PBE.ORDER_FLOW_ELEMENTS (ELEMENT_ID,ELEMENT_NAME,ELEMENT_TYPE_ID,ELEMENT_TYPE_PARAMS,ELEMENT_DESCRIPTION) values ('PBEPRO_KK','Informacje o bonach','C_PBEPRO',null,'Element z³o¿ony przetrzymuj¹cy podstawowe informacje o bonach elektronicznych');
 
 Insert into APP_PBE.ORDER_FLOW_ELEMENTS (ELEMENT_ID,ELEMENT_NAME,ELEMENT_TYPE_ID,ELEMENT_TYPE_PARAMS,ELEMENT_DESCRIPTION) values ('PRDNUM_KK','Iloœæ bonów','ATTR_N','FORMAT=INTEGER;MIN_VALUE=0;MAX_VALUE=1000','Element przetrzynuj¹cy iloœæ bonów, które bêd¹ realizowane w danym zamowieniu.');
 Insert into APP_PBE.ORDER_FLOW_ELEMENTS (ELEMENT_ID,ELEMENT_NAME,ELEMENT_TYPE_ID,ELEMENT_TYPE_PARAMS,ELEMENT_DESCRIPTION) values ('PRDAMO_KK','Kwota jednego bonu','ATTR_N','FORMAT=CURRENCY','Element przetrzynuj¹cy kwotê jednego bonu.');
@@ -115,6 +118,13 @@ Insert into APP_PBE.ORDER_FLOW_ELEMENTS_IN_STATUS (STATUS_ID,ELEMENT_ID,POS,FLAG
 Insert into APP_PBE.ORDER_FLOW_ELEMENTS_IN_STATUS (STATUS_ID,ELEMENT_ID,POS,FLAGS,AUG_ID_REQUIRED,ALLOWED_DELAY_TYPE_ID) values ('SENTKK',      'ADRCOR_KK',11, null, null,null);
 Insert into APP_PBE.ORDER_FLOW_ELEMENTS_IN_STATUS (STATUS_ID,ELEMENT_ID,POS,FLAGS,AUG_ID_REQUIRED,ALLOWED_DELAY_TYPE_ID) values ('CANCELLDKK',  'ADRCOR_KK',11, null, null,null);
 
+
+
+Insert into APP_PBE.ORDER_FLOW_ELEMENTS_IN_STATUS (STATUS_ID,ELEMENT_ID,POS,FLAGS,AUG_ID_REQUIRED,ALLOWED_DELAY_TYPE_ID) values ('NEWKK',       'PBEPRO_KK',20, null, null,null);
+Insert into APP_PBE.ORDER_FLOW_ELEMENTS_IN_STATUS (STATUS_ID,ELEMENT_ID,POS,FLAGS,AUG_ID_REQUIRED,ALLOWED_DELAY_TYPE_ID) values ('PAIDKK',      'PBEPRO_KK',20, null, null,null);
+Insert into APP_PBE.ORDER_FLOW_ELEMENTS_IN_STATUS (STATUS_ID,ELEMENT_ID,POS,FLAGS,AUG_ID_REQUIRED,ALLOWED_DELAY_TYPE_ID) values ('PROCESSDKK',  'PBEPRO_KK',20, null, null,null);
+Insert into APP_PBE.ORDER_FLOW_ELEMENTS_IN_STATUS (STATUS_ID,ELEMENT_ID,POS,FLAGS,AUG_ID_REQUIRED,ALLOWED_DELAY_TYPE_ID) values ('SENTKK',      'PBEPRO_KK',20, null, null,null);
+Insert into APP_PBE.ORDER_FLOW_ELEMENTS_IN_STATUS (STATUS_ID,ELEMENT_ID,POS,FLAGS,AUG_ID_REQUIRED,ALLOWED_DELAY_TYPE_ID) values ('CANCELLDKK',  'PBEPRO_KK',20, null, null,null);
 
 
 Insert into APP_PBE.ORDER_FLOW_ELEMENTS_IN_STATUS (STATUS_ID,ELEMENT_ID,POS,FLAGS,AUG_ID_REQUIRED,ALLOWED_DELAY_TYPE_ID) values ('NEWKK',       'PRDNUM_KK',20, null, null,null);

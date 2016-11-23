@@ -1,5 +1,7 @@
 package pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.orders.action;
 
+import lombok.Getter;
+import lombok.Setter;
 import pl.sodexo.it.gryf.common.dto.mail.MailDTO;
 import pl.sodexo.it.gryf.common.dto.other.DictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.*;
@@ -103,6 +105,19 @@ public final class OrderElementDTOProvider {
         dto.setIndividualId((order.getIndividual() != null) ? order.getIndividual().getId() : null);
         dto.setIndividualName((order.getIndividual() != null) ? order.getIndividual().getFirstName() + " " + order.getIndividual().getLastName() : null);
         dto.setPesel((order.getIndividual() != null) ? order.getIndividual().getPesel() : null);
+        return dto;
+    }
+
+    public static OrderElementComplexTypePbeProductInfoDTO createOrderElementComplexTypePbeProductInfoDTO(OrderElementDTOBuilder builder,
+            Integer productInstanceNum, BigDecimal productInstanceAmount, BigDecimal ownContributionPercent,
+            BigDecimal ownContributionAmont, BigDecimal grantAmount, BigDecimal orderAmount) {
+        OrderElementComplexTypePbeProductInfoDTO dto = (OrderElementComplexTypePbeProductInfoDTO) createOrderElementDTO(builder, new OrderElementComplexTypePbeProductInfoDTO());
+        dto.setProductInstanceNum(productInstanceNum);
+        dto.setProductInstanceAmount(productInstanceAmount);
+        dto.setOwnContributionPercen(ownContributionPercent);
+        dto.setOwnContributionAmont(ownContributionAmont);
+        dto.setGrantAmount(grantAmount);
+        dto.setOrderAmount(orderAmount);
         return dto;
     }
 

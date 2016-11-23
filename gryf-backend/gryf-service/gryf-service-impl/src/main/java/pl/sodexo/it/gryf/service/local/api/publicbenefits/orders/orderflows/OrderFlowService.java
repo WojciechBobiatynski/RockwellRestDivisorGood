@@ -28,9 +28,10 @@ public interface OrderFlowService {
      * Nie dodaje elementów do zamówienia na podstawie inicjalnego statusu.
      * @param contract umowa
      * @param orderFlow order flow
+     * @param dto obiekt z danymi
      * @return zamówienie
      */
-    Order createOrder(Contract contract, OrderFlow orderFlow);
+    Order createOrder(Contract contract, OrderFlow orderFlow, CreateOrderDTO dto);
 
     /**
      * Tworzy objet dto potrzeby do zapisu wniosku

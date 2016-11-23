@@ -57,10 +57,12 @@ public class CreateOrderDTO {
 
     @Getter
     @Setter
+    @NotNull(message = "Adres na fakturze nie może być pusty")
     private String addressInvoice;
 
     @Getter
     @Setter
+    @NotNull(message = "Adres korespondencyjny nie może być pusty")
     private String addressCorr;
 
     @Getter
@@ -74,21 +76,17 @@ public class CreateOrderDTO {
 
     @Getter
     @Setter
-    @NotNull(message = "Procent wkładu własnego nie może być pusty")
     private BigDecimal ownContributionPercen;
 
     @Getter
     @Setter
-    @NotNull(message = "Kwota wkładu własnego nie może być pusta")
     private BigDecimal ownContributionAmont;
 
     @Getter
     @Setter
-    @NotNull(message = "Kwota dofinansowania nie może być pusta")
     private BigDecimal grantAmount;
 
     @Getter
     @Setter
-    @NotNull(message = "Kwota zamówienia nie może być pusta")
     private BigDecimal orderAmount;
 }

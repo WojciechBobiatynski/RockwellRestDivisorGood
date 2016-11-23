@@ -71,31 +71,8 @@ public class OrderServiceLocalImpl implements OrderServiceLocal {
         OrderFlow orderFlow = orderForGrPr.getOrderFlow();
 
         OrderFlowService orderFlowService = (OrderFlowService) BeanUtils.findBean(context, orderFlow.getServiceBeanName());
-        Order order = orderFlowService.createOrder(contract, orderFlow);
-
-        PbeProduct product = order.getPbeProduct();
-        GrantProgramParam ocpParam = paramInDateService.findGrantProgramParam(grantProgram.getId(), GrantProgramParam.OWN_CONTRIBUTION_PERCENT, new Date());
-
-
-        BigDecimal  productInstanceNum = new BigDecimal(dto.getProductInstanceNum());
-        BigDecimal  productInstanceAmount = product.getValue();
-        BigDecimal ownContributionPercent = new BigDecimal(ocpParam.getValue());
-
-        orderFlowElementService.addElementNumberValue(order, "PRDNUM_KK", productInstanceNum);
-        orderFlowElementService.addElementNumberValue(order, "PRDAMO_KK", productInstanceAmount);
-        orderFlowElementService.addElementNumberValue(order, "OWNCONP_KK", ownContributionPercent);
-
-        BigDecimal ownContributionAmont = productInstanceNum.multiply(productInstanceAmount).
-                                            multiply(ownContributionPercent).divide(new BigDecimal(100));
-        BigDecimal grantAmount = productInstanceNum.multiply(productInstanceAmount).subtract(ownContributionAmont);
-        BigDecimal orderAmount = grantAmount.add(ownContributionAmont);
-
-        orderFlowElementService.addElementNumberValue(order, "OWNCONA_KK", ownContributionAmont);
-        orderFlowElementService.addElementNumberValue(order, "GRAAMO_KK", grantAmount);
-        orderFlowElementService.addElementNumberValue(order, "ORDAMO_KK", orderAmount);
-
+        Order order = orderFlowService.createOrder(contract, orderFlow, dto);
         orderFlowElementService.addElementsByOrderStatus(order);
-
         return order;
     }
 

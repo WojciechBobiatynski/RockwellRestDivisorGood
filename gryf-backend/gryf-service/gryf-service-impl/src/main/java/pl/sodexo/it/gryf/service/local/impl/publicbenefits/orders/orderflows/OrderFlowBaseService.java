@@ -72,7 +72,7 @@ public abstract class OrderFlowBaseService implements OrderFlowService {
     }
 
     @Override
-    public Order createOrder(Contract contract, OrderFlow orderFlow) {
+    public Order createOrder(Contract contract, OrderFlow orderFlow, CreateOrderDTO dto) {
         Individual individual = contract.getIndividual();
         GrantProgramProduct gpProduct = paramInDateService.findGrantProgramProduct(contract.getGrantProgram().getId(),
                                                                     GrantProgramProduct.Type.PBE_PRODUCT, new Date());
