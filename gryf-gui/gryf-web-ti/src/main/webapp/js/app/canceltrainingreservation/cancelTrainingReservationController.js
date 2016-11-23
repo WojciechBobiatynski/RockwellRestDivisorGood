@@ -13,7 +13,17 @@ angular.module("gryf.ti").controller("CancelTrainingReservationController", ["$s
         };
 
         $scope.find = function () {
+            $scope.searchResultOptions = TrainingInstanceSearchService.getNewSearchResultOptions();
+            $scope.trainingCriteria.limit = 10;
             TrainingInstanceSearchService.find();
+        };
+
+        $scope.getSortedBy = function(sortColumnName) {
+            TrainingInstanceSearchService.findSortedBy(sortColumnName);
+        };
+
+        $scope.getSortingTypeClass = function(columnName) {
+            return TrainingInstanceSearchService.getSortingTypeClass($scope.trainingCriteria, columnName);
         };
 
         $scope.openDatepicker = function (fieldName) {
@@ -34,6 +44,11 @@ angular.module("gryf.ti").controller("CancelTrainingReservationController", ["$s
 
         $scope.clear = function() {
             $scope.trainingModel = TrainingInstanceSearchService.getNewTrainingModel();
+            $scope.searchResultOptions = TrainingInstanceSearchService.getNewSearchResultOptions();
+        };
+
+        $scope.loadMore = function() {
+            TrainingInstanceSearchService.loadMore();
         };
 
         $scope.clear();

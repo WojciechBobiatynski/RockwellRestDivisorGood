@@ -1,6 +1,6 @@
 angular.module("gryf.ti").factory("TrainingInstanceSearchService",
-    ['$http', 'GryfModals', 'GryfPopups', 'GryfExceptionHandler', 'GryfHelpers',
-        function ($http, GryfModals, GryfPopups, GryfExceptionHandler, GryfHelpers) {
+    ['$http', 'GryfModals', 'GryfPopups', 'GryfExceptionHandler', 'GryfHelpers', "GryfTables",
+        function ($http, GryfModals, GryfPopups, GryfExceptionHandler, GryfHelpers, GryfTables) {
 
         var FIND_TRAINING_STATUSES_LIST_URL = contextPath + "/rest/trainingToReimburse/statuses";
         var FIND_TRAINING_INSTANCE_LIST_URL = contextPath + "/rest/trainingInstance/list";
@@ -93,6 +93,15 @@ angular.module("gryf.ti").factory("TrainingInstanceSearchService",
             });
         };
 
+        var findSortedBy = function(sortColumnName) {
+            GryfTables.sortByColumn(trainingCriteria, sortColumnName);
+            return find();
+        };
+
+        var getSortingTypeClass = function(entity, columnName) {
+            return GryfTables.getSortingTypeClass(entity, columnName);
+        };
+
         var loadMore = function () {
             trainingCriteria.limit += searchResultOptions.displayLimitIncrementer;
             searchResultOptions.displayLimit += searchResultOptions.displayLimitIncrementer;
@@ -106,7 +115,9 @@ angular.module("gryf.ti").factory("TrainingInstanceSearchService",
             getTrainingModel: getTrainingModel,
             getNewTrainingModel: getNewTrainingModel,
             find: find,
+            findSortedBy: findSortedBy,
             findDetailsById: findDetailsById,
+            getSortingTypeClass: getSortingTypeClass,
             loadMore: loadMore
         };
     }]);

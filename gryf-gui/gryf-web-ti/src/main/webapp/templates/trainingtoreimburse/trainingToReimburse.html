@@ -31,10 +31,10 @@
             <th class="grid-15">
                 <input type="text" ng-model="trainingCriteria.participantPesel"/>
             </th>
-            <th class="grid-15">
+            <th class="grid-10">
                 <input type="text" ng-model="trainingCriteria.participantName">
             </th>
-            <th class="grid-10">
+            <th class="grid-15">
                 <input ng-model="trainingCriteria.participantSurname">
             </th>
             <th class="grid-15">
@@ -78,18 +78,19 @@
             <td>{{::item.endDate}}</td>
             <td>{{::item.trainingStatus}}</td>
             <td>
-                <!--TODO:przywileje i modify-->
                 <ul class="text-center no-margin-padding">
-                    <li class="textButton" ng-href="#/modify/{{item.trainingInstanceId}}">SZCZEGÓŁY</li>
+                    <li class="textButton" ui-sref="trainingToReimburse.trainingInstanceDetails({trainingInstanceId: item.trainingInstanceId})">SZCZEGÓŁY</li>
                     <li class="textButton" data-ng-click="createReimbursementAndNav(item.trainingInstanceId)">ROZLICZ</li>
                 </ul>
             </td>
         </tr>
         </tbody>
     </table>
-    <div ng-show="searchResultOptions.overflow" class="centered-ul">
+    <div ng-show="searchResultOptions.overflow" class="text-center">
         <ul>
-            <li><a href="#/" ng-click="loadMore()" class="button button-infinity">wczytaj więcej wyników</a></li>
+            <li>
+                <button ng-click="loadMore()" class="standardButton">Wczytaj więcej wyników</button>
+            </li>
         </ul>
     </div>
     <div class="emptyResult" ng-show="trainingModel.foundTrainings.length == 0">

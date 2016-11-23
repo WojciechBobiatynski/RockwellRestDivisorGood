@@ -50,7 +50,7 @@
                 AND ti.TRAINING_INSTITUTION_ID = #{criteria.gryfUser.trainingInstitutionId}
             </if>
             <if test="criteria.limit != null">
-                AND ROWNUM &lt;= #{criteria.limit}
+                AND ROWNUM &lt;= #{criteria.limit} + 1
             </if>
         </where>
         <if test="criteria.sortColumns != null">

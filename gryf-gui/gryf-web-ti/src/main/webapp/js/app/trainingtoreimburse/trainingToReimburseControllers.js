@@ -12,7 +12,17 @@ angular.module("gryf.ti").controller("TrainingToReimburseController", ["$scope",
         };
 
         $scope.find = function () {
+            $scope.searchResultOptions = TrainingInstanceSearchService.getNewSearchResultOptions();
+            $scope.trainingCriteria.limit = 10;
             TrainingInstanceSearchService.find();
+        };
+
+        $scope.getSortedBy = function(sortColumnName) {
+            TrainingInstanceSearchService.findSortedBy(sortColumnName);
+        };
+
+        $scope.getSortingTypeClass = function(columnName) {
+            return TrainingInstanceSearchService.getSortingTypeClass($scope.trainingCriteria, columnName);
         };
 
         $scope.openDatepicker = function (fieldName) {
@@ -36,6 +46,10 @@ angular.module("gryf.ti").controller("TrainingToReimburseController", ["$scope",
                 $scope.find();
                 $state.go('reimburse', {'reimbursementId' :response.data})
             });
+        };
+
+        $scope.loadMore = function() {
+            TrainingInstanceSearchService.loadMore();
         };
 
 }]);

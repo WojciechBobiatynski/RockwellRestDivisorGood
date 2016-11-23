@@ -32,12 +32,11 @@ angular.module("gryf.ti").controller("TrainingReservationController",
 
     $scope.find = function() {
         $scope.searchResultOptions = TrainingSearchService.getNewSearchResultOptions();
-        $scope.searchResultOptions.badQuery = false;
+        $scope.searchDTO.entity.limit = 10;
         TrainingSearchService.find();
     };
 
     $scope.getSortedBy = function(sortColumnName) {
-        $scope.searchResultOptions.badQuery = false;
         TrainingSearchService.findSortedBy(sortColumnName);
     };
 

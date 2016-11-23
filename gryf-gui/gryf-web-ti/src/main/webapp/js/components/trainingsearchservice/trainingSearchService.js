@@ -110,13 +110,13 @@ angular.module("gryf.ti").factory("TrainingSearchService", function($http, GryfM
     };
 
     return {
+        getNewSearchDTO: getNewSearchDTO,
         getSearchDTO: getSearchDTO,
+        getNewSearchResultOptions: getNewSearchResultOptions,
         getSearchResultOptions: getSearchResultOptions,
         find: find,
-        findDetailsById: findDetailsById,
         findSortedBy: findSortedBy,
-        getNewSearchDTO: getNewSearchDTO,
-        getNewSearchResultOptions: getNewSearchResultOptions,
+        findDetailsById: findDetailsById,
         getSortingTypeClass: getSortingTypeClass,
         loadMore: loadMore
     };

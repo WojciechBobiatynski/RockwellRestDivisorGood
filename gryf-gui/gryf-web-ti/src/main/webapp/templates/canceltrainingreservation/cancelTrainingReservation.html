@@ -87,9 +87,11 @@
       </tbody>
    </table>
    <div ng-show="searchResultOptions.overflow" class="text-center">
-      <li>
-         <button ng-click="loadMore()" class="standardButton">Wczytaj więcej wyników</button>
-      </li>
+      <ul>
+         <li>
+            <button ng-click="loadMore()" class="standardButton">Wczytaj więcej wyników</button>
+         </li>
+      </ul>
    </div>
    <div class="emptyResult" ng-show="trainingModel.foundTrainings.length == 0">
       Brak wyników
