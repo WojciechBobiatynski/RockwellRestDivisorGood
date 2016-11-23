@@ -81,12 +81,13 @@ public class OrderFlowElementServiceImpl implements OrderFlowElementService {
     @Override
     public void addElementWithValue(Order order, final String elementId, BigDecimal valueNumber, String valueVarchar, Date valueDate) {
         boolean contain = GryfUtils.contain(order.getOrderElements(), new GryfUtils.Predicate<OrderElement>() {
-
             public boolean apply(OrderElement input) {
                 return input.getOrderFlowElement().getElementId().equals(elementId);
             }
         });
         if (!contain) {
+
+            //USTAWIENIE WARTSCI
             OrderFlowElement ofe = orderFlowElementRepository.get(elementId);
             if (ofe == null) {
                 throw new RuntimeException(String.format("Błąd konfiguracji - " + "nie znaleziono OrderFlowElement dla id '%s'", elementId));
@@ -102,6 +103,21 @@ public class OrderFlowElementServiceImpl implements OrderFlowElementService {
             if (valueDate != null) {
                 e.setValueDate(valueDate);
             }
+
+            //USTAWIENIE DELAY
+            List<OrderFlowElementInStatus> elementsInStatus = order.getStatus().getOrderFlowElementsInStatus();
+            OrderFlowElementInStatus eis = GryfUtils.find(elementsInStatus, new GryfUtils.Predicate<OrderFlowElementInStatus>() {
+                public boolean apply(OrderFlowElementInStatus input) {
+                    return input.getOrderFlowElement().equals(ofe);
+                }
+            });
+            if(eis != null){
+                if (eis.getOrderFlowAllowedDelayType() != null) {
+                    OrderFlowAllowedDelay orderFlowAllowedDelayForElement = orderDateService.findOrderFlowAllowedDelay(order.getOrderFlow().getId(), eis.getOrderFlowAllowedDelayType().getId());
+                    e.setRequiredDate(orderDateService.calculateRequiredDate(orderFlowAllowedDelayForElement, order));
+                }
+            }
+
             order.addOrderElement(e);
         }
     }
