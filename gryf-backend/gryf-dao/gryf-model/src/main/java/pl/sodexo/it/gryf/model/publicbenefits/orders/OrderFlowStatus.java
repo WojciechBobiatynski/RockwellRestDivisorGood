@@ -26,7 +26,15 @@ import java.util.Objects;
         "where o.grantProgram.id = :grantProgramId " +
         "union " +
         "select distinct t.status from OrderFlowForGrantProgram o join o.orderFlow oflow join oflow.orderFlowStatusTransitions t " +
-        "where o.grantProgram.id = :grantProgramId ")})
+        "where o.grantProgram.id = :grantProgramId " +
+        "union " +
+        "select distinct t.nextStatus from OrderFlowForGrantApplicationVersion offgav join offgav.orderFlow oflow join oflow.orderFlowStatusTransitions t " +
+        "join offgav.grantApplicationVersion.applicationsInProgram aip " +
+        "where aip.grantProgram.id = :grantProgramId " +
+        "union " +
+        "select distinct t.status from OrderFlowForGrantApplicationVersion offgav join offgav.orderFlow oflow join oflow.orderFlowStatusTransitions t " +
+        "join offgav.grantApplicationVersion.applicationsInProgram aip " +
+        "where aip.grantProgram.id = :grantProgramId " )})
 public class OrderFlowStatus extends GryfEntity implements DictionaryEntity {
 
     //STATIC FIELDS - ATRIBUTES
