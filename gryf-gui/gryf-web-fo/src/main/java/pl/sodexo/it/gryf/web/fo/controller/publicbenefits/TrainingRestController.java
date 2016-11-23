@@ -59,11 +59,9 @@ public class TrainingRestController {
         return trainingService.findTrainings(dto);
     }
 
-    @RequestMapping(value = "/getTrainingCategoriesDict", method = RequestMethod.GET)
-    public List<SimpleDictionaryDto> getTrainingCategoriesDict() {
+    @RequestMapping(value = "/getTrainingCategoriesDict/{grantProgramId}", method = RequestMethod.POST)
+    public List<SimpleDictionaryDto> getTrainingCategoriesDict(@PathVariable("grantProgramId") Long grantProgramId) {
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_TI_TRAININGS);
-        Long grantProgramId = 100L;
-        trainingService.findTrainingCategoriesByGrantProgram(grantProgramId);
-        return trainingService.getTrainingCategoriesDict();
+        return trainingService.findTrainingCategoriesByGrantProgram(grantProgramId);
     }
 }

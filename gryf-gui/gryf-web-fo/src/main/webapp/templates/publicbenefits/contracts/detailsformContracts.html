@@ -28,7 +28,8 @@
             <div class="grid-50">
                 <strong class="label">Program dofinansowania</strong>
                 <select ng-options="item as item.name for item in grantProgram.list"
-                        ng-model="model.entity.grantProgram" ng-hide="isDisabled">
+                        ng-model="model.entity.grantProgram" ng-hide="isDisabled"
+                        ng-change="grantProgramChanged();">
                     <option value="">-wybierz-</option>
                 </select>
                 <input type="text" ng-model="model.entity.grantProgram.name" ng-disabled="isDisabled" ng-show="isDisabled">
@@ -58,7 +59,7 @@
             </div>
             <div>
                 <strong class="label">Kategoria szkolenia</strong>
-                <select multiple ng-options="v.id as v.name for v in categoryDictionary | orderBy:'ordinal'" ng-model="model.entity.trainingCategory">
+                <select multiple ng-options="v.id as v.name for v in trainingCategory.list | orderBy:'ordinal'" ng-model="model.entity.trainingCategory">
                 </select>
                 <gryf-validation-msg path="categories"></gryf-validation-msg>
             </div>

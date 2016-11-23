@@ -121,6 +121,7 @@ angular.module("gryf.contracts").factory("ModifyContractService",
         var grantProgram = new GrantProgram();
         var contractType = new ContractType();
         var contract = new Contract();
+        var trainingCategory = new TrainingCategory();
         var violations = {};
 
         var getViolations = function() {
@@ -132,6 +133,9 @@ angular.module("gryf.contracts").factory("ModifyContractService",
             return violations;
         };
 
+        function TrainingCategory() {
+            this.list = [];
+        }
         function GrantProgram() {
             this.list = [];
         }
@@ -170,6 +174,11 @@ angular.module("gryf.contracts").factory("ModifyContractService",
             return contract;
         }
 
+        var getNewTrainingCategory = function () {
+            trainingCategory = new TrainingCategory();
+            return trainingCategory;
+        }
+
         var loadGrantPrograms = function() {
             var promise = $http.get(FIND_GRANT_PROGRAMS_DICTIONARIES_URL);
             promise.then(function(response) {
@@ -194,6 +203,9 @@ angular.module("gryf.contracts").factory("ModifyContractService",
                 var promise = $http.get(CONTRACT_URL + ($routeParams.id ? $routeParams.id : responseId));
                 promise.then(function(response) {
                     contract.entity = response.data;
+                    if(contract.entity.grantProgram) {
+                        getTrainingCategoriesDict(contract.entity.grantProgram.id);
+                    }
                 });
                 promise.finally(function() {
                     GryfModals.closeModal(modalInstance);
@@ -205,9 +217,11 @@ angular.module("gryf.contracts").factory("ModifyContractService",
             }
         };
 
-        var getTrainingCategoriesDict = function() {
-            return $http.get(GET_TRAINING_CATEGORY_DICT).then(function(response) {
-                return response.data;
+        var getTrainingCategoriesDict = function(grantProgramId) {
+            var promise;
+            promise =  $http.post(GET_TRAINING_CATEGORY_DICT + '/'+ grantProgramId);
+            promise.then(function(response) {
+                trainingCategory.list = response.data;
             });
         };
 
@@ -275,6 +289,7 @@ angular.module("gryf.contracts").factory("ModifyContractService",
             openEnterpriseLov: openEnterpriseLov,
             openIndividualLov: openIndividualLov,
             getViolation: getViolations,
-            getNewViolations: getNewViolations
+            getNewViolations: getNewViolations,
+            getNewTrainingCategory: getNewTrainingCategory
         }
     }]);

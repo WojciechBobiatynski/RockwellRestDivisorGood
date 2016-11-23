@@ -57,6 +57,7 @@ angular.module('gryf.contracts').controller("detailsform.ContractsController",
         $scope.grantProgram = ModifyContractService.getNewGrantPrograms();
         $scope.contractType = ModifyContractService.getNewContractTypes();
         $scope.model = ModifyContractService.getNewContract();
+        $scope.trainingCategory = ModifyContractService.getNewTrainingCategory();
         $scope.violations = ModifyContractService.getNewViolations();
         gryfSessionStorage.setUrlToSessionStorage();
         GryfPopups.showPopup();
@@ -81,9 +82,16 @@ angular.module('gryf.contracts').controller("detailsform.ContractsController",
             ModifyContractService.loadContract();
         }
 
-        ModifyContractService.getTrainingCategoriesDict().then(function(data) {
-            $scope.categoryDictionary = data;
-        });
+        $scope.grantProgramChanged = function () {
+            var grantProgramId = $scope.model.entity.grantProgram.id;
+            if(grantProgramId) {
+                $scope.loadTrainingCategories(grantProgramId);
+            }
+        }
+
+        $scope.loadTrainingCategories = function (grantProgramId) {
+            ModifyContractService.getTrainingCategoriesDict(grantProgramId);
+        }
 
         $scope.loadContract();
         $scope.canEdit();
