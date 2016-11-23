@@ -30,4 +30,11 @@ public interface TrainingService {
      * @return dto szkolenia
      */
     TrainingSearchResultDTO findTrainingOfInstitutionById(Long id);
+
+    /**
+     * Zwraca listę z kategoriami szkoleń dla programu dofinansowania
+     * @param grantProgramId
+     * @return
+     */
+    List<SimpleDictionaryDto> findTrainingCategoriesByGrantProgram(Long grantProgramId);
 }

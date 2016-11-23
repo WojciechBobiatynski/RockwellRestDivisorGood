@@ -62,6 +62,8 @@ public class TrainingRestController {
     @RequestMapping(value = "/getTrainingCategoriesDict", method = RequestMethod.GET)
     public List<SimpleDictionaryDto> getTrainingCategoriesDict() {
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_TI_TRAININGS);
+        Long grantProgramId = 100L;
+        trainingService.findTrainingCategoriesByGrantProgram(grantProgramId);
         return trainingService.getTrainingCategoriesDict();
     }
 }

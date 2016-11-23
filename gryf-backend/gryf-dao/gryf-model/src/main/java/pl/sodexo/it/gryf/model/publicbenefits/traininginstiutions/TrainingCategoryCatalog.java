@@ -1,13 +1,12 @@
 package pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.ToString;
 import pl.sodexo.it.gryf.model.api.DictionaryEntity;
 import pl.sodexo.it.gryf.model.api.GryfEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -27,6 +26,10 @@ public class TrainingCategoryCatalog extends GryfEntity implements DictionaryEnt
 
     @Column(name = "ORDINAL")
     private Integer ordinal;
+
+    @JsonBackReference("trainingCategoryCatalog")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "trainingCategoryCatalog")
+    private List<TrainingCategory> trainingCategories;
 
     //DICTIONARY METHODS
 
@@ -70,6 +73,14 @@ public class TrainingCategoryCatalog extends GryfEntity implements DictionaryEnt
 
     public void setOrdinal(Integer ordinal) {
         this.ordinal = ordinal;
+    }
+
+    public List<TrainingCategory> getTrainingCategories() {
+        return trainingCategories;
+    }
+
+    public void setTrainingCategories(List<TrainingCategory> trainingCategories) {
+        this.trainingCategories = trainingCategories;
     }
 
     //EQUALS & HASH CODE

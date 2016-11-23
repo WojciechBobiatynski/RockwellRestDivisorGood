@@ -1,13 +1,12 @@
 package pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.ToString;
 import pl.sodexo.it.gryf.model.api.DictionaryEntity;
 import pl.sodexo.it.gryf.model.api.GryfEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Objects;
 
 /**
@@ -18,6 +17,9 @@ import java.util.Objects;
 @Entity
 @Table(name = "TI_TRAINING_CATEGORIES", schema = "APP_PBE")
 @ToString
+@NamedQueries({@NamedQuery(name = "TrainingCategory.findByGrantProgram", query = "select distinct tc from TrainingCategoryCatalogGrantProgram tccgp " +
+        "join tccgp.catalog c join c.trainingCategories tc " +
+        "where tccgp.grantProgram.id = :grantProgramId ")})
 public class TrainingCategory extends GryfEntity implements DictionaryEntity {
 
     @Id
@@ -29,6 +31,15 @@ public class TrainingCategory extends GryfEntity implements DictionaryEntity {
 
     @Column(name = "ORDINAL")
     private Integer ordinal;
+
+    @JoinColumn(name = "PARENT_ID", referencedColumnName = "ID")
+    @ManyToOne
+    private TrainingCategory parent;
+
+    @JsonManagedReference("trainingCategoryCatalog")
+    @JoinColumn(name = "CATALOG_ID", referencedColumnName = "ID")
+    @ManyToOne(optional = false)
+    private TrainingCategoryCatalog trainingCategoryCatalog;
 
     //DICTIONARY METHODS
 
@@ -74,6 +85,21 @@ public class TrainingCategory extends GryfEntity implements DictionaryEntity {
         this.ordinal = ordinal;
     }
 
+    public TrainingCategory getParent() {
+        return parent;
+    }
+
+    public void setParent(TrainingCategory parent) {
+        this.parent = parent;
+    }
+
+    public TrainingCategoryCatalog getTrainingCategoryCatalog() {
+        return trainingCategoryCatalog;
+    }
+
+    public void setTrainingCategoryCatalog(TrainingCategoryCatalog trainingCategoryCatalog) {
+        this.trainingCategoryCatalog = trainingCategoryCatalog;
+    }
     //EQUALS & HASH CODE
 
     @Override
