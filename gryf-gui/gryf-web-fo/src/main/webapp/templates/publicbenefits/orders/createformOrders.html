@@ -81,14 +81,18 @@
         <div class="width-100">
             <div class="grid-100">
                 <header>
-                    <h2>Informacje o zamówieniu</h2>
+                    <h2>Informacje o bonach</h2>
                 </header>
             </div>
             <div class="grid-100">
-                <div class="grid-20">
+                <div class="grid-10">
                     <strong class="label">Liczba bonów</strong>
                     <input type="number" step="1" ng-model="createOrderDto.data.productInstanceNum" ng-change="recalculateFields();">
                     <gryf-validation-msg path="productInstanceNum"></gryf-validation-msg>
+                </div>
+                <div class="grid-10">
+                    <strong class="label">Cena za 1 bon</strong>
+                    <input type="number" step="1" ng-model="createOrderDto.data.productInstanceAmount" ng-change="recalculateFields();" readonly="readonly">
                 </div>
                 <div class="grid-20">
                     <strong class="label">Procent wkładu własnego</strong>
