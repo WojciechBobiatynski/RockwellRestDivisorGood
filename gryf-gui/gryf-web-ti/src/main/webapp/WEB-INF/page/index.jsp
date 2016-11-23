@@ -103,9 +103,9 @@
     </li>
     <li ng-class="{'active': isActive('cancelReservation')}"><a ui-sref="cancelReservation">Anuluj rezerwację</a></li>
     <li ng-class="{'active': isActive('ourTrainings')}"><a ui-sref="ourTrainings">Nasze szkolenia</a></li>
-    <li><a ng-href="${pageContext.request.contextPath}/logout">Wyloguj</a></li>
+    <li class="green"><a ng-href="${pageContext.request.contextPath}/logout">Wyloguj</a></li>
 </ul>
-<hr class="grid navbar-separator"/>
+<hr class="grid navbar-separator green"/>
 
 <div class="content grid" ui-view></div>
 

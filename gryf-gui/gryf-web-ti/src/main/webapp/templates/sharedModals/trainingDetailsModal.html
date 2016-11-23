@@ -1,0 +1,39 @@
+<div class="modal-head green">
+    <div class="modal-title">Szczegóły szkolenia</div>
+    <button class="close"ng-click="close(true)">&times;</button>
+</div>
+<div class="modal-body">
+    <div class="grid-100 multiSection">
+        <div class="block">
+            <strong class="label">Nazwa szkolenia</strong>
+            <div class="grid-100">{{training.data.name}}</div>
+
+            <strong class="label">Kategoria szkolenia</strong>
+            <div class="grid-100">{{training.data.category}}</div>
+
+            <strong class="label">Data rozpoczęcia</strong>
+            <div class="grid-100">{{training.data.startDate}}</div>
+
+            <strong class="label">Data zakończenia</strong>
+            <div class="grid-100">{{training.data.endDate}}</div>
+        </div>
+        <div class="separator-vertical"></div>
+        <div class="block">
+            <strong class="label">Cena szkolenia (PLN)</strong>
+            <div class="grid-100">{{training.data.price}}</div>
+
+            <strong class="label">Liczba godzin szkoleniowych</strong>
+            <div class="grid-100">{{training.data.hoursNumber}}</div>
+
+            <strong class="label">Cena 1h szkolenia (PLN)</strong>
+            <div class="grid-100">{{training.data.hourPrice}}</div>
+
+            <strong class="label">Miejsce szkolenia</strong>
+            <div class="grid-100">{{training.data.place}}</div>
+        </div>
+    </div>
+    <div class="row-30"></div>
+    <div class="grid-100 text-center">
+        <button class="row-10 standardButton" ng-click="close(true)">Powrót do listy</button>
+    </div>
+</div>

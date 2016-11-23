@@ -1,5 +1,5 @@
 <section ng-hide="userTrainingReservationData.data">
-   <div class="block borderTopGreen">
+   <div class="block borderTop green">
       <div class="multiSection">
          <div class="grid-50">
             <br/>
@@ -26,7 +26,7 @@
 
 <section ng-show="userTrainingReservationData.data">
    <strong class="label">Dane Uczestnika i liczba bonów</strong>
-   <div class="block borderTopGreen">
+   <div class="block borderTop green">
       <div class="multiSection">
          <div class="grid-20">
             <strong class="label">Imię i nazwisko uczestnika</strong>
@@ -139,8 +139,8 @@
          <td>{{::item.category}}</td>
          <td>
             <ul class="text-center no-margin-padding">
-               <li class="textButton" ui-sref="trainingReservation.trainingDetails({trainingId: item.trainingId})">SZCZEGÓŁY</li>
-               <li class="textButton" ui-sref="reservationModal({trainingId: item.trainingId})">REZERWUJ</li>
+               <li class="textButton green" ui-sref="trainingReservation.trainingDetails({trainingId: item.trainingId})">SZCZEGÓŁY</li>
+               <li class="textButton green" ui-sref="reservationModal({trainingId: item.trainingId})">REZERWUJ</li>
             </ul>
          </td>
       </tr>
