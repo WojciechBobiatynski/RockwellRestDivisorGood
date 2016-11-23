@@ -29,6 +29,10 @@ public class ElctRmbsHeadDto implements Serializable {
 
     @Getter
     @Setter
+    private Long grantProgramId;
+
+    @Getter
+    @Setter
     private List<ProductHeadDto> products;
 
     @Getter

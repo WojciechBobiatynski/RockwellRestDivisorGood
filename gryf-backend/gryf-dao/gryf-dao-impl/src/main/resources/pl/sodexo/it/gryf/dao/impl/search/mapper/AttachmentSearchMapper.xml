@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="pl.sodexo.it.gryf.dao.api.search.mapper.AttachmentSearchMapper">
+
+    <select id="findAttachmentTypesByGrantProgramId" resultType="pl.sodexo.it.gryf.common.dto.other.GrantProgramAttachmentTypeDto" parameterType="list">
+        SELECT
+            att_t.CODE                 code,
+            att_t.NAME                 name,
+            att_t.ORDINAL              ordinal,
+            att_t.MAX_BYTES_PER_FILE   maxBytesPerFile,
+            att_t.MAX_FILES_PER_TYPE   maxFilesPerType,
+            CASE
+              WHEN att_req.ATTACH_TYPE is not NULL
+                THEN 1
+              ELSE
+                0
+            END                         required
+        FROM
+            APP_PBE.ATTACHMENT_TYPES att_t
+            LEFT JOIN APP_PBE.GRANT_PROGRAM_ATTACH_REQ att_req ON (
+              att_req.ATTACH_TYPE = att_t.code
+              AND att_req.GRANT_PROGRAM_ID = #{grantProgramId}
+              AND att_req.DATE_FROM &lt;= SYSDATE
+              AND NVL(att_req.DATE_TO, SYSDATE) &gt;= SYSDATE
+            )
+    </select>
+
+</mapper>

@@ -103,6 +103,7 @@
         SELECT
           ermbs.ID                                  ermbsId,
           ermbs.TI_TR_INST_ID                       trainingInstanceId,
+          tr_in.GRANT_PROGRAM_ID                    grantProgramId,
           ermbs.SXO_IND_AMOUNT_DUE_TOTAL            sxoIndAmountDueTotal,
           ermbs.IND_SXO_AMOUNT_DUE_TOTAL            indSxoAmountDueTotal,
           pool_uses.ASSIGNED_NUM                    prd_reservedProductsCount,

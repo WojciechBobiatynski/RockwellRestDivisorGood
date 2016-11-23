@@ -45,7 +45,8 @@
     <script src="${pageContext.request.contextPath}/js/components/gryf/gryf-ti-menu.js"></script>
     <script src="${pageContext.request.contextPath}/js/components/dictionaryservice/dictionaryService.js"></script>
     <script src="${pageContext.request.contextPath}/js/components/userservice/userService.js"></script>
-    <script src="${pageContext.request.contextPath}/js/components/directives/documentDirective.js"></script>
+    <script src="${pageContext.request.contextPath}/js/components/attachment/attachmentService.js"></script>
+    <script src="${pageContext.request.contextPath}/js/components/directives/attachmentDirective.js"></script>
     <script src="${pageContext.request.contextPath}/js/components/traininginstancesearchservice/trainingInstanceSearchService.js"></script>
     <script src="${pageContext.request.contextPath}/js/components/trainingsearchservice/trainingSearchService.js"></script>
     <script src="${pageContext.request.contextPath}/js/components/sharedModals/trainingInstanceDetailsModalController.js"></script>
