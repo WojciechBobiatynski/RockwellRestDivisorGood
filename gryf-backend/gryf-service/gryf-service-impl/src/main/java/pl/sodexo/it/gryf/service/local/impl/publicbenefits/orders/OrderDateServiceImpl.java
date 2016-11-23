@@ -69,7 +69,8 @@ public class OrderDateServiceImpl implements OrderDateService {
                 delayStartDate = order.getOrderDate();
                 break;
             case SIGNDATE:
-                throw new UnsupportedOperationException("Typ daty początkowej opóźnienia " + orderFlowAllowedDelay.getDelayType().getDelayStartingPointType().getId().getLabel() + " nieobsługiwany");
+                delayStartDate = order.getContract().getSignDate();
+                break;
             case CONTRDATE:
                 throw new UnsupportedOperationException("Typ daty początkowej opóźnienia " + orderFlowAllowedDelay.getDelayType().getDelayStartingPointType().getId().getLabel() + " nieobsługiwany");
             case EXEDATE:
