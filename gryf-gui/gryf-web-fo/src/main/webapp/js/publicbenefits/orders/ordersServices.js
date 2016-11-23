@@ -382,6 +382,7 @@ angular.module('gryf.orders').factory("CreateOrdersService",
             promise.then(function(response) {
                 GryfPopups.setPopup("success", "Sukces", "Zamówienie zostało poprawnie utworzone");
                 GryfPopups.showPopup();
+                createOrderDto.data = null;
                 window.location = contextPath + "/publicBenefits/orders/#/modify/" + response.data;
             });
             promise.error(function(error) {
