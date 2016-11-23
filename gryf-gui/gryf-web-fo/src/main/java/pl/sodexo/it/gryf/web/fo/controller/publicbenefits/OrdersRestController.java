@@ -3,6 +3,7 @@ package pl.sodexo.it.gryf.web.fo.controller.publicbenefits;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import pl.sodexo.it.gryf.common.dto.other.DictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.other.FileDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.CreateOrderDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.action.IncomingOrderElementDTO;
@@ -54,11 +55,14 @@ public class OrdersRestController {
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public List<OrderSearchResultDTO> findOrders(OrderSearchQueryDTO searchDTO) {
-        if(searchDTO.getGrantProgramId() != null){
-            orderService.getOrderFlowStatusesByGrantProgram(searchDTO.getGrantProgramId());
-        }
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_ORDERS);
         return orderService.findOrders(searchDTO);
+    }
+
+    @RequestMapping(value = "/orderFlowStatuses/{grantProgramId}", method = RequestMethod.POST)
+    public List<DictionaryDTO> findOrderStatuses(@PathVariable("grantProgramId") Long grantProgramId) {
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_ORDERS);
+        return orderService.getOrderFlowStatusesByGrantProgram(grantProgramId);
     }
 
     @RequestMapping(value = "/load/{contractId}", method = RequestMethod.GET)

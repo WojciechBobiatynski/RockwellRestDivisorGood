@@ -6,7 +6,7 @@ angular.module('gryf.orders').factory("BrowseOrdersService",
         //CONSTANTS
         ////////////////////////////////
         var FIND_ORDERS_URL = contextPath + "/rest/publicBenefits/order/list";
-        var FIND_ORDER_STATUSES_URL = contextPath + "/rest/publicBenefits/dictionaries/ORDER_FLOW_STATUSES";
+        var FIND_ORDER_STATUSES_URL = contextPath + "/rest/publicBenefits/order/orderFlowStatuses";
         var FIND_GRANT_PROGRAM_NAMES_URL = contextPath + "/rest/publicBenefits/grantPrograms";
 
 
@@ -23,6 +23,7 @@ angular.module('gryf.orders').factory("BrowseOrdersService",
             this.searchResultList = [];
             this.entity = {
                 id: null,
+                grantProgramId: null,
                 statusId: null,
                 enterpriseId: null,
                 enterpriseName: null,
@@ -87,8 +88,8 @@ angular.module('gryf.orders').factory("BrowseOrdersService",
             return searchResultOptions;
         };
 
-        var getOrderStatuses = function() {
-            return $http.get(FIND_ORDER_STATUSES_URL);
+        var loadOrderStatuses = function(grantProgramId) {
+            return $http.post(FIND_ORDER_STATUSES_URL + '/'+ grantProgramId);
         };
 
         var getGrantProgramNames = function () {
@@ -105,7 +106,7 @@ angular.module('gryf.orders').factory("BrowseOrdersService",
             find: find,
             getSearchDTO: getSearchDTO,
             getSearchResultOptions: getSearchResultOptions,
-            getOrderStatuses: getOrderStatuses,
+            loadOrderStatuses: loadOrderStatuses,
             loadMore: loadMore,
             getNewSearchDTO: getNewSearchDTO,
             getNewSearchResultOptions: getNewSearchResultOptions,
