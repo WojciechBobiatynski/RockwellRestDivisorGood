@@ -266,6 +266,7 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
     public void cancelTrainingInstance(Long trainingId){
 
         //POBRANIE STATUSOW
+        PbeProductInstancePoolStatus productInstPoolStatActive = productInstancePoolStatusRepository.get(PbeProductInstancePoolStatus.ACTIVE_CODE);
         PbeProductInstanceStatus productInstStatAssign = productInstanceStatusRepository.get(PbeProductInstanceStatus.ASSIGN_CODE);
         TrainingInstanceStatus trainingInstStatCancel = trainingInstanceStatusRepository.get(TrainingInstanceStatus.CANCEL_CODE);
 
@@ -281,6 +282,7 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
             PbeProductInstancePool pool = poolUse.getProductInstancePool();
             pool.setReservedNum(pool.getReservedNum() - poolUse.getAssignedNum());
             pool.setAvailableNum(pool.getAvailableNum() + poolUse.getAssignedNum());
+            pool.setStatus(productInstPoolStatActive);
 
             //ITERACJA PO INSTANCJACH PRODUKTU
             List<PbeProductInstance> instances = poolUse.getPollUses();
