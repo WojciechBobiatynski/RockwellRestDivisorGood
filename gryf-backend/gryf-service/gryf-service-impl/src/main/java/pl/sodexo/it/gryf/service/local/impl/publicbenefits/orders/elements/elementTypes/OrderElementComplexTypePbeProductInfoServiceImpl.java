@@ -16,7 +16,7 @@ import pl.sodexo.it.gryf.service.local.api.ParamInDateService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.elements.elementTypes.OrderElementComplexTypePbeProductInfoService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.orderflows.OrderFlowElementService;
 import pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.elements.OrderElementBaseService;
-import static pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElementCons.*;
+import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.orders.action.OrderElementDTOProvider;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -72,12 +72,10 @@ public class OrderElementComplexTypePbeProductInfoServiceImpl extends OrderEleme
         BigDecimal grantAmount = elementMap.get(KK_GRANT_AMOUNT_ELEM_ID).getValueNumber();
         BigDecimal orderAmount = elementMap.get(KK_ORDER_AMOUNT_ELEM_ID).getValueNumber();
 
-        //TODO: tbilski odkomentować
-        /*return OrderElementDTOProvider.createOrderElementComplexTypePbeProductInfoDTO
+        return OrderElementDTOProvider.createOrderElementComplexTypePbeProductInfoDTO
                                                         (builder, productInstanceNum, productInstanceAmount,
                                                          ownContributionPercent, ownContributionAmont, grantAmount,
-                                                         orderAmount);*/
-        return null;
+                                                         orderAmount);
     }
 
     @Override

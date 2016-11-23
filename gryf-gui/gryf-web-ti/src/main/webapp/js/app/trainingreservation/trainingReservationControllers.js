@@ -14,11 +14,11 @@ angular.module("gryf.ti").controller("TrainingReservationController",
     $scope.loadUserTrainingReservationData = function() {
         resetViolations();
         TrainingReservationService.loadUserTrainingReservationData($scope.individualUser.data);
-    }
+    };
 
-    $scope.loadDictionaries = function() {
-        $scope.dictionaries.trainingCategories = DictionaryService.loadDictionary(DictionaryService.DICTIONARY.TRAINING_CATEGORIES);
-    }
+    DictionaryService.loadDictionary(DictionaryService.DICTIONARY.TRAINING_CATEGORIES).then(function(data) {
+        $scope.dictionaries.trainingCategories = data;
+    });
 
     $scope.reserveTrainingForAnotherUser = function() {
         TrainingReservationService.resetUserTrainingReservationData();
@@ -63,6 +63,5 @@ angular.module("gryf.ti").controller("TrainingReservationController",
         TrainingSearchService.loadMore();
     };
 
-    $scope.loadDictionaries();
     $scope.clear();
 }]);

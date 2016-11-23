@@ -50,6 +50,7 @@
     <script src="${pageContext.request.contextPath}/js/components/traininginstancesearchservice/trainingInstanceSearchService.js"></script>
     <script src="${pageContext.request.contextPath}/js/components/trainingsearchservice/trainingSearchService.js"></script>
     <script src="${pageContext.request.contextPath}/js/components/sharedModals/trainingInstanceDetailsModalController.js"></script>
+    <script src="${pageContext.request.contextPath}/js/components/sharedModals/trainingDetailsModalController.js"></script>
 
     <script src="${pageContext.request.contextPath}/js/app/dashboard/gryf-dashboard.js"></script>
     <script src="${pageContext.request.contextPath}/js/app/dashboard/dashboardServices.js"></script>

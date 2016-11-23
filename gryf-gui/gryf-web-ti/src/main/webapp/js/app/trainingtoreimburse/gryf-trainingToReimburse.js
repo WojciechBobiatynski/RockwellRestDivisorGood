@@ -9,5 +9,18 @@ angular.module("gryf.ti").config(["$stateProvider", function($stateProvider) {
         url: "/reimburse/:reimbursementId",
         templateUrl: contextPath + "/templates/trainingtoreimburse/reimburse.html",
         controller: "ReimbursementModifyController"
+    }),
+    $stateProvider.state("trainingToReimburse.trainingInstanceDetails", {
+        parent: "trainingToReimburse",
+        url: "/trainingInstanceDetails/{trainingInstanceId}",
+        onEnter: ["$state", "$modal", function($state, $modal) {
+            $modal.open({
+                templateUrl: contextPath + "/templates/sharedModals/trainingInstanceDetailsModal.html",
+                size: "md",
+                controller: "TrainingInstanceDetailsModalController"
+            }).result.finally(function() {
+                $state.go("^");
+            });
+        }]
     });
 }]);

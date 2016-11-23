@@ -139,7 +139,7 @@
          <td>{{::item.category}}</td>
          <td>
             <ul class="text-center no-margin-padding">
-               <li class="textButton">SZCZEGÓŁY</li>
+               <li class="textButton" ui-sref="trainingReservation.trainingDetails({trainingId: item.trainingId})">SZCZEGÓŁY</li>
                <li class="textButton" ui-sref="reservationModal({trainingId: item.trainingId})">REZERWUJ</li>
             </ul>
          </td>

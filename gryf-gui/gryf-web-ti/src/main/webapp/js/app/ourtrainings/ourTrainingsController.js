@@ -8,9 +8,9 @@ angular.module("gryf.ti").controller("OurTrainingsController",
     $scope.dictionaries = {};
     $scope.selectedCategories = {};
 
-    $scope.loadDictionaries = function() {
-        $scope.dictionaries.trainingCategories = DictionaryService.loadDictionary(DictionaryService.DICTIONARY.TRAINING_CATEGORIES);
-    }
+    DictionaryService.loadDictionary(DictionaryService.DICTIONARY.TRAINING_CATEGORIES).then(function(data) {
+        $scope.dictionaries.trainingCategories = data;
+    });
 
     $scope.find = function() {
         $scope.searchResultOptions = TrainingSearchService.getNewSearchResultOptions();
@@ -45,6 +45,5 @@ angular.module("gryf.ti").controller("OurTrainingsController",
         TrainingSearchService.loadMore();
     };
 
-    $scope.loadDictionaries();
     $scope.clear();
 }]);

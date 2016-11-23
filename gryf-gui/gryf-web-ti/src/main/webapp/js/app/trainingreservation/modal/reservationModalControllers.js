@@ -6,7 +6,7 @@ angular.module("gryf.ti").controller("ReservationModalController", ["$scope", "$
     $scope.userTrainingReservationData = TrainingReservationService.getUserTrainingReservationData();
     $scope.violations = TrainingReservationService.getNewViolations();
 
-    TrainingSearchService.findById($stateParams.trainingId).success(function(data) {
+    TrainingSearchService.findDetailsById($stateParams.trainingId).success(function(data) {
         $scope.training.data = data;
     });
 

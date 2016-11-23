@@ -18,5 +18,18 @@ angular.module("gryf.ti").config(["$stateProvider", function($stateProvider) {
                 $state.go("^");
             });
         }]
+    }),
+    $stateProvider.state('trainingReservation.trainingDetails', {
+        parent: 'trainingReservation',
+        url: '/trainingDetails/{trainingId}',
+        onEnter: ['$state', '$modal', function($state, $modal) {
+            $modal.open({
+                templateUrl: contextPath + "/templates/sharedModals/trainingDetailsModal.html",
+                size: "md",
+                controller: "TrainingDetailsModalController"
+            }).result.finally(function() {
+                $state.go("^");
+            });
+        }]
     });
 }])

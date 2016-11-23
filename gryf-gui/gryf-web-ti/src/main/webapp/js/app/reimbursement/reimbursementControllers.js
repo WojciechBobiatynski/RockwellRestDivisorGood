@@ -17,7 +17,9 @@ angular.module("gryf.ti").controller("ReimbursementsController", ["$scope", "Rei
             $scope.datepicker[fieldName] = true;
         };
 
-        $scope.elctRmbsModel.rmbsStatuses = DictionaryService.loadDictionary(DictionaryService.DICTIONARY.REIMBURSEMENT_STATUSES);
+        DictionaryService.loadDictionary(DictionaryService.DICTIONARY.REIMBURSEMENT_STATUSES).then(function(data) {
+            $scope.elctRmbsModel.rmbsStatuses = data;
+        });
 
 }]);
 

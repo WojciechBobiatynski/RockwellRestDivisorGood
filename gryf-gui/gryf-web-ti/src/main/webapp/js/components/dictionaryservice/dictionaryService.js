@@ -1,4 +1,4 @@
-angular.module("gryf.ti").factory("DictionaryService", function ($cacheFactory, $http) {
+angular.module("gryf.ti").factory("DictionaryService", function ($cacheFactory, $http, $q) {
     var REST_URL = contextPath + "/rest/";
 
     var DICTIONARY = {
@@ -9,27 +9,40 @@ angular.module("gryf.ti").factory("DictionaryService", function ($cacheFactory, 
 
     var dictionaryCache = $cacheFactory("DictionaryService");
 
-    var loadDictionary = function (dictionaryName, callback) {
+    var loadDictionary = function (dictionaryName) {
+        var deferred = $q.defer();
+
         var dictionary = dictionaryCache.get(dictionaryName);
-        if (dictionary && typeof callback === 'function') {
-            callback(dictionary);
-        }
-        if (!dictionary) {
-            dictionary = [];
+        if (dictionary) {
+            deferred.resolve(dictionary);
+        } else {
             $http.get(REST_URL + dictionaryName).then(function (resp) {
-                angular.copy(resp.data, dictionary);
-                if (typeof callback === 'function') {
-                    callback();
+                dictionaryCache.put(dictionaryName, resp.data);
+                deferred.resolve(resp.data);
+            });
+        }
+
+        return deferred.promise;
+    };
+
+    var getRecordById = function(dictionaryName, recordId) {
+        var deferred = $q.defer();
+
+        loadDictionary(dictionaryName).then(function(data) {
+            angular.forEach(data, function(record) {
+                if(record.id === recordId) {
+                    deferred.resolve(record);
                 }
             });
-            dictionaryCache.put(dictionaryName, dictionary);
-        }
-        return dictionary;
+        });
+
+        return deferred.promise;
     };
 
     return {
         DICTIONARY: DICTIONARY,
-        loadDictionary: loadDictionary
+        loadDictionary: loadDictionary,
+        getRecordById: getRecordById
     }
 });
 

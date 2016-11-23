@@ -82,7 +82,7 @@ angular.module("gryf.ti").factory("TrainingSearchService", function($http, GryfM
         return promise;
     };
 
-    var findById = function(trainingId) {
+    var findDetailsById = function(trainingId) {
         return $http.get(FIND_SINGLE_TRAINING_URL + trainingId).error(function() {
             GryfPopups.setPopup("error", "Błąd", "Nie można pobrać szkolenia o wskazanym id");
             GryfPopups.showPopup();
@@ -113,7 +113,7 @@ angular.module("gryf.ti").factory("TrainingSearchService", function($http, GryfM
         getSearchDTO: getSearchDTO,
         getSearchResultOptions: getSearchResultOptions,
         find: find,
-        findById: findById,
+        findDetailsById: findDetailsById,
         findSortedBy: findSortedBy,
         getNewSearchDTO: getNewSearchDTO,
         getNewSearchResultOptions: getNewSearchResultOptions,

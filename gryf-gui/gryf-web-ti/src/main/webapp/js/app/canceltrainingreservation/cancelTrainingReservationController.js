@@ -20,18 +20,13 @@ angular.module("gryf.ti").controller("CancelTrainingReservationController", ["$s
             $scope.datepicker[fieldName] = true;
         };
 
-        $scope.trainingStatuses.data = DictionaryService.loadDictionary(DictionaryService.DICTIONARY.TRAINING_INSTANCE_STATUSES, setStatus);
+        DictionaryService.loadDictionary(DictionaryService.DICTIONARY.TRAINING_INSTANCE_STATUSES).then(function(data) {
+            $scope.trainingStatuses.data = data;
 
-        function setStatus(data) {
-            if(data) {
-                $scope.trainingStatuses.data = data;
-            }
-            angular.forEach($scope.trainingStatuses.data, function(status) {
-                if(status.id === 'RES') {
-                    $scope.trainingCriteria.trainingStatusId = status.id;
-                }
+            DictionaryService.getRecordById(DictionaryService.DICTIONARY.TRAINING_INSTANCE_STATUSES, "RES").then(function(record) {
+                $scope.trainingCriteria.trainingStatusId = record.id;
             });
-        }
+        });
 
         $scope.isStatusDisabled = function() {
             return $scope.trainingCriteria.trainingStatusId != null;

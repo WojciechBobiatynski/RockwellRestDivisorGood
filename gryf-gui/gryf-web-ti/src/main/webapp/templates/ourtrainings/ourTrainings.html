@@ -71,11 +71,8 @@
          <td>{{::item.place}}</td>
          <td>{{::item.category}}</td>
          <td>
-            <ul class="buttons">
-               <li><a ng-href="#/modify/{{item.trainingId}}"
-                      gryf-privilege="GRF_TRAINING_INSTITUTION_MOD"
-                      class="button button-go">szczegóły</a>
-               </li>
+            <ul class="text-center no-margin-padding">
+               <li class="textButton" ui-sref="ourTrainings.trainingDetails({trainingId: item.trainingId})">SZCZEGÓŁY</li>
             </ul>
          </td>
       </tr>
