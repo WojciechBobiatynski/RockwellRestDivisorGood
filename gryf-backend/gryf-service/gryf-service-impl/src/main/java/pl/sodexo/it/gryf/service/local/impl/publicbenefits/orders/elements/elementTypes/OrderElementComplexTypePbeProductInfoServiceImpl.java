@@ -16,6 +16,7 @@ import pl.sodexo.it.gryf.service.local.api.ParamInDateService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.elements.elementTypes.OrderElementComplexTypePbeProductInfoService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.orderflows.OrderFlowElementService;
 import pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.elements.OrderElementBaseService;
+import static pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElementCons.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -32,27 +33,15 @@ public class OrderElementComplexTypePbeProductInfoServiceImpl extends OrderEleme
 
     //STATIC FIELDS
 
-    public static final String PRODUCT_INSTANCE_NUM_ELEM_ID = "PRDNUM_KK";
-
-    public static final String PRODUCT_INSTANCE_AMOUNT_ELEM_ID = "PRDAMO_KK";
-
-    public static final String OWN_CONTRIBUTION_PERCENT_ELEM_ID = "OWNCONP_KK";
-
-    public static final String OWN_CONTRIBUTION_AMONT_ELEM_ID = "OWNCONA_KK";
-
-    public static final String GRANT_AMOUNT_ELEM_ID = "GRAAMO_KK";
-
-    public static final String ORDER_AMOUNT_ELEM_ID = "ORDAMO_KK";
-
     public static final List<String> LIST_ELEM_ID  = new ArrayList<>();
 
     static{
-        LIST_ELEM_ID.add(PRODUCT_INSTANCE_NUM_ELEM_ID);
-        LIST_ELEM_ID.add(PRODUCT_INSTANCE_AMOUNT_ELEM_ID);
-        LIST_ELEM_ID.add(OWN_CONTRIBUTION_PERCENT_ELEM_ID);
-        LIST_ELEM_ID.add(OWN_CONTRIBUTION_AMONT_ELEM_ID);
-        LIST_ELEM_ID.add(GRANT_AMOUNT_ELEM_ID);
-        LIST_ELEM_ID.add(ORDER_AMOUNT_ELEM_ID);
+        LIST_ELEM_ID.add(KK_PRODUCT_INSTANCE_NUM_ELEM_ID);
+        LIST_ELEM_ID.add(KK_PRODUCT_INSTANCE_AMOUNT_ELEM_ID);
+        LIST_ELEM_ID.add(KK_OWN_CONTRIBUTION_PERCENT_ELEM_ID);
+        LIST_ELEM_ID.add(KK_OWN_CONTRIBUTION_AMONT_ELEM_ID);
+        LIST_ELEM_ID.add(KK_GRANT_AMOUNT_ELEM_ID);
+        LIST_ELEM_ID.add(KK_ORDER_AMOUNT_ELEM_ID);
     }
 
     //FIELDS
@@ -75,13 +64,13 @@ public class OrderElementComplexTypePbeProductInfoServiceImpl extends OrderEleme
         Map<String, OrderElement> elementMap = orderElementRepository.findByOrderAndElements(order.getId(), LIST_ELEM_ID);
         checkContainsMap(order, elementMap);
 
-        Integer productInstanceNum = (elementMap.get(PRODUCT_INSTANCE_NUM_ELEM_ID).getValueNumber() != null) ?
-                                        elementMap.get(PRODUCT_INSTANCE_NUM_ELEM_ID).getValueNumber().intValue() : null;
-        BigDecimal productInstanceAmount = elementMap.get(PRODUCT_INSTANCE_AMOUNT_ELEM_ID).getValueNumber();
-        BigDecimal ownContributionPercent = elementMap.get(OWN_CONTRIBUTION_PERCENT_ELEM_ID).getValueNumber();
-        BigDecimal ownContributionAmont = elementMap.get(OWN_CONTRIBUTION_AMONT_ELEM_ID).getValueNumber();
-        BigDecimal grantAmount = elementMap.get(GRANT_AMOUNT_ELEM_ID).getValueNumber();
-        BigDecimal orderAmount = elementMap.get(ORDER_AMOUNT_ELEM_ID).getValueNumber();
+        Integer productInstanceNum = (elementMap.get(KK_PRODUCT_INSTANCE_NUM_ELEM_ID).getValueNumber() != null) ?
+                                        elementMap.get(KK_PRODUCT_INSTANCE_NUM_ELEM_ID).getValueNumber().intValue() : null;
+        BigDecimal productInstanceAmount = elementMap.get(KK_PRODUCT_INSTANCE_AMOUNT_ELEM_ID).getValueNumber();
+        BigDecimal ownContributionPercent = elementMap.get(KK_OWN_CONTRIBUTION_PERCENT_ELEM_ID).getValueNumber();
+        BigDecimal ownContributionAmont = elementMap.get(KK_OWN_CONTRIBUTION_AMONT_ELEM_ID).getValueNumber();
+        BigDecimal grantAmount = elementMap.get(KK_GRANT_AMOUNT_ELEM_ID).getValueNumber();
+        BigDecimal orderAmount = elementMap.get(KK_ORDER_AMOUNT_ELEM_ID).getValueNumber();
 
         //TODO: tbilski odkomentować
         /*return OrderElementDTOProvider.createOrderElementComplexTypePbeProductInfoDTO
@@ -105,9 +94,9 @@ public class OrderElementComplexTypePbeProductInfoServiceImpl extends OrderEleme
         BigDecimal  productInstanceAmount = product.getValue();
         BigDecimal ownContributionPercent = new BigDecimal(ocpParam.getValue());
 
-        orderFlowElementService.addElementNumberValue(order, PRODUCT_INSTANCE_NUM_ELEM_ID, productInstanceNum);
-        orderFlowElementService.addElementNumberValue(order, PRODUCT_INSTANCE_AMOUNT_ELEM_ID, productInstanceAmount);
-        orderFlowElementService.addElementNumberValue(order, OWN_CONTRIBUTION_PERCENT_ELEM_ID, ownContributionPercent);
+        orderFlowElementService.addElementNumberValue(order, KK_PRODUCT_INSTANCE_NUM_ELEM_ID, productInstanceNum);
+        orderFlowElementService.addElementNumberValue(order, KK_PRODUCT_INSTANCE_AMOUNT_ELEM_ID, productInstanceAmount);
+        orderFlowElementService.addElementNumberValue(order, KK_OWN_CONTRIBUTION_PERCENT_ELEM_ID, ownContributionPercent);
 
 
         BigDecimal ownContributionAmont = productInstanceNum.multiply(productInstanceAmount).
@@ -115,20 +104,20 @@ public class OrderElementComplexTypePbeProductInfoServiceImpl extends OrderEleme
         BigDecimal grantAmount = productInstanceNum.multiply(productInstanceAmount).subtract(ownContributionAmont);
         BigDecimal orderAmount = grantAmount.add(ownContributionAmont);
 
-        orderFlowElementService.addElementNumberValue(order, OWN_CONTRIBUTION_AMONT_ELEM_ID, ownContributionAmont);
-        orderFlowElementService.addElementNumberValue(order, GRANT_AMOUNT_ELEM_ID, grantAmount);
-        orderFlowElementService.addElementNumberValue(order, ORDER_AMOUNT_ELEM_ID, orderAmount);
+        orderFlowElementService.addElementNumberValue(order, KK_OWN_CONTRIBUTION_AMONT_ELEM_ID, ownContributionAmont);
+        orderFlowElementService.addElementNumberValue(order, KK_GRANT_AMOUNT_ELEM_ID, grantAmount);
+        orderFlowElementService.addElementNumberValue(order, KK_ORDER_AMOUNT_ELEM_ID, orderAmount);
     }
 
     //PRIVATE METHODS
 
     private void checkContainsMap(Order order, Map<String, OrderElement> elementMap){
-        checkContainsMap(order, elementMap, PRODUCT_INSTANCE_NUM_ELEM_ID);
-        checkContainsMap(order, elementMap, PRODUCT_INSTANCE_AMOUNT_ELEM_ID);
-        checkContainsMap(order, elementMap, OWN_CONTRIBUTION_PERCENT_ELEM_ID);
-        checkContainsMap(order, elementMap, OWN_CONTRIBUTION_AMONT_ELEM_ID);
-        checkContainsMap(order, elementMap, GRANT_AMOUNT_ELEM_ID);
-        checkContainsMap(order, elementMap, ORDER_AMOUNT_ELEM_ID);
+        checkContainsMap(order, elementMap, KK_PRODUCT_INSTANCE_NUM_ELEM_ID);
+        checkContainsMap(order, elementMap, KK_PRODUCT_INSTANCE_AMOUNT_ELEM_ID);
+        checkContainsMap(order, elementMap, KK_OWN_CONTRIBUTION_PERCENT_ELEM_ID);
+        checkContainsMap(order, elementMap, KK_OWN_CONTRIBUTION_AMONT_ELEM_ID);
+        checkContainsMap(order, elementMap, KK_GRANT_AMOUNT_ELEM_ID);
+        checkContainsMap(order, elementMap, KK_ORDER_AMOUNT_ELEM_ID);
     }
 
     private void checkContainsMap(Order order, Map<String, OrderElement> elementMap, String key){

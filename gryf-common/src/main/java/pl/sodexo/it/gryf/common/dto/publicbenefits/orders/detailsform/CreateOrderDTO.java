@@ -57,12 +57,10 @@ public class CreateOrderDTO {
 
     @Getter
     @Setter
-    @NotNull(message = "Adres na fakturze nie może być pusty")
     private String addressInvoice;
 
     @Getter
     @Setter
-    @NotNull(message = "Adres korespondencyjny nie może być pusty")
     private String addressCorr;
 
     @Getter

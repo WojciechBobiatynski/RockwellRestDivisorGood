@@ -42,6 +42,7 @@ import pl.sodexo.it.gryf.service.local.impl.publicbenefits.products.PbeProductIn
 import pl.sodexo.it.gryf.service.local.impl.publicbenefits.products.PrintNumberGenerator;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.pbeproductinstancepool.PbeProductInstancePoolEntityMapper;
 import pl.sodexo.it.gryf.service.validation.publicbenefits.trainingreservation.TrainingReservationValidator;
+import static pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElementCons.*;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -158,8 +159,7 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
         Order order = orderRepository.get(orderId);
         Contract contract = order.getContract();
         Individual individual = contract.getIndividual();
-        GrantProgram grantProgram = contract.getGrantProgram();
-        Integer productInstanceNum = 10;//TODO: tbilski - pole z zamówienia
+        Integer productInstanceNum = order.loadElement(KK_PRODUCT_INSTANCE_NUM_ELEM_ID).getValueNumber().intValue();
 
         //STWORZENIE PULI BONÓW
         PbeProductInstancePool pool = createProductInstancePool(order, contract, individual, order.getPbeProduct(), productInstanceNum);
