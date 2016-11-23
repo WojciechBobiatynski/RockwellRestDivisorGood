@@ -124,14 +124,12 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     private void calculateIndAmountForTraining(Ereimbursement ereimbursement, CalculationChargesParamsDto params) {
         BigDecimal normalizedProductHourPrice = new BigDecimal(params.getProductInstanceForHour()).multiply(params.getProductValue());
         BigDecimal trainingHourDifferenceCost = BigDecimal.ZERO;
-        BigDecimal hoursPaidWithCashCost;
-        Integer hoursPaidWithCash = params.getTrainingHoursNumber()-params.getUsedProductsNumber()/params.getProductInstanceForHour();
-        if(params.getTrainingHourPrice().compareTo(normalizedProductHourPrice) > 0){
-            trainingHourDifferenceCost = new BigDecimal(params.getUsedProductsNumber()).multiply(params.getTrainingHourPrice().subtract(normalizedProductHourPrice));
-            hoursPaidWithCashCost = new BigDecimal(hoursPaidWithCash).multiply(normalizedProductHourPrice);
-        } else {
-            hoursPaidWithCashCost = new BigDecimal(hoursPaidWithCash).multiply(params.getTrainingHourPrice());
+        Integer hoursPaidWithCash = params.getTrainingHoursNumber() - params.getUsedProductsNumber() / params.getProductInstanceForHour();
+        if (params.getTrainingHourPrice().compareTo(normalizedProductHourPrice) > 0) {
+            trainingHourDifferenceCost = new BigDecimal(params.getUsedProductsNumber() / params.getProductInstanceForHour())
+                    .multiply(params.getTrainingHourPrice().subtract(normalizedProductHourPrice));
         }
+        BigDecimal hoursPaidWithCashCost = new BigDecimal(hoursPaidWithCash).multiply(params.getTrainingHourPrice());
         ereimbursement.setIndSxoAmountDueTotal(trainingHourDifferenceCost.add(hoursPaidWithCashCost));
     }
 
