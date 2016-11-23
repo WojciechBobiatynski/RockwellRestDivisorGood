@@ -62,20 +62,17 @@
         </thead>
         <tbody class="tableData">
         <tr ng-repeat="item in elctRmbsModel.foundRmbs | limitTo: searchResultOptions.displayLimit" ng-class="{'row-even': $even, 'row-odd': $odd}">
-            <td>{{::item}}</td>
-            <td>{{::item}}</td>
-            <td>{{::item}}</td>
-            <td>{{::item}}</td>
-            <td>{{::item}}</td>
-            <td>{{::item}}</td>
-            <td>{{::item}}</td>
+            <td>{{::item.rmbsNumber}}</td>
+            <td>{{::item.trainingName}}</td>
+            <td>{{::item.pesel}}</td>
+            <td>{{::item.participantName}}</td>
+            <td>{{::item.participantSurname}}</td>
+            <td>{{::item.rmbsDate}}</td>
+            <td>{{::item.rmbsStatus}}</td>
             <td>
-                <ul class="buttons">
-                    <!--TODO:przywileje-->
-                    <li><a ng-href="#/modify/{{item.trainingId}}"
-                           gryf-privilege="GRF_TRAINING_INSTITUTION_MOD"
-                           class="button button-go">szczegóły</a>
-                    </li>
+                <ul class="text-center no-margin-padding">
+                    <li class="textButton">SZCZEGÓŁY</li>
+                    <li class="textButton">KORYGUJ</li>
                 </ul>
             </td>
         </tr>
