@@ -17,7 +17,8 @@ import java.util.Objects;
 @Table(name = "PBE_PRODUCT_INSTANCE_POOLS", schema = "APP_PBE")
 @NamedQueries({
         @NamedQuery(name = "PbeProductInstancePool.findAvaiableForUse", query = "select p from PbeProductInstancePool p " +
-                "where p.individual.id = :individualId and p.order.contract.grantProgram.id = :grantProgramId and p.status.id = :statusId and :expiryDate <= p.expiryDate order by p.expiryDate")})
+                "where p.individual.id = :individualId and p.order.contract.grantProgram.id = :grantProgramId and p.status.id = :statusId " +
+                "and p.startDate <= :startDate and :expiryDate <= p.expiryDate order by p.expiryDate")})
 
 public class PbeProductInstancePool extends VersionableEntity {
 
@@ -29,6 +30,10 @@ public class PbeProductInstancePool extends VersionableEntity {
     @ManyToOne
     @JoinColumn(name = "STATUS_ID", referencedColumnName = "ID")
     private PbeProductInstancePoolStatus status;
+
+    @Column(name = "START_DATE")
+    @Temporal(TemporalType.DATE)
+    private Date startDate;
 
     @Column(name = "EXPIRY_DATE")
     @Temporal(TemporalType.DATE)
@@ -133,6 +138,14 @@ public class PbeProductInstancePool extends VersionableEntity {
 
     public void setOrder(Order order) {
         this.order = order;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
     public Date getExpiryDate() {

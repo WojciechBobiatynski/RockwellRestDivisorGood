@@ -23,11 +23,12 @@ public class PbeProductInstancePoolRepositoryImpl extends GenericRepositoryImpl<
     }
 
     @Override
-    public List<PbeProductInstancePool> findAvaiableForUse(Long individualId, Long grantProgramId, Date expiryDate){
+    public List<PbeProductInstancePool> findAvaiableForUse(Long individualId, Long grantProgramId, Date startDate, Date expiryDate){
         TypedQuery<PbeProductInstancePool> query = entityManager.createNamedQuery("PbeProductInstancePool.findAvaiableForUse", PbeProductInstancePool.class);
         query.setParameter("individualId", individualId);
         query.setParameter("grantProgramId", grantProgramId);
         query.setParameter("statusId", PbeProductInstancePoolStatus.ACTIVE_CODE);
+        query.setParameter("startDate", startDate);
         query.setParameter("expiryDate", expiryDate);
         return query.getResultList();
     }

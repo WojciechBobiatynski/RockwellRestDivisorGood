@@ -13,5 +13,5 @@ public interface PbeProductInstancePoolRepository extends GenericRepository<PbeP
 
     List<PbeProductInstancePool> findByIndividualUser(Long userId);
 
-    List<PbeProductInstancePool> findAvaiableForUse(Long individualId, Long grantProgramId, Date expiryDate);
+    List<PbeProductInstancePool> findAvaiableForUse(Long individualId, Long grantProgramId, Date startDate, Date expiryDate);
 }

@@ -216,7 +216,7 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
 
         //POBRANIE PULI BONÓW KTÓRE MOŻNA WYKORZYSTAC
         List<PbeProductInstancePool> pools = productInstancePoolRepository.findAvaiableForUse(individual.getId(),
-                                                                            grantProgram.getId(), training.getEndDate());
+                                                         grantProgram.getId(), training.getStartDate(), training.getEndDate());
 
         //VALIDACJA
         validatePoolReservation(training, grantProgram, toReservedNum, pools);
@@ -333,16 +333,26 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
     private void validateTrainingReservation(Contract contract, Training training) {
         List<EntityConstraintViolation> violations = Lists.newArrayList();
 
+        //CATEGORIE SZKOLEN
         if(training.getCategory() != null){
             if(!contract.getCategories().contains(training.getCategory())){
                 violations.add(new EntityConstraintViolation("Umowa zawarta przez użytkownika nie finansuje szkolenia z danej kategorii."));
             }
         }
+
+        //CZY JUZ PRZYPISANY
         int assignedTrainingInstances = trainingInstanceRepository.countByTrainingAndIndividualNotCaceled(
-                                                training.getId(), contract.getIndividual().getId());
+                                                        training.getId(), contract.getIndividual().getId());
         if(assignedTrainingInstances > 0){
             violations.add(new EntityConstraintViolation("Rezerwacja dla użytkownika została już dokanna na dane szkolenie."));
         }
+
+        //CZY SZKOLENIE TRWA
+        if(training.getStartDate().after(new Date())){
+            violations.add(new EntityConstraintViolation("Nie można zapisac użytkownika na trwające szkolenie."));
+        }
+
+
         gryfValidator.validate(violations);
     }
 
@@ -427,6 +437,7 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
                                                                 PbeProduct product, Integer productInstanceNum){
         PbeProductInstancePool pool = new PbeProductInstancePool();
         pool.setStatus(productInstancePoolStatusRepository.get(PbeProductInstancePoolStatus.ACTIVE_CODE));
+        pool.setStartDate(new Date());
         pool.setExpiryDate(contract.getExpiryDate());
         pool.setAllNum(productInstanceNum);
         pool.setAvailableNum(productInstanceNum);
