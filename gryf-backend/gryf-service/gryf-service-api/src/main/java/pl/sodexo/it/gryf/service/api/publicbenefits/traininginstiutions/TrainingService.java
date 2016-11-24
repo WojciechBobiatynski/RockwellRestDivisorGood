@@ -16,7 +16,7 @@ public interface TrainingService {
 
     List<TrainingSearchResultDTO> findTrainings(TrainingSearchQueryDTO training);
 
-    List<SimpleDictionaryDto> getTrainingCategoriesDict();
+    List<SimpleDictionaryDto> findTrainingCategories();
 
     TrainingDTO createTraining();
 

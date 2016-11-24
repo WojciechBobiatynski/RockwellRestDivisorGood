@@ -60,8 +60,14 @@ public class TrainingRestController {
     }
 
     @RequestMapping(value = "/getTrainingCategoriesDict/{grantProgramId}", method = RequestMethod.POST)
-    public List<SimpleDictionaryDto> getTrainingCategoriesDict(@PathVariable("grantProgramId") Long grantProgramId) {
+    public List<SimpleDictionaryDto> trainingCategoriesByGrantProgramId(@PathVariable("grantProgramId") Long grantProgramId) {
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_TI_TRAININGS);
         return trainingService.findTrainingCategoriesByGrantProgram(grantProgramId);
+    }
+
+    @RequestMapping(value = "/getTrainingCategoriesDict", method = RequestMethod.GET)
+    public List<SimpleDictionaryDto> trainingCategories() {
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_TI_TRAININGS);
+        return trainingService.findTrainingCategories();
     }
 }

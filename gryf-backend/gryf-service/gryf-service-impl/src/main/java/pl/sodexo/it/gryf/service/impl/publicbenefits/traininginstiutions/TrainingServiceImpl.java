@@ -55,7 +55,7 @@ public class TrainingServiceImpl implements TrainingService {
     }
 
     @Override
-    public List<SimpleDictionaryDto> getTrainingCategoriesDict() {
+    public List<SimpleDictionaryDto> findTrainingCategories() {
         return trainingSearchDao.findTrainingCategories();
     }
 
@@ -88,4 +88,5 @@ public class TrainingServiceImpl implements TrainingService {
         List<TrainingCategory> trainingCategories = trainingCategoryRepository.findByGrantProgram(grantProgramId);
         return traningCategoryEntityMapper.convert(trainingCategories);
     }
+
 }

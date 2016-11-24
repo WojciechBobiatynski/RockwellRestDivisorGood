@@ -43,7 +43,7 @@ public class TrainingReservationRestController {
     @RequestMapping(value = "/trainingCategoriesDict", method = RequestMethod.GET)
     public List<SimpleDictionaryDto> getTrainingCategoriesDict() {
         //securityChecker.assertServicePrivilege(Privileges.GRF_PBE_TI_TRAININGS);
-        return trainingService.getTrainingCategoriesDict();
+        return trainingService.findTrainingCategories();
     }
 
     @RequestMapping(value = "/training/list", method = RequestMethod.GET)
