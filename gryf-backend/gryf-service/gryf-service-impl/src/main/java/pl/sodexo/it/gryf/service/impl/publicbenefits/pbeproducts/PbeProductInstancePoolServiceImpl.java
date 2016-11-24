@@ -348,7 +348,7 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
         }
 
         //CZY SZKOLENIE TRWA
-        if(training.getStartDate().after(new Date())){
+        if(training.getStartDate().before(new Date())){
             violations.add(new EntityConstraintViolation("Nie można zapisac użytkownika na trwające szkolenie."));
         }
 
