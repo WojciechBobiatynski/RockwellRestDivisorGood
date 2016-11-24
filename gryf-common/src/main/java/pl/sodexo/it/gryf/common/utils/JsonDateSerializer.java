@@ -17,10 +17,9 @@ import static pl.sodexo.it.gryf.common.utils.GryfConstants.DATE_FORMAT;
  */
 public class JsonDateSerializer extends JsonSerializer<Date> {
 
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
-
     @Override
     public void serialize(Date date, JsonGenerator gen, SerializerProvider provider) throws IOException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
         String formattedDate = dateFormat.format(date);
         gen.writeString(formattedDate);
     }

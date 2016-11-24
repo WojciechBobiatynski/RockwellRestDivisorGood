@@ -9,11 +9,7 @@ import com.fasterxml.jackson.databind.jsontype.TypeDeserializer;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import static pl.sodexo.it.gryf.common.utils.GryfConstants.DATE_FORMAT;
 
 /**
  * Util class responsible for converting DTO objects to a JSON format
@@ -50,10 +46,6 @@ public final class JsonMapperUtils {
                 if (out instanceof Integer) {
                     return Long.valueOf((Integer) out);
                 }
-                if(out instanceof Date){
-                    DateFormat df = new SimpleDateFormat(DATE_FORMAT);
-                    return df.format(out);
-                }
                 return out;
             }
 
@@ -63,10 +55,6 @@ public final class JsonMapperUtils {
                 if (out instanceof Integer) {
                     return Long.valueOf((Integer) out);
                 }
-                if(out instanceof Date){
-                    DateFormat df = new SimpleDateFormat(DATE_FORMAT);
-                    return df.format(out);
-                }
                 return out;
             }
         };
@@ -74,7 +62,9 @@ public final class JsonMapperUtils {
 
     public static ObjectMapper createObjectMapper(){
         ObjectMapper objectMapper = new ObjectMapper();
-        SimpleModule mod = new SimpleModule().addDeserializer(Object.class, createUntypedNumberDeserializer());
+        SimpleModule mod = new SimpleModule();
+        mod.addDeserializer(Object.class, createUntypedNumberDeserializer());
+        mod.addDeserializer(Date.class, new JsonDateDeserializer());
         mod.addSerializer(Date.class ,new JsonDateSerializer());
         objectMapper.registerModule(mod);
         return objectMapper;
