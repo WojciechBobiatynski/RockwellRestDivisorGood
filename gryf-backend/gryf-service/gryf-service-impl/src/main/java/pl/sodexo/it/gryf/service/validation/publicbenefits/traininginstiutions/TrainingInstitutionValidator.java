@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.service.validation.publicbenefits.traininginstiutions;
 
+import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.ContactDataValidationDTO;
@@ -69,6 +70,10 @@ public class TrainingInstitutionValidator {
             if(trainingInstitution.getTrainingInstitutionUsers().get(index).getEmail() == null){
                 String path = String.format("%s[%s].%s", "users", index, "email");
                 violations.add(new EntityConstraintViolation(path, "Brak adresu email/loginu"));
+            }
+            if (!EmailValidator.getInstance().isValid(trainingInstitution.getTrainingInstitutionUsers().get(index).getEmail())) {
+                String path = String.format("%s[%s].%s", "users", index, "email");
+                violations.add(new EntityConstraintViolation(path, "Niepoprawny adres email"));
             }
         };
 
