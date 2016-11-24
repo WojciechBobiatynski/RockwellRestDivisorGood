@@ -11,7 +11,6 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchfor
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingInstitutionSearchResultDTO;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstitutionRepository;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstitution;
-import pl.sodexo.it.gryf.model.security.trainingInstitutions.TrainingInstitutionUser;
 import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.TrainingInstitutionService;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.traininginstiutions.TrainingInstitutionDtoMapper;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.traininginstiutions.TrainingInstitutionEntityMapper;
@@ -88,12 +87,12 @@ public class TrainingInstitutionServiceImpl implements TrainingInstitutionServic
     private void updateTiUserForNewTiUsers(TrainingInstitution trainingInstitution) {
         if(!trainingInstitution.getTrainingInstitutionUsers().isEmpty()){
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-            for(TrainingInstitutionUser user : trainingInstitution.getTrainingInstitutionUsers()){
+            trainingInstitution.getTrainingInstitutionUsers().stream().filter(user -> user.getId() == null).forEach(user -> {
                 user.setPassword(encoder.encode(RandomStringUtils.random(FIRST_PASSWORD_DEFAULT_LENGTH_FOR_TI)));
                 user.setTrainingInstitution(trainingInstitution);
                 user.setIsActive(true);
                 user.setLoginFailureAttempts(DEFAULT_LOGIN_FAILURE_ATTEMPTS_NUMBER);
-            }
+            });
         }
     }
 
@@ -101,6 +100,7 @@ public class TrainingInstitutionServiceImpl implements TrainingInstitutionServic
     public void updateTrainingInstitution(TrainingInstitutionDto trainingInstitutionDto, boolean checkVatRegNumDup) {
         TrainingInstitution trainingInstitution = trainingInstitutionDtoMapper.convert(trainingInstitutionDto);
         trainingInstitutionValidator.validateTrainingInstitution(trainingInstitution, checkVatRegNumDup);
+        updateTiUserForNewTiUsers(trainingInstitution);
         trainingInstitutionRepository.update(trainingInstitution, trainingInstitution.getId());
     }
 
