@@ -14,15 +14,23 @@ values (2,100, 'BONELEKK',null, 'KK_BON_ELE', null,null);
 
 
 insert into APP_PBE.PBE_PRODUCT_EMISSIONS (ID, PRD_ID, GRANT_PROGRAM_ID, NAME, DESCRIPTION, EMISSION_DATE, QUANTITY)
-values ('KK_BON_ELE_EMIS', 'KK_BON_ELE', 100, 'Kierunek Kariera - Emisja Bonu Elektronicznego', 'Kierunek Kariera - Emisja Bonu Elektronicznego', SYSDATE, 100);
+values ('KK_BON_ELE_EMIS_01', 'KK_BON_ELE', 100, 'Kierunek Kariera - Emisja numer 1 Bonu Elektronicznego', 'Kierunek Kariera - Emisja numer 1 Bonu Elektronicznego', '2016-11-01', 100);
+insert into APP_PBE.PBE_PRODUCT_EMISSIONS (ID, PRD_ID, GRANT_PROGRAM_ID, NAME, DESCRIPTION, EMISSION_DATE, QUANTITY)
+values ('KK_BON_ELE_EMIS_02', 'KK_BON_ELE', 100, 'Kierunek Kariera - Emisja numer 2 Bonu Elektronicznego', 'Kierunek Kariera - Emisja numer 2 Bonu Elektronicznego', '2016-11-02', 100);
 
 
 insert into APP_PBE.PBE_PRODUCT_INSTANCES (PRD_ID, NUM, STATUS_ID, EXPIRY_DATE, PRINT_NUM, CRC, PRODUCT_EMISSION_ID, VERSION, CREATED_USER, CREATED_TIMESTAMP, MODIFIED_USER, MODIFIED_TIMESTAMP)
-select 'KK_BON_ELE', rownum, 'NEW', null, null, null,  'KK_BON_ELE_EMIS', 1, 'EAGLE', SYSDATE, 'EAGLE', SYSDATE
+select 'KK_BON_ELE', rownum, 'NEW', null, null, null,  'KK_BON_ELE_EMIS_01', 1, 'EAGLE', SYSDATE, 'EAGLE', SYSDATE
 from DUAL CONNECT BY ROWNUM <= 100;
+insert into APP_PBE.PBE_PRODUCT_INSTANCES (PRD_ID, NUM, STATUS_ID, EXPIRY_DATE, PRINT_NUM, CRC, PRODUCT_EMISSION_ID, VERSION, CREATED_USER, CREATED_TIMESTAMP, MODIFIED_USER, MODIFIED_TIMESTAMP)
+  select 'KK_BON_ELE', rownum + 100, 'NEW', null, null, null,  'KK_BON_ELE_EMIS_02', 1, 'EAGLE', SYSDATE, 'EAGLE', SYSDATE
+  from DUAL CONNECT BY ROWNUM <= 2000;
+
 insert into APP_PBE.PBE_PRODUCT_INSTANCE_E (ID, PRD_ID, NUM, TYPE_ID, SOURCE_ID, VERSION, CREATED_USER, CREATED_TIMESTAMP, MODIFIED_USER, MODIFIED_TIMESTAMP)
-select rownum, 'KK_BON_ELE', NUM, 'NEW', null, 1, 'EAGLE', SYSDATE, 'EAGLE', SYSDATE
-from  APP_PBE.PBE_PRODUCT_INSTANCES;
+  select rownum, 'KK_BON_ELE', NUM, 'NEW', null, 1, 'EAGLE', SYSDATE, 'EAGLE', SYSDATE
+  from  APP_PBE.PBE_PRODUCT_INSTANCES;
+
+
 
 
 
