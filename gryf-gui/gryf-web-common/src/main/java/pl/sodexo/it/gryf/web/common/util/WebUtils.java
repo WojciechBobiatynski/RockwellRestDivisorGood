@@ -1,4 +1,4 @@
-package pl.sodexo.it.gryf.web.fo.utils;
+package pl.sodexo.it.gryf.web.common.util;
 
 import org.springframework.web.multipart.MultipartFile;
 import pl.sodexo.it.gryf.common.dto.other.FileDTO;

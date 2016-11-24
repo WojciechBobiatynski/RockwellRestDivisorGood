@@ -95,10 +95,11 @@ angular.module("gryf.ti").factory("ReimbursementsService",
     }]);
 
 angular.module("gryf.ti").factory("ReimbursementsServiceModify",
-    ['$http', 'GryfModals', 'GryfPopups', 'GryfExceptionHandler', 'GryfHelpers', function ($http, GryfModals, GryfPopups, GryfExceptionHandler, GryfHelpers) {
+    ['$http', 'GryfModals', 'GryfPopups', 'GryfExceptionHandler', 'GryfHelpers', 'Upload', function ($http, GryfModals, GryfPopups, GryfExceptionHandler, GryfHelpers, Upload) {
         var PATH_RMBS = "/rest/reimbursements";
         var CREATE_RMBS_BY_ID = contextPath + PATH_RMBS + "/create/";
         var FIND_RMBS_BY_ID = contextPath + PATH_RMBS + "/modify/";
+        var SAVE_RMBS = contextPath + PATH_RMBS + "/save";
 
         var rmbsModel = new RmbsModel();
 
@@ -136,10 +137,44 @@ angular.module("gryf.ti").factory("ReimbursementsServiceModify",
             return promise;
         };
 
+        var save = function() {
+            GryfModals.openModal(GryfModals.MODALS_URL.CONFIRM).result.then(function(result) {
+                if (!result) {
+                    return;
+                }
+                var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING, {label: "Zapisuję dane"});
+                var mixinString = angular.toJson(rmbsModel.model.ermbsId);
+
+                var attachments = [];
+                angular.forEach(rmbsModel.model.attachments, function(attachment){
+                    attachments.push(attachment.file);
+                });
+
+                Upload.upload({
+                    url: SAVE_RMBS,
+                    data: {file: attachments, erbmsId: rmbsModel.model.ermbsId}
+                }).success(function(id) {
+                    GryfPopups.setPopup("success", "Sukces", "Rozliczenie poprawnie zapisane");
+                }).error(function(response) {
+                    GryfPopups.setPopup("error", "Błąd", "Nie udało się zapisać rozliczenia.");
+                    GryfPopups.showPopup();
+                    GryfExceptionHandler.handleSavingError(response, violations, conflictCallbacksObject);
+                }).finally(function() {
+                    GryfModals.closeModal(modalInstance);
+                });
+            });
+        };
+
+        var sendToReimburse = function(){
+
+        };
+
         return {
             getRmbsModel: getRmbsModel,
             findById: findById,
-            createReimbursement: createReimbursement
+            createReimbursement: createReimbursement,
+            save: save,
+            sendToReimburse: sendToReimburse
         }
 
     }]);

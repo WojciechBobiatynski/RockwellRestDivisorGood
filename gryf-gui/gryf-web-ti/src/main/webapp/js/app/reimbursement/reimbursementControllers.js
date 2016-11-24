@@ -35,7 +35,12 @@ angular.module("gryf.ti").controller("ReimbursementModifyController", ["$scope",
             });
         });
 
-        $scope.isDataLoaded = function () {
-            $scope.rmbsModel.model != null;
-        }
+        $scope.save = function(){
+            ReimbursementsServiceModify.save();
+        };
+
+        $scope.sendToReimburse = function(){
+            ReimbursementsServiceModify.sendToReimburse();
+        };
+
 }]);

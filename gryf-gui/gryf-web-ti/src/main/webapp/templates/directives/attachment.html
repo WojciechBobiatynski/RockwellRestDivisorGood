@@ -24,14 +24,22 @@
                     <option data-ng-repeat="t in model.types" data-ng-show="!t.required" ng-selected="{{t.code == item.code}}" value="{{t.code}}">{{t.name}}</option>
                 </select>
             </td>
-            <td><input type="text"/></td>
-            <td><input type="text"/></td>
-            <td><a></a></td>
+            <td><input type="text" data-ng-model="item.documentNumber"/></td>
+            <td><input type="text" data-ng-model="item.additionalDescription"/></td>
+            <td><a>{{item.file.name}}</a></td>
             <td>
                 <ul class="buttons">
                     <!--TODO:przywileje-->
                     <li>
-                        <button class="standardButton" ng-click="upload()">Wgraj plik</button>
+                        <button class="standardButton" ng-model="item.file" ngf-select ngf-max-size="{{item.maxFileSize}}" ngf-model-invalid="item.errorFile">
+                            {{!item.file.name ? "Wgraj plik" : "Zmień plik"}}
+                        </button>
+                        <i ng-show="item.errorFile.$errorMessages.maxSize">Załącznik przekracza maksymalny rozmiar pliku: {{item.maxFileSize / 1024 / 1024}} MB</i>
+                    </li>
+                    <li>
+                        <button class="standardButton" data-ng-if="!item.required" ng-click="deleteAtt(item)">
+                            Usuń
+                        </button>
                     </li>
                 </ul>
             </td>

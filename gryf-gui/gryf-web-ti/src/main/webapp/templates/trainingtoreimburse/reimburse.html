@@ -102,7 +102,7 @@
                     <strong>Rachunek rozliczeniowy</strong>
                     <div class="childrenInOneLine">
                         <span>Numer rachunku bankowego do zwrotu</span>
-                        <input type="text"/>
+                        <input type="text" data-ng-model="rmbsModel.model.returnAccountPayment"/>
                     </div>
                 </div>
             </div>
@@ -113,5 +113,9 @@
                 <attachments model="rmbsModel.model"/>
             </div>
         </div>
+    </div>
+    <div>
+        <button class="standardButton" style="float:right" data-ng-click="save()">Zapisz zmiany</button>
+        <button class="standardButton" style="float:right" data-ng-click="sendToReimburse()">Wyślij do rozliczenia</button>
     </div>
 </section>
