@@ -101,6 +101,7 @@
     <resultMap id="ecltRmbsHeadMap" type="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto" autoMapping="true" >
         <id column="ermbsId" property="ermbsId"/>
         <collection property="products" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.ProductHeadDto" autoMapping="true" columnPrefix="prd_"/>
+        <collection property="attachments" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsAttachmentsDto" autoMapping="true" columnPrefix="att_"/>
     </resultMap>
     <select id="findEcltRmbsById" resultMap="ecltRmbsHeadMap">
         SELECT
@@ -110,14 +111,27 @@
           ermbs.SXO_IND_AMOUNT_DUE_TOTAL            sxoIndAmountDueTotal,
           ermbs.IND_SXO_AMOUNT_DUE_TOTAL            indSxoAmountDueTotal,
           pool_uses.ASSIGNED_NUM                    prd_reservedProductsCount,
-          pool.EXPIRY_DATE                          prd_expirationDate
+          pool.EXPIRY_DATE                          prd_expirationDate,
+          att.ID                                    att_id,
+          att.attach_type                           att_code,
+          att.DOCUMENT_NUMBER                       att_documentNumber,
+          att.ADDITIONAL_DESCRIPTION                att_additionalDescription,
+          att.ORGINAL_FILE_NAME                     att_orginalFileName,
+          att.FILE_LOCATION                         att_fileLocation,
+          att_t.MAX_BYTES_PER_FILE                  att_maxFileSize
         FROM
           APP_PBE.E_REIMBURSEMENTS ermbs
           JOIN APP_PBE.TI_TRAINING_INSTANCES tr_in ON tr_in.ID = ermbs.TI_TR_INST_ID
+          JOIN APP_PBE.TI_TRAININGS tr ON tr.ID = tr_in.TRAINING_ID
           LEFT JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOL_USES pool_uses ON pool_uses.TRAINING_INSTANCE_ID = tr_in.ID
           LEFT JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOLS pool on pool_uses.PRODUCT_INSTANCE_POOL_ID = pool.ID
+          LEFT JOIN APP_PBE.E_RMBS_ATTACHMENTS att ON att.E_RMBS_ID = ermbs.ID
+          LEFT JOIN APP_PBE.ATTACHMENT_TYPES att_t ON att_t.CODE = att.ATTACH_TYPE
         WHERE
           ermbs.ID = #{ermbsId}
+        <if test="criteria.gryfUser.userType == 'TRAINING_INSTITUTION'">
+            AND tr.TRAINING_INSTITUTION_ID = #{criteria.gryfUser.trainingInstitutionId}
+        </if>
     </select>
 
 </mapper>

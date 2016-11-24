@@ -7,17 +7,17 @@ angular.module("gryf.ti").directive("attachments", ['AttachmentService',
             },
             templateUrl: contextPath + '/templates/directives/attachment.html',
             controller: function ($scope) {
-                $scope.addNew = function(){
+                $scope.addNew = function () {
                     $scope.model.attachments.push({});
                 };
 
-                $scope.deleteAtt = function(item){
+                $scope.deleteAtt = function (item) {
                     var index = $scope.model.attachments.indexOf(item);
                     $scope.model.attachments.splice(index, 1);
                 };
 
             },
-            link: function($scope){
+            link: function ($scope) {
 
                 function Attachment(code, maxFileSize, required) {
                     this.code = code,
@@ -25,18 +25,26 @@ angular.module("gryf.ti").directive("attachments", ['AttachmentService',
                     this.required = required
                 };
 
-                $scope.$watch('model.grantProgramId', function(newData) {
-                    if(newData){
+                $scope.$watch('model.grantProgramId', function (newData) {
+                    if (newData) {
                         AttachmentService.loadAttachmentsTypes($scope.model.grantProgramId).then(function (response) {
                             $scope.model.types = response.data;
-                            if($scope.model.attachments === undefined){
+                            if ($scope.model.attachments === undefined) {
                                 $scope.model.attachments = [];
-                                angular.forEach($scope.model.types, function(type) {
-                                    if(type.required) {
+                            }
+                            angular.forEach($scope.model.types, function (type) {
+                                if (type.required) {
+                                    var result = false;
+                                    angular.forEach($scope.model.attachments, function (att) {
+                                        if (att.code == type.code) {
+                                            result = true;
+                                        }
+                                    });
+                                    if (!result) {
                                         $scope.model.attachments.push(new Attachment(type.code, type.maxBytesPerFile, type.required))
                                     }
-                                });
-                            }
+                                }
+                            });
                         });
                     }
                 });

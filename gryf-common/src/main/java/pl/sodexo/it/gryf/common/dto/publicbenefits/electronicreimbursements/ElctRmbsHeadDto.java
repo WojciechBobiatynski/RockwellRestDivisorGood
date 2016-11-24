@@ -42,4 +42,8 @@ public class ElctRmbsHeadDto implements Serializable {
     @Getter
     @Setter
     private BigDecimal indSxoAmountDueTotal;
+
+    @Getter
+    @Setter
+    private List<ErmbsAttachmentsDto> attachments;
 }
