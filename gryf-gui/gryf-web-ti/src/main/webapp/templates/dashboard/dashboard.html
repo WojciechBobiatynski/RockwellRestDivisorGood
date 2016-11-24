@@ -44,22 +44,22 @@
             <div class="multiSection">
                 <div class="grid-33">
                     <strong class="label">PESEL Uczestnika</strong>
-                    <input type="text">
+                    <input type="text" ng-model="indUserSearchInfo.data.pesel" name="pesel">
                 </div>
                 <div class="grid-33">
                     <strong class="label">Imię Uczestnika</strong>
-                    <input type="text">
+                    <input type="text" ng-model="indUserSearchInfo.data.firstName" name="firstName">
                 </div>
                 <div class="grid-33">
                     <strong class="label">Nazwisko Uczestnika</strong>
-                    <input type="text">
+                    <input type="text" ng-model="indUserSearchInfo.data.lastName" name="lastName">
                 </div>
             </div>
 
             <div class="grid-100 text-right">
-                <button class="standardButton">Anuluj rezerwację</button>
-                <button class="standardButton">Zatwierdź PIN</button>
-                <button class="standardButton">Rozlicz szkolenie</button>
+                <button class="standardButton" ui-sref="cancelReservation">Anuluj rezerwację</button>
+                <button class="standardButton" ui-sref="confirmPin">Zatwierdź PIN</button>
+                <button class="standardButton" ui-sref="trainingToReimburse">Rozlicz szkolenie</button>
             </div>
         </div>
     </section>

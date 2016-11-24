@@ -1,8 +1,19 @@
-angular.module("gryf.ti").controller("TrainingToReimburseController", ["$scope", "TrainingInstanceSearchService","DictionaryService", "ReimbursementsServiceModify","$state",
-    function($scope, TrainingInstanceSearchService, DictionaryService, ReimbursementsServiceModify, $state) {
+angular.module("gryf.ti").controller("TrainingToReimburseController",
+    ["$scope", "TrainingInstanceSearchService", "DictionaryService", "ReimbursementsServiceModify","$state", "UserService",
+    function($scope, TrainingInstanceSearchService, DictionaryService, ReimbursementsServiceModify, $state, UserService) {
         $scope.trainingCriteria = TrainingInstanceSearchService.getNewCriteria();
         $scope.searchResultOptions = TrainingInstanceSearchService.getSearchResultOptions();
         $scope.trainingModel = TrainingInstanceSearchService.getTrainingModel();
+
+        $scope.setDefaultCriteria = function() {
+            $scope.indUserSearchInfo = UserService.getIndividualUserSearchInfo();
+
+            $scope.trainingCriteria.participantPesel = $scope.indUserSearchInfo.data.pesel;
+            $scope.trainingCriteria.participantName = $scope.indUserSearchInfo.data.firstName;
+            $scope.trainingCriteria.participantSurname = $scope.indUserSearchInfo.data.lastName;
+        };
+
+        $scope.setDefaultCriteria();
 
         $scope.datepicker = {
             isStartDateFromOpened: false,
