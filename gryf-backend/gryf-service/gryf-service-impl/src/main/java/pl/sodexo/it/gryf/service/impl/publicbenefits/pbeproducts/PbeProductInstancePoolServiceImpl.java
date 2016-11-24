@@ -390,15 +390,16 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
                     violations.add(new EntityConstraintViolation(
                             String.format(" Wskazana ilość bonów (%s) przekracza maksymalną ilość bonów (%s) " + "na rezerwację wybranego szkolenia.", toReservedNum, maxProductInstance)));
                 }
-
                 //REZERWUJEMY WIECEJ BONÓW NIŻ POTRZEBA:
                 //NA PRZYKLAD: koszt egaminu 150PLN, cena bonu 15PLN, potrzeba 15bonów, rezerwujemy 16
-                PbeProduct product = pools.get(0).getProduct();
-                BigDecimal productValue = product.getValue();
-                BigDecimal amountToReimbursment = productValue.multiply(new BigDecimal(toReservedNum));
-                if (amountToReimbursment.subtract(training.getPrice()).signum() > 0) {
-                    violations.add(new EntityConstraintViolation(
-                            String.format(" Wskazana ilość bonów (%s) przekracza maksymalną ilość bonów (%s) " + "na rezerwację wybranego szkolenia.", toReservedNum, maxProductInstance)));
+                else {
+                    PbeProduct product = pools.get(0).getProduct();
+                    BigDecimal productValue = product.getValue();
+                    Integer maxProductInstanceCalculate = training.getPrice().divide(productValue, 0, BigDecimal.ROUND_UP).intValue();
+                    if (maxProductInstanceCalculate < toReservedNum) {
+                        violations.add(new EntityConstraintViolation(
+                                String.format(" Wskazana ilość bonów (%s) przekracza maksymalną ilość bonów (%s) " + "na rezerwację wybranego szkolenia.", toReservedNum, maxProductInstanceCalculate)));
+                    }
                 }
             }
         }
