@@ -344,12 +344,12 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
         int assignedTrainingInstances = trainingInstanceRepository.countByTrainingAndIndividualNotCaceled(
                                                         training.getId(), contract.getIndividual().getId());
         if(assignedTrainingInstances > 0){
-            violations.add(new EntityConstraintViolation("Rezerwacja dla użytkownika została już dokanna na dane szkolenie."));
+            violations.add(new EntityConstraintViolation("Rezerwacja dla użytkownika została już dokannać na dane szkolenie."));
         }
 
         //CZY SZKOLENIE TRWA
         if(training.getStartDate().before(new Date())){
-            violations.add(new EntityConstraintViolation("Nie można zapisac użytkownika na trwające szkolenie."));
+            violations.add(new EntityConstraintViolation("Nie można zapisać użytkownika na trwające szkolenie."));
         }
 
 
