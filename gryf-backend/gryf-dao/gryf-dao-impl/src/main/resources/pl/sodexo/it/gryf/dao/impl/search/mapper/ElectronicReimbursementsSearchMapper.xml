@@ -4,14 +4,15 @@
 <mapper namespace="pl.sodexo.it.gryf.dao.api.search.mapper.ElectronicReimbursementsSearchMapper">
 
     <select id="findEcltRmbsListByCriteria" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsDto" parameterType="list">
-        SELECT
-            ermbs.ID rmbsNumber,
-            ti.NAME trainingName,
-            ind.PESEL pesel,
-            ind.FIRST_NAME participantName,
-            ind.LAST_NAME participantSurname,
-            ermbs.REIMBURSEMENT_DATE rmbsDate,
-            status.NAME rmbsStatus
+        SELECT * FROM
+        (SELECT
+            ermbs.ID                  rmbsNumber,
+            ti.NAME                   trainingName,
+            ind.PESEL                 pesel,
+            ind.FIRST_NAME            participantName,
+            ind.LAST_NAME             participantSurname,
+            ermbs.REIMBURSEMENT_DATE  rmbsDate,
+            status.NAME               rmbsStatus
         FROM
             APP_PBE.E_REIMBURSEMENTS ermbs
             LEFT JOIN APP_PBE.TI_TRAINING_INSTANCES ti_in ON ti_in.ID = ermbs.TI_TR_INST_ID
@@ -43,9 +44,6 @@
             <if test="criteria.rmbsStatus != null and criteria.rmbsStatus != ''">
                 AND status.NAME = #{criteria.rmbsStatus}
             </if>
-            <if test="criteria.limit != null">
-                AND ROWNUM &lt;= #{criteria.limit}
-            </if>
             <if test="criteria.gryfUser.userType == 'TRAINING_INSTITUTION'">
                 AND ti.TRAINING_INSTITUTION_ID = #{criteria.gryfUser.trainingInstitutionId}
             </if>
@@ -54,7 +52,12 @@
             <foreach item="columnName" index="index" collection="criteria.sortColumns" open="ORDER BY " separator="," close="">
                 ${columnName} ${criteria.sortTypes[index]}
             </foreach>
-        </if>
+        </if>)
+        <where>
+            <if test="criteria.limit != null">
+                ROWNUM &lt;= #{criteria.limit} + 1
+            </if>
+        </where>
     </select>
 
     <select id="findElctRmbsStatuses" resultType="pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto" parameterType="list">

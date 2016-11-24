@@ -10,6 +10,8 @@ angular.module("gryf.ti").controller("ReimbursementsController", ["$scope", "Rei
         };
 
         $scope.find = function () {
+            $scope.searchResultOptions = ReimbursementsService.getNewSearchResultOptions();
+            $scope.elctRmbsCriteria.limit = 10;
             ReimbursementsService.find();
         };
 
@@ -21,6 +23,25 @@ angular.module("gryf.ti").controller("ReimbursementsController", ["$scope", "Rei
             $scope.elctRmbsModel.rmbsStatuses = data;
         });
 
+        $scope.getSortedBy = function(sortColumnName) {
+            ReimbursementsService.findSortedBy(sortColumnName);
+        };
+
+        $scope.getSortingTypeClass = function(columnName) {
+            return ReimbursementsService.getSortingTypeClass($scope.elctRmbsCriteria, columnName);
+        };
+
+        $scope.loadMore = function() {
+            ReimbursementsService.loadMore();
+        };
+
+        $scope.clear = function() {
+            $scope.elctRmbsCriteria = ReimbursementsService.getNewCriteria();
+            $scope.searchResultOptions = ReimbursementsService.getNewSearchResultOptions();
+            $scope.elctRmbsModel = ReimbursementsService.getNewElctRmbsModel();
+        };
+
+        $scope.clear();
 }]);
 
 var test;

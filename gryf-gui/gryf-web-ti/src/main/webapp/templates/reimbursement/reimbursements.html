@@ -2,26 +2,26 @@
     <table>
         <thead>
         <tr class="grid-100 tableHeader-names">
-            <th class="sortable grid-15" ng-class="getSortingTypeClass('trainingId')">
-                <div ng-click="getSortedBy('trainingId')">Numer rozliczenia</div>
+            <th class="sortable grid-15" ng-class="getSortingTypeClass('rmbsNumber')">
+                <div ng-click="getSortedBy('rmbsNumber')">Numer rozliczenia</div>
             </th>
-            <th class="sortable grid-15" ng-class="getSortingTypeClass('price')">
-                <div ng-click="getSortedBy('price')">Nazwa szkolenia</div>
+            <th class="sortable grid-15" ng-class="getSortingTypeClass('trainingName')">
+                <div ng-click="getSortedBy('trainingName')">Nazwa szkolenia</div>
             </th>
-            <th class="sortable grid-15" ng-class="getSortingTypeClass('institutionName')">
-                <div ng-click="getSortedBy('institutionName')">PESEL Uczestnika</div>
+            <th class="sortable grid-15" ng-class="getSortingTypeClass('pesel')">
+                <div ng-click="getSortedBy('pesel')">PESEL Uczestnika</div>
             </th>
-            <th class="sortable grid-10" ng-class="getSortingTypeClass('name')">
-                <div ng-click="getSortedBy('name')">Imię uczestnika</div>
+            <th class="sortable grid-10" ng-class="getSortingTypeClass('participantName')">
+                <div ng-click="getSortedBy('participantName')">Imię uczestnika</div>
             </th>
-            <th class="sortable grid-15" ng-class="getSortingTypeClass('startDate')">
-                <div ng-click="getSortedBy('startDate')">Nazwisko uczestnika</div>
+            <th class="sortable grid-15" ng-class="getSortingTypeClass('participantSurname')">
+                <div ng-click="getSortedBy('participantSurname')">Nazwisko uczestnika</div>
             </th>
-            <th class="sortable grid-15" ng-class="getSortingTypeClass('endDate')">
-                <div ng-click="getSortedBy('endDate')">Data rozliczenia</div>
+            <th class="sortable grid-15" ng-class="getSortingTypeClass('rmbsDate')">
+                <div ng-click="getSortedBy('rmbsDate')">Data rozliczenia</div>
             </th>
-            <th class="sortable grid-15" ng-class="getSortingTypeClass('place')">
-                <div ng-click="getSortedBy('place')">Status rozliczenia</div>
+            <th class="sortable grid-15" ng-class="getSortingTypeClass('rmbsStatus')">
+                <div ng-click="getSortedBy('rmbsStatus')">Status rozliczenia</div>
             </th>
         </tr>
         <tr class="grid-100 tableHeader-options">
@@ -87,8 +87,5 @@
     </div>
     <div class="emptyResult" ng-show="elctRmbsModel.foundRmbs.length == 0">
         Brak wyników
-    </div>
-    <div class="msg msg-error" ng-show="searchResultOptions.badQuery">
-        <p>Błąd kryteriów zapytania - niepoprawny format</p>
     </div>
 </section>

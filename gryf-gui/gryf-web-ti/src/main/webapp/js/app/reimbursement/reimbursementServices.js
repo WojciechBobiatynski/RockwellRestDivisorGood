@@ -1,5 +1,7 @@
 angular.module("gryf.ti").factory("ReimbursementsService",
-    ['$http', 'GryfModals', 'GryfPopups', 'GryfExceptionHandler', 'GryfHelpers', function ($http, GryfModals, GryfPopups, GryfExceptionHandler, GryfHelpers) {
+    ['$http', 'GryfModals', 'GryfPopups', 'GryfExceptionHandler', 'GryfHelpers', "GryfTables",
+    function ($http, GryfModals, GryfPopups, GryfExceptionHandler, GryfHelpers, GryfTables) {
+
         var PATH_RMBS = "/rest/reimbursements";
         var FIND_RMBS_LIST_URL = contextPath + PATH_RMBS + "/list";
         var FIND_RMBS_STATUSES_LIST_URL = contextPath + PATH_RMBS + "/statuses";
@@ -10,16 +12,16 @@ angular.module("gryf.ti").factory("ReimbursementsService",
 
         function ElctRmbsCriteria() {
             this.rmbsNumber = null,
-                this.trainingName = null,
-                this.pesel = null,
-                this.participantName = null,
-                this.participantSurname = null,
-                this.rmbsDateFrom = null,
-                this.rmbsDateTo = null,
-                this.rmbsStatus = null,
-                this.sortTypes = [],
-                this.sortColumns = [],
-                this.limit = 10
+            this.trainingName = null,
+            this.pesel = null,
+            this.participantName = null,
+            this.participantSurname = null,
+            this.rmbsDateFrom = null,
+            this.rmbsDateTo = null,
+            this.rmbsStatus = null,
+            this.sortTypes = [],
+            this.sortColumns = [],
+            this.limit = 10
         };
 
         function ElctRmbsModel() {
@@ -57,6 +59,11 @@ angular.module("gryf.ti").factory("ReimbursementsService",
             return elctRmbsModel;
         };
 
+        var getNewElctRmbsModel = function () {
+            elctRmbsModel = new ElctRmbsModel();
+            return elctRmbsModel;
+        };
+
         var find = function (findUrl) {
             var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING);
 
@@ -84,13 +91,25 @@ angular.module("gryf.ti").factory("ReimbursementsService",
             return find();
         };
 
+        var findSortedBy = function(sortColumnName) {
+            GryfTables.sortByColumn(elctRmbsCriteria, sortColumnName);
+            return find();
+        };
+
+        var getSortingTypeClass = function(entity, columnName) {
+            return GryfTables.getSortingTypeClass(entity, columnName);
+        };
+
         return {
             getNewCriteria: getNewElctRmbsCriteria,
             getSearchResultOptions: getSearchResultOptions,
             getNewSearchResultOptions: getNewSearchResultOptions,
             getElctRmbsModel: getElctRmbsModel,
+            getNewElctRmbsModel: getNewElctRmbsModel,
             find: find,
-            loadMore: loadMore
+            loadMore: loadMore,
+            findSortedBy: findSortedBy,
+            getSortingTypeClass: getSortingTypeClass
         };
     }]);
 

@@ -4,7 +4,8 @@
 <mapper namespace="pl.sodexo.it.gryf.dao.api.search.mapper.TrainingInstanceSearchMapper">
 
     <select id="findTrainingToReimburseListByCriteria" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceDto" parameterType="list">
-        SELECT
+        SELECT * FROM
+        (SELECT
             ti_in.ID                      trainingInstanceId,
             ti.NAME                       trainingName,
             ind.PESEL                     participantPesel,
@@ -49,15 +50,17 @@
             <if test="criteria.gryfUser.userType == 'TRAINING_INSTITUTION'">
                 AND ti.TRAINING_INSTITUTION_ID = #{criteria.gryfUser.trainingInstitutionId}
             </if>
-            <if test="criteria.limit != null">
-                AND ROWNUM &lt;= #{criteria.limit} + 1
-            </if>
         </where>
         <if test="criteria.sortColumns != null">
             <foreach item="columnName" index="index" collection="criteria.sortColumns" open="ORDER BY " separator="," close="">
                 ${columnName} ${criteria.sortTypes[index]}
             </foreach>
-        </if>
+        </if>)
+        <where>
+            <if test="criteria.limit != null">
+                ROWNUM &lt;= #{criteria.limit} + 1
+            </if>
+        </where>
     </select>
 
     <select id="findTrainingInstanceDetails" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceDetailsDto">

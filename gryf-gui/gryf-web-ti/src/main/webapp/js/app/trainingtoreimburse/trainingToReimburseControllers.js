@@ -52,4 +52,10 @@ angular.module("gryf.ti").controller("TrainingToReimburseController", ["$scope",
             TrainingInstanceSearchService.loadMore();
         };
 
+        $scope.clear = function() {
+            $scope.trainingModel = TrainingInstanceSearchService.getNewTrainingModel();
+            $scope.searchResultOptions = TrainingInstanceSearchService.getNewSearchResultOptions();
+        };
+
+        $scope.clear();
 }]);
