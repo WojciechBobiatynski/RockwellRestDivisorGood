@@ -16,6 +16,8 @@ import java.util.*;
 @ToString(exclude = {"training", "individual"})
 @Table(name = "TI_TRAINING_INSTANCES", schema = "APP_PBE")
 @SequenceGenerator(name="ti_tra_ins_seq", schema = "eagle", sequenceName = "ti_tra_ins_seq", allocationSize = 1)
+@NamedQueries({@NamedQuery(name = "TrainingInstance.countByTrainingAndIndividualNotCaceled", query = "select count(t) from TrainingInstance t " +
+        "where t.training.id = :trainingId and t.individual.id = :individualId and t.status.id not in :excludedStatuses ")})
 public class TrainingInstance extends VersionableEntity {
 
     @Id

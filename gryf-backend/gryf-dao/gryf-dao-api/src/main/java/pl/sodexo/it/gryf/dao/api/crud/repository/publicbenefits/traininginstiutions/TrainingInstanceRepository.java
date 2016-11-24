@@ -8,4 +8,5 @@ import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstan
  */
 public interface TrainingInstanceRepository extends GenericRepository<TrainingInstance, Long> {
 
+    int countByTrainingAndIndividualNotCaceled(Long trainingId, Long individualId);
 }

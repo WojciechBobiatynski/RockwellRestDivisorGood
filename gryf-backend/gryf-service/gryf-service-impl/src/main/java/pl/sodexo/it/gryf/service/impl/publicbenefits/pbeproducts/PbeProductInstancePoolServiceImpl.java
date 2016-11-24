@@ -200,6 +200,9 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
         GrantProgram grantProgram = contract.getGrantProgram();
         int toReservedNum = reservationDto.getToReservedNum();
 
+        //VALIDACJA
+        validateTrainingReservation(contract, training);
+
         //UTWORZENIE INSTANCJI SZKOLENIA
         TrainingInstance trainingInstance = new TrainingInstance();
         trainingInstance.setTraining(training);
@@ -216,10 +219,7 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
                                                                             grantProgram.getId(), training.getEndDate());
 
         //VALIDACJA
-        List<EntityConstraintViolation> violations = Lists.newArrayList();
-        validatePoolReservation(violations, training, grantProgram, toReservedNum, pools);
-        validateTrainingReservation(violations, contract, training);
-        gryfValidator.validate(violations);
+        validatePoolReservation(training, grantProgram, toReservedNum, pools);
 
         //UTWORZENIE WYKORZYSTANIA
         createProductInstancePoolUses(trainingInstance, pools, toReservedNum);
@@ -330,16 +330,24 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
         }
     }
 
-    private void validateTrainingReservation(List<EntityConstraintViolation> violations, Contract contract, Training training) {
+    private void validateTrainingReservation(Contract contract, Training training) {
+        List<EntityConstraintViolation> violations = Lists.newArrayList();
+
         if(training.getCategory() != null){
             if(!contract.getCategories().contains(training.getCategory())){
                 violations.add(new EntityConstraintViolation("Umowa zawarta przez użytkownika nie finansuje szkolenia z danej kategorii."));
             }
         }
+        int assignedTrainingInstances = trainingInstanceRepository.countByTrainingAndIndividualNotCaceled(
+                                                training.getId(), contract.getIndividual().getId());
+        if(assignedTrainingInstances > 0){
+            violations.add(new EntityConstraintViolation("Rezerwacja dla użytkownika została już dokanna na dane szkolenie."));
+        }
+        gryfValidator.validate(violations);
     }
 
-     private void validatePoolReservation(List<EntityConstraintViolation> violations, Training training,
-                                        GrantProgram grantProgram, Integer toReservedNum, List<PbeProductInstancePool> pools){
+     private void validatePoolReservation(Training training, GrantProgram grantProgram, Integer toReservedNum, List<PbeProductInstancePool> pools){
+         List<EntityConstraintViolation> violations = Lists.newArrayList();
 
         //NIE ZNALEZLISMY ZADNYCH PULI BONOW DO ROZLICZENIA
         if (pools.isEmpty()) {
@@ -403,6 +411,7 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
                 }
             }
         }
+        gryfValidator.validate(violations);
     }
 
     private PrintNumberResultDto generatePrintNumber(PbeProduct product, Contract contract, PbeProductInstance instance){
