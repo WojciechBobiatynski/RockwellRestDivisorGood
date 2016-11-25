@@ -64,6 +64,7 @@ public class Contract extends VersionableEntity {
 
     @Column(name = "EXPIRY_DATE")
     @Temporal(TemporalType.TIMESTAMP)
+    @NotNull(message = "Data ważności umowy nie może być pusta")
     private Date expiryDate;
 
     @ManyToMany(fetch = FetchType.LAZY)
