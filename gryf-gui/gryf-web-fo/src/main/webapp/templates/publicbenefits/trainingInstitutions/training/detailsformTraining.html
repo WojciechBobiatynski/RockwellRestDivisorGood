@@ -45,14 +45,22 @@
                     <input type="text" ng-model="model.entity.institutionName" maxlength="500" disabled="disabled">
                     <gryf-validation-msg path="trainingInstitution"></gryf-validation-msg>
                 </div>
-                <div class="grid-40">
+                <div class="grid-20">
                     <strong class="label">Nazwa</strong>
                     <input type="text" ng-model="model.entity.name" maxlength="500">
                     <gryf-validation-msg path="name"></gryf-validation-msg>
                 </div>
                 <div class="grid-20">
+                    <strong class="label">Katalog</strong>
+                    <select ng-options="v.id as v.name for v in categoryCatalogs.list | orderBy:'ordinal'"
+                            ng-model="selectedCatalogId"
+                            ng-change="categoryCatalogChanged();">
+                        <option value="" ng-if="categoryCatalogs.list.length !== 1">-wybierz-</option>
+                    </select>
+                </div>
+                <div class="grid-20">
                     <strong class="label">Kategoria</strong>
-                    <select ng-options="v.id as v.name for v in categoryDictionary | orderBy:'ordinal'" ng-model="model.entity.category">
+                    <select ng-options="v.id as v.name for v in trainingCategory.list | orderBy:'ordinal'" ng-model="model.entity.category">
                         <option value="">-wybierz-</option>
                     </select>
                     <gryf-validation-msg path="category"></gryf-validation-msg>

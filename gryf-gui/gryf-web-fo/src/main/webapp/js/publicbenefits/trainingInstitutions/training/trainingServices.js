@@ -134,9 +134,12 @@ angular.module("gryf.training").factory("ModifyTrainingService",
         function($http, $routeParams, GryfModals, GryfExceptionHandler, ZipCodesModel, GryfPopups, BrowseTrainingInsService) {
 
         var TRAINING_URL = contextPath + "/rest/publicBenefits/training/";
-        var GET_TRAINING_CATEGORY_DICT = contextPath + "/rest/publicBenefits/training/getTrainingCategoriesDict";
+        var GET_TRAINING_CATEGORY_CATALOGS_URL = contextPath + "/rest/publicBenefits/training/categoryCatalogs";
+        var GET_TRAINING_CATEGORY_IN_CATALOG = contextPath + "/rest/publicBenefits/training/getTrainingCategoriesInCatalog";
 
         var trainingObject = new TrainingObject();
+        var categoryCatalogs = new CategoryCatalog();
+        var trainingCategory = new TrainingCategory();
         var violations = {};
 
         var getNewModel = function() {
@@ -153,6 +156,16 @@ angular.module("gryf.training").factory("ModifyTrainingService",
             return violations;
         };
 
+        var getNewCategoryCatalogs = function () {
+            categoryCatalogs = new CategoryCatalog();
+            return categoryCatalogs;
+        }
+
+        var getNewTrainingCategory = function () {
+            trainingCategory = new TrainingCategory();
+            return trainingCategory;
+        }
+
         function TrainingObject() {
             this.entity = {
                 trainingInstitution: null,
@@ -166,6 +179,14 @@ angular.module("gryf.training").factory("ModifyTrainingService",
                 hourPrice: null,
                 category: null
             }
+        }
+
+        function CategoryCatalog() {
+            this.list = [];
+        }
+
+        function TrainingCategory() {
+            this.list = [];
         }
 
         var save = function(additionalParam) {
@@ -223,9 +244,23 @@ angular.module("gryf.training").factory("ModifyTrainingService",
             }
         };
 
-        var getTrainingCategoriesDict = function() {
-            return $http.get(GET_TRAINING_CATEGORY_DICT).then(function(response) {
-                return response.data;
+        var loadTrainingCategoryCatalogs = function() {
+            var promise = $http.get(GET_TRAINING_CATEGORY_CATALOGS_URL);
+            promise.then(function(response) {
+                categoryCatalogs.list = response.data;
+                if(categoryCatalogs.list.length == 1) {
+                    var catalogId = categoryCatalogs.list[0].id;
+                    loadTrainingCategoriesByCatalogId(catalogId);
+                }
+            });
+            return promise;
+        };
+
+        var loadTrainingCategoriesByCatalogId = function(catalogId) {
+            var promise;
+            promise =  $http.post(GET_TRAINING_CATEGORY_IN_CATALOG + '/'+ catalogId);
+            promise.then(function(response) {
+                trainingCategory.list = response.data;
             });
         };
 
@@ -250,7 +285,10 @@ angular.module("gryf.training").factory("ModifyTrainingService",
         return {
             findById: findById,
             getNewModel: getNewModel,
-            getTrainingCategoriesDict: getTrainingCategoriesDict,
+            getNewTrainingCategory: getNewTrainingCategory,
+            getNewCategoryCatalogs:getNewCategoryCatalogs,
+            loadTrainingCategoryCatalogs: loadTrainingCategoryCatalogs,
+            loadTrainingCategoriesByCatalogId: loadTrainingCategoriesByCatalogId,
             getViolation: getViolations,
             getNewViolations: getNewViolations,
             save: save,

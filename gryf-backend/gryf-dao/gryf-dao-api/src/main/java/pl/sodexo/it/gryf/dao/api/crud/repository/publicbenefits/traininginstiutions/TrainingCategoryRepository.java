@@ -10,4 +10,5 @@ import java.util.List;
  */
 public interface TrainingCategoryRepository extends GenericRepository<TrainingCategory, String> {
     List<TrainingCategory> findByGrantProgram(Long grantProgramId);
+    List<TrainingCategory> findByCatalogId(String catalogId);
 }

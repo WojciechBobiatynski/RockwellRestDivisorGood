@@ -65,9 +65,21 @@ public class TrainingRestController {
         return trainingService.findTrainingCategoriesByGrantProgram(grantProgramId);
     }
 
+    @RequestMapping(value = "/getTrainingCategoriesInCatalog/{catalogId}", method = RequestMethod.POST)
+    public List<SimpleDictionaryDto> trainingCategoriesByCayalogId(@PathVariable("catalogId") String catalogId) {
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_TI_TRAININGS);
+        return trainingService.findTrainingCategoriesInCatalog(catalogId);
+    }
+
     @RequestMapping(value = "/getTrainingCategoriesDict", method = RequestMethod.GET)
     public List<SimpleDictionaryDto> trainingCategories() {
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_TI_TRAININGS);
         return trainingService.findTrainingCategories();
+    }
+
+    @RequestMapping(value = "/categoryCatalogs", method = RequestMethod.GET)
+    public List<SimpleDictionaryDto> findAllTrainingCategoryCatalogs() {
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_TI_TRAININGS);
+        return trainingService.findAllTrainingCategoryCatalogs();
     }
 }

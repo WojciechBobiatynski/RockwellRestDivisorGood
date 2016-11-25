@@ -19,7 +19,9 @@ import java.util.Objects;
 @ToString
 @NamedQueries({@NamedQuery(name = "TrainingCategory.findByGrantProgram", query = "select distinct tc from TrainingCategoryCatalogGrantProgram tccgp " +
         "join tccgp.catalog c join c.trainingCategories tc " +
-        "where tccgp.grantProgram.id = :grantProgramId ")})
+        "where tccgp.grantProgram.id = :grantProgramId "),
+        @NamedQuery(name = "TrainingCategory.findByCatalogId", query = "select tcc.trainingCategories from TrainingCategoryCatalog tcc " +
+        "where tcc.id = :catalogId ")})
 public class TrainingCategory extends GryfEntity implements DictionaryEntity {
 
     @Id

@@ -7,13 +7,16 @@ import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchResultDTO;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingCategoryCatalogRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingCategoryRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingRepository;
 import pl.sodexo.it.gryf.dao.api.search.dao.TrainingSearchDao;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.Training;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingCategory;
+import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingCategoryCatalog;
 import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.TrainingService;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.traininginstiutions.TrainingDtoMapper;
+import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.traininginstiutions.TraningCategoryCatalogEntityMapper;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.traininginstiutions.TraningCategoryEntityMapper;
 import pl.sodexo.it.gryf.service.validation.publicbenefits.traininginstiutions.TrainingValidator;
 
@@ -42,7 +45,13 @@ public class TrainingServiceImpl implements TrainingService {
     private TrainingCategoryRepository trainingCategoryRepository;
 
     @Autowired
+    private TrainingCategoryCatalogRepository trainingCategoryCatalogRepository;
+
+    @Autowired
     private TraningCategoryEntityMapper traningCategoryEntityMapper;
+
+    @Autowired
+    private TraningCategoryCatalogEntityMapper traningCategoryCatalogEntityMapper;
 
     @Override
     public TrainingDTO findTraining(Long id) {
@@ -89,4 +98,15 @@ public class TrainingServiceImpl implements TrainingService {
         return traningCategoryEntityMapper.convert(trainingCategories);
     }
 
+    @Override
+    public List<SimpleDictionaryDto> findTrainingCategoriesInCatalog(String catalogId) {
+        List<TrainingCategory> trainingCategories = trainingCategoryRepository.findByCatalogId(catalogId);
+        return traningCategoryEntityMapper.convert(trainingCategories);
+    }
+
+    @Override
+    public List<SimpleDictionaryDto> findAllTrainingCategoryCatalogs() {
+        List<TrainingCategoryCatalog> trainingCategoryCatalogs = trainingCategoryCatalogRepository.findAll();
+        return traningCategoryCatalogEntityMapper.convert(trainingCategoryCatalogs);
+    }
 }

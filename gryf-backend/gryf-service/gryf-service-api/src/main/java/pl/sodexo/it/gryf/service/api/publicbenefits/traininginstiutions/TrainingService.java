@@ -37,4 +37,17 @@ public interface TrainingService {
      * @return
      */
     List<SimpleDictionaryDto> findTrainingCategoriesByGrantProgram(Long grantProgramId);
+
+    /**
+     * Zwraca listę ze wszystkimi katalogami szkoleń
+     * @return
+     */
+    List<SimpleDictionaryDto> findAllTrainingCategoryCatalogs();
+
+    /**
+     * Zwraca listę z kategoriami szkoleń z danego katalogu
+     * @param catalogId
+     * @return
+     */
+    List<SimpleDictionaryDto> findTrainingCategoriesInCatalog(String catalogId);
 }

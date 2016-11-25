@@ -62,6 +62,9 @@ angular.module("gryf.training").controller("detailsform.TrainingController",
 
          $scope.model = ModifyTrainingService.getNewModel();
          $scope.violations = ModifyTrainingService.getNewViolations();
+         $scope.trainingCategory = ModifyTrainingService.getNewTrainingCategory();
+         $scope.categoryCatalogs = ModifyTrainingService.getNewCategoryCatalogs();
+         $scope.selectedCatalogId = null;
 
          var NEW_TRAINING_URL = contextPath + "/publicBenefits/training/#/modify";
 
@@ -108,9 +111,24 @@ angular.module("gryf.training").controller("detailsform.TrainingController",
              return gryfSessionStorage.getUrlFromSessionStorage();
          };
 
-         ModifyTrainingService.getTrainingCategoriesDict().then(function(data) {
-             $scope.categoryDictionary = data;
-         });
+         $scope.loadTrainingCategoryCatalogs = function () {
+             ModifyTrainingService.loadTrainingCategoryCatalogs();
+         }
+
+         $scope.loadTrainingCategoryCatalogs();
+
+         $scope.categoryCatalogChanged = function () {
+             var catalogId = $scope.selectedCatalogId;
+             if(catalogId) {
+                 $scope.loadTrainingCategoriesByCatalogId(catalogId);
+             }else {
+                 $scope.trainingCategory.list = [];
+             }
+         }
+
+         $scope.loadTrainingCategoriesByCatalogId = function (catalogId) {
+             ModifyTrainingService.loadTrainingCategoriesByCatalogId(catalogId);
+         };
 
          $scope.datepicker = {
              isTrainingStartDateOpened: false,

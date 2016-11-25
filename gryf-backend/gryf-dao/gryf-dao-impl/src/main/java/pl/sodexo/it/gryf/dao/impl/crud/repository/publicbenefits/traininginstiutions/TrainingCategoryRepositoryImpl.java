@@ -20,4 +20,11 @@ public class TrainingCategoryRepositoryImpl extends GenericRepositoryImpl<Traini
         query.setParameter("grantProgramId", grantProgramId);
         return query.getResultList();
     }
+
+    @Override
+    public List<TrainingCategory> findByCatalogId(String catalogId) {
+        TypedQuery<TrainingCategory> query = entityManager.createNamedQuery("TrainingCategory.findByCatalogId", TrainingCategory.class);
+        query.setParameter("catalogId", catalogId);
+        return query.getResultList();
+    }
 }
