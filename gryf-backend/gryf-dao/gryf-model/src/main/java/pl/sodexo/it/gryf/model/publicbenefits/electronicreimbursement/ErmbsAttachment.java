@@ -3,6 +3,7 @@ package pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import pl.sodexo.it.gryf.model.api.VersionableEntity;
 import pl.sodexo.it.gryf.model.attachments.AttachmentType;
 
 import javax.persistence.*;
@@ -17,7 +18,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "E_RMBS_ATTACHMENTS", schema = "APP_PBE")
 @SequenceGenerator(name="ermbs_attach_seq", schema = "eagle", sequenceName = "ermbs_attach_seq", allocationSize = 1)
-public class ErmbsAttachment {
+public class ErmbsAttachment extends VersionableEntity{
 
     @Id
     @NotNull

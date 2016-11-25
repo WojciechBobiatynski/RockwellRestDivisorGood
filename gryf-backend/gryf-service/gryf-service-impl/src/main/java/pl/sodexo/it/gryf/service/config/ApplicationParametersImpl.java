@@ -28,6 +28,7 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     private String pathOrders = "orders\\dev\\";
     private String pathReportTemplates = "report_templates/";
     private String pathReimbursements = "reimbursements\\dev\\";
+    private String pathEreimbursements = "ereimbursements\\dev\\";
     private int attachmentMaxSize = 3145728;
     private String gryfEnterpriseCodePrefix = "6";
     private int gryfEnterpriseCodeZeroCount = 7;
@@ -223,6 +224,10 @@ public class ApplicationParametersImpl implements ApplicationParameters {
         if (dbTiUserContext != null) {
             tiUserContext = dbTiUserContext;
         }
+        String dbPathEreimbursements = (String) findParameter("GRYF_PATH_EREIMBURSEMENTS");
+        if (dbPathEreimbursements != null) {
+            pathEreimbursements = dbPathEreimbursements;
+        }
     }
 
     //PUBLIC METHODS
@@ -275,6 +280,11 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     @Override
     public String getPathReimbursements() {
         return pathReimbursements;
+    }
+
+    @Override
+    public String getPathEreimbursements() {
+        return pathEreimbursements;
     }
 
     @Override

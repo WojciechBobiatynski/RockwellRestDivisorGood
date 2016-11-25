@@ -9,18 +9,27 @@ import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CalculationChargesParamsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsAttachmentsDto;
+import pl.sodexo.it.gryf.common.enums.FileType;
 import pl.sodexo.it.gryf.common.exception.NoCalculationParamsException;
 import pl.sodexo.it.gryf.common.utils.GryfConstants;
+import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementAttachmentRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementStatusRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstanceRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstanceStatusRepository;
 import pl.sodexo.it.gryf.dao.api.search.dao.ElectronicReimbursementsDao;
 import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.Ereimbursement;
+import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.ErmbsAttachment;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstance;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.ElectronicReimbursementsService;
+import pl.sodexo.it.gryf.service.local.api.FileService;
+import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.electronicreimbursements.ErmbsAttachmentDtoMapper;
+import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.electronicreimbursements.ErmbsAttachmentEntityMapper;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -47,6 +56,18 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     @Autowired
     private TrainingInstanceStatusRepository trainingInstanceStatusRepository;
 
+    @Autowired
+    private EreimbursementAttachmentRepository ereimbursementAttachmentRepository;
+
+    @Autowired
+    private ErmbsAttachmentDtoMapper ermbsAttachmentDtoMapper;
+
+    @Autowired
+    private ErmbsAttachmentEntityMapper ermbsAttachmentEntityMapper;
+
+    @Autowired
+    private FileService fileService;
+
     @Override
     public List<ElctRmbsDto> findEcltRmbsListByCriteria(ElctRmbsCriteria criteria) {
         return electronicReimbursementsDao.findEcltRmbsListByCriteria(criteria);
@@ -71,6 +92,22 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         return electronicReimbursementsDao.findEcltRmbsById(ermbsId);
     }
 
+    @Override
+    public List<ErmbsAttachmentsDto> saveErmbsAttachments(List<ErmbsAttachmentsDto> ermbsAttachmentsDtos) {
+        List<ErmbsAttachment> ermbsAttachments = new ArrayList<>();
+        for(ErmbsAttachmentsDto ermbsAttachment : ermbsAttachmentsDtos){
+            ErmbsAttachment entity = ereimbursementAttachmentRepository.save(ermbsAttachmentDtoMapper.convert(ermbsAttachment));
+            String fileName = String.format("%s_%s_%s_%s", ermbsAttachment.getErmbsId(), ermbsAttachment.getCode(), entity.getId(), ermbsAttachment.getFileDTO().getOriginalFilename());
+            String newFileName = GryfStringUtils.convertFileName(fileName);
+            String filePath = fileService.writeFile(FileType.E_REIMBURSEMENTS, newFileName, ermbsAttachment.getFileDTO(), null);
+            ermbsAttachments.add(entity);
+            entity.setOrginalFileName(ermbsAttachment.getFileDTO().getOriginalFilename());
+            entity.setFileLocation(filePath);
+            ereimbursementAttachmentRepository.save(entity);
+        }
+        return ermbsAttachmentEntityMapper.convert(ermbsAttachments);
+    }
+
     private Ereimbursement createNewEreimbursement() {
         Ereimbursement ereimbursement = new Ereimbursement();
         ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(GryfConstants.NEW_ERMBS_STATUS_CODE));
@@ -84,7 +121,6 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         }
         calculateSxoAmount(ereimbursement, params);
         calculateIndAmount(ereimbursement, params);
-
     }
 
     private void calculateSxoAmount(Ereimbursement ereimbursement, CalculationChargesParamsDto params) {

@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import pl.sodexo.it.gryf.common.dto.api.VersionableDto;
+import pl.sodexo.it.gryf.common.dto.other.FileDTO;
 
 import java.io.Serializable;
 
@@ -54,4 +55,8 @@ public class ErmbsAttachmentsDto extends VersionableDto implements Serializable 
     @Getter
     @Setter
     private boolean required;
+
+    @Getter
+    @Setter
+    private FileDTO fileDTO;
 }

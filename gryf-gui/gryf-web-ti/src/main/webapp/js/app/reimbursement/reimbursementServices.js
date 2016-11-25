@@ -162,16 +162,21 @@ angular.module("gryf.ti").factory("ReimbursementsServiceModify",
                     return;
                 }
                 var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING, {label: "Zapisuję dane"});
-                var mixinString = angular.toJson(rmbsModel.model.ermbsId);
 
-                var attachments = [];
+
+                var attachments = {};
                 angular.forEach(rmbsModel.model.attachments, function(attachment){
-                    attachments.push(attachment.file);
+                    var prefix = '';
+                    if(rmbsModel.model.attachments.id !== undefined){
+                        prefix += rmbsModel.model.attachments.id;
+                    }
+                    prefix += '#';
+                    attachments[prefix + attachment.code] = attachment.file;
                 });
 
                 Upload.upload({
                     url: SAVE_RMBS,
-                    data: {file: attachments, erbmsId: rmbsModel.model.ermbsId}
+                    data: {file: attachments, ermbsId: rmbsModel.model.ermbsId},
                 }).success(function(id) {
                     GryfPopups.setPopup("success", "Sukces", "Rozliczenie poprawnie zapisane");
                 }).error(function(response) {

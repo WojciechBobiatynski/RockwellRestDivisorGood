@@ -4,6 +4,7 @@ import pl.sodexo.it.gryf.common.criteria.electronicreimbursements.ElctRmbsCriter
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsAttachmentsDto;
 
 import java.util.List;
 
@@ -40,5 +41,12 @@ public interface ElectronicReimbursementsService {
      * @return Dto rozliczenia
      */
     ElctRmbsHeadDto findEcltRmbsById(Long ermbsId);
+
+    /**
+     * Matoda zapisująca załączniki dla rozliczenia
+     * @param ermbsAttachmentsDtos - lista dtosów plików do zapisania
+     * @return lista dto zapisanych załączników rozliczenia
+     */
+    List<ErmbsAttachmentsDto> saveErmbsAttachments(List<ErmbsAttachmentsDto> ermbsAttachmentsDtos);
 
 }

@@ -8,18 +8,17 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import pl.sodexo.it.gryf.common.criteria.electronicreimbursements.ElctRmbsCriteria;
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
-import pl.sodexo.it.gryf.common.dto.other.FileDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsAttachmentsDto;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.ElectronicReimbursementsService;
 import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
 import pl.sodexo.it.gryf.web.common.util.WebUtils;
 import pl.sodexo.it.gryf.web.ti.util.UrlConstants;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.IntStream;
+import java.util.Map;
 
 import static pl.sodexo.it.gryf.web.ti.util.UrlConstants.*;
 
@@ -69,14 +68,11 @@ public class ReimbursementRestController {
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public Long saveReimbursement(MultipartHttpServletRequest request) throws IOException {
-//        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_REIMB_MOD);
-
-        Collection<List<MultipartFile>> values = request.getMultiFileMap().values();
-        MultipartFile[] files = new MultipartFile[values.size()];
-        IntStream.range(0, values.size()).forEach(index -> files[index] = values.stream().map(multipartFiles -> multipartFiles.get(0)).findFirst().get());
-        List<FileDTO> fileDtoList = WebUtils.createFileDtoList(files);
-        return 1L;
+    public List<ErmbsAttachmentsDto> saveReimbursement(MultipartHttpServletRequest request) throws IOException {
+        Long ermbsId = Long.parseLong(request.getParameter("ermbsId"));
+        Map<String, MultipartFile> fileMap = request.getFileMap();
+        List<ErmbsAttachmentsDto> files = WebUtils.createErmbsAttachmentsWithFiles(fileMap, ermbsId);
+        return electronicReimbursementsService.saveErmbsAttachments(files);
     }
 
 
