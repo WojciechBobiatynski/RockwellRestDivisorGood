@@ -83,10 +83,11 @@
 
     <select id="findTraining" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingDTO">
         SELECT t.ID as trainingId, t.TRAINING_INSTITUTION_ID as trainingInstitution, i.NAME as institutionName, t.NAME, t.PRICE, t.START_DATE as startDate, t.END_DATE as endDate, t.PLACE,
-        t.HOURS_NUMBER as hoursNumber, t.HOUR_PRICE as hourPrice, t.TRAINING_CATEGORY_ID as category, t.VERSION, t.CREATED_USER as createdUser, t.CREATED_TIMESTAMP as createdTimestamp,
-        t.MODIFIED_USER as modifiedUser, t.MODIFIED_TIMESTAMP as modifiedTimestamp
+        t.HOURS_NUMBER as hoursNumber, t.HOUR_PRICE as hourPrice, t.TRAINING_CATEGORY_ID as category, t.VERSION, t.CREATED_USER as createdUser, c.CATALOG_ID as trainingCategoryCatalogId,
+        t.CREATED_TIMESTAMP as createdTimestamp,t.MODIFIED_USER as modifiedUser, t.MODIFIED_TIMESTAMP as modifiedTimestamp
         FROM APP_PBE.TI_TRAININGS t
         JOIN APP_PBE.TRAINING_INSTITUTIONS i on i.ID = t.TRAINING_INSTITUTION_ID
+        JOIN APP_PBE.TI_TRAINING_CATEGORIES c on c.id = t.TRAINING_CATEGORY_ID
         WHERE t.ID = #{trainingId}
     </select>
 

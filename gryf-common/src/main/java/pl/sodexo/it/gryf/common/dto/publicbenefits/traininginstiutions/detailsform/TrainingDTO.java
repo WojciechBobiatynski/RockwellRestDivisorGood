@@ -55,4 +55,8 @@ public class TrainingDTO extends VersionableDto {
     @Getter
     @Setter
     private String category;
+
+    @Getter
+    @Setter
+    private String trainingCategoryCatalogId;
 }

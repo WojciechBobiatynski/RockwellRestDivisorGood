@@ -64,7 +64,6 @@ angular.module("gryf.training").controller("detailsform.TrainingController",
          $scope.violations = ModifyTrainingService.getNewViolations();
          $scope.trainingCategory = ModifyTrainingService.getNewTrainingCategory();
          $scope.categoryCatalogs = ModifyTrainingService.getNewCategoryCatalogs();
-         $scope.selectedCatalogId = null;
 
          var NEW_TRAINING_URL = contextPath + "/publicBenefits/training/#/modify";
 
@@ -118,7 +117,7 @@ angular.module("gryf.training").controller("detailsform.TrainingController",
          $scope.loadTrainingCategoryCatalogs();
 
          $scope.categoryCatalogChanged = function () {
-             var catalogId = $scope.selectedCatalogId;
+             var catalogId = $scope.model.entity.trainingCategoryCatalogId;
              if(catalogId) {
                  $scope.loadTrainingCategoriesByCatalogId(catalogId);
              }else {

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingDTO;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.Training;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingCategory;
+import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingCategoryCatalog;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstitution;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.VersionableDtoMapper;
 
@@ -41,6 +42,10 @@ public class TrainingDtoMapper extends VersionableDtoMapper<TrainingDTO, Trainin
         if(dto.getCategory() != null) {
             entity.setCategory(new TrainingCategory());
             entity.getCategory().setId(dto.getCategory());
+            if (dto.getTrainingCategoryCatalogId() != null) {
+                entity.getCategory().setTrainingCategoryCatalog(new TrainingCategoryCatalog());
+                entity.getCategory().getTrainingCategoryCatalog().setId(dto.getTrainingCategoryCatalogId());
+            }
         }
     }
 }

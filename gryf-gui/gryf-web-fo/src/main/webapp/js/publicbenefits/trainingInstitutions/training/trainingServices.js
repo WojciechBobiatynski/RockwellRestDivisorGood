@@ -177,7 +177,8 @@ angular.module("gryf.training").factory("ModifyTrainingService",
                 place: null,
                 hoursNumber: null,
                 hourPrice: null,
-                category: null
+                category: null,
+                trainingCategoryCatalogId: null
             }
         }
 
@@ -236,6 +237,9 @@ angular.module("gryf.training").factory("ModifyTrainingService",
                 var promise = $http.get(TRAINING_URL + trainingId);
                 promise.then(function(response) {
                     trainingObject.entity = response.data;
+                    if(trainingObject.entity.trainingCategoryCatalogId) {
+                        loadTrainingCategoriesByCatalogId(trainingObject.entity.trainingCategoryCatalogId)
+                    }
                 });
                 promise.finally(function() {
                     GryfModals.closeModal(modalInstance);

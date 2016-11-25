@@ -53,7 +53,7 @@
                 <div class="grid-20">
                     <strong class="label">Katalog</strong>
                     <select ng-options="v.id as v.name for v in categoryCatalogs.list | orderBy:'ordinal'"
-                            ng-model="selectedCatalogId"
+                            ng-model="model.entity.trainingCategoryCatalogId"
                             ng-change="categoryCatalogChanged();">
                         <option value="" ng-if="categoryCatalogs.list.length !== 1">-wybierz-</option>
                     </select>
