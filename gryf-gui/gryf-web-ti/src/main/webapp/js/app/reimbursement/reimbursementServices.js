@@ -148,7 +148,7 @@ angular.module("gryf.ti").factory("ReimbursementsServiceModify",
         var createReimbursement = function(trainingInstanceId){
             var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING);
 
-            var promise = $http.post(CREATE_RMBS_BY_ID, trainingInstanceId);
+            var promise = $http.get(CREATE_RMBS_BY_ID + trainingInstanceId);
             promise.finally(function () {
                 GryfModals.closeModal(modalInstance);
             });

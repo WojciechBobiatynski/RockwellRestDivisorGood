@@ -25,9 +25,9 @@ angular.module("gryf.ti").directive("attachments", ['AttachmentService',
                     this.required = required
                 };
 
-                $scope.$watch('model.grantProgramId', function (newData) {
+                $scope.$watch('model.trainingInstance.grantProgramId', function (newData) {
                     if (newData) {
-                        AttachmentService.loadAttachmentsTypes($scope.model.grantProgramId).then(function (response) {
+                        AttachmentService.loadAttachmentsTypes($scope.model.trainingInstance.grantProgramId).then(function (response) {
                             $scope.model.types = response.data;
                             if ($scope.model.attachments === undefined) {
                                 $scope.model.attachments = [];

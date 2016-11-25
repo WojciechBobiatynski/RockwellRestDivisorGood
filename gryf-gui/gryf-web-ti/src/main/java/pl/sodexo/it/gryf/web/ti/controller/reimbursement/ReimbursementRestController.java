@@ -53,11 +53,11 @@ public class ReimbursementRestController {
         return electronicReimbursementsService.findElctRmbsStatuses();
     }
 
-    @RequestMapping(value = PATH_REIMBURSEMENTS_CREATE, method = RequestMethod.POST)
+    @RequestMapping(value = PATH_REIMBURSEMENTS_CREATE + "/{trainingInstanceId}", method = RequestMethod.GET)
     @ResponseBody
-    public Long createRmbsForTrainingInstance(@RequestBody Long trainingInstanceId){
+    public ElctRmbsHeadDto createRmbsForTrainingInstance(@PathVariable Long trainingInstanceId){
         //        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS);
-        return electronicReimbursementsService.createRmbsByTrainingInstanceId(trainingInstanceId);
+        return electronicReimbursementsService.createRmbsDtoByTrainingInstanceId(trainingInstanceId);
     }
 
     @RequestMapping(value = PATH_REIMBURSEMENTS_MODIFY + "/{ermbsId}", method = RequestMethod.GET)
