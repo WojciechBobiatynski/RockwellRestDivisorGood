@@ -22,4 +22,9 @@ public interface OrderActionService {
      * @param acceptedViolations błędy zaakceptowane przez użytkonika
      */
     void executeAction(Long id, Long actionId, Integer version, List<IncomingOrderElementDTO> incomingOrderElements, List<FileDTO> files, List<String> acceptedViolations);
+
+    void executeMainAction(Long id, Long actionId, Integer version, List<IncomingOrderElementDTO> incomingOrderElements, List<FileDTO> files, List<String> acceptedViolations);
+
+    void executeAutomaticActions(Long orderId);
+
 }

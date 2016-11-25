@@ -1,8 +1,10 @@
 package pl.sodexo.it.gryf.service.impl.publicbenefits.orders;
 
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.dto.other.FileDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.action.IncomingOrderElementDTO;
@@ -22,6 +24,7 @@ import pl.sodexo.it.gryf.service.utils.BeanUtils;
 import pl.sodexo.it.gryf.service.validation.VersionableValidator;
 import pl.sodexo.it.gryf.service.validation.publicbenefits.orders.OrderActionValidator;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 
 /**
@@ -30,6 +33,10 @@ import java.util.List;
 @Service
 @Transactional
 public class OrderActionServiceImpl implements OrderActionService {
+
+    //FIELDS
+
+    private OrderActionService orderActionService;
 
     @Autowired
     private ApplicationContext context;
@@ -58,11 +65,34 @@ public class OrderActionServiceImpl implements OrderActionService {
     @Autowired
     private VersionableValidator versionableValidator;
 
+    //LIFECYCLE METHODS
+
+    @PostConstruct
+    private void init() {
+        orderActionService = context.getBean(OrderActionService.class);
+    }
+
+    //PUBLIC METHODS
+
     @Override
     public void executeAction(Long id, Long actionId, Integer version, List<IncomingOrderElementDTO> incomingOrderElements, List<FileDTO> files, List<String> acceptedViolations) {
+        orderActionService.executeMainAction(id, actionId, version, incomingOrderElements, files, acceptedViolations);
 
+        while(true){
+            Integer automaticTransNum = orderFlowStatusTransitionRepository.countAutomaticTransitionByOrder(id);
+            if(automaticTransNum == 0){
+                break;
+            }if (automaticTransNum > 1){
+                throw new RuntimeException(String.format("Dla zamówienia [%s] istnieje wiecej niż jedno przejście automatyczne", id));
+            }
+            orderActionService.executeAutomaticActions(id);
+        }
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void executeMainAction(Long id, Long actionId, Integer version, List<IncomingOrderElementDTO> incomingOrderElements, List<FileDTO> files, List<String> acceptedViolations) {
         try {
-
             //ORDER STUFF
             Order order = orderRepository.get(id);
             OrderFlow orderFlow = order.getOrderFlow();
@@ -111,6 +141,41 @@ public class OrderActionServiceImpl implements OrderActionService {
             fileService.deleteSavedFiles(files);
             throw e;
         }
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void executeAutomaticActions(Long orderId){
+        Order order = orderRepository.get(orderId);
+        OrderFlowStatus status = order.getStatus();
+        for(OrderFlowStatusTransition st : status.getOrderFlowStatusTransitions()){
+            if(st.getAutomatic()){
+                executeOneAutomaticAction(order, st);
+            }
+        }
+    }
+
+    //PRIVATE METHODS
+
+    private void executeOneAutomaticAction(Order order, OrderFlowStatusTransition statusTransition){
+        //EXECUTE PRE SQL
+        executeSql(order, statusTransition, OrderFlowStatusTransSqlType.PRE);
+
+        //EXECUTE ACTION
+        if (!GryfStringUtils.isEmpty(statusTransition.getActionBeanName())) {
+            ActionService actionService = (ActionService) BeanUtils.findBean(context, statusTransition.getActionBeanName());
+            actionService.execute(order, Lists.newArrayList());
+        }
+
+        //EXECUTE POST SQL
+        executeSql(order, statusTransition, OrderFlowStatusTransSqlType.POST);
+
+        //SET STATUS
+        order.setStatus(statusTransition.getNextStatus());
+        orderFlowElementService.addElementsByOrderStatus(order);
+
+        //FILL REQUIRED DATE FOR LAZY FIELDS
+        orderDateService.fillRequiredDateForLazyFields(order);
     }
 
     /**

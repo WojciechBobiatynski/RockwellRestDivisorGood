@@ -14,9 +14,9 @@ import java.util.List;
  * Created by Isolution on 2016-10-27.
  */
 @Service
-public class CareerDirectionRealizeOrderActionService extends ActionBaseService {
+public class CareerDirectionCreateProducyInstancePoolActionService extends ActionBaseService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CareerDirectionRealizeOrderActionService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CareerDirectionCreateProducyInstancePoolActionService.class);
 
     @Autowired
     private PbeProductInstancePoolService productInstancePoolService;
@@ -24,7 +24,7 @@ public class CareerDirectionRealizeOrderActionService extends ActionBaseService 
     //PUBLIC METHODS
 
     public void execute(Order order, List<String> acceptedPathViolations) {
-        LOGGER.debug("Realizacja zamówienia (utworzenie puli bonów, przypisanie instancji) dla zamówienia [{}]", order.getId());
+        LOGGER.debug("Uutworzenie puli bonów dla zamówienia [{}]", order.getId());
         productInstancePoolService.createProductInstancePool(order.getId());
     }
 

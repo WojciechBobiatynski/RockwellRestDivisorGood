@@ -13,4 +13,6 @@ import java.util.List;
 public interface OrderFlowStatusTransitionRepository extends GenericRepository<OrderFlowStatusTransition, OrderFlowStatusTransitionPK> {
 
     List<OrderFlowTransitionDTOBuilder> findDtoByOrder(Long id);
+
+    Integer countAutomaticTransitionByOrder(Long orderId);
 }

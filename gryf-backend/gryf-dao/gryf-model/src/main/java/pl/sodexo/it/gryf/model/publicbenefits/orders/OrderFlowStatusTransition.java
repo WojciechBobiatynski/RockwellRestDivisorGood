@@ -26,7 +26,9 @@ import java.util.Objects;
                                                                                 "JOIN o.status ofs " +
                                                                                 "JOIN ofs.orderFlowStatusTransitions ofst " +
                                                                                 "WHERE o.id = :id " +
-                                                                                "ORDER BY ofst.id.actionId")})
+                                                                                "ORDER BY ofst.id.actionId"),
+        @NamedQuery(name = "OrderFlowStatusTransition.countAutomaticTransitionByOrder", query = "select count(o) from OrderEntity o join o.status s join s.orderFlowStatusTransitions t " +
+                                                                    "where o.id = :orderId and t.automatic = true ")})
 public class OrderFlowStatusTransition extends GryfEntity {
 
     //STATIC FIELDS - NAMED QUERY
@@ -73,6 +75,9 @@ public class OrderFlowStatusTransition extends GryfEntity {
     @JoinColumn(name = "STATUS_ID", referencedColumnName = "STATUS_ID", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private OrderFlowStatus status;
+
+    @Column(name = "AUTOMATIC")
+    private boolean automatic;
 
     @JsonManagedReference("orderFlowStatusTransSqlList")
     @OrderBy(value = "id ASC")
@@ -143,6 +148,14 @@ public class OrderFlowStatusTransition extends GryfEntity {
 
     public void setStatus(OrderFlowStatus orderFlowStatus) {
         this.status = orderFlowStatus;
+    }
+
+    public Boolean getAutomatic() {
+        return automatic;
+    }
+
+    public void setAutomatic(Boolean automatic) {
+        this.automatic = automatic;
     }
 
     //LIST METHODS
