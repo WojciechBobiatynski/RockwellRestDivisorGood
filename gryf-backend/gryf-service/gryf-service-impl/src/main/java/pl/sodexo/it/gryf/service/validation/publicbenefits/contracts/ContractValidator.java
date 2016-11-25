@@ -131,7 +131,7 @@ public class ContractValidator {
     }
 
     private void validateTrainingParticipantData(Contract contract, List<EntityConstraintViolation> violations) {
-        if (contract.getContractType() != null && isEnterpriseContractType(contract)) {
+        if (contract.getContractType() != null && isEnterpriseContractType(contract) && contract.getEnterprise() != null) {
             if (!isEnterpriseContainIndividual(contract)) {
                 violations.add(new EntityConstraintViolation(Contract.ENTERPRISE_ATTR_NAME, "Uczestnik nie należy do wybranego MŚP", null));
             }
