@@ -20,6 +20,7 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbu
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstanceRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstanceStatusRepository;
 import pl.sodexo.it.gryf.dao.api.search.dao.ElectronicReimbursementsDao;
+import pl.sodexo.it.gryf.dao.api.search.dao.ProductSearchDao;
 import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.Ereimbursement;
 import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.ErmbsAttachment;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstance;
@@ -66,6 +67,9 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     private ErmbsAttachmentEntityMapper ermbsAttachmentEntityMapper;
 
     @Autowired
+    private ProductSearchDao productSearchDao;
+
+    @Autowired
     private FileService fileService;
 
     @Override
@@ -80,11 +84,11 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     }
 
     @Override
-    public Long createRmbsByTrainingInstanceId(Long trainingInstanceId) {
-        Ereimbursement ereimbursement = createNewEreimbursement();
-        calculateCharges(ereimbursement, trainingInstanceId);
-        setTrainingInstanceWithAppropiateStatus(trainingInstanceId, ereimbursement);
-        return ereimbursementRepository.save(ereimbursement).getId();
+    public ElctRmbsHeadDto createRmbsDtoByTrainingInstanceId(Long trainingInstanceId) {
+        ElctRmbsHeadDto elctRmbsHeadDto = new ElctRmbsHeadDto();
+        calculateCharges(elctRmbsHeadDto, trainingInstanceId);
+        elctRmbsHeadDto.setProducts(productSearchDao.findProductsByTrainingInstanceId(trainingInstanceId));
+        return elctRmbsHeadDto;
     }
 
     @Override
@@ -114,50 +118,50 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         return ereimbursement;
     }
 
-    private void calculateCharges(Ereimbursement ereimbursement, Long trainingInstanceId) {
+    private void calculateCharges(ElctRmbsHeadDto elctRmbsHeadDto, Long trainingInstanceId) {
         CalculationChargesParamsDto params = electronicReimbursementsDao.findCalculationChargesParamsForTrInstId(trainingInstanceId);
         if (params == null) {
             throw new NoCalculationParamsException();
         }
-        calculateSxoAmount(ereimbursement, params);
-        calculateIndAmount(ereimbursement, params);
+        calculateSxoAmount(elctRmbsHeadDto, params);
+        calculateIndAmount(elctRmbsHeadDto, params);
     }
 
-    private void calculateSxoAmount(Ereimbursement ereimbursement, CalculationChargesParamsDto params) {
+    private void calculateSxoAmount(ElctRmbsHeadDto elctRmbsHeadDto, CalculationChargesParamsDto params) {
         if (params.getMaxProductInstance() == null) {
-            calculateSxoAmountForTrainings(ereimbursement, params);
+            calculateSxoAmountForTrainings(elctRmbsHeadDto, params);
         } else {
-            calculateSxoAmountForExam(ereimbursement, params);
+            calculateSxoAmountForExam(elctRmbsHeadDto, params);
         }
 
     }
 
-    private void calculateSxoAmountForTrainings(Ereimbursement ereimbursement, CalculationChargesParamsDto params) {
+    private void calculateSxoAmountForTrainings(ElctRmbsHeadDto elctRmbsHeadDto, CalculationChargesParamsDto params) {
         BigDecimal normalizeHourPrice = new BigDecimal(params.getProductInstanceForHour()).multiply(params.getProductValue());
         BigDecimal realHourPrice = params.getTrainingHourPrice().compareTo(normalizeHourPrice) < 0 ? params.getTrainingHourPrice() : normalizeHourPrice;
         BigDecimal sxoAmount = new BigDecimal(params.getUsedProductsNumber()).multiply(realHourPrice).divide(new BigDecimal(params.getProductInstanceForHour()));
-        ereimbursement.setSxoIndAmountDueTotal(sxoAmount);
+        elctRmbsHeadDto.setSxoIndAmountDueTotal(sxoAmount);
     }
 
-    private void calculateSxoAmountForExam(Ereimbursement ereimbursement, CalculationChargesParamsDto params) {
+    private void calculateSxoAmountForExam(ElctRmbsHeadDto elctRmbsHeadDto, CalculationChargesParamsDto params) {
         BigDecimal usedProductsAmount = new BigDecimal(params.getUsedProductsNumber()).multiply(params.getProductValue());
         if (usedProductsAmount.compareTo(params.getTrainingPrice()) > 0) {
-            ereimbursement.setSxoIndAmountDueTotal(params.getTrainingPrice());
+            elctRmbsHeadDto.setSxoIndAmountDueTotal(params.getTrainingPrice());
         } else {
-            ereimbursement.setSxoIndAmountDueTotal(usedProductsAmount);
+            elctRmbsHeadDto.setSxoIndAmountDueTotal(usedProductsAmount);
         }
 
     }
 
-    private void calculateIndAmount(Ereimbursement ereimbursement, CalculationChargesParamsDto params) {
+    private void calculateIndAmount(ElctRmbsHeadDto elctRmbsHeadDto, CalculationChargesParamsDto params) {
         if (params.getMaxProductInstance() == null) {
-            calculateIndAmountForTraining(ereimbursement, params);
+            calculateIndAmountForTraining(elctRmbsHeadDto, params);
         } else {
-            calculateIndAmountForExam(ereimbursement, params);
+            calculateIndAmountForExam(elctRmbsHeadDto, params);
         }
     }
 
-    private void calculateIndAmountForTraining(Ereimbursement ereimbursement, CalculationChargesParamsDto params) {
+    private void calculateIndAmountForTraining(ElctRmbsHeadDto elctRmbsHeadDto, CalculationChargesParamsDto params) {
         BigDecimal normalizedProductHourPrice = new BigDecimal(params.getProductInstanceForHour()).multiply(params.getProductValue());
         BigDecimal trainingHourDifferenceCost = BigDecimal.ZERO;
         Integer hoursPaidWithCash = params.getTrainingHoursNumber() - params.getUsedProductsNumber() / params.getProductInstanceForHour();
@@ -166,11 +170,11 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
                     .multiply(params.getTrainingHourPrice().subtract(normalizedProductHourPrice));
         }
         BigDecimal hoursPaidWithCashCost = new BigDecimal(hoursPaidWithCash).multiply(params.getTrainingHourPrice());
-        ereimbursement.setIndSxoAmountDueTotal(trainingHourDifferenceCost.add(hoursPaidWithCashCost));
+        elctRmbsHeadDto.setIndSxoAmountDueTotal(trainingHourDifferenceCost.add(hoursPaidWithCashCost));
     }
 
-    private void calculateIndAmountForExam(Ereimbursement ereimbursement, CalculationChargesParamsDto params) {
-        ereimbursement.setIndSxoAmountDueTotal(params.getTrainingPrice().subtract(ereimbursement.getSxoIndAmountDueTotal()));
+    private void calculateIndAmountForExam(ElctRmbsHeadDto elctRmbsHeadDto, CalculationChargesParamsDto params) {
+        elctRmbsHeadDto.setIndSxoAmountDueTotal(params.getTrainingPrice().subtract(elctRmbsHeadDto.getSxoIndAmountDueTotal()));
     }
 
     private void setTrainingInstanceWithAppropiateStatus(Long trainingInstanceId, Ereimbursement ereimbursement) {

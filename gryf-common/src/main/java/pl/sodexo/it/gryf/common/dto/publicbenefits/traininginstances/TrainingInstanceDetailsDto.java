@@ -79,6 +79,10 @@ public class TrainingInstanceDetailsDto implements Serializable {
     @Setter
     private BigDecimal prdValue;
 
+    @Getter
+    @Setter
+    private Long grantProgramId;
+
     public Integer getMaxProductsNumber() {
         Integer maxProductsNumber;
         if(maxProductInstance != null){

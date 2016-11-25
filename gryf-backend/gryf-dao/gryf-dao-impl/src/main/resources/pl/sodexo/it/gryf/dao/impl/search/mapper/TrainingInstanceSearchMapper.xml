@@ -80,7 +80,8 @@
         ind.LAST_NAME                           participantSurname,
         tr_cat_par.PRODUCT_INSTANCE_FOR_HOUR    productInstanceForHour,
         tr_cat_par.MAX_PRODUCT_INSTANCE         maxProductInstance,
-        prd.VALUE                               prdValue
+        prd.VALUE                               prdValue,
+        tin.GRANT_PROGRAM_ID                    grantProgramId
         FROM APP_PBE.TI_TRAINING_INSTANCES tin
         JOIN APP_PBE.TI_TRAININGS tra ON tra.ID = tin.TRAINING_ID
         JOIN APP_PBE.TI_TRAINING_CATEGORIES cat ON cat.ID = tra.TRAINING_CATEGORY_ID

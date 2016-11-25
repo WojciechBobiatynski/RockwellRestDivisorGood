@@ -11,4 +11,20 @@
         WHERE prod.EXPIRY_DATE IS NULL OR prod.EXPIRY_DATE > sysdate
     </select>
 
+    <select id="findProductsByTrainingInstanceId" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.ProductHeadDto" parameterType="list">
+        SELECT
+            pool_uses.ID                              id,
+            pool_uses.ASSIGNED_NUM                    reservedProductsCount,
+            pool.EXPIRY_DATE                          expirationDate
+        FROM APP_PBE.TI_TRAINING_INSTANCES tr_in
+            JOIN APP_PBE.TI_TRAININGS tr ON tr.ID = tr_in.TRAINING_ID
+            LEFT JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOL_USES pool_uses ON pool_uses.TRAINING_INSTANCE_ID = tr_in.ID
+            LEFT JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOLS pool on pool_uses.PRODUCT_INSTANCE_POOL_ID = pool.ID
+        WHERE
+            tr_in.ID = #{trainingInstanceId}
+        <if test="criteria.gryfUser.userType == 'TRAINING_INSTITUTION'">
+            AND tr.TRAINING_INSTITUTION_ID = #{criteria.gryfUser.trainingInstitutionId}
+        </if>
+    </select>
+
 </mapper>

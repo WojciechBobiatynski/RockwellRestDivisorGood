@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.criteria.UserCriteria;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.ProductHeadDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.products.ProductDto;
 import pl.sodexo.it.gryf.dao.api.search.dao.ProductSearchDao;
 import pl.sodexo.it.gryf.dao.api.search.mapper.ProductSearchMapper;
@@ -24,5 +25,10 @@ public class ProductSearchDaoImpl implements ProductSearchDao {
     @Override
     public List<ProductDto> findProducts() {
         return productSearchMapper.findProducts(new UserCriteria());
+    }
+
+    @Override
+    public List<ProductHeadDto> findProductsByTrainingInstanceId(Long trainingInstanceId) {
+        return productSearchMapper.findProductsByTrainingInstanceId(new UserCriteria(), trainingInstanceId);
     }
 }

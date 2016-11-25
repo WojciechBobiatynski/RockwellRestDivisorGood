@@ -33,7 +33,7 @@ public interface ElectronicReimbursementsService {
      * @param trainingInstanceId - id instancji szkolenia
      * @return id rozliczenia
      */
-    Long createRmbsByTrainingInstanceId(Long trainingInstanceId);
+    ElctRmbsHeadDto createRmbsDtoByTrainingInstanceId(Long trainingInstanceId);
 
     /**
      * Znajduje szczegóły rozliczenia dla bonów elektronicznych na podstawie Id
