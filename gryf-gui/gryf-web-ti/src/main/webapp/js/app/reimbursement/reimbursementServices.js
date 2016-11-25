@@ -163,7 +163,6 @@ angular.module("gryf.ti").factory("ReimbursementsServiceModify",
                 }
                 var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING, {label: "Zapisuję dane"});
 
-
                 var attachments = {};
                 angular.forEach(rmbsModel.model.attachments, function(attachment){
                     var prefix = '';
@@ -176,7 +175,7 @@ angular.module("gryf.ti").factory("ReimbursementsServiceModify",
 
                 Upload.upload({
                     url: SAVE_RMBS,
-                    data: {file: attachments, ermbsId: rmbsModel.model.ermbsId},
+                    data: {file: attachments, model: Upload.json(rmbsModel.model)}
                 }).success(function(id) {
                     GryfPopups.setPopup("success", "Sukces", "Rozliczenie poprawnie zapisane");
                 }).error(function(response) {

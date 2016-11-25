@@ -3,10 +3,13 @@ angular.module("gryf.ti").directive("attachments", ['AttachmentService',
         return {
             restrict: 'E',
             scope: {
+                trainingInstance: '=',
                 model: '='
             },
             templateUrl: contextPath + '/templates/directives/attachment.html',
             controller: function ($scope) {
+                $scope.modelTypes = {};
+
                 $scope.addNew = function () {
                     $scope.model.attachments.push({});
                 };
@@ -25,14 +28,14 @@ angular.module("gryf.ti").directive("attachments", ['AttachmentService',
                     this.required = required
                 };
 
-                $scope.$watch('model.trainingInstance.grantProgramId', function (newData) {
+                $scope.$watch('trainingInstance.grantProgramId', function (newData) {
                     if (newData) {
-                        AttachmentService.loadAttachmentsTypes($scope.model.trainingInstance.grantProgramId).then(function (response) {
-                            $scope.model.types = response.data;
-                            if ($scope.model.attachments === undefined) {
+                        AttachmentService.loadAttachmentsTypes($scope.trainingInstance.grantProgramId).then(function (response) {
+                            $scope.modelTypes.types = response.data;
+                            if ($scope.model.attachments === undefined || $scope.model.attachments === null) {
                                 $scope.model.attachments = [];
                             }
-                            angular.forEach($scope.model.types, function (type) {
+                            angular.forEach($scope.modelTypes.types, function (type) {
                                 if (type.required) {
                                     var result = false;
                                     angular.forEach($scope.model.attachments, function (att) {

@@ -10,7 +10,7 @@ import pl.sodexo.it.gryf.common.criteria.electronicreimbursements.ElctRmbsCriter
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsAttachmentsDto;
+import pl.sodexo.it.gryf.common.utils.JsonMapperUtils;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.ElectronicReimbursementsService;
 import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
 import pl.sodexo.it.gryf.web.common.util.WebUtils;
@@ -68,11 +68,11 @@ public class ReimbursementRestController {
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public List<ErmbsAttachmentsDto> saveReimbursement(MultipartHttpServletRequest request) throws IOException {
-        Long ermbsId = Long.parseLong(request.getParameter("ermbsId"));
+    public ElctRmbsHeadDto saveReimbursement(MultipartHttpServletRequest request) throws IOException {
+        ElctRmbsHeadDto dto = JsonMapperUtils.readValue(request.getParameter("model"), ElctRmbsHeadDto.class);
         Map<String, MultipartFile> fileMap = request.getFileMap();
-        List<ErmbsAttachmentsDto> files = WebUtils.createErmbsAttachmentsWithFiles(fileMap, ermbsId);
-        return electronicReimbursementsService.saveErmbsAttachments(files);
+        WebUtils.fillErmbsDtoWithAttachments(fileMap, dto);
+        return electronicReimbursementsService.saveErmbs(dto);
     }
 
 

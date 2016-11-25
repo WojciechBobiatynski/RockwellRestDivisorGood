@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -58,5 +59,11 @@ public class ErmbsAttachmentsDto extends VersionableDto implements Serializable 
 
     @Getter
     @Setter
-    private FileDTO fileDTO;
+    @JsonIgnoreProperties
+    private FileDTO file;
+
+    @Getter
+    @Setter
+    @JsonIgnoreProperties
+    private FileDTO errorFile;
 }

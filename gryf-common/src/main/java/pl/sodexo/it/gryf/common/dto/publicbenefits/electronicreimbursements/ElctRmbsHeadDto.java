@@ -3,6 +3,7 @@ package pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import pl.sodexo.it.gryf.common.dto.api.VersionableDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.ProductHeadDto;
 
 import java.io.Serializable;
@@ -15,7 +16,7 @@ import java.util.List;
  * Created by akmiecinski on 14.11.2016.
  */
 @ToString
-public class ElctRmbsHeadDto implements Serializable {
+public class ElctRmbsHeadDto extends VersionableDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -46,4 +47,12 @@ public class ElctRmbsHeadDto implements Serializable {
     @Getter
     @Setter
     private List<ErmbsAttachmentsDto> attachments;
+
+    @Getter
+    @Setter
+    private String statusCode;
+
+    @Getter
+    @Setter
+    private String returnAccountPayment;
 }

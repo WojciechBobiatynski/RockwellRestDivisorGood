@@ -21,7 +21,7 @@
         <tr ng-repeat="item in model.attachments" ng-class="{'row-even': $even, 'row-odd': $odd}">
             <td>
                 <select ng-model="item.code" data-ng-disabled="item.required">
-                    <option data-ng-repeat="t in model.types" data-ng-show="!t.required" ng-selected="{{t.code == item.code}}" value="{{t.code}}">{{t.name}}</option>
+                    <option data-ng-repeat="t in modelTypes.types" data-ng-show="!t.required" ng-selected="{{t.code == item.code}}" value="{{t.code}}">{{t.name}}</option>
                 </select>
             </td>
             <td><input type="text" data-ng-model="item.documentNumber"/></td>

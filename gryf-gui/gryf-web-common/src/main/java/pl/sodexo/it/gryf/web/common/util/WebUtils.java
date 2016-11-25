@@ -2,6 +2,7 @@ package pl.sodexo.it.gryf.web.common.util;
 
 import org.springframework.web.multipart.MultipartFile;
 import pl.sodexo.it.gryf.common.dto.other.FileDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsAttachmentsDto;
 import pl.sodexo.it.gryf.common.exception.GryfUploadException;
 
@@ -9,8 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.stream.IntStream;
 
 /**
  * Created by tomasz.bilski.ext on 2015-08-21.
@@ -41,33 +41,19 @@ public final class WebUtils {
         return fileDTO;
     }
 
-    public static List<ErmbsAttachmentsDto> createErmbsAttachmentsWithFiles(Map<String, MultipartFile> fileMap, Long ermbsId) throws IOException {
-        List<ErmbsAttachmentsDto> result = new ArrayList<>();
+    public static ElctRmbsHeadDto fillErmbsDtoWithAttachments(Map<String, MultipartFile> fileMap, ElctRmbsHeadDto source) throws IOException {
+        List<MultipartFile> files = new ArrayList<>(fileMap.values());
 
-        fileMap.forEach((s, multipartFile) -> {
-            ErmbsAttachmentsDto ermbsAttachmentsDto = new ErmbsAttachmentsDto();
-            ermbsAttachmentsDto.setErmbsId(ermbsId);
-
-            Pattern patternId = Pattern.compile("(\\[)(\\d+)(#)");
-            Pattern patternCode = Pattern.compile("(#)(\\w+)(\\])");
-            Matcher matcherId = patternId.matcher(s);
-            Matcher matcherCode = patternCode.matcher(s);
-            while (matcherId.find()) {
-                ermbsAttachmentsDto.setId(Long.parseLong(matcherId.group(2)));
-            }
-            while (matcherCode.find()) {
-                ermbsAttachmentsDto.setCode(matcherCode.group(2));
-            }
-
+        IntStream.range(0, files.size()).forEach(index -> {
             try {
-                ermbsAttachmentsDto.setFileDTO(createFileDto(multipartFile));
+                ErmbsAttachmentsDto ermbsAttachmentsDto = source.getAttachments().get(index);
+                MultipartFile multipartFile = files.get(index);
+                ermbsAttachmentsDto.setFile(createFileDto(multipartFile));
+                ermbsAttachmentsDto.setOrginalFileName(multipartFile.getOriginalFilename());
             } catch (IOException e) {
-                throw new GryfUploadException("Nie udało się zuploadować plików",e);
+                throw new GryfUploadException("Nie udało się zuploadować plików", e);
             }
-
-            result.add(ermbsAttachmentsDto);
         });
-
-        return result;
+        return source;
     }
 }

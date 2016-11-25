@@ -10,7 +10,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.ErmbsAttac
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.VersionableDtoMapper;
 
 /**
- * Mapper mapujący dto IndividualDto na encję Individual
+ * Mapper mapujący dto ErmbsAttachmentsDto na encję ErmbsAttachment
  *
  * Created by jbentyn on 2016-09-27.
  */

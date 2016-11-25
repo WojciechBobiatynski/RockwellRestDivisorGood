@@ -11,6 +11,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Encja dla rozliczeń bonów elektronicznych
@@ -20,8 +21,8 @@ import java.util.Date;
 @ToString
 @Entity
 @Table(name = "E_REIMBURSEMENTS", schema = "APP_PBE")
-@SequenceGenerator(name="pbe_e_reimb_seq", schema = "eagle", sequenceName = "pbe_e_reimb_seq", allocationSize = 1)
-@OptimisticLocking(cascade=true)
+@SequenceGenerator(name = "pbe_e_reimb_seq", schema = "eagle", sequenceName = "pbe_e_reimb_seq", allocationSize = 1)
+@OptimisticLocking(cascade = true)
 public class Ereimbursement extends VersionableEntity {
 
     @Id
@@ -59,5 +60,10 @@ public class Ereimbursement extends VersionableEntity {
     @Getter
     @Setter
     private BigDecimal indSxoAmountDueTotal;
+
+    @OneToMany(mappedBy = "ereimbursement")
+    @Getter
+    @Setter
+    private List<ErmbsAttachment> ermbsAttachmentList;
 
 }
