@@ -111,7 +111,7 @@ public class ContractServiceImpl implements ContractService {
         entity.setIndividual(dto.getIndividual() != null ? individualRepository.get(dto.getIndividual().getId()) : null);
         entity.setEnterprise(dto.getEnterprise() != null ? enterpriseRepository.get(dto.getEnterprise().getId()) : null);
         entity.setGrantProgram(dto.getGrantProgram() != null ? grantProgramRepository.get(dto.getGrantProgram().getGrantProgramOwnerId()) : null);
-        entity.setContractType(dto.getContractType().getId() != null ? contractTypeRepository.get((String)dto.getContractType().getId()) : null);
+        entity.setContractType((dto.getContractType() != null && dto.getContractType().getId() != null) ? contractTypeRepository.get((String)dto.getContractType().getId()) : null);
         if (dto.getTrainingCategory() != null) {
             for(String categoryId : dto.getTrainingCategory()){
                 if(!StringUtils.isEmpty(categoryId)) {
