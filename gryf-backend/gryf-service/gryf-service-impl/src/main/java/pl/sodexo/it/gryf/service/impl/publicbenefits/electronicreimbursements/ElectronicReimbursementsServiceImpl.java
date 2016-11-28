@@ -10,6 +10,9 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.Calc
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsAttachmentDto;
+import pl.sodexo.it.gryf.common.dto.user.GryfTiUser;
+import pl.sodexo.it.gryf.common.dto.user.GryfUser;
+import pl.sodexo.it.gryf.common.enums.AttachmentParentType;
 import pl.sodexo.it.gryf.common.enums.FileType;
 import pl.sodexo.it.gryf.common.exception.NoCalculationParamsException;
 import pl.sodexo.it.gryf.common.utils.GryfConstants;
@@ -120,7 +123,7 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     private void saveErmbsAttachments(Ereimbursement ereimbursement, List<ErmbsAttachmentDto> ermbsAttachmentsDtoList) {
         for (ErmbsAttachmentDto ermbsAttachment : ermbsAttachmentsDtoList) {
             ErmbsAttachment entity = saveAttachmentEntity(ereimbursement, ermbsAttachment);
-            saveFile(ermbsAttachment, entity);
+            saveFile(ermbsAttachment, entity, ereimbursement);
         }
     }
 
@@ -131,11 +134,13 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         return entity;
     }
 
-    private void saveFile(ErmbsAttachmentDto ermbsAttachment, ErmbsAttachment entity) {
+    private void saveFile(ErmbsAttachmentDto ermbsAttachment, ErmbsAttachment entity, Ereimbursement ereimbursement) {
         if (ermbsAttachment.isChanged()) {
-            String fileName = String.format("%s_%s_%s_%s", entity.getId(), ermbsAttachment.getCode(), entity.getId(), ermbsAttachment.getFile().getOriginalFilename());
+            fileService.deleteFile(ermbsAttachment.getFileLocation());
+            Long trainingInstitutionId = ((GryfTiUser) GryfUser.getLoggedUser()).getTrainingInstitutionId();
+            String fileName = String.format("%s_%s_%s_%s_%s", trainingInstitutionId, ereimbursement.getId(), AttachmentParentType.EREIMB, entity.getId(), ermbsAttachment.getFile().getOriginalFilename());
             String newFileName = GryfStringUtils.convertFileName(fileName);
-            String filePath = fileService.writeFile(FileType.E_REIMBURSEMENTS, newFileName, ermbsAttachment.getFile(), null);
+            String filePath = fileService.writeFile(FileType.E_REIMBURSEMENTS, newFileName, ermbsAttachment.getFile(), entity);
             entity.setOrginalFileName(ermbsAttachment.getFile().getOriginalFilename());
             entity.setFileLocation(filePath);
         }

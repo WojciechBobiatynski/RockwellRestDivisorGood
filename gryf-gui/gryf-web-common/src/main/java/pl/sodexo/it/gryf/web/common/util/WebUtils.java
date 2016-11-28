@@ -45,7 +45,6 @@ public final class WebUtils {
             MultipartFile multipartFile = fileMap.get("file[" + ermbsAttachmentsDto.getIndex() + "]");
             try {
                 ermbsAttachmentsDto.setFile(createFileDto(multipartFile));
-                ermbsAttachmentsDto.setOriginalFileName(multipartFile.getOriginalFilename());
             } catch (IOException e) {
                 throw new GryfUploadException("Nie udało się zuploadować plików", e);
             }
