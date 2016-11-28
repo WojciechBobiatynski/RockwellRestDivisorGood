@@ -98,7 +98,8 @@ public class MailDtoCreator {
         MailDTO mailDTO = new MailDTO();
         mailDTO.setTemplateId(emailTemplate.getId());
         mailDTO.setSubject(emailTemplate.getEmailSubjectTemplate());
-        mailDTO.setAddressesFrom(applicationParameters.getGryfPbeAdmEmailFrom());
+        mailDTO.setAddressesFrom(applicationParameters.getGryfPbeDefPubEmailFrom());
+        mailDTO.setAddressesReplyTo(applicationParameters.getGryfPbeDefPubEmailReplyTo());
         mailDTO.setAddressesTo(email);
         mailDTO.setBody(mailPlaceholders.replace(emailTemplate.getEmailBodyTemplate()));
         mailDTO.setAttachments(Collections.emptyList());

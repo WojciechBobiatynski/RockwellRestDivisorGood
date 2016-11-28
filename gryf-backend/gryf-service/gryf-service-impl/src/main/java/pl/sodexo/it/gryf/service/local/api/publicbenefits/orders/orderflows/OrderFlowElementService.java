@@ -43,15 +43,11 @@ public interface OrderFlowElementService {
     void addElementNumberValue(Order order, final String elementId, BigDecimal valueNumber);
 
     /**
-     * Dodaje konkretny element składowy zamówienia wybranego typu.
-     *
+     * Dodaje pusty element
      * @param order zamówienie
      * @param elementId identyfikator elementu
-     * @param valueNumber vartość elementu typu number
-     * @param valueVarchar wartość elementu typu string
-     * @param valueDate wartość elementu typu date
      */
-    void addElementWithValue(Order order, final String elementId, BigDecimal valueNumber, String valueVarchar, Date valueDate);
+    void addElementEmpty(Order order, final String elementId);
 
     /**
      * Metoda tworzy liste z obiektami OrderElementDTO. Na podstawie pola IncomingOrderElementDTO.elementTypeComponentName wiemy na jaką klase parsować

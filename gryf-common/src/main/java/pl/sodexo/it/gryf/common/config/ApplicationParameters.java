@@ -88,4 +88,6 @@ public interface ApplicationParameters {
     String getTiUserContext();
 
     String getIndUserContext();
+
+    String getIndUserUrl();
 }

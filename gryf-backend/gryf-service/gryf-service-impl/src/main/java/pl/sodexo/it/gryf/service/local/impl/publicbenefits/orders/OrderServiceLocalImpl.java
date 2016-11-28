@@ -5,26 +5,25 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.CreateOrderDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementDTO;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.contracts.ContractRepository;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationVersion;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
-import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgramParam;
-import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
-import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlow;
-import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowForGrantApplicationVersion;
-import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowForGrantProgram;
-import pl.sodexo.it.gryf.model.publicbenefits.pbeproduct.PbeProduct;
+import pl.sodexo.it.gryf.model.publicbenefits.orders.*;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
 import pl.sodexo.it.gryf.service.local.api.ParamInDateService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.OrderServiceLocal;
+import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.elements.OrderElementService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.orderflows.OrderFlowElementService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.orderflows.OrderFlowService;
 import pl.sodexo.it.gryf.service.utils.BeanUtils;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -54,7 +53,7 @@ public class OrderServiceLocalImpl implements OrderServiceLocal {
     @Override
     public CreateOrderDTO createCreateOrderDTO(Contract contract){
         GrantProgram grantProgram = contract.getGrantProgram();
-        OrderFlowForGrantProgram orderForGrPr = paramInDateService.findOrderFlowForGrantProgram(grantProgram.getId(), new Date());
+        OrderFlowForGrantProgram orderForGrPr = paramInDateService.findOrderFlowForGrantProgram(grantProgram.getId(), new Date(), true);
         OrderFlow orderFlow = orderForGrPr.getOrderFlow();
 
         OrderFlowService orderFlowService = (OrderFlowService) BeanUtils.findBean(context, orderFlow.getServiceBeanName());
@@ -67,7 +66,7 @@ public class OrderServiceLocalImpl implements OrderServiceLocal {
 
         Contract contract = contractRepository.get(dto.getContractId());
         GrantProgram grantProgram = contract.getGrantProgram();
-        OrderFlowForGrantProgram orderForGrPr = paramInDateService.findOrderFlowForGrantProgram(grantProgram.getId(), new Date());
+        OrderFlowForGrantProgram orderForGrPr = paramInDateService.findOrderFlowForGrantProgram(grantProgram.getId(), new Date(), true);
         OrderFlow orderFlow = orderForGrPr.getOrderFlow();
 
         OrderFlowService orderFlowService = (OrderFlowService) BeanUtils.findBean(context, orderFlow.getServiceBeanName());
@@ -79,13 +78,28 @@ public class OrderServiceLocalImpl implements OrderServiceLocal {
     @Override
     public Order createOrder(GrantApplication grantApplication) {
         GrantApplicationVersion grantApplicationVersion = grantApplication.getApplicationVersion();
-        OrderFlowForGrantApplicationVersion orderFlowForGraAppVer = paramInDateService.findOrderFlowForGrantApplicationVersion(grantApplicationVersion.getId(), new Date());
+        OrderFlowForGrantApplicationVersion orderFlowForGraAppVer = paramInDateService.findOrderFlowForGrantApplicationVersion(grantApplicationVersion.getId(), new Date(), true);
         OrderFlow orderFlow = orderFlowForGraAppVer.getOrderFlow();
 
         OrderFlowService orderFlowService = (OrderFlowService) BeanUtils.findBean(context, orderFlow.getServiceBeanName());
         Order order = orderFlowService.createOrder(grantApplication, orderFlow);
         orderFlowElementService.addElementsByOrderStatus(order);
         return order;
+    }
+
+    public List<OrderElementDTO> createOrderElementDtolist(List<OrderElementDTOBuilder> orderElementDTOBuilders) {
+        List<OrderElementDTO> elements = new ArrayList<>();
+        for (OrderElementDTOBuilder builder : orderElementDTOBuilders) {
+            OrderFlowElement ofe = builder.getOrderFlowElement();
+            OrderFlowElementType ofet = ofe.getOrderFlowElementType();
+
+            OrderElementService service = (OrderElementService) BeanUtils.findBean(context, ofet.getServiceBeanName());
+            OrderElementDTO elementDTO = service.createElement(builder);
+            if (elementDTO != null) {
+                elements.add(elementDTO);
+            }
+        }
+        return elements;
     }
 
     @Override

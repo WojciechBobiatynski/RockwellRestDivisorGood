@@ -88,7 +88,7 @@ public class OrderElementComplexTypePbeProductInfoServiceImpl extends OrderEleme
     public void addPbeProductElements(Order order, Contract contract, CreateOrderDTO dto) {
         PbeProduct product = order.getPbeProduct();
         GrantProgram grantProgram = contract.getGrantProgram();
-        GrantProgramParam ocpParam = paramInDateService.findGrantProgramParam(grantProgram.getId(), GrantProgramParam.OWN_CONTRIBUTION_PERCENT, new Date());
+        GrantProgramParam ocpParam = paramInDateService.findGrantProgramParam(grantProgram.getId(), GrantProgramParam.OWN_CONTRIBUTION_PERCENT, new Date(), true);
 
         BigDecimal productInstanceNum = new BigDecimal(dto.getProductInstanceNum());
         BigDecimal  productInstanceAmount = product.getValue();

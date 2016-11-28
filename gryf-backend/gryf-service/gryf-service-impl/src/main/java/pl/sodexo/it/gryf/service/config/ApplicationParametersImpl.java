@@ -59,6 +59,7 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     private String publicCaptchaKey = "6Lf2YwoUAAAAAJLQuF5yQzLcdSim4KNQ4Ur_WWgm";
     private String indUserContext = "IND";
     private String tiUserContext = "TI";
+    private String indUserUrl = "http://localhost:8080/gryf-ind/";
 
     //LIFECYCLE METHODS
 
@@ -227,6 +228,10 @@ public class ApplicationParametersImpl implements ApplicationParameters {
         String dbPathEreimbursements = (String) findParameter("GRYF_PATH_EREIMBURSEMENTS");
         if (dbPathEreimbursements != null) {
             pathEreimbursements = dbPathEreimbursements;
+        }
+        String dbIndUserUrl = (String) findParameter("GRYF_IND_USER_URL");
+        if(dbIndUserUrl != null){
+            indUserUrl = dbIndUserUrl;
         }
     }
 
@@ -440,6 +445,11 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     @Override
     public String getIndUserContext() {
         return indUserContext;
+    }
+
+    @Override
+    public String getIndUserUrl(){
+        return indUserUrl;
     }
 
     //PRIVATE METHODS

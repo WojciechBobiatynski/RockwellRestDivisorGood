@@ -11,6 +11,7 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.action.Inc
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementDTO;
 import pl.sodexo.it.gryf.common.dto.user.GryfUser;
 import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderElementRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderFlowStatusTransSqlRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderFlowStatusTransitionRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderRepository;
@@ -18,6 +19,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.orders.*;
 import pl.sodexo.it.gryf.service.api.publicbenefits.orders.OrderActionService;
 import pl.sodexo.it.gryf.service.local.api.FileService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.OrderDateService;
+import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.OrderServiceLocal;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.actions.ActionService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.orderflows.OrderFlowElementService;
 import pl.sodexo.it.gryf.service.utils.BeanUtils;
@@ -48,10 +50,16 @@ public class OrderActionServiceImpl implements OrderActionService {
     private FileService fileService;
 
     @Autowired
+    private OrderServiceLocal orderServiceLocal;
+
+    @Autowired
     private OrderFlowStatusTransSqlRepository orderFlowStatusTransSqlRepository;
 
     @Autowired
     private OrderFlowStatusTransitionRepository orderFlowStatusTransitionRepository;
+
+    @Autowired
+    private OrderElementRepository orderElementRepository;
 
     @Autowired
     private OrderFlowElementService orderFlowElementService;
@@ -111,30 +119,8 @@ public class OrderActionServiceImpl implements OrderActionService {
             //CREATE ORDER ELEMENT DTO
             List<OrderElementDTO> elementDtoList = orderFlowElementService.createElementDtoList(incomingOrderElements, files);
 
-            //VALIDACJA ELEMENTOW
-            orderFlowElementService.validateElements(order, elementDtoList);
-
-            //UPDATE ELEMENTS
-            orderFlowElementService.updateElements(order, elementDtoList);
-
-            //EXECUTE PRE SQL
-            executeSql(order, statusTransition, OrderFlowStatusTransSqlType.PRE);
-
-            //EXECUTE ACTION
-            if (!GryfStringUtils.isEmpty(statusTransition.getActionBeanName())) {
-                ActionService actionService = (ActionService) BeanUtils.findBean(context, statusTransition.getActionBeanName());
-                actionService.execute(order, acceptedViolations);
-            }
-
-            //EXECUTE POST SQL
-            executeSql(order, statusTransition, OrderFlowStatusTransSqlType.POST);
-
-            //SET STATUS
-            order.setStatus(statusTransition.getNextStatus());
-            orderFlowElementService.addElementsByOrderStatus(order);
-
-            //FILL REQUIRED DATE FOR LAZY FIELDS
-            orderDateService.fillRequiredDateForLazyFields(order);
+            //ACTION
+            executeOneAction(order, statusTransition, elementDtoList, acceptedViolations);
 
             //KASUJEMY PLIKI
         } catch (RuntimeException e) {
@@ -150,21 +136,31 @@ public class OrderActionServiceImpl implements OrderActionService {
         OrderFlowStatus status = order.getStatus();
         for(OrderFlowStatusTransition st : status.getOrderFlowStatusTransitions()){
             if(st.getAutomatic()){
-                executeOneAutomaticAction(order, st);
+                List<OrderElementDTOBuilder> orderElementDTOBuilders = orderElementRepository.findDtoFactoryByOrderToModify(orderId);
+                List<OrderElementDTO> elementDtoList = orderServiceLocal.createOrderElementDtolist(orderElementDTOBuilders);
+                executeOneAction(order, st, elementDtoList, Lists.newArrayList());
             }
         }
     }
 
     //PRIVATE METHODS
 
-    private void executeOneAutomaticAction(Order order, OrderFlowStatusTransition statusTransition){
+    private void executeOneAction(Order order, OrderFlowStatusTransition statusTransition,
+                                    List<OrderElementDTO> elementDtoList, List<String> acceptedViolations){
+
+        //VALIDACJA ELEMENTOW
+        orderFlowElementService.validateElements(order, elementDtoList);
+
+        //UPDATE ELEMENTS
+        orderFlowElementService.updateElements(order, elementDtoList);
+
         //EXECUTE PRE SQL
         executeSql(order, statusTransition, OrderFlowStatusTransSqlType.PRE);
 
         //EXECUTE ACTION
         if (!GryfStringUtils.isEmpty(statusTransition.getActionBeanName())) {
             ActionService actionService = (ActionService) BeanUtils.findBean(context, statusTransition.getActionBeanName());
-            actionService.execute(order, Lists.newArrayList());
+            actionService.execute(order, acceptedViolations);
         }
 
         //EXECUTE POST SQL

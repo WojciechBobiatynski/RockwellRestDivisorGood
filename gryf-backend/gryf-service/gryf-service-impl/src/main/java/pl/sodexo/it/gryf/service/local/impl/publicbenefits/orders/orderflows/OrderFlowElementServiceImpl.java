@@ -79,7 +79,11 @@ public class OrderFlowElementServiceImpl implements OrderFlowElementService {
     }
 
     @Override
-    public void addElementWithValue(Order order, final String elementId, BigDecimal valueNumber, String valueVarchar, Date valueDate) {
+    public void addElementEmpty(Order order, final String elementId){
+        addElementWithValue(order, elementId, null, null, null);
+    }
+
+    private void addElementWithValue(Order order, final String elementId, BigDecimal valueNumber, String valueVarchar, Date valueDate) {
         boolean contain = GryfUtils.contain(order.getOrderElements(), new GryfUtils.Predicate<OrderElement>() {
             public boolean apply(OrderElement input) {
                 return input.getOrderFlowElement().getElementId().equals(elementId);

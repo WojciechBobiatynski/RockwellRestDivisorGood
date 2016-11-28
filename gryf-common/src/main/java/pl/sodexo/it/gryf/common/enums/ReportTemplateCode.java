@@ -7,7 +7,8 @@ public enum ReportTemplateCode {
 
     INVOICE("Invoice.jasper"),
     GRANT_ACKNOWLEDGMENT_REPORT("GrantAcknowledgmentReport.jasper"),
-    ENTERPRISE_AGREEMENT("EnterpriseAgreementReport.jasper");
+    ENTERPRISE_AGREEMENT("EnterpriseAgreementReport.jasper"),
+    OWN_DISTRIBUTION_NOTE("OwnDistributionNote.jasper");
 
     //FIELDS
 

@@ -70,7 +70,7 @@ public class OrderElementAttachmentServiceImpl extends OrderElementBaseService<O
         Order order = element.getOrder();
         OrderFlowElement orderFlowElement = element.getOrderFlowElement();
         
-        Long entityId = order.getEnterprise() != null ? order.getEnterprise().getId() : order.getIndividual().getId();
+        Long entityId = order.getEnterprise() != null ? order.getEnterprise().getId() : order.getContract().getIndividual().getId();
 
         String fileName = String.format("%s_%s_%s_%s", entityId, order.getId(),
                                             element.getId(), orderFlowElement.getElementName());

@@ -41,9 +41,12 @@ public class ParamInDateServiceImpl implements ParamInDateService {
     //PUBLIC METHODS
 
     @Override
-    public GrantProgramProduct findGrantProgramProduct(Long grantProgramId, GrantProgramProduct.Type type, Date date){
+    public GrantProgramProduct findGrantProgramProduct(Long grantProgramId, GrantProgramProduct.Type type, Date date, boolean mandatory){
         List<GrantProgramProduct> grantProgramProducts = grantProgramProductRepository.findByGrantProgramInDate(grantProgramId, date);
         if(grantProgramProducts.size() == 0){
+            if(!mandatory){
+                return null;
+            }
             throw new RuntimeException(String.format("Błąd parmetryzacji w tabeli APP_PBE.GRANT_PROGRAM_PRODUCTS. Nie znaleziono żadnego "
                             + "produktu dla programu [%s] obowiązującego dnia [%s]",
                     grantProgramId, date));
@@ -71,10 +74,13 @@ public class ParamInDateServiceImpl implements ParamInDateService {
     }
 
     @Override
-    public TrainingCategoryParam findTrainingCategoryParam(String categoryId, Long grantProgramId, Date date){
+    public TrainingCategoryParam findTrainingCategoryParam(String categoryId, Long grantProgramId, Date date, boolean mandatory){
         List<TrainingCategoryParam> params = trainingCategoryCatalogParamRepository.findByCategoryAndGrantProgramInDate(
                 categoryId,  grantProgramId, date);
         if(params.size() == 0){
+            if(!mandatory){
+                return null;
+            }
             throw new RuntimeException(String.format("Błąd parmetryzacji w tabeli APP_PBE.TI_TRAINING_CATEGORY_PARAMS. Nie znaleziono żadnego "
                             + "parametru dla kategorii [%s], programu dofinansowania [%s] obowiązującego dnia [%s]",
                     categoryId, grantProgramId, date));
@@ -89,9 +95,12 @@ public class ParamInDateServiceImpl implements ParamInDateService {
     }
 
     @Override
-    public OrderFlowForGrantProgram findOrderFlowForGrantProgram(Long grantProgramId, Date date) {
+    public OrderFlowForGrantProgram findOrderFlowForGrantProgram(Long grantProgramId, Date date, boolean mandatory) {
         List<OrderFlowForGrantProgram> params = orderFlowForGrantProgramRepository.findByGrantProgramInDate(grantProgramId, date);
         if (params.size() == 0) {
+            if(!mandatory){
+                return null;
+            }
             throw new RuntimeException(String.format("Nie znaleziono żadnego order flow dla grant programu [%s]", grantProgramId));
         }
         if (params.size() > 1) {
@@ -101,9 +110,12 @@ public class ParamInDateServiceImpl implements ParamInDateService {
     }
 
     @Override
-    public OrderFlowForGrantApplicationVersion findOrderFlowForGrantApplicationVersion(Long versionId, Date date) {
+    public OrderFlowForGrantApplicationVersion findOrderFlowForGrantApplicationVersion(Long versionId, Date date, boolean mandatory) {
         List<OrderFlowForGrantApplicationVersion> params = orderFlowForGrantApplicationVersionRepository.findByGrantApplicationVersionInDate(versionId, date);
         if (params.size() == 0) {
+            if(!mandatory){
+                return null;
+            }
             throw new RuntimeException(String.format("Nie znaleziono żadnego order flow dla wersji [%s]", versionId));
         }
         if (params.size() > 1) {
@@ -113,9 +125,12 @@ public class ParamInDateServiceImpl implements ParamInDateService {
     }
 
     @Override
-    public GrantProgramParam findGrantProgramParam(Long grantProgramId, String paramTypeId, Date date){
+    public GrantProgramParam findGrantProgramParam(Long grantProgramId, String paramTypeId, Date date, boolean mandatory){
         List<GrantProgramParam> params = grantProgramParamRepository.findByGrantProgramInDate(grantProgramId, paramTypeId, date);
         if(params.size() == 0){
+            if(!mandatory){
+                return null;
+            }
             throw new RuntimeException(String.format("Dla danego programu dofinanoswania [%s] nie znalziono wartości dla parametru [%s] w danej dacie",
                     grantProgramId, paramTypeId));
         }
@@ -125,4 +140,5 @@ public class ParamInDateServiceImpl implements ParamInDateService {
         }
         return params.get(0);
     }
+
 }

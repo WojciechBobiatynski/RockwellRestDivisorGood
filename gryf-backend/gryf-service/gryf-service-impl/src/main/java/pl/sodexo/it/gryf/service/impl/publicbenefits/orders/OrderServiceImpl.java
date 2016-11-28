@@ -100,8 +100,9 @@ public class OrderServiceImpl implements OrderService {
         List<OrderElementDTOBuilder> orderElementDTOBuilders = orderElementRepository.findDtoFactoryByOrderToModify(id);
         List<OrderFlowTransitionDTO> orderFlowStatusTransitions = orderFlowStatusTransitionRepository.findDtoByOrder(id).stream().map(orderFlowTransitionDTOBuilder -> OrderFlowTransitionDTOProvider
                 .createOrderFlowTransitionDTO(orderFlowTransitionDTOBuilder)).collect(Collectors.toList());
+        List<OrderElementDTO> elements = orderServiceLocal.createOrderElementDtolist(orderElementDTOBuilders);
 
-        OrderDTO orderDTO = createOrderDTO(order, orderElementDTOBuilders, orderFlowStatusTransitions);
+        OrderDTO orderDTO = OrderDTO.create(order.getId(), elements, orderFlowStatusTransitions, order.getVersion());
         return JsonMapperUtils.writeValueAsString(orderDTO);
     }
 
@@ -114,8 +115,9 @@ public class OrderServiceImpl implements OrderService {
         }        
         List<OrderElementDTOBuilder> orderElementDTOBuilders = orderElementRepository.findDtoFactoryByOrderToPreview(id);
         List<OrderFlowTransitionDTO> orderFlowStatusTransitions = new ArrayList<>();
+        List<OrderElementDTO> elements = orderServiceLocal.createOrderElementDtolist(orderElementDTOBuilders);
 
-        OrderDTO orderDTO = createOrderDTO(order, orderElementDTOBuilders, orderFlowStatusTransitions);
+        OrderDTO orderDTO = OrderDTO.create(order.getId(), elements, orderFlowStatusTransitions, order.getVersion());
         return JsonMapperUtils.writeValueAsString(orderDTO);
     }
 
@@ -142,30 +144,6 @@ public class OrderServiceImpl implements OrderService {
     }
 
     //PRIVATE METHODS
-
-    /**
-     * Tworzy obiekt OrderDTO
-     * @param order zamówienia
-     * @param orderElementDTOBuilders lista obiektów OrderElementDTOBuilder
-     * @param orderFlowStatusTransitions lista akcji
-     * @return obiekt reprezentujący zamówienie
-     */
-    private OrderDTO createOrderDTO(Order order, List<OrderElementDTOBuilder> orderElementDTOBuilders, List<OrderFlowTransitionDTO> orderFlowStatusTransitions){
-        List<OrderElementDTO> elements = new ArrayList<>();
-        for (OrderElementDTOBuilder builder : orderElementDTOBuilders) {
-            OrderFlowElement ofe = builder.getOrderFlowElement();
-            OrderFlowElementType ofet = ofe.getOrderFlowElementType();
-
-            OrderElementService service = (OrderElementService) BeanUtils.findBean(context, ofet.getServiceBeanName());
-            OrderElementDTO elementDTO = service.createElement(builder);
-            if(elementDTO != null){
-                elements.add(elementDTO);
-            }
-
-        }
-
-        return OrderDTO.create(order.getId(), elements, orderFlowStatusTransitions, order.getVersion());
-    }
 
     public List<DictionaryDTO> getOrderFlowStatusesByGrantProgram(Long grantProgramId) {
         List<OrderFlowStatus> orderFlowStatuses = orderFlowStatusRepository.findByGrantProgram(grantProgramId);

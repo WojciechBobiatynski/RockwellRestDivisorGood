@@ -1,11 +1,14 @@
 package pl.sodexo.it.gryf.service.local.api.publicbenefits.orders;
 
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.CreateOrderDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementDTO;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
+import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElementDTOBuilder;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * Serwis lokalny dla zamówień
@@ -34,6 +37,13 @@ public interface OrderServiceLocal {
      * @return zamowienie
      */
     Order createOrder(GrantApplication grantApplication);
+
+    /**
+     * tworzy liste obiektów OrderElementDTO na podstawie obiektów OrderElementDTOBuilder
+     * @param orderElementDTOBuilders lista obiektów buildera
+     * @return lista obiektów OrderElementDTO
+     */
+    List<OrderElementDTO> createOrderElementDtolist(List<OrderElementDTOBuilder> orderElementDTOBuilders);
 
     /**
      * Metoda zwraca kwotę do wpłaty przez przedsiębiorstwo (MŚP) za przyznane bony szkoniowe

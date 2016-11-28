@@ -53,7 +53,7 @@ public abstract class OrderFlowBaseService implements OrderFlowService {
         validateCreateOrder(grantApplication);
 
         GrantProgramProduct gpProduct = paramInDateService.findGrantProgramProduct(grantApplication.getProgram().getId(),
-                                                            GrantProgramProduct.Type.PRODUCT, grantApplication.getReceiptDate());
+                                                            GrantProgramProduct.Type.PRODUCT, grantApplication.getReceiptDate(), true);
 
         Order order = new Order();
         order.setId(grantApplication.getId());
@@ -75,7 +75,7 @@ public abstract class OrderFlowBaseService implements OrderFlowService {
     public Order createOrder(Contract contract, OrderFlow orderFlow, CreateOrderDTO dto) {
         Individual individual = contract.getIndividual();
         GrantProgramProduct gpProduct = paramInDateService.findGrantProgramProduct(contract.getGrantProgram().getId(),
-                                                                    GrantProgramProduct.Type.PBE_PRODUCT, new Date());
+                                                                    GrantProgramProduct.Type.PBE_PRODUCT, new Date(), true);
 
         Order order = new Order();
         order.setGrantProgram(contract.getGrantProgram());
@@ -97,9 +97,9 @@ public abstract class OrderFlowBaseService implements OrderFlowService {
         Individual individual = contract.getIndividual();
         Enterprise enterprise = contract.getEnterprise();
         GrantProgram grantProgram = contract.getGrantProgram();
-        GrantProgramParam ocpParam = paramInDateService.findGrantProgramParam(grantProgram.getId(), GrantProgramParam.OWN_CONTRIBUTION_PERCENT, new Date());
+        GrantProgramParam ocpParam = paramInDateService.findGrantProgramParam(grantProgram.getId(), GrantProgramParam.OWN_CONTRIBUTION_PERCENT, new Date(), true);
         GrantProgramProduct gpProduct = paramInDateService.findGrantProgramProduct(contract.getGrantProgram().getId(),
-                GrantProgramProduct.Type.PBE_PRODUCT, new Date());
+                                                                GrantProgramProduct.Type.PBE_PRODUCT, new Date(), true);
 
         BigDecimal ownContributionPercent = new BigDecimal(ocpParam.getValue());
 

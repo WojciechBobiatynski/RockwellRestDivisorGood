@@ -372,7 +372,7 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
             }
 
             TrainingCategoryParam tccParam = paramInDateService.findTrainingCategoryParam(training.getCategory().getId(),
-                                                                                                    grantProgram.getId(), new Date());
+                                                                                                    grantProgram.getId(), new Date(), true);
 
             //WALIDACJE PO GODZINACH SZKOLENIA (TYPOWE SZKOLENIE)
             if (tccParam.getProductInstanceForHour() != null) {
