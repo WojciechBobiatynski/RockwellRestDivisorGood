@@ -1,0 +1,179 @@
+<toaster-container toaster-options="{'position-class': 'toast-top-center'}"></toaster-container>
+<header id="header">
+    <h1>Rozliczenie szkolenia</h1>
+    <ul>
+        <li><a class="button button-save" ng-click="save()"  gryf-privilege="">Zapisz</a></li>
+        <li><a class="button button-save" ng-click="toCorrect()" gryf-privilege="">Do korekty</a></li>
+        <li><a class="button button-save" ng-click="calculate()" gryf-privilege="">Wylicz kwoty</a></li>
+        <li><a class="button button-save" ng-click="createDocuments()" gryf-privilege="">Wystaw dokumenty</a></li>
+        <li><a class="button button-save" ng-click="getRaports()" gryf-privilege="">Pobierz raporty</a></li>
+        <li><a class="button button-save" ng-click="settle()" gryf-privilege="">Rozlicz</a></li>
+    </ul>
+    <ol>
+        <li><a class="button" ng-href="{{getPrevUrl()}}" >Wróć</a></li>
+    </ol>
+</header>
+<section>
+    <!--------------------------------------DANE_INSTYTUCJI_SZKOLENIOWEJ---------------------------------------------->
+    <div class="grid-100">
+        <header>
+            <h2>Dane instytucji szkoleniowej</h2>
+        </header>
+    </div>
+    <div class="grid-100">
+        <div class="grid-10">
+            <a ng-href="/href_to_preview">
+                <strong class="label">ID instytucji &UpperRightArrow; </strong>
+            </a>
+            <input type="text" ng-model="test" readonly="readonly">
+        </div>
+        <div class="grid-20">
+            <strong class="label">Nazwa instytucji</strong>
+            <input type="text" ng-model="test" disabled="disabled">
+        </div>
+        <div class="grid-10">
+            <strong class="label">NIP</strong>
+            <input type="text" ng-model="test" disabled="disabled">
+        </div>
+    </div>
+
+    <!--------------------------------------DANE_SZKOLENIA---------------------------------------------->
+    <div class="grid-100">
+        <header>
+            <h2>Dane szkolenia</h2>
+        </header>
+    </div>
+    <div class="grid-100">
+        <div class="grid-10">
+            <a ng-href="/href_to_preview">
+                <strong class="label">ID szkolenia &UpperRightArrow; </strong>
+            </a>
+            <input type="text" ng-model="test" readonly="readonly">
+        </div>
+        <div class="grid-20">
+            <strong class="label">Nazwa szkolenia</strong>
+            <input type="text" ng-model="test" disabled="disabled">
+        </div>
+        <div class="grid-10">
+            <strong class="label">Miejsce</strong>
+            <input type="text" ng-model="test" disabled="disabled">
+        </div>
+    </div>
+
+    <div class="grid-100">
+        <div class="grid-10">
+            <strong class="label">Cena</strong>
+            <input type="text" ng-model="test" disabled="disabled">
+        </div>
+        <div class="grid-20">
+            <strong class="label">Max. liczba godzin rozliczonych bonami</strong>
+            <input type="text" ng-model="test" disabled="disabled">
+        </div>
+        <div class="grid-10">
+            <strong class="label">Data rozpoczęcia</strong>
+            <input type="text" ng-model="test" disabled="disabled">
+        </div>
+        <div class="grid-10">
+            <strong class="label">Data zakończenia</strong>
+            <input type="text" ng-model="test" disabled="disabled">
+        </div>
+    </div>
+
+    <!--------------------------------------DANE_UCZESTNIKA---------------------------------------------->
+    <div class="grid-100">
+        <header>
+            <h2>Dane uczestnika</h2>
+        </header>
+    </div>
+    <div class="grid-100">
+        <div class="grid-10">
+            <a ng-href="/href_to_preview">
+                <strong class="label">ID uczestnika &UpperRightArrow; </strong>
+            </a>
+            <input type="text" ng-model="test" readonly="readonly">
+        </div>
+        <div class="grid-10">
+            <strong class="label">PESEL</strong>
+            <input type="text" ng-model="test" disabled="disabled">
+        </div>
+        <div class="grid-10">
+            <strong class="label">Imię</strong>
+            <input type="text" ng-model="test" disabled="disabled">
+        </div>
+        <div class="grid-10">
+            <strong class="label">Nazwisko</strong>
+            <input type="text" ng-model="test" disabled="disabled">
+        </div>
+    </div>
+
+    <!--------------------------------------WYKORZYSTANE_BONY---------------------------------------------->
+    <div class="grid-100">
+        <header>
+            <h2>Wykorzystane bony</h2>
+        </header>
+    </div>
+    <div class="grid-100">
+        <div class="grid-10">
+            <a ng-href="/href_to_preview">
+                <strong class="label">ID umowy &UpperRightArrow; </strong>
+            </a>
+            <input type="text" ng-model="test" readonly="readonly">
+        </div>
+        <div class="grid-10">
+            <strong class="label">Liczba bonów</strong>
+            <input type="text" ng-model="test" readonly="readonly">
+        </div>
+        <div class="grid-10">
+            <strong class="label">Data ważności umowy</strong>
+            <input type="text" ng-model="test" readonly="readonly">
+        </div>
+    </div>
+
+    <!--------------------------------------KWOTY_ROZLICZEN---------------------------------------------->
+    <div class="grid-100">
+        <header>
+            <h2>? Kwoty rozliczeń ?</h2>
+        </header>
+    </div>
+    <div class="grid-100">
+        <div class="grid-10">
+            a tutaj totalnie nie wiem co ma być
+        </div>
+    </div>
+
+    <!--------------------------------------KOREKTY---------------------------------------------->
+    <div class="grid-100">
+        <header>
+            <h2>Korekty</h2>
+        </header>
+    </div>
+    <div class="grid-100">
+        <div class="grid-10">
+            tutaj będzie domyślnie wyświetlona jedna korekta wraz z liczbą wszystkich korekt, z możliwością rozwinięcia sekcji
+        </div>
+    </div>
+
+    <!--------------------------------------ADRESACI EMAIL---------------------------------------------->
+    <div class="grid-100">
+        <header>
+            <h2>Adresaci email</h2>
+        </header>
+    </div>
+    <div class="grid-100">
+        <div class="grid-10">
+            <input type="text" value="text" readonly="readonly">
+        </div>
+    </div>
+
+    <!--------------------------------------ZALACZNIKI---------------------------------------------->
+    <div class="grid-100">
+        <header>
+            <h2>Załączniki</h2>
+        </header>
+    </div>
+    <div class="grid-100">
+        <div class="grid-10">
+            a tutaj jest komponent ze starego gryfa do obłsugi załączników
+        </div>
+    </div>
+</section>

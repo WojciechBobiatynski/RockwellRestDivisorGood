@@ -6,9 +6,9 @@ var app = angular.module('gryf.electronicreimbursements',
 
 app.config(['$routeProvider', function($routeProvider) {
     $routeProvider
-        .when('/modify/:id?', {
-            templateUrl: contextPath + '/templates/publicbenefits/electronicreimbursements/detailsform.html',
-            controller: 'detailsform.electronicReimbursementsController'
+        .when('/announce/:id?', {
+            templateUrl: contextPath + '/templates/publicbenefits/electronicreimbursements/announceform.html',
+            controller: 'announce.electronicReimbursementsController'
         })
         .when('/search/', {
             templateUrl: contextPath + '/templates/publicbenefits/electronicreimbursements/searchform.html',
