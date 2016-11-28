@@ -5,7 +5,11 @@
     <div class="modal-body text">
         <p>{{message}}</p>
     </div>
+    <div ng-show="isStacktraceVisible" style="overflow-y: scroll; height: 700px">
+        <pre style="white-space: pre-wrap;" data-ng-click="selectTextOnClick($event)">{{stacktrace}}</pre>
+    </div>
     <div class="modal-footer">
         <button class="button button-ok" ng-click="$dismiss()">Ok</button>
+        <button class="button button-show" style="margin-left: 10px;" ng-init="isStacktraceVisible = false;" ng-click="isStacktraceVisible = !isStacktraceVisible">Opis błędu</button>
     </div>
 </div>

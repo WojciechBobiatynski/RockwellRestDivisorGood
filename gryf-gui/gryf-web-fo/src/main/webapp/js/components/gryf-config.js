@@ -30,7 +30,9 @@ angular.module('gryf.config').service('exceptionsService', function () {
     };
 });
 
-angular.module('gryf.config').factory('generalExceptionHandlerInterceptor', ['$q', '$injector', '$location', 'exceptionsService', function($q, $injector, $location, exceptionsService) {
+angular.module('gryf.config').factory('generalExceptionHandlerInterceptor', ['$q', '$injector', '$location', 'exceptionsService',
+    function($q, $injector, $location, exceptionsService) {
+
     var timers = {
         messageKeeper: null,
         timeoutKeeper: null,
@@ -50,12 +52,12 @@ angular.module('gryf.config').factory('generalExceptionHandlerInterceptor', ['$q
                     $injector.invoke(['GryfModals', function(GryfModals) {
                         var additionalInfo = {message: rejection.data.message};
                         GryfModals.openModal(GryfModals.MODALS_URL.INVALID_OBJECT_ID, additionalInfo)
-                    }]);                    
+                    }]);
                 } else { // GENERAL_EXCEPTION
                     $injector.invoke(['GryfModals', function(GryfModals) {
-                        var additionalInfo = {message: rejection.data.stacktrace};
-                        exceptionsService.setLastExceptionStackTrace(additionalInfo.message);
-                        $location.path("/exception");
+                        var additionalInfo = {message: rejection.data.message, stacktrace: rejection.data.stacktrace};
+                        exceptionsService.setLastExceptionStackTrace(rejection.data.stacktrace);
+                        GryfModals.openModal(GryfModals.MODALS_URL.ERROR_INFO, additionalInfo)
                     }]);
                 }
             }
@@ -85,14 +87,9 @@ angular.module('gryf.config').factory('generalExceptionHandlerInterceptor', ['$q
     };
 }]);
 
-angular.module('gryf.config').config(['$httpProvider','$routeProvider', function($httpProvider, $routeProvider) {
+angular.module('gryf.config').config(['$httpProvider', function($httpProvider) {
     $httpProvider.defaults.headers.common["X-CSRF-TOKEN"] = xsrf;
     $httpProvider.interceptors.push('generalExceptionHandlerInterceptor');
-    $routeProvider
-        .when('/exception',
-            {
-                templateUrl: contextPath + '/templates/exception.jsp'
-            })
 }]);
 
 angular.module('gryf.config').config(['$provide', '$controllerProvider', function($provide, $controllerProvider) {

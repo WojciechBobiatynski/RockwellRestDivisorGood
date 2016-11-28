@@ -108,7 +108,15 @@ angular.module('gryf.modals').factory('GryfModals', ['$rootScope', '$modal', fun
                 violations: additionalTextData.violations,
                 staleData: additionalTextData.staleData,
                 conflictedObjects: additionalTextData.conflictedObjects,
-                message: additionalTextData.message
+                message: additionalTextData.message,
+                stacktrace: additionalTextData.stacktrace,
+                selectTextOnClick: function($event) {
+                    var range = document.createRange();
+                    range.selectNodeContents($event.currentTarget);
+                    var sel = window.getSelection();
+                    sel.removeAllRanges();
+                    sel.addRange(range);
+                }
             })
         });
     };
