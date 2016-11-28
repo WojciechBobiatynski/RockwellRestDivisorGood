@@ -366,6 +366,12 @@ angular.module('gryf.orders').factory("CreateOrdersService",
             promise.then(function(response) {
                 createOrderDto.data = response.data;
             });
+            promise.error(function(error) {
+                GryfPopups.setPopup("error", "Błąd", "Nie udało się przygotować danych zamówienia na podstawie wskazanej umowy");
+                GryfPopups.showPopup();
+
+                GryfExceptionHandler.handleSavingError(error, violations, null);
+            });
             promise.finally(function() {
                 GryfModals.closeModal(modalInstance);
             });
