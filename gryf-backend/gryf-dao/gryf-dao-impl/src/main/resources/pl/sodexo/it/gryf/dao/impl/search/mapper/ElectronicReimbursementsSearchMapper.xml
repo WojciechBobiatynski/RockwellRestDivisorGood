@@ -101,7 +101,7 @@
     <resultMap id="ecltRmbsHeadMap" type="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto" autoMapping="true" >
         <id column="ermbsId" property="ermbsId"/>
         <collection property="products" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.ProductHeadDto" autoMapping="true" columnPrefix="prd_"/>
-        <collection property="attachments" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsAttachmentsDto" autoMapping="true" columnPrefix="att_"/>
+        <collection property="attachments" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsAttachmentDto" autoMapping="true" columnPrefix="att_"/>
     </resultMap>
     <select id="findEcltRmbsById" resultMap="ecltRmbsHeadMap">
         SELECT
@@ -116,7 +116,7 @@
           att.attach_type                           att_code,
           att.DOCUMENT_NUMBER                       att_documentNumber,
           att.ADDITIONAL_DESCRIPTION                att_additionalDescription,
-          att.ORGINAL_FILE_NAME                     att_orginalFileName,
+          att.ORGINAL_FILE_NAME                     att_originalFileName,
           att.FILE_LOCATION                         att_fileLocation,
           att_t.MAX_BYTES_PER_FILE                  att_maxFileSize
         FROM

@@ -15,7 +15,7 @@ import java.io.Serializable;
  * Created by akmiecinski on 24.11.2016.
  */
 @ToString
-public class ErmbsAttachmentsDto extends VersionableDto implements Serializable {
+public class ErmbsAttachmentDto extends VersionableDto implements Serializable {
 
     @Getter
     @Setter
@@ -43,7 +43,7 @@ public class ErmbsAttachmentsDto extends VersionableDto implements Serializable 
 
     @Getter
     @Setter
-    private String orginalFileName;
+    private String originalFileName;
 
     @Getter
     @Setter
@@ -56,6 +56,14 @@ public class ErmbsAttachmentsDto extends VersionableDto implements Serializable 
     @Getter
     @Setter
     private boolean required;
+
+    @Getter
+    @Setter
+    private boolean changed;
+
+    @Getter
+    @Setter
+    private Integer index;
 
     @Getter
     @Setter
