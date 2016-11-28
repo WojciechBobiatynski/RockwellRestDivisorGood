@@ -38,11 +38,11 @@ public class ElctRmbsHeadDto extends VersionableDto implements Serializable {
 
     @Getter
     @Setter
-    private BigDecimal sxoIndAmountDueTotal;
+    private BigDecimal sxoTiAmountDueTotal;
 
     @Getter
     @Setter
-    private BigDecimal indSxoAmountDueTotal;
+    private BigDecimal indTiAmountDueTotal;
 
     @Getter
     @Setter
@@ -54,5 +54,5 @@ public class ElctRmbsHeadDto extends VersionableDto implements Serializable {
 
     @Getter
     @Setter
-    private String returnAccountPayment;
+    private String tiReimbAccountNumber;
 }

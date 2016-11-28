@@ -51,15 +51,20 @@ public class Ereimbursement extends VersionableEntity {
     @Setter
     private Date reimbursementDate;
 
-    @Column(name = "SXO_IND_AMOUNT_DUE_TOTAL")
+    @Column(name = "SXO_TI_AMOUNT_DUE_TOTAL")
     @Getter
     @Setter
-    private BigDecimal sxoIndAmountDueTotal;
+    private BigDecimal sxoTiAmountDueTotal;
 
-    @Column(name = "IND_SXO_AMOUNT_DUE_TOTAL")
+    @Column(name = "IND_TI_AMOUNT_DUE_TOTAL")
     @Getter
     @Setter
-    private BigDecimal indSxoAmountDueTotal;
+    private BigDecimal indTiAmountDueTotal;
+
+    @Column(name = "TI_REIMB_ACCOUNT_NUMBER")
+    @Getter
+    @Setter
+    private String tiReimbAccountNumber;
 
     @OneToMany(mappedBy = "ereimbursement")
     @Getter

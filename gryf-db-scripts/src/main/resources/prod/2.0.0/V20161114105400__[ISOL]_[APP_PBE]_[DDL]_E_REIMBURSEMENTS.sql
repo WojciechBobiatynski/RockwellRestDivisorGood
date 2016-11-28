@@ -4,8 +4,9 @@ CREATE TABLE APP_PBE.E_REIMBURSEMENTS
 	TI_TR_INST_ID NUMBER NOT NULL,    -- Klucz obcy do TI_TRAINING_INSTANCES
 	STATUS_ID VARCHAR2(5) NOT NULL,    -- Status rozliczenia. Klucz obcy do E_REIMBURSEMENT_STATUSES
 	REIMBURSEMENT_DATE DATE,    -- Data rozliczenia (wykonania przelewu)
-  SXO_IND_AMOUNT_DUE_TOTAL NUMBER, -- Ca³kowita kwota od Operatora Finansowego
-  IND_SXO_AMOUNT_DUE_TOTAL NUMBER, -- Ca³kowtia kwota od U¿ytkownika
+  SXO_TI_AMOUNT_DUE_TOTAL NUMBER, -- Ca³kowita kwota od Operatora Finansowego dla Instytucji szkoleniowej
+  IND_TI_AMOUNT_DUE_TOTAL NUMBER, -- Ca³kowtia kwota od U¿ytkownika dla instytucji szkoleniowej
+  TI_REIMB_ACCOUNT_NUMBER VARCHAR(26), -- Numer konta instytucji szkoleniowej do zwrotu
 	VERSION NUMBER NOT NULL,    -- Standardowa kolumna wersji na potrzeby optymistycznego blokowania (Gryf)
 	CREATED_USER VARCHAR(100) NOT NULL,    -- U¿ytkownik tworzacy wiersz - kolumna audytowa
 	CREATED_TIMESTAMP TIMESTAMP(6) NOT NULL,    -- Timestamp utworzenia wiersza - kolumna audytowa
@@ -18,8 +19,9 @@ COMMENT ON COLUMN APP_PBE.E_REIMBURSEMENTS.ID IS 'Identyfikator rozliczenia elek
 COMMENT ON COLUMN APP_PBE.E_REIMBURSEMENTS.TI_TR_INST_ID IS 'Klucz obcy do TI_TRAINING_INSTANCES';
 COMMENT ON COLUMN APP_PBE.E_REIMBURSEMENTS.STATUS_ID IS 'Status rozliczenia. Klucz obcy do E_REIMBURSEMENT_STATUSES';
 COMMENT ON COLUMN APP_PBE.E_REIMBURSEMENTS.REIMBURSEMENT_DATE IS 'Data rozliczenia (wykonania przelewu)';
-COMMENT ON COLUMN APP_PBE.E_REIMBURSEMENTS.SXO_IND_AMOUNT_DUE_TOTAL IS 'Ca³kowita kwota od Operatora Finansowego';
-COMMENT ON COLUMN APP_PBE.E_REIMBURSEMENTS.IND_SXO_AMOUNT_DUE_TOTAL IS 'Ca³kowtia kwota od U¿ytkownika';
+COMMENT ON COLUMN APP_PBE.E_REIMBURSEMENTS.SXO_TI_AMOUNT_DUE_TOTAL IS 'Ca³kowita kwota od Operatora Finansowego dla Instytucji szkoleniowej';
+COMMENT ON COLUMN APP_PBE.E_REIMBURSEMENTS.IND_TI_AMOUNT_DUE_TOTAL IS 'Ca³kowtia kwota od U¿ytkownika dla Instytucji szkoleniowej';
+COMMENT ON COLUMN APP_PBE.E_REIMBURSEMENTS.TI_REIMB_ACCOUNT_NUMBER IS 'Numer konta instytucji szkoleniowej do zwrotu';
 COMMENT ON COLUMN APP_PBE.E_REIMBURSEMENTS.VERSION IS 'Standardowa kolumna wersji na potrzeby optymistycznego blokowania (Gryf)';
 COMMENT ON COLUMN APP_PBE.E_REIMBURSEMENTS.CREATED_USER IS 'U¿ytkownik tworzacy wiersz - kolumna audytowa';
 COMMENT ON COLUMN APP_PBE.E_REIMBURSEMENTS.CREATED_TIMESTAMP IS 'Timestamp utworzenia wiersza - kolumna audytowa';

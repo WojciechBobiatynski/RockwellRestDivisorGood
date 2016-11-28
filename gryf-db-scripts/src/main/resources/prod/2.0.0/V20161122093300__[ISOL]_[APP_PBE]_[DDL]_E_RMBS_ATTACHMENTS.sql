@@ -4,10 +4,10 @@ CREATE TABLE APP_PBE.E_RMBS_ATTACHMENTS
 	E_RMBS_ID NUMBER NOT NULL,    -- Id rozliczenia. Klucz obcy do APP_PBE.E_REIMBURSEMENTS
 	CORR_ID NUMBER,    -- Id korekty. Klucz obcy do APP_PBE.CORRECTIONS
 	ATTACH_TYPE VARCHAR2(10) NOT NULL,    -- Typ dokumentu. Klucz obcy do tabeli APP_PBE.ATTACHMENT_TYPES
-	DOCUMENT_NUMBER VARCHAR2(200) NOT NULL,    -- Numer dokumentu (Np. FV) lub opis
+	DOCUMENT_NUMBER VARCHAR2(200),    -- Numer dokumentu (Np. FV) lub opis
 	ADDITIONAL_DESCRIPTION VARCHAR2(200),    -- Dodatkowy opis
-	ORGINAL_FILE_NAME VARCHAR2(100) NOT NULL,    -- oryginalna nazwa pliku
-	FILE_LOCATION VARCHAR2(250) NOT NULL,    -- Pe³na œcie¿ka do pliku zapisanego na serwerze (razem z nazw¹ pliku)
+	ORGINAL_FILE_NAME VARCHAR2(100),    -- oryginalna nazwa pliku
+	FILE_LOCATION VARCHAR2(250),    -- Pe³na œcie¿ka do pliku zapisanego na serwerze (razem z nazw¹ pliku)
 	VERSION NUMBER NOT NULL,    -- Standardowa kolumna wersji na potrzeby optymistycznego blokowania (Gryf)
 	CREATED_USER VARCHAR2(100) NOT NULL,    -- U¿ytkownik tworzacy wiersz - kolumna audytowa
 	CREATED_TIMESTAMP TIMESTAMP(6) NOT NULL,    -- Timestamp utworzenia wiersza - kolumna audytowa

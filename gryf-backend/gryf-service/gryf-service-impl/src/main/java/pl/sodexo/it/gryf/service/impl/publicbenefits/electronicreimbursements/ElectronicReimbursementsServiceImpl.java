@@ -173,15 +173,15 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         BigDecimal normalizeHourPrice = new BigDecimal(params.getProductInstanceForHour()).multiply(params.getProductValue());
         BigDecimal realHourPrice = params.getTrainingHourPrice().compareTo(normalizeHourPrice) < 0 ? params.getTrainingHourPrice() : normalizeHourPrice;
         BigDecimal sxoAmount = new BigDecimal(params.getUsedProductsNumber()).multiply(realHourPrice).divide(new BigDecimal(params.getProductInstanceForHour()));
-        elctRmbsHeadDto.setSxoIndAmountDueTotal(sxoAmount);
+        elctRmbsHeadDto.setSxoTiAmountDueTotal(sxoAmount);
     }
 
     private void calculateSxoAmountForExam(ElctRmbsHeadDto elctRmbsHeadDto, CalculationChargesParamsDto params) {
         BigDecimal usedProductsAmount = new BigDecimal(params.getUsedProductsNumber()).multiply(params.getProductValue());
         if (usedProductsAmount.compareTo(params.getTrainingPrice()) > 0) {
-            elctRmbsHeadDto.setSxoIndAmountDueTotal(params.getTrainingPrice());
+            elctRmbsHeadDto.setSxoTiAmountDueTotal(params.getTrainingPrice());
         } else {
-            elctRmbsHeadDto.setSxoIndAmountDueTotal(usedProductsAmount);
+            elctRmbsHeadDto.setSxoTiAmountDueTotal(usedProductsAmount);
         }
 
     }
@@ -203,10 +203,10 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
                     .multiply(params.getTrainingHourPrice().subtract(normalizedProductHourPrice));
         }
         BigDecimal hoursPaidWithCashCost = new BigDecimal(hoursPaidWithCash).multiply(params.getTrainingHourPrice());
-        elctRmbsHeadDto.setIndSxoAmountDueTotal(trainingHourDifferenceCost.add(hoursPaidWithCashCost));
+        elctRmbsHeadDto.setIndTiAmountDueTotal(trainingHourDifferenceCost.add(hoursPaidWithCashCost));
     }
 
     private void calculateIndAmountForExam(ElctRmbsHeadDto elctRmbsHeadDto, CalculationChargesParamsDto params) {
-        elctRmbsHeadDto.setIndSxoAmountDueTotal(params.getTrainingPrice().subtract(elctRmbsHeadDto.getSxoIndAmountDueTotal()));
+        elctRmbsHeadDto.setIndTiAmountDueTotal(params.getTrainingPrice().subtract(elctRmbsHeadDto.getSxoTiAmountDueTotal()));
     }
 }
