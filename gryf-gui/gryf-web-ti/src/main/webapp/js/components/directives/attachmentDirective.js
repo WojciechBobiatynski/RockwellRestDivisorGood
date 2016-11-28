@@ -19,6 +19,11 @@ angular.module("gryf.ti").directive("attachments", ['AttachmentService',
                     $scope.model.attachments.splice(index, 1);
                 };
 
+                $scope.onItemClick = function (item, index) {
+                    item.changed = true;
+                    item.index = index;
+                }
+
             },
             link: function ($scope) {
 

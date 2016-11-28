@@ -46,7 +46,7 @@ public class ElctRmbsHeadDto extends VersionableDto implements Serializable {
 
     @Getter
     @Setter
-    private List<ErmbsAttachmentsDto> attachments;
+    private List<ErmbsAttachmentDto> attachments;
 
     @Getter
     @Setter

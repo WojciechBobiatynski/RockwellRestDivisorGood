@@ -9,7 +9,7 @@ import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CalculationChargesParamsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsAttachmentsDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsAttachmentDto;
 import pl.sodexo.it.gryf.common.enums.FileType;
 import pl.sodexo.it.gryf.common.exception.NoCalculationParamsException;
 import pl.sodexo.it.gryf.common.utils.GryfConstants;
@@ -118,21 +118,37 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         ereimbursement.getTrainingInstance().setStatus(trainingInstanceStatusRepository.get(GryfConstants.TO_REIMBURSE_TRAINING_INSTANCE_STATUS_CODE));
     }
 
-    private List<ErmbsAttachmentsDto> saveErmbsAttachments(Ereimbursement ereimbursement, List<ErmbsAttachmentsDto> ermbsAttachmentsDtoList) {
-        List<ErmbsAttachment> ermbsAttachments = new ArrayList<>();
-        for(ErmbsAttachmentsDto ermbsAttachment : ermbsAttachmentsDtoList){
-            ErmbsAttachment entity = ermbsAttachmentDtoMapper.convert(ermbsAttachment);
-            entity.setEreimbursement(ereimbursement);
-            ereimbursementAttachmentRepository.save(entity);
+    private List<ErmbsAttachmentDto> saveErmbsAttachments(Ereimbursement ereimbursement, List<ErmbsAttachmentDto> ermbsAttachmentsDtoList) {
+        List<ErmbsAttachmentDto> ermbsAttachments = new ArrayList<>();
+        for(ErmbsAttachmentDto ermbsAttachment : ermbsAttachmentsDtoList){
+            ErmbsAttachment entity = saveAttachmentEntity(ereimbursement, ermbsAttachment);
+            saveFile(ermbsAttachment, entity);
+            prepareAttachmentDtoList(ermbsAttachments, ermbsAttachment, entity);
+        }
+        return ermbsAttachments;
+    }
+
+    private ErmbsAttachment saveAttachmentEntity(Ereimbursement ereimbursement, ErmbsAttachmentDto ermbsAttachment) {
+        ErmbsAttachment entity = ermbsAttachmentDtoMapper.convert(ermbsAttachment);
+        entity.setEreimbursement(ereimbursement);
+        ereimbursementAttachmentRepository.save(entity);
+        return entity;
+    }
+
+    private void saveFile(ErmbsAttachmentDto ermbsAttachment, ErmbsAttachment entity) {
+        if(ermbsAttachment.isChanged()){
             String fileName = String.format("%s_%s_%s_%s", entity.getId(), ermbsAttachment.getCode(), entity.getId(), ermbsAttachment.getFile().getOriginalFilename());
             String newFileName = GryfStringUtils.convertFileName(fileName);
             String filePath = fileService.writeFile(FileType.E_REIMBURSEMENTS, newFileName, ermbsAttachment.getFile(), null);
             entity.setOrginalFileName(ermbsAttachment.getFile().getOriginalFilename());
             entity.setFileLocation(filePath);
-            ermbsAttachments.add(entity);
         }
-        ereimbursement.setErmbsAttachmentList(ermbsAttachments);
-        return ermbsAttachmentEntityMapper.convert(ermbsAttachments);
+    }
+
+    private void prepareAttachmentDtoList(List<ErmbsAttachmentDto> ermbsAttachments, ErmbsAttachmentDto ermbsAttachment, ErmbsAttachment entity) {
+        ErmbsAttachmentDto ermbsAttachmentDto = ermbsAttachmentEntityMapper.convert(entity);
+        ermbsAttachmentDto.setRequired(ermbsAttachment.isRequired());
+        ermbsAttachments.add(ermbsAttachmentDto);
     }
 
     private void calculateCharges(ElctRmbsHeadDto elctRmbsHeadDto, Long trainingInstanceId) {

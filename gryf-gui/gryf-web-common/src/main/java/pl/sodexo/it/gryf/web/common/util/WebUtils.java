@@ -3,14 +3,13 @@ package pl.sodexo.it.gryf.web.common.util;
 import org.springframework.web.multipart.MultipartFile;
 import pl.sodexo.it.gryf.common.dto.other.FileDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsAttachmentsDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsAttachmentDto;
 import pl.sodexo.it.gryf.common.exception.GryfUploadException;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.IntStream;
 
 /**
  * Created by tomasz.bilski.ext on 2015-08-21.
@@ -42,14 +41,11 @@ public final class WebUtils {
     }
 
     public static ElctRmbsHeadDto fillErmbsDtoWithAttachments(Map<String, MultipartFile> fileMap, ElctRmbsHeadDto source) throws IOException {
-        List<MultipartFile> files = new ArrayList<>(fileMap.values());
-
-        IntStream.range(0, files.size()).forEach(index -> {
+        source.getAttachments().stream().filter(ErmbsAttachmentDto::isChanged).forEach(ermbsAttachmentsDto -> {
+            MultipartFile multipartFile = fileMap.get("file[" + ermbsAttachmentsDto.getIndex() + "]");
             try {
-                ErmbsAttachmentsDto ermbsAttachmentsDto = source.getAttachments().get(index);
-                MultipartFile multipartFile = files.get(index);
                 ermbsAttachmentsDto.setFile(createFileDto(multipartFile));
-                ermbsAttachmentsDto.setOrginalFileName(multipartFile.getOriginalFilename());
+                ermbsAttachmentsDto.setOriginalFileName(multipartFile.getOriginalFilename());
             } catch (IOException e) {
                 throw new GryfUploadException("Nie udało się zuploadować plików", e);
             }

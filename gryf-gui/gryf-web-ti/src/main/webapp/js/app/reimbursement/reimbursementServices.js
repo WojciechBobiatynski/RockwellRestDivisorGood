@@ -165,19 +165,17 @@ angular.module("gryf.ti").factory("ReimbursementsServiceModify",
 
                 var attachments = {};
                 angular.forEach(rmbsModel.model.attachments, function(attachment){
-                    var prefix = '';
-                    if(rmbsModel.model.attachments.id !== undefined){
-                        prefix += rmbsModel.model.attachments.id;
+                    if(attachment.index !== undefined){
+                        attachments[attachment.index] = attachment.file;
                     }
-                    prefix += '#';
-                    attachments[prefix + attachment.code] = attachment.file;
                 });
 
                 Upload.upload({
                     url: SAVE_RMBS,
                     data: {file: attachments, model: Upload.json(rmbsModel.model)}
-                }).success(function(id) {
+                }).success(function(response) {
                     GryfPopups.setPopup("success", "Sukces", "Rozliczenie poprawnie zapisane");
+                    rmbsModel.model = response;
                 }).error(function(response) {
                     GryfPopups.setPopup("error", "Błąd", "Nie udało się zapisać rozliczenia.");
                     GryfPopups.showPopup();
