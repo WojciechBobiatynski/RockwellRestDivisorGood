@@ -72,7 +72,8 @@ public class ReimbursementRestController {
         ElctRmbsHeadDto dto = JsonMapperUtils.readValue(request.getParameter("model"), ElctRmbsHeadDto.class);
         Map<String, MultipartFile> fileMap = request.getFileMap();
         WebUtils.fillErmbsDtoWithAttachments(fileMap, dto);
-        return electronicReimbursementsService.saveErmbs(dto);
+        Long ermbsId = electronicReimbursementsService.saveErmbs(dto);
+        return electronicReimbursementsService.findEcltRmbsById(ermbsId);
     }
 
 

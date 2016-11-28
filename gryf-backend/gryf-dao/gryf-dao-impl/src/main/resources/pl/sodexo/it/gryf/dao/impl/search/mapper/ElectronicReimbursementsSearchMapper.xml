@@ -111,7 +111,14 @@
           tr.TRAINING_INSTITUTION_ID                trainingInstitutionId,
           ermbs.SXO_TI_AMOUNT_DUE_TOTAL             sxoIndAmountDueTotal,
           ermbs.IND_TI_AMOUNT_DUE_TOTAL             indSxoAmountDueTotal,
+          ermbs.SXO_TI_AMOUNT_DUE_TOTAL             sxoTiAmountDueTotal,
+          ermbs.IND_TI_AMOUNT_DUE_TOTAL             indTiAmountDueTotal,
           ermbs.TI_REIMB_ACCOUNT_NUMBER             tiReimbAccountNumber,
+          ermbs.VERSION                             version,
+          ermbs.CREATED_USER                        createdUser,
+          ermbs.CREATED_TIMESTAMP                   createdTimestamp,
+          ermbs.MODIFIED_USER                       modifiedUser,
+          ermbs.MODIFIED_TIMESTAMP                  modifiedTimestamp,
           pool.ORDER_ID                             prd_orderId,
           pool_uses.ASSIGNED_NUM                    prd_reservedProductsCount,
           pool.EXPIRY_DATE                          prd_expirationDate,
@@ -121,7 +128,18 @@
           att.ADDITIONAL_DESCRIPTION                att_additionalDescription,
           att.ORGINAL_FILE_NAME                     att_originalFileName,
           att.FILE_LOCATION                         att_fileLocation,
-          att_t.MAX_BYTES_PER_FILE                  att_maxFileSize
+          att_t.MAX_BYTES_PER_FILE                  att_maxFileSize,
+          att.VERSION                               att_version,
+          att.CREATED_USER                          att_createdUser,
+          att.CREATED_TIMESTAMP                     att_createdTimestamp,
+          att.MODIFIED_USER                         att_modifiedUser,
+          att.MODIFIED_TIMESTAMP                    att_modifiedTimestamp,
+          CASE
+              WHEN att_req.ATTACH_TYPE is not NULL
+                THEN 1
+              ELSE
+                0
+            END                                     att_required
         FROM
           APP_PBE.E_REIMBURSEMENTS ermbs
           JOIN APP_PBE.TI_TRAINING_INSTANCES tr_in ON tr_in.ID = ermbs.TI_TR_INST_ID
@@ -130,6 +148,12 @@
           LEFT JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOLS pool on pool_uses.PRODUCT_INSTANCE_POOL_ID = pool.ID
           LEFT JOIN APP_PBE.E_RMBS_ATTACHMENTS att ON att.E_RMBS_ID = ermbs.ID
           LEFT JOIN APP_PBE.ATTACHMENT_TYPES att_t ON att_t.CODE = att.ATTACH_TYPE
+          LEFT JOIN APP_PBE.GRANT_PROGRAM_ATTACH_REQ att_req ON (
+              att_req.ATTACH_TYPE = att_t.code
+              AND att_req.GRANT_PROGRAM_ID = tr_in.GRANT_PROGRAM_ID
+              AND att_req.DATE_FROM &lt;= SYSDATE
+              AND NVL(att_req.DATE_TO, SYSDATE) &gt;= SYSDATE
+            )
         WHERE
           ermbs.ID = #{ermbsId}
         <if test="criteria.gryfUser.userType == 'TRAINING_INSTITUTION'">

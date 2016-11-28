@@ -44,8 +44,8 @@ public interface ElectronicReimbursementsService {
     /**
      * Metoda zapisująca rozliczenia dla bonów
      * @param elctRmbsHeadDto - dto rozliczenia
-     * @return zapisane dto
+     * @return id zapisanego obiektu
      */
-    ElctRmbsHeadDto saveErmbs(ElctRmbsHeadDto elctRmbsHeadDto);
+    Long saveErmbs(ElctRmbsHeadDto elctRmbsHeadDto);
 
 }

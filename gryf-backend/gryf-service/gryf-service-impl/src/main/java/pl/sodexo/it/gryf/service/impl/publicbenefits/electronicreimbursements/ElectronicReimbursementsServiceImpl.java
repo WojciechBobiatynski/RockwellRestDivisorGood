@@ -31,7 +31,6 @@ import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.electronicre
 import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.electronicreimbursements.ErmbsAttachmentEntityMapper;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -105,50 +104,41 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     }
 
     @Override
-    public ElctRmbsHeadDto saveErmbs(ElctRmbsHeadDto elctRmbsHeadDto) {
+    public Long saveErmbs(ElctRmbsHeadDto elctRmbsHeadDto) {
         Ereimbursement ereimbursement = ereimbursementDtoMapper.convert(elctRmbsHeadDto);
         ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(GryfConstants.NEW_ERMBS_STATUS_CODE));
         setTrainingInstanceWithAppropiateStatus(ereimbursement);
-        ereimbursementRepository.save(ereimbursement);
-        ElctRmbsHeadDto dto = ereimbursementEntityMapper.convert(ereimbursement);
-        dto.setAttachments(saveErmbsAttachments(ereimbursement, elctRmbsHeadDto.getAttachments()));
-        return dto;
+        ereimbursement = ereimbursement.getId() != null ? ereimbursementRepository.update(ereimbursement, ereimbursement.getId()) : ereimbursementRepository.save(ereimbursement);
+        saveErmbsAttachments(ereimbursement, elctRmbsHeadDto.getAttachments());
+        return ereimbursement.getId();
     }
+
     private void setTrainingInstanceWithAppropiateStatus(Ereimbursement ereimbursement) {
         ereimbursement.getTrainingInstance().setStatus(trainingInstanceStatusRepository.get(GryfConstants.TO_REIMBURSE_TRAINING_INSTANCE_STATUS_CODE));
     }
 
-    private List<ErmbsAttachmentDto> saveErmbsAttachments(Ereimbursement ereimbursement, List<ErmbsAttachmentDto> ermbsAttachmentsDtoList) {
-        List<ErmbsAttachmentDto> ermbsAttachments = new ArrayList<>();
-        for(ErmbsAttachmentDto ermbsAttachment : ermbsAttachmentsDtoList){
+    private void saveErmbsAttachments(Ereimbursement ereimbursement, List<ErmbsAttachmentDto> ermbsAttachmentsDtoList) {
+        for (ErmbsAttachmentDto ermbsAttachment : ermbsAttachmentsDtoList) {
             ErmbsAttachment entity = saveAttachmentEntity(ereimbursement, ermbsAttachment);
             saveFile(ermbsAttachment, entity);
-            prepareAttachmentDtoList(ermbsAttachments, ermbsAttachment, entity);
         }
-        return ermbsAttachments;
     }
 
     private ErmbsAttachment saveAttachmentEntity(Ereimbursement ereimbursement, ErmbsAttachmentDto ermbsAttachment) {
         ErmbsAttachment entity = ermbsAttachmentDtoMapper.convert(ermbsAttachment);
         entity.setEreimbursement(ereimbursement);
-        ereimbursementAttachmentRepository.save(entity);
+        entity = entity.getId() != null ? ereimbursementAttachmentRepository.update(entity, entity.getId()) : ereimbursementAttachmentRepository.save(entity);
         return entity;
     }
 
     private void saveFile(ErmbsAttachmentDto ermbsAttachment, ErmbsAttachment entity) {
-        if(ermbsAttachment.isChanged()){
+        if (ermbsAttachment.isChanged()) {
             String fileName = String.format("%s_%s_%s_%s", entity.getId(), ermbsAttachment.getCode(), entity.getId(), ermbsAttachment.getFile().getOriginalFilename());
             String newFileName = GryfStringUtils.convertFileName(fileName);
             String filePath = fileService.writeFile(FileType.E_REIMBURSEMENTS, newFileName, ermbsAttachment.getFile(), null);
             entity.setOrginalFileName(ermbsAttachment.getFile().getOriginalFilename());
             entity.setFileLocation(filePath);
         }
-    }
-
-    private void prepareAttachmentDtoList(List<ErmbsAttachmentDto> ermbsAttachments, ErmbsAttachmentDto ermbsAttachment, ErmbsAttachment entity) {
-        ErmbsAttachmentDto ermbsAttachmentDto = ermbsAttachmentEntityMapper.convert(entity);
-        ermbsAttachmentDto.setRequired(ermbsAttachment.isRequired());
-        ermbsAttachments.add(ermbsAttachmentDto);
     }
 
     private void calculateCharges(ElctRmbsHeadDto elctRmbsHeadDto, Long trainingInstanceId) {

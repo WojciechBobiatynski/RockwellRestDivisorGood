@@ -33,7 +33,7 @@
                     <li>
                         <!--TODO: dodać zmienną definiującą maksymalny rozmiar pliku, gdy nie został zdefiniowany per typ-->
                         <button class="standardButton" ng-model="item.file" ngf-select ngf-max-size="{{item.maxFileSize ? item.maxFileSize : '2MB'}}" ngf-model-invalid="item.errorFile" data-ng-click="onItemClick(item, $index)">
-                            {{!item.file.name ? "Wgraj plik" : "Zmień plik"}}
+                            {{(!item.file.name && !item.originalFileName) ? "Wgraj plik" : "Zmień plik"}}
                         </button>
                         <i ng-show="item.errorFile.$errorMessages.maxSize">Załącznik przekracza maksymalny rozmiar pliku: {{item.maxFileSize ? item.maxFileSize / 1024 / 1024 : '2'}}MB</i>
                     </li>

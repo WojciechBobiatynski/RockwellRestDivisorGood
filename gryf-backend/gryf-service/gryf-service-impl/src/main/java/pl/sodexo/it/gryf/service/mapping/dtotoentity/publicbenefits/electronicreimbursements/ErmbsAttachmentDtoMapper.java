@@ -34,6 +34,7 @@ public class ErmbsAttachmentDtoMapper extends VersionableDtoMapper<ErmbsAttachme
     @Override
     protected void map(ErmbsAttachmentDto dto, ErmbsAttachment entity) {
         super.map(dto, entity);
+        entity.setId(dto.getId());
         entity.setEreimbursement(dto.getErmbsId() != null ? ereimbursementRepository.get(dto.getErmbsId()) : null);
         entity.setCorrection(dto.getCorrId() != null ? correctionRepository.get(dto.getCorrId()) : null);
         entity.setAttachmentType(attachmentTypeRepository.get(dto.getCode()));
