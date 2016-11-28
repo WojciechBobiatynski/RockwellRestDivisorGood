@@ -4,12 +4,17 @@ angular.module("gryf.trainingInstances").factory("TrainingInstanceSearchService"
 
         var FIND_TRAINING_INSTANCE_LIST_URL = contextPath + "/trainingInstance/list";
         var FIND_TRAINING_INSTANCE_DETAILS_URL = contextPath + "/trainingInstance/details/";
+        var TRAINING_INSTANCE_STATUSES_LIST_URL = contextPath + "/trainingInstance/statuses";
 
         var trainingCriteria = new TrainingCriteria();
         var searchResultOptions = new SearchResultOptions();
         var trainingModel = new TrainingModel();
 
         function TrainingCriteria() {
+            this.trainingInstanceId = null,
+            this.trainingInstitutionId = null,
+            this.trainingInstitutionName = null,
+            this.trainingId = null,
             this.trainingName = null,
             this.participantPesel = null,
             this.participantName = null,
@@ -92,6 +97,13 @@ angular.module("gryf.trainingInstances").factory("TrainingInstanceSearchService"
             });
         };
 
+        var getTiStatuses = function () {
+            return $http.get(TRAINING_INSTANCE_STATUSES_LIST_URL).error(function() {
+                GryfPopups.setPopup("error", "Błąd", "Nie można pobrać słownika statusów instancji szkoleń");
+                GryfPopups.showPopup();
+            });
+        };
+
         var findSortedBy = function(sortColumnName) {
             GryfTables.sortByColumn(trainingCriteria, sortColumnName);
             return find();
@@ -109,6 +121,7 @@ angular.module("gryf.trainingInstances").factory("TrainingInstanceSearchService"
 
         return {
             getNewCriteria: getNewTrainingCriteria,
+            getTiStatuses: getTiStatuses,
             getSearchResultOptions: getSearchResultOptions,
             getNewSearchResultOptions: getNewSearchResultOptions,
             getTrainingModel: getTrainingModel,

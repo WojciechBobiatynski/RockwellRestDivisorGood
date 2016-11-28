@@ -7,6 +7,9 @@
         SELECT * FROM
         (SELECT
             ti_in.ID                      trainingInstanceId,
+            tri.ID                        trainingInstitutionId,
+            tri.NAME                      trainingInstitutionName,
+            ti.ID                         trainingId,
             ti.NAME                       trainingName,
             ind.PESEL                     participantPesel,
             ind.FIRST_NAME                participantName,
@@ -17,11 +20,21 @@
         FROM
             APP_PBE.TI_TRAINING_INSTANCES ti_in
             JOIN APP_PBE.TI_TRAININGS ti ON ti.ID = ti_in.TRAINING_ID
+            JOIN APP_PBE.TRAINING_INSTITUTIONS tri ON tri.ID = ti.TRAINING_INSTITUTION_ID
             LEFT JOIN APP_PBE.INDIVIDUALS ind ON ind.ID = ti_in.INDIVIDUAL_ID
             LEFT JOIN APP_PBE.TI_TRAINING_INSTANCE_STATUSES status ON status.ID = ti_in.STATUS_ID
         <where>
-            <if test="criteria.trainingName != null and criteria.trainingName != ''">
-                AND LOWER(ti.NAME) like '%' || LOWER(#{criteria.trainingName}) || '%'
+            <if test="criteria.trainingInstanceId != null and criteria.trainingInstanceId != ''">
+                AND ti_in.ID = #{criteria.trainingInstanceId}
+            </if>
+            <if test="criteria.trainingInstitutionId != null and criteria.trainingInstitutionId != ''">
+                AND tri.ID = #{criteria.trainingInstitutionId}
+            </if>
+            <if test="criteria.trainingInstitutionName != null and criteria.trainingInstitutionName != ''">
+                AND LOWER(tri.NAME) like '%' || LOWER(#{criteria.trainingInstitutionName}) || '%'
+            </if>
+            <if test="criteria.trainingId != null and criteria.trainingId != ''">
+                AND ti.ID = #{criteria.trainingId}
             </if>
             <if test="criteria.participantPesel != null and criteria.participantPesel != ''">
                 AND ind.PESEL like '%' || #{criteria.participantPesel} || '%'

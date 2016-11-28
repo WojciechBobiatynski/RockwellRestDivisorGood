@@ -1,0 +1,151 @@
+<div>
+    <header id="header">
+        <h1>Wyszukiwanie instancji szkoleń</h1>
+        <ul>
+            <li><a ng-click="clear()" class="button button-refresh">Wyczyść</a></li>
+        </ul>
+    </header>
+
+    <div class="one-column">
+
+        <section class="overflow-x-auto">
+            <table class="table table-condensed">
+                <thead>
+                <tr class="grid-100">
+                    <th class="sortable grid-10" ng-class="getSortingTypeClass('trainingInstanceId')">
+                        <div ng-click="getSortedBy('trainingInstanceId')">Id instancji</div>
+                        <input placeholder="Id" type="number" ng-model="searchDTO.trainingInstanceId">
+                    </th>
+                    <th class="sortable grid-10" ng-class="getSortingTypeClass('trainingInstitutionId')">
+                        <div ng-click="getSortedBy('trainingInstitutionId')">Id instytucji</div>
+                        <a ng-click="openIsLov()" class="button button-save">Wybierz</a>
+                        <input placeholder="Id instytucji" type="number" ng-model="searchDTO.trainingInstitutionId">
+                    </th>
+                    <th class="sortable grid-10" ng-class="getSortingTypeClass('trainingInstitutionName')">
+                        <div ng-click="getSortedBy('trainingInstitutionName')">Nazwa instytucji</div>
+                        <input placeholder="Nazwa instytucji" type="text" ng-model="searchDTO.trainingInstitutionName">
+                    </th>
+                    <th class="sortable grid-10" ng-class="getSortingTypeClass('trainingId')">
+                        <div ng-click="getSortedBy('trainingId')">Id szkolenia</div>
+                        <a ng-click="openTraLov()" class="button button-save">Wybierz</a>
+                        <input placeholder="Id szkolenia" type="number" ng-model="searchDTO.trainingId">
+                    </th>
+                    <th class="sortable grid-10" ng-class="getSortingTypeClass('trainingName')">
+                        <div ng-click="getSortedBy('trainingName')">Nazwa szkolenia</div>
+                        <input placeholder="Nazwa szkolenia" ng-model="searchDTO.trainingName">
+                    </th>
+                    <th class="sortable grid-10" ng-class="getSortingTypeClass('participantPesel')">
+                        <div ng-click="getSortedBy('participantPesel')">PESEL Uczestnika</div>
+                        <input placeholder="Nazwa instytucji" type="text" ng-model="searchDTO.participantPesel">
+                    </th>
+                    <th class="sortable grid-10" ng-class="getSortingTypeClass('participantName')">
+                        <div ng-click="getSortedBy('participantName')">Imię Uczestnika</div>
+                        <input placeholder="Imię Uczestnika" type="text" ng-model="searchDTO.participantName">
+                    </th>
+                    <th class="sortable grid-10" ng-class="getSortingTypeClass('participantSurname')">
+                        <div ng-click="getSortedBy('participantSurname')">Nazwisko Uczestnika</div>
+                        <input placeholder="Nazwisko Uczestnika" type="text" ng-model="searchDTO.participantSurname">
+                    </th>
+                    <th class="sortable grid-10"
+                        ng-class="getSortingTypeClass('startDate')">
+                        <div ng-click="getSortedBy('startDate')">
+                            Data rozpoczęcia
+                        </div>
+                        <input type="text"
+                               placeholder="Data od..."
+                               ng-model="searchDTO.startDateFrom"
+                               datepicker-popup="yyyy-MM-dd"
+                               is-open="datepicker.isTrainingStartDateFromOpened"
+                               close-text="Zamknij"
+                               clear-text="Czyść"
+                               current-text="Dziś"
+                               ng-click="openDatepicker('isTrainingStartDateFromOpened')"/>
+                        <input type="text"
+                               placeholder="Data do..."
+                               ng-model="searchDTO.startDateTo"
+                               datepicker-popup="yyyy-MM-dd"
+                               is-open="datepicker.isTrainingStartDateToOpened"
+                               close-text="Zamknij"
+                               clear-text="Czyść"
+                               current-text="Dziś"
+                               ng-click="openDatepicker('isTrainingStartDateToOpened')"/>
+                    </th>
+                    <th class="sortable grid-10"
+                        ng-class="getSortingTypeClass('endDate')">
+                        <div ng-click="getSortedBy('endDate')">
+                            Data zakończenia
+                        </div>
+                        <input type="text"
+                               placeholder="Data od..."
+                               ng-model="searchDTO.endDateFrom"
+                               datepicker-popup="yyyy-MM-dd"
+                               is-open="datepicker.isTrainingEndDateFromOpened"
+                               close-text="Zamknij"
+                               clear-text="Czyść"
+                               current-text="Dziś"
+                               ng-click="openDatepicker('isTrainingEndDateFromOpened')"/>
+                        <input type="text"
+                               placeholder="Data do..."
+                               ng-model="searchDTO.endDateTo"
+                               datepicker-popup="yyyy-MM-dd"
+                               is-open="datepicker.isTrainingEndDateToOpened"
+                               close-text="Zamknij"
+                               clear-text="Czyść"
+                               current-text="Dziś"
+                               ng-click="openDatepicker('isTrainingEndDateToOpened')"/>
+                    </th>
+                    <th class="sortable grid-15" ng-class="getSortingTypeClass('category')">
+                        <div ng-click="getSortedBy('category')">Status</div>
+                        <select ng-options="v.id as v.name for v in statusesDictionary | orderBy:'ordinal'" ng-model="searchDTO.trainingStatusId">
+                            <option value="">-wybierz-</option>
+                        </select>
+                    </th>
+                    <th>
+                        <a ng-click="find()"
+                           class="button button-search">szukaj</a>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in trainingModel.foundTrainings | limitTo: searchResultOptions.displayLimit">
+                    <td>{{::item.trainingInstanceId}}</td>
+                    <td>{{::item.trainingInstitutionId}}</td>
+                    <td>{{::item.trainingInstitutionName}}</td>
+                    <td>{{::item.trainingId}}</td>
+                    <td>{{::item.trainingName}}</td>
+                    <td>{{::item.participantPesel}}</td>
+                    <td>{{::item.participantName}}</td>
+                    <td>{{::item.participantSurname}}</td>
+                    <td>{{::item.startDate | date:'yyyy-MM-dd'}}</td>
+                    <td>{{::item.endDate | date:'yyyy-MM-dd'}}</td>
+                    <td>{{::item.trainingStatus}}</td>
+                    <td>
+                        <ul class="buttons">
+                            <li><a ng-href="#/modify/{{item.trainingId}}"
+                                   gryf-privilege="GRF_TRAINING_INSTITUTION_MOD"
+                                   class="button button-go">szczegóły</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div ng-show="searchResultOptions.overflow" class="centered-ul">
+                <ul>
+                    <li><a href="#/" ng-click="loadMore()"
+                           class="button button-infinity">wczytaj więcej wyników</a></li>
+                </ul>
+            </div>
+            <div class="" ng-show="model.zipCodesArray.length===0">
+                Brak wyników
+            </div>
+            <div class="msg msg-error" ng-show="searchResultOptions.badQuery">
+                <p>Błąd kryteriów zapytania - niepoprawny format</p>
+            </div>
+        </section>
+
+    </div>
+</div>
+
+
+

@@ -24,6 +24,22 @@ public class TrainingInstanceCriteria extends UserCriteria {
 
     @Getter
     @Setter
+    private Long trainingInstanceId;
+
+    @Getter
+    @Setter
+    private Long trainingInstitutionId;
+
+    @Getter
+    @Setter
+    private String trainingInstitutionName;
+
+    @Getter
+    @Setter
+    private Long trainingId;
+
+    @Getter
+    @Setter
     private String trainingName;
 
     @Getter

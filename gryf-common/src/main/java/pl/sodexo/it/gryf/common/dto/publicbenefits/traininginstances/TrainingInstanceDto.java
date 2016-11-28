@@ -25,6 +25,18 @@ public class TrainingInstanceDto implements Serializable {
 
     @Getter
     @Setter
+    private Long trainingInstitutionId;
+
+    @Getter
+    @Setter
+    private String trainingInstitutionName;
+
+    @Getter
+    @Setter
+    private Long trainingId;
+
+    @Getter
+    @Setter
     private String trainingName;
 
     @Getter

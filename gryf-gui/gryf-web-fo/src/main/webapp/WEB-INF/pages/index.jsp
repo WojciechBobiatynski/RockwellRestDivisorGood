@@ -227,6 +227,15 @@
                         </ul>
                     </li>
                     <li class="submenu">
+                        <a ng-href="${pageContext.request.contextPath}/publicBenefits/trainingInstances/">
+                            Obsługa szkoleń
+                        </a>
+                        <ul>
+                            <a ng-href="${pageContext.request.contextPath}/publicBenefits/trainingInstances/"
+                                gryf-link-privilege="GRF_PBE_DELIVERIES">Lista instancji szkoleń</a>
+                        </ul>
+                    </li>
+                    <li class="submenu">
                         <a
                                 ng-href="${pageContext.request.contextPath}/publicBenefits/electronic/reimbursements"
                         <%--TODO: dodać uprawnienia--%>
