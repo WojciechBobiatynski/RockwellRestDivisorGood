@@ -20,6 +20,10 @@ public class TrainingInstanceDetailsDto implements Serializable {
 
     @Getter
     @Setter
+    private Long trainingId;
+
+    @Getter
+    @Setter
     private Integer productAssignedNum;
 
     @Getter
@@ -45,6 +49,10 @@ public class TrainingInstanceDetailsDto implements Serializable {
     @Getter
     @Setter
     private BigDecimal trainingHourPrice;
+
+    @Getter
+    @Setter
+    private String participantId;
 
     @Getter
     @Setter

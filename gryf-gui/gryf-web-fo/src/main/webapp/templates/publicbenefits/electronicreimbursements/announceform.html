@@ -22,18 +22,18 @@
     </div>
     <div class="grid-100">
         <div class="grid-10">
-            <a ng-href="/href_to_preview">
+            <a ng-href="{{getUrlFor(MODULES.TrainingInstitution, eReimbObject.trainingInstitution.id)}}">
                 <strong class="label">ID instytucji &UpperRightArrow; </strong>
             </a>
-            <input type="text" ng-model="test" readonly="readonly">
+            <input type="text" ng-model="eReimbObject.trainingInstitution.id" readonly="readonly">
         </div>
         <div class="grid-20">
             <strong class="label">Nazwa instytucji</strong>
-            <input type="text" ng-model="test" disabled="disabled">
+            {{eReimbObject.trainingInstitution.name}}
         </div>
         <div class="grid-10">
             <strong class="label">NIP</strong>
-            <input type="text" ng-model="test" disabled="disabled">
+            {{eReimbObject.trainingInstitution.vatRegNum}}
         </div>
     </div>
 
@@ -45,37 +45,45 @@
     </div>
     <div class="grid-100">
         <div class="grid-10">
-            <a ng-href="/href_to_preview">
+            <a ng-href="{{getUrlFor(MODULES.Training, eReimbObject.trainingInstance.trainingId)}}">
                 <strong class="label">ID szkolenia &UpperRightArrow; </strong>
             </a>
-            <input type="text" ng-model="test" readonly="readonly">
+            <input type="text" ng-model="eReimbObject.trainingInstance.trainingId" readonly="readonly">
         </div>
         <div class="grid-20">
             <strong class="label">Nazwa szkolenia</strong>
-            <input type="text" ng-model="test" disabled="disabled">
+            {{eReimbObject.trainingInstance.trainingName}}
+        </div>
+        <div class="grid-10">
+            <strong class="label">Kategoria</strong>
+            {{eReimbObject.trainingInstance.trainingCategory}}
         </div>
         <div class="grid-10">
             <strong class="label">Miejsce</strong>
-            <input type="text" ng-model="test" disabled="disabled">
+            {{eReimbObject.trainingInstance.trainingPlace}}
         </div>
     </div>
 
     <div class="grid-100">
         <div class="grid-10">
             <strong class="label">Cena</strong>
-            <input type="text" ng-model="test" disabled="disabled">
+            {{eReimbObject.trainingInstance.trainingPrice}}
         </div>
         <div class="grid-20">
             <strong class="label">Max. liczba godzin rozliczonych bonami</strong>
-            <input type="text" ng-model="test" disabled="disabled">
+            {{eReimbObject.trainingInstance.maxProductsNumber}}
+        </div>
+        <div class="grid-15">
+            <strong class="label">Liczba godzin lekcyjnych</strong>
+            {{eReimbObject.trainingInstance.trainingHoursNumber}}
         </div>
         <div class="grid-10">
             <strong class="label">Data rozpoczęcia</strong>
-            <input type="text" ng-model="test" disabled="disabled">
+            {{eReimbObject.trainingInstance.startDate}}
         </div>
         <div class="grid-10">
             <strong class="label">Data zakończenia</strong>
-            <input type="text" ng-model="test" disabled="disabled">
+            {{eReimbObject.trainingInstance.endDate}}
         </div>
     </div>
 
@@ -87,22 +95,22 @@
     </div>
     <div class="grid-100">
         <div class="grid-10">
-            <a ng-href="/href_to_preview">
+            <a ng-href="{{getUrlFor(MODULES.Individual, eReimbObject.trainingInstance.participantId)}}">
                 <strong class="label">ID uczestnika &UpperRightArrow; </strong>
             </a>
-            <input type="text" ng-model="test" readonly="readonly">
+            <input type="text" ng-model="eReimbObject.trainingInstance.participantId" readonly="readonly">
         </div>
         <div class="grid-10">
             <strong class="label">PESEL</strong>
-            <input type="text" ng-model="test" disabled="disabled">
+            {{eReimbObject.trainingInstance.participantPesel}}
         </div>
         <div class="grid-10">
             <strong class="label">Imię</strong>
-            <input type="text" ng-model="test" disabled="disabled">
+            {{eReimbObject.trainingInstance.participantName}}
         </div>
         <div class="grid-10">
             <strong class="label">Nazwisko</strong>
-            <input type="text" ng-model="test" disabled="disabled">
+            {{eReimbObject.trainingInstance.participantSurname}}
         </div>
     </div>
 
@@ -112,20 +120,20 @@
             <h2>Wykorzystane bony</h2>
         </header>
     </div>
-    <div class="grid-100">
+    <div class="grid-100" ng-repeat="prd in eReimbObject.entity.products">
         <div class="grid-10">
-            <a ng-href="/href_to_preview">
-                <strong class="label">ID umowy &UpperRightArrow; </strong>
+            <a ng-href="{{getUrlFor(MODULES.Order, prd.orderId)}}">
+                <strong class="label">ID zamówienia &UpperRightArrow; </strong>
             </a>
-            <input type="text" ng-model="test" readonly="readonly">
+            <input type="text" ng-model="prd.orderId" readonly="readonly">
         </div>
         <div class="grid-10">
             <strong class="label">Liczba bonów</strong>
-            <input type="text" ng-model="test" readonly="readonly">
+            {{prd.reservedProductsCount}}
         </div>
         <div class="grid-10">
-            <strong class="label">Data ważności umowy</strong>
-            <input type="text" ng-model="test" readonly="readonly">
+            <strong class="label">Data ważności bonów</strong>
+            {{prd.expirationDate}}
         </div>
     </div>
 
@@ -153,7 +161,7 @@
         </div>
     </div>
 
-    <!--------------------------------------ADRESACI EMAIL---------------------------------------------->
+    <!--------------------------------------ADRESACI_EMAIL---------------------------------------------->
     <div class="grid-100">
         <header>
             <h2>Adresaci email</h2>

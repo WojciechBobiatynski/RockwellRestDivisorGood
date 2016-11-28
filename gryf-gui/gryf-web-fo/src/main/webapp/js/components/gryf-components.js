@@ -639,14 +639,20 @@ angular.module('gryf.helpers').factory('GryfModulesUrlProvider', [function() {
         GrantApplication : contextPath + "/publicBenefits/grantApplications/#/modify/",
         Order : contextPath + "/publicBenefits/orders/#/modify/",
         Enterprise : contextPath + "/publicBenefits/enterprises/#/modify/",
-        Individual : contextPath + "/publicBenefits/individuals/#/modify/"
+        Individual : contextPath + "/publicBenefits/individuals/#/modify/",
+        TrainingInstitution : contextPath + "/publicBenefits/trainingInstitutions/#/modify/",
+        Training : contextPath + "/publicBenefits/training/#/modify/",
+        Contract : contextPath + "/publicBenefits/contracts/#/modify/"
     };
     
     var MODULES = {
         GrantApplication : 'GrantApplication',
         Order : 'Order',
         Enterprise : 'Enterprise',
-        Individual : 'Individual'
+        Individual : 'Individual',
+        TrainingInstitution : 'TrainingInstitution',
+        Training : 'Training',
+        Contract : 'Contract'
     };
     
     var getUrlFor = function(module, objectId){

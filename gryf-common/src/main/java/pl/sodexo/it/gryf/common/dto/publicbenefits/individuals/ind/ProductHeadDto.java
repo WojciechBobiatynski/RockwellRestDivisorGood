@@ -25,4 +25,8 @@ public class ProductHeadDto extends VersionableDto {
     @Setter
     private Integer reservedProductsCount;
 
+    @Getter
+    @Setter
+    private Long orderId;
+
 }

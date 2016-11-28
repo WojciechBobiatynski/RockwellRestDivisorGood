@@ -5,6 +5,9 @@ public final class UrlConstants {
     public static final String USER_INFO_REST = "/rest/userinfo";
     public static final String PATH_TRAINING_RESERVATION_REST = "/rest/trainingreservation";
 
+
+    public static final String PATH_TRAINING_REST = "/rest/training";
+
     public static final String PATH_TRAINING_INSTANCE_REST = "/rest/trainingInstance";
     public static final String PATH_TRAINING_INSTANCE_LIST = "/list";
     public static final String PATH_TRAINING_INSTANCE_DETAILS = "/details";

@@ -2,7 +2,7 @@ angular.module("gryf.ti").factory("DictionaryService", function ($cacheFactory, 
     var REST_URL = contextPath + "/rest/";
 
     var DICTIONARY = {
-        TRAINING_CATEGORIES: "trainingreservation/trainingCategoriesDict",
+        TRAINING_CATEGORIES: "training/categories",
         REIMBURSEMENT_STATUSES: "reimbursements/statuses",
         TRAINING_INSTANCE_STATUSES: "trainingInstance/statuses"
     };

@@ -1,6 +1,6 @@
 angular.module("gryf.ti").factory("TrainingSearchService", function($http, GryfModals, GryfTables, GryfHelpers, GryfPopups) {
-    var FIND_TRAINING_URL = contextPath + "/rest/trainingreservation/training/list";
-    var FIND_SINGLE_TRAINING_URL = contextPath + "/rest/trainingreservation/training/";
+    var FIND_TRAINING_URL = contextPath + "/rest/training/list";
+    var FIND_SINGLE_TRAINING_URL = contextPath + "/rest/training/";
 
     var searchDTO = new SearchObjModel();
     var searchResultOptions = new SearchResultOptions();

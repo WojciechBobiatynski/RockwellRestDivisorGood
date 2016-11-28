@@ -1,4 +1,4 @@
-angular.module('gryf.electronicreimbursements').factory("electronicReimbursementsService",
+angular.module('gryf.electronicreimbursements').factory("electronicReimbursementSearchService",
     ['$http', 'GryfModals', 'GryfHelpers', 'GryfTables', function($http, GryfModals, GryfHelpers, GryfTables) {
 
         var FIND_RMBS_LIST_URL = contextPath + "/rest/publicBenefits/electronic/reimbursements/list";
@@ -103,3 +103,103 @@ angular.module('gryf.electronicreimbursements').factory("electronicReimbursement
             loadReimbursementsStatuses: loadReimbursementsStatuses
         };
     }]);
+
+angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementService",
+    ["$http", "$routeParams", "GryfModals", "GryfExceptionHandler", "GryfPopups",
+        function($http, $routeParams, GryfModals, GryfExceptionHandler, GryfPopups) {
+
+            var FIND_RMBS_URL = contextPath + "/rest/publicBenefits/electronic/reimbursements/";
+
+            var eReimbObject = new EReimbObject();
+            var violations = {};
+
+            var getNewModel = function() {
+                eReimbObject = new EReimbObject();
+                return eReimbObject;
+            };
+
+            var getViolations = function() {
+                return violations;
+            };
+
+            var getNewViolations = function() {
+                violations = {};
+                return violations;
+            };
+
+            function EReimbObject() {
+                this.entity = {
+                    ermbsId: null,
+                    trainingInstanceId: null,
+                    products: null,
+                    sxoIndAmountDueTotal: null,
+                    indSxoAmountDueTotal: null,
+                    attachments: null,
+                    statusCode: null,
+                    returnAccountPayment: null
+                }
+            }
+/*
+            var save = function(additionalParam) {
+                var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING, {label: "Zapisuję dane"});
+
+                var promise;
+                if (eReimbObject.entity.trainingId) {
+                    promise = $http.put(TRAINING_URL + eReimbObject.entity.trainingId, eReimbObject.entity, {params: additionalParam});
+                } else {
+                    promise = $http.post(TRAINING_URL, eReimbObject.entity, {params: additionalParam});
+                }
+
+                promise.then(function() {
+                    GryfPopups.setPopup("success", "Sukces", "Szkolenie poprawnie zapisane");
+                    GryfPopups.showPopup();
+                });
+
+                promise.error(function(error) {
+                    GryfPopups.setPopup("error", "Błąd", "Nie udało się zapisać szkolenia");
+                    GryfPopups.showPopup();
+
+                    var conflictCallbacksObject = {
+                        refresh: function() {
+                            load();
+                        },
+                        force: function() {
+                            eReimbObject.entity.version = error.version;
+                            save().then(function() {
+                                GryfPopups.showPopup();
+                            });
+                        }
+                    };
+
+                    GryfExceptionHandler.handleSavingError(error, violations, conflictCallbacksObject);
+                });
+
+                promise.finally(function() {
+                    GryfModals.closeModal(modalInstance);
+                });
+
+                return promise;
+            };*/
+
+            var findById = function(rmbsId) {
+                if ($routeParams.id || rmbsId) {
+                    var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING, {label: "Wczytuję dane"});
+                    var promise = $http.get(FIND_RMBS_URL + ($routeParams.id ? $routeParams.id : rmbsId));
+                    promise.then(function(response) {
+                        eReimbObject.entity = response.data;
+                    });
+                    promise.finally(function() {
+                        GryfModals.closeModal(modalInstance);
+                    });
+                    return promise;
+                }
+            };
+
+            return {
+                getNewModel: getNewModel,
+                getViolation: getViolations,
+                getNewViolations: getNewViolations,
+                findById: findById
+                //save: save
+            };
+        }]);

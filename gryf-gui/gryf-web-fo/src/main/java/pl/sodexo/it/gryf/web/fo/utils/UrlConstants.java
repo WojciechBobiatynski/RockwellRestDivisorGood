@@ -32,4 +32,10 @@ public final class UrlConstants {
     public static final String PAGE_ELECTRONIC_REIMBURSEMENTS_SEARCH = "publicbenefits/electronicReimbursementsIndex.jsp";
     public static final String PATH_ELECTRONIC_REIMBURSEMENTS_LIST =  "/list";
     public static final String PATH_ELECTRONIC_REIMBURSEMENTS_STATUSES_LIST =  "/statuses";
+    public static final String PATH_ELECTRONIC_REIMBURSEMENTS_FIND =  "/";
+
+    public static final String PATH_TRAINING_INSTANCE = "/trainingInstance";
+    public static final String PATH_TRAINING_INSTANCE_LIST =  "/list";
+    public static final String PATH_TRAINING_INSTANCE_STATUSES_LIST =  "/statuses";
+    public static final String PATH_TRAINING_INSTANCE_DETAILS_FIND =  "/details";
 }

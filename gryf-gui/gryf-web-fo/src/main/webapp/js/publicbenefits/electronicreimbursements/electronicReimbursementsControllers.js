@@ -1,10 +1,10 @@
 "use strict";
 
 angular.module('gryf.electronicreimbursements').controller("searchform.electronicReimbursementsController",
-    ['$scope', 'electronicReimbursementsService', function ($scope, electronicReimbursementsService) {
-        $scope.elctRmbsCriteria = electronicReimbursementsService.getNewCriteria();
-        $scope.searchResultOptions = electronicReimbursementsService.getSearchResultOptions();
-        $scope.elctRmbsModel = electronicReimbursementsService.getElctRmbsModel();
+    ['$scope', 'electronicReimbursementSearchService', function ($scope, electronicReimbursementSearchService) {
+        $scope.elctRmbsCriteria = electronicReimbursementSearchService.getNewCriteria();
+        $scope.searchResultOptions = electronicReimbursementSearchService.getSearchResultOptions();
+        $scope.elctRmbsModel = electronicReimbursementSearchService.getElctRmbsModel();
 
         gryfSessionStorage.setUrlToSessionStorage();
 
@@ -14,7 +14,7 @@ angular.module('gryf.electronicreimbursements').controller("searchform.electroni
         };
 
         $scope.find = function () {
-            electronicReimbursementsService.find();
+            electronicReimbursementSearchService.find();
         };
 
         $scope.openDatepicker = function (fieldName) {
@@ -22,22 +22,36 @@ angular.module('gryf.electronicreimbursements').controller("searchform.electroni
         };
 
         ($scope.loadReimbursementsStatuses = function () {
-            electronicReimbursementsService.loadReimbursementsStatuses();
+            electronicReimbursementSearchService.loadReimbursementsStatuses();
         })();
 
     }]);
 
 
 angular.module('gryf.electronicreimbursements').controller("announce.electronicReimbursementsController",
-    ['$scope', 'electronicReimbursementsService',
-    function ($scope, electronicReimbursementsService) {
+    ['$scope', "$routeParams", "GryfModulesUrlProvider", "BrowseTrainingInsService", "TrainingInstanceSearchService", "AnnounceEReimbursementService",
+        function ($scope, $routeParams, GryfModulesUrlProvider, BrowseTrainingInsService, TrainingInstanceSearchService, AnnounceEReimbursementService) {
 
-        gryfSessionStorage.setUrlToSessionStorage();
+        $scope.MODULES = GryfModulesUrlProvider.MODULES;
+        $scope.getUrlFor = GryfModulesUrlProvider.getUrlFor;
+
+        $scope.eReimbObject = AnnounceEReimbursementService.getNewModel();
+        $scope.violations = AnnounceEReimbursementService.getNewViolations();
+
+        $scope.test = 123123;
+
+        if($routeParams.id) {
+            AnnounceEReimbursementService.findById($routeParams.id).then(function() {
+                TrainingInstanceSearchService.findDetailsById($scope.eReimbObject.entity.trainingInstanceId).success(function(data) {
+                    $scope.eReimbObject.trainingInstance = data;
+                });
+                BrowseTrainingInsService.findById($scope.eReimbObject.entity.trainingInstitutionId).success(function(data) {
+                    $scope.eReimbObject.trainingInstitution = data[0];
+                });
+            });
+        }
 
         $scope.getPrevUrl = function() {
             return gryfSessionStorage.getUrlFromSessionStorage();
         };
-
-        $scope.test = 123123213123;
-
     }]);

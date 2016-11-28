@@ -1,20 +1,18 @@
-'use strict';
+"use strict";
 
-var app = angular.module('gryf.electronicreimbursements',
-    ['gryf.config', 'ngFileUpload', 'ui.utils.masks']);
+angular.module("gryf.electronicreimbursements", ["gryf.config", "ngFileUpload", "ui.utils.masks", "gryf.trainingInstitutions", "gryf.trainingInstances"]);
 
-
-app.config(['$routeProvider', function($routeProvider) {
+angular.module("gryf.electronicreimbursements").config(["$routeProvider", function($routeProvider) {
     $routeProvider
-        .when('/announce/:id?', {
-            templateUrl: contextPath + '/templates/publicbenefits/electronicreimbursements/announceform.html',
-            controller: 'announce.electronicReimbursementsController'
+        .when("/announce/:id?", {
+            templateUrl: contextPath + "/templates/publicbenefits/electronicreimbursements/announceform.html",
+            controller: "announce.electronicReimbursementsController"
         })
-        .when('/search/', {
-            templateUrl: contextPath + '/templates/publicbenefits/electronicreimbursements/searchform.html',
-            controller: 'searchform.electronicReimbursementsController'
+        .when("/search/", {
+            templateUrl: contextPath + "/templates/publicbenefits/electronicreimbursements/searchform.html",
+            controller: "searchform.electronicReimbursementsController"
         })
         .otherwise({
-            redirectTo: '/'
+            redirectTo: "/"
         });
 }]);
