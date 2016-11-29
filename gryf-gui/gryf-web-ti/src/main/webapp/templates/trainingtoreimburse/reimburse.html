@@ -92,7 +92,7 @@
             <div class="multiSection">
                 <div class="grid-100">
                     <strong>Warunek rozliczenia</strong>
-                    <div>Rozliczenie szkolenia możliwe jest po zdaniu egzaminu i potwierdzeniu kwalifikacji odpowiednim certyfikatem. Uczetsnik zobowiązany jest do przedłożenia Faktury, kopii
+                    <div>Rozliczenie szkolenia możliwe jest po zdaniu egzaminu i potwierdzeniu kwalifikacji odpowiednim certyfikatem. Uczestnik zobowiązany jest do przedłożenia Faktury, kopii
                         zaświadczenia o ukończeniu szkolenia oraz kopii certyfikatu lub kopii potwierdzenia o niezndanym egzaminie
                     </div>
                 </div>
@@ -102,7 +102,7 @@
                     <strong>Rachunek rozliczeniowy</strong>
                     <div class="childrenInOneLine">
                         <span>Numer rachunku bankowego do zwrotu</span>
-                        <input type="text" data-ng-model="rmbsModel.model.tiReimbAccountNumber" ui-mask="99 9999 9999 9999 9999 9999 9999"  ui-mask-placeholder ui-mask-placeholder-char=" "/>
+                        <input type="text" data-ng-model="rmbsModel.model.tiReimbAccountNumber" ui-mask="99 9999 9999 9999 9999 9999 9999" ui-mask-placeholder ui-mask-placeholder-char=" "/>
                         <gryf-validation-msg path="tiReimbAccountNumber"></gryf-validation-msg>
                     </div>
                 </div>
@@ -111,11 +111,14 @@
                 <div class="grid-100">
                     <strong>Załączniki do rozliczenia</strong>
                 </div>
+                <div class="grid-100 redLabel">
+                    W systemie można załączać jedynie dokumenty z następującymi rozszerzenieami: PDF,DOC,DOCX,XLS,XLSX,PNG,JPG,GIF.
+                </div>
                 <attachments training-instance="rmbsModel.trainingInstance" model="rmbsModel.model" violations="violations"/>
             </div>
         </div>
     </div>
-    <div>
+    <div class="grid-100">
         <button class="standardButton" style="float:right" data-ng-click="saveReimburse()">Zapisz zmiany</button>
         <button class="standardButton" style="float:right" data-ng-click="sendToReimburse()">Wyślij do rozliczenia</button>
     </div>

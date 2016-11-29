@@ -44,10 +44,12 @@ angular.module("gryf.ti").controller("ReimbursementsController", ["$scope", "Rei
         $scope.clear();
 }]);
 
+var test;
 angular.module("gryf.ti").controller("ReimbursementModifyController", ["$scope", "ReimbursementsServiceModify", "DictionaryService","$stateParams","TrainingInstanceSearchService",
     function ($scope, ReimbursementsServiceModify, DictionaryService, $stateParams, TrainingInstanceSearchService) {
         $scope.rmbsModel = ReimbursementsServiceModify.getRmbsModel();
         $scope.violations = ReimbursementsServiceModify.getNewViolations();
+        test = $scope;
 
         TrainingInstanceSearchService.findDetailsById($stateParams.trainingInstanceId).success(function(data) {
             $scope.rmbsModel.trainingInstance = data;

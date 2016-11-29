@@ -167,6 +167,7 @@ public class IndividualServiceImpl implements IndividualService {
         return accountContractPair;
     }
 
+    //TODO:przepisać na mybatisa, wtedy bez tego bardzo brzydkiego catcha
     private String getAccount(Individual individual) {
         String account = null;
         try {

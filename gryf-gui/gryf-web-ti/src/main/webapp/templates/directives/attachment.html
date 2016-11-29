@@ -1,4 +1,4 @@
-<div class="grid-100">
+<div style="padding-left:20px">
     <table>
         <thead>
         <tr class="grid-100 tableHeader-names">
@@ -38,10 +38,12 @@
                     <!--TODO:przywileje-->
                     <li>
                         <!--TODO: dodać zmienną definiującą maksymalny rozmiar pliku, gdy nie został zdefiniowany per typ-->
-                        <button class="standardButton" ng-model="item.file" ngf-select ngf-max-size="{{item.maxFileSize ? item.maxFileSize : '2MB'}}" ngf-model-invalid="item.errorFile" data-ng-click="onItemClick(item, $index)">
+                        <button class="standardButton" ng-model="item.file" ngf-select ngf-max-size="{{item.maxFileSize ? item.maxFileSize : '2MB'}}" ngf-model-invalid="item.errorFile" data-ng-click="onItemClick(item, $index)"
+                                ngf-pattern=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.gif">
                             {{(!item.file.name && !item.originalFileName) ? "Wgraj plik" : "Zmień plik"}}
                         </button>
-                        <i ng-show="item.errorFile.$errorMessages.maxSize">Załącznik przekracza maksymalny rozmiar pliku: {{item.maxFileSize ? item.maxFileSize / 1024 / 1024 : '2'}}MB</i>
+                        <i style="color:red" ng-show="item.errorFile.$errorMessages.maxSize">Załącznik przekracza maksymalny rozmiar pliku: {{item.maxFileSize ? item.maxFileSize / 1024 / 1024 : '2'}}MB</i>
+                        <i style="color:red" ng-show="item.errorFile.$errorMessages.pattern">Niepoprawne rozszerzenie pliku</i>
                         <gryf-validation-msg path="attachments[{{$index}}].file"></gryf-validation-msg>
                     </li>
                     <li>
