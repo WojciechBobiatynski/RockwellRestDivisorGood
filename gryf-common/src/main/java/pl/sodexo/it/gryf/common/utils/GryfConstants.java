@@ -9,6 +9,9 @@ public final class GryfConstants {
 
     private GryfConstants(){};
 
+    public static final String FLAG_TRUE = "Y";
+    public static final String FLAG_FALSE = "N";
+
     public static final String DATE_FORMAT = "yyyy-MM-dd";
     public static final String CHAR_SET_UTF_8_ENCODING = "UTF-8";
 

@@ -3,6 +3,7 @@ package pl.sodexo.it.gryf.model.publicbenefits.orders;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.ToString;
+import pl.sodexo.it.gryf.model.api.BooleanConverter;
 import pl.sodexo.it.gryf.model.api.GryfEntity;
 
 import javax.persistence.*;
@@ -76,6 +77,7 @@ public class OrderFlowStatusTransition extends GryfEntity {
     @ManyToOne(optional = false)
     private OrderFlowStatus status;
 
+    @Convert(converter = BooleanConverter.class)
     @Column(name = "AUTOMATIC")
     private boolean automatic;
 
