@@ -101,6 +101,7 @@
         SELECT
           ermbs.ID                                  ermbsId,
           ermbs.TI_TR_INST_ID                       trainingInstanceId,
+          ermbs.STATUS_ID                           statusCode,
           tr_in.GRANT_PROGRAM_ID                    grantProgramId,
           tr.TRAINING_INSTITUTION_ID                trainingInstitutionId,
           ermbs.SXO_TI_AMOUNT_DUE_TOTAL             sxoIndAmountDueTotal,

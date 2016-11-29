@@ -44,12 +44,10 @@ angular.module("gryf.ti").controller("ReimbursementsController", ["$scope", "Rei
         $scope.clear();
 }]);
 
-var test;
 angular.module("gryf.ti").controller("ReimbursementModifyController", ["$scope", "ReimbursementsServiceModify", "DictionaryService","$stateParams","TrainingInstanceSearchService",
     function ($scope, ReimbursementsServiceModify, DictionaryService, $stateParams, TrainingInstanceSearchService) {
         $scope.rmbsModel = ReimbursementsServiceModify.getRmbsModel();
         $scope.violations = ReimbursementsServiceModify.getNewViolations();
-        test = $scope;
 
         TrainingInstanceSearchService.findDetailsById($stateParams.trainingInstanceId).success(function(data) {
             $scope.rmbsModel.trainingInstance = data;
@@ -68,5 +66,10 @@ angular.module("gryf.ti").controller("ReimbursementModifyController", ["$scope",
             $scope.violations = ReimbursementsServiceModify.getNewViolations();
             ReimbursementsServiceModify.sendToReimburse();
         };
+
+        $scope.isDisabled = function(){
+            return $scope.rmbsModel.model != null && $scope.rmbsModel.model.statusCode === 'T_RMS';
+        };
+
 
 }]);

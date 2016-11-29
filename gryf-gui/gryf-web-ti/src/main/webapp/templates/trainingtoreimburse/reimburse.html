@@ -1,125 +1,121 @@
-<section>
-    <strong class="label">Rozliczenie szkolenia</strong>
-    <div class="block">
-        <strong class="blackLabel">Dane szkolenia</strong>
-        <div class="paddedBlock">
-            <div class="multiSection">
-                <div class="grid-30">
-                    <strong>Nazwa szkolenia</strong>
-                    <div>{{rmbsModel.trainingInstance.trainingName}}</div>
+<fieldset ng-disabled="isDisabled()" style="border:none">
+    <section>
+        <strong class="label">Rozliczenie szkolenia</strong>
+        <div class="block">
+            <strong class="blackLabel">Dane szkolenia</strong>
+            <div class="paddedBlock">
+                <div class="multiSection">
+                    <div class="grid-30">
+                        <strong>Nazwa szkolenia</strong>
+                        <div>{{rmbsModel.trainingInstance.trainingName}}</div>
+                    </div>
+                    <div class="grid-30">
+                        <strong>Cena za szkolenie (PLN)</strong>
+                        <div>{{rmbsModel.trainingInstance.trainingPrice}}</div>
+                    </div>
+                    <div class="grid-30">
+                        <strong>Maksymalna liczba bonów do wykorzystania</strong>
+                        <div>{{rmbsModel.trainingInstance.maxProductsNumber}}</div>
+                    </div>
                 </div>
-                <div class="grid-30">
-                    <strong>Cena za szkolenie (PLN)</strong>
-                    <div>{{rmbsModel.trainingInstance.trainingPrice}}</div>
+                <div class="multiSection">
+                    <div class="grid-30">
+                        <strong>Kategoria szkolenia</strong>
+                        <div>{{rmbsModel.trainingInstance.trainingCategory}}</div>
+                    </div>
+                    <div class="grid-30">
+                        <strong>Ilość godzin lekcyjnych</strong>
+                        <div>{{rmbsModel.trainingInstance.trainingHoursNumber}}</div>
+                    </div>
+                    <div class="grid-30">
+                        <strong>Data rozpoczęcia</strong>
+                        <div>{{rmbsModel.trainingInstance.startDate}}</div>
+                    </div>
                 </div>
-                <div class="grid-30">
-                    <strong>Maksymalna liczba bonów do wykorzystania</strong>
-                    <div>{{rmbsModel.trainingInstance.maxProductsNumber}}</div>
-                </div>
-            </div>
-            <div class="multiSection">
-                <div class="grid-30">
-                    <strong>Kategoria szkolenia</strong>
-                    <div>{{rmbsModel.trainingInstance.trainingCategory}}</div>
-                </div>
-                <div class="grid-30">
-                    <strong>Ilość godzin lekcyjnych</strong>
-                    <div>{{rmbsModel.trainingInstance.trainingHoursNumber}}</div>
-                </div>
-                <div class="grid-30">
-                    <strong>Data rozpoczęcia</strong>
-                    <div>{{rmbsModel.trainingInstance.startDate}}</div>
-                </div>
-            </div>
-            <div class="multiSection">
-                <div class="grid-30">
-                    <strong>Miejsce szkolenia</strong>
-                    <div>{{rmbsModel.trainingInstance.trainingPlace}}</div>
-                </div>
-                <div class="grid-30">
-                    <strong>Cena 1h szkolenia (PLN)</strong>
-                    <div>{{rmbsModel.trainingInstance.trainingHourPrice}}</div>
-                </div>
-                <div class="grid-30">
-                    <strong>Data zakończenia</strong>
-                    <div>{{rmbsModel.trainingInstance.endDate}}</div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="block grayBackground">
-        <strong class="blackLabel">Dane uczestnika i rozliczenia</strong>
-        <div class="paddedBlock">
-            <div class="multiSection">
-                <div class="grid-30">
-                    <strong>PESEL Uczestnika</strong>
-                    <div>{{rmbsModel.trainingInstance.participantPesel}}</div>
-                </div>
-                <div class="grid-30">
-                    <strong>Liczba bonów zarezerwowanych na szkolenie</strong>
-                    <div data-ng-repeat="prd in rmbsModel.model.products">{{prd.reservedProductsCount}}</div>
-                </div>
-                <div class="grid-30">
-                    <strong>Kwota należna od Operatora Finansowego</strong>
-                    <div>{{rmbsModel.model.sxoTiAmountDueTotal}} PLN</div>
-                </div>
-            </div>
-            <div class="multiSection">
-                <div class="grid-30">
-                    <strong>Imię Uczestnika</strong>
-                    <div>{{rmbsModel.trainingInstance.participantName}}</div>
-                </div>
-                <div class="grid-30">
-                    <strong>Data ważności bonów</strong>
-                    <div data-ng-repeat="prd in rmbsModel.model.products">{{prd.expirationDate}}</div>
-                </div>
-            </div>
-            <div class="multiSection">
-                <div class="grid-30">
-                    <strong>Nazwisko Uczestnika</strong>
-                    <div>{{rmbsModel.trainingInstance.participantSurname}}</div>
-                </div>
-                <div class="grid-30">
-                    <strong>Kwota dopłaty od Użytkownika</strong>
-                    <div>{{rmbsModel.model.indTiAmountDueTotal}} PLN</div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="block">
-        <strong class="blackLabel">Dokumenty i warunki rozliczenia</strong>
-        <div class="paddedBlock">
-            <div class="multiSection">
-                <div class="grid-100">
-                    <strong>Warunek rozliczenia</strong>
-                    <div>Rozliczenie szkolenia możliwe jest po zdaniu egzaminu i potwierdzeniu kwalifikacji odpowiednim certyfikatem. Uczestnik zobowiązany jest do przedłożenia Faktury, kopii
-                        zaświadczenia o ukończeniu szkolenia oraz kopii certyfikatu lub kopii potwierdzenia o niezndanym egzaminie
+                <div class="multiSection">
+                    <div class="grid-30">
+                        <strong>Miejsce szkolenia</strong>
+                        <div>{{rmbsModel.trainingInstance.trainingPlace}}</div>
+                    </div>
+                    <div class="grid-30">
+                        <strong>Cena 1h szkolenia (PLN)</strong>
+                        <div>{{rmbsModel.trainingInstance.trainingHourPrice}}</div>
+                    </div>
+                    <div class="grid-30">
+                        <strong>Data zakończenia</strong>
+                        <div>{{rmbsModel.trainingInstance.endDate}}</div>
                     </div>
                 </div>
             </div>
-            <div class="multiSection">
-                <div class="grid-100">
-                    <strong>Rachunek rozliczeniowy</strong>
-                    <div class="childrenInOneLine">
-                        <span>Numer rachunku bankowego do zwrotu</span>
-                        <input type="text" data-ng-model="rmbsModel.model.tiReimbAccountNumber" ui-mask="99 9999 9999 9999 9999 9999 9999" ui-mask-placeholder ui-mask-placeholder-char=" "/>
-                        <gryf-validation-msg path="tiReimbAccountNumber"></gryf-validation-msg>
+        </div>
+        <div class="block grayBackground">
+            <strong class="blackLabel">Dane uczestnika i rozliczenia</strong>
+            <div class="paddedBlock">
+                <div class="multiSection">
+                    <div class="grid-30">
+                        <strong>PESEL Uczestnika</strong>
+                        <div>{{rmbsModel.trainingInstance.participantPesel}}</div>
+                    </div>
+                    <div class="grid-30">
+                        <strong>Liczba bonów zarezerwowanych na szkolenie</strong>
+                        <div data-ng-repeat="prd in rmbsModel.model.products">{{prd.reservedProductsCount}}</div>
+                    </div>
+                    <div class="grid-30">
+                        <strong>Kwota należna od Operatora Finansowego</strong>
+                        <div>{{rmbsModel.model.sxoTiAmountDueTotal}} PLN</div>
+                    </div>
+                </div>
+                <div class="multiSection">
+                    <div class="grid-30">
+                        <strong>Imię Uczestnika</strong>
+                        <div>{{rmbsModel.trainingInstance.participantName}}</div>
+                    </div>
+                    <div class="grid-30">
+                        <strong>Data ważności bonów</strong>
+                        <div data-ng-repeat="prd in rmbsModel.model.products">{{prd.expirationDate}}</div>
+                    </div>
+                </div>
+                <div class="multiSection">
+                    <div class="grid-30">
+                        <strong>Nazwisko Uczestnika</strong>
+                        <div>{{rmbsModel.trainingInstance.participantSurname}}</div>
+                    </div>
+                    <div class="grid-30">
+                        <strong>Kwota dopłaty od Użytkownika</strong>
+                        <div>{{rmbsModel.model.indTiAmountDueTotal}} PLN</div>
                     </div>
                 </div>
             </div>
-            <div>
-                <div class="grid-100">
-                    <strong>Załączniki do rozliczenia</strong>
+        </div>
+        <div class="block">
+            <strong class="blackLabel">Dokumenty i warunki rozliczenia</strong>
+            <div class="paddedBlock">
+                <div class="multiSection">
+                    <div class="grid-100">
+                        <strong>Warunek rozliczenia</strong>
+                        <div>Rozliczenie szkolenia możliwe jest po zdaniu egzaminu i potwierdzeniu kwalifikacji odpowiednim certyfikatem. Uczestnik zobowiązany jest do przedłożenia Faktury, kopii
+                            zaświadczenia o ukończeniu szkolenia oraz kopii certyfikatu lub kopii potwierdzenia o niezndanym egzaminie
+                        </div>
+                    </div>
                 </div>
-                <div class="grid-100 redLabel">
-                    W systemie można załączać jedynie dokumenty z następującymi rozszerzenieami: PDF,DOC,DOCX,XLS,XLSX,PNG,JPG,GIF.
+                <div class="multiSection">
+                    <div class="grid-100">
+                        <strong>Rachunek rozliczeniowy</strong>
+                        <div class="childrenInOneLine">
+                            <span>Numer rachunku bankowego do zwrotu</span>
+                            <input type="text" data-ng-model="rmbsModel.model.tiReimbAccountNumber" ui-mask="99 9999 9999 9999 9999 9999 9999" ui-mask-placeholder ui-mask-placeholder-char=" "/>
+                            <gryf-validation-msg path="tiReimbAccountNumber"></gryf-validation-msg>
+                        </div>
+                    </div>
                 </div>
-                <attachments training-instance="rmbsModel.trainingInstance" model="rmbsModel.model" violations="violations"/>
+                <div>
+                    <attachments training-instance="rmbsModel.trainingInstance" model="rmbsModel.model" violations="violations"/>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="grid-100">
-        <button class="standardButton" style="float:right" data-ng-click="saveReimburse()">Zapisz zmiany</button>
-        <button class="standardButton" style="float:right" data-ng-click="sendToReimburse()">Wyślij do rozliczenia</button>
-    </div>
-</section>
+        <div class="grid-100">
+            <button class="standardButton" style="float:right" data-ng-click="saveReimburse()">Zapisz zmiany</button>
+            <button class="standardButton" style="float:right" data-ng-click="sendToReimburse()">Wyślij do rozliczenia</button>
+        </div>
+    </section>
+</fieldset>
