@@ -8,48 +8,38 @@
     <section class="overflow-x-auto">
         <table class="table table-condensed">
             <thead>
-            <tr>
-                <th class="sortable"
-                    ng-class="getSortingTypeClass('elctRmbsCriteria.rmbsNumber')">
+            <tr class="grid-100">
+                <th class="sortable grid-15" ng-class="getSortingTypeClass('elctRmbsCriteria.rmbsNumber')">
                     <div ng-click="getSortedBy('elctRmbsCriteria.rmbsNumber')">
                         Numer rozliczenia
                     </div>
-                    <input placeholder="Numer rozliczenia" type="text"
-                           ng-model="elctRmbsCriteria.rmbsNumber">
+                    <input placeholder="Numer rozliczenia" type="text" ng-model="elctRmbsCriteria.rmbsNumber">
                 </th>
-                <th class="sortable"
-                    ng-class="getSortingTypeClass('elctRmbsCriteria.trainingName')">
+                <th class="sortable grid-20" ng-class="getSortingTypeClass('elctRmbsCriteria.trainingName')">
                     <div ng-click="getSortedBy('elctRmbsCriteria.trainingName')">
                         Nazwa szkolenia
                     </div>
-                    <input placeholder="Nazwa szkolenia" type="text"
-                           ng-model="elctRmbsCriteria.trainingName">
+                    <input placeholder="Nazwa szkolenia" type="text"ng-model="elctRmbsCriteria.trainingName">
                 </th>
-                <th class="sortable"
-                    ng-class="getSortingTypeClass('elctRmbsCriteria.pese')">
+                <th class="sortable grid-15" ng-class="getSortingTypeClass('elctRmbsCriteria.pese')">
                     <div ng-click="getSortedBy('elctRmbsCriteria.pese')">
                         PESEL Uczestnika
                     </div>
-                    <input placeholder="PESEL Uczestnika" type="text"
-                           ng-model="elctRmbsCriteria.pesel">
+                    <input placeholder="PESEL Uczestnika" type="text" ng-model="elctRmbsCriteria.pesel">
                 </th>
-                <th class="sortable"
-                    ng-class="getSortingTypeClass('elctRmbsCriteria.participantName')">
+                <th class="sortable grid-10" ng-class="getSortingTypeClass('elctRmbsCriteria.participantName')">
                     <div ng-click="getSortedBy('elctRmbsCriteria.participantName')">
                         Imię uczestnika
                     </div>
-                    <input placeholder="Imię uczestnika" type="text"
-                           ng-model="elctRmbsCriteria.participantName">
+                    <input placeholder="Imię uczestnika" type="text" ng-model="elctRmbsCriteria.participantName">
                 </th>
-                <th class="sortable"
-                    ng-class="getSortingTypeClass('elctRmbsCriteria.participantSurname')">
+                <th class="sortable grid-10" ng-class="getSortingTypeClass('elctRmbsCriteria.participantSurname')">
                     <div ng-click="getSortedBy('elctRmbsCriteria.participantSurname')">
                         Nazwisko uczestnika
                     </div>
-                    <input placeholder="Nazwisko uczestnika" type="text"
-                           ng-model="elctRmbsCriteria.participantSurname">
+                    <input placeholder="Nazwisko uczestnika" type="text" ng-model="elctRmbsCriteria.participantSurname">
                 </th>
-                <th class="sortable"
+                <th class="sortable grid-15"
                     ng-class="getSortingTypeClass('elctRmbsCriteria.rmbsDateFrom')">
                     <div ng-click="getSortedBy('elctRmbsCriteria.rmbsDateFrom')">
                         Data rozliczenia
@@ -73,8 +63,7 @@
                            current-text="Dziś"
                            ng-click="openDatepicker('reimbursementDateToOpened')"/>
                 </th>
-                <th class="sortable"
-                    ng-class="getSortingTypeClass('elctRmbsCriteria.rmbsStatus')">
+                <th class="sortable grid-15" ng-class="getSortingTypeClass('elctRmbsCriteria.rmbsStatus')">
                     <div ng-click="getSortedBy('elctRmbsCriteria.rmbsStatus')">
                         Status rozliczenia
                     </div>
@@ -82,8 +71,7 @@
                             ng-options="v.name as v.name for v in elctRmbsModel.rmbsStatuses"></select>
                 </th>
                 <th>
-                    <a ng-click="find()"
-                       class="button button-search">szukaj</a>
+                    <a ng-click="find()" class="button button-search">szukaj</a>
                 </th>
             </tr>
             </thead>

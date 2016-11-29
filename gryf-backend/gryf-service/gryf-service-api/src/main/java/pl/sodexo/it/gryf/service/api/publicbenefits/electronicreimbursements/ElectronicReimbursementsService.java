@@ -55,4 +55,11 @@ public interface ElectronicReimbursementsService {
      */
     Long sendToReimburse(ElctRmbsHeadDto elctRmbsHeadDto);
 
+    /**
+     * Metoda ustawia status rozliczenia na "do korekty".
+     * @param ermbsId - id rozliczenia
+     * @return wersja rozliczenia
+     */
+    Integer toCorrect(Long ermbsId);
+
 }

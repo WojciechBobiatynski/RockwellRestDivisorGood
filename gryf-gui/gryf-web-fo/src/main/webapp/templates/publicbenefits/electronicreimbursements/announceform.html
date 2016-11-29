@@ -4,9 +4,9 @@
     <ul>
         <li><a class="button button-save" ng-click="save()"  gryf-privilege="">Zapisz</a></li>
         <li><a class="button button-save" ng-click="toCorrect()" gryf-privilege="">Do korekty</a></li>
-        <li><a class="button button-save" ng-click="calculate()" gryf-privilege="">Wylicz kwoty</a></li>
+        <li><a class="button button-save" ng-click="calculate()" gryf-privilege="">Do weryfikacji</a></li>
         <li><a class="button button-save" ng-click="createDocuments()" gryf-privilege="">Wystaw dokumenty</a></li>
-        <li><a class="button button-save" ng-click="getRaports()" gryf-privilege="">Pobierz raporty</a></li>
+        <li><a class="button button-save" ng-click="createRaports()" gryf-privilege="">Wygeneruj raporty</a></li>
         <li><a class="button button-save" ng-click="settle()" gryf-privilege="">Rozlicz</a></li>
     </ul>
     <ol>
@@ -36,7 +36,8 @@
             {{eReimbObject.trainingInstitution.vatRegNum}}
         </div>
     </div>
-
+</section>
+<section>
     <!--------------------------------------DANE_SZKOLENIA---------------------------------------------->
     <div class="grid-100">
         <header>
@@ -63,7 +64,6 @@
             {{eReimbObject.trainingInstance.trainingPlace}}
         </div>
     </div>
-
     <div class="grid-100">
         <div class="grid-10">
             <strong class="label">Cena</strong>
@@ -86,7 +86,8 @@
             {{eReimbObject.trainingInstance.endDate}}
         </div>
     </div>
-
+</section>
+<section>
     <!--------------------------------------DANE_UCZESTNIKA---------------------------------------------->
     <div class="grid-100">
         <header>
@@ -113,7 +114,8 @@
             {{eReimbObject.trainingInstance.participantSurname}}
         </div>
     </div>
-
+</section>
+<section>
     <!--------------------------------------WYKORZYSTANE_BONY---------------------------------------------->
     <div class="grid-100">
         <header>
@@ -136,19 +138,26 @@
             {{prd.expirationDate}}
         </div>
     </div>
-
+</section>
+<section>
     <!--------------------------------------KWOTY_ROZLICZEN---------------------------------------------->
     <div class="grid-100">
         <header>
-            <h2>? Kwoty rozliczeń ?</h2>
+            <h2>Kwoty rozliczeń</h2>
         </header>
     </div>
     <div class="grid-100">
-        <div class="grid-10">
-            a tutaj totalnie nie wiem co ma być
+        <div class="grid-20">
+            <strong class="label">Kwota należna od Operatora Finansowego</strong>
+            {{eReimbObject.entity.sxoTiAmountDueTotal}}
+        </div>
+        <div class="grid-20">
+            <strong class="label">Kwota dopłaty od Użytkownika</strong>
+            {{eReimbObject.entity.indTiAmountDueTotal}}
         </div>
     </div>
-
+</section>
+<section>
     <!--------------------------------------KOREKTY---------------------------------------------->
     <div class="grid-100">
         <header>
@@ -160,7 +169,8 @@
             tutaj będzie domyślnie wyświetlona jedna korekta wraz z liczbą wszystkich korekt, z możliwością rozwinięcia sekcji
         </div>
     </div>
-
+</section>
+<section>
     <!--------------------------------------ADRESACI_EMAIL---------------------------------------------->
     <div class="grid-100">
         <header>
@@ -168,20 +178,68 @@
         </header>
     </div>
     <div class="grid-100">
-        <div class="grid-10">
-            <input type="text" value="text" readonly="readonly">
+        <div class="grid-30">
+            <input type="text" value="lucjan@sodexo.com, marcel@sodexo.com">
         </div>
     </div>
-
+</section>
+<section>
     <!--------------------------------------ZALACZNIKI---------------------------------------------->
     <div class="grid-100">
-        <header>
-            <h2>Załączniki</h2>
-        </header>
+    <header>
+        <h2>Załączniki do rozliczenia</h2>
+    </header>
+        <a href="" class="button" ng-click="addReimbursementAttachment()">Dodaj załącznik</a>
     </div>
     <div class="grid-100">
+        <div class="grid-30">Nazwa załącznika</div>
+        <div class="grid-15">Rodzaj dokumentu</div>
+        <div class="grid-15">Plik załącznika</div>
+        <div class="grid-40">Opis</div>
+    </div>
+    <div class="grid-100" ng-repeat="a in eReimbObject.entity.attachments">
+        <div class="grid-30">
+            <input type="text" ng-model="a.name"
+                   ng-disabled="a.mandatory || a.originalFileName"
+                   maxlength="50">
+            <gryf-validation-msg path="reimbursementAttachments[{{$index}}].name">
+            </gryf-validation-msg>
+        </div>
+        <div class="grid-15">
+            <select ng-model="a.attachmentType.id"
+                    ng-options="v.id as v.name for v in attachmentTypes"
+                    ng-disabled="a.mandatory || a.originalFileName">
+            </select>
+            <gryf-validation-msg path="reimbursementAttachments[{{$index}}].attachmentType">
+            </gryf-validation-msg>
+        </div>
+        <div class="grid-15">
+            <div>
+                {{a.file[0].name ? a.file[0].name : a.originalFileName }}
+            </div>
+            <a class="button"
+               ng-model="a.file"
+               ngf-select>
+                Dodaj
+            </a>
+            <gryf-validation-msg path="reimbursementAttachments[{{$index}}].file">
+            </gryf-validation-msg>
+        </div>
+        <div class="grid-30">
+            <input type="text" ng-model="a.remarks" maxlength="500">
+            <gryf-validation-msg path="reimbursementAttachments[{{$index}}].remarks">
+            </gryf-validation-msg>
+        </div>
         <div class="grid-10">
-            a tutaj jest komponent ze starego gryfa do obłsugi załączników
+            <a class="button button-delete"
+               ng-click="removeAttachment(a)"
+               ng-if="!a.mandatory">Usuń</a>
+            <a ng-if="a.originalFileName"
+               class="button button-add"
+               ng-href="{{getDownloadAttachmentLink(a)}}"
+               target="_self">
+                Pobierz załącznik
+            </a>
         </div>
     </div>
 </section>

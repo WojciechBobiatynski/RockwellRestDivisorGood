@@ -17,6 +17,11 @@ angular.module('gryf.electronicreimbursements').controller("searchform.electroni
             electronicReimbursementSearchService.find();
         };
 
+        $scope.clear = function() {
+            $scope.elctRmbsCriteria = electronicReimbursementSearchService.getNewCriteria();
+            $scope.searchResultOptions = electronicReimbursementSearchService.getNewSearchResultOptions();
+        };
+
         $scope.openDatepicker = function (fieldName) {
             $scope.datepicker[fieldName] = true;
         };
@@ -50,6 +55,8 @@ angular.module('gryf.electronicreimbursements').controller("announce.electronicR
                 });
             });
         }
+
+        $scope.toCorrect = AnnounceEReimbursementService.toCorrect;
 
         $scope.getPrevUrl = function() {
             return gryfSessionStorage.getUrlFromSessionStorage();

@@ -19,6 +19,12 @@ import javax.persistence.Table;
 @Table(name = "E_REIMBURSEMENT_STATUSES", schema = "APP_PBE")
 public class EreimbursementStatus {
 
+    public static final String NEW_ERMBS = "NEW";
+    public static final String TO_ERMBS = "T_RMS";
+    public static final String TO_CORRECT = "T_CRR";
+    public static final String TO_VERIFY = "T_VRF";
+    public static final String SETTLED = "REIMB";
+
     @Id
     @Column(name = "ID")
     @Getter

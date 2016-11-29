@@ -109,6 +109,7 @@ angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementS
         function($http, $routeParams, GryfModals, GryfExceptionHandler, GryfPopups) {
 
             var FIND_RMBS_URL = contextPath + "/rest/publicBenefits/electronic/reimbursements/";
+            var CHANGE_STATUS_URL = contextPath + "/rest/publicBenefits/electronic/reimbursements/status";
 
             var eReimbObject = new EReimbObject();
             var violations = {};
@@ -139,6 +140,18 @@ angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementS
                     returnAccountPayment: null
                 }
             }
+
+            var toCorrect = function(rmbsId) {
+                var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING, {label: "Wczytuję dane"});
+                var promise = $http.post(CHANGE_STATUS_URL + "/tocorrect/" + ($routeParams.id ? $routeParams.id : rmbsId));
+                //promise.then(function(response) {
+                //    eReimbObject.entity = response.data;
+                //});
+                promise.finally(function() {
+                    GryfModals.closeModal(modalInstance);
+                });
+                return promise;
+            };
 /*
             var save = function(additionalParam) {
                 var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING, {label: "Zapisuję dane"});
@@ -199,7 +212,8 @@ angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementS
                 getNewModel: getNewModel,
                 getViolation: getViolations,
                 getNewViolations: getNewViolations,
-                findById: findById
+                findById: findById,
+                toCorrect: toCorrect
                 //save: save
             };
         }]);

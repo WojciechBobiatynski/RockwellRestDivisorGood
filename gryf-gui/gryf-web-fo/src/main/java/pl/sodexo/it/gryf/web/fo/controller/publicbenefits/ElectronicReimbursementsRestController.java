@@ -54,4 +54,11 @@ public class ElectronicReimbursementsRestController {
         return electronicReimbursementsService.findEcltRmbsById(ermbsId);
     }
 
+    @RequestMapping(value = PATH_ELECTRONIC_REIMBURSEMENTS_CHANGE_STATUS + "/tocorrect/{ermbsId}", method = RequestMethod.POST)
+    @ResponseBody
+    public Integer toCorrect(@PathVariable Long ermbsId) {
+        //securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS);
+        return electronicReimbursementsService.toCorrect(ermbsId);
+    }
+
 }

@@ -47,8 +47,5 @@ public final class GryfConstants {
 
     public static final int FIRST_PASSWORD_DEFAULT_LENGTH_FOR_TI = 10;
 
-    public static final String NEW_ERMBS_STATUS_CODE = "NEW";
-    public static final String TO_REIMBURSE_ERMBS_STATUS_CODE = "T_RMS";
-
     public static final String TO_REIMBURSE_TRAINING_INSTANCE_STATUS_CODE = "T_RMS";
 }
