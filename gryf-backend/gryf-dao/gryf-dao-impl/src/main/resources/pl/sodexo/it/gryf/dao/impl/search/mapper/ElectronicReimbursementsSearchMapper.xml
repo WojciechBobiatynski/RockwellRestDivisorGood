@@ -7,6 +7,7 @@
         SELECT * FROM
         (SELECT
             ermbs.ID                  rmbsNumber,
+            ti_in.ID                  trainingInstanceId,
             ti.NAME                   trainingName,
             ind.PESEL                 pesel,
             ind.FIRST_NAME            participantName,

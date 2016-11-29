@@ -42,6 +42,10 @@ angular.module("gryf.ti").controller("ReimbursementsController", ["$scope", "Rei
         };
 
         $scope.clear();
+
+        $scope.isCorrVisible = function(foundRmbs){
+            return foundRmbs.rmbsStatus != null && foundRmbs.rmbsStatus === 'T_CRR';
+        };
 }]);
 
 angular.module("gryf.ti").controller("ReimbursementModifyController", ["$scope", "ReimbursementsServiceModify", "DictionaryService","$stateParams","TrainingInstanceSearchService",
@@ -70,6 +74,5 @@ angular.module("gryf.ti").controller("ReimbursementModifyController", ["$scope",
         $scope.isDisabled = function(){
             return $scope.rmbsModel.model != null && $scope.rmbsModel.model.statusCode === 'T_RMS';
         };
-
 
 }]);
