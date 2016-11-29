@@ -123,6 +123,7 @@
           pool_uses.ASSIGNED_NUM                    prd_reservedProductsCount,
           pool.EXPIRY_DATE                          prd_expirationDate,
           att.ID                                    att_id,
+          ermbs.ID                                  att_ermbsId,
           att.attach_type                           att_code,
           att.DOCUMENT_NUMBER                       att_documentNumber,
           att.ADDITIONAL_DESCRIPTION                att_additionalDescription,

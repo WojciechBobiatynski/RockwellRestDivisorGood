@@ -175,6 +175,7 @@ angular.module("gryf.ti").factory("ReimbursementsServiceModify",
                     data: {file: attachments, model: Upload.json(rmbsModel.model)}
                 }).success(function(response) {
                     GryfPopups.setPopup("success", "Sukces", "Rozliczenie poprawnie zapisane");
+                    GryfPopups.showPopup();
                     rmbsModel.model = response;
                 }).error(function(response) {
                     GryfPopups.setPopup("error", "Błąd", "Nie udało się zapisać rozliczenia.");

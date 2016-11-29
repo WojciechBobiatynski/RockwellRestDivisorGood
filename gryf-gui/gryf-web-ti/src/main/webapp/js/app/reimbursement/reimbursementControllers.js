@@ -66,4 +66,8 @@ angular.module("gryf.ti").controller("ReimbursementModifyController", ["$scope",
             ReimbursementsServiceModify.sendToReimburse();
         };
 
+        $scope.isSaveDisabled = function () {
+            $scope.rmbsModel.model.statusCode === 'T_RMS';
+        }
+
 }]);

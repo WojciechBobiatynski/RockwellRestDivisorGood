@@ -122,9 +122,21 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
 
     private void saveErmbsAttachments(Ereimbursement ereimbursement, List<ErmbsAttachmentDto> ermbsAttachmentsDtoList) {
         for (ErmbsAttachmentDto ermbsAttachment : ermbsAttachmentsDtoList) {
+            if (deleteIfMarked(ermbsAttachment))
+                continue;
             ErmbsAttachment entity = saveAttachmentEntity(ereimbursement, ermbsAttachment);
             saveFile(ermbsAttachment, entity, ereimbursement);
         }
+    }
+
+    private boolean deleteIfMarked(ErmbsAttachmentDto ermbsAttachment) {
+        if (ermbsAttachment.isMarkToDelete()) {
+            fileService.deleteFile(ermbsAttachment.getFileLocation());
+            ErmbsAttachment entity = ermbsAttachmentDtoMapper.convert(ermbsAttachment);
+            ereimbursementAttachmentRepository.delete(entity);
+            return true;
+        }
+        return false;
     }
 
     private ErmbsAttachment saveAttachmentEntity(Ereimbursement ereimbursement, ErmbsAttachmentDto ermbsAttachment) {
@@ -138,7 +150,8 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         if (ermbsAttachment.isChanged()) {
             fileService.deleteFile(ermbsAttachment.getFileLocation());
             Long trainingInstitutionId = ((GryfTiUser) GryfUser.getLoggedUser()).getTrainingInstitutionId();
-            String fileName = String.format("%s_%s_%s_%s_%s", trainingInstitutionId, ereimbursement.getId(), AttachmentParentType.EREIMB, entity.getId(), ermbsAttachment.getFile().getOriginalFilename());
+            String fileName = String
+                    .format("%s_%s_%s_%s_%s", trainingInstitutionId, ereimbursement.getId(), AttachmentParentType.EREIMB, entity.getId(), ermbsAttachment.getFile().getOriginalFilename());
             String newFileName = GryfStringUtils.convertFileName(fileName);
             String filePath = fileService.writeFile(FileType.E_REIMBURSEMENTS, newFileName, ermbsAttachment.getFile(), entity);
             entity.setOrginalFileName(ermbsAttachment.getFile().getOriginalFilename());

@@ -67,6 +67,10 @@ public class ErmbsAttachmentDto extends VersionableDto implements Serializable {
 
     @Getter
     @Setter
+    private boolean markToDelete;
+
+    @Getter
+    @Setter
     @JsonIgnoreProperties
     private FileDTO file;
 

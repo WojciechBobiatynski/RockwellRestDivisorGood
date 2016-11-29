@@ -15,8 +15,13 @@ angular.module("gryf.ti").directive("attachments", ['AttachmentService',
                 };
 
                 $scope.deleteAtt = function (item) {
-                    var index = $scope.model.attachments.indexOf(item);
-                    $scope.model.attachments.splice(index, 1);
+                    if (!item.id) {
+                        var index = $scope.model.attachments.indexOf(item);
+                        $scope.model.attachments.splice(index, 1);
+                    }
+                    else {
+                        item.markToDelete = true;
+                    }
                 };
 
                 $scope.onItemClick = function (item, index) {
@@ -29,8 +34,8 @@ angular.module("gryf.ti").directive("attachments", ['AttachmentService',
 
                 function Attachment(code, maxFileSize, required) {
                     this.code = code,
-                    this.maxFileSize = maxFileSize,
-                    this.required = required
+                        this.maxFileSize = maxFileSize,
+                        this.required = required
                 };
 
                 $scope.$watch('trainingInstance.grantProgramId', function (newData) {
