@@ -4,14 +4,18 @@ angular.module("gryf.ti").directive("attachments", ['AttachmentService',
             restrict: 'E',
             scope: {
                 trainingInstance: '=',
-                model: '='
+                model: '=',
+                violations: '='
             },
             templateUrl: contextPath + '/templates/directives/attachment.html',
             controller: function ($scope) {
                 $scope.modelTypes = {};
+                $scope.defaultType = {};
 
                 $scope.addNew = function () {
-                    $scope.model.attachments.push({});
+                    var newAttachment = {};
+                    angular.copy($scope.defaultType, newAttachment);
+                    $scope.model.attachments.push(newAttachment);
                 };
 
                 $scope.deleteAtt = function (item) {
@@ -59,6 +63,8 @@ angular.module("gryf.ti").directive("attachments", ['AttachmentService',
                                     if (!result) {
                                         $scope.model.attachments.push(new Attachment(type.code, type.maxBytesPerFile, type.required))
                                     }
+                                } else {
+                                    $scope.defaultType = new Attachment(type.code, type.maxBytesPerFile, type.required);
                                 }
                             });
                         });

@@ -48,4 +48,11 @@ public interface ElectronicReimbursementsService {
      */
     Long saveErmbs(ElctRmbsHeadDto elctRmbsHeadDto);
 
+    /**
+     * Metoda wysyłająca rozliczenie do Operatora Finansowego
+     * @param elctRmbsHeadDto - dto rozliczenia
+     * @return id zapisanego obiektu
+     */
+    Long sendToReimburse(ElctRmbsHeadDto elctRmbsHeadDto);
+
 }

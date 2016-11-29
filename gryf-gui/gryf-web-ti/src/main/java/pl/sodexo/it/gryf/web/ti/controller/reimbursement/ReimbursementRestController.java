@@ -69,12 +69,23 @@ public class ReimbursementRestController {
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public ElctRmbsHeadDto saveReimbursement(MultipartHttpServletRequest request) throws IOException {
-        ElctRmbsHeadDto dto = JsonMapperUtils.readValue(request.getParameter("model"), ElctRmbsHeadDto.class);
-        Map<String, MultipartFile> fileMap = request.getFileMap();
-        WebUtils.fillErmbsDtoWithAttachments(fileMap, dto);
+        ElctRmbsHeadDto dto = getElctRmbsHeadDtoFromMultipartRequest(request);
         Long ermbsId = electronicReimbursementsService.saveErmbs(dto);
         return electronicReimbursementsService.findEcltRmbsById(ermbsId);
     }
 
+    @RequestMapping(value = "/send", method = RequestMethod.POST)
+    public ElctRmbsHeadDto sendToReimburse(MultipartHttpServletRequest request) throws IOException {
+        ElctRmbsHeadDto dto = getElctRmbsHeadDtoFromMultipartRequest(request);
+        Long ermbsId = electronicReimbursementsService.sendToReimburse(dto);
+        return electronicReimbursementsService.findEcltRmbsById(ermbsId);
+    }
+
+    private ElctRmbsHeadDto getElctRmbsHeadDtoFromMultipartRequest(MultipartHttpServletRequest request) throws IOException {
+        ElctRmbsHeadDto dto = JsonMapperUtils.readValue(request.getParameter("model"), ElctRmbsHeadDto.class);
+        Map<String, MultipartFile> fileMap = request.getFileMap();
+        WebUtils.fillErmbsDtoWithAttachments(fileMap, dto);
+        return dto;
+    }
 
 }

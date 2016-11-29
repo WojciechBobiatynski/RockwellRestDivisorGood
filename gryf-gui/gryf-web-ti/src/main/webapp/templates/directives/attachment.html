@@ -24,9 +24,15 @@
                     <option data-ng-repeat="t in modelTypes.types" data-ng-show="!t.required" ng-selected="{{t.code == item.code}}" value="{{t.code}}">{{t.name}}</option>
                 </select>
             </td>
-            <td><input type="text" data-ng-model="item.documentNumber"/></td>
-            <td><input type="text" data-ng-model="item.additionalDescription"/></td>
-            <td><a>{{item.file.name ? item.file.name : item.originalFileName}}</a></td>
+            <td><input type="text" data-ng-model="item.documentNumber"/>
+                <gryf-validation-msg path="attachments[{{$index}}].documentNumber"></gryf-validation-msg>
+            </td>
+            <td>
+                <input type="text" data-ng-model="item.additionalDescription"/>
+            </td>
+            <td>
+                <a>{{item.file.name ? item.file.name : item.originalFileName}}</a>
+            </td>
             <td>
                 <ul class="buttons">
                     <!--TODO:przywileje-->
@@ -36,6 +42,7 @@
                             {{(!item.file.name && !item.originalFileName) ? "Wgraj plik" : "Zmień plik"}}
                         </button>
                         <i ng-show="item.errorFile.$errorMessages.maxSize">Załącznik przekracza maksymalny rozmiar pliku: {{item.maxFileSize ? item.maxFileSize / 1024 / 1024 : '2'}}MB</i>
+                        <gryf-validation-msg path="attachments[{{$index}}].file"></gryf-validation-msg>
                     </li>
                     <li>
                         <button class="standardButton" data-ng-if="!item.required" ng-click="deleteAtt(item)">

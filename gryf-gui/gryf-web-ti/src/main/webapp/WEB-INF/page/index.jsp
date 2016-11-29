@@ -38,6 +38,7 @@
     <script src="${pageContext.request.contextPath}/js/components/angular/angular-input-masks-standalone.min.js"></script>
     <script src="${pageContext.request.contextPath}/js/components/angular/angular-toastr.tpls.min.js"></script>
     <script src="${pageContext.request.contextPath}/js/components/angular/ng-file-upload.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/components/angular/mask.min.js"></script>
 
     <script src="${pageContext.request.contextPath}/js/components/gryf/gryf-config.js"></script>
     <script src="${pageContext.request.contextPath}/js/app.js"></script>

@@ -102,7 +102,8 @@
                     <strong>Rachunek rozliczeniowy</strong>
                     <div class="childrenInOneLine">
                         <span>Numer rachunku bankowego do zwrotu</span>
-                        <input type="text" data-ng-model="rmbsModel.model.tiReimbAccountNumber"/>
+                        <input type="text" data-ng-model="rmbsModel.model.tiReimbAccountNumber" ui-mask="99 9999 9999 9999 9999 9999 9999"  ui-mask-placeholder ui-mask-placeholder-char=" "/>
+                        <gryf-validation-msg path="tiReimbAccountNumber"></gryf-validation-msg>
                     </div>
                 </div>
             </div>
@@ -110,12 +111,12 @@
                 <div class="grid-100">
                     <strong>Załączniki do rozliczenia</strong>
                 </div>
-                <attachments training-instance="rmbsModel.trainingInstance" model="rmbsModel.model"/>
+                <attachments training-instance="rmbsModel.trainingInstance" model="rmbsModel.model" violations="violations"/>
             </div>
         </div>
     </div>
     <div>
-        <button class="standardButton" style="float:right" data-ng-click="save()" data-ng-disabled="isSaveDisabled()">Zapisz zmiany</button>
+        <button class="standardButton" style="float:right" data-ng-click="saveReimburse()">Zapisz zmiany</button>
         <button class="standardButton" style="float:right" data-ng-click="sendToReimburse()">Wyślij do rozliczenia</button>
     </div>
 </section>
