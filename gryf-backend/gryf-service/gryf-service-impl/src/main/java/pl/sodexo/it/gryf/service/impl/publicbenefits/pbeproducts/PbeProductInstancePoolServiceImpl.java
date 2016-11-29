@@ -159,7 +159,7 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
         Order order = orderRepository.get(orderId);
         Contract contract = order.getContract();
         Individual individual = contract.getIndividual();
-        Integer productInstanceNum = order.loadElement(KK_PRODUCT_INSTANCE_NUM_ELEM_ID).getValueNumber().intValue();
+        Integer productInstanceNum = order.getVouchersNumber();
 
         //STWORZENIE PULI BONÓW
         PbeProductInstancePool pool = createProductInstancePool(order, contract, individual, order.getPbeProduct(), productInstanceNum);

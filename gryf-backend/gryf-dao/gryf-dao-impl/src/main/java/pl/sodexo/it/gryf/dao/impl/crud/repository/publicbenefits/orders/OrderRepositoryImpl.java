@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.dao.impl.crud.repository.publicbenefits.orders;
 
+import com.google.common.collect.Lists;
 import org.springframework.stereotype.Repository;
 import pl.sodexo.it.gryf.common.dto.api.SearchDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.searchform.OrderSearchQueryDTO;
@@ -165,8 +166,27 @@ public class OrderRepositoryImpl extends GenericRepositoryImpl<Order, Long> impl
         TypedQuery<Long> query = entityManager.createNamedQuery(Order.FIND_GRANTED_VOUCH_NUM_FOR_ENT_AND_PROGRAM, Long.class);
         query.setParameter("enterpriseId", enterpriseId);
         query.setParameter("grantProgramId", grantProgramId);
+
         Long result = query.getSingleResult();
         return result != null ? result : 0;
-    }        
-            
+    }
+
+    @Override
+    public Integer countNotCanceledOrdersByContract(Long contractId){
+        TypedQuery<Long> query = entityManager.createNamedQuery("Order.countNotCanceledOrdersByContract", Long.class);
+        query.setParameter("contractId", contractId);
+
+        Long result = query.getSingleResult();
+        return result != null ? result.intValue() : 0;
+    }
+
+    @Override
+    public Integer sumProductInstanceNumInNotCanceledOrdersByContract(Long contractId){
+        TypedQuery<Long> query = entityManager.createNamedQuery("Order.sumProductInstanceNumInNotCanceledOrdersByContract", Long.class);
+        query.setParameter("contractId", contractId);
+
+        Long result = query.getSingleResult();
+        return result != null ? result.intValue() : 0;
+    }
+
 }

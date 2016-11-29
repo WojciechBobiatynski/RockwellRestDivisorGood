@@ -1,8 +1,11 @@
 package pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.orderflows;
 
+import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.CreateOrderDTO;
 import pl.sodexo.it.gryf.common.dto.user.GryfUser;
+import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.grantprograms.GrantProgramProductRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderRepository;
 import pl.sodexo.it.gryf.model.dictionaries.ZipCode;
@@ -49,12 +52,11 @@ public abstract class OrderFlowBaseService implements OrderFlowService {
 
     @Override
     public Order createOrder(GrantApplication grantApplication, OrderFlow orderFlow){
-        GrantApplicationBasicData basicData = grantApplication.getBasicData();
         validateCreateOrder(grantApplication);
 
+        GrantApplicationBasicData basicData = grantApplication.getBasicData();
         GrantProgramProduct gpProduct = paramInDateService.findGrantProgramProduct(grantApplication.getProgram().getId(),
                                                             GrantProgramProduct.Type.PRODUCT, grantApplication.getReceiptDate(), true);
-
         Order order = new Order();
         order.setId(grantApplication.getId());
         order.setOrderFlow(orderFlow);
@@ -73,16 +75,18 @@ public abstract class OrderFlowBaseService implements OrderFlowService {
 
     @Override
     public Order createOrder(Contract contract, OrderFlow orderFlow, CreateOrderDTO dto) {
+        validateCreateOrder(dto, contract);
+
         Individual individual = contract.getIndividual();
         GrantProgramProduct gpProduct = paramInDateService.findGrantProgramProduct(contract.getGrantProgram().getId(),
                                                                     GrantProgramProduct.Type.PBE_PRODUCT, new Date(), true);
-
         Order order = new Order();
         order.setGrantProgram(contract.getGrantProgram());
         order.setOrderFlow(orderFlow);
         order.setEnterprise(contract.getEnterprise());
         order.setStatus(orderFlow.getInitialStatus());
         order.setOrderDate(new Date());
+        order.setVouchersNumber(dto.getProductInstanceNum());
         order.setAddressCorr(individual.getAddressCorr());
         order.setZipCodeCorrId((individual.getZipCodeCorr() != null) ? individual.getZipCodeCorr().getId() : null);
         order.setOperator(GryfUser.getLoggedUserLogin());
@@ -148,7 +152,9 @@ public abstract class OrderFlowBaseService implements OrderFlowService {
 
         return dto;
     }
-    
+
+    //PRIVATE METHODS
+
     /**
      * Metoda wykonuje sprawdzenia przed utworzeniem zamówienia
      * @param grantApplication wniosek o dofinansowanie
@@ -162,6 +168,51 @@ public abstract class OrderFlowBaseService implements OrderFlowService {
                     " w programie dofinasowania " + grantApplication.getProgram().getProgramName() +
                     ". Id niezakończonego zamówienia: " + orders.get(0).getId()) ;
        }
+    }
+
+    /**
+     * Metoda wykonuje sprawdzenia przed utworzeniem zamówienia
+     * @param dto obiekt z danymi do utworzenia
+     * @param contract umowa do której dodajemy zamowienie
+     */
+    private void validateCreateOrder(CreateOrderDTO dto, Contract contract){
+        List<EntityConstraintViolation> violation = Lists.newArrayList();
+        validateMaxOrderForContract(violation, contract);
+        validateMaxProductInstanceForContract(violation, contract, dto);
+        gryfValidator.validate(violation);
+    }
+
+    private void validateMaxOrderForContract(List<EntityConstraintViolation> violation, Contract contract){
+
+        GrantProgram grantProgram = contract.getGrantProgram();
+        GrantProgramParam gpp = paramInDateService.findGrantProgramParam(grantProgram.getId(),
+                                            GrantProgramParam.MAX_ORDERS_FOR_CONTRACT, new Date(), false);
+
+        if(gpp != null && !Strings.isNullOrEmpty(gpp.getValue())){
+            int maxOrders = Integer.valueOf(gpp.getValue());
+            int notCanceledOrderNum = orderRepository.countNotCanceledOrdersByContract(contract.getId());
+            notCanceledOrderNum ++;
+            if(maxOrders < notCanceledOrderNum){
+                violation.add(new EntityConstraintViolation(String.format("Przekroczono maksymalną ilość zamowień (%s) dla jednej umowy - "
+                        + "ilość po dodaniu danego zamówienia: %s", maxOrders, notCanceledOrderNum)));
+            }
+        }
+    }
+    private void validateMaxProductInstanceForContract(List<EntityConstraintViolation> violation, Contract contract, CreateOrderDTO dto){
+
+        GrantProgram grantProgram = contract.getGrantProgram();
+        GrantProgramParam gpp = paramInDateService.findGrantProgramParam(grantProgram.getId(),
+                                            GrantProgramParam.MAX_PRODUCT_INSTANCE_FOR_CONTRACT, new Date(), false);
+
+        if(gpp != null && !Strings.isNullOrEmpty(gpp.getValue())){
+            int maxProductNum = Integer.valueOf(gpp.getValue());
+            int notCanceledOrderNum = orderRepository.sumProductInstanceNumInNotCanceledOrdersByContract(contract.getId());
+            notCanceledOrderNum += dto.getProductInstanceNum();
+            if(maxProductNum < notCanceledOrderNum){
+                violation.add(new EntityConstraintViolation(String.format("Przekroczono maksymalną ilość produktów (%s) dla jednej umowy - "
+                        + "ilość po dodaniu danego zamówienia: %s", maxProductNum, notCanceledOrderNum)));
+            }
+        }
     }
 
     private String getAddressStr(String address, ZipCode zipcode){

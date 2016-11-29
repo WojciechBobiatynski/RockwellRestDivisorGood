@@ -53,7 +53,7 @@ public class PbeProductOrderEmailService implements EmailDTOService {
 
         MailPlaceholders mailPlaceholders = mailService.createPlaceholders("individualName", individual.getFirstName());
         mailPlaceholders.add("individualLastName", individual.getLastName());
-        mailPlaceholders.add("productInstanceNum", order.getElement(KK_PRODUCT_INSTANCE_NUM_ELEM_ID).getValueNumber().toString());
+        mailPlaceholders.add("productInstanceNum", order.getVouchersNumber().toString());
         mailPlaceholders.add("expiryDate", new SimpleDateFormat(DATE_FORMAT).format(contract.getExpiryDate()));
         mailPlaceholders.add("indUserUrl", applicationParameters.getIndUserUrl());
         mailPlaceholders.add("indLogin", individual.getPesel());

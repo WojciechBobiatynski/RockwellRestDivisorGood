@@ -39,7 +39,18 @@ import java.util.*;
                                                                             "and o.application.program.id = :grantProgramId " +
                                                                             "and o.status IN (SELECT p.status FROM OrderFlowStatusProperty p " +
                                                                             "WHERE o.orderFlow = p.orderFlow " +
-                                                                            "AND p.successStatus = 'Y') ")
+                                                                            "AND p.successStatus = 'Y') "),
+        @NamedQuery(name = "Order.countNotCanceledOrdersByContract", query="select count(o) from OrderEntity o " +
+                                                                        "where o.contract.id = :contractId and o.status not in " +
+                                                                        "(SELECT p.status FROM OrderFlowStatusProperty p " +
+                                                                        "WHERE o.orderFlow = p.orderFlow " +
+                                                                        "AND p.finalStatus = 'Y' and p.successStatus = 'N') "),
+        @NamedQuery(name = "Order.sumProductInstanceNumInNotCanceledOrdersByContract", query="select sum(o.vouchersNumber) from OrderEntity o " +
+                                                                                            "where o.contract.id = :contractId " +
+                                                                                            "and o.status not in " +
+                                                                                            "(SELECT p.status FROM OrderFlowStatusProperty p " +
+                                                                                            "WHERE o.orderFlow = p.orderFlow " +
+                                                                                            "AND p.finalStatus = 'Y' and p.successStatus = 'N')")
 })
 @OptimisticLocking(cascade=true)
 @SequenceGenerator(name="order_seq", schema = "eagle", sequenceName = "order_seq", allocationSize = 1)

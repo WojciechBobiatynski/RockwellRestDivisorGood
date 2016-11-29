@@ -16,4 +16,8 @@ public interface OrderRepository extends GenericRepository<Order, Long> {
     List<Order> findByEnterpriseGrantProgramInNonFinalStatuses(Long enterpriseId, Long grantProgramId);
 
     Long findGrantedVoucherNumberForEntAndProgram(Long enterpriseId, Long grantProgramId);
+
+    Integer countNotCanceledOrdersByContract(Long contractId);
+
+    Integer sumProductInstanceNumInNotCanceledOrdersByContract(Long contractId);
 }
