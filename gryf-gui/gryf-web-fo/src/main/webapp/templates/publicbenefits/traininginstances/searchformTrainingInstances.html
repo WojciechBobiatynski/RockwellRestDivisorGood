@@ -1,6 +1,6 @@
 <div>
     <header id="header">
-        <h1>Wyszukiwanie instancji szkoleń</h1>
+        <h1>Wyszukiwanie rezerwacji szkoleń</h1>
         <ul>
             <li><a ng-click="clear()" class="button button-refresh">Wyczyść</a></li>
         </ul>
@@ -13,7 +13,7 @@
                 <thead>
                 <tr class="grid-100">
                     <th class="sortable grid-10" ng-class="getSortingTypeClass('trainingInstanceId')">
-                        <div ng-click="getSortedBy('trainingInstanceId')">ID instancji</div>
+                        <div ng-click="getSortedBy('trainingInstanceId')">ID rezerwacji</div>
                         <input placeholder="ID" type="number" ng-model="searchDTO.trainingInstanceId">
                     </th>
                     <th class="sortable grid-5" ng-class="getSortingTypeClass('trainingInstitutionId')">
