@@ -11,6 +11,7 @@ import pl.sodexo.it.gryf.common.dto.mail.EmailSourceType;
 import pl.sodexo.it.gryf.common.dto.mail.MailDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.MailAttachmentDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementComplexTypeEmailDTO;
+import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.common.utils.JsonMapperUtils;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgramParam;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
@@ -78,10 +79,12 @@ public class CareerDirectionSendOrderActionService extends ActionBaseService {
         OrderElement oeAttachment01 = order.getElement(KK_ATTACHMENT_01_ELEM_ID);
         MailAttachmentDTO attachmentDTO = new MailAttachmentDTO();
         if(!Strings.isNullOrEmpty(oeAttachment01.getValueVarchar())){
-            attachmentDTO.setName(oeAttachment01.getOrderFlowElement().getElementName());
+            attachmentDTO.setName(String.format("%s.%s", GryfStringUtils.convertFileName(oeAttachment01.getOrderFlowElement().getElementName()),
+                                                            GryfStringUtils.findFileExtension(oeAttachment01.getValueVarchar())));
             attachmentDTO.setPath(oeAttachment01.getValueVarchar());
         }else{
-            attachmentDTO.setName(oeDocumentOwnContribution.getOrderFlowElement().getElementName());
+            attachmentDTO.setName(String.format("%s.%s", GryfStringUtils.convertFileName(oeDocumentOwnContribution.getOrderFlowElement().getElementName()),
+                                                         GryfStringUtils.findFileExtension(oeDocumentOwnContribution.getValueVarchar())));
             attachmentDTO.setPath(oeDocumentOwnContribution.getValueVarchar());
         }
         return attachmentDTO;
