@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.common.exception.EntityValidationException;
+import pl.sodexo.it.gryf.common.exception.StaleDataException;
 import pl.sodexo.it.gryf.common.exception.verification.GryfIndUserVerificationException;
 import pl.sodexo.it.gryf.web.ti.response.GeneralExceptionResponse;
 import pl.sodexo.it.gryf.web.ti.response.IndUserVerificationExceptionResponse;
+import pl.sodexo.it.gryf.web.ti.response.StaleDataResponse;
 import pl.sodexo.it.gryf.web.ti.response.ValidationErrorResponse;
 
 @ControllerAdvice
@@ -44,6 +46,12 @@ public class ExceptionHandlers {
     public ResponseEntity<GeneralExceptionResponse> generalException(Exception sde) {
         LOGGER.error(sde.getMessage(), sde);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new GeneralExceptionResponse(sde.getMessage(), Throwables.getStackTraceAsString(sde)));
+    }
+
+    @ExceptionHandler(StaleDataException.class)
+    @ResponseBody
+    public ResponseEntity<StaleDataResponse> sde(StaleDataException sde) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(new StaleDataResponse(sde.getId(), sde.getVersion(), sde.getModifiedUser(), sde.getModifiedTimestamp(), sde.getMessage()));
     }
     
 }

@@ -181,17 +181,40 @@ angular.module("gryf.ti").factory("ReimbursementsServiceModify",
                     }
                 });
 
+                var successMsg = '';
+                var errorMsg = '';
+                if(URL === SAVE_RMBS){
+                    successMsg = 'Zapisano zmiany';
+                    errorMsg = 'Nie udało się zapisać zmian';
+                } else {
+                    successMsg = 'Wysłano do rozliczenia';
+                    errorMsg = 'Nie udało się wysłać do rozliczenia';
+                }
+
                 Upload.upload({
                     url: URL,
                     data: {file: attachments, model: Upload.json(rmbsModel.model)}
                 }).success(function(response) {
-                    GryfPopups.setPopup("success", "Sukces", "Rozliczenie poprawnie zapisane");
+                    GryfPopups.setPopup("success", "Sukces", successMsg);
                     GryfPopups.showPopup();
                     rmbsModel.model = response;
                 }).error(function(response) {
-                    GryfPopups.setPopup("error", "Błąd", "Nie udało się zapisać rozliczenia.");
+                    GryfPopups.setPopup("error", "Błąd", errorMsg);
                     GryfPopups.showPopup();
-                    GryfExceptionHandler.handleSavingError(response, violations);
+
+                    var conflictCallbacksObject = {
+                        refresh: function() {
+                            createReimbursement(rmbsModel.trainingInstance.trainingInstanceId).success(function(data){
+                                rmbsModel.model = data;
+                            })
+                        },
+                        force: function() {
+                            rmbsModel.model.version = response.version;
+                            save(URL);
+                        }
+                    };
+
+                    GryfExceptionHandler.handleSavingError(response, violations, conflictCallbacksObject);
                 }).finally(function() {
                     GryfModals.closeModal(modalInstance);
                 });
