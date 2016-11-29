@@ -3,9 +3,12 @@ Insert into APP_PBE.GRANT_OWNERS (ID,NAME,EMAIL_ADDRESSES_GRANT_APP_INFO) values
 Insert into APP_PBE.GRANT_PROGRAMS (ID,GRANT_OWNER_ID,PROGRAM_NAME,START_DATE,END_DATE) values (100, 100,'Kierunek Kariera',to_date('16/10/01','RR/MM/DD'),null);
 
 Insert into APP_PBE.GRANT_PROGRAM_PARAM_TYPES (ID, NAME, DESCRIPRTION) values ('OWN_CONT_P','Procent wk³adu w³asnego','Procent wk³adu w³asnego jak¹ u¿ytkownik musi wp³aciæ przy realizacji danego programu dofinansownaia. Warto¹œæ parametru musi byæ liczba bez znaku procent np: 13, 30.33, 12.341');
-Insert into APP_PBE.GRANT_PROGRAM_PARAM_TYPES (ID, NAME, DESCRIPRTION) values ('IS_AUT_FLO','Automatyczny proces zamowieñ','Parametr mówi¹cy czy dane order flow ma byæ automatyczne. Warto¹œæ parametru musi przyjmowaæ wartoœci: true, false');
+Insert into APP_PBE.GRANT_PROGRAM_PARAM_TYPES (ID, NAME, DESCRIPRTION) values ('M_ORD_CON','Max. iloœæ zamowieñ dla umowy', 'Maksymalna iloœæ zamowieñ dla jednej umowy np.2');
+Insert into APP_PBE.GRANT_PROGRAM_PARAM_TYPES (ID, NAME, DESCRIPRTION) values ('M_PRIN_CON','Max. iloœæ produktów dla umowy','Maksymalna iloœæ produktów dla jednej umowy np.180');
 Insert into APP_PBE.GRANT_PROGRAM_PARAMS (ID, GRANT_PROGRAM_ID, PARAM_ID, VALUE, DATE_FROM, DATE_TO) values (1, 100, 'OWN_CONT_P', '13', null, null);
-Insert into APP_PBE.GRANT_PROGRAM_PARAMS (ID, GRANT_PROGRAM_ID, PARAM_ID, VALUE, DATE_FROM, DATE_TO) values (3, 100, 'IS_AUT_FLO', 'false', null, null);
+Insert into APP_PBE.GRANT_PROGRAM_PARAMS (ID, GRANT_PROGRAM_ID, PARAM_ID, VALUE, DATE_FROM, DATE_TO) values (2, 100, 'M_ORD_CON', '2', null, null);
+Insert into APP_PBE.GRANT_PROGRAM_PARAMS (ID, GRANT_PROGRAM_ID, PARAM_ID, VALUE, DATE_FROM, DATE_TO) values (3, 100, 'M_PRIN_CON', '180', null, null);
+
 
 Insert into APP_PBE.ORDER_FLOW_STATUSES (STATUS_ID,STATUS_NAME) values ('NEWKK', 'Nowe');
 Insert into APP_PBE.ORDER_FLOW_STATUSES (STATUS_ID,STATUS_NAME) values ('PAIDKK', 'Op³acone');
@@ -14,6 +17,11 @@ Insert into APP_PBE.ORDER_FLOW_STATUSES (STATUS_ID,STATUS_NAME) values ('PROCESS
 Insert into APP_PBE.ORDER_FLOW_STATUSES (STATUS_ID,STATUS_NAME) values ('SENTKK', 'Wys³ane');
 Insert into APP_PBE.ORDER_FLOW_STATUSES (STATUS_ID,STATUS_NAME) values ('EKSPORTKK', 'Wyeksportowane');
 Insert into APP_PBE.ORDER_FLOW_STATUSES (STATUS_ID,STATUS_NAME) values ('CANCELLDKK', 'Anulowane');
+
+Insert into APP_PBE.ORDER_FLOW_STATUS_PROPERTIES (ID, ORDER_FLOW_ID, STATUS_ID, FINAL_STATUS, SUCCESS_STATUS) values (4, 100, 'CANCELLDKK', 'Y', 'N');
+
+
+
 
 Insert into APP_PBE.ORDER_FLOWS (ID,NAME,INITIAL_STATUS_ID) values (100,'Przepyw zamówienia - Kierunek Kariera','NEWKK');
 Insert into APP_PBE.ORDER_FLOWS_FOR_GR_PROGRAMS(ID, GRANT_PROGRAM_ID, ORDER_FLOW_ID, DATE_FROM, DATE_TO) values (1, 100, 100, null, null);
@@ -25,7 +33,7 @@ Insert into APP_PBE.ORDER_FLOW_ALLOWED_DELAYS (ID,ORDER_FLOW_ID,DELAY_TYPE_ID,DE
 
 Insert into APP_PBE.ORDER_FLOW_STATUS_TRANSITIONS (ORDER_FLOW_ID,STATUS_ID,ACTION_ID,ACTION_NAME,ACTION_DESCRIPTION,ACTION_CLASS,NEXT_STATUS_ID,AUG_ID_REQUIRED, AUTOMATIC) values (100,'NEWKK',10012,'Rejestruj wp³atê','Akcja rejestruj¹ca wpatê wkadu wasnego','careerDirectionRegisterPayment','PAIDKK',null, '0');
 Insert into APP_PBE.ORDER_FLOW_STATUS_TRANSITIONS (ORDER_FLOW_ID,STATUS_ID,ACTION_ID,ACTION_NAME,ACTION_DESCRIPTION,ACTION_CLASS,NEXT_STATUS_ID,AUG_ID_REQUIRED, AUTOMATIC) values (100,'PAIDKK',10023,'Wydaj bony','Akcja wydaje bony elektroniczne','careerDirectionCreateProducyInstancePool','DOCGENKK',null, '1');
-Insert into APP_PBE.ORDER_FLOW_STATUS_TRANSITIONS (ORDER_FLOW_ID,STATUS_ID,ACTION_ID,ACTION_NAME,ACTION_DESCRIPTION,ACTION_CLASS,NEXT_STATUS_ID,AUG_ID_REQUIRED, AUTOMATIC) values (100,'DOCGENKK',10034,'Wygeneruj dokumenty','Akcja generuje niezbêdne dokumenty ksiêgowe','careerDirectionGenerateDocuments','PROCESSDKK',null, '1');
+Insert into APP_PBE.ORDER_FLOW_STATUS_TRANSITIONS (ORDER_FLOW_ID,STATUS_ID,ACTION_ID,ACTION_NAME,ACTION_DESCRIPTION,ACTION_CLASS,NEXT_STATUS_ID,AUG_ID_REQUIRED, AUTOMATIC) values (100,'DOCGENKK',10034, 'Drukuj dokumenty','Akcja generuje niezbêdne dokumenty ksiêgowe','careerDirectionGenerateDocuments','PROCESSDKK',null, '1');
 Insert into APP_PBE.ORDER_FLOW_STATUS_TRANSITIONS (ORDER_FLOW_ID,STATUS_ID,ACTION_ID,ACTION_NAME,ACTION_DESCRIPTION,ACTION_CLASS,NEXT_STATUS_ID,AUG_ID_REQUIRED, AUTOMATIC) values (100,'PROCESSDKK',10045,'Wyœlij zamówienie','Akcja wysy³a maila do u¿ytkownika z niezbednymi danymi','careerDirectionSendOrder','SENTKK',null, '1');
 
 Insert into APP_PBE.ORDER_FLOW_STATUS_TRANSITIONS (ORDER_FLOW_ID,STATUS_ID,ACTION_ID,ACTION_NAME,ACTION_DESCRIPTION,ACTION_CLASS,NEXT_STATUS_ID,AUG_ID_REQUIRED, AUTOMATIC) values (100,'NEWKK',10015,'Anuluj','Akcja anuluje zamówienie',null,'CANCELLDKK',null, '0');
@@ -39,7 +47,7 @@ Insert into APP_PBE.ORDER_FLOW_ELEMENT_TYPES (ID,DESCRIPTION,COMPONENT_NAME) val
 
 Insert into APP_PBE.ORDER_FLOW_ELEMENTS (ELEMENT_ID,ELEMENT_NAME,ELEMENT_TYPE_ID,ELEMENT_TYPE_PARAMS,ELEMENT_DESCRIPTION) values ('ORDINF_KK','Informacje o zamówieniu','C_BSORDIFO',null,'Element z³o¿ony przetrzymuj¹cy podstawowe informacje o zamówieniu');
 Insert into APP_PBE.ORDER_FLOW_ELEMENTS (ELEMENT_ID,ELEMENT_NAME,ELEMENT_TYPE_ID,ELEMENT_TYPE_PARAMS,ELEMENT_DESCRIPTION) values ('CONTRA_KK','Informacje o umowie','C_CONTRA',null,'Element z³o¿ony przetrzymuj¹cy podstawowe informacje o umowie');
-Insert into APP_PBE.ORDER_FLOW_ELEMENTS (ELEMENT_ID,ELEMENT_NAME,ELEMENT_TYPE_ID,ELEMENT_TYPE_PARAMS,ELEMENT_DESCRIPTION) values ('ADRINV_KK','Adres na fakturze','ATTR_V','MAX_LENGTH=100','Element przetrzymuj¹cy adres na fakturze');
+Insert into APP_PBE.ORDER_FLOW_ELEMENTS (ELEMENT_ID,ELEMENT_NAME,ELEMENT_TYPE_ID,ELEMENT_TYPE_PARAMS,ELEMENT_DESCRIPTION) values ('ADRINV_KK','Adres do faktury','ATTR_V','MAX_LENGTH=100','Element przetrzymuj¹cy adres na fakturze');
 Insert into APP_PBE.ORDER_FLOW_ELEMENTS (ELEMENT_ID,ELEMENT_NAME,ELEMENT_TYPE_ID,ELEMENT_TYPE_PARAMS,ELEMENT_DESCRIPTION) values ('ADRCOR_KK','Adres korespondencyjny','ATTR_V','MAX_LENGTH=100','Element przetrzymuj¹cy adres korespondencyjny');
 Insert into APP_PBE.ORDER_FLOW_ELEMENTS (ELEMENT_ID,ELEMENT_NAME,ELEMENT_TYPE_ID,ELEMENT_TYPE_PARAMS,ELEMENT_DESCRIPTION) values ('PBEPRO_KK','Informacje o bonach','C_PBEPRO',null,'Element z³o¿ony przetrzymuj¹cy podstawowe informacje o bonach elektronicznych');
 
