@@ -1,0 +1,67 @@
+<div>
+    <div class="modal-header">
+        <h3 class="modal-title">Wyszukaj i wybierz szkolenie</h3>
+    </div>
+    <div class="modal-body text">
+        <div>
+            <a ng-click="find()" class="button button-search">szukaj</a>
+        </div>
+        <table class="table">
+            <thead>
+            <tr class="inputs">
+                <th><input placeholder="ID szkolenia" type="text" ng-model="model.entity.trainingId"></th>
+                <th><input placeholder="ID instytucji" ng-model="model.entity.institutionId"></th>
+                <th><input placeholder="Nazwa instytucji" ng-model="model.entity.institutionName"></th>
+                <th><input placeholder="Nazwa szkolenia" ng-model="model.entity.name"></th>
+                <th class="grid-10">
+                    <input placeholder="Cena od" ng-model="model.entity.priceFrom">
+                    <input placeholder="Cena do" ng-model="model.entity.priceTo">
+                </th>
+                <th><input placeholder="Data rozpoczęcia" ng-model="model.entity.startDate"></th>
+                <th><input placeholder="Data zakończenia" ng-model="model.entity.endDate"></th>
+                <th><input placeholder="Miejsce" ng-model="model.entity.place"></th>
+                <th>
+                    <input placeholder="Liczba godzin od" ng-model="model.entity.hoursNumberFrom">
+                    <input placeholder="Liczba godzin do" ng-model="model.entity.hoursNumberTo">
+                </th>
+                <th>
+                    <input placeholder="Cena za 1h od" ng-model="model.entity.hourPriceFrom">
+                    <input placeholder="Cena za 1h do" ng-model="model.entity.hourPriceTo">
+                </th>
+                <th><input placeholder="Kategoria" ng-model="model.entity.categoryCodes"></th>
+            </tr>
+            </thead>
+            <tr ng-repeat="item in list | limitTo: searchResultOptions.displayLimit" ng-click="$close(item)" class="mouseover">
+                <td>{{item.trainingId}}</td>
+                <td>{{item.institutionId}}</td>
+                <td>{{item.institutionName}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.price}}</td>
+                <td>{{item.startDate}}</td>
+                <td>{{item.endDate}}</td>
+                <td>{{item.place}}</td>
+                <td>{{item.hoursNumber}}</td>
+                <td>{{item.hourPrice}}</td>
+                <td>{{item.category}}</td>
+            </tr>
+        </table>
+    </div>
+    <div ng-show="searchResultOptions.overflow" class="centered-ul">
+        <ul>
+            <li><a href="" ng-click="loadMore()" class="button button-infinity">wczytaj więcej wyników</a></li>
+        </ul>
+    </div>
+    <div class="" ng-show="model.searchResultList.length===0">
+        Brak wyników
+    </div>
+    <div class="msg msg-error" ng-show="searchResultOptions.badQuery">
+        <p>Błąd kryteriów zapytania - niepoprawny format</p>
+    </div>
+    <div class="modal-footer">
+        <div class="centered-ul">
+            <ul>
+                <li><button class="button button-cancel" ng-click="$dismiss()">Anuluj</button></li>
+            </ul>
+        </div>
+    </div>
+</div>

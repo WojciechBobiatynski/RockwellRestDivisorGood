@@ -41,8 +41,12 @@ angular.module('gryf.modals').factory('GryfModals', ['$rootScope', '$modal', fun
             templateUrl: contextPath + "/templates/modals/modal-delivery-lov.html",
             restURL: contextPath + "/rest/publicBenefits/reimbursements/reimbursableDeliveries"
         },
+        LOV_TRAININGS: {
+            templateUrl: contextPath + "/templates/modals/modal-training-lov.html",
+            restURL: ""
+        },
         ERROR_INFO: contextPath + "/templates/modals/modal-error.html",
-        INVALID_OBJECT_ID: contextPath + "/templates/modals/modal-invalid-object-id.html"
+        INVALID_OBJECT_ID: contextPath + "/templates/modals/modal-invalid-object-id.html",
     };
     var MODAL_RESULT = {
         REFRESH: "refresh",

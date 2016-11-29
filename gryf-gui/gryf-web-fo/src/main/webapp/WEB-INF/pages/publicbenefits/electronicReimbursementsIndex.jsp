@@ -11,6 +11,9 @@
 <script src="${pageContext.request.contextPath}/js/publicbenefits/trainingInstitutions/gryf-trainingInstitutions.js"></script>
 <script src="${pageContext.request.contextPath}/js/publicbenefits/trainingInstitutions/trainingInstitutionsServices.js"></script>
 
+<script src="${pageContext.request.contextPath}/js/publicbenefits/trainingInstitutions/training/gryf-training.js"></script>
+<script src="${pageContext.request.contextPath}/js/publicbenefits/trainingInstitutions/training/trainingServices.js"></script>
+
 <div ng-app="gryf.electronicreimbursements" keypress-events>
     <div class="mainContent" ng-view></div>
 </div>

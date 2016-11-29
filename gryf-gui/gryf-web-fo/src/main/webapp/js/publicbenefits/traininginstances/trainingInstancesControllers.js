@@ -1,9 +1,10 @@
 "use strict";
 
 angular.module("gryf.trainingInstances").controller("TrainingInstancesSearchController",
-    ["$scope", "TrainingInstanceSearchService", function ($scope, TrainingInstanceSearchService) {
+    ["$scope", "GryfModals", "BrowseTrainingInsService", "BrowseTrainingService", "TrainingInstanceSearchService",
+        function ($scope, GryfModals, BrowseTrainingInsService, BrowseTrainingService, TrainingInstanceSearchService) {
 
-    $scope.searchDTO = TrainingInstanceSearchService.getNewCriteria();
+    $scope.searchDTO = TrainingInstanceSearchService.getNewSearchDTO();
     $scope.searchResultOptions = TrainingInstanceSearchService.getSearchResultOptions();
     $scope.trainingModel = TrainingInstanceSearchService.getTrainingModel();
     $scope.statusesDictionary = null;
@@ -23,15 +24,8 @@ angular.module("gryf.trainingInstances").controller("TrainingInstancesSearchCont
     };
 
     $scope.clear = function() {
-        $scope.searchDTO = TrainingInstanceSearchService.getNewCriteria();
+        $scope.searchDTO = TrainingInstanceSearchService.getNewSearchDTO();
         $scope.searchResultOptions = TrainingInstanceSearchService.getNewSearchResultOptions();
-    };
-
-    $scope.openIsLov = function() {
-        TrainingInstanceSearchService.openTrainingInstitutionLov().result.then(function(chosenTI) {
-            $scope.searchDTO.entity.institutionId = chosenTI.id;
-            $scope.searchDTO.entity.institutionName = chosenTI.name;
-        });
     };
 
     $scope.datepicker = {
@@ -51,6 +45,20 @@ angular.module("gryf.trainingInstances").controller("TrainingInstancesSearchCont
 
     $scope.loadMore = function() {
         TrainingInstanceSearchService.loadMore();
+    };
+
+    $scope.openInstitutionLov = function() {
+        GryfModals.openLovModal(GryfModals.MODALS_URL.LOV_TI, BrowseTrainingInsService, 'lg').result.then(function(chosenTI) {
+            $scope.searchDTO.trainingInstitutionName = chosenTI.name;
+            $scope.searchDTO.trainingInstitutionId = chosenTI.id;
+        });
+    };
+
+    $scope.openTrainingLov = function() {
+        GryfModals.openLovModal(GryfModals.MODALS_URL.LOV_TRAININGS, BrowseTrainingService, 'lg').result.then(function(chosenTI) {
+            $scope.searchDTO.trainingId = chosenTI.trainingId;
+            $scope.searchDTO.trainingName = chosenTI.name;
+        });
     };
 
     $scope.clear();

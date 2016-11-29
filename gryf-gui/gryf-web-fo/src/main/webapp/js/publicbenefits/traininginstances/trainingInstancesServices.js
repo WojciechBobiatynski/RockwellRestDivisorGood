@@ -6,11 +6,11 @@ angular.module("gryf.trainingInstances").factory("TrainingInstanceSearchService"
         var FIND_TRAINING_INSTANCE_DETAILS_URL = contextPath + "/trainingInstance/details/";
         var TRAINING_INSTANCE_STATUSES_LIST_URL = contextPath + "/trainingInstance/statuses";
 
-        var trainingCriteria = new TrainingCriteria();
+        var searchDTO = new SearchObjModel();
         var searchResultOptions = new SearchResultOptions();
         var trainingModel = new TrainingModel();
 
-        function TrainingCriteria() {
+        function SearchObjModel() {
             this.trainingInstanceId = null,
             this.trainingInstitutionId = null,
             this.trainingInstitutionName = null,
@@ -42,13 +42,13 @@ angular.module("gryf.trainingInstances").factory("TrainingInstanceSearchService"
             this.badQuery = false;
         };
 
-        var getTrainingCriteria = function () {
-            return trainingCriteria;
+        var getSearchDTO = function () {
+            return searchDTO;
         };
 
-        var getNewTrainingCriteria = function () {
-            trainingCriteria = new TrainingCriteria();
-            return trainingCriteria;
+        var getNewSearchDTO = function () {
+            searchDTO = new SearchObjModel();
+            return searchDTO;
         };
 
         var getSearchResultOptions = function () {
@@ -72,11 +72,11 @@ angular.module("gryf.trainingInstances").factory("TrainingInstanceSearchService"
         var find = function (findUrl) {
             var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING);
 
-            GryfHelpers.transformDatesToString(trainingCriteria);
+            GryfHelpers.transformDatesToString(searchDTO);
             if (!findUrl) {
                 findUrl = FIND_TRAINING_INSTANCE_LIST_URL;
             }
-            var promise = $http.get(findUrl, {params: trainingCriteria});
+            var promise = $http.get(findUrl, {params: searchDTO});
             promise.then(function (response) {
                 trainingModel.foundTrainings = response.data;
                 searchResultOptions.overflow = response.data.length > searchResultOptions.displayLimit;
@@ -105,7 +105,7 @@ angular.module("gryf.trainingInstances").factory("TrainingInstanceSearchService"
         };
 
         var findSortedBy = function(sortColumnName) {
-            GryfTables.sortByColumn(trainingCriteria, sortColumnName);
+            GryfTables.sortByColumn(searchDTO, sortColumnName);
             return find();
         };
 
@@ -114,13 +114,14 @@ angular.module("gryf.trainingInstances").factory("TrainingInstanceSearchService"
         };
 
         var loadMore = function () {
-            trainingCriteria.limit += searchResultOptions.displayLimitIncrementer;
+            searchDTO.limit += searchResultOptions.displayLimitIncrementer;
             searchResultOptions.displayLimit += searchResultOptions.displayLimitIncrementer;
             return find();
         };
 
         return {
-            getNewCriteria: getNewTrainingCriteria,
+            getSearchDTO: getSearchDTO,
+            getNewSearchDTO: getNewSearchDTO,
             getTiStatuses: getTiStatuses,
             getSearchResultOptions: getSearchResultOptions,
             getNewSearchResultOptions: getNewSearchResultOptions,

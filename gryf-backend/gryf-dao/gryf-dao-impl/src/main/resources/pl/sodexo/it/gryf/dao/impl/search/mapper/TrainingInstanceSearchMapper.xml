@@ -16,6 +16,7 @@
             ind.LAST_NAME                 participantSurname,
             ti.START_DATE                 startDate,
             ti.END_DATE                   endDate,
+            status.ID                     trainingStatusId,
             status.NAME                   trainingStatus
         FROM
             APP_PBE.TI_TRAINING_INSTANCES ti_in

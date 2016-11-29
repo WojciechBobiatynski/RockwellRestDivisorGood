@@ -1,6 +1,6 @@
 "use strict";
 
-angular.module("gryf.trainingInstances", ["gryf.config"]);
+angular.module("gryf.trainingInstances", ["gryf.config", "gryf.trainingInstitutions", "gryf.training"]);
 
 angular.module("gryf.trainingInstances").config(["$routeProvider", function($routeProvider) {
     $routeProvider
