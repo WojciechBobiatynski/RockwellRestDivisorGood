@@ -46,4 +46,9 @@ public class ElectronicReimbursementsDaoImpl implements ElectronicReimbursements
     public ElctRmbsHeadDto findEcltRmbsById(Long ermbsId) {
         return electronicReimbursementsSearchMapper.findEcltRmbsById(new UserCriteria(), ermbsId);
     }
+
+    @Override
+    public ElctRmbsHeadDto findEcltRmbsByTrainingInstanceId(Long trainingInstanceId) {
+        return electronicReimbursementsSearchMapper.findEcltRmbsByTrainingInstanceId(new UserCriteria(), trainingInstanceId);
+    }
 }

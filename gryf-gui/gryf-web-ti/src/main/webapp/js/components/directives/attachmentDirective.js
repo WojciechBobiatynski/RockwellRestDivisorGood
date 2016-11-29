@@ -42,6 +42,9 @@ angular.module("gryf.ti").directive("attachments", ['AttachmentService',
                     if (newData) {
                         AttachmentService.loadAttachmentsTypes($scope.trainingInstance.grantProgramId).then(function (response) {
                             $scope.modelTypes.types = response.data;
+                            $scope.modelTypes.types.sort(function(a,b){
+                                return a.ordinal - b.ordinal;
+                            });
                             if ($scope.model.attachments === undefined || $scope.model.attachments === null) {
                                 $scope.model.attachments = [];
                             }

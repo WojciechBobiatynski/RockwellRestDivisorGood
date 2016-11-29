@@ -97,13 +97,7 @@
           </if>
     </select>
 
-
-    <resultMap id="ecltRmbsHeadMap" type="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto" autoMapping="true" >
-        <id column="ermbsId" property="ermbsId"/>
-        <collection property="products" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.ProductHeadDto" autoMapping="true" columnPrefix="prd_"/>
-        <collection property="attachments" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsAttachmentDto" autoMapping="true" columnPrefix="att_"/>
-    </resultMap>
-    <select id="findEcltRmbsById" resultMap="ecltRmbsHeadMap">
+    <sql id="baseForReimbursement">
         SELECT
           ermbs.ID                                  ermbsId,
           ermbs.TI_TR_INST_ID                       trainingInstanceId,
@@ -155,8 +149,26 @@
               AND att_req.DATE_FROM &lt;= SYSDATE
               AND NVL(att_req.DATE_TO, SYSDATE) &gt;= SYSDATE
             )
+    </sql>
+
+    <resultMap id="ecltRmbsHeadMap" type="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto" autoMapping="true" >
+        <id column="ermbsId" property="ermbsId"/>
+        <collection property="products" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.ProductHeadDto" autoMapping="true" columnPrefix="prd_"/>
+        <collection property="attachments" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsAttachmentDto" autoMapping="true" columnPrefix="att_"/>
+    </resultMap>
+    <select id="findEcltRmbsById" resultMap="ecltRmbsHeadMap">
+        <include refid="baseForReimbursement"/>
         WHERE
           ermbs.ID = #{ermbsId}
+        <if test="criteria.gryfUser.userType == 'TRAINING_INSTITUTION'">
+            AND tr.TRAINING_INSTITUTION_ID = #{criteria.gryfUser.trainingInstitutionId}
+        </if>
+    </select>
+
+    <select id="findEcltRmbsByTrainingInstanceId" resultMap="ecltRmbsHeadMap">
+        <include refid="baseForReimbursement"/>
+        WHERE
+        tr_in.ID = #{trainingInstanceId}
         <if test="criteria.gryfUser.userType == 'TRAINING_INSTITUTION'">
             AND tr.TRAINING_INSTITUTION_ID = #{criteria.gryfUser.trainingInstitutionId}
         </if>

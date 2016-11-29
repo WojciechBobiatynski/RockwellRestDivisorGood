@@ -20,7 +20,6 @@ import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementAttachmentRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementStatusRepository;
-import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstanceRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstanceStatusRepository;
 import pl.sodexo.it.gryf.dao.api.search.dao.ElectronicReimbursementsDao;
 import pl.sodexo.it.gryf.dao.api.search.dao.ProductSearchDao;
@@ -30,8 +29,6 @@ import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.Ele
 import pl.sodexo.it.gryf.service.local.api.FileService;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.electronicreimbursements.EreimbursementDtoMapper;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.electronicreimbursements.ErmbsAttachmentDtoMapper;
-import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.electronicreimbursements.EreimbursementEntityMapper;
-import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.electronicreimbursements.ErmbsAttachmentEntityMapper;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -55,9 +52,6 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     private EreimbursementStatusRepository ereimbursementStatusRepository;
 
     @Autowired
-    private TrainingInstanceRepository trainingInstanceRepository;
-
-    @Autowired
     private TrainingInstanceStatusRepository trainingInstanceStatusRepository;
 
     @Autowired
@@ -66,17 +60,12 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     @Autowired
     private ErmbsAttachmentDtoMapper ermbsAttachmentDtoMapper;
 
-    @Autowired
-    private ErmbsAttachmentEntityMapper ermbsAttachmentEntityMapper;
 
     @Autowired
     private ProductSearchDao productSearchDao;
 
     @Autowired
     private FileService fileService;
-
-    @Autowired
-    private EreimbursementEntityMapper ereimbursementEntityMapper;
 
     @Autowired
     private EreimbursementDtoMapper ereimbursementDtoMapper;
@@ -94,7 +83,11 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
 
     @Override
     public ElctRmbsHeadDto createRmbsDtoByTrainingInstanceId(Long trainingInstanceId) {
-        ElctRmbsHeadDto elctRmbsHeadDto = new ElctRmbsHeadDto();
+        ElctRmbsHeadDto elctRmbsHeadDto = electronicReimbursementsDao.findEcltRmbsByTrainingInstanceId(trainingInstanceId);
+        if(elctRmbsHeadDto != null){
+            return elctRmbsHeadDto;
+        }
+        elctRmbsHeadDto = new ElctRmbsHeadDto();
         elctRmbsHeadDto.setTrainingInstanceId(trainingInstanceId);
         calculateCharges(elctRmbsHeadDto, trainingInstanceId);
         elctRmbsHeadDto.setProducts(productSearchDao.findProductsByTrainingInstanceId(trainingInstanceId));

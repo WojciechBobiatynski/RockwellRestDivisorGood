@@ -50,4 +50,12 @@ public interface ElectronicReimbursementsSearchMapper {
      */
     ElctRmbsHeadDto findEcltRmbsById(@Param("criteria") UserCriteria criteria, @Param("ermbsId") Long ermbsId);
 
+    /**
+     * Znajduje szczegóły rozliczenia podstawie Id instancji szkolenia
+     * @param criteria - krytertia użytkownika
+     * @param trainingInstanceId - id rozliczenia
+     * @return Dto rozliczenia
+     */
+    ElctRmbsHeadDto findEcltRmbsByTrainingInstanceId(@Param("criteria") UserCriteria criteria, @Param("trainingInstanceId") Long trainingInstanceId);
+
 }

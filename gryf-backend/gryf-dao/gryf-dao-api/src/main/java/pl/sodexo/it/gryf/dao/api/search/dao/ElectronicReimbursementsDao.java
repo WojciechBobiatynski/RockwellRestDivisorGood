@@ -43,5 +43,12 @@ public interface ElectronicReimbursementsDao {
      */
     ElctRmbsHeadDto findEcltRmbsById(Long ermbsId);
 
+    /**
+     * Znajduje szczegóły rozliczenia podstawie Id instancji szkolenia
+     * @param trainingInstanceId - id rozliczenia
+     * @return Dto rozliczenia
+     */
+    ElctRmbsHeadDto findEcltRmbsByTrainingInstanceId(Long trainingInstanceId);
+
 
 }
