@@ -293,6 +293,10 @@ table {
     width: 100%;
 }
 
+span.msg-error {
+    display: block;
+}
+
 .tableHeader-names {
     vertical-align: bottom;
     text-align: left;
