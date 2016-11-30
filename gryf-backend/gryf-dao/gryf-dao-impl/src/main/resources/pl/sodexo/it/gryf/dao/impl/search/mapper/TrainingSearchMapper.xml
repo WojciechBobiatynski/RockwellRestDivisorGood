@@ -64,6 +64,9 @@
                     t.TRAINING_CATEGORY_ID like #{code}
                 </foreach>
             </if>
+            <if test="searchParams.categoryName != null and searchParams.categoryName != ''">
+                AND LOWER(c.NAME) like '%' || LOWER(#{searchParams.categoryName}) || '%'
+            </if>
         </where>
         <if test="searchParams.sortColumns != null">
             <foreach item="columnName" index="index" collection="searchParams.sortColumns" open="ORDER BY " separator="," close="">

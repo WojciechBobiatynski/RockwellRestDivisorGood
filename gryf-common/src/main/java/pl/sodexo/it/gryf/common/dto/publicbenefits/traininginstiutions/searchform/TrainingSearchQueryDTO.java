@@ -76,4 +76,8 @@ public class TrainingSearchQueryDTO extends SearchDto {
     @Getter
     @Setter
     private List<String> categoryCodes;
+
+    @Getter
+    @Setter
+    private String categoryName;
 }

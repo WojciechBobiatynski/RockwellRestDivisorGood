@@ -96,9 +96,8 @@
                     </th>
                     <th class="sortable grid-15" ng-class="getSortingTypeClass('category')">
                         <div ng-click="getSortedBy('category')">Kategoria</div>
-                        <select ng-options="v.id as v.name for v in categoryDictionary | orderBy:'ordinal'" ng-model="searchDTO.entity.categoryCodes">
-                            <option value="">-wybierz-</option>
-                        </select>
+                        <input placeholder="Kategoria"
+                               ng-model="searchDTO.entity.categoryName">
                     </th>
                     <th>
                         <a ng-click="find()"
