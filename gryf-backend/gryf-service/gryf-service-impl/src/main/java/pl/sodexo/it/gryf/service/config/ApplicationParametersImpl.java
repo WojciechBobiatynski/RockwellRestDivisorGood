@@ -60,7 +60,8 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     private String indUserContext = "IND";
     private String tiUserContext = "TI";
     private String indUserUrl = "http://localhost:8080/gryf-ind/";
-    private Integer daysForReimburseNumber = 10;
+    private Integer businessDaysNumberForReimbursement = 10;
+    private Integer businessDaysNumberForCorrection = 5;
 
     //LIFECYCLE METHODS
 
@@ -234,9 +235,13 @@ public class ApplicationParametersImpl implements ApplicationParameters {
         if(dbIndUserUrl != null){
             indUserUrl = dbIndUserUrl;
         }
-        Integer dbDaysForReimburseNumber = (Integer) findParameter("GRYF_DAYS_FOR_REIMBURSE_NUMBER");
-        if (dbDaysForReimburseNumber != null) {
-            daysForReimburseNumber = dbDaysForReimburseNumber;
+        Integer dbBusinessDaysNumberForReimbursement = (Integer) findParameter("GRYF_BUSINESS_DAYS_NUMBER_FOR_REIMBURSEMENT");
+        if (dbBusinessDaysNumberForReimbursement != null) {
+            businessDaysNumberForReimbursement = dbBusinessDaysNumberForReimbursement;
+        }
+        Integer dbBusinessDaysNumberForCorrection = (Integer) findParameter("GRYF_BUSINESS_DAYS_NUMBER_FOR_CORRECTION");
+        if (dbBusinessDaysNumberForCorrection != null) {
+            businessDaysNumberForCorrection = dbBusinessDaysNumberForCorrection;
         }
     }
 
@@ -458,8 +463,13 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     }
 
     @Override
-    public Integer getDaysForReimburseNumber() {
-        return daysForReimburseNumber;
+    public Integer getBusinessDaysNumberForReimbursement() {
+        return businessDaysNumberForReimbursement;
+    }
+
+    @Override
+    public Integer getBusinessDaysNumberForCorrection() {
+        return businessDaysNumberForCorrection;
     }
 
     //PRIVATE METHODS

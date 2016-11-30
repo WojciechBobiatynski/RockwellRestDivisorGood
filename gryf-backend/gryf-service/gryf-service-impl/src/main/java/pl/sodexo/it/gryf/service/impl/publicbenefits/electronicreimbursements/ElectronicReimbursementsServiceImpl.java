@@ -8,10 +8,7 @@ import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.common.criteria.electronicreimbursements.ElctRmbsCriteria;
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.other.FileDTO;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CalculationChargesParamsDto;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsDto;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsAttachmentDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.*;
 import pl.sodexo.it.gryf.common.dto.user.GryfTiUser;
 import pl.sodexo.it.gryf.common.dto.user.GryfUser;
 import pl.sodexo.it.gryf.common.enums.AttachmentParentType;
@@ -29,6 +26,7 @@ import pl.sodexo.it.gryf.dao.api.search.dao.ProductSearchDao;
 import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.Ereimbursement;
 import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.EreimbursementStatus;
 import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.ErmbsAttachment;
+import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.CorrectionService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.ElectronicReimbursementsService;
 import pl.sodexo.it.gryf.service.local.api.FileService;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.electronicreimbursements.EreimbursementDtoMapper;
@@ -84,6 +82,9 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     @Autowired
     private GryfPLSQLRepository gryfPLSQLRepository;
 
+    @Autowired
+    private CorrectionService correctionService;
+
     @Override
     public List<ElctRmbsDto> findEcltRmbsListByCriteria(ElctRmbsCriteria criteria) {
         return electronicReimbursementsDao.findEcltRmbsListByCriteria(criteria);
@@ -125,7 +126,7 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         ermbsValidator.validateRmbs(elctRmbsHeadDto);
         Ereimbursement ereimbursement = saveErmbsData(elctRmbsHeadDto);
         ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.TO_ERMBS));
-        ereimbursement.setReimbursementDate(gryfPLSQLRepository.getNthBusinessDay(new Date(), applicationParameters.getDaysForReimburseNumber()));
+        ereimbursement.setReimbursementDate(gryfPLSQLRepository.getNthBusinessDay(new Date(), applicationParameters.getBusinessDaysNumberForReimbursement()));
         return ereimbursement.getId();
     }
 
@@ -134,6 +135,11 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         Ereimbursement ereimbursement = ereimbursementRepository.get(ermbsId);
         ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.TO_CORRECT));
         ereimbursement = ereimbursementRepository.save(ereimbursement);
+        //TODO: tymczasowa zaślepka, później będzie przekazywany obiekt z guia i zostanie sam zapis
+        CorrectionDto correctionDto = new CorrectionDto();
+        correctionDto.setErmbsId(ereimbursement.getId());
+        correctionDto.setCorrectionReason("ABCD");
+        correctionService.createAndSaveCorrection(correctionDto);
         return ereimbursement.getVersion();
     }
 

@@ -91,5 +91,7 @@ public interface ApplicationParameters {
 
     String getIndUserUrl();
 
-    Integer getDaysForReimburseNumber();
+    Integer getBusinessDaysNumberForReimbursement();
+
+    Integer getBusinessDaysNumberForCorrection();
 }
