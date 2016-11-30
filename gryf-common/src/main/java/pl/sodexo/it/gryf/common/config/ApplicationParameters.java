@@ -90,4 +90,6 @@ public interface ApplicationParameters {
     String getIndUserContext();
 
     String getIndUserUrl();
+
+    Integer getDaysForReimburseNumber();
 }

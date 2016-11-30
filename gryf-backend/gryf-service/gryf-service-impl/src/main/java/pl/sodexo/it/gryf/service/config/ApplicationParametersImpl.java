@@ -60,6 +60,7 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     private String indUserContext = "IND";
     private String tiUserContext = "TI";
     private String indUserUrl = "http://localhost:8080/gryf-ind/";
+    private Integer daysForReimburseNumber = 10;
 
     //LIFECYCLE METHODS
 
@@ -232,6 +233,10 @@ public class ApplicationParametersImpl implements ApplicationParameters {
         String dbIndUserUrl = (String) findParameter("GRYF_IND_USER_URL");
         if(dbIndUserUrl != null){
             indUserUrl = dbIndUserUrl;
+        }
+        Integer dbDaysForReimburseNumber = (Integer) findParameter("GRYF_DAYS_FOR_REIMBURSE_NUMBER");
+        if (dbDaysForReimburseNumber != null) {
+            daysForReimburseNumber = dbDaysForReimburseNumber;
         }
     }
 
@@ -450,6 +455,11 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     @Override
     public String getIndUserUrl(){
         return indUserUrl;
+    }
+
+    @Override
+    public Integer getDaysForReimburseNumber() {
+        return daysForReimburseNumber;
     }
 
     //PRIVATE METHODS

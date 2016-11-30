@@ -4,6 +4,7 @@ import com.googlecode.ehcache.annotations.Cacheable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.common.criteria.electronicreimbursements.ElctRmbsCriteria;
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CalculationChargesParamsDto;
@@ -33,6 +34,9 @@ import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.electronicre
 import pl.sodexo.it.gryf.service.validation.publicbenefits.electronicreimbursements.ErmbsValidator;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -75,6 +79,9 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     @Autowired
     private ErmbsValidator ermbsValidator;
 
+    @Autowired
+    private ApplicationParameters applicationParameters;
+
     @Override
     public List<ElctRmbsDto> findEcltRmbsListByCriteria(ElctRmbsCriteria criteria) {
         return electronicReimbursementsDao.findEcltRmbsListByCriteria(criteria);
@@ -116,15 +123,9 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         ermbsValidator.validateRmbs(elctRmbsHeadDto);
         Ereimbursement ereimbursement = saveErmbsData(elctRmbsHeadDto);
         ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.TO_ERMBS));
+        Date reimbursementDate = Date.from(LocalDateTime.now().plusDays(applicationParameters.getDaysForReimburseNumber()).atZone(ZoneId.systemDefault()).toInstant());
+        ereimbursement.setReimbursementDate(reimbursementDate);
         return ereimbursement.getId();
-    }
-
-    private Ereimbursement saveErmbsData(ElctRmbsHeadDto elctRmbsHeadDto) {
-        Ereimbursement ereimbursement = ereimbursementDtoMapper.convert(elctRmbsHeadDto);
-        setToReimburseStatusForTiInstance(ereimbursement);
-        ereimbursement = ereimbursement.getId() != null ? ereimbursementRepository.update(ereimbursement, ereimbursement.getId()) : ereimbursementRepository.save(ereimbursement);
-        saveErmbsAttachments(ereimbursement, elctRmbsHeadDto.getAttachments());
-        return ereimbursement;
     }
 
     @Override
@@ -133,6 +134,14 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.TO_CORRECT));
         ereimbursement = ereimbursementRepository.save(ereimbursement);
         return ereimbursement.getVersion();
+    }
+
+    private Ereimbursement saveErmbsData(ElctRmbsHeadDto elctRmbsHeadDto) {
+        Ereimbursement ereimbursement = ereimbursementDtoMapper.convert(elctRmbsHeadDto);
+        setToReimburseStatusForTiInstance(ereimbursement);
+        ereimbursement = ereimbursement.getId() != null ? ereimbursementRepository.update(ereimbursement, ereimbursement.getId()) : ereimbursementRepository.save(ereimbursement);
+        saveErmbsAttachments(ereimbursement, elctRmbsHeadDto.getAttachments());
+        return ereimbursement;
     }
 
     private void setToReimburseStatusForTiInstance(Ereimbursement ereimbursement) {
