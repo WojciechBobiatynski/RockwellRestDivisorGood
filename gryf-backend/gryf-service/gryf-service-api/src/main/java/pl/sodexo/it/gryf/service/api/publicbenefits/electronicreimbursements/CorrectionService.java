@@ -2,6 +2,8 @@ package pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements;
 
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CorrectionDto;
 
+import java.util.Date;
+
 /**
  * Serwis realizujący operacje na korektach
  *
@@ -15,5 +17,11 @@ public interface CorrectionService {
      * @return - id nowej korekty
      */
     Long createAndSaveCorrection(CorrectionDto correctionDto);
+
+    /**
+     * Metoda służąca do wyliczania wymaganej daty udzielenia korekty
+     * @return wymagana data udzielenia korekty
+     */
+    Date getRequiredCorrectionDate();
 
 }

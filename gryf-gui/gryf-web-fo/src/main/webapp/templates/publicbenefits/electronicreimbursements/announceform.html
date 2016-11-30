@@ -3,7 +3,7 @@
     <h1>Rozliczenie szkolenia</h1>
     <ul>
         <li><a class="button button-save" ng-click="save()"  gryf-privilege="">Zapisz</a></li>
-        <li><a class="button button-save" ng-click="toCorrect()" gryf-privilege="">Do korekty</a></li>
+        <li><a class="button button-save" ng-click="sendToCorrect()" gryf-privilege="">Do korekty</a></li>
         <li><a class="button button-save" ng-click="calculate()" gryf-privilege="">Do weryfikacji</a></li>
         <li><a class="button button-save" ng-click="createDocuments()" gryf-privilege="">Wystaw dokumenty</a></li>
         <li><a class="button button-save" ng-click="createRaports()" gryf-privilege="">Wygeneruj raporty</a></li>
@@ -165,8 +165,40 @@
         </header>
     </div>
     <div class="grid-100">
-        <div class="grid-10">
-            tutaj będzie domyślnie wyświetlona jedna korekta wraz z liczbą wszystkich korekt, z możliwością rozwinięcia sekcji
+        <table class="table table-condensed">
+            <thead>
+                <tr class="grid-100">
+                    <th class="grid-10">Numer korekty</th>
+                    <th class="grid-20">Wymagany termin korekty</th>
+                    <th class="grid-20">Data otrzymania korekty</th>
+                    <th class="grid-60">Powód korekty</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-ng-repeat="c in corrections | orderBy : 'expiryDate' : true">
+                    <td>{{corrections.length - $index}}</td>
+                    <td>{{::c.expiryDate}}</td>
+                    <td>{{::c.correctionDate}}</td>
+                    <td>{{::c.reason}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="grid-100">
+        <button ng-hide="correctionObject.isNewCorrect" class="button button-new" ng-click="getNewRequiredCorrectionDate()"  gryf-privilege="">Nowa korekta</button>
+        <div class="grid-15" ng-show="correctionObject.isNewCorrect">
+            <strong class="label">Wymagany termin korekty</strong>
+            <input type="text"
+                   ng-model="correctionObject.entity.requiredDate"
+                   datepicker-popup="yyyy-MM-dd"
+                   is-open="false"
+                   disabled="disabled"/>
+            <gryf-validation-msg path="applyDateFrom"/>
+        </div>
+        <div class="grid-50" ng-show="correctionObject.isNewCorrect">
+            <strong class="label">Powód korekty</strong>
+            <textarea ng-model="correctionObject.entity.correctionReason" rows="3" maxlength="250"></textarea>
+            <gryf-validation-msg path="rejectionReason"/>
         </div>
     </div>
 </section>

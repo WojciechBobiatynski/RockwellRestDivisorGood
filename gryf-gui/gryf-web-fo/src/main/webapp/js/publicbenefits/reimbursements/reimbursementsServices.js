@@ -151,7 +151,6 @@ angular.module('gryf.reimbursements').factory("AnnounceReimbursementsService",
              this.reimbursementDelivery = null;
              this.reimbursementTrainings = [];
              this.remarks = null;
-             this.requiredCorrectionDate = null;
              this.sxoEntAmountDueTotal = null;
              this.sxoTiAmountDueTotal = null;
              this.trainingInstitutionReimbursementAccountNumber = null;

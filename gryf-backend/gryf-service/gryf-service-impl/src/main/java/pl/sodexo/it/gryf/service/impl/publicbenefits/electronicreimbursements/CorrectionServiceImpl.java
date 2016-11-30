@@ -46,8 +46,12 @@ public class CorrectionServiceImpl implements CorrectionService {
         Correction correction = new Correction();
         correction.setEreimbursement(ereimbursementRepository.get(correctionDto.getErmbsId()));
         correction.setReason(correctionDto.getCorrectionReason());
-        //TODO: wymagana data korekty
-        correction.setRequiredDate(GryfUtils.addDays(new Date(), 5));
+        correction.setRequiredDate(getRequiredCorrectionDate());
         return correction;
+    }
+
+    //TODO: wymagana data korekty liczona na podstawie parametru z bazy (i kalendarza dni roboczych?)
+    public Date getRequiredCorrectionDate() {
+        return GryfUtils.addDays(new Date(), 5);
     }
 }

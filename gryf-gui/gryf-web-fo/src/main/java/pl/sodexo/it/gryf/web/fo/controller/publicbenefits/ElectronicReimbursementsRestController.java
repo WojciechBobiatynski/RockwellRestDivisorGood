@@ -12,10 +12,12 @@ import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CorrectionDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto;
+import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.CorrectionService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.ElectronicReimbursementsService;
 import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
 import pl.sodexo.it.gryf.web.fo.utils.UrlConstants;
 
+import java.util.Date;
 import java.util.List;
 
 import static pl.sodexo.it.gryf.web.fo.utils.UrlConstants.*;
@@ -34,6 +36,9 @@ public class ElectronicReimbursementsRestController {
 
     @Autowired
     private ElectronicReimbursementsService electronicReimbursementsService;
+
+    @Autowired
+    private CorrectionService correctionService;
 
     @RequestMapping(value = PATH_ELECTRONIC_REIMBURSEMENTS_LIST, method = RequestMethod.GET)
     @ResponseBody
@@ -56,11 +61,18 @@ public class ElectronicReimbursementsRestController {
         return electronicReimbursementsService.findEcltRmbsById(ermbsId);
     }
 
-    @RequestMapping(value = PATH_ELECTRONIC_REIMBURSEMENTS_CHANGE_STATUS + "/tocorrect/{ermbsId}", method = RequestMethod.POST)
+    @RequestMapping(value = PATH_ELECTRONIC_REIMBURSEMENTS_CHANGE_STATUS + "/tocorrect", method = RequestMethod.POST)
     @ResponseBody
     public Long sendToCorrect(@RequestBody CorrectionDto correctionDto) {
         //securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS);
-        return electronicReimbursementsService.sendToCorrect(correctionDto);
+       return electronicReimbursementsService.sendToCorrect(correctionDto);
+    }
+
+    @RequestMapping(value = PATH_ELECTRONIC_REIMBURSEMENTS_CORRECTION_DATE, method = RequestMethod.GET)
+    @ResponseBody
+    public Date getRequiredCorrectionDate() {
+        //securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS);
+        return correctionService.getRequiredCorrectionDate();
     }
 
 }

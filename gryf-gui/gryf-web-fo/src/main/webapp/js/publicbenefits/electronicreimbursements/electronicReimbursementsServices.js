@@ -110,8 +110,10 @@ angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementS
 
             var FIND_RMBS_URL = contextPath + "/rest/publicBenefits/electronic/reimbursements/";
             var CHANGE_STATUS_URL = contextPath + "/rest/publicBenefits/electronic/reimbursements/status";
+            var NEW_CORRECTION_DATE_URL = contextPath + "/rest/publicBenefits/electronic/reimbursements/correctionDate";
 
             var eReimbObject = new EReimbObject();
+            var correctionObject = new CorrectionObject();
             var violations = {};
 
             var getNewModel = function() {
@@ -141,13 +143,28 @@ angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementS
                 }
             }
 
-            var toCorrect = function(rmbsId) {
+            function CorrectionObject() {
+                this.isNewCorrect = false;
+                this.entity = {
+                    ermbsId: null,
+                    correctionReason: null,
+                    requiredDate: null
+                }
+            }
+
+            var sendToCorrect = function() {
+                if(!correctionObject.isNewCorrect) {
+                    GryfModals.openModal(GryfModals.MODALS_URL.ERROR_INFO, {
+                        message: "Nie dodano nowej korekty!"
+                    });
+                    return;
+                }
                 var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING, {label: "Wczytuję dane"});
-                var promise = $http.post(CHANGE_STATUS_URL + "/tocorrect/" + ($routeParams.id ? $routeParams.id : rmbsId));
+                var promise = $http.post(CHANGE_STATUS_URL + "/tocorrect", correctionObject.entity);
                 //promise.then(function(response) {
                 //    eReimbObject.entity = response.data;
                 //});
-                promise.finally(function() {
+                promise.finally(function () {
                     GryfModals.closeModal(modalInstance);
                 });
                 return promise;
@@ -208,12 +225,26 @@ angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementS
                 }
             };
 
+            var getNewRequiredCorrectionDate = function() {
+                return $http.get(NEW_CORRECTION_DATE_URL).success(function(date) {
+                    correctionObject.isNewCorrect = true;
+                    correctionObject.entity.requiredDate = date;
+                    correctionObject.entity.ermbsId = eReimbObject.entity.ermbsId;
+                });;
+            };
+
+            var getCorrectionObject = function() {
+                return correctionObject;
+            };
+
             return {
                 getNewModel: getNewModel,
                 getViolation: getViolations,
                 getNewViolations: getNewViolations,
                 findById: findById,
-                toCorrect: toCorrect
+                sendToCorrect: sendToCorrect,
+                getCorrectionObject: getCorrectionObject,
+                getNewRequiredCorrectionDate: getNewRequiredCorrectionDate,
                 //save: save
             };
         }]);
