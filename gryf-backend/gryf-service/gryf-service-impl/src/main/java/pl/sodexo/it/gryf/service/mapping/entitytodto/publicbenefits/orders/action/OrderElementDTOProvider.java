@@ -98,6 +98,7 @@ public final class OrderElementDTOProvider {
         dto.setStatusId(order.getStatus().getStatusId());
         dto.setStatusName(order.getStatus().getStatusName());
         dto.setOrderDate(order.getOrderDate());
+        dto.setExternalOrderId(order.getExternalOrderId());
         dto.setOperator(order.getOperator());
         dto.setEnterpriseId((order.getEnterprise() != null) ? order.getEnterprise().getId() : null);
         dto.setEnterpriseName((order.getEnterprise() != null) ? order.getEnterprise().getName() : null);

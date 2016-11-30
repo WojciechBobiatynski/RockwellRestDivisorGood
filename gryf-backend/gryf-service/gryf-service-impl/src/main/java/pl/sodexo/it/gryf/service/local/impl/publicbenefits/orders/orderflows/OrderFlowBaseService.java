@@ -81,11 +81,12 @@ public abstract class OrderFlowBaseService implements OrderFlowService {
         GrantProgramProduct gpProduct = paramInDateService.findGrantProgramProduct(contract.getGrantProgram().getId(),
                                                                     GrantProgramProduct.Type.PBE_PRODUCT, new Date(), true);
         Order order = new Order();
+        order.setExternalOrderId(dto.getExternalOrderId());
         order.setGrantProgram(contract.getGrantProgram());
         order.setOrderFlow(orderFlow);
         order.setEnterprise(contract.getEnterprise());
         order.setStatus(orderFlow.getInitialStatus());
-        order.setOrderDate(new Date());
+        order.setOrderDate(dto.getOrderDate() != null ? dto.getOrderDate() : new Date());
         order.setVouchersNumber(dto.getProductInstanceNum());
         order.setAddressCorr(individual.getAddressCorr());
         order.setZipCodeCorrId((individual.getZipCodeCorr() != null) ? individual.getZipCodeCorr().getId() : null);
@@ -143,6 +144,8 @@ public abstract class OrderFlowBaseService implements OrderFlowService {
             }
         }
 
+        dto.setExternalOrderId(null);
+        dto.setOrderDate(new Date());
         dto.setProductInstanceNum(null);
         dto.setProductInstanceAmount(gpProduct.getPbeProduct().getValue());
         dto.setOwnContributionPercen(ownContributionPercent);

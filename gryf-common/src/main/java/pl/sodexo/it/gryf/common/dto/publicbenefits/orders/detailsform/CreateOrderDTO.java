@@ -65,6 +65,16 @@ public class CreateOrderDTO {
 
     @Getter
     @Setter
+    //@NotNull(message = "Zewnętrzny identyfikator zamówienia nie może być pusty")//TODO: tbilski odkomentować
+    private String externalOrderId;
+
+    @Getter
+    @Setter
+    //@NotNull(message = "Data zamówienia nie może być pusta")//TODO: tbilski odkomentować
+    private Date orderDate;
+
+    @Getter
+    @Setter
     @NotNull(message = "Ilość bonów nie może być pusta")
     private Integer productInstanceNum;
 

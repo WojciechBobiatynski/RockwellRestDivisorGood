@@ -20,6 +20,8 @@ public class OrderElementComplexTypeBasicOrderInfoDTO extends OrderElementDTO {
 
     private Date orderDate;
 
+    private String externalOrderId;
+
     private String operator;
 
     private Long enterpriseId;
@@ -58,6 +60,14 @@ public class OrderElementComplexTypeBasicOrderInfoDTO extends OrderElementDTO {
 
     public void setOrderDate(Date orderDate) {
         this.orderDate = orderDate;
+    }
+
+    public String getExternalOrderId() {
+        return externalOrderId;
+    }
+
+    public void setExternalOrderId(String externalOrderId) {
+        this.externalOrderId = externalOrderId;
     }
 
     public String getOperator() {

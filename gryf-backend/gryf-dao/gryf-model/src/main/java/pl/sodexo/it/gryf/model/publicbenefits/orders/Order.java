@@ -79,6 +79,9 @@ public class Order extends VersionableEntity {
     @GeneratedValue(generator = "order_seq")
     private Long id;
 
+    @Column(name = "EXTERNAL_ORDER_ID")
+    private String externalOrderId;
+
     @JsonBackReference("orders")
     @JoinColumn(name = "ORDER_FLOW_ID", referencedColumnName = "ID")
     @ManyToOne(optional = false)
@@ -157,6 +160,14 @@ public class Order extends VersionableEntity {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getExternalOrderId() {
+        return externalOrderId;
+    }
+
+    public void setExternalOrderId(String externalOrderId) {
+        this.externalOrderId = externalOrderId;
     }
 
     public OrderFlow getOrderFlow() {
