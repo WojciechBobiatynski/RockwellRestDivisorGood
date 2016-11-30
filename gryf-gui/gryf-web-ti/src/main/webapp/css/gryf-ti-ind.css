@@ -185,6 +185,15 @@ ul {
     cursor: pointer;
 }
 
+.cancelButton {
+    background-color: grey;
+    color: white;
+    border: none;
+    padding: 8px;
+    font-size: 11px;
+    cursor: pointer;
+}
+
 .standardButton.green {
     background-color: #6aa84f;
 }

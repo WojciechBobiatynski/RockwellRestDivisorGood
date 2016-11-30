@@ -5,7 +5,8 @@ angular.module("gryf.ti").directive("attachments", ['AttachmentService',
             scope: {
                 trainingInstance: '=',
                 model: '=',
-                violations: '='
+                violations: '=',
+                isDisabled: '='
             },
             templateUrl: contextPath + '/templates/directives/attachment.html',
             controller: function ($scope) {

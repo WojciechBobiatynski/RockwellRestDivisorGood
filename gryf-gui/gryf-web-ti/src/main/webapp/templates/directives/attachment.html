@@ -2,8 +2,8 @@
     <strong>Załączniki do rozliczenia</strong>
 </div>
 <!--TODO: maksymalny rozmiar plików-->
-<div class="grid-100 redLabel">
-    Maksymalny rozmiar załączonych plików to X MB. W systemie można załączać jedynie dokumenty z następującymi rozszerzenieami: PDF,DOC,DOCX,XLS,XLSX,PNG,JPG,GIF.
+<div class="grid-100 redLabel" ng-hide="isDisabled">
+    Maksymalny rozmiar załączonych plików to X MB. W systemie można załączać jedynie dokumenty z następującymi rozszerzeniami: PDF,DOC,DOCX,XLS,XLSX,PNG,JPG,GIF.
 </div>
 <div style="padding-left:20px">
     <table>
@@ -32,7 +32,7 @@
                 </select>
             </td>
             <td><input type="text" data-ng-model="item.documentNumber"/>
-                <gryf-validation-msg path="attachments[{{$index}}].documentNumber"></gryf-validation-msg>
+                <gryf-validation-msg style="position: absolute;" path="attachments[{{$index}}].documentNumber"></gryf-validation-msg>
             </td>
             <td>
                 <input type="text" data-ng-model="item.additionalDescription"/>
@@ -41,11 +41,11 @@
                 <a ng-href="{{getDownloadAttachmentLink(item)}}">{{item.file.name ? item.file.name : item.originalFileName}}</a>
             </td>
             <td>
-                <ul class="buttons">
+                <ul class="buttons" ng-hide="isDisabled">
                     <!--TODO:przywileje-->
                     <li>
                         <!--TODO: dodać zmienną definiującą maksymalny rozmiar pliku, gdy nie został zdefiniowany per typ-->
-                        <button class="standardButton" ng-model="item.file" ngf-select ngf-max-size="{{item.maxFileSize ? item.maxFileSize : '2MB'}}" ngf-model-invalid="item.errorFile" data-ng-click="onItemClick(item, $index)"
+                        <button class="standardButton grid-70" ng-model="item.file" ngf-select ngf-max-size="{{item.maxFileSize ? item.maxFileSize : '2MB'}}" ngf-model-invalid="item.errorFile" data-ng-click="onItemClick(item, $index)"
                                 ngf-pattern=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.gif">
                             {{(!item.file.name && !item.originalFileName) ? "Wgraj plik" : "Zmień plik"}}
                         </button>
@@ -54,7 +54,7 @@
                         <gryf-validation-msg path="attachments[{{$index}}].file"></gryf-validation-msg>
                     </li>
                     <li>
-                        <button class="standardButton" data-ng-if="!item.required" ng-click="deleteAtt(item)">
+                        <button class="cancelButton grid-70" data-ng-if="!item.required" ng-click="deleteAtt(item)">
                             Usuń
                         </button>
                     </li>
@@ -64,6 +64,6 @@
         </tbody>
     </table>
     <div>
-        <button class="standardButton" ng-click="addNew()">Dodaj plik</button>
+        <button ng-hide="isDisabled" class="standardButton grid-10" ng-click="addNew()">Dodaj plik</button>
     </div>
 </div>
