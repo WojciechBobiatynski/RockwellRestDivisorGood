@@ -20,6 +20,8 @@ public final class UrlConstants {
     public static final String PATH_REIMBURSEMENTS_CREATE = "/create";
     public static final String PATH_REIMBURSEMENTS_SAVE = "/save";
     public static final String PATH_REIMBURSEMENTS_SEND = "/send";
+    public static final String PATH_REIMBURSEMENTS_SAVE_WITH_CORR = "/savecorr";
+    public static final String PATH_REIMBURSEMENTS_SEND_WITH_CORR = "/sendcorr";
     public static final String PATH_REIMBURSEMENTS_DOWNLOAD_ATT = "/downloadAttachment";
 
     public static final String PATH_TRAINING_TO_REIMBURSE_REST = "/rest/trainingToReimburse";

@@ -7,17 +7,13 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.common.criteria.electronicreimbursements.ElctRmbsCriteria;
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
-import pl.sodexo.it.gryf.common.dto.other.FileDTO;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.*;
-import pl.sodexo.it.gryf.common.dto.user.GryfTiUser;
-import pl.sodexo.it.gryf.common.dto.user.GryfUser;
-import pl.sodexo.it.gryf.common.enums.AttachmentParentType;
-import pl.sodexo.it.gryf.common.enums.FileType;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CalculationChargesParamsDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CorrectionDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto;
 import pl.sodexo.it.gryf.common.exception.NoCalculationParamsException;
 import pl.sodexo.it.gryf.common.utils.GryfConstants;
-import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.other.GryfPLSQLRepository;
-import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementAttachmentRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementStatusRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstanceStatusRepository;
@@ -25,12 +21,11 @@ import pl.sodexo.it.gryf.dao.api.search.dao.ElectronicReimbursementsDao;
 import pl.sodexo.it.gryf.dao.api.search.dao.ProductSearchDao;
 import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.Ereimbursement;
 import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.EreimbursementStatus;
-import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.ErmbsAttachment;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.CorrectionService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.ElectronicReimbursementsService;
-import pl.sodexo.it.gryf.service.local.api.FileService;
+import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.ErmbsAttachmentService;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.electronicreimbursements.EreimbursementDtoMapper;
-import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.electronicreimbursements.ErmbsAttachmentDtoMapper;
+import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.electronicreimbursements.EreimbursementEntityMapper;
 import pl.sodexo.it.gryf.service.validation.publicbenefits.electronicreimbursements.ErmbsValidator;
 
 import java.math.BigDecimal;
@@ -59,16 +54,7 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     private TrainingInstanceStatusRepository trainingInstanceStatusRepository;
 
     @Autowired
-    private EreimbursementAttachmentRepository ereimbursementAttachmentRepository;
-
-    @Autowired
-    private ErmbsAttachmentDtoMapper ermbsAttachmentDtoMapper;
-
-    @Autowired
     private ProductSearchDao productSearchDao;
-
-    @Autowired
-    private FileService fileService;
 
     @Autowired
     private EreimbursementDtoMapper ereimbursementDtoMapper;
@@ -84,6 +70,12 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
 
     @Autowired
     private CorrectionService correctionService;
+
+    @Autowired
+    private ErmbsAttachmentService ermbsAttachmentService;
+
+    @Autowired
+    private EreimbursementEntityMapper ereimbursementEntityMapper;
 
     @Override
     public List<ElctRmbsDto> findEcltRmbsListByCriteria(ElctRmbsCriteria criteria) {
@@ -117,6 +109,8 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     @Override
     public Long saveErmbs(ElctRmbsHeadDto elctRmbsHeadDto) {
         Ereimbursement ereimbursement = saveErmbsData(elctRmbsHeadDto);
+        setToReimburseStatusForTiInstance(ereimbursement);
+        ermbsAttachmentService.saveErmbsAttachments(ereimbursementEntityMapper.convert(ereimbursement), elctRmbsHeadDto.getAttachments());
         ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.NEW_ERMBS));
         return ereimbursement.getId();
     }
@@ -125,8 +119,24 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     public Long sendToReimburse(ElctRmbsHeadDto elctRmbsHeadDto) {
         ermbsValidator.validateRmbs(elctRmbsHeadDto);
         Ereimbursement ereimbursement = saveErmbsData(elctRmbsHeadDto);
+        setToReimburseStatusForTiInstance(ereimbursement);
+        ermbsAttachmentService.saveErmbsAttachments(ereimbursementEntityMapper.convert(ereimbursement), elctRmbsHeadDto.getAttachments());
         ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.TO_ERMBS));
         ereimbursement.setReimbursementDate(gryfPLSQLRepository.getNthBusinessDay(new Date(), applicationParameters.getBusinessDaysNumberForReimbursement()));
+        return ereimbursement.getId();
+    }
+
+    @Override
+    public Long saveErmbsWithCorr(ElctRmbsHeadDto elctRmbsHeadDto) {
+        Ereimbursement ereimbursement = saveErmbsData(elctRmbsHeadDto);
+        return null;
+    }
+
+    @Override
+    public Long sendToReimburseWithCorr(ElctRmbsHeadDto elctRmbsHeadDto) {
+        ermbsValidator.validateRmbs(elctRmbsHeadDto);
+        Ereimbursement ereimbursement = saveErmbsData(elctRmbsHeadDto);
+        ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.TO_ERMBS));
         return ereimbursement.getId();
     }
 
@@ -143,64 +153,14 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         return ereimbursement.getVersion();
     }
 
-    @Override
-    public FileDTO getErmbsAttFileById(Long id) {
-        ErmbsAttachment attachment = ereimbursementAttachmentRepository.get(id);
-        FileDTO dto = new FileDTO();
-        dto.setName(attachment.getOrginalFileName());
-        dto.setInputStream(fileService.getInputStream(attachment.getFileLocation()));
-        return dto;
-    }
-
     private Ereimbursement saveErmbsData(ElctRmbsHeadDto elctRmbsHeadDto) {
         Ereimbursement ereimbursement = ereimbursementDtoMapper.convert(elctRmbsHeadDto);
-        setToReimburseStatusForTiInstance(ereimbursement);
         ereimbursement = ereimbursement.getId() != null ? ereimbursementRepository.update(ereimbursement, ereimbursement.getId()) : ereimbursementRepository.save(ereimbursement);
-        saveErmbsAttachments(ereimbursement, elctRmbsHeadDto.getAttachments());
         return ereimbursement;
     }
 
     private void setToReimburseStatusForTiInstance(Ereimbursement ereimbursement) {
         ereimbursement.getTrainingInstance().setStatus(trainingInstanceStatusRepository.get(GryfConstants.TO_REIMBURSE_TRAINING_INSTANCE_STATUS_CODE));
-    }
-
-    private void saveErmbsAttachments(Ereimbursement ereimbursement, List<ErmbsAttachmentDto> ermbsAttachmentsDtoList) {
-        for (ErmbsAttachmentDto ermbsAttachment : ermbsAttachmentsDtoList) {
-            if (deleteIfMarked(ermbsAttachment))
-                continue;
-            ErmbsAttachment entity = saveAttachmentEntity(ereimbursement, ermbsAttachment);
-            saveFile(ermbsAttachment, entity, ereimbursement);
-        }
-    }
-
-    private boolean deleteIfMarked(ErmbsAttachmentDto ermbsAttachment) {
-        if (ermbsAttachment.isMarkToDelete()) {
-            fileService.deleteFile(ermbsAttachment.getFileLocation());
-            ErmbsAttachment entity = ermbsAttachmentDtoMapper.convert(ermbsAttachment);
-            ereimbursementAttachmentRepository.delete(entity);
-            return true;
-        }
-        return false;
-    }
-
-    private ErmbsAttachment saveAttachmentEntity(Ereimbursement ereimbursement, ErmbsAttachmentDto ermbsAttachment) {
-        ErmbsAttachment entity = ermbsAttachmentDtoMapper.convert(ermbsAttachment);
-        entity.setEreimbursement(ereimbursement);
-        entity = entity.getId() != null ? ereimbursementAttachmentRepository.update(entity, entity.getId()) : ereimbursementAttachmentRepository.save(entity);
-        return entity;
-    }
-
-    private void saveFile(ErmbsAttachmentDto ermbsAttachment, ErmbsAttachment entity, Ereimbursement ereimbursement) {
-        if (ermbsAttachment.isChanged()) {
-            fileService.deleteFile(ermbsAttachment.getFileLocation());
-            Long trainingInstitutionId = ((GryfTiUser) GryfUser.getLoggedUser()).getTrainingInstitutionId();
-            String fileName = String
-                    .format("%s_%s_%s_%s_%s", trainingInstitutionId, ereimbursement.getId(), AttachmentParentType.EREIMB, entity.getId(), ermbsAttachment.getFile().getOriginalFilename());
-            String newFileName = GryfStringUtils.convertFileName(fileName);
-            String filePath = fileService.writeFile(FileType.E_REIMBURSEMENTS, newFileName, ermbsAttachment.getFile(), entity);
-            entity.setOrginalFileName(ermbsAttachment.getFile().getOriginalFilename());
-            entity.setFileLocation(filePath);
-        }
     }
 
     private void calculateCharges(ElctRmbsHeadDto elctRmbsHeadDto, Long trainingInstanceId) {

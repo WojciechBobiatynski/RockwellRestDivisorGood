@@ -120,6 +120,8 @@ angular.module("gryf.ti").factory("ReimbursementsServiceModify",
         var FIND_RMBS_BY_ID = contextPath + PATH_RMBS + "/modify/";
         var SAVE_RMBS = contextPath + PATH_RMBS + "/save";
         var SEND_TO_REIMBURSE = contextPath + PATH_RMBS + "/send";
+        var SAVE_CORRECTION = contextPath + PATH_RMBS + "/savecorr";
+        var SEND_CORRECTION = contextPath + PATH_RMBS + "/sendcorr";
 
         var rmbsModel = new RmbsModel();
         var violations = {};
@@ -183,7 +185,7 @@ angular.module("gryf.ti").factory("ReimbursementsServiceModify",
 
                 var successMsg = '';
                 var errorMsg = '';
-                if(URL === SAVE_RMBS){
+                if(URL === SAVE_RMBS || URL === SAVE_CORRECTION){
                     successMsg = 'Zapisano zmiany';
                     errorMsg = 'Nie udało się zapisać zmian';
                 } else {
@@ -204,9 +206,15 @@ angular.module("gryf.ti").factory("ReimbursementsServiceModify",
 
                     var conflictCallbacksObject = {
                         refresh: function() {
-                            createReimbursement(rmbsModel.trainingInstance.trainingInstanceId).success(function(data){
-                                rmbsModel.model = data;
-                            })
+                            if(URL === SAVE_RMBS){
+                                createReimbursement(rmbsModel.trainingInstance.trainingInstanceId).success(function(data){
+                                    rmbsModel.model = data;
+                                })
+                            } else {
+                                findById(rmbsModel.model.ermbsId).success(function(data){
+                                    rmbsModel.model = data;
+                                })
+                            }
                         },
                         force: function() {
                             rmbsModel.model.version = response.version;
@@ -229,6 +237,14 @@ angular.module("gryf.ti").factory("ReimbursementsServiceModify",
             save(SEND_TO_REIMBURSE);
         };
 
+        var saveCorrection = function(){
+            save(SAVE_CORRECTION);
+        };
+
+        var sendCorrection = function(){
+            save(SEND_CORRECTION);
+        };
+
         return {
             getRmbsModel: getRmbsModel,
             findById: findById,
@@ -236,7 +252,9 @@ angular.module("gryf.ti").factory("ReimbursementsServiceModify",
             saveReimburse: saveReimburse,
             sendToReimburse: sendToReimburse,
             getViolations: getViolations,
-            getNewViolations: getNewViolations
+            getNewViolations: getNewViolations,
+            saveCorrection: saveCorrection,
+            sendCorrection: sendCorrection
         }
 
     }]);

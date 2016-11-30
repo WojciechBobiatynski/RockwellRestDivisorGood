@@ -61,12 +61,12 @@ angular.module("gryf.ti").controller("ReimbursementModifyController", ["$scope",
             $scope.rmbsModel.model = data;
         });
 
-        $scope.saveReimburse = function(){
+        $scope.save = function(){
             $scope.violations = ReimbursementsServiceModify.getNewViolations();
             ReimbursementsServiceModify.saveReimburse();
         };
 
-        $scope.sendToReimburse = function(){
+        $scope.send = function(){
             $scope.violations = ReimbursementsServiceModify.getNewViolations();
             ReimbursementsServiceModify.sendToReimburse();
         };
@@ -91,14 +91,14 @@ angular.module("gryf.ti").controller("CorrectionController", ["$scope", "Reimbur
             });
         });
 
-        $scope.saveReimburse = function(){
+        $scope.save = function(){
             $scope.violations = ReimbursementsServiceModify.getNewViolations();
-            ReimbursementsServiceModify.saveReimburse();
+            ReimbursementsServiceModify.saveCorrection();
         };
 
-        $scope.sendToReimburse = function(){
+        $scope.send = function(){
             $scope.violations = ReimbursementsServiceModify.getNewViolations();
-            ReimbursementsServiceModify.sendToReimburse();
+            ReimbursementsServiceModify.sendCorrection();
         };
 
         $scope.correctionVisible = function(){

@@ -14,6 +14,7 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.Elct
 import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.common.utils.JsonMapperUtils;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.ElectronicReimbursementsService;
+import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.ErmbsAttachmentService;
 import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
 import pl.sodexo.it.gryf.web.common.util.WebUtils;
 import pl.sodexo.it.gryf.web.ti.util.UrlConstants;
@@ -43,6 +44,9 @@ public class ReimbursementRestController {
 
     @Autowired
     private ElectronicReimbursementsService electronicReimbursementsService;
+
+    @Autowired
+    private ErmbsAttachmentService ermbsAttachmentService;
 
     @RequestMapping(value = PATH_REIMBURSEMENT_LIST, method = RequestMethod.GET)
     @ResponseBody
@@ -88,6 +92,22 @@ public class ReimbursementRestController {
         return electronicReimbursementsService.findEcltRmbsById(ermbsId);
     }
 
+    @RequestMapping(value = PATH_REIMBURSEMENTS_SAVE_WITH_CORR, method = RequestMethod.POST)
+    public ElctRmbsHeadDto saveReimbursementWithCorr(MultipartHttpServletRequest request) throws IOException {
+        //        securityChecker.assertFormPrivilege(Privileges.GRF_PBE_REIMB);
+        ElctRmbsHeadDto dto = getElctRmbsHeadDtoFromMultipartRequest(request);
+        Long ermbsId = electronicReimbursementsService.saveErmbs(dto);
+        return electronicReimbursementsService.findEcltRmbsById(ermbsId);
+    }
+
+    @RequestMapping(value = PATH_REIMBURSEMENTS_SEND_WITH_CORR, method = RequestMethod.POST)
+    public ElctRmbsHeadDto sendToReimburseWithCorr(MultipartHttpServletRequest request) throws IOException {
+        //        securityChecker.assertFormPrivilege(Privileges.GRF_PBE_REIMB);
+        ElctRmbsHeadDto dto = getElctRmbsHeadDtoFromMultipartRequest(request);
+        Long ermbsId = electronicReimbursementsService.sendToReimburse(dto);
+        return electronicReimbursementsService.findEcltRmbsById(ermbsId);
+    }
+
     @RequestMapping(PATH_REIMBURSEMENTS_DOWNLOAD_ATT)
     public void downloadReimbursementAttachment(HttpServletRequest request, HttpServletResponse response) throws IOException {
 //        securityChecker.assertFormPrivilege(Privileges.GRF_PBE_REIMB);
@@ -96,7 +116,7 @@ public class ReimbursementRestController {
         if(!GryfStringUtils.isEmpty(idParam)) {
             Long elementId = Long.valueOf(idParam);
 
-            FileDTO file = electronicReimbursementsService.getErmbsAttFileById(elementId);
+            FileDTO file = ermbsAttachmentService.getErmbsAttFileById(elementId);
             writeFileToResponse(request, response, file.getInputStream(), file.getName());
         }
     }
