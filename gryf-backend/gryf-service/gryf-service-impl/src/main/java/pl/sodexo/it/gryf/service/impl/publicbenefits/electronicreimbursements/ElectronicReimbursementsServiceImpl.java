@@ -138,7 +138,7 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         //TODO: tymczasowa zaślepka, później będzie przekazywany obiekt z guia i zostanie sam zapis
         CorrectionDto correctionDto = new CorrectionDto();
         correctionDto.setErmbsId(ereimbursement.getId());
-        correctionDto.setCorrectionReason("ABCD");
+        correctionDto.setCorrectionReason("Rozliczenie szkolenia zawiera załączonego Misia Yogi zamiast właściwej FV - prosimy o poprawienie danych");
         correctionService.createAndSaveCorrection(correctionDto);
         return ereimbursement.getVersion();
     }

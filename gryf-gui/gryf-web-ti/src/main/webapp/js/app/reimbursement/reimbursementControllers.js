@@ -44,7 +44,7 @@ angular.module("gryf.ti").controller("ReimbursementsController", ["$scope", "Rei
         $scope.clear();
 
         $scope.isCorrVisible = function(foundRmbs){
-            return foundRmbs.rmbsStatus != null && foundRmbs.rmbsStatus === 'T_CRR';
+            return foundRmbs.rmbsStatusId != null && foundRmbs.rmbsStatusId === 'T_CRR';
         };
 }]);
 
@@ -76,3 +76,33 @@ angular.module("gryf.ti").controller("ReimbursementModifyController", ["$scope",
         };
 
 }]);
+
+var test;
+angular.module("gryf.ti").controller("CorrectionController", ["$scope", "ReimbursementsServiceModify", "DictionaryService","$stateParams","TrainingInstanceSearchService",
+    function ($scope, ReimbursementsServiceModify, DictionaryService, $stateParams, TrainingInstanceSearchService) {
+        $scope.rmbsModel = ReimbursementsServiceModify.getRmbsModel();
+        $scope.violations = ReimbursementsServiceModify.getNewViolations();
+        test = $scope;
+
+        ReimbursementsServiceModify.findById($stateParams.reimbursementId).success(function(data) {
+            $scope.rmbsModel.model = data;
+            TrainingInstanceSearchService.findDetailsById($scope.rmbsModel.model.trainingInstanceId).success(function(data) {
+                $scope.rmbsModel.trainingInstance = data;
+            });
+        });
+
+        $scope.saveReimburse = function(){
+            $scope.violations = ReimbursementsServiceModify.getNewViolations();
+            ReimbursementsServiceModify.saveReimburse();
+        };
+
+        $scope.sendToReimburse = function(){
+            $scope.violations = ReimbursementsServiceModify.getNewViolations();
+            ReimbursementsServiceModify.sendToReimburse();
+        };
+
+        $scope.correctionVisible = function(){
+            return !!$scope.rmbsModel.model.lastCorrectionDto;
+        };
+
+    }]);

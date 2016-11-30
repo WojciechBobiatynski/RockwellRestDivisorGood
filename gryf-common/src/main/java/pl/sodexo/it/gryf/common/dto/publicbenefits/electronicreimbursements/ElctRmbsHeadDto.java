@@ -68,4 +68,8 @@ public class ElctRmbsHeadDto extends VersionableDto implements Serializable {
     @Getter
     @Setter
     private Date reimbursementDate;
+
+    @Getter
+    @Setter
+    private CorrectionDto lastCorrectionDto;
 }

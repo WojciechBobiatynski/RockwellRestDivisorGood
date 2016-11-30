@@ -48,4 +48,8 @@ public class ElctRmbsDto implements Serializable {
     @Getter
     @Setter
     private String rmbsStatus;
+
+    @Getter
+    @Setter
+    private String rmbsStatusId;
 }

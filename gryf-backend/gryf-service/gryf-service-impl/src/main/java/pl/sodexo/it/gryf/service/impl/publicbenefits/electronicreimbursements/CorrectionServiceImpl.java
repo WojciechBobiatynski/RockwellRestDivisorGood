@@ -11,8 +11,6 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbu
 import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.Correction;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.CorrectionService;
 
-import java.util.Date;
-
 /**
  * Implementacja serwisu realizującego operacje na korektach
  *
@@ -45,7 +43,6 @@ public class CorrectionServiceImpl implements CorrectionService {
         Correction correction = new Correction();
         correction.setEreimbursement(ereimbursementRepository.get(correctionDto.getErmbsId()));
         correction.setReason(correctionDto.getCorrectionReason());
-        correction.setComplementDate(gryfPLSQLRepository.getNthBusinessDay(new Date(), applicationParameters.getBusinessDaysNumberForCorrection()));
         return correction;
     }
 }

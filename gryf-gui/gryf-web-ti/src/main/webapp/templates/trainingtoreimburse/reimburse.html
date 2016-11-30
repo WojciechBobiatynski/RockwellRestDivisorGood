@@ -88,8 +88,19 @@
             </div>
         </div>
         <div class="block">
-            <strong class="blackLabel">Dokumenty i warunki rozliczenia</strong>
+            <strong class="blackLabel" data-ng-if="!correctionVisible()">Dokumenty i warunki rozliczenia</strong>
+            <strong class="blackLabel" data-ng-if="correctionVisible()">Dane do korekty</strong>
             <div class="paddedBlock">
+                <div class="multiSection" data-ng-if="correctionVisible()">
+                    <div class="grid-100">
+                        <strong>Powód korekty</strong>
+                        <div class="redBackground">
+                            <div style="padding-top:10px">
+                                {{rmbsModel.model.lastCorrectionDto.correctionReason}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="multiSection">
                     <div class="grid-100">
                         <strong>Warunek rozliczenia</strong>

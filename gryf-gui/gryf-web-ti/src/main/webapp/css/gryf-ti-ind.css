@@ -534,7 +534,17 @@ table {
     width:70%
 }
 
+.redBackground {
+    background-color: #ff001c !important;
+    min-height: 50px;
+    margin-top: 5px;
+}
+
+.redBackground > div {
+    color: white;
+}
+
 .redLabel{
-    color:red;
+    color: red;
     margin:15px;
 }

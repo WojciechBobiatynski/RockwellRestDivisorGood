@@ -72,7 +72,7 @@
             <td>
                 <ul class="text-center no-margin-padding">
                     <li class="textButton green" ui-sref="reimburse({trainingInstanceId: item.trainingInstanceId})">SZCZEGÓŁY</li>
-                    <li class="textButton green" data-ng-show="isCorrVisible(item)" ui-sref="reimburse({trainingInstanceId: item.trainingInstanceId})">KORYGUJ</li>
+                    <li class="textButton green" data-ng-if="isCorrVisible(item)" ui-sref="correct({reimbursementId: item.rmbsNumber})">KORYGUJ</li>
                 </ul>
             </td>
         </tr>

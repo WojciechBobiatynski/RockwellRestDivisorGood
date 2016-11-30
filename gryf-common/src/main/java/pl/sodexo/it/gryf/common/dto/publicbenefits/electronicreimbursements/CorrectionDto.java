@@ -3,6 +3,9 @@ package pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import pl.sodexo.it.gryf.common.dto.api.VersionableDto;
+
+import java.util.Date;
 
 /**
  * Dto dla korekty
@@ -10,7 +13,7 @@ import lombok.ToString;
  * Created by akmiecinski on 30.11.2016.
  */
 @ToString
-public class CorrectionDto {
+public class CorrectionDto extends VersionableDto{
 
     @Getter
     @Setter
@@ -23,5 +26,9 @@ public class CorrectionDto {
     @Getter
     @Setter
     private String correctionReason;
+
+    @Getter
+    @Setter
+    private Date complementDate;
 
 }
