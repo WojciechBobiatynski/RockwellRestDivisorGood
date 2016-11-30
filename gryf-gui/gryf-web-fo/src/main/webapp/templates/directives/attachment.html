@@ -1,0 +1,49 @@
+<div>
+    <div class="msg-error grid-100" ng-hide="isDisabled">
+        Maksymalny rozmiar załączonych plików to X MB. W systemie można załączać jedynie dokumenty z następującymi rozszerzeniami: PDF,DOC,DOCX,XLS,XLSX,PNG,JPG,GIF.
+    </div>
+    <div class="grid-100">
+        <div class="grid-20">Rodzaj załącznika</div>
+        <div class="grid-20">Numer dokumentu (np. FV) lub opis</div>
+        <div class="grid-20">Opis dodatkowy</div>
+    </div>
+    <div ng-repeat="item in model.attachments" class="grid-100" data-ng-hide="item.markToDelete">
+        <div class="grid-20">
+            <select ng-model="item.code" data-ng-disabled="item.required">
+                <option data-ng-repeat="t in modelTypes.types" data-ng-show="!t.required" ng-selected="{{t.code == item.code}}" value="{{t.code}}">{{t.name}}</option>
+            </select>
+        </div>
+        <div class="grid-20"><input type="text" data-ng-model="item.documentNumber"/>
+            <gryf-validation-msg style="position: absolute;" path="attachments[{{$index}}].documentNumber"></gryf-validation-msg>
+        </div>
+        <div class="grid-20">
+            <input type="text" data-ng-model="item.additionalDescription"/>
+        </div>
+        <div class="grid-20">
+            <a ng-href="{{getDownloadAttachmentLink(item)}}">{{item.file.name ? item.file.name : item.originalFileName}}</a>
+        </div>
+        <div class="grid-20">
+            <ul class="buttons" ng-hide="isDisabled">
+                <!--TODO:przywileje-->
+                <li>
+                    <!--TODO: dodać zmienną definiującą maksymalny rozmiar pliku, gdy nie został zdefiniowany per typ-->
+                    <button class="button" ng-model="item.file" ngf-select ngf-max-size="{{item.maxFileSize ? item.maxFileSize : '2MB'}}" ngf-model-invalid="item.errorFile" data-ng-click="onItemClick(item, $index)"
+                            ngf-pattern=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.gif">
+                        {{(!item.file.name && !item.originalFileName) ? "Wgraj plik" : "Zmień plik"}}
+                    </button>
+                    <i style="color:red" ng-show="item.errorFile.$errorMessages.maxSize">Załącznik przekracza maksymalny rozmiar pliku: {{item.maxFileSize ? item.maxFileSize / 1024 / 1024 : '2'}}MB</i>
+                    <i style="color:red" ng-show="item.errorFile.$errorMessages.pattern">Niepoprawne rozszerzenie pliku</i>
+                    <gryf-validation-msg path="attachments[{{$index}}].file"></gryf-validation-msg>
+                </li>
+                <li>
+                    <button class="button" data-ng-if="!item.required" ng-click="deleteAtt(item)">
+                        Usuń
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="grid-100">
+        <button ng-hide="isDisabled" class="button" ng-click="addNew()">Dodaj plik</button>
+    </div>
+</div>

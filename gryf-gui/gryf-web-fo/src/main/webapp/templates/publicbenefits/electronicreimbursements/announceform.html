@@ -13,8 +13,8 @@
         <li><a class="button" ng-href="{{getPrevUrl()}}" >Wróć</a></li>
     </ol>
 </header>
+<!--------------------------------------DANE_INSTYTUCJI_SZKOLENIOWEJ---------------------------------------------->
 <section>
-    <!--------------------------------------DANE_INSTYTUCJI_SZKOLENIOWEJ---------------------------------------------->
     <div class="grid-100">
         <header>
             <h2>Dane instytucji szkoleniowej</h2>
@@ -37,8 +37,8 @@
         </div>
     </div>
 </section>
+<!--------------------------------------DANE_SZKOLENIA---------------------------------------------->
 <section>
-    <!--------------------------------------DANE_SZKOLENIA---------------------------------------------->
     <div class="grid-100">
         <header>
             <h2>Dane szkolenia</h2>
@@ -87,8 +87,8 @@
         </div>
     </div>
 </section>
+<!--------------------------------------DANE_UCZESTNIKA---------------------------------------------->
 <section>
-    <!--------------------------------------DANE_UCZESTNIKA---------------------------------------------->
     <div class="grid-100">
         <header>
             <h2>Dane uczestnika</h2>
@@ -115,8 +115,8 @@
         </div>
     </div>
 </section>
+<!--------------------------------------WYKORZYSTANE_BONY---------------------------------------------->
 <section>
-    <!--------------------------------------WYKORZYSTANE_BONY---------------------------------------------->
     <div class="grid-100">
         <header>
             <h2>Wykorzystane bony</h2>
@@ -139,8 +139,8 @@
         </div>
     </div>
 </section>
+<!--------------------------------------KWOTY_ROZLICZEN---------------------------------------------->
 <section>
-    <!--------------------------------------KWOTY_ROZLICZEN---------------------------------------------->
     <div class="grid-100">
         <header>
             <h2>Kwoty rozliczeń</h2>
@@ -157,8 +157,8 @@
         </div>
     </div>
 </section>
+<!--------------------------------------KOREKTY---------------------------------------------->
 <section>
-    <!--------------------------------------KOREKTY---------------------------------------------->
     <div class="grid-100">
         <header>
             <h2>Korekty</h2>
@@ -170,8 +170,8 @@
         </div>
     </div>
 </section>
+<!--------------------------------------ADRESACI_EMAIL---------------------------------------------->
 <section>
-    <!--------------------------------------ADRESACI_EMAIL---------------------------------------------->
     <div class="grid-100">
         <header>
             <h2>Adresaci email</h2>
@@ -183,63 +183,12 @@
         </div>
     </div>
 </section>
+<!--------------------------------------ZALACZNIKI---------------------------------------------->
 <section>
-    <!--------------------------------------ZALACZNIKI---------------------------------------------->
     <div class="grid-100">
-    <header>
-        <h2>Załączniki do rozliczenia</h2>
-    </header>
-        <a href="" class="button" ng-click="addReimbursementAttachment()">Dodaj załącznik</a>
+        <header>
+            <h2>Załączniki do rozliczenia</h2>
+        </header>
     </div>
-    <div class="grid-100">
-        <div class="grid-30">Nazwa załącznika</div>
-        <div class="grid-15">Rodzaj dokumentu</div>
-        <div class="grid-15">Plik załącznika</div>
-        <div class="grid-40">Opis</div>
-    </div>
-    <div class="grid-100" ng-repeat="a in eReimbObject.entity.attachments">
-        <div class="grid-30">
-            <input type="text" ng-model="a.name"
-                   ng-disabled="a.mandatory || a.originalFileName"
-                   maxlength="50">
-            <gryf-validation-msg path="reimbursementAttachments[{{$index}}].name">
-            </gryf-validation-msg>
-        </div>
-        <div class="grid-15">
-            <select ng-model="a.attachmentType.id"
-                    ng-options="v.id as v.name for v in attachmentTypes"
-                    ng-disabled="a.mandatory || a.originalFileName">
-            </select>
-            <gryf-validation-msg path="reimbursementAttachments[{{$index}}].attachmentType">
-            </gryf-validation-msg>
-        </div>
-        <div class="grid-15">
-            <div>
-                {{a.file[0].name ? a.file[0].name : a.originalFileName }}
-            </div>
-            <a class="button"
-               ng-model="a.file"
-               ngf-select>
-                Dodaj
-            </a>
-            <gryf-validation-msg path="reimbursementAttachments[{{$index}}].file">
-            </gryf-validation-msg>
-        </div>
-        <div class="grid-30">
-            <input type="text" ng-model="a.remarks" maxlength="500">
-            <gryf-validation-msg path="reimbursementAttachments[{{$index}}].remarks">
-            </gryf-validation-msg>
-        </div>
-        <div class="grid-10">
-            <a class="button button-delete"
-               ng-click="removeAttachment(a)"
-               ng-if="!a.mandatory">Usuń</a>
-            <a ng-if="a.originalFileName"
-               class="button button-add"
-               ng-href="{{getDownloadAttachmentLink(a)}}"
-               target="_self">
-                Pobierz załącznik
-            </a>
-        </div>
-    </div>
+    <attachments training-instance="eReimbObject.entity" model="eReimbObject.entity" violations="violations" is-disabled="isDisabled()"/>
 </section>
