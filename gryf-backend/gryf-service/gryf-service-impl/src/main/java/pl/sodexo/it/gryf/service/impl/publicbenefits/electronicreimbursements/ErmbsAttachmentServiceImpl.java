@@ -19,8 +19,6 @@ import pl.sodexo.it.gryf.service.local.api.FileService;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.electronicreimbursements.EreimbursementDtoMapper;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.electronicreimbursements.ErmbsAttachmentDtoMapper;
 
-import java.util.List;
-
 /**
  * Serwis dla operacji na załącznikach rozliczenia bonów elektornicznych
  *
@@ -52,8 +50,8 @@ public class ErmbsAttachmentServiceImpl implements ErmbsAttachmentService {
     }
 
     @Override
-    public void saveErmbsAttachments(ElctRmbsHeadDto elctRmbsHeadDto, List<ErmbsAttachmentDto> ermbsAttachmentsDtoList) {
-        for (ErmbsAttachmentDto ermbsAttachment : ermbsAttachmentsDtoList) {
+    public void saveErmbsAttachments(ElctRmbsHeadDto elctRmbsHeadDto) {
+        for (ErmbsAttachmentDto ermbsAttachment : elctRmbsHeadDto.getAttachments()) {
             if (deleteIfMarked(ermbsAttachment))
                 continue;
             Ereimbursement ereimbursement = ereimbursementDtoMapper.convert(elctRmbsHeadDto);
