@@ -81,6 +81,30 @@
         <div class="width-100">
             <div class="grid-100">
                 <header>
+                    <h2>Informacje o zamówieniu</h2>
+                </header>
+            </div>
+            <div class="grid-100">
+                <div class="grid-20">
+                    <strong class="label">Zewnętrzny identyfikator zamówienia</strong>
+                    <input type="text" ng-model="createOrderDto.data.externalOrderId">
+                </div>
+                <div class="grid-20">
+                    <strong class="label">Data zamówienia</strong>
+                    <input type="text"
+                           ng-model="createOrderDto.data.orderDate"
+                           datepicker-popup="yyyy-MM-dd"
+                           is-open="datepicker.isOrderDateOpened"
+                           close-text="Zamknij"
+                           clear-text="Czyść"
+                           current-text="Dziś"
+                           ng-click="openDatepicker('isOrderDateOpened')"/>
+                </div>
+            </div>
+        </div>
+        <div class="width-100">
+            <div class="grid-100">
+                <header>
                     <h2>Informacje o bonach</h2>
                 </header>
             </div>

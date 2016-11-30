@@ -256,6 +256,14 @@ angular.module('gryf.orders').controller("createform.OrdersController", ['$scope
         });
     };
 
+    $scope.datepicker = {
+        isOrderDateOpened: false
+    };
+
+    $scope.openDatepicker = function (fieldName) {
+        $scope.datepicker[fieldName] = true;
+    };
+
     $scope.recalculateFields = function(){
         var dto = $scope.createOrderDto.data;
 

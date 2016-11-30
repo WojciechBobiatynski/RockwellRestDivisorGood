@@ -12,6 +12,12 @@
         </div>
 
         <div class="grid-15">
+            <strong class="label">Zewnętrzny <br/>identyfikator zamówienia</strong>
+            <input type="text" ng-model="item.externalOrderId"
+                   readonly="readonly">
+        </div>
+
+        <div class="grid-10">
             <strong class="label">Status <br/>zamówienia</strong>
             <input type="text" ng-model="item.statusName"
                    readonly="readonly">
@@ -34,7 +40,7 @@
                    readonly="readonly">
         </div>
 
-        <div class="grid-10">
+        <div class="grid-5">
             <a ng-href="{{getEnterpriseLinkFor(item.enterpriseId)}} ">
                 <strong class="label">Id <br/>MŚP &UpperRightArrow; </strong>
             </a>                
@@ -42,7 +48,7 @@
                    readonly="readonly">
         </div>
 
-        <div class="grid-30">
+        <div class="grid-25">
             <a ng-href="{{getEnterpriseLinkFor(item.enterpriseId)}}"> 
                 <strong class="label">Nazwa <br/>przedsiębiorstwa &UpperRightArrow; </strong> 
             </a>
