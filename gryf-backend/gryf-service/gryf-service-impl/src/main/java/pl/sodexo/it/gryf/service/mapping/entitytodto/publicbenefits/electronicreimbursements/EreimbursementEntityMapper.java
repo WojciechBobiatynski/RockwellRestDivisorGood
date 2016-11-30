@@ -31,6 +31,8 @@ public class EreimbursementEntityMapper extends VersionableEntityMapper<Ereimbur
         dto.setSxoTiAmountDueTotal(entity.getSxoTiAmountDueTotal());
         dto.setIndTiAmountDueTotal(entity.getIndTiAmountDueTotal());
         dto.setTiReimbAccountNumber(entity.getTiReimbAccountNumber());
+        dto.setRequiredCorrectionDate(entity.getRequiredCorrectionDate());
+        dto.setReimbursementDate(entity.getReimbursementDate());
         if (entity.getErmbsAttachmentList() != null && !entity.getErmbsAttachmentList().isEmpty()) {
             dto.setAttachments(ermbsAttachmentEntityMapper.convert(entity.getErmbsAttachmentList()));
         }

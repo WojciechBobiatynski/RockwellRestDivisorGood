@@ -19,6 +19,7 @@ import pl.sodexo.it.gryf.common.enums.FileType;
 import pl.sodexo.it.gryf.common.exception.NoCalculationParamsException;
 import pl.sodexo.it.gryf.common.utils.GryfConstants;
 import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
+import pl.sodexo.it.gryf.dao.api.crud.repository.other.GryfPLSQLRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementAttachmentRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementStatusRepository;
@@ -32,12 +33,9 @@ import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.Ele
 import pl.sodexo.it.gryf.service.local.api.FileService;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.electronicreimbursements.EreimbursementDtoMapper;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.electronicreimbursements.ErmbsAttachmentDtoMapper;
-import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.electronicreimbursements.ErmbsAttachmentEntityMapper;
 import pl.sodexo.it.gryf.service.validation.publicbenefits.electronicreimbursements.ErmbsValidator;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
@@ -84,7 +82,7 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     private ApplicationParameters applicationParameters;
 
     @Autowired
-    private ErmbsAttachmentEntityMapper ermbsAttachmentEntityMapper;
+    private GryfPLSQLRepository gryfPLSQLRepository;
 
     @Override
     public List<ElctRmbsDto> findEcltRmbsListByCriteria(ElctRmbsCriteria criteria) {
@@ -127,8 +125,7 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         ermbsValidator.validateRmbs(elctRmbsHeadDto);
         Ereimbursement ereimbursement = saveErmbsData(elctRmbsHeadDto);
         ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.TO_ERMBS));
-        Date reimbursementDate = Date.from(LocalDateTime.now().plusDays(applicationParameters.getDaysForReimburseNumber()).atZone(ZoneId.systemDefault()).toInstant());
-        ereimbursement.setReimbursementDate(reimbursementDate);
+        ereimbursement.setReimbursementDate(gryfPLSQLRepository.getNthBusinessDay(new Date(), applicationParameters.getDaysForReimburseNumber()));
         return ereimbursement.getId();
     }
 

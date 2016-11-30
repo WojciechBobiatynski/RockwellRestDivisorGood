@@ -1,13 +1,27 @@
 CREATE TABLE APP_PBE.CORRECTIONS
 (
 	ID NUMBER NOT NULL,
-	E_RMBS_ID NUMBER NOT NULL
+	E_RMBS_ID NUMBER NOT NULL,
+	REASON VARCHAR(100),
+	COMPLEMENT_DATE DATE,
+	VERSION NUMBER NOT NULL,    -- Standardowa kolumna wersji na potrzeby optymistycznego blokowania (Gryf)
+	CREATED_USER VARCHAR(100) NOT NULL,    -- U¿ytkownik tworzacy wiersz - kolumna audytowa
+	CREATED_TIMESTAMP TIMESTAMP(6) NOT NULL,    -- Timestamp utworzenia wiersza - kolumna audytowa
+	MODIFIED_USER VARCHAR2(100) NOT NULL,    -- Ostatni u¿ytkownik modyfikuj¹cy wiersz - kolumna audytowa
+	MODIFIED_TIMESTAMP TIMESTAMP(6) NOT NULL    -- Timestamp ostatniej modyfikacji wiersza - kolumna audytowa
 );
 
 COMMENT ON TABLE APP_PBE.CORRECTIONS IS '@Author(Adam Kmieciñski); @Project(Gryf-PBE); @Date(2016-11-14);@Purpose(Tabela przechowuj¹ca dane z korektami do e-rozliczeñ);';
 
 COMMENT ON COLUMN APP_PBE.CORRECTIONS.ID IS 'Klucz g³ówny. Identyfikator korekty. Sekwencja CORREC_SEQ';
 COMMENT ON COLUMN APP_PBE.CORRECTIONS.E_RMBS_ID IS 'E rozliczenie. Klucz obcy do E_REIMBURSEMENTS';
+COMMENT ON COLUMN APP_PBE.CORRECTIONS.REASON IS 'Powód korekty';
+COMMENT ON COLUMN APP_PBE.CORRECTIONS.COMPLEMENT_DATE IS 'Data uzupe³nienia korekty';
+COMMENT ON COLUMN APP_PBE.CORRECTIONS.VERSION IS 'Standardowa kolumna wersji na potrzeby optymistycznego blokowania (Gryf)';
+COMMENT ON COLUMN APP_PBE.CORRECTIONS.CREATED_USER IS 'U¿ytkownik tworzacy wiersz - kolumna audytowa';
+COMMENT ON COLUMN APP_PBE.CORRECTIONS.CREATED_TIMESTAMP IS 'Timestamp utworzenia wiersza - kolumna audytowa';
+COMMENT ON COLUMN APP_PBE.CORRECTIONS.MODIFIED_USER IS 'Ostatni u¿ytkownik modyfikuj¹cy wiersz - kolumna audytowa';
+COMMENT ON COLUMN APP_PBE.CORRECTIONS.MODIFIED_TIMESTAMP IS 'Timestamp ostatniej modyfikacji wiersza - kolumna audytowa';
 
 -- uprawnienia
 BEGIN

@@ -8,6 +8,7 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.ProductHeadDt
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -59,4 +60,12 @@ public class ElctRmbsHeadDto extends VersionableDto implements Serializable {
     @Getter
     @Setter
     private String tiReimbAccountNumber;
+
+    @Getter
+    @Setter
+    private Date requiredCorrectionDate;
+
+    @Getter
+    @Setter
+    private Date reimbursementDate;
 }

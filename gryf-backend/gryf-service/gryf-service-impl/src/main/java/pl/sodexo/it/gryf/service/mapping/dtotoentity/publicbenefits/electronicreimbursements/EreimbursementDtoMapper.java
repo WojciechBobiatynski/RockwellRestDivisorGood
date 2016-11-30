@@ -36,6 +36,8 @@ public class EreimbursementDtoMapper extends VersionableDtoMapper<ElctRmbsHeadDt
         entity.setIndTiAmountDueTotal(dto.getIndTiAmountDueTotal());
         entity.setSxoTiAmountDueTotal(dto.getSxoTiAmountDueTotal());
         entity.setTiReimbAccountNumber(dto.getTiReimbAccountNumber());
+        entity.setRequiredCorrectionDate(dto.getRequiredCorrectionDate());
+        entity.setReimbursementDate(dto.getReimbursementDate());
     }
 
 }

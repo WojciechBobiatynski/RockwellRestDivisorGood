@@ -7,6 +7,7 @@ CREATE TABLE APP_PBE.E_REIMBURSEMENTS
   SXO_TI_AMOUNT_DUE_TOTAL NUMBER, -- Ca³kowita kwota od Operatora Finansowego dla Instytucji szkoleniowej
   IND_TI_AMOUNT_DUE_TOTAL NUMBER, -- Ca³kowtia kwota od U¿ytkownika dla instytucji szkoleniowej
   TI_REIMB_ACCOUNT_NUMBER VARCHAR(26), -- Numer konta instytucji szkoleniowej do zwrotu
+  REQUIRED_CORRECTION_DATE DATE, -- Wymagana data otrzymania korekty dla faktury
 	VERSION NUMBER NOT NULL,    -- Standardowa kolumna wersji na potrzeby optymistycznego blokowania (Gryf)
 	CREATED_USER VARCHAR(100) NOT NULL,    -- U¿ytkownik tworzacy wiersz - kolumna audytowa
 	CREATED_TIMESTAMP TIMESTAMP(6) NOT NULL,    -- Timestamp utworzenia wiersza - kolumna audytowa
@@ -22,6 +23,7 @@ COMMENT ON COLUMN APP_PBE.E_REIMBURSEMENTS.REIMBURSEMENT_DATE IS 'Data rozliczen
 COMMENT ON COLUMN APP_PBE.E_REIMBURSEMENTS.SXO_TI_AMOUNT_DUE_TOTAL IS 'Ca³kowita kwota od Operatora Finansowego dla Instytucji szkoleniowej';
 COMMENT ON COLUMN APP_PBE.E_REIMBURSEMENTS.IND_TI_AMOUNT_DUE_TOTAL IS 'Ca³kowtia kwota od U¿ytkownika dla Instytucji szkoleniowej';
 COMMENT ON COLUMN APP_PBE.E_REIMBURSEMENTS.TI_REIMB_ACCOUNT_NUMBER IS 'Numer konta instytucji szkoleniowej do zwrotu';
+COMMENT ON COLUMN APP_PBE.E_REIMBURSEMENTS.REQUIRED_CORRECTION_DATE IS 'Wymagana data otrzymania korekty dla faktury';
 COMMENT ON COLUMN APP_PBE.E_REIMBURSEMENTS.VERSION IS 'Standardowa kolumna wersji na potrzeby optymistycznego blokowania (Gryf)';
 COMMENT ON COLUMN APP_PBE.E_REIMBURSEMENTS.CREATED_USER IS 'U¿ytkownik tworzacy wiersz - kolumna audytowa';
 COMMENT ON COLUMN APP_PBE.E_REIMBURSEMENTS.CREATED_TIMESTAMP IS 'Timestamp utworzenia wiersza - kolumna audytowa';
@@ -50,6 +52,9 @@ ALTER TABLE APP_PBE.E_REIMBURSEMENTS
 ALTER TABLE APP_PBE.E_REIMBURSEMENTS
  ADD CONSTRAINT FK_E_RMBS_TI_TR_ID
 	FOREIGN KEY (TI_TR_INST_ID) REFERENCES APP_PBE.TI_TRAINING_INSTANCES (ID);
+
+ALTER TABLE APP_PBE.E_REIMBURSEMENTS
+ ADD CONSTRAINT E_RMBS_TI_TR_ID_UIX UNIQUE (TI_TR_INST_ID);
 
 --------------------------------------------SEQUENCE--------------------------------------------
 CREATE SEQUENCE EAGLE.PBE_E_REIMB_SEQ

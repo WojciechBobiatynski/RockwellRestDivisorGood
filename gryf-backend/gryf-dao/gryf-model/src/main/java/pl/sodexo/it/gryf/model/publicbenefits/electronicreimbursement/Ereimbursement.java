@@ -66,6 +66,12 @@ public class Ereimbursement extends VersionableEntity {
     @Setter
     private String tiReimbAccountNumber;
 
+    @Column(name = "REQUIRED_CORRECTION_DATE")
+    @Temporal(TemporalType.DATE)
+    @Getter
+    @Setter
+    private Date requiredCorrectionDate;
+
     @OneToMany(mappedBy = "ereimbursement")
     @Getter
     @Setter
