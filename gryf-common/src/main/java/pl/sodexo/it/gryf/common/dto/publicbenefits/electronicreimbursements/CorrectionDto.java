@@ -31,4 +31,7 @@ public class CorrectionDto extends VersionableDto{
     @Setter
     private Date complementDate;
 
+    @Getter
+    @Setter
+    private Date requiredDate;
 }

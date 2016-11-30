@@ -2,6 +2,7 @@ package pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements;
 
 import pl.sodexo.it.gryf.common.criteria.electronicreimbursements.ElctRmbsCriteria;
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CorrectionDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto;
 
@@ -71,9 +72,9 @@ public interface ElectronicReimbursementsService {
 
     /**
      * Metoda ustawia status rozliczenia na "do korekty".
-     * @param ermbsId - id rozliczenia
+     * @param correctionDto - dto zawierające informacje o powodzie korekcie
      * @return wersja rozliczenia
      */
-    Integer toCorrect(Long ermbsId);
+    Long sendToCorrect(CorrectionDto correctionDto);
 
 }

@@ -5,11 +5,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CorrectionDto;
+import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.other.GryfPLSQLRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.CorrectionRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementRepository;
 import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.Correction;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.CorrectionService;
+
+import java.util.Date;
 
 /**
  * Implementacja serwisu realizującego operacje na korektach
@@ -43,6 +46,8 @@ public class CorrectionServiceImpl implements CorrectionService {
         Correction correction = new Correction();
         correction.setEreimbursement(ereimbursementRepository.get(correctionDto.getErmbsId()));
         correction.setReason(correctionDto.getCorrectionReason());
+        //TODO: wymagana data korekty
+        correction.setRequiredDate(GryfUtils.addDays(new Date(), 5));
         return correction;
     }
 }

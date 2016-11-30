@@ -2,8 +2,9 @@ CREATE TABLE APP_PBE.CORRECTIONS
 (
 	ID NUMBER NOT NULL,
 	E_RMBS_ID NUMBER NOT NULL,
-	REASON VARCHAR(100),
-	COMPLEMENT_DATE DATE,
+	REASON VARCHAR(250),
+	COMPLEMENT_DATE DATE, -- Data uzupe³nienia korekty
+  REQUIRED_DATE DATE, -- Wymagana data odpowiedzi na korekte
 	VERSION NUMBER NOT NULL,    -- Standardowa kolumna wersji na potrzeby optymistycznego blokowania (Gryf)
 	CREATED_USER VARCHAR(100) NOT NULL,    -- U¿ytkownik tworzacy wiersz - kolumna audytowa
 	CREATED_TIMESTAMP TIMESTAMP(6) NOT NULL,    -- Timestamp utworzenia wiersza - kolumna audytowa
@@ -17,6 +18,7 @@ COMMENT ON COLUMN APP_PBE.CORRECTIONS.ID IS 'Klucz g³ówny. Identyfikator korekty
 COMMENT ON COLUMN APP_PBE.CORRECTIONS.E_RMBS_ID IS 'E rozliczenie. Klucz obcy do E_REIMBURSEMENTS';
 COMMENT ON COLUMN APP_PBE.CORRECTIONS.REASON IS 'Powód korekty';
 COMMENT ON COLUMN APP_PBE.CORRECTIONS.COMPLEMENT_DATE IS 'Data uzupe³nienia korekty';
+COMMENT ON COLUMN APP_PBE.CORRECTIONS.REQUIRED_DATE IS 'Wymagana data odpowiedzi na korekte';
 COMMENT ON COLUMN APP_PBE.CORRECTIONS.VERSION IS 'Standardowa kolumna wersji na potrzeby optymistycznego blokowania (Gryf)';
 COMMENT ON COLUMN APP_PBE.CORRECTIONS.CREATED_USER IS 'U¿ytkownik tworzacy wiersz - kolumna audytowa';
 COMMENT ON COLUMN APP_PBE.CORRECTIONS.CREATED_TIMESTAMP IS 'Timestamp utworzenia wiersza - kolumna audytowa';

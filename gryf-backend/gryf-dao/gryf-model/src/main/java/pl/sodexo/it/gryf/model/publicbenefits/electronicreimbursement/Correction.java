@@ -44,4 +44,10 @@ public class Correction extends VersionableEntity {
     @Getter
     @Setter
     private Date complementDate;
+
+    @Column(name = "REQUIRED_DATE")
+    @Temporal(TemporalType.DATE)
+    @Getter
+    @Setter
+    private Date requiredDate;
 }

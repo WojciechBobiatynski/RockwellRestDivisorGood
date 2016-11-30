@@ -147,16 +147,12 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     }
 
     @Override
-    public Integer toCorrect(Long ermbsId) {
-        Ereimbursement ereimbursement = ereimbursementRepository.get(ermbsId);
+    public Long sendToCorrect(CorrectionDto correctionDto) {
+        Ereimbursement ereimbursement = ereimbursementRepository.get(correctionDto.getErmbsId());
         ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.TO_CORRECT));
         ereimbursement = ereimbursementRepository.save(ereimbursement);
-        //TODO: tymczasowa zaślepka, później będzie przekazywany obiekt z guia i zostanie sam zapis
-        CorrectionDto correctionDto = new CorrectionDto();
-        correctionDto.setErmbsId(ereimbursement.getId());
-        correctionDto.setCorrectionReason("Rozliczenie szkolenia zawiera załączonego Misia Yogi zamiast właściwej FV - prosimy o poprawienie danych");
         correctionService.createAndSaveCorrection(correctionDto);
-        return ereimbursement.getVersion();
+        return ereimbursement.getId();
     }
 
     private Ereimbursement saveErmbsData(ElctRmbsHeadDto elctRmbsHeadDto) {
