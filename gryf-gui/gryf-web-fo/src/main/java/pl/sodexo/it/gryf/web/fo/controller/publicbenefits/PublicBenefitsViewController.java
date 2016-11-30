@@ -7,19 +7,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import pl.sodexo.it.gryf.common.dto.other.FileDTO;
 import pl.sodexo.it.gryf.common.enums.Privileges;
 import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
-import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.service.api.publicbenefits.grantapplications.GrantApplicationActionService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.orders.OrderService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.reimbursement.ReimbursementsAttachmentService;
 import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 
+import static pl.sodexo.it.gryf.web.common.util.WebUtils.writeFileToResponse;
 import static pl.sodexo.it.gryf.web.fo.utils.UrlConstants.*;
 
 @Controller
@@ -124,7 +121,7 @@ public class PublicBenefitsViewController {
             Long attachmentId = Long.valueOf(idParam);
 
             FileDTO file = grantApplicationActionService.getApplicationAttachmentFile(attachmentId);
-            writeFile(request, response, file.getInputStream(), file.getName());
+            writeFileToResponse(request, response, file.getInputStream(), file.getName());
         }
     }
 
@@ -137,7 +134,7 @@ public class PublicBenefitsViewController {
             Long elementId = Long.valueOf(idParam);
 
             FileDTO file = orderService.getOrderAttachmentFile(elementId);
-            writeFile(request, response, file.getInputStream(), file.getName());
+            writeFileToResponse(request, response, file.getInputStream(), file.getName());
         }
     }
 
@@ -150,7 +147,7 @@ public class PublicBenefitsViewController {
             Long elementId = Long.valueOf(idParam);
 
             FileDTO file = reimbursementsAttachmentService.getReimbursementAttachmentFile(elementId);
-            writeFile(request, response, file.getInputStream(), file.getName());
+            writeFileToResponse(request, response, file.getInputStream(), file.getName());
         }
     }
 
@@ -163,27 +160,7 @@ public class PublicBenefitsViewController {
             Long elementId = Long.valueOf(idParam);
 
             FileDTO file = reimbursementsAttachmentService.getReimbursementTraineeAttachmentFile(elementId);
-            writeFile(request, response, file.getInputStream(), file.getName());
+            writeFileToResponse(request, response, file.getInputStream(), file.getName());
         }
     }
-
-    //PRIVATE METHODS
-
-    private void writeFile(HttpServletRequest request, HttpServletResponse response, InputStream inputStream, String fileName) throws IOException {
-        //MIME TYPE
-        ServletContext context = request.getServletContext();
-        String mimeType = context.getMimeType(fileName);
-        response.setContentType((mimeType == null) ? "application/octet-stream" : mimeType);
-
-        //HEADER
-        response.setHeader("Content-Disposition", String.format("attachment; filename=\"%s\"", fileName));
-
-        //COPY STREAM
-        OutputStream outStream = response.getOutputStream();
-        GryfUtils.copyStream(inputStream, outStream);
-
-        inputStream.close();
-        outStream.close();
-    }
-
 }

@@ -2,6 +2,7 @@ package pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements;
 
 import pl.sodexo.it.gryf.common.criteria.electronicreimbursements.ElctRmbsCriteria;
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
+import pl.sodexo.it.gryf.common.dto.other.FileDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto;
 
@@ -61,5 +62,12 @@ public interface ElectronicReimbursementsService {
      * @return wersja rozliczenia
      */
     Integer toCorrect(Long ermbsId);
+
+    /**
+     * Pobiera plik załącznik na podstawie ID
+     * @param id - id załącznika
+     * @return - dto załącznika
+     */
+    FileDTO getErmbsAttFileById(Long id);
 
 }

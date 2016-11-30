@@ -5,8 +5,14 @@ import pl.sodexo.it.gryf.common.dto.other.FileDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsAttachmentDto;
 import pl.sodexo.it.gryf.common.exception.GryfUploadException;
+import pl.sodexo.it.gryf.common.utils.GryfUtils;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -51,4 +57,22 @@ public final class WebUtils {
         });
         return source;
     }
+
+    public static void writeFileToResponse(HttpServletRequest request, HttpServletResponse response, InputStream inputStream, String fileName) throws IOException {
+        //MIME TYPE
+        ServletContext context = request.getServletContext();
+        String mimeType = context.getMimeType(fileName);
+        response.setContentType((mimeType == null) ? "application/octet-stream" : mimeType);
+
+        //HEADER
+        response.setHeader("Content-Disposition", String.format("attachment; filename=\"%s\"", fileName));
+
+        //COPY STREAM
+        OutputStream outStream = response.getOutputStream();
+        GryfUtils.copyStream(inputStream, outStream);
+
+        inputStream.close();
+        outStream.close();
+    }
+
 }

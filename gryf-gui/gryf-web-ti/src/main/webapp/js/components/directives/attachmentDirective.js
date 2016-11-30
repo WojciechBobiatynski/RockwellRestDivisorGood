@@ -9,6 +9,8 @@ angular.module("gryf.ti").directive("attachments", ['AttachmentService',
             },
             templateUrl: contextPath + '/templates/directives/attachment.html',
             controller: function ($scope) {
+
+
                 $scope.modelTypes = {};
                 $scope.defaultType = {};
 
@@ -32,6 +34,10 @@ angular.module("gryf.ti").directive("attachments", ['AttachmentService',
                     item.changed = true;
                     item.index = index;
                 }
+
+                $scope.getDownloadAttachmentLink = function(attachement) {
+                    return attachement.id != null ? contextPath + "/rest/reimbursements/downloadAttachment?id=" + attachement.id : '';
+                };
 
             },
             link: function ($scope) {

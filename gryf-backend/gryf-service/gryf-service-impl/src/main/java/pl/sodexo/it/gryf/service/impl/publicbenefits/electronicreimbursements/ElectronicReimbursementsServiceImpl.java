@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.common.criteria.electronicreimbursements.ElctRmbsCriteria;
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
+import pl.sodexo.it.gryf.common.dto.other.FileDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CalculationChargesParamsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto;
@@ -31,6 +32,7 @@ import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.Ele
 import pl.sodexo.it.gryf.service.local.api.FileService;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.electronicreimbursements.EreimbursementDtoMapper;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.electronicreimbursements.ErmbsAttachmentDtoMapper;
+import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.electronicreimbursements.ErmbsAttachmentEntityMapper;
 import pl.sodexo.it.gryf.service.validation.publicbenefits.electronicreimbursements.ErmbsValidator;
 
 import java.math.BigDecimal;
@@ -66,7 +68,6 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     @Autowired
     private ErmbsAttachmentDtoMapper ermbsAttachmentDtoMapper;
 
-
     @Autowired
     private ProductSearchDao productSearchDao;
 
@@ -81,6 +82,9 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
 
     @Autowired
     private ApplicationParameters applicationParameters;
+
+    @Autowired
+    private ErmbsAttachmentEntityMapper ermbsAttachmentEntityMapper;
 
     @Override
     public List<ElctRmbsDto> findEcltRmbsListByCriteria(ElctRmbsCriteria criteria) {
@@ -134,6 +138,15 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.TO_CORRECT));
         ereimbursement = ereimbursementRepository.save(ereimbursement);
         return ereimbursement.getVersion();
+    }
+
+    @Override
+    public FileDTO getErmbsAttFileById(Long id) {
+        ErmbsAttachment attachment = ereimbursementAttachmentRepository.get(id);
+        FileDTO dto = new FileDTO();
+        dto.setName(attachment.getOrginalFileName());
+        dto.setInputStream(fileService.getInputStream(attachment.getFileLocation()));
+        return dto;
     }
 
     private Ereimbursement saveErmbsData(ElctRmbsHeadDto elctRmbsHeadDto) {
