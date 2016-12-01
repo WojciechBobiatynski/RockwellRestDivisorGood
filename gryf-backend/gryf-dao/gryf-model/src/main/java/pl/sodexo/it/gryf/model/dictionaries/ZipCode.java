@@ -4,6 +4,7 @@ package pl.sodexo.it.gryf.model.dictionaries;
 import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
 import pl.sodexo.it.gryf.model.api.VersionableEntity;
+import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -15,6 +16,10 @@ import java.util.Objects;
 @ToString(exclude = "state")
 @Entity
 @Table(name = "ZIP_CODES", schema = "EAGLE")
+@NamedQueries({
+        @NamedQuery(name = "ZipCode.findActiveByCode", query="select o from ZipCode o " +
+                "where o.zipCode = :code and o.active = true "),
+})
 public class ZipCode extends VersionableEntity {
 
     //STATIC FIELDS

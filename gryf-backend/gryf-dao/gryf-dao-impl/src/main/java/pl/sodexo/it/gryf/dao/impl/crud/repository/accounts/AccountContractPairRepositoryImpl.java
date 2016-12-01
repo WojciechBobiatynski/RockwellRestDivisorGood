@@ -32,13 +32,6 @@ public class AccountContractPairRepositoryImpl extends GenericRepositoryImpl<Acc
     }
 
     @Override
-    public String findAccountByCode(String code) {
-        Query query = entityManager.createNativeQuery("SELECT eagle.t$bank_account.GET_COR_SPP(?1) FROM dual");
-        query.setParameter(1, code);
-        return (String) query.getSingleResult();
-    }
-
-    @Override
     public AccountContractPair findByContractId(Long contractId) {
         try {
             TypedQuery<AccountContractPair> query = entityManager.createNamedQuery(AccountContractPair.FIND_BY_CONTRACT_ID, AccountContractPair.class);

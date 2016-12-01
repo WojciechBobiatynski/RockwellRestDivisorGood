@@ -52,7 +52,7 @@ public class IndividualsRestController {
     public Long saveIndividual(@RequestParam(value = "checkPeselDup", required = false, defaultValue = "true") boolean checkPeselDup, @RequestBody IndividualDto individualDto) {
         //TODO uprawnienia
         securityChecker.assertFormPrivilege(Privileges.GRF_ENTERPRISE_MOD);
-        return  individualService.saveIndividual(individualDto, checkPeselDup);
+        return  individualService.saveIndividual(individualDto, checkPeselDup, true);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -69,7 +69,7 @@ public class IndividualsRestController {
         securityChecker.assertServicePrivilege(Privileges.GRF_ENTERPRISE_MOD);
         GryfUtils.checkForUpdate(id, individualDto.getId());
 
-        individualService.updateIndividual(individualDto, checkPeselDup);
+        individualService.updateIndividual(individualDto, checkPeselDup, true);
         return individualDto.getId();
     }
 

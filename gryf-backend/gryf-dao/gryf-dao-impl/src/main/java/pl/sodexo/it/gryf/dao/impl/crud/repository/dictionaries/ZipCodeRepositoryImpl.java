@@ -7,6 +7,7 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.dictionaries.ZipCodeRepository;
 import pl.sodexo.it.gryf.dao.impl.crud.repository.GenericRepositoryImpl;
 import pl.sodexo.it.gryf.model.dictionaries.State;
 import pl.sodexo.it.gryf.model.dictionaries.ZipCode;
+import pl.sodexo.it.gryf.model.publicbenefits.enterprises.Enterprise;
 
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -59,6 +60,14 @@ public class ZipCodeRepositoryImpl extends GenericRepositoryImpl<ZipCode, Long> 
         limit(zipCode, query);
 
         return query.getResultList();
+    }
+
+    @Override
+    public ZipCode findActiveByCode(String code){
+        TypedQuery<ZipCode> query = entityManager.createNamedQuery("ZipCode.findActiveByCode", ZipCode.class);
+        query.setParameter("code", code);
+        List<ZipCode> result = query.getResultList();
+        return result.isEmpty() ? null : result.get(0);
     }
 
 }

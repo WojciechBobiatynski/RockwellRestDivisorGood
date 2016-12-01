@@ -72,6 +72,9 @@ public enum Privileges {
 
     //ADMINISTRATION
 
-    GRF_PBE_PRODUCTS_GEN_PRINT_NUM
+    GRF_PBE_PRODUCTS_GEN_PRINT_NUM,
 
-    }
+    //INDIVIDUAL
+
+    IND_DESKTOP_ROLE
+}

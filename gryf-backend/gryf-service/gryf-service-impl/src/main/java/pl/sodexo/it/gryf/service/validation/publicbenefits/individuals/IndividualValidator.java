@@ -44,14 +44,16 @@ public class IndividualValidator {
     @Autowired
     private IndividualEntityToSearchResultMapper individualEntityToSearchResultMapper;
 
-    public void validateIndividual(Individual individual, boolean checkPeselDup) {
+    public void validateIndividual(Individual individual, boolean checkPeselDup, boolean checkAccountRepayment) {
 
         //GENERAL VALIDATION
         List<EntityConstraintViolation> violations = gryfValidator.generateViolation(individual);
 
         //CONTACT DATA - VALIDATION
         validateContacts(individual.getContacts(), violations);
-        validateAccountRepayment(individual, violations);
+        if(checkAccountRepayment) {
+            validateAccountRepayment(individual, violations);
+        }
 
         //VAT REG NUM EXIST - VALIDATION
         if (checkPeselDup) {

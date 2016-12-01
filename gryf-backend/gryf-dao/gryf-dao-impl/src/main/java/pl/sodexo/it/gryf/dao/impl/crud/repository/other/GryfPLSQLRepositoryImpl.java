@@ -48,5 +48,12 @@ public class GryfPLSQLRepositoryImpl implements GryfPLSQLRepository {
         query.setParameter(3, dayType.name());
         return (Date)query.getSingleResult();
     }
+
+    @Override
+    public String generateAccountByCode(String code) {
+        Query query = entityManager.createNativeQuery("SELECT eagle.t$bank_account.GET_COR_SPP(?1) FROM dual");
+        query.setParameter(1, code);
+        return (String) query.getSingleResult();
+    }
     
 }

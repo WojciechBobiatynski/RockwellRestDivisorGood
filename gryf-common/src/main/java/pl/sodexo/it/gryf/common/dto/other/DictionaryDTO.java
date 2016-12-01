@@ -20,6 +20,10 @@ public class DictionaryDTO extends GryfDto {
     public DictionaryDTO() {
     }
 
+    public DictionaryDTO(Object id) {
+        this.id = id;
+    }
+
     public DictionaryDTO(Object id, String name) {
         this.id = id;
         this.name = name;

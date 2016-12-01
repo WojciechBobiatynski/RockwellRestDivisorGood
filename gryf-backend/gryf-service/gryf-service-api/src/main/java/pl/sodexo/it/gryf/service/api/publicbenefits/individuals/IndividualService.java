@@ -27,7 +27,7 @@ public interface IndividualService {
 
     IndividualDto createIndividual();
 
-    Long saveIndividual(IndividualDto individualDto, boolean checkPeselDup);
+    Long saveIndividual(IndividualDto individualDto, boolean checkPeselDup, boolean checkAccountRepayment);
 
     /**
      * Funkcja zwraca zbiór adresów e-mail odbiorców przypisanych do przekazanej Osoby fizycznej. Tak zwrócony zbiór można sformatować np przy pomocy funkcji
@@ -38,7 +38,7 @@ public interface IndividualService {
      */
     Set<String> getEmailRecipients(IndividualDto individualDto, Set<String> existingRecipientsSet);
 
-    void updateIndividual(IndividualDto individualDto, boolean checkPeselDup);
+    void updateIndividual(IndividualDto individualDto, boolean checkPeselDup, boolean checkAccountRepayment);
 
     /**
      * Wysyła maila z kodem weryfikacyjnym

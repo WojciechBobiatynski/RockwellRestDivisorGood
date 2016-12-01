@@ -12,4 +12,6 @@ import java.util.List;
 public interface ZipCodeRepository extends GenericRepository<ZipCode, Long> {
 
     List<ZipCode> findZipCodes(ZipCodeSearchQueryDTO zipCode);
+
+    ZipCode findActiveByCode(String code);
 }

@@ -25,6 +25,7 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderRepo
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.*;
 import pl.sodexo.it.gryf.service.api.publicbenefits.orders.OrderService;
+import pl.sodexo.it.gryf.service.api.publicbenefits.pbeproducts.PbeProductService;
 import pl.sodexo.it.gryf.service.local.api.FileService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.OrderServiceLocal;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.elements.OrderElementService;
@@ -84,8 +85,14 @@ public class OrderServiceImpl implements OrderService {
         return orderServiceLocal.createCreateOrderDTO(contract);
     }
 
+    @Autowired
+    PbeProductService pbeProductService;
+
     @Override
     public Long createOrder(CreateOrderDTO dto){
+
+        pbeProductService.test();
+
         Order order = orderServiceLocal.createOrder(dto);
         return order.getId();
     }

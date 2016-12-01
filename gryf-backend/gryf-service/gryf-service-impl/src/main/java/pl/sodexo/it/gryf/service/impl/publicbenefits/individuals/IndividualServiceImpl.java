@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.service.impl.publicbenefits.individuals;
 
+import com.google.common.base.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,10 +13,7 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.IndDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.UserTrainingReservationDataDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.searchform.IndividualSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.searchform.IndividualSearchResultDTO;
-import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
-import pl.sodexo.it.gryf.common.exception.EntityValidationException;
 import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
-import pl.sodexo.it.gryf.dao.api.crud.repository.accounts.AccountContractPairRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.individuals.IndividualRepository;
 import pl.sodexo.it.gryf.dao.api.search.dao.IndividualSearchDao;
 import pl.sodexo.it.gryf.model.accounts.AccountContractPair;
@@ -24,6 +22,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
 import pl.sodexo.it.gryf.model.security.individuals.IndividualUser;
 import pl.sodexo.it.gryf.service.api.publicbenefits.individuals.IndividualService;
 import pl.sodexo.it.gryf.service.api.utils.GryfAccessCodeGenerator;
+import pl.sodexo.it.gryf.service.local.api.AccountContractPairService;
 import pl.sodexo.it.gryf.service.local.api.MailService;
 import pl.sodexo.it.gryf.service.mapping.MailDtoCreator;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.individuals.IndividualDtoMapper;
@@ -42,8 +41,6 @@ import java.util.Set;
 @Service
 @Transactional
 public class IndividualServiceImpl implements IndividualService {
-
-    private static final int INVALID_ACCOUNT_FORMAT_ERROR_CODE = 20002;
 
     //FIELDS
 
@@ -78,10 +75,10 @@ public class IndividualServiceImpl implements IndividualService {
     GryfAccessCodeGenerator gryfAccessCodeGenerator;
 
     @Autowired
-    private AccountContractPairRepository accountContractPairRepository;
+    private RoleDtoMapper roleDtoMapper;
 
     @Autowired
-    private RoleDtoMapper roleDtoMapper;
+    private AccountContractPairService accountContractPairService;
 
     //PUBLIC METHODS
 
@@ -112,11 +109,11 @@ public class IndividualServiceImpl implements IndividualService {
     }
 
     @Override
-    public Long saveIndividual(IndividualDto individualDto, boolean checkPeselDup) {
+    public Long saveIndividual(IndividualDto individualDto, boolean checkPeselDup, boolean checkAccountRepayment) {
         Individual individual = individualDtoMapper.convert(individualDto);
         IndividualUser user = createIndividualUser(individual, individualDto);
         individual.setIndividualUser(user);
-        individualValidator.validateIndividual(individual, checkPeselDup);
+        individualValidator.validateIndividual(individual, checkPeselDup, checkAccountRepayment);
         individual = createIndividualByCode(individual);
         individualRepository.save(individual);
 
@@ -139,12 +136,13 @@ public class IndividualServiceImpl implements IndividualService {
             individual = individualRepository.save(individual);
             individual.setCode(generateCode(individual.getId()));
         } else {
-            String account = getAccount(individual);
-            AccountContractPair accountContractPair = getAccountContractPair(account);
+            String account = Strings.isNullOrEmpty(individual.getAccountPayment()) ?
+                            accountContractPairService.generateAccount(individual.getCode()) : individual.getAccountPayment();
+            AccountContractPair accountContractPair = accountContractPairService.getValidAccountContractPairForUsed(account);
+            accountContractPairService.use(accountContractPair);
+
             individual.setId(getIdFromGeneratedCode(individual.getCode()));
             individual.setAccountPayment(account);
-            accountContractPair.setUsed(true);
-            accountContractPairRepository.save(accountContractPair);
         }
         return individual;
     }
@@ -152,37 +150,6 @@ public class IndividualServiceImpl implements IndividualService {
     @Override
     public void sendEmailNotification(IndividualDto individualDto, String appUrl) {
         mailService.scheduleMail(mailDtoCreator.createMailDTOForVerificationCode(individualDto, appUrl));
-    }
-
-    private AccountContractPair getAccountContractPair(String account) {
-        AccountContractPair accountContractPair = accountContractPairRepository.findByAccountPayment(account);
-        if (accountContractPair == null) {
-            EntityConstraintViolation entityConstraintViolation = new EntityConstraintViolation(Individual.CODE_ATTR_NAME, "Niepoprawny kod osoby fizycznej");
-            throw new EntityValidationException(Arrays.asList(entityConstraintViolation));
-        }
-        if (accountContractPair.isUsed()) {
-            EntityConstraintViolation entityConstraintViolation = new EntityConstraintViolation(Individual.CODE_ATTR_NAME, "Wpisany kod jest już zarezerwowany");
-            throw new EntityValidationException(Arrays.asList(entityConstraintViolation));
-        }
-        return accountContractPair;
-    }
-
-    //TODO:przepisać na mybatisa, wtedy bez tego bardzo brzydkiego catcha
-    private String getAccount(Individual individual) {
-        String account = null;
-        try {
-            account = accountContractPairRepository.findAccountByCode(individual.getCode());
-        } catch (PersistenceException e) {
-            Throwable exc = e.getCause().getCause();
-            if (exc instanceof SQLException) {
-                if (((SQLException) exc).getErrorCode() == INVALID_ACCOUNT_FORMAT_ERROR_CODE) {
-                    EntityConstraintViolation entityConstraintViolation = new EntityConstraintViolation(Individual.CODE_ATTR_NAME, "Niepoprawny format kodu osoby fizycznej");
-                    throw new EntityValidationException(Arrays.asList(entityConstraintViolation));
-                }
-            }
-            ;
-        }
-        return account;
     }
 
     @Override
@@ -207,9 +174,9 @@ public class IndividualServiceImpl implements IndividualService {
     }
 
     @Override
-    public void updateIndividual(IndividualDto individualDto, boolean checkPeselDup) {
+    public void updateIndividual(IndividualDto individualDto, boolean checkPeselDup, boolean checkAccountRepayment) {
         Individual individual = individualDtoMapper.convert(individualDto);
-        individualValidator.validateIndividual(individual, checkPeselDup);
+        individualValidator.validateIndividual(individual, checkPeselDup, checkAccountRepayment);
         individualRepository.update(individual, individual.getId());
     }
 

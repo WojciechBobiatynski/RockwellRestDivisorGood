@@ -21,6 +21,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.contracts.ContractType;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingCategory;
 import pl.sodexo.it.gryf.service.api.publicbenefits.contracts.ContractService;
+import pl.sodexo.it.gryf.service.local.api.GryfValidator;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.contracts.ContractDtoMapper;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.dictionaries.DictionaryEntityMapper;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.contracts.ContractEntityMapper;
@@ -77,6 +78,9 @@ public class ContractServiceImpl implements ContractService {
     @Autowired
     private ContractValidator contractValidator;
 
+    @Autowired
+    private GryfValidator gryfValidator;
+
     @Override
     public List<GrantProgramDictionaryDTO> FindGrantProgramsDictionaries() {
         List<GrantProgram> grantPrograms = grantProgramRepository.findProgramsByDate(new Date());
@@ -110,12 +114,15 @@ public class ContractServiceImpl implements ContractService {
     private Contract fillContract(Contract entity, ContractDTO dto) {
         entity.setIndividual(dto.getIndividual() != null ? individualRepository.get(dto.getIndividual().getId()) : null);
         entity.setEnterprise(dto.getEnterprise() != null ? enterpriseRepository.get(dto.getEnterprise().getId()) : null);
-        entity.setGrantProgram(dto.getGrantProgram() != null ? grantProgramRepository.get(dto.getGrantProgram().getGrantProgramOwnerId()) : null);
+        entity.setGrantProgram(dto.getGrantProgram() != null ? grantProgramRepository.get((Long)dto.getGrantProgram().getId()) : null);
         entity.setContractType((dto.getContractType() != null && dto.getContractType().getId() != null) ? contractTypeRepository.get((String)dto.getContractType().getId()) : null);
         if (dto.getTrainingCategory() != null) {
             for(String categoryId : dto.getTrainingCategory()){
                 if(!StringUtils.isEmpty(categoryId)) {
                     TrainingCategory category = trainingCategoryRepository.get(categoryId);
+                    if(category == null){
+                        gryfValidator.validate(String.format("Nie istnieje kategoria szkolenia o identyfikatorze [%s]", categoryId));
+                    }
                     entity.addCategory(category);
                 }
             }

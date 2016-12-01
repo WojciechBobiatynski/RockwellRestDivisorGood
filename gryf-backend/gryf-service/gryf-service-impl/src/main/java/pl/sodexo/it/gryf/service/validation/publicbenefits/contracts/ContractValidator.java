@@ -48,7 +48,7 @@ public class ContractValidator {
         validateContractDates(contract, violations);
         validateContractId(contract, violations);
         validateContractType(contract, violations);
-        validateTrainingParticipantData(contract, violations);
+        validateEnterpriseParticipant(contract, violations);
 
         //VALIDATE (EXCEPTION)
         gryfValidator.validate(violations);
@@ -61,7 +61,7 @@ public class ContractValidator {
 
         validateContractDates(contract, violations);
         validateContractType(contract, violations);
-        validateTrainingParticipantData(contract, violations);
+        validateEnterpriseParticipant(contract, violations);
 
         //VALIDATE (EXCEPTION)
         gryfValidator.validate(violations);
@@ -130,7 +130,7 @@ public class ContractValidator {
         return true;
     }
 
-    private void validateTrainingParticipantData(Contract contract, List<EntityConstraintViolation> violations) {
+    private void validateEnterpriseParticipant(Contract contract, List<EntityConstraintViolation> violations) {
         if (contract.getContractType() != null && isEnterpriseContractType(contract) && contract.getEnterprise() != null) {
             if (!isEnterpriseContainIndividual(contract)) {
                 violations.add(new EntityConstraintViolation(Contract.ENTERPRISE_ATTR_NAME, "Uczestnik nie należy do wybranego MŚP", null));
@@ -152,6 +152,6 @@ public class ContractValidator {
     }
 
     private boolean isIndividualContractType(Contract contract) {
-        return contract.getContractType().getId() == INDIVIDUAL_CONTRACT_TYPE_ID;
+        return INDIVIDUAL_CONTRACT_TYPE_ID.equals(contract.getContractType().getId());
     }
 }

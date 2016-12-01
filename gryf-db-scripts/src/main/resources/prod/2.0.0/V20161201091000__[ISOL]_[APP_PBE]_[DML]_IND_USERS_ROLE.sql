@@ -1,0 +1,5 @@
+-- PRIV & ROLE
+INSERT INTO APP_PBE.TE_PRIVILEGES (CODE,DESCRIPTION,CONTEXT) VALUES('IND_DESKTOP_PRIV','Przywilej pozwalajacy na wejœcie na panel u¿ytkownika dla osoby fizycznej','IND');
+INSERT INTO APP_PBE.TE_ROLES(CODE,DESCRIPTION,CONTEXT)VALUES('IND_DESKTOP_ROLE','Rola pozwalaj¹ca  na wejœcie na panel u¿ytkownika dla osoby fizycznej','IND');
+
+INSERT INTO APP_PBE.TE_PRIV_IN_ROLES (TE_PRIV_CODE, TE_ROLE_CODE) VALUES('IND_DESKTOP_PRIV','IND_DESKTOP_ROLE');

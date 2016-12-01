@@ -27,4 +27,11 @@ public interface GryfPLSQLRepository {
      * @return nty dzień zadanego typu (data)
      */
     Date getNthDay(Date date, Integer days, DayType dayType);
+
+    /**
+     * Generuje numer konta na podstawie kodu
+     * @param code - kod
+     * @return numer konta
+     */
+    String generateAccountByCode(String code);
 }
