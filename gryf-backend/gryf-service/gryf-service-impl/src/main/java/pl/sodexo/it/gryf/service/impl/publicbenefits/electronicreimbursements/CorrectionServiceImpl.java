@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CorrectionDto;
-import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.other.GryfPLSQLRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.CorrectionRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementRepository;
@@ -14,6 +13,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.Correction
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.CorrectionService;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Implementacja serwisu realizującego operacje na korektach
@@ -54,9 +54,13 @@ public class CorrectionServiceImpl implements CorrectionService {
         return correction;
     }
 
-    //TODO: wymagana data korekty liczona na podstawie parametru z bazy (i kalendarza dni roboczych?)
     public Date getRequiredCorrectionDate() {
-        return GryfUtils.addDays(new Date(), 5);
+        return gryfPLSQLRepository.getNthBusinessDay(new Date(), applicationParameters.getBusinessDaysNumberForCorrection());
+    }
+
+    @Override
+    public List<CorrectionDto> findCorrectionsByERmbsId(Long ermbsId) {
+        return correctionSearchDoa.findCorrectionsByERmbsId(ermbsId);
     }
 
     @Override

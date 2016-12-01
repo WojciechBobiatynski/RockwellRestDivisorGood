@@ -111,6 +111,7 @@ angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementS
             var FIND_RMBS_URL = contextPath + "/rest/publicBenefits/electronic/reimbursements/";
             var CHANGE_STATUS_URL = contextPath + "/rest/publicBenefits/electronic/reimbursements/status";
             var NEW_CORRECTION_DATE_URL = contextPath + "/rest/publicBenefits/electronic/reimbursements/correctionDate";
+            var FIND_RMBS_CORRECTIONS_LIST_URL = contextPath + "/rest/publicBenefits/electronic/reimbursements/correction/list/";
 
             var eReimbObject = new EReimbObject();
             var correctionObject = new CorrectionObject();
@@ -139,17 +140,20 @@ angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementS
                     indSxoAmountDueTotal: null,
                     attachments: null,
                     statusCode: null,
-                    returnAccountPayment: null
+                    returnAccountPayment: null,
+                    lastCorrectionDto: null
                 }
             }
 
             function CorrectionObject() {
                 this.isNewCorrect = false;
+                this.isCorrectionsLoaded = false;
                 this.entity = {
                     ermbsId: null,
                     correctionReason: null,
                     requiredDate: null
-                }
+                };
+                this.loadedCorrections = [];
             }
 
             var sendToCorrect = function() {
@@ -161,55 +165,19 @@ angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementS
                 }
                 var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING, {label: "Wczytuję dane"});
                 var promise = $http.post(CHANGE_STATUS_URL + "/tocorrect", correctionObject.entity);
-                //promise.then(function(response) {
-                //    eReimbObject.entity = response.data;
-                //});
+                promise.success(function() {
+                    GryfPopups.setPopup("success", "Sukces", "Rozliczenie wysłano do korekty");
+                    GryfPopups.showPopup();
+
+                    correctionObject.isCorrectionsLoaded = false;
+                    correctionObject.isNewCorrect = false;
+                    findById();
+                });
                 promise.finally(function () {
                     GryfModals.closeModal(modalInstance);
                 });
                 return promise;
             };
-/*
-            var save = function(additionalParam) {
-                var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING, {label: "Zapisuję dane"});
-
-                var promise;
-                if (eReimbObject.entity.trainingId) {
-                    promise = $http.put(TRAINING_URL + eReimbObject.entity.trainingId, eReimbObject.entity, {params: additionalParam});
-                } else {
-                    promise = $http.post(TRAINING_URL, eReimbObject.entity, {params: additionalParam});
-                }
-
-                promise.then(function() {
-                    GryfPopups.setPopup("success", "Sukces", "Szkolenie poprawnie zapisane");
-                    GryfPopups.showPopup();
-                });
-
-                promise.error(function(error) {
-                    GryfPopups.setPopup("error", "Błąd", "Nie udało się zapisać szkolenia");
-                    GryfPopups.showPopup();
-
-                    var conflictCallbacksObject = {
-                        refresh: function() {
-                            load();
-                        },
-                        force: function() {
-                            eReimbObject.entity.version = error.version;
-                            save().then(function() {
-                                GryfPopups.showPopup();
-                            });
-                        }
-                    };
-
-                    GryfExceptionHandler.handleSavingError(error, violations, conflictCallbacksObject);
-                });
-
-                promise.finally(function() {
-                    GryfModals.closeModal(modalInstance);
-                });
-
-                return promise;
-            };*/
 
             var findById = function(rmbsId) {
                 if ($routeParams.id || rmbsId) {
@@ -217,6 +185,9 @@ angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementS
                     var promise = $http.get(FIND_RMBS_URL + ($routeParams.id ? $routeParams.id : rmbsId));
                     promise.then(function(response) {
                         eReimbObject.entity = response.data;
+                        if(eReimbObject.entity.lastCorrectionDto) {
+                            correctionObject.loadedCorrections = [eReimbObject.entity.lastCorrectionDto];
+                        }
                     });
                     promise.finally(function() {
                         GryfModals.closeModal(modalInstance);
@@ -230,12 +201,20 @@ angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementS
                     correctionObject.isNewCorrect = true;
                     correctionObject.entity.requiredDate = date;
                     correctionObject.entity.ermbsId = eReimbObject.entity.ermbsId;
-                });;
+                });
             };
 
             var getCorrectionObject = function() {
                 return correctionObject;
             };
+
+            var findAllCorrections = function(rmbsId) {
+                var rmbsId =  + ($routeParams.id ? $routeParams.id : rmbsId);
+                return $http.get(FIND_RMBS_CORRECTIONS_LIST_URL + rmbsId).success(function(data) {
+                    correctionObject.loadedCorrections = data;
+                    correctionObject.isCorrectionsLoaded = true;
+                });
+            }
 
             return {
                 getNewModel: getNewModel,
@@ -245,6 +224,6 @@ angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementS
                 sendToCorrect: sendToCorrect,
                 getCorrectionObject: getCorrectionObject,
                 getNewRequiredCorrectionDate: getNewRequiredCorrectionDate,
-                //save: save
+                findAllCorrections: findAllCorrections
             };
         }]);

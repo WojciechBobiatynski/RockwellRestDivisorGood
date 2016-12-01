@@ -3,6 +3,7 @@ package pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CorrectionDto;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Serwis realizujący operacje na korektach
@@ -24,6 +25,12 @@ public interface CorrectionService {
      */
     Date getRequiredCorrectionDate();
 
+    /**
+     * Znajduje wszystkie korekty wskazanego rozliczenia wraz z ich numerami
+     * @param ermbsId - id rozliczenia
+     * @return lista wszystkich korekt rozliczenia
+     */
+    List<CorrectionDto> findCorrectionsByERmbsId(Long ermbsId);
     /**
      * Znajduje liczbę korekt dla danego rozliczenia
      * @param ermbsId - id rozliczenia

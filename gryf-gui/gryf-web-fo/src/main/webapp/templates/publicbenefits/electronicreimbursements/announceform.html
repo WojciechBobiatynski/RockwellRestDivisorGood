@@ -165,27 +165,33 @@
         </header>
     </div>
     <div class="grid-100">
-        <table class="table table-condensed">
+        <table class="table table-condensed" ng-show="correctionObject.loadedCorrections.length > 0">
             <thead>
                 <tr class="grid-100">
                     <th class="grid-10">Numer korekty</th>
                     <th class="grid-20">Wymagany termin korekty</th>
                     <th class="grid-20">Data otrzymania korekty</th>
-                    <th class="grid-60">Powód korekty</th>
+                    <th class="grid-50">Powód korekty</th>
                 </tr>
             </thead>
             <tbody>
-                <tr data-ng-repeat="c in corrections | orderBy : 'expiryDate' : true">
-                    <td>{{corrections.length - $index}}</td>
-                    <td>{{::c.expiryDate}}</td>
-                    <td>{{::c.correctionDate}}</td>
-                    <td>{{::c.reason}}</td>
+                <tr data-ng-repeat="corr in correctionObject.loadedCorrections | orderBy : 'correctionNumber' : true">
+                    <td>{{::corr.correctionNumber}}</td>
+                    <td>{{::corr.requiredDate}}</td>
+                    <td>{{::corr.complementDate}}</td>
+                    <td>{{::corr.correctionReason}}</td>
                 </tr>
             </tbody>
         </table>
+        <h1 ng-show="correctionObject.loadedCorrections.length == 0">Brak korekt</h1>
     </div>
     <div class="grid-100">
-        <button ng-hide="correctionObject.isNewCorrect" class="button button-new" ng-click="getNewRequiredCorrectionDate()"  gryf-privilege="">Nowa korekta</button>
+        <button ng-hide="correctionObject.isNewCorrect" class="button button-new"
+                ng-click="getNewRequiredCorrectionDate()" gryf-privilege="">Nowa korekta</button>
+
+        <button ng-show="!correctionObject.isCorrectionsLoaded && correctionObject.loadedCorrections[0].correctionNumber > 1" class="button button-infinity"
+                ng-click="findAllCorrections()">Wczytaj wszystkie</button></td>
+
         <div class="grid-15" ng-show="correctionObject.isNewCorrect">
             <strong class="label">Wymagany termin korekty</strong>
             <input type="text"

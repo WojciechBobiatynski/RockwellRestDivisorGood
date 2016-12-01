@@ -25,6 +25,10 @@ public class CorrectionDto extends VersionableDto{
 
     @Getter
     @Setter
+    private Integer correctionNumber;
+
+    @Getter
+    @Setter
     private String correctionReason;
 
     @Getter

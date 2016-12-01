@@ -50,5 +50,4 @@ public interface ElectronicReimbursementsDao {
      */
     ElctRmbsHeadDto findEcltRmbsByTrainingInstanceId(Long trainingInstanceId);
 
-
 }

@@ -2,6 +2,9 @@ package pl.sodexo.it.gryf.dao.api.search.mapper;
 
 import org.apache.ibatis.annotations.Param;
 import pl.sodexo.it.gryf.common.criteria.UserCriteria;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CorrectionDto;
+
+import java.util.List;
 
 /**
  * Mapper do operacji na korektach dla rozliczeń bonów elektronicznych
@@ -18,5 +21,10 @@ public interface CorrectionSearchMapper {
      */
     Integer findCorrectionsNumberByErmbsId(@Param("criteria") UserCriteria criteria, @Param("ermbsId") Long ermbsId);
 
-
+    /**
+     * Znajduje wszystkie korekty wskazanego rozliczenia wraz z ich numerami
+     * @param ermbsId - id rozliczenia
+     * @return lista wszystkich korekt rozliczenia
+     */
+    List<CorrectionDto> findCorrectionsByERmbsId(Long ermbsId);
 }

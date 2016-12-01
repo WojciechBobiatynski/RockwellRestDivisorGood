@@ -35,6 +35,7 @@ public final class UrlConstants {
     public static final String PATH_ELECTRONIC_REIMBURSEMENTS_FIND =  "/";
     public static final String PATH_ELECTRONIC_REIMBURSEMENTS_CHANGE_STATUS = "/status";
     public static final String PATH_ELECTRONIC_REIMBURSEMENTS_CORRECTION_DATE = "/correctionDate";
+    public static final String PATH_ELECTRONIC_REIMBURSEMENTS_CORRECTIONS_LIST = "/correction/list/";
 
     public static final String PATH_TRAINING_INSTANCE = "/trainingInstance";
     public static final String PATH_TRAINING_INSTANCE_LIST =  "/list";

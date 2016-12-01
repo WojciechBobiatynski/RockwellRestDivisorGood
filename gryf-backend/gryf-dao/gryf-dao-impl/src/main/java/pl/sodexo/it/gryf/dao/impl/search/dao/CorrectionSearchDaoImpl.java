@@ -5,8 +5,11 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.criteria.UserCriteria;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CorrectionDto;
 import pl.sodexo.it.gryf.dao.api.search.dao.CorrectionSearchDao;
 import pl.sodexo.it.gryf.dao.api.search.mapper.CorrectionSearchMapper;
+
+import java.util.List;
 
 /**
  * Implementacja dao do operacji na erozliczeniach
@@ -23,5 +26,10 @@ public class CorrectionSearchDaoImpl implements CorrectionSearchDao{
     @Override
     public Integer findCorrectionsNumberByErmbsId(Long ermbsId) {
         return correctionSearchMapper.findCorrectionsNumberByErmbsId(new UserCriteria(), ermbsId);
+    }
+
+    @Override
+    public List<CorrectionDto> findCorrectionsByERmbsId(Long ermbsId) {
+        return correctionSearchMapper.findCorrectionsByERmbsId( ermbsId);
     }
 }

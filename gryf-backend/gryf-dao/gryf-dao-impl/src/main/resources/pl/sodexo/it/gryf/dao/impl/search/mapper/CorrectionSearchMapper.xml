@@ -18,4 +18,20 @@
           </if>
     </select>
 
+    <select id="findCorrectionsByERmbsId" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CorrectionDto" parameterType="list">
+        SELECT
+            allCor.ID               id,
+            allCor.E_RMBS_ID        ermbsId,
+            allCor.REASON           correctionReason,
+            allCor.COMPLEMENT_DATE  complementDate,
+            allCor.REQUIRED_DATE    requiredDate,
+            ROWNUM                  correctionNumber
+        FROM
+            (SELECT *
+            FROM APP_PBE.CORRECTIONS corr
+            WHERE corr.E_RMBS_ID = #{ermbsId}
+            ORDER BY corr.CREATED_TIMESTAMP ASC) allCor
+        ORDER BY correctionNumber DESC
+    </select>
+
 </mapper>

@@ -75,4 +75,11 @@ public class ElectronicReimbursementsRestController {
         return correctionService.getRequiredCorrectionDate();
     }
 
+    @RequestMapping(value = PATH_ELECTRONIC_REIMBURSEMENTS_CORRECTIONS_LIST + "{ermbsId}", method = RequestMethod.GET)
+    @ResponseBody
+    public List<CorrectionDto> findCorrectionsByERmbsId(@PathVariable Long ermbsId) {
+        //securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS);
+        return correctionService.findCorrectionsByERmbsId(ermbsId);
+    }
+
 }
