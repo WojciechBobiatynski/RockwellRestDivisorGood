@@ -24,4 +24,18 @@ public interface CorrectionService {
      */
     Date getRequiredCorrectionDate();
 
+    /**
+     * Znajduje liczbę korekt dla danego rozliczenia
+     * @param ermbsId - id rozliczenia
+     * @return Dto rozliczenia
+     */
+    Integer findCorrectionsNumberByErmbsId(Long ermbsId);
+
+    /**
+     * Uzupełnia dane korekty przy wysyłce do
+     * @param correctionId
+     * @return
+     */
+    Long completeCorrection(Long correctionId);
+
 }

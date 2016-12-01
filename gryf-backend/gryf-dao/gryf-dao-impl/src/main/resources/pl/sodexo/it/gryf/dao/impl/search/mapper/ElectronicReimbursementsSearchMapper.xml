@@ -134,6 +134,7 @@
 --        załączniki
           att.ID                                    att_id,
           att.E_RMBS_ID                             att_ermbsId,
+          att.CORR_ID                               att_corrId,
           att.attach_type                           att_code,
           att.DOCUMENT_NUMBER                       att_documentNumber,
           att.ADDITIONAL_DESCRIPTION                att_additionalDescription,

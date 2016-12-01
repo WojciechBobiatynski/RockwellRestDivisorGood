@@ -58,4 +58,12 @@ public interface FileService {
      * @return ścieżka do pliku
      */
     String findPath(FileType fileType);
+
+    /**
+     * Zmienia nazwę pliku dla podanej ścieżki
+     * @param filePath - ścieżka do pliku
+     * @param newFileName - nowa nazwa
+     * @return - nowa ścieżka do pliku
+     */
+    String changeFileName(String filePath, String newFileName);
 }

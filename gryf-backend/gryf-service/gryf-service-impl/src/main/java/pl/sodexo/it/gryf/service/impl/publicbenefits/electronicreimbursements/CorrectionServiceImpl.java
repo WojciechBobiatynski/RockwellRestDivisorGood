@@ -9,6 +9,7 @@ import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.other.GryfPLSQLRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.CorrectionRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementRepository;
+import pl.sodexo.it.gryf.dao.api.search.dao.CorrectionSearchDao;
 import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.Correction;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.CorrectionService;
 
@@ -25,6 +26,9 @@ public class CorrectionServiceImpl implements CorrectionService {
 
     @Autowired
     private CorrectionRepository correctionRepository;
+
+    @Autowired
+    private CorrectionSearchDao correctionSearchDoa;
 
     @Autowired
     private EreimbursementRepository ereimbursementRepository;
@@ -53,5 +57,17 @@ public class CorrectionServiceImpl implements CorrectionService {
     //TODO: wymagana data korekty liczona na podstawie parametru z bazy (i kalendarza dni roboczych?)
     public Date getRequiredCorrectionDate() {
         return GryfUtils.addDays(new Date(), 5);
+    }
+
+    @Override
+    public Integer findCorrectionsNumberByErmbsId(Long ermbsId) {
+        return correctionSearchDoa.findCorrectionsNumberByErmbsId(ermbsId);
+    }
+
+    @Override
+    public Long completeCorrection(Long correctionId) {
+        Correction correction = correctionRepository.get(correctionId);
+        correction.setComplementDate(new Date());
+        return correctionRepository.update(correction, correctionId).getId();
     }
 }

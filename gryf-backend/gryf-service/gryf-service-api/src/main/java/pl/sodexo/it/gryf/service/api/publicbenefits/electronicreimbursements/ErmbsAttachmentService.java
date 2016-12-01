@@ -22,4 +22,10 @@ public interface ErmbsAttachmentService {
      * @param elctRmbsHeadDto - dto rozliczenia
      */
     void saveErmbsAttachments(ElctRmbsHeadDto elctRmbsHeadDto);
+
+    /**
+     * Zapisuje dane załączniki dla danego rozliczenia z korektą
+     * @param elctRmbsHeadDto - dto rozliczenia
+     */
+    void saveErmbsAttachmentsForCorr(ElctRmbsHeadDto elctRmbsHeadDto);
 }

@@ -126,16 +126,11 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         return ereimbursement.getId();
     }
 
-    private void saveAttachments(ElctRmbsHeadDto elctRmbsHeadDto, Ereimbursement ereimbursement) {
-        ElctRmbsHeadDto dtoFromDatabase = ereimbursementEntityMapper.convert(ereimbursement);
-        dtoFromDatabase.setAttachments(elctRmbsHeadDto.getAttachments());
-        ermbsAttachmentService.saveErmbsAttachments(dtoFromDatabase);
-    }
-
     @Override
     public Long saveErmbsWithCorr(ElctRmbsHeadDto elctRmbsHeadDto) {
         Ereimbursement ereimbursement = saveErmbsData(elctRmbsHeadDto);
-        return null;
+        ermbsAttachmentService.saveErmbsAttachmentsForCorr(elctRmbsHeadDto);
+        return ereimbursement.getId();
     }
 
     @Override
@@ -143,6 +138,8 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         ermbsValidator.validateRmbs(elctRmbsHeadDto);
         Ereimbursement ereimbursement = saveErmbsData(elctRmbsHeadDto);
         ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.TO_ERMBS));
+        ermbsAttachmentService.saveErmbsAttachmentsForCorr(elctRmbsHeadDto);
+        correctionService.completeCorrection(elctRmbsHeadDto.getLastCorrectionDto().getId());
         return ereimbursement.getId();
     }
 
@@ -153,6 +150,12 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         ereimbursement = ereimbursementRepository.save(ereimbursement);
         correctionService.createAndSaveCorrection(correctionDto);
         return ereimbursement.getId();
+    }
+
+    private void saveAttachments(ElctRmbsHeadDto elctRmbsHeadDto, Ereimbursement ereimbursement) {
+        ElctRmbsHeadDto dtoFromDatabase = ereimbursementEntityMapper.convert(ereimbursement);
+        dtoFromDatabase.setAttachments(elctRmbsHeadDto.getAttachments());
+        ermbsAttachmentService.saveErmbsAttachments(dtoFromDatabase);
     }
 
     private Ereimbursement saveErmbsData(ElctRmbsHeadDto elctRmbsHeadDto) {

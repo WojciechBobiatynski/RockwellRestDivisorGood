@@ -14,6 +14,9 @@ import pl.sodexo.it.gryf.model.api.AuditableEntity;
 import pl.sodexo.it.gryf.service.local.api.FileService;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Date;
 import java.util.List;
 
@@ -107,6 +110,17 @@ public class FileServiceImpl implements FileService {
             default:
                 throw new RuntimeException(String.format("Nieznany typ pliku: [%s]", fileType));
         }
+    }
+
+    @Override
+    public String changeFileName(String filePath, String newFileName) {
+        Path source = Paths.get(filePath);
+        try {
+            Files.move(source, source.resolveSibling(newFileName));
+        } catch (IOException e) {
+            throw new RuntimeException(String.format("Nie udało się zmienić nazwy pliku"));
+        }
+        return source.toAbsolutePath().toString();
     }
 
     //PRIVATE METHODS

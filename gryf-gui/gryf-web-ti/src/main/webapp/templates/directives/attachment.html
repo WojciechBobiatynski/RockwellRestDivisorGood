@@ -38,11 +38,12 @@
                 <input type="text" data-ng-model="item.additionalDescription"/>
             </td>
             <td>
-                <a ng-href="{{getDownloadAttachmentLink(item)}}">{{item.file.name ? item.file.name : item.originalFileName}}</a>
+                <a ng-href="{{getDownloadAttachmentLink(item)}}" ng-if="item.originalFileName && !item.changed">{{item.originalFileName}}</a>
+                <a ng-if="item.file.name">{{item.file.name}}</a>
             </td>
             <td ng-hide="isDisabled">
                 <!--TODO: dodać zmienną definiującą maksymalny rozmiar pliku, gdy nie został zdefiniowany per typ-->
-                <button class="standardButton grid-70" ng-model="item.file" ngf-select ngf-max-size="{{item.maxFileSize ? item.maxFileSize : '2MB'}}" ngf-model-invalid="item.errorFile" data-ng-click="onItemClick(item, $index)"
+                <button class="standardButton grid-70" ng-model="item.file" ngf-select ngf-max-size="{{item.maxFileSize ? item.maxFileSize : '2MB'}}" ngf-model-invalid="item.errorFile" ngf-change="onItemClick(item, $index)"
                         ngf-pattern=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.gif">
                     {{(!item.file.name && !item.originalFileName) ? "Wgraj plik" : "Zmień plik"}}
                 </button>

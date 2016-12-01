@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="pl.sodexo.it.gryf.dao.api.search.mapper.CorrectionSearchMapper">
+
+    <select id="findCorrectionsNumberByErmbsId" resultType="java.lang.Integer">
+        SELECT
+          COUNT(corr.ID)
+        FROM
+          APP_PBE.CORRECTIONS corr
+          JOIN APP_PBE.E_REIMBURSEMENTS ermbs ON corr.E_RMBS_ID = ermbs.ID
+          JOIN APP_PBE.TI_TRAINING_INSTANCES ti_in ON ti_in.ID = ermbs.TI_TR_INST_ID
+          JOIN APP_PBE.TI_TRAININGS ti ON ti.ID = ti_in.TRAINING_ID
+        WHERE
+          corr.E_RMBS_ID = #{ermbsId}
+          <if test="criteria.gryfUser.userType == 'TRAINING_INSTITUTION'">
+            AND ti.TRAINING_INSTITUTION_ID = #{criteria.gryfUser.trainingInstitutionId}
+          </if>
+    </select>
+
+</mapper>
