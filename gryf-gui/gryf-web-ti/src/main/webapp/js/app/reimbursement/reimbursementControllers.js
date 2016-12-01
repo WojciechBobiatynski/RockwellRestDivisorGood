@@ -102,7 +102,7 @@ angular.module("gryf.ti").controller("CorrectionController", ["$scope", "Reimbur
         };
 
         $scope.correctionVisible = function(){
-            return !!$scope.rmbsModel.model && !!$scope.rmbsModel.model.lastCorrectionDto;
+            return !!$scope.rmbsModel.model && !!$scope.rmbsModel.model.lastCorrectionDto && !$scope.rmbsModel.model.lastCorrectionDto.complementDate;
         };
 
     }]);

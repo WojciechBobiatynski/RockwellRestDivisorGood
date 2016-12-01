@@ -118,17 +118,17 @@
           ermbs.MODIFIED_USER                       modifiedUser,
           ermbs.MODIFIED_TIMESTAMP                  modifiedTimestamp,
 --        korekta
-          corr.ID                                   corr_id,
-          corr.E_RMBS_ID                            corr_ermbsId,
-          corr.REASON                               corr_correctionReason,
-          corr.COMPLEMENT_DATE                      corr_complementDate,
-          corr.REQUIRED_DATE                        corr_requiredDate,
-          corr.VERSION                              corr_version,
-          corr.CREATED_USER                         corr_createdUser,
-          corr.CREATED_TIMESTAMP                    corr_createdTimestamp,
-          corr.MODIFIED_USER                        corr_modifiedUser,
-          corr.MODIFIED_TIMESTAMP                   corr_modifiedTimestamp,
-          corrNumber.row_n                          corr_correctionNumber,
+          last_corr.ID                              corr_id,
+          last_corr.E_RMBS_ID                       corr_ermbsId,
+          last_corr.REASON                          corr_correctionReason,
+          last_corr.CORR_NUMBER                     corr_correctionNumber,
+          last_corr.COMPLEMENT_DATE                 corr_complementDate,
+          last_corr.REQUIRED_DATE                   corr_requiredDate,
+          last_corr.VERSION                         corr_version,
+          last_corr.CREATED_USER                    corr_createdUser,
+          last_corr.CREATED_TIMESTAMP               corr_createdTimestamp,
+          last_corr.MODIFIED_USER                   corr_modifiedUser,
+          last_corr.MODIFIED_TIMESTAMP              corr_modifiedTimestamp,
 --        produkty
           pool.ORDER_ID                             prd_orderId,
           pool_uses.ASSIGNED_NUM                    prd_reservedProductsCount,
@@ -158,8 +158,7 @@
           APP_PBE.E_REIMBURSEMENTS ermbs
           JOIN APP_PBE.TI_TRAINING_INSTANCES tr_in ON tr_in.ID = ermbs.TI_TR_INST_ID
           JOIN APP_PBE.TI_TRAININGS tr ON tr.ID = tr_in.TRAINING_ID
-          LEFT JOIN APP_PBE.CORRECTIONS corr ON (corr.E_RMBS_ID = ermbs.ID AND COMPLEMENT_DATE is NULL)
-          LEFT JOIN <include refid="correctionNumber"/> corrNumber ON corrNumber.ID = corr.ID AND corrNumber.e_rmbs_id = ermbs.ID
+          LEFT JOIN <include refid="lastCorrection"/> last_corr ON last_corr.e_rmbs_id = ermbs.ID
           LEFT JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOL_USES pool_uses ON pool_uses.TRAINING_INSTANCE_ID = tr_in.ID
           LEFT JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOLS pool on pool_uses.PRODUCT_INSTANCE_POOL_ID = pool.ID
           LEFT JOIN APP_PBE.E_RMBS_ATTACHMENTS att ON att.E_RMBS_ID = ermbs.ID
@@ -196,10 +195,14 @@
         </if>
     </select>
 
-    <sql id="correctionNumber">
-    (SELECT correct.ID, RANK() OVER(PARTITION BY correct.e_rmbs_id ORDER BY correct.CREATED_TIMESTAMP ASC) AS row_n, correct.e_rmbs_id
-     FROM APP_PBE.CORRECTIONS correct
-     ORDER BY correct.CREATED_TIMESTAMP DESC)
+    <sql id="lastCorrection">
+        (SELECT * FROM
+            (SELECT
+                correct.*,
+                RANK() OVER(PARTITION BY correct.e_rmbs_id ORDER BY correct.CREATED_TIMESTAMP ASC) corr_number,
+                RANK() OVER(PARTITION BY correct.e_rmbs_id ORDER BY correct.CREATED_TIMESTAMP DESC) corr_order
+            FROM APP_PBE.CORRECTIONS correct)
+        WHERE corr_order = 1)
     </sql>
 
 </mapper>
