@@ -21,6 +21,9 @@ import pl.sodexo.it.gryf.service.local.api.FileService;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.electronicreimbursements.EreimbursementDtoMapper;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.electronicreimbursements.ErmbsAttachmentDtoMapper;
 
+import static pl.sodexo.it.gryf.common.utils.GryfConstants.ATT_CORR_SUFFIX;
+import static pl.sodexo.it.gryf.common.utils.GryfConstants.FILE_EXTENSION_DELIMITER;
+
 /**
  * Serwis dla operacji na załącznikach rozliczenia bonów elektornicznych
  *
@@ -29,8 +32,6 @@ import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.electronicre
 @Service
 @Transactional
 public class ErmbsAttachmentServiceImpl implements ErmbsAttachmentService {
-
-    private static final String ATT_CORR_SUFFIX = "_CORR";
 
     @Autowired
     private FileService fileService;
@@ -100,7 +101,7 @@ public class ErmbsAttachmentServiceImpl implements ErmbsAttachmentService {
 
     private String getNewFileNameForCorr(ErmbsAttachment entity) {
         String rootPath = fileService.findPath(FileType.E_REIMBURSEMENTS);
-        String fileExtension = "." + GryfStringUtils.findFileExtension(entity.getOrginalFileName());
+        String fileExtension = FILE_EXTENSION_DELIMITER + GryfStringUtils.findFileExtension(entity.getOrginalFileName());
         Integer correctionsNumbers = correctionService.findCorrectionsNumberByErmbsId(entity.getEreimbursement().getId()) - 1;
         StringBuilder stringBuilder = new StringBuilder(entity.getFileLocation().replace(rootPath, "").replace(fileExtension, ""));
         stringBuilder.append(ATT_CORR_SUFFIX);
