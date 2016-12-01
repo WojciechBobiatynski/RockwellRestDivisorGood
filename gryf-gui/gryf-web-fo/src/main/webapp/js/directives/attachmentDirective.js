@@ -35,7 +35,7 @@ angular.module("gryf.config").directive("attachments", ['AttachmentService',
                 };
 
                 $scope.getDownloadAttachmentLink = function(attachement) {
-                    return attachement.id != null ? contextPath + "/rest/reimbursements/downloadAttachment?id=" + attachement.id : '';
+                    return attachement.id != null ? contextPath + "/rest/publicBenefits/electronic/reimbursements/downloadAttachment?id=" + attachement.id : '';
                 };
 
             },

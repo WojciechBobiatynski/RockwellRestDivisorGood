@@ -9,8 +9,11 @@ import org.springframework.stereotype.Component;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
+import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.Ereimbursement;
+import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.EreimbursementStatus;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.IntConsumer;
 import java.util.stream.IntStream;
@@ -33,6 +36,16 @@ public class ErmbsValidator {
 
         validateTiReimbAccountNumber(violations, elctRmbsHeadDto);
         validateAttachments(violations, elctRmbsHeadDto);
+
+        gryfValidator.validate(violations);
+    }
+
+    public void validateToCorrection(Ereimbursement ereimbursement) {
+        List<EntityConstraintViolation> violations = new ArrayList<EntityConstraintViolation>();
+
+        if(ereimbursement.getEreimbursementStatus().getId().equals(EreimbursementStatus.TO_CORRECT)) {
+            violations.add(new EntityConstraintViolation(null, "Prośba o korektę została już wysłana wcześniej"));
+        }
 
         gryfValidator.validate(violations);
     }

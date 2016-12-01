@@ -173,6 +173,13 @@ angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementS
                     correctionObject.isNewCorrect = false;
                     findById();
                 });
+                promise.error(function(error) {
+                    GryfPopups.setPopup("error", "Błąd", "Nie udało się wysłać rozliczenia do korekty");
+                    GryfPopups.showPopup();
+
+                    var conflictCallbacksObject;
+                    GryfExceptionHandler.handleSavingError(error, violations, conflictCallbacksObject);
+                });
                 promise.finally(function () {
                     GryfModals.closeModal(modalInstance);
                 });

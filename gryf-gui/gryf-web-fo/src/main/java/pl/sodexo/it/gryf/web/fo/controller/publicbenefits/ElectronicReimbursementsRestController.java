@@ -9,17 +9,24 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import pl.sodexo.it.gryf.common.criteria.electronicreimbursements.ElctRmbsCriteria;
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
+import pl.sodexo.it.gryf.common.dto.other.FileDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CorrectionDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto;
+import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.CorrectionService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.ElectronicReimbursementsService;
+import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.ErmbsAttachmentService;
 import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
 import pl.sodexo.it.gryf.web.fo.utils.UrlConstants;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
+import static pl.sodexo.it.gryf.web.common.util.WebUtils.writeFileToResponse;
 import static pl.sodexo.it.gryf.web.fo.utils.UrlConstants.*;
 
 /**
@@ -36,6 +43,9 @@ public class ElectronicReimbursementsRestController {
 
     @Autowired
     private ElectronicReimbursementsService electronicReimbursementsService;
+
+    @Autowired
+    private ErmbsAttachmentService ermbsAttachmentService;
 
     @Autowired
     private CorrectionService correctionService;
@@ -80,6 +90,19 @@ public class ElectronicReimbursementsRestController {
     public List<CorrectionDto> findCorrectionsByERmbsId(@PathVariable Long ermbsId) {
         //securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS);
         return correctionService.findCorrectionsByERmbsId(ermbsId);
+    }
+
+    @RequestMapping(PATH_ELECTRONIC_REIMBURSEMENTS_DOWNLOAD_ATT)
+    public void downloadReimbursementAttachment(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        //securityChecker.assertFormPrivilege(Privileges.GRF_PBE_REIMB);
+
+        String idParam = request.getParameter("id");
+        if(!GryfStringUtils.isEmpty(idParam)) {
+            Long elementId = Long.valueOf(idParam);
+
+            FileDTO file = ermbsAttachmentService.getErmbsAttFileById(elementId);
+            writeFileToResponse(request, response, file.getInputStream(), file.getName());
+        }
     }
 
 }

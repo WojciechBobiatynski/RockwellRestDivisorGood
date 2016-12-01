@@ -6,6 +6,7 @@
         <div class="grid-20">Rodzaj załącznika</div>
         <div class="grid-20">Numer dokumentu (np. FV) lub opis</div>
         <div class="grid-20">Opis dodatkowy</div>
+        <div class="grid-20">Oryginalna nazwa pliku</div>
     </div>
     <div ng-repeat="item in model.attachments" class="grid-100" data-ng-hide="item.markToDelete">
         <div class="grid-20">
@@ -20,18 +21,22 @@
             <input type="text" data-ng-model="item.additionalDescription"/>
         </div>
         <div class="grid-20">
-            <a ng-href="{{getDownloadAttachmentLink(item)}}">{{item.file.name ? item.file.name : item.originalFileName}}</a>
+            <a>{{item.file.name ? item.file.name : item.originalFileName}}</a>
         </div>
         <div class="grid-20" ng-hide="isDisabled">
             <!--TODO: dodać zmienną definiującą maksymalny rozmiar pliku, gdy nie został zdefiniowany per typ-->
-            <button class="button" ng-model="item.file" ngf-select ngf-max-size="{{item.maxFileSize ? item.maxFileSize : '2MB'}}" ngf-model-invalid="item.errorFile" data-ng-click="onItemClick(item, $index)"
+            <a ng-if="(item.file.name || item.originalFileName)" ng-href="{{getDownloadAttachmentLink(item)}}"><button class="button">Pobierz</button></a>
+            <button class="button" ng-model="item.file" ngf-select
+                    style="margin-left: 10px;"
+                    ngf-max-size="{{item.maxFileSize ? item.maxFileSize : '2MB'}}"
+                    ngf-model-invalid="item.errorFile" data-ng-click="onItemClick(item, $index)"
                     ngf-pattern=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.gif">
-                {{(!item.file.name && !item.originalFileName) ? "Wgraj plik" : "Zmień plik"}}
+                    {{(!item.file.name && !item.originalFileName) ? "Wgraj plik" : "Zmień plik"}}
             </button>
             <span class="msg msg-error" ng-show="item.errorFile.$errorMessages.maxSize">Załącznik przekracza maksymalny rozmiar pliku: {{item.maxFileSize ? item.maxFileSize / 1024 / 1024 : '2'}}MB</span>
             <span class="msg msg-error" ng-show="item.errorFile.$errorMessages.pattern">Niepoprawne rozszerzenie pliku</span>
             <gryf-validation-msg path="attachments[{{$index}}].file"></gryf-validation-msg>
-            <button class="button" data-ng-if="!item.required" ng-click="deleteAtt(item)">
+            <button class="button" style="margin-left: 10px" data-ng-if="!item.required" ng-click="deleteAtt(item)">
                 Usuń
             </button>
         </div>

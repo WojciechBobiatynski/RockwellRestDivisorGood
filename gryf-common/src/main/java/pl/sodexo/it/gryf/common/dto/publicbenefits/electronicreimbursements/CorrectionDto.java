@@ -3,6 +3,7 @@ package pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.validator.constraints.NotEmpty;
 import pl.sodexo.it.gryf.common.dto.api.VersionableDto;
 
 import java.util.Date;
@@ -29,6 +30,7 @@ public class CorrectionDto extends VersionableDto{
 
     @Getter
     @Setter
+    @NotEmpty(message = "Powód korekty nie może być pusty")
     private String correctionReason;
 
     @Getter

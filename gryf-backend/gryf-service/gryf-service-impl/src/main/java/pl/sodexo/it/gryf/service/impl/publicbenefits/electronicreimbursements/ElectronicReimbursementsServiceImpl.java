@@ -26,6 +26,7 @@ import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.Ele
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.ErmbsAttachmentService;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.electronicreimbursements.EreimbursementDtoMapper;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.electronicreimbursements.EreimbursementEntityMapper;
+import pl.sodexo.it.gryf.service.validation.publicbenefits.electronicreimbursements.CorrectionValidator;
 import pl.sodexo.it.gryf.service.validation.publicbenefits.electronicreimbursements.ErmbsValidator;
 
 import java.math.BigDecimal;
@@ -61,6 +62,9 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
 
     @Autowired
     private ErmbsValidator ermbsValidator;
+
+    @Autowired
+    private CorrectionValidator correctionValidator;
 
     @Autowired
     private ApplicationParameters applicationParameters;
@@ -146,6 +150,8 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     @Override
     public Long sendToCorrect(CorrectionDto correctionDto) {
         Ereimbursement ereimbursement = ereimbursementRepository.get(correctionDto.getErmbsId());
+        ermbsValidator.validateToCorrection(ereimbursement);
+        correctionValidator.validateCorrection(correctionDto);
         ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.TO_CORRECT));
         ereimbursement = ereimbursementRepository.save(ereimbursement);
         correctionService.createAndSaveCorrection(correctionDto);

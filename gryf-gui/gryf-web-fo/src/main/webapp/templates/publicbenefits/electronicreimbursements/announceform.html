@@ -190,7 +190,7 @@
                 ng-click="getNewRequiredCorrectionDate()" gryf-privilege="">Nowa korekta</button>
 
         <button ng-show="!correctionObject.isCorrectionsLoaded && correctionObject.loadedCorrections[0].correctionNumber > 1" class="button button-infinity"
-                ng-click="findAllCorrections()">Wczytaj wszystkie</button></td>
+                ng-click="findAllCorrections()" style="margin-left: 10px;">Wczytaj wszystkie</button></td>
 
         <div class="grid-15" ng-show="correctionObject.isNewCorrect">
             <strong class="label">Wymagany termin korekty</strong>
@@ -204,7 +204,7 @@
         <div class="grid-50" ng-show="correctionObject.isNewCorrect">
             <strong class="label">Powód korekty</strong>
             <textarea ng-model="correctionObject.entity.correctionReason" rows="3" maxlength="250"></textarea>
-            <gryf-validation-msg path="rejectionReason"/>
+            <gryf-validation-msg path="correctionReason"/>
         </div>
     </div>
 </section>
