@@ -3,7 +3,6 @@ angular.module("gryf.ti").directive("attachments", ['AttachmentService',
         return {
             restrict: 'E',
             scope: {
-                trainingInstance: '=',
                 model: '=',
                 violations: '=',
                 isDisabled: '='
@@ -47,9 +46,9 @@ angular.module("gryf.ti").directive("attachments", ['AttachmentService',
                         this.required = required
                 };
 
-                $scope.$watch('trainingInstance.grantProgramId', function (newData) {
+                $scope.$watch('model.grantProgramId', function (newData) {
                     if (newData) {
-                        AttachmentService.loadAttachmentsTypes($scope.trainingInstance.grantProgramId).then(function (response) {
+                        AttachmentService.loadAttachmentsTypes($scope.model.grantProgramId).then(function (response) {
                             $scope.modelTypes.types = response.data;
                             $scope.modelTypes.types.sort(function(a,b){
                                 return a.ordinal - b.ordinal;
