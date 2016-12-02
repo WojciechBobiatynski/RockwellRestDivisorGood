@@ -52,6 +52,22 @@ body > .grid {
     width: 33%;
 }
 
+.glyphicon {
+    font-style: normal !important;
+}
+
+.glyphicon-chevron-left:after {
+    content: "\1F878";
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.glyphicon-chevron-right:after {
+    content: "\1F87A";
+    font-weight: bold;
+    font-size: 18px;
+}
+
 /*************** NAVBAR ***************/
 
 .navbar {

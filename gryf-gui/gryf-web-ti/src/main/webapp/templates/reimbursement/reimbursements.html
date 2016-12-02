@@ -71,8 +71,9 @@
             <td>{{::item.rmbsStatus}}</td>
             <td>
                 <ul class="text-center no-margin-padding">
-                    <li class="textButton green" ui-sref="reimburse({trainingInstanceId: item.trainingInstanceId})">SZCZEGÓŁY</li>
-                    <li class="textButton green" data-ng-if="isCorrVisible(item)" ui-sref="correct({reimbursementId: item.rmbsNumber})">KORYGUJ</li>
+                    <li class="textButton green" ui-sref="reimburseDetails({trainingInstanceId: item.trainingInstanceId})">SZCZEGÓŁY</li>
+                    <li class="textButton green" data-ng-if="isInState(item, 'T_CRR')" ui-sref="correct({reimbursementId: item.rmbsNumber})">KORYGUJ</li>
+                    <li class="textButton green" data-ng-if="isInState(item, 'NEW')" ui-sref="reimburse({trainingInstanceId: item.trainingInstanceId})"">WYŚLIJ</li>
                 </ul>
             </td>
         </tr>

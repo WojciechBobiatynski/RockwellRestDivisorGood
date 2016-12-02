@@ -43,15 +43,17 @@ angular.module("gryf.ti").controller("ReimbursementsController", ["$scope", "Rei
 
         $scope.clear();
 
-        $scope.isCorrVisible = function(foundRmbs){
-            return foundRmbs.rmbsStatusId != null && foundRmbs.rmbsStatusId === 'T_CRR';
-        };
+        $scope.isInState = function(foundRmbs, stateCode) {
+            return foundRmbs.rmbsStatusId != null && foundRmbs.rmbsStatusId === stateCode;
+        }
 }]);
 
-angular.module("gryf.ti").controller("ReimbursementModifyController", ["$scope", "ReimbursementsServiceModify", "DictionaryService","$stateParams","TrainingInstanceSearchService",
-    function ($scope, ReimbursementsServiceModify, DictionaryService, $stateParams, TrainingInstanceSearchService) {
+angular.module("gryf.ti").controller("ReimbursementModifyController", ["$scope", "$state", "ReimbursementsServiceModify", "DictionaryService","$stateParams","TrainingInstanceSearchService",
+    function ($scope, $state, ReimbursementsServiceModify, DictionaryService, $stateParams, TrainingInstanceSearchService) {
         $scope.rmbsModel = ReimbursementsServiceModify.getRmbsModel();
         $scope.violations = ReimbursementsServiceModify.getNewViolations();
+
+        $scope.sendButtonText = "Wyślij do rozliczenia";
 
         ReimbursementsServiceModify.createReimbursement($stateParams.trainingInstanceId).success(function(data) {
             $scope.rmbsModel.model = data;
@@ -72,7 +74,13 @@ angular.module("gryf.ti").controller("ReimbursementModifyController", ["$scope",
         };
 
         $scope.isDisabled = function(){
-            return $scope.rmbsModel.model != null && $scope.rmbsModel.model.statusCode === 'T_RMS';
+            return ($scope.rmbsModel.model != null && $scope.rmbsModel.model.statusCode === 'T_RMS') || $state.params.isDisabled;
+        };
+
+        $scope.correctionVisible = function(){
+            return !!$scope.rmbsModel.model
+                && !!$scope.rmbsModel.model.lastCorrectionDto
+                && !$scope.rmbsModel.model.lastCorrectionDto.complementDate;
         };
 
 }]);
@@ -83,6 +91,8 @@ angular.module("gryf.ti").controller("CorrectionController", ["$scope", "Reimbur
         $scope.rmbsModel = ReimbursementsServiceModify.getRmbsModel();
         $scope.violations = ReimbursementsServiceModify.getNewViolations();
         test = $scope;
+
+        $scope.sendButtonText = "Wyślij korektę";
 
         ReimbursementsServiceModify.findById($stateParams.reimbursementId).success(function(data) {
             $scope.rmbsModel.model = data;
@@ -102,7 +112,9 @@ angular.module("gryf.ti").controller("CorrectionController", ["$scope", "Reimbur
         };
 
         $scope.correctionVisible = function(){
-            return !!$scope.rmbsModel.model && !!$scope.rmbsModel.model.lastCorrectionDto && !$scope.rmbsModel.model.lastCorrectionDto.complementDate;
+            return !!$scope.rmbsModel.model
+                && !!$scope.rmbsModel.model.lastCorrectionDto
+                && !$scope.rmbsModel.model.lastCorrectionDto.complementDate;
         };
 
     }]);

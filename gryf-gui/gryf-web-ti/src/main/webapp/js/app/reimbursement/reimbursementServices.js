@@ -114,7 +114,7 @@ angular.module("gryf.ti").factory("ReimbursementsService",
     }]);
 
 angular.module("gryf.ti").factory("ReimbursementsServiceModify",
-    ['$http', 'GryfModals', 'GryfPopups', 'GryfExceptionHandler', 'GryfHelpers', 'Upload', function ($http, GryfModals, GryfPopups, GryfExceptionHandler, GryfHelpers, Upload) {
+    ['$http', '$q', '$state', 'GryfModals', 'GryfPopups', 'GryfExceptionHandler', 'GryfHelpers', 'Upload', function ($http, $q, $state, GryfModals, GryfPopups, GryfExceptionHandler, GryfHelpers, Upload) {
         var PATH_RMBS = "/rest/reimbursements";
         var CREATE_RMBS_BY_ID = contextPath + PATH_RMBS + "/create/";
         var FIND_RMBS_BY_ID = contextPath + PATH_RMBS + "/modify/";
@@ -170,6 +170,8 @@ angular.module("gryf.ti").factory("ReimbursementsServiceModify",
         };
 
         var save = function(URL) {
+            var deferred = $q.defer();
+
             GryfModals.openModal(GryfModals.MODALS_URL.CONFIRM).result.then(function(result) {
                 if (!result) {
                     return;
@@ -183,27 +185,16 @@ angular.module("gryf.ti").factory("ReimbursementsServiceModify",
                     }
                 });
 
-                var successMsg = '';
-                var errorMsg = '';
-                if(URL === SAVE_RMBS || URL === SAVE_CORRECTION){
-                    successMsg = 'Zapisano zmiany';
-                    errorMsg = 'Nie udało się zapisać zmian';
-                } else {
-                    successMsg = 'Wysłano do rozliczenia';
-                    errorMsg = 'Nie udało się wysłać do rozliczenia';
-                }
-
-                Upload.upload({
+                var promise = Upload.upload({
                     url: URL,
                     data: {file: attachments, model: Upload.json(rmbsModel.model)}
-                }).success(function(response) {
-                    GryfPopups.setPopup("success", "Sukces", successMsg);
-                    GryfPopups.showPopup();
-                    rmbsModel.model = response;
-                }).error(function(response) {
-                    GryfPopups.setPopup("error", "Błąd", errorMsg);
-                    GryfPopups.showPopup();
+                });
 
+                promise.success(function(response) {
+                    rmbsModel.model = response;
+                });
+
+                promise.error(function(response) {
                     var conflictCallbacksObject = {
                         refresh: function() {
                             if(URL === SAVE_RMBS){
@@ -223,26 +214,67 @@ angular.module("gryf.ti").factory("ReimbursementsServiceModify",
                     };
 
                     GryfExceptionHandler.handleSavingError(response, violations, conflictCallbacksObject);
-                }).finally(function() {
+                });
+
+                promise.finally(function() {
                     GryfModals.closeModal(modalInstance);
+                    deferred.resolve(promise);
                 });
             });
+
+            return deferred.promise;
         };
 
         var saveReimburse = function(){
-            save(SAVE_RMBS);
+            save(SAVE_RMBS)
+                .then(function() {
+                    GryfPopups.setPopup("success", "Sukces", "Zapisano rozliczenie");
+                    $state.go("reimbursements");
+                }, function() {
+                    GryfPopups.setPopup("error", "Błąd", "Nie udało się zapisać rozliczenia");
+                })
+                .finally(function() {
+                    GryfPopups.showPopup();
+                });;
         };
 
         var sendToReimburse = function(){
-            save(SEND_TO_REIMBURSE);
+            save(SEND_TO_REIMBURSE)
+                .then(function() {
+                    GryfPopups.setPopup("success", "Sukces", "Wysłano do rozliczenia");
+                    $state.go("reimbursements");
+                }, function() {
+                    GryfPopups.setPopup("error", "Błąd", "Nie udało się wysłać rozliczenia");
+                })
+                .finally(function() {
+                    GryfPopups.showPopup();
+                });
         };
 
         var saveCorrection = function(){
-            save(SAVE_CORRECTION);
+            save(SAVE_CORRECTION)
+                .then(function() {
+                    GryfPopups.setPopup("success", "Sukces", "Korekta została zapisana");
+                    $state.go("reimbursements");
+                }, function() {
+                    GryfPopups.setPopup("error", "Błąd", "Nie udało się zapisać korekty");
+                })
+                .finally(function() {
+                    GryfPopups.showPopup();
+                });
         };
 
         var sendCorrection = function(){
-            save(SEND_CORRECTION);
+            save(SEND_CORRECTION)
+                .then(function() {
+                    GryfPopups.setPopup("success", "Sukces", "Korekta została wysłana");
+                    $state.go("reimbursements");
+                }, function() {
+                    GryfPopups.setPopup("error", "Błąd", "Nie udało się wysłać korekty");
+                })
+                .finally(function() {
+                    GryfPopups.showPopup();
+                });;
         };
 
         return {
