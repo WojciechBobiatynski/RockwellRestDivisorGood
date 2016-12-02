@@ -229,7 +229,6 @@ angular.module("gryf.ti").factory("ReimbursementsServiceModify",
             save(SAVE_RMBS)
                 .then(function() {
                     GryfPopups.setPopup("success", "Sukces", "Zapisano rozliczenie");
-                    $state.go("reimbursements");
                 }, function() {
                     GryfPopups.setPopup("error", "Błąd", "Nie udało się zapisać rozliczenia");
                 })
@@ -255,7 +254,6 @@ angular.module("gryf.ti").factory("ReimbursementsServiceModify",
             save(SAVE_CORRECTION)
                 .then(function() {
                     GryfPopups.setPopup("success", "Sukces", "Korekta została zapisana");
-                    $state.go("reimbursements");
                 }, function() {
                     GryfPopups.setPopup("error", "Błąd", "Nie udało się zapisać korekty");
                 })
