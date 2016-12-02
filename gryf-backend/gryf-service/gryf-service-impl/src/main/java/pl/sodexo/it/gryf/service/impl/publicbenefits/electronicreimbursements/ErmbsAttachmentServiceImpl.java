@@ -76,24 +76,23 @@ public class ErmbsAttachmentServiceImpl implements ErmbsAttachmentService {
         for (ErmbsAttachmentDto ermbsAttachment : elctRmbsHeadDto.getAttachments()) {
             if (deleteIfMarked(ermbsAttachment))
                 continue;
-            if (ermbsAttachment.isChanged()) {
-                ErmbsAttachment entity = ermbsAttachmentDtoMapper.convert(ermbsAttachment);
-                if(entity.getId() == null){
-                    Ereimbursement ereimbursement = ereimbursementDtoMapper.convert(elctRmbsHeadDto);
-                    entity = saveAttachmentEntity(ereimbursement, ermbsAttachment);
-                    entity.setCorrection(correctionRepository.get(elctRmbsHeadDto.getLastCorrectionDto().getId()));
-                    saveFile(ermbsAttachment, entity, ereimbursement);
-                } else {
+            ErmbsAttachment entity = ermbsAttachmentDtoMapper.convert(ermbsAttachment);
+            if(entity.getId() == null){
+                Ereimbursement ereimbursement = ereimbursementDtoMapper.convert(elctRmbsHeadDto);
+                entity = saveAttachmentEntity(ereimbursement, ermbsAttachment);
+                saveFile(ermbsAttachment, entity, ereimbursement);
+            } else {
+                if(ermbsAttachment.isChanged()){
                     if(isTheSameCorrection(elctRmbsHeadDto, entity)){
                         fileService.deleteFile(ermbsAttachment.getFileLocation());
                         prepareAttEntityToUpdateForCorr(ermbsAttachment, entity);
                     } else {
                         fileService.changeFileName(entity.getFileLocation(), getNewFileNameForCorr(entity));
                         prepareAttEntityToUpdateForCorr(ermbsAttachment, entity);
-                        entity.setCorrection(correctionRepository.get(elctRmbsHeadDto.getLastCorrectionDto().getId()));
                     }
-                    ereimbursementAttachmentRepository.update(entity, entity.getId());
+                    entity.setCorrection(correctionRepository.get(elctRmbsHeadDto.getLastCorrectionDto().getId()));
                 }
+                ereimbursementAttachmentRepository.update(entity, entity.getId());
             }
         }
 
