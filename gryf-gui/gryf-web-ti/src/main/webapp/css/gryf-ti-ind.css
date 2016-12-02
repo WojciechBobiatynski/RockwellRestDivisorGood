@@ -568,3 +568,8 @@ span.msg-error {
     color: red;
     margin:15px;
 }
+
+.footer-link {
+    color:inherit;
+    text-decoration: none;
+}
