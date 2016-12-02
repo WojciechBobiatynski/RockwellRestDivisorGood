@@ -1,5 +1,6 @@
 <configuration>
     <property name="PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] [%user:%role] - %thread - %logger | %msg%n"/>
+    <property name="PATTERN_IP" value="%d{yyyy-MM-dd HH:mm:ss.SSS} | %msg%n"/>
     <property name="MAX_FILE_SIZE" value="50MB"/>
     <property name="CHARSET" value="UTF-8"/>
 
@@ -44,6 +45,30 @@
         </encoder>
     </appender>
 
+    <appender name="SIFT" class="ch.qos.logback.classic.sift.SiftingAppender">
+        <discriminator>
+            <key>user_role</key>
+            <defaultValue>gryf-ip</defaultValue>
+        </discriminator>
+        <sift>
+            <appender name="FILE_IP${user_role}" class="ch.qos.logback.core.rolling.RollingFileAppender">
+                <file>${catalina.home}/logs/${user_role}.log</file>
+                <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                    <fileNamePattern>${catalina.home}/logs/gryf-ip-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+                    <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                        <maxFileSize>${MAX_FILE_SIZE}</maxFileSize>
+                    </timeBasedFileNamingAndTriggeringPolicy>
+                </rollingPolicy>
+                <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+                    <charset>${CHARSET}</charset>
+                    <layout class="pl.sodexo.it.gryf.web.common.logging.PatternLayoutWithUserContext">
+                        <pattern>${PATTERN_IP}</pattern>
+                    </layout>
+                </encoder>
+            </appender>
+        </sift>
+    </appender>
+
     <logger name="pl.sodexo.it.gryf" level="DEBUG"/>
     <logger name="org.springframework" level="WARN"/>
     <logger name="org.mybatis" level="WARN"/>
@@ -75,4 +100,9 @@
         </if>
         <appender-ref ref="FILE"/>
     </root>
+
+    <logger name="ip.pl.sodexo.it.gryf" level="INFO" additivity="false">
+        <appender-ref ref="SIFT"/>
+    </logger>
+
 </configuration>
