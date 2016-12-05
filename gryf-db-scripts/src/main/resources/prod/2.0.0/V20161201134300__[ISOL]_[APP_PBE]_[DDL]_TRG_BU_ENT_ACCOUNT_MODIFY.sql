@@ -12,5 +12,4 @@ BEGIN
   END IF;
 
 END TRG_BU_ENT_ACCOUNT;
-
--- Create indexes for table APP_PBE.INDIVIDUALS
+/
