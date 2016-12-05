@@ -4,6 +4,7 @@ import lombok.ToString;
 import pl.sodexo.it.gryf.model.api.VersionableEntity;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * Created by Isolution on 2016-12-01.
@@ -37,6 +38,13 @@ public class AsynchronizeJob extends VersionableEntity{
     @Enumerated(EnumType.STRING)
     @Column(name = "STATUS")
     private AsynchronizeJobStatus status;
+
+    @Column(name = "NEXT_START_TIMESTAMP")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date nextStartTimestamp;
+
+    @Column(name = "ORDER_ID")
+    private Long orderId;
 
     //GETTERS & SETTERS
 
@@ -78,5 +86,21 @@ public class AsynchronizeJob extends VersionableEntity{
 
     public void setStatus(AsynchronizeJobStatus status) {
         this.status = status;
+    }
+
+    public Date getNextStartTimestamp() {
+        return nextStartTimestamp;
+    }
+
+    public void setNextStartTimestamp(Date nextStartTimestamp) {
+        this.nextStartTimestamp = nextStartTimestamp;
+    }
+
+    public Long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
     }
 }
