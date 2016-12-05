@@ -23,16 +23,16 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderFlow
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderFlowStatusTransitionRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderRepository;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
-import pl.sodexo.it.gryf.model.publicbenefits.orders.*;
+import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
+import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
+import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElementDTOBuilder;
+import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowStatus;
 import pl.sodexo.it.gryf.service.api.publicbenefits.orders.OrderService;
-import pl.sodexo.it.gryf.service.api.publicbenefits.pbeproducts.PbeProductService;
 import pl.sodexo.it.gryf.service.local.api.FileService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.OrderServiceLocal;
-import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.elements.OrderElementService;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.dictionaries.DictionaryEntityMapper;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.orders.OrderFlowTransitionDTOProvider;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.orders.searchform.OrderEntityToSearchResultMapper;
-import pl.sodexo.it.gryf.service.utils.BeanUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,14 +85,9 @@ public class OrderServiceImpl implements OrderService {
         return orderServiceLocal.createCreateOrderDTO(contract);
     }
 
-    @Autowired
-    PbeProductService pbeProductService;
 
     @Override
     public Long createOrder(CreateOrderDTO dto){
-
-        pbeProductService.test();
-
         Order order = orderServiceLocal.createOrder(dto);
         return order.getId();
     }
