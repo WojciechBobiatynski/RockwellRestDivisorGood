@@ -59,7 +59,7 @@ public class CareerDirectionGenerateDocumentsActionService extends ActionBaseSer
 
         //TODO: tbilski nazwa pliku
         String reportFileName = String.format("%s_%s_Nota_obciazeniowo_ksiegowa_na_wklad_wlasny.pdf", entityId, order.getId());
-        String reportLocation = reportService.generateReport(ReportTemplateCode.OWN_DISTRIBUTION_NOTE, reportFileName,
+        String reportLocation = reportService.generateReport(ReportTemplateCode.DEBIT_NOTE, reportFileName,
                                                             FileType.ORDERS, parameters);
 
         //DTO DLA DANEGO ELEMENT
