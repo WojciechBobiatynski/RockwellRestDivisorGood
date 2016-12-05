@@ -7,22 +7,16 @@
     <div class="grid-100" ng-controller="ComplexTypeBasicOrderInfoController">
         <div class="grid-10">
             <strong class="label">Id <br/>zamówienia</strong>
-            <input type="text" ng-model="item.orderId"
-                   readonly="readonly">
+            <input type="text" ng-model="item.orderId" readonly="readonly">
         </div>
-
         <div class="grid-15">
             <strong class="label">Zewnętrzny <br/>identyfikator zamówienia</strong>
-            <input type="text" ng-model="item.externalOrderId"
-                   readonly="readonly">
+            <input type="text" ng-model="item.externalOrderId" readonly="readonly">
         </div>
-
         <div class="grid-10">
             <strong class="label">Status <br/>zamówienia</strong>
-            <input type="text" ng-model="item.statusName"
-                   readonly="readonly">
+            <input type="text" ng-model="item.statusName" readonly="readonly">
         </div>
-
         <div class="grid-15">
             <strong class="label">Data <br/>zamówienia</strong>
             <input type="text"
@@ -33,34 +27,24 @@
                    current-text="Dziś"
                    readonly="readonly">
         </div>
-
         <div class="grid-10">
             <strong class="label">Operator <br/>zamówienia</strong>
-            <input type="text" ng-model="item.operator"
-                   readonly="readonly">
+            <input type="text" ng-model="item.operator" readonly="readonly">
         </div>
-
-        <div class="grid-5">
+        <div class="grid-5" data-ng-if="item.enterpriseId">
             <a ng-href="{{getEnterpriseLinkFor(item.enterpriseId)}} ">
                 <strong class="label">Id <br/>MŚP &UpperRightArrow; </strong>
             </a>                
-            <input type="text" ng-model="item.enterpriseId"
-                   readonly="readonly">
+            <input type="text" ng-model="item.enterpriseId" readonly="readonly">
         </div>
 
-        <div class="grid-25">
-            <a ng-href="{{getEnterpriseLinkFor(item.enterpriseId)}}"> 
-                <strong class="label">Nazwa <br/>przedsiębiorstwa &UpperRightArrow; </strong> 
-            </a>
-            <input type="text" ng-model="item.enterpriseName"
-                   readonly="readonly">
-            
+        <div class="grid-25" data-ng-if="item.enterpriseId" data-ng-if="item.enterpriseId">
+            <strong class="label">Nazwa <br/>przedsiębiorstwa</strong>
+            <input type="text" ng-model="item.enterpriseName" readonly="readonly">
         </div>
-
-        <div class="grid-10">
+        <div class="grid-10" data-ng-if="item.enterpriseId">
             <strong class="label"><br/>NIP</strong>
-            <input type="text" ng-model="item.vatRegNum"
-                   readonly="readonly">
+            <input type="text" ng-model="item.vatRegNum" readonly="readonly">
         </div>
     </div>
 </div>
