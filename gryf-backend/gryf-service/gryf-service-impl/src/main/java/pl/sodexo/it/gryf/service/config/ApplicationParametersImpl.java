@@ -32,7 +32,7 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     private int attachmentMaxSize = 3145728;
     private String gryfEnterpriseCodePrefix = "6";
     private int gryfEnterpriseCodeZeroCount = 7;
-    private String gryfIndividualCodePrefix = "7";
+    private String gryfIndividualCodePrefix = "6";
     private int gryfIndividualCodeZeroCount = 7;
     private String gryfTrainingInstitutionCodePrefix = "8";
     private int gryfTrainingInstitutionCodeZeroCount = 7;

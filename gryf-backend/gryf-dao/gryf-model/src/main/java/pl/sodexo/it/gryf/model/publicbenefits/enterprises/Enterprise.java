@@ -8,6 +8,7 @@ import lombok.ToString;
 import org.eclipse.persistence.annotations.OptimisticLocking;
 import org.hibernate.validator.constraints.NotEmpty;
 import pl.sodexo.it.gryf.common.validation.VatRegNumFormat;
+import pl.sodexo.it.gryf.model.accounts.AccountContractPairGenerable;
 import pl.sodexo.it.gryf.model.api.VersionableEntity;
 import pl.sodexo.it.gryf.model.dictionaries.ZipCode;
 import pl.sodexo.it.gryf.model.publicbenefits.employment.Employment;
@@ -34,7 +35,7 @@ import java.util.Objects;
         @NamedQuery(name = "Enterprise.getForUpdate", query = "select e from Enterprise e left join fetch e.contacts where e.id = :id"),
 })
 @OptimisticLocking(cascade=true)
-public class Enterprise extends VersionableEntity {
+public class Enterprise extends VersionableEntity implements AccountContractPairGenerable {
 
     //STATIC FIELDS - NAMED QUERY
 

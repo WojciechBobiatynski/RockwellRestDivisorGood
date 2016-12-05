@@ -6,6 +6,7 @@ import lombok.ToString;
 import org.eclipse.persistence.annotations.OptimisticLocking;
 import org.hibernate.validator.constraints.NotEmpty;
 import pl.sodexo.it.gryf.common.validation.PeselFormat;
+import pl.sodexo.it.gryf.model.accounts.AccountContractPairGenerable;
 import pl.sodexo.it.gryf.model.api.VersionableEntity;
 import pl.sodexo.it.gryf.model.dictionaries.ZipCode;
 import pl.sodexo.it.gryf.model.publicbenefits.employment.Employment;
@@ -34,7 +35,7 @@ import java.util.Objects;
         @NamedQuery(name = "Individual.findById", query = "select i from Individual i where i.id= :id"),
 })
 @OptimisticLocking(cascade=true)
-public class Individual extends VersionableEntity {
+public class Individual extends VersionableEntity implements AccountContractPairGenerable {
 
     //STATIC FIELDS - NAMED QUERY
 

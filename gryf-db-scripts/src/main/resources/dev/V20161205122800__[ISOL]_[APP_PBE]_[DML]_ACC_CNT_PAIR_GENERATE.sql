@@ -1,3 +1,5 @@
+DELETE FROM APP_PBE.ACCOUNT_CONTRACT_PAIRS;
+
 DECLARE
 v_code varchar(30);
 v_account_payment varchar(30);
@@ -12,7 +14,7 @@ FOR counter in 1..100 LOOP
   -- prefix to GRYF_INDIVIDUAL_CODE_PREFIX i ma wartoœæ 7
   -- d³ugoœ maski to te¿ 7
   -- docelowo trzeba bêdzie zmienne wrzuciæ do EAGLE.ADM_PARAMETERES
-  SELECT 7 ||TO_CHAR(EAGLE.IND_SEQ.NEXTVAL,'FM0000000') into v_code FROM DUAL;
+  SELECT 6 ||TO_CHAR(EAGLE.IND_SEQ.NEXTVAL,'FM0000000') into v_code FROM DUAL;
 
   SELECT eagle.t$bank_account.GET_COR_SPP(v_code) into v_account_payment FROM dual;
 

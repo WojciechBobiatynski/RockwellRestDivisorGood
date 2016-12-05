@@ -9,6 +9,7 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.enterprises.Ente
 import pl.sodexo.it.gryf.model.publicbenefits.api.ContactType;
 import pl.sodexo.it.gryf.model.publicbenefits.enterprises.Enterprise;
 import pl.sodexo.it.gryf.model.publicbenefits.enterprises.EnterpriseContact;
+import pl.sodexo.it.gryf.service.local.api.AccountContractPairService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.enterprises.EnterpriseServiceLocal;
 import pl.sodexo.it.gryf.service.validation.publicbenefits.enterprises.EnterpriseValidator;
 
@@ -32,12 +33,13 @@ public class EnterpriseServiceLocalImpl implements EnterpriseServiceLocal {
     @Autowired
     private EnterpriseValidator enterpriseValidator;
 
+    @Autowired
+    private AccountContractPairService accountContractPairService;
+
     @Override
     public Enterprise saveEnterprise(Enterprise enterprise, boolean checkVatRegNumDup, boolean validateAccountRepayment) {
         enterpriseValidator.validateEnterprise(enterprise, checkVatRegNumDup, validateAccountRepayment);
-        enterprise = enterpriseRepository.save(enterprise);
-
-        enterprise.setCode(generateCode(enterprise.getId()));
+        enterprise = createEnterpriseByCode(enterprise);
         enterpriseRepository.update(enterprise, enterprise.getId());
         return enterprise;
     }
@@ -69,10 +71,23 @@ public class EnterpriseServiceLocalImpl implements EnterpriseServiceLocal {
         enterpriseRepository.update(enterprise, enterprise.getId());
     }
 
-    private String generateCode(Long id) {
-        String prefix = applicationParameters.getGryfEnterpriseCodePrefix();
-        int zeroCount = applicationParameters.getGryfEnterpriseCodeZeroCount();
-        return String.format("%s%0" + zeroCount + "d", prefix, id);
+    private Enterprise createEnterpriseByCode(Enterprise enterprise) {
+        if (hasNoCode(enterprise)) {
+            saveWithNewGeneratedCode(enterprise);
+        } else {
+            accountContractPairService.setIdAndAccountPayment(enterprise);
+        }
+        return enterprise;
+    }
+
+    private boolean hasNoCode(Enterprise enterprise) {
+        return GryfStringUtils.isEmpty(enterprise.getCode());
+    }
+
+    private Enterprise saveWithNewGeneratedCode(Enterprise enterprise) {
+        enterprise = enterpriseRepository.save(enterprise);
+        enterprise.setCode(accountContractPairService.generateCode(enterprise));
+        return enterprise;
     }
 
 }

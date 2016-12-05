@@ -1,6 +1,5 @@
 package pl.sodexo.it.gryf.service.impl.publicbenefits.individuals;
 
-import com.google.common.base.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +15,6 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.searchform.Indivi
 import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.individuals.IndividualRepository;
 import pl.sodexo.it.gryf.dao.api.search.dao.IndividualSearchDao;
-import pl.sodexo.it.gryf.model.accounts.AccountContractPair;
 import pl.sodexo.it.gryf.model.publicbenefits.api.ContactType;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
 import pl.sodexo.it.gryf.model.security.individuals.IndividualUser;
@@ -31,9 +29,6 @@ import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.individuals.
 import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.individuals.searchform.IndividualEntityToSearchResultMapper;
 import pl.sodexo.it.gryf.service.validation.publicbenefits.individuals.IndividualValidator;
 
-import javax.persistence.PersistenceException;
-import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -132,18 +127,17 @@ public class IndividualServiceImpl implements IndividualService {
     }
 
     private Individual createIndividualByCode(Individual individual) {
-        if (individual.getCode() == null) {
-            individual = individualRepository.save(individual);
-            individual.setCode(generateCode(individual.getId()));
+        if (hasNoCode(individual)) {
+            saveWithNewGeneratedCode(individual);
         } else {
-            String account = Strings.isNullOrEmpty(individual.getAccountPayment()) ?
-                            accountContractPairService.generateAccount(individual.getCode()) : individual.getAccountPayment();
-            AccountContractPair accountContractPair = accountContractPairService.getValidAccountContractPairForUsed(account);
-            accountContractPairService.use(accountContractPair);
-
-            individual.setId(getIdFromGeneratedCode(individual.getCode()));
-            individual.setAccountPayment(account);
+            accountContractPairService.setIdAndAccountPayment(individual);
         }
+        return individual;
+    }
+
+    private Individual saveWithNewGeneratedCode(Individual individual) {
+        individual = individualRepository.save(individual);
+        individual.setCode(accountContractPairService.generateCode(individual));
         return individual;
     }
 
@@ -180,20 +174,12 @@ public class IndividualServiceImpl implements IndividualService {
         individualRepository.update(individual, individual.getId());
     }
 
-    //PRIVATE METHODS
-
-    private String generateCode(Long id) {
-        String prefix = applicationParameters.getGryfIndividualCodePrefix();
-        int zeroCount = applicationParameters.getGryfIndividualCodeZeroCount();
-        return String.format("%s%0" + zeroCount + "d", prefix, id);
-    }
-
-    private Long getIdFromGeneratedCode(String code) {
-        return Long.parseLong(code.substring(applicationParameters.getGryfIndividualCodePrefix().length()));
-    }
-
     @Override
     public UserTrainingReservationDataDto findUserTrainingReservationData(String pesel) {
         return individualSearchDao.findDataForTrainingReservation(pesel);
+    }
+
+    private boolean hasNoCode(Individual individual) {
+        return GryfStringUtils.isEmpty(individual.getCode());
     }
 }
