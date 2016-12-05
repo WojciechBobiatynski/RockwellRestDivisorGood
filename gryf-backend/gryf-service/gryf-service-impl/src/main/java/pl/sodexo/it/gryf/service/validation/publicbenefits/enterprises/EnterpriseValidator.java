@@ -41,14 +41,16 @@ public class EnterpriseValidator {
     @Autowired
     private EnterpriseEntityToSearchResultMapper enterpriseEntityToSearchResultMapper;
 
-    public void validateEnterprise(Enterprise enterprise, boolean checkVatRegNumDup) {
+    public void validateEnterprise(Enterprise enterprise, boolean checkVatRegNumDup, boolean validateAccountRepayment) {
 
         //GENERAL VALIDATION
         List<EntityConstraintViolation> violations = gryfValidator.generateViolation(enterprise);
 
         //CONTACT DATA - VALIDATION
         validateContacts(enterprise.getContacts(), violations);
-        validateAccountRepayment(enterprise, violations);
+        if(validateAccountRepayment) {
+            validateAccountRepayment(enterprise, violations);
+        }
 
         //VALIDATE (EXCEPTION)
         gryfValidator.validate(violations);

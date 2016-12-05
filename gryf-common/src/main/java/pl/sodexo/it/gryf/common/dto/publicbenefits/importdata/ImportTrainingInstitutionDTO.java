@@ -1,26 +1,26 @@
-package pl.sodexo.it.gryf.service.api.publicbenefits.importdata;
+package pl.sodexo.it.gryf.common.dto.publicbenefits.importdata;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 /**
- * Created by Isolution on 2016-11-30.
+ * Created by Isolution on 2016-12-02.
  */
 @ToString
-public class ImportIndividualDTO {
+public class ImportTrainingInstitutionDTO {
 
     @Getter
     @Setter
-    private String firstName;
+    private Long externalId;
 
     @Getter
     @Setter
-    private String lastName;
+    private String vatRegNum;
 
     @Getter
     @Setter
-    private String pesel;
+    private String name;
 
     @Getter
     @Setter
@@ -33,8 +33,4 @@ public class ImportIndividualDTO {
     @Getter
     @Setter
     private String email;
-
-    @Getter
-    @Setter
-    private String bankAccount;
 }

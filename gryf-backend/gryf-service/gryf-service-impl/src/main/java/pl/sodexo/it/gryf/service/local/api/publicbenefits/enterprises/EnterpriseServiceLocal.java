@@ -11,7 +11,7 @@ import java.util.Set;
  */
 public interface EnterpriseServiceLocal {
 
-    Enterprise saveEnterprise(Enterprise enterprise, boolean checkVatRegNumDup);
+    Enterprise saveEnterprise(Enterprise enterprise, boolean checkVatRegNumDup, boolean validateAccountRepayment);
 
     /**
      * Funkcja zwraca zbiór adresów e-mail odbiorców przypisanych do przekazanego Przedsiębiorstwa. Tak zwrócony zbiór można sformatować np przy pomocy funkcji
@@ -23,6 +23,6 @@ public interface EnterpriseServiceLocal {
      */
     Set<String> getEmailRecipients(Enterprise enterprise, Set<String> existingRecipientsSet);
 
-    void updateEnterprise(Enterprise enterprise, boolean checkVatRegNumDup);
+    void updateEnterprise(Enterprise enterprise, boolean checkVatRegNumDup, boolean validateAccountRepayment);
 
 }

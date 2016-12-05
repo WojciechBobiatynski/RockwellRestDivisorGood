@@ -1,4 +1,4 @@
-package pl.sodexo.it.gryf.service.api.publicbenefits.importdata;
+package pl.sodexo.it.gryf.common.dto.publicbenefits.importdata;
 
 import lombok.Getter;
 import lombok.Setter;

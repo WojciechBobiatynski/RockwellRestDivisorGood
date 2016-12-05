@@ -33,8 +33,8 @@ public class EnterpriseServiceLocalImpl implements EnterpriseServiceLocal {
     private EnterpriseValidator enterpriseValidator;
 
     @Override
-    public Enterprise saveEnterprise(Enterprise enterprise, boolean checkVatRegNumDup) {
-        enterpriseValidator.validateEnterprise(enterprise, checkVatRegNumDup);
+    public Enterprise saveEnterprise(Enterprise enterprise, boolean checkVatRegNumDup, boolean validateAccountRepayment) {
+        enterpriseValidator.validateEnterprise(enterprise, checkVatRegNumDup, validateAccountRepayment);
         enterprise = enterpriseRepository.save(enterprise);
 
         enterprise.setCode(generateCode(enterprise.getId()));
@@ -64,8 +64,8 @@ public class EnterpriseServiceLocalImpl implements EnterpriseServiceLocal {
     }
 
     @Override
-    public void updateEnterprise(Enterprise enterprise, boolean checkVatRegNumDup) {
-        enterpriseValidator.validateEnterprise(enterprise, checkVatRegNumDup);
+    public void updateEnterprise(Enterprise enterprise, boolean checkVatRegNumDup, boolean validateAccountRepayment) {
+        enterpriseValidator.validateEnterprise(enterprise, checkVatRegNumDup, validateAccountRepayment);
         enterpriseRepository.update(enterprise, enterprise.getId());
     }
 

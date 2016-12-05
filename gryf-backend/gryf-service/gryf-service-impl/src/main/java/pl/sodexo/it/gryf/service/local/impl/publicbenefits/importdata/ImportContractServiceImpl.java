@@ -1,64 +1,43 @@
-package pl.sodexo.it.gryf.service.impl.publicbenefits.importdata;
+package pl.sodexo.it.gryf.service.local.impl.publicbenefits.importdata;
 
 import com.google.common.collect.Lists;
-import lombok.Getter;
-import lombok.Setter;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.dto.other.DictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.other.GrantProgramDictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.ContactTypeDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.contracts.detailsform.ContractDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.enterprises.detailsform.EnterpriseDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.enterprises.searchform.EnterpriseSearchResultDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.importdata.*;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.detailsForm.IndividualContactDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.detailsForm.IndividualDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.searchform.IndividualSearchResultDTO;
 import pl.sodexo.it.gryf.common.dto.security.RoleDto;
-import pl.sodexo.it.gryf.common.dto.zipcodes.detailsform.ZipCodeDto;
 import pl.sodexo.it.gryf.common.enums.Privileges;
-import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
-import pl.sodexo.it.gryf.common.exception.EntityValidationException;
 import pl.sodexo.it.gryf.common.utils.PeselUtils;
-import pl.sodexo.it.gryf.dao.api.crud.repository.dictionaries.ZipCodeRepository;
 import pl.sodexo.it.gryf.model.accounts.AccountContractPair;
-import pl.sodexo.it.gryf.model.dictionaries.ZipCode;
 import pl.sodexo.it.gryf.model.enums.Sex;
 import pl.sodexo.it.gryf.model.publicbenefits.api.ContactType;
 import pl.sodexo.it.gryf.service.api.publicbenefits.contracts.ContractService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.enterprises.EnterpriseService;
-import pl.sodexo.it.gryf.service.api.publicbenefits.importdata.*;
 import pl.sodexo.it.gryf.service.api.publicbenefits.individuals.IndividualService;
 import pl.sodexo.it.gryf.service.local.api.AccountContractPairService;
-import pl.sodexo.it.gryf.service.local.api.FileService;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Iterator;
 
 /**
- * Created by Isolution on 2016-11-30.
+ * Created by Isolution on 2016-12-02.
  */
-@Service
-@Transactional
-public class ImportDataServiceImpl implements ImportDataService{
+@Service(value = "importContractDataService")
+public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
 
-    @Autowired
-    private FileService fileService;
+    //PRIVATE METHODS
 
     @Autowired
     private ContractService contractService;
-
-    @Autowired
-    private ZipCodeRepository zipCodeRepository;
 
     @Autowired
     private EnterpriseService enterpriseService;
@@ -69,55 +48,41 @@ public class ImportDataServiceImpl implements ImportDataService{
     @Autowired
     private AccountContractPairService accountContractPairService;
 
+    //OVERRIDE
+
     @Override
-    public void test() {
-        try {
-            InputStream is = fileService.getInputStream("C:\\Users\\Isolution\\Desktop\\GryfWorkspace\\GryfFileRepo\\import\\import-umowy.xlsx");
-
-            XSSFWorkbook workbook = new XSSFWorkbook(is);
-            XSSFSheet sheet = workbook.getSheetAt(0);
-            Iterator<Row> rowIterator = sheet.iterator();
-
-            System.out.println(sheet.getPhysicalNumberOfRows());
-
-            while(rowIterator.hasNext()) {
-
-                Row row = rowIterator.next();
-
-                if(row.getRowNum() != 0){
-
-                    ImportComplexContractDTO dto = createComplexContractDTO(row);
-                    System.out.println(dto);
-                    saveContractData(dto);
-                }
-                System.out.println();
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    protected String saveData(Row row){
+        ImportComplexContractDTO dto = createComplexContractDTO(row);
+        ImportComplexContractResultDTO importResult = saveContractData(dto);
+        return String.format("Poprawno zapisano dane: umowa (%s) użytkownik (%s), MŚP (%s)",
+                importResult.getContractId(), importResult.getIndividualId(), importResult.getEnterpriseId());
     }
 
-    private void saveContractData(ImportComplexContractDTO importDTO){
+    //PRIVATE METHODS - SAVE
+
+    private ImportComplexContractResultDTO saveContractData(ImportComplexContractDTO importDTO){
+
         Long contractId = importDTO.getContract().getId();
-        Long enterpriseId;
-        Long individualId;
+        Long enterpriseId = null;
+        Long individualId = null;
 
-        try {
-            EnterpriseDto enterpriseDTO = createEnterpriseDTO(importDTO.getEnterprise());
-            enterpriseId = enterpriseService.saveEnterpriseDto(enterpriseDTO, false);
+        EnterpriseDto enterpriseDTO = createEnterpriseDTO(importDTO.getEnterprise());
+        enterpriseId = enterpriseService.saveEnterpriseDto(enterpriseDTO, false, false);
 
-            IndividualDto individualDTO = createIndividualDTO(importDTO.getIndividual(), contractId, enterpriseId);
-            individualId = individualService.saveIndividual(individualDTO, true, false);
+        IndividualDto individualDTO = createIndividualDTO(importDTO.getIndividual(), contractId, enterpriseId);
+        individualId = individualService.saveIndividual(individualDTO, true, false);
 
-            ContractDTO contract = createContractDTO(importDTO.getContract(), individualId, enterpriseId);
-            contractService.saveContract(contract);
-        }catch (EntityValidationException e){
-            for(EntityConstraintViolation v : e.getViolations()){
-                System.out.println(v.getMessage());
-            }
-        }
+        ContractDTO contract = createContractDTO(importDTO.getContract(), individualId, enterpriseId);
+        contractService.saveContract(contract);
+
+        ImportComplexContractResultDTO result = new ImportComplexContractResultDTO();
+        result.setContractId(contractId);
+        result.setEnterpriseId(enterpriseId);
+        result.setIndividualId(enterpriseId);
+        return result;
     }
+
+    //PRIVATE METHODS - CREATE IMPORT DTO
 
     private ImportComplexContractDTO createComplexContractDTO(Row row){
         ImportComplexContractDTO c = new ImportComplexContractDTO();
@@ -214,9 +179,10 @@ public class ImportDataServiceImpl implements ImportDataService{
                     break;
             }
         }
-
         return c;
     }
+
+    //PRIVATE METHODS - CREATE BUSSINESS DTO
 
     private EnterpriseDto createEnterpriseDTO(ImportEnterpriseDTO importDTO){
         EnterpriseDto dto = new EnterpriseDto();
@@ -312,17 +278,8 @@ public class ImportDataServiceImpl implements ImportDataService{
         return dto;
     }
 
-    private ZipCodeDto createZipCodeDTO(ImportAddressDTO address){
-        ZipCode zipCode = zipCodeRepository.findActiveByCode(address.getZipCode());
-        if(zipCode != null){
-            ZipCodeDto dto = new ZipCodeDto();
-            dto.setId(zipCode.getId());
-            return dto;
-        }
-        return null;
-    }
-
     private String createSex(ImportIndividualDTO importDTO){
         return PeselUtils.isMale(importDTO.getPesel()) ? Sex.M.name() : Sex.K.name();
     }
+
 }

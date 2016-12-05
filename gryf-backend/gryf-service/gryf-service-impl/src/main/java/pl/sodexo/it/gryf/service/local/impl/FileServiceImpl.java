@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.common.dto.other.FileDTO;
@@ -24,7 +25,7 @@ import java.util.List;
  * Created by tomasz.bilski.ext on 2015-07-09.
  */
 @Service
-@Transactional
+@Transactional(propagation = Propagation.SUPPORTS)
 public class FileServiceImpl implements FileService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FileService.class);

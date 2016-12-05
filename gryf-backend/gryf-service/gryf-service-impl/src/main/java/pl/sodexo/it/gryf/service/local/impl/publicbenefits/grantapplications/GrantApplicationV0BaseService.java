@@ -527,7 +527,7 @@ public abstract class GrantApplicationV0BaseService<T extends GrantApplicationV0
             saveEnterpriseContacts(enterprise, dto);
 
             try {
-                enterprise = enterpriseServiceLocal.saveEnterprise(enterprise, checkVatRegNumDup);
+                enterprise = enterpriseServiceLocal.saveEnterprise(enterprise, checkVatRegNumDup, true);
             } catch (VatRegNumTrainingInstitutionExistException e) {
                 GryfUtils.rethrowException(e, "Wystapił błąd przy zapisie danych do MŚP: ");
             } catch (EntityValidationException e) {
@@ -557,7 +557,7 @@ public abstract class GrantApplicationV0BaseService<T extends GrantApplicationV0
         updateEnterpriseContacts(enterprise, dto);
 
         try {
-            enterpriseServiceLocal.updateEnterprise(enterprise, checkVatRegNumDup);
+            enterpriseServiceLocal.updateEnterprise(enterprise, checkVatRegNumDup, true);
         }catch (VatRegNumTrainingInstitutionExistException e){
             GryfUtils.rethrowException(e, "Wystapił błąd przy zapisie danych do MŚP: ");
         }catch(EntityValidationException e){

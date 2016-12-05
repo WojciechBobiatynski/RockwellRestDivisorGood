@@ -37,7 +37,7 @@ public class EnterprisesRestController {
     public Long saveEnterprise(@RequestParam(value = "checkVatRegNumDup", required = false, defaultValue = "true") boolean checkVatRegNumDup,
                                @RequestBody EnterpriseDto enterpriseDto) {
         securityChecker.assertServicePrivilege(Privileges.GRF_ENTERPRISE_MOD);
-        return enterpriseService.saveEnterpriseDto(enterpriseDto, checkVatRegNumDup);
+        return enterpriseService.saveEnterpriseDto(enterpriseDto, checkVatRegNumDup, true);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -53,7 +53,7 @@ public class EnterprisesRestController {
         securityChecker.assertServicePrivilege(Privileges.GRF_ENTERPRISE_MOD);
         GryfUtils.checkForUpdate(id, enterpriseDto.getId());
 
-        enterpriseService.updateEnterpriseDto(enterpriseDto, checkVatRegNumDup);
+        enterpriseService.updateEnterpriseDto(enterpriseDto, checkVatRegNumDup, true);
         return enterpriseDto.getId();
     }
 

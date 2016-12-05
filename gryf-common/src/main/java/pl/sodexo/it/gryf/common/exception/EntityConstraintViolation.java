@@ -1,8 +1,11 @@
 package pl.sodexo.it.gryf.common.exception;
 
+import lombok.ToString;
+
 /**
  * Created by tomasz.bilski.ext on 2015-06-26.
  */
+@ToString
 public class EntityConstraintViolation {
 
     //FIELDS
