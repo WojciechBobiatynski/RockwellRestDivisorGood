@@ -3,7 +3,6 @@ angular.module("gryf.config").directive("attachments", ['AttachmentService',
         return {
             restrict: 'E',
             scope: {
-                trainingInstance: '=',
                 model: '=',
                 violations: '=',
                 isDisabled: '='
@@ -35,7 +34,7 @@ angular.module("gryf.config").directive("attachments", ['AttachmentService',
                 };
 
                 $scope.getDownloadAttachmentLink = function(attachement) {
-                    return attachement.id != null ? contextPath + "/rest/publicBenefits/electronic/reimbursements/downloadAttachment?id=" + attachement.id : '';
+                    return attachement.id != null ? contextPath + "/rest/reimbursements/downloadAttachment?id=" + attachement.id : '';
                 };
 
             },
@@ -47,9 +46,9 @@ angular.module("gryf.config").directive("attachments", ['AttachmentService',
                         this.required = required
                 };
 
-                $scope.$watch('trainingInstance.grantProgramId', function (newData) {
+                $scope.$watch('model.grantProgramId', function (newData) {
                     if (newData) {
-                        AttachmentService.loadAttachmentsTypes($scope.trainingInstance.grantProgramId).then(function (response) {
+                        AttachmentService.loadAttachmentsTypes($scope.model.grantProgramId).then(function (response) {
                             $scope.modelTypes.types = response.data;
                             $scope.modelTypes.types.sort(function(a,b){
                                 return a.ordinal - b.ordinal;
