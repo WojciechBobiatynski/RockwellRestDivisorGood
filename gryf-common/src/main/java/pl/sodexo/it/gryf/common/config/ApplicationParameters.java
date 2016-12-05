@@ -63,6 +63,8 @@ public interface ApplicationParameters {
 
     String getSodexoVatRegNum();
 
+    String getSodexoBankName();
+
     String getPathReportImages();
 
     String getPrintNumberCountryCodePoland();
