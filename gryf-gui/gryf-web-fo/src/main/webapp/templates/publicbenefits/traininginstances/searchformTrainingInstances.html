@@ -12,14 +12,14 @@
             <table class="table table-condensed">
                 <thead>
                 <tr class="grid-100">
-                    <th class="sortable grid-10" ng-class="getSortingTypeClass('trainingInstanceId')">
-                        <div ng-click="getSortedBy('trainingInstanceId')">ID rezerwacji</div>
+                    <th class="sortable grid-5" ng-class="getSortingTypeClass('trainingInstanceId')">
+                        <div ng-click="getSortedBy('trainingInstanceId')">ID<br/>rezerwacji</div>
                         <input placeholder="ID" type="number" ng-model="searchDTO.trainingInstanceId">
                     </th>
-                    <th class="sortable grid-5" ng-class="getSortingTypeClass('trainingInstitutionId')">
-                        <div ng-click="getSortedBy('trainingInstitutionId')">ID instytucji</div>
+                    <th class="sortable grid-5" ng-class="getSortingTypeClass('trainingInstitutionVatRegNum')">
+                        <div ng-click="getSortedBy('trainingInstitutionVatRegNum')">NIP instytucji</div>
                         <a ng-click="openInstitutionLov()" class="button button-save">Wybierz</a>
-                        <input placeholder="ID" type="number" ng-model="searchDTO.trainingInstitutionId">
+                        <input placeholder="NIP" type="text" ng-model="searchDTO.trainingInstitutionVatRegNum">
                     </th>
                     <th class="sortable grid-10" ng-class="getSortingTypeClass('trainingInstitutionName')">
                         <div ng-click="getSortedBy('trainingInstitutionName')">Nazwa instytucji</div>
@@ -30,20 +30,20 @@
                         <a ng-click="openTrainingLov()" class="button button-save">Wybierz</a>
                         <input placeholder="ID" type="number" ng-model="searchDTO.trainingId">
                     </th>
-                    <th class="sortable grid-10" ng-class="getSortingTypeClass('trainingName')">
+                    <th class="sortable grid-15" ng-class="getSortingTypeClass('trainingName')">
                         <div ng-click="getSortedBy('trainingName')">Nazwa szkolenia</div>
                         <input placeholder="Nazwa szkolenia" ng-model="searchDTO.trainingName">
                     </th>
-                    <th class="sortable grid-10" ng-class="getSortingTypeClass('participantPesel')">
-                        <div ng-click="getSortedBy('participantPesel')">PESEL Uczestnika</div>
+                    <th class="sortable grid-5" ng-class="getSortingTypeClass('participantPesel')">
+                        <div ng-click="getSortedBy('participantPesel')">PESEL<br/>Uczestnika</div>
                         <input placeholder="PESEL" type="text" ng-model="searchDTO.participantPesel">
                     </th>
-                    <th class="sortable grid-10" ng-class="getSortingTypeClass('participantName')">
-                        <div ng-click="getSortedBy('participantName')">Imię Uczestnika</div>
+                    <th class="sortable grid-5" ng-class="getSortingTypeClass('participantName')">
+                        <div ng-click="getSortedBy('participantName')">Imię<br/>Uczestnika</div>
                         <input placeholder="Imię" type="text" ng-model="searchDTO.participantName">
                     </th>
-                    <th class="sortable grid-10" ng-class="getSortingTypeClass('participantSurname')">
-                        <div ng-click="getSortedBy('participantSurname')">Nazwisko Uczestnika</div>
+                    <th class="sortable grid-5" ng-class="getSortingTypeClass('participantSurname')">
+                        <div ng-click="getSortedBy('participantSurname')">Nazwisko<br/>Uczestnika</div>
                         <input placeholder="Nazwisko" type="text" ng-model="searchDTO.participantSurname">
                     </th>
                     <th class="sortable grid-10"
@@ -100,7 +100,7 @@
                             <option value="">-wybierz-</option>
                         </select>
                     </th>
-                    <th class="grid-10">
+                    <th class="grid-5">
                         <a ng-click="find()"
                            class="button button-search">szukaj</a>
                     </th>
@@ -109,7 +109,7 @@
                 <tbody>
                 <tr ng-repeat="item in trainingModel.foundTrainings | limitTo: searchResultOptions.displayLimit">
                     <td>{{::item.trainingInstanceId}}</td>
-                    <td>{{::item.trainingInstitutionId}}</td>
+                    <td>{{::item.trainingInstitutionVatRegNum}}</td>
                     <td>{{::item.trainingInstitutionName}}</td>
                     <td>{{::item.trainingId}}</td>
                     <td>{{::item.trainingName}}</td>
@@ -121,16 +121,8 @@
                     <td>{{::item.trainingStatus}}</td>
                     <td>
                         <ul class="buttons">
-                            <li ng-show="item.trainingStatusId == 'RES'">
-                                <a ng-href="#/modify/{{item.trainingId}}" gryf-privilege="GRF_TRAINING_INSTITUTION_MOD" class="button button-go">anuluj</a>
-                            </li>
-
-                            <li ng-show="item.trainingStatusId == 'RES'">
-                                <a ng-href="#/modify/{{item.trainingId}}" gryf-privilege="GRF_TRAINING_INSTITUTION_MOD" class="button button-go">podaj PIN</a>
-                            </li>
-
-                            <li ng-show="item.trainingStatusId == 'DONE'">
-                                <a ng-href="#/modify/{{item.trainingId}}" gryf-privilege="GRF_TRAINING_INSTITUTION_MOD" class="button button-go">rozlicz</a>
+                            <li>
+                                <a ng-href="#/modify/{{item.trainingInstanceId}}" gryf-privilege="GRF_TRAINING_INSTITUTION_MOD" class="button button-go">szczegóły</a>
                             </li>
                         </ul>
                     </td>

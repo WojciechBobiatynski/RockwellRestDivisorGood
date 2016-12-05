@@ -8,6 +8,10 @@ angular.module("gryf.trainingInstances").config(["$routeProvider", function($rou
             templateUrl: contextPath + "/templates/publicbenefits/traininginstances/searchformTrainingInstances.html",
             controller: "TrainingInstancesSearchController"
         })
+        .when("/modify/:id?", {
+            templateUrl: contextPath + "/templates/publicbenefits/traininginstances/detailsformTrainingInstance.html",
+            controller: "TrainingInstanceModifyController"
+        })
         .otherwise({
             redirectTo: "/"
         });

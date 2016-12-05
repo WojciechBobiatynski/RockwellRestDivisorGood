@@ -32,7 +32,12 @@ public class TrainingInstanceCriteria extends UserCriteria {
 
     @Getter
     @Setter
+    private String trainingInstitutionVatRegNum;
+
+    @Getter
+    @Setter
     private String trainingInstitutionName;
+
 
     @Getter
     @Setter

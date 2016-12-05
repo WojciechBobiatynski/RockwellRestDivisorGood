@@ -51,7 +51,7 @@ public class TrainingInstanceRestController {
 
     @RequestMapping(value = PATH_TRAINING_INSTANCE_DETAILS + "/{trainingInstanceId}", method = RequestMethod.GET)
     @ResponseBody
-    public TrainingInstanceDetailsDto findTrainingDetails(@PathVariable Long trainingInstanceId){
+    public TrainingInstanceDetailsDto findTrainingInstanceDetails(@PathVariable Long trainingInstanceId){
         //securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS);
         return trainingInstanceService.findTrainingInstanceDetails(trainingInstanceId);
     }

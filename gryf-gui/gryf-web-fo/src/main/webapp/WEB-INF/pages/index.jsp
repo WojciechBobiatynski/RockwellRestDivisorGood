@@ -143,6 +143,11 @@
                                     </li>
                                 </ul>
                             </li>
+                            <li>
+                                <a ng-href="${pageContext.request.contextPath}/publicBenefits/trainingInstances/">
+                                    rezerwacje szkoleń
+                                </a>
+                            </li>
                         </ul>
                     </li>
                     <li class="submenu">
@@ -227,17 +232,7 @@
                         </ul>
                     </li>
                     <li class="submenu">
-                        <a ng-href="${pageContext.request.contextPath}/publicBenefits/trainingInstances/">
-                            Obsługa szkoleń
-                        </a>
-                        <ul>
-                            <a ng-href="${pageContext.request.contextPath}/publicBenefits/trainingInstances/"
-                                gryf-link-privilege="GRF_PBE_DELIVERIES">Lista rezerwacji szkoleń</a>
-                        </ul>
-                    </li>
-                    <li class="submenu">
-                        <a
-                                ng-href="${pageContext.request.contextPath}/publicBenefits/electronic/reimbursements/#search"
+                        <a ng-href="${pageContext.request.contextPath}/publicBenefits/electronic/reimbursements/#search"
                         <%--TODO: dodać uprawnienia--%>
                                 gryf-link-privilege="GRF_PBE_REIMB">Rozliczenia elektroniczne
                         </a>

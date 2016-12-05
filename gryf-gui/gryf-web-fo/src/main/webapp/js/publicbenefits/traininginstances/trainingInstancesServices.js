@@ -2,13 +2,32 @@ angular.module("gryf.trainingInstances").factory("TrainingInstanceSearchService"
     ['$http', 'GryfModals', 'GryfPopups', 'GryfExceptionHandler', 'GryfHelpers', "GryfTables",
         function ($http, GryfModals, GryfPopups, GryfExceptionHandler, GryfHelpers, GryfTables) {
 
-        var FIND_TRAINING_INSTANCE_LIST_URL = contextPath + "/trainingInstance/list";
         var FIND_TRAINING_INSTANCE_DETAILS_URL = contextPath + "/trainingInstance/details/";
+        var FIND_TRAINING_INSTANCE_LIST_URL = contextPath + "/trainingInstance/list";
         var TRAINING_INSTANCE_STATUSES_LIST_URL = contextPath + "/trainingInstance/statuses";
 
         var searchDTO = new SearchObjModel();
         var searchResultOptions = new SearchResultOptions();
         var trainingModel = new TrainingModel();
+        var trainingInstanceModel = new TrainingInstanceModel();
+
+        function TrainingInstanceModel() {
+            this.entity = {
+                trainingInstanceId: null,
+                trainingInstitutionId: null,
+                trainingInstitutionName: null,
+                trainingId: null,
+                trainingName: null,
+                participantPesel: null,
+                participantName: null,
+                participantSurname: null,
+                startDateFrom: null,
+                startDateTo: null,
+                endDateFrom: null,
+                endDateTo: null,
+                trainingStatusId: null
+            };
+        }
 
         function SearchObjModel() {
             this.trainingInstanceId = null,
@@ -27,24 +46,20 @@ angular.module("gryf.trainingInstances").factory("TrainingInstanceSearchService"
             this.sortTypes = [],
             this.sortColumns = [],
             this.limit = 10
-        };
+        }
 
         function TrainingModel() {
             this.trainingStatuses = [];
             this.foundTrainings = [];
 
-        };
+        }
 
         function SearchResultOptions() {
             this.displayLimit = 10;
             this.displayLimitIncrementer = 10;
             this.overflow = false;
             this.badQuery = false;
-        };
-
-        var getSearchDTO = function () {
-            return searchDTO;
-        };
+        }
 
         var getNewSearchDTO = function () {
             searchDTO = new SearchObjModel();
@@ -91,10 +106,13 @@ angular.module("gryf.trainingInstances").factory("TrainingInstanceSearchService"
         };
 
         var findDetailsById = function(trainingInstanceId) {
-            return $http.get(FIND_TRAINING_INSTANCE_DETAILS_URL + trainingInstanceId).error(function() {
-                GryfPopups.setPopup("error", "Błąd", "Nie można pobrać instancji szkolenia o wskazanym id");
-                GryfPopups.showPopup();
-            });
+            return $http.get(FIND_TRAINING_INSTANCE_DETAILS_URL + trainingInstanceId)
+                .success(function(data) {
+                    trainingInstanceModel.entity = data;
+                }).error(function() {
+                    GryfPopups.setPopup("error", "Błąd", "Nie można pobrać instancji szkolenia o wskazanym id");
+                    GryfPopups.showPopup();
+                });
         };
 
         var getTiStatuses = function () {
@@ -119,18 +137,76 @@ angular.module("gryf.trainingInstances").factory("TrainingInstanceSearchService"
             return find();
         };
 
+        var getTrainingInstanceModel = function () {
+            return trainingInstanceModel;
+        };
+
         return {
-            getSearchDTO: getSearchDTO,
+            getTrainingInstanceModel: getTrainingInstanceModel,
+            getNewTrainingModel: getNewTrainingModel,
             getNewSearchDTO: getNewSearchDTO,
             getTiStatuses: getTiStatuses,
             getSearchResultOptions: getSearchResultOptions,
             getNewSearchResultOptions: getNewSearchResultOptions,
             getTrainingModel: getTrainingModel,
-            getNewTrainingModel: getNewTrainingModel,
             find: find,
-            findSortedBy: findSortedBy,
             findDetailsById: findDetailsById,
+            findSortedBy: findSortedBy,
             getSortingTypeClass: getSortingTypeClass,
             loadMore: loadMore
         };
     }]);
+
+
+angular.module("gryf.trainingInstances").factory("TrainingInstanceModifyService", ['$http', 'GryfModals', 'GryfPopups', 'GryfExceptionHandler', 'GryfHelpers', "GryfTables",
+function ($http, GryfModals, GryfPopups, GryfExceptionHandler, GryfHelpers, GryfTables) {
+
+    var TRAINING_RESERVATION_URL = contextPath + "/trainingInstance/";
+    var violations = {};
+
+    var cancelTrainingReservation = function(trainingInstanceId) {
+        var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING, {label: "Zapisuję"});
+
+        return $http.put(TRAINING_RESERVATION_URL + "cancelTrainingReservation/" + trainingInstanceId
+        ).success(function() {
+            GryfPopups.setPopup("success", "Sukces", "Anulowano zapis osoby na szkolenie");
+            GryfPopups.showPopup();
+        }).error(function(error) {
+            GryfPopups.setPopup("error", "Błąd", "Nie udało się anulować zapisu na szkolenie");
+            GryfPopups.showPopup();
+
+            GryfExceptionHandler.handleSavingError(error, violations, null);
+
+        }).finally(function() {
+            GryfModals.closeModal(modalInstance);
+        });
+    };
+
+    var confirmPin = function(trainingInstanceId, pinCode) {
+        var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING, {label: "Zapisuję"});
+
+        return $http.put(TRAINING_RESERVATION_URL + "confirmPin/" + trainingInstanceId + "/" + pinCode
+        ).success(function() {
+            GryfPopups.setPopup("success", "Sukces", "Potwierdzono uczestnictwo w szkoleniu");
+            GryfPopups.showPopup();
+        }).error(function(error) {
+            GryfPopups.setPopup("error", "Błąd", "Nie udało się potwierdzić uczestnictwa w szkoleniu");
+            GryfPopups.showPopup();
+
+            GryfExceptionHandler.handleSavingError(error, violations, null);
+
+        }).finally(function() {
+            GryfModals.closeModal(modalInstance);
+        });
+    };
+
+    var getViolations = function() {
+        return violations;
+    };
+
+    return {
+        confirmPin: confirmPin,
+        cancelTrainingReservation: cancelTrainingReservation,
+        getViolations: getViolations
+    };
+}]);

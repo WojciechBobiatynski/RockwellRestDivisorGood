@@ -9,6 +9,7 @@
             ti_in.ID                      trainingInstanceId,
             tri.ID                        trainingInstitutionId,
             tri.NAME                      trainingInstitutionName,
+            tri.VAT_REG_NUM               trainingInstitutionVatRegNum,
             ti.ID                         trainingId,
             ti.NAME                       trainingName,
             ind.PESEL                     participantPesel,
@@ -30,6 +31,9 @@
             </if>
             <if test="criteria.trainingInstitutionId != null and criteria.trainingInstitutionId != ''">
                 AND tri.ID = #{criteria.trainingInstitutionId}
+            </if>
+            <if test="criteria.trainingInstitutionVatRegNum != null and criteria.trainingInstitutionVatRegNum != ''">
+                AND tri.VAT_REG_NUM = #{criteria.trainingInstitutionVatRegNum}
             </if>
             <if test="criteria.trainingInstitutionName != null and criteria.trainingInstitutionName != ''">
                 AND LOWER(tri.NAME) like '%' || LOWER(#{criteria.trainingInstitutionName}) || '%'
@@ -80,14 +84,18 @@
     <select id="findTrainingInstanceDetails" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceDetailsDto">
         SELECT
         tin.ID                                  trainingInstanceId,
-        tra.ID                                  trainingId,
+        tin.STATUS_ID                           trainingInstanceStatusId,
         tin.ASSIGNED_NUM                        productAssignedNum,
+        tra.ID                                  trainingId,
         tra.NAME                                trainingName,
         cat.NAME                                trainingCategory,
         tra.PLACE                               trainingPlace,
         tra.PRICE                               trainingPrice,
         tra.HOURS_NUMBER                        trainingHoursNumber,
         tra.HOUR_PRICE                          trainingHourPrice,
+        trin.ID                                 trainingInstitutionId,
+        trin.NAME                               trainingInstitutionName,
+        trin.VAT_REG_NUM                        trainingInstitutionVatRegNum,
         tra.START_DATE                          startDate,
         tra.END_DATE                            endDate,
         ind.ID                                  participantId,
@@ -97,7 +105,8 @@
         tr_cat_par.PRODUCT_INSTANCE_FOR_HOUR    productInstanceForHour,
         tr_cat_par.MAX_PRODUCT_INSTANCE         maxProductInstance,
         prd.VALUE                               prdValue,
-        tin.GRANT_PROGRAM_ID                    grantProgramId
+        tin.GRANT_PROGRAM_ID                    grantProgramId,
+        gr_pr.PROGRAM_NAME                      grantProgramName
         FROM APP_PBE.TI_TRAINING_INSTANCES tin
         JOIN APP_PBE.TI_TRAININGS tra ON tra.ID = tin.TRAINING_ID
         JOIN APP_PBE.TI_TRAINING_CATEGORIES cat ON cat.ID = tra.TRAINING_CATEGORY_ID
@@ -106,6 +115,7 @@
         JOIN APP_PBE.GRANT_PROGRAMS gr_pr ON gr_pr.ID = tin.GRANT_PROGRAM_ID
         JOIN APP_PBE.GRANT_OWNERS gr_own ON gr_own.ID = gr_pr.GRANT_OWNER_ID
         JOIN APP_PBE.PBE_PRODUCTS prd ON prd.GRANT_OWNER_ID = gr_own.ID
+        JOIN APP_PBE.TRAINING_INSTITUTIONS trin on trin.ID = tra.TRAINING_INSTITUTION_ID
         <where>
             <if test="trainingInstanceId != null">
                 tin.ID = #{trainingInstanceId}

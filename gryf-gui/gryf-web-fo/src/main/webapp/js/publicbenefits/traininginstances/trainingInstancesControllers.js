@@ -50,7 +50,7 @@ angular.module("gryf.trainingInstances").controller("TrainingInstancesSearchCont
     $scope.openInstitutionLov = function() {
         GryfModals.openLovModal(GryfModals.MODALS_URL.LOV_TI, BrowseTrainingInsService, 'lg').result.then(function(chosenTI) {
             $scope.searchDTO.trainingInstitutionName = chosenTI.name;
-            $scope.searchDTO.trainingInstitutionId = chosenTI.id;
+            $scope.searchDTO.trainingInstitutionVatRegNum = chosenTI.vatRegNum;
         });
     };
 
@@ -62,4 +62,44 @@ angular.module("gryf.trainingInstances").controller("TrainingInstancesSearchCont
     };
 
     $scope.clear();
+
+}]);
+
+angular.module("gryf.trainingInstances").controller("TrainingInstanceModifyController", ["$scope", "$routeParams",
+    "GryfModals", "GryfModulesUrlProvider", "BrowseTrainingInsService", "BrowseTrainingService", "TrainingInstanceSearchService", "TrainingInstanceModifyService",
+function ($scope, $routeParams, GryfModals, GryfModulesUrlProvider, BrowseTrainingInsService, BrowseTrainingService, TrainingInstanceSearchService, TrainingInstanceModifyService) {
+
+    $scope.trainingInstanceModel = TrainingInstanceSearchService.getTrainingInstanceModel();
+    $scope.pinCode = null;
+    $scope.violations = TrainingInstanceModifyService.getViolations();
+
+    $scope.MODULES = GryfModulesUrlProvider.MODULES;
+    $scope.getUrlFor = GryfModulesUrlProvider.getUrlFor;
+
+    if($routeParams.id) {
+        TrainingInstanceSearchService.findDetailsById($routeParams.id);
+    }
+
+    TrainingInstanceSearchService.getTiStatuses().success(function(data) {
+        $scope.statusesDictionary = data;
+    });
+
+    $scope.isInStatus = function(statusId) {
+        return $scope.trainingInstanceModel.entity.trainingInstanceStatusId === statusId;
+    };
+
+    $scope.cancelTrainingReservation = function() {
+        TrainingInstanceModifyService.cancelTrainingReservation($scope.trainingInstanceModel.entity.trainingInstanceId)
+            .then(function() {
+                TrainingInstanceSearchService.findDetailsById($routeParams.id);
+            });
+    };
+
+    $scope.confirmReservationPIN = function() {
+        TrainingInstanceModifyService.confirmPin($scope.trainingInstanceModel.entity.trainingInstanceId, $scope.pinCode)
+            .then(function() {
+                TrainingInstanceSearchService.findDetailsById($routeParams.id);
+            });
+    };
+
 }]);

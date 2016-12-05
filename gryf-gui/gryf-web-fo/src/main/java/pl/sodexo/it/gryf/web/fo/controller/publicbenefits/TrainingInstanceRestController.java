@@ -10,6 +10,7 @@ import pl.sodexo.it.gryf.common.criteria.traininginstance.TrainingInstanceCriter
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceDetailsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceDto;
+import pl.sodexo.it.gryf.service.api.publicbenefits.pbeproductinstancepool.PbeProductInstancePoolService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.TrainingInstanceService;
 import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
 import pl.sodexo.it.gryf.web.fo.utils.UrlConstants;
@@ -33,6 +34,9 @@ public class TrainingInstanceRestController {
     @Autowired
     private TrainingInstanceService trainingInstanceService;
 
+    @Autowired
+    private PbeProductInstancePoolService productInstancePoolService;
+
     @RequestMapping(value = PATH_TRAINING_INSTANCE_LIST, method = RequestMethod.GET)
     @ResponseBody
     public List<TrainingInstanceDto> findTrainingInstancesByCriteria(TrainingInstanceCriteria trainingInstanceCriteria){
@@ -52,5 +56,18 @@ public class TrainingInstanceRestController {
     public TrainingInstanceDetailsDto findTrainingDetails(@PathVariable Long trainingInstanceId){
         //securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS);
         return trainingInstanceService.findTrainingInstanceDetails(trainingInstanceId);
+    }
+
+    @RequestMapping(value = "/cancelTrainingReservation/{id}", method = RequestMethod.PUT)
+    public void cancelTrainingReservation(@PathVariable("id") Long trainingInstanceId) {
+        //securityChecker.assertServicePrivilege(Privileges.GRF_PBE_TI_TRAININGS);
+        productInstancePoolService.cancelTrainingInstance(trainingInstanceId);
+    }
+
+    @RequestMapping(value = "/confirmPin/{trainingInstanceId}/{pinCode}", method = RequestMethod.PUT)
+    public void confirmPin(@PathVariable("trainingInstanceId") Long trainingInstanceId,
+                           @PathVariable("pinCode") String pinCode) {
+        //securityChecker.assertServicePrivilege(Privileges.GRF_PBE_TI_TRAININGS);
+        productInstancePoolService.useTrainingInstance(trainingInstanceId, pinCode);
     }
 }

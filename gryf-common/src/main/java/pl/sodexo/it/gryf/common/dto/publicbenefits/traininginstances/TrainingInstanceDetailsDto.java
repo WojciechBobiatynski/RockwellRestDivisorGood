@@ -20,7 +20,23 @@ public class TrainingInstanceDetailsDto implements Serializable {
 
     @Getter
     @Setter
+    private String trainingInstanceStatusId;
+
+    @Getter
+    @Setter
     private Long trainingId;
+
+    @Getter
+    @Setter
+    private Long trainingInstitutionId;
+
+    @Getter
+    @Setter
+    private String trainingInstitutionName;
+
+    @Getter
+    @Setter
+    private String trainingInstitutionVatRegNum;
 
     @Getter
     @Setter
@@ -66,7 +82,6 @@ public class TrainingInstanceDetailsDto implements Serializable {
     @Setter
     private String participantSurname;
 
-
     @Getter
     @Setter
     private Date startDate;
@@ -90,6 +105,10 @@ public class TrainingInstanceDetailsDto implements Serializable {
     @Getter
     @Setter
     private Long grantProgramId;
+
+    @Getter
+    @Setter
+    private String grantProgramName;
 
     public Integer getMaxProductsNumber() {
         Integer maxProductsNumber;
