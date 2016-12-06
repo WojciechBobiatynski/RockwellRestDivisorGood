@@ -138,4 +138,8 @@ angular.module("gryf.trainingInstitutions").controller("detailsform.TrainingInsC
             };
             $scope.loadTiUserRoles();
 
+            $scope.removeContact = function (contact) {
+                ModifyTrainingInsService.removeContact(contact);
+            }
+
         }]);
