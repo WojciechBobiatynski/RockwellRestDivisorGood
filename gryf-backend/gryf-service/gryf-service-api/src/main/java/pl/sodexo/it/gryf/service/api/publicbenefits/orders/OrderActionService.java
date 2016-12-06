@@ -25,6 +25,8 @@ public interface OrderActionService {
 
     void executeMainAction(Long id, Long actionId, Integer version, List<IncomingOrderElementDTO> incomingOrderElements, List<FileDTO> files, List<String> acceptedViolations);
 
-    void executeAutomaticActions(Long orderId);
+    boolean executeAutomaticActions(Long orderId);
+
+    void executeOneAction(Long orderId, String nextStatusId);
 
 }

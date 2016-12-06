@@ -25,4 +25,9 @@ public class AsynchronizeJobInfoDTO {
     @Getter
     @Setter
     private String params;
+
+    @Getter
+    @Setter
+    private Long orderId;
+
 }

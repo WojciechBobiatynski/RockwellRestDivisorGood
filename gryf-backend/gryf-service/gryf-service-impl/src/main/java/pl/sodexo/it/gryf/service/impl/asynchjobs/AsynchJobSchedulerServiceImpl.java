@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.dto.asynchjobs.AsynchronizeJobInfoDTO;
+import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
+import pl.sodexo.it.gryf.common.exception.EntityValidationException;
+import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.asynch.AsynchronizeJobRepository;
 import pl.sodexo.it.gryf.model.asynch.AsynchronizeJob;
 import pl.sodexo.it.gryf.model.asynch.AsynchronizeJobStatus;
@@ -54,7 +57,7 @@ public class AsynchJobSchedulerServiceImpl implements AsynchJobSchedulerService 
         AsynchronizeJob job = new AsynchronizeJob();
         job.setType(AsynchronizeJobType.valueOf(typeStr));
         job.setParams(params);
-        job.setDescription(description);
+        job.setDescription(GryfStringUtils.substring(description, 0, AsynchronizeJob.DESCRIPTION_MAX_SIZE));
         job.setStatus(AsynchronizeJobStatus.N);
         job = asynchronizeJobRepository.save(job);
         return job.getId();
@@ -80,7 +83,10 @@ public class AsynchJobSchedulerServiceImpl implements AsynchJobSchedulerService 
                     //SET SUCCESS STATUS
                     asynchJobSchedulerService.successEndJob(jobId);
 
-                //OBSLUGA BLEDOW
+                    //OBSLUGA BLEDOW
+                }catch(EntityValidationException e){
+                    LOGGER.error(String.format("Nieoczekiwane błąd biznesowy zadania asynchronicznego o numerze [%s] ", jobId), e);
+                    asynchJobSchedulerService.saveBussinesError(jobId, e);
                 }catch(RuntimeException e){
                     LOGGER.error(String.format("Nieoczekiwane błąd podczas zadania asynchronicznego o numerze [%s] ", jobId), e);
                     asynchJobSchedulerService.saveRuntimeError(jobId, e);
@@ -107,6 +113,7 @@ public class AsynchJobSchedulerServiceImpl implements AsynchJobSchedulerService 
         AsynchronizeJob job = asynchronizeJobRepository.get(jobId);
         if(job != null) {
             job.setStatus(AsynchronizeJobStatus.S);
+            job.setDescription("Zadanie zakończono sukcesem.");
             asynchronizeJobRepository.update(job, job.getId());
         }
     }
@@ -121,9 +128,22 @@ public class AsynchJobSchedulerServiceImpl implements AsynchJobSchedulerService 
             dto.setServiceName(job.getType().getServiceName());
             dto.setTypeParams(job.getType().getParams());
             dto.setParams(job.getParams());
+            dto.setOrderId(job.getOrderId());
             return dto;
         }
         return null;
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void saveBussinesError(Long jobId, EntityValidationException e){
+        AsynchronizeJob job = asynchronizeJobRepository.get(jobId);
+        if(job != null) {
+            job.setStatus(AsynchronizeJobStatus.E);
+            job.setDescription(GryfStringUtils.substring("Wystapił bład biznesowy: " + createBussinesViolation(e),
+                                                        0, AsynchronizeJob.DESCRIPTION_MAX_SIZE));
+            asynchronizeJobRepository.update(job, job.getId());
+        }
     }
 
     @Override
@@ -132,9 +152,21 @@ public class AsynchJobSchedulerServiceImpl implements AsynchJobSchedulerService 
         AsynchronizeJob job = asynchronizeJobRepository.get(jobId);
         if(job != null) {
             job.setStatus(AsynchronizeJobStatus.F);
-            job.setDescription("Wystapił bład krytyczny: " + e.getMessage());
+            job.setDescription(GryfStringUtils.substring("Wystapił bład krytyczny: " + e.getMessage(),
+                                                        0, AsynchronizeJob.DESCRIPTION_MAX_SIZE));
+
             asynchronizeJobRepository.update(job, job.getId());
         }
+    }
+
+    //PRIVATE METHODS
+
+    private String createBussinesViolation(EntityValidationException e){
+        StringBuilder sb = new StringBuilder();
+        for(EntityConstraintViolation v : e.getViolations()){
+            sb.append(v.getMessage()).append(";");
+        }
+        return sb.toString();
     }
 
 }

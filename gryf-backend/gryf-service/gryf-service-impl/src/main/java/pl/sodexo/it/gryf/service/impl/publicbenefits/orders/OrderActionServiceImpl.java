@@ -83,18 +83,14 @@ public class OrderActionServiceImpl implements OrderActionService {
     //PUBLIC METHODS
 
     @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
     public void executeAction(Long id, Long actionId, Integer version, List<IncomingOrderElementDTO> incomingOrderElements, List<FileDTO> files, List<String> acceptedViolations) {
         orderActionService.executeMainAction(id, actionId, version, incomingOrderElements, files, acceptedViolations);
 
-        while(true){
-            Integer automaticTransNum = orderFlowStatusTransitionRepository.countAutomaticTransitionByOrder(id);
-            if(automaticTransNum == 0){
-                break;
-            }if (automaticTransNum > 1){
-                throw new RuntimeException(String.format("Dla zamówienia [%s] istnieje wiecej niż jedno przejście automatyczne", id));
-            }
-            orderActionService.executeAutomaticActions(id);
-        }
+        boolean flag;
+        do{
+            flag = orderActionService.executeAutomaticActions(id);
+        }while(flag);
     }
 
     @Override
@@ -131,16 +127,32 @@ public class OrderActionServiceImpl implements OrderActionService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void executeAutomaticActions(Long orderId){
+    public boolean executeAutomaticActions(Long orderId){
         Order order = orderRepository.get(orderId);
-        OrderFlowStatus status = order.getStatus();
-        for(OrderFlowStatusTransition st : status.getOrderFlowStatusTransitions()){
-            if(st.getAutomatic()){
-                List<OrderElementDTOBuilder> orderElementDTOBuilders = orderElementRepository.findDtoFactoryByOrderToModify(orderId);
-                List<OrderElementDTO> elementDtoList = orderServiceLocal.createOrderElementDtolist(orderElementDTOBuilders);
-                executeOneAction(order, st, elementDtoList, Lists.newArrayList());
-            }
+        OrderFlowStatusTransition st = findOrderFlowStatusTransitionByAutomatic(order);
+        if(st != null){
+            List<OrderElementDTOBuilder> orderElementDTOBuilders = orderElementRepository.findDtoFactoryByOrderToModify(orderId);
+            List<OrderElementDTO> elementDtoList = orderServiceLocal.createOrderElementDtolist(orderElementDTOBuilders);
+            executeOneAction(order, st, elementDtoList, Lists.newArrayList());
+            return true;
         }
+        return false;
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void executeOneAction(Long orderId, String nextStatusId){
+
+        Order order = orderRepository.get(orderId);
+        OrderFlowStatusTransition st = findOrderFlowStatusTransitionByNextStatus(order, nextStatusId);
+        if(st == null) {
+            throw new RuntimeException(String.format("Status [%s] nie jest "
+                    + "dozwolonym statusem dla zamówienia [%s].", nextStatusId, orderId));
+        }
+
+        List<OrderElementDTOBuilder> orderElementDTOBuilders = orderElementRepository.findDtoFactoryByOrderToModify(orderId);
+        List<OrderElementDTO> elementDtoList = orderServiceLocal.createOrderElementDtolist(orderElementDTOBuilders);
+        executeOneAction(order, st, elementDtoList, Lists.newArrayList());
     }
 
     //PRIVATE METHODS
@@ -174,6 +186,26 @@ public class OrderActionServiceImpl implements OrderActionService {
         orderDateService.fillRequiredDateForLazyFields(order);
     }
 
+    private OrderFlowStatusTransition findOrderFlowStatusTransitionByNextStatus(Order order, String statusId){
+        OrderFlowStatus status = order.getStatus();
+        for(OrderFlowStatusTransition st : status.getOrderFlowStatusTransitions()){
+            if(st.getNextStatus().getStatusId().equals(statusId)){
+                return st;
+            }
+        }
+        return null;
+    }
+
+    private OrderFlowStatusTransition findOrderFlowStatusTransitionByAutomatic(Order order){
+        OrderFlowStatus status = order.getStatus();
+        for(OrderFlowStatusTransition st : status.getOrderFlowStatusTransitions()){
+            if(st.getAutomatic()){
+                return st;
+            }
+        }
+        return null;
+    }
+
     /**
      * Wykonywany jest sql, dopiey do konkretnego przejścia między statusami.
      *
@@ -190,4 +222,5 @@ public class OrderActionServiceImpl implements OrderActionService {
             orderFlowStatusTransSqlRepository.executeNativeSql(transSql, order.getId(), GryfUser.getLoggedUserLogin());
         }
     }
+
 }

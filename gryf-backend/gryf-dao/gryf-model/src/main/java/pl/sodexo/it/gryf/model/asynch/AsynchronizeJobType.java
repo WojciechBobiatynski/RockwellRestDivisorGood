@@ -10,8 +10,8 @@ public enum AsynchronizeJobType implements DictionaryEntity {
     IMPORT_CON("Import umów", "asynchJobImportServce", "importContractDataService"),
     IMPORT_ORD("Błąd biznesowy", "asynchJobImportServce", "importOrderDataService"),
     IMPORT_TRA_INS("Import instytucji szkoleniowych", "asynchJobImportServce", "importTrainingInstitutionDataService"),
-    IMPORT_TRA("Import szkoleń", "asynchJobImportServce", "importTrainingDataService");
-
+    IMPORT_TRA("Import szkoleń", "asynchJobImportServce", "importTrainingDataService"),
+    ORDER_TRANS("Zmiana statusu zamówienia", "asynchJobOrderTransitionService", null);
 
     private String label;
 

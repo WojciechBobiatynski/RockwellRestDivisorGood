@@ -20,6 +20,12 @@ import java.util.Date;
 @SequenceGenerator(name = "asyn_job_seq", schema = "eagle", sequenceName = "asyn_job_seq", allocationSize = 1)
 public class AsynchronizeJob extends VersionableEntity{
 
+    //STATIC FIELDS
+
+    public static final int DESCRIPTION_MAX_SIZE = 1000;
+
+    //PRIVATE FIELDS
+
     @Id
     @Column(name = "ID")
     @GeneratedValue(generator = "asyn_job_seq")

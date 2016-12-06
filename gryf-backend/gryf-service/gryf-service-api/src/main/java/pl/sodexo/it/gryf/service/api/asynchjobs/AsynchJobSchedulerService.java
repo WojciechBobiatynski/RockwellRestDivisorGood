@@ -1,6 +1,7 @@
 package pl.sodexo.it.gryf.service.api.asynchjobs;
 
 import pl.sodexo.it.gryf.common.dto.asynchjobs.AsynchronizeJobInfoDTO;
+import pl.sodexo.it.gryf.common.exception.EntityValidationException;
 
 /**
  * Created by Isolution on 2016-12-02.
@@ -16,6 +17,8 @@ public interface AsynchJobSchedulerService {
     AsynchronizeJobInfoDTO getAsynchronizeJobInfoDTO(Long jobId);
 
     void successEndJob(Long jobId);
+
+    void saveBussinesError(Long jobId, EntityValidationException e);
 
     void saveRuntimeError(Long jobId, RuntimeException e);
 

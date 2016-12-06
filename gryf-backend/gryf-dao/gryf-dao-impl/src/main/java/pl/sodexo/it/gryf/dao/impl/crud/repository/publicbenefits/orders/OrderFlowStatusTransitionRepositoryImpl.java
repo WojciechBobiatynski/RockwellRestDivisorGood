@@ -23,10 +23,4 @@ public class OrderFlowStatusTransitionRepositoryImpl extends GenericRepositoryIm
         return query.getResultList();
     }
 
-    @Override
-    public Integer countAutomaticTransitionByOrder(Long orderId){
-        TypedQuery<Long> query = entityManager.createNamedQuery("OrderFlowStatusTransition.countAutomaticTransitionByOrder", Long.class);
-        query.setParameter("orderId", orderId);
-        return query.getSingleResult().intValue();
-    }
 }
