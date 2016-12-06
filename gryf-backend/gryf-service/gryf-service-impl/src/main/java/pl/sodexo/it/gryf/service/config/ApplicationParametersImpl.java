@@ -61,7 +61,7 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     private String indUserContext = "IND";
     private String tiUserContext = "TI";
     private String indUserUrl = "http://localhost:8080/gryf-ind/";
-    private Integer businessDaysNumberForReimbursement = 10;
+    private Integer businessDaysNumberForReimbursement = 5;
     private Integer businessDaysNumberForCorrection = 5;
 
     //LIFECYCLE METHODS

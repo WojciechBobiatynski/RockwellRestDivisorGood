@@ -130,6 +130,7 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         calculateCharges(elctRmbsHeadDto);
         Ereimbursement ereimbursement = saveErmbsData(elctRmbsHeadDto);
         ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.TO_ERMBS));
+        ereimbursement.setArrivalDate(new Date());
         ereimbursement.setReimbursementDate(gryfPLSQLRepository.getNthBusinessDay(new Date(), applicationParameters.getBusinessDaysNumberForReimbursement()));
         setToReimburseStatusForTiInstance(ereimbursement);
         saveAttachments(elctRmbsHeadDto, ereimbursement);
