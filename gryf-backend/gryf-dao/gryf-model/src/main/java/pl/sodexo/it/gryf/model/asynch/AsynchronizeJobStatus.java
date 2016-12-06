@@ -7,7 +7,7 @@ import pl.sodexo.it.gryf.model.api.DictionaryEntity;
  */
 public enum AsynchronizeJobStatus implements DictionaryEntity {
 
-    N("Nowy"), P("Przetwarzany"), E("Błąd biznesowy"), F("Błąd krytyczny"), S("Poprawny");
+    N("Nowy"), P("Przetwarzany"), E("Błąd biznesowy"), F("Błąd krytyczny"), S("Poprawny"), C("Częściowo poprawny");
 
 
     private String label;

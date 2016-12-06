@@ -34,7 +34,7 @@ public abstract class ImportBaseDataServiceImpl implements ImportDataService{
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void saveEmptyRows(Long importJobId, int rowNums){
-        for(int i = 0; i< rowNums - 1; i++){
+        for(int i = 0; i< rowNums; i++){
             ImportDataRow row = new ImportDataRow();
             row.setImportJob(importJobId);
             row.setRowNum(i + 1);

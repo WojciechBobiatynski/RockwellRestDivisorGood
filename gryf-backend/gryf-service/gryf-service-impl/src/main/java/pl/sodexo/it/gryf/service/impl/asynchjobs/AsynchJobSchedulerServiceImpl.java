@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.service.impl.asynchjobs;
 
+import com.google.common.base.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.dto.asynchjobs.AsynchronizeJobInfoDTO;
+import pl.sodexo.it.gryf.common.dto.asynchjobs.AsynchronizeJobResultInfoDTO;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.common.exception.EntityValidationException;
 import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
@@ -78,10 +80,10 @@ public class AsynchJobSchedulerServiceImpl implements AsynchJobSchedulerService 
                     //ACTION JOB
                     AsynchronizeJobInfoDTO dto = asynchJobSchedulerService.getAsynchronizeJobInfoDTO(jobId);
                     AsynchJobService jobService = (AsynchJobService) BeanUtils.findBean(context, dto.getServiceName());
-                    jobService.processAsynchronizeJob(dto);
+                    AsynchronizeJobResultInfoDTO resultDTO = jobService.processAsynchronizeJob(dto);
 
                     //SET SUCCESS STATUS
-                    asynchJobSchedulerService.successEndJob(jobId);
+                    asynchJobSchedulerService.successEndJob(resultDTO);
 
                     //OBSLUGA BLEDOW
                 }catch(EntityValidationException e){
@@ -109,11 +111,13 @@ public class AsynchJobSchedulerServiceImpl implements AsynchJobSchedulerService 
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void successEndJob(Long jobId){
-        AsynchronizeJob job = asynchronizeJobRepository.get(jobId);
+    public void successEndJob(AsynchronizeJobResultInfoDTO resultDTO){
+        AsynchronizeJob job = asynchronizeJobRepository.get(resultDTO.getId());
         if(job != null) {
-            job.setStatus(AsynchronizeJobStatus.S);
-            job.setDescription("Zadanie zakończono sukcesem.");
+            job.setStatus(Strings.isNullOrEmpty(resultDTO.getStatus()) ? AsynchronizeJobStatus.S :
+                                                AsynchronizeJobStatus.valueOf(resultDTO.getStatus()));
+            job.setDescription(Strings.isNullOrEmpty(resultDTO.getDescription()) ? "Zadanie zakończono sukcesem." :
+                                                resultDTO.getDescription());
             asynchronizeJobRepository.update(job, job.getId());
         }
     }

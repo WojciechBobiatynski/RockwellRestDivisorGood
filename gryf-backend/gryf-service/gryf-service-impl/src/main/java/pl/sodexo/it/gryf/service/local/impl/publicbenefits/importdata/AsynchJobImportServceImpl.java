@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.dto.asynchjobs.AsynchronizeJobInfoDTO;
+import pl.sodexo.it.gryf.common.dto.asynchjobs.AsynchronizeJobResultInfoDTO;
 import pl.sodexo.it.gryf.common.exception.EntityValidationException;
+import pl.sodexo.it.gryf.model.asynch.AsynchronizeJobStatus;
 import pl.sodexo.it.gryf.service.local.api.FileService;
 import pl.sodexo.it.gryf.service.local.api.asynchjobs.AsynchJobService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.importdata.ImportDataService;
@@ -43,8 +45,13 @@ public class AsynchJobImportServceImpl implements AsynchJobService{
 
     @Override
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
-    public void processAsynchronizeJob(AsynchronizeJobInfoDTO dto){
+    public AsynchronizeJobResultInfoDTO processAsynchronizeJob(AsynchronizeJobInfoDTO dto){
         try {
+            int allRows;
+            int successRows = 0;
+            int bussinssRows = 0;
+            int errorRows = 0;
+
             //GET SERVICE
             ImportDataService importDataService = (ImportDataService) BeanUtils.findBean(context, dto.getTypeParams());
 
@@ -57,7 +64,8 @@ public class AsynchJobImportServceImpl implements AsynchJobService{
             Iterator<Row> rowIterator = sheet.iterator();
 
             //SAVE EMPTY ROWS
-            importDataService.saveEmptyRows(dto.getId(), sheet.getPhysicalNumberOfRows());
+            allRows = sheet.getPhysicalNumberOfRows() - 1;
+            importDataService.saveEmptyRows(dto.getId(), allRows);
 
             while(rowIterator.hasNext()) {
                 Row row = rowIterator.next();
@@ -65,22 +73,39 @@ public class AsynchJobImportServceImpl implements AsynchJobService{
                     try {
                         //SAVE DATA
                         importDataService.saveData(dto.getId(), row);
+                        successRows++;
 
                         //BLEDY BIZNESOWE
                     }catch(EntityValidationException e){
+                        bussinssRows++;
                         importDataService.saveEntityValidationError(dto.getId(), row, e);
 
                         //BLEDY KRYTYCZNE
                     }catch(RuntimeException e){
+                        errorRows++;
                         LOGGER.error(String.format("Nieoczekiwane błąd podczas importu wiersza numer [%s] "
                                 + "dla zlecenia importu [%s]", row.getRowNum(), dto.getId()), e);
                         importDataService.saveRuntimeError(dto.getId(), row, e);
                     }
                 }
             }
+            AsynchronizeJobResultInfoDTO resultDTO = new AsynchronizeJobResultInfoDTO(dto.getId());
+            resultDTO.setStatus((allRows == successRows) ? AsynchronizeJobStatus.S.name() : AsynchronizeJobStatus.C.name());
+            resultDTO.setDescription(createDescription(allRows, successRows, bussinssRows, errorRows));
+            return resultDTO;
+
         } catch (IOException e) {
             throw new RuntimeException("Wystapił bład przy otwarciu pliku do importu", e);
         }
     }
+
+    private String createDescription(int allRows, int successRows, int bussinssRows, int errorRows){
+        if(allRows == successRows){
+            return String.format("Wczytano wszystkie wiersze: ilość wierszy: ", successRows);
+        }
+        return String.format("Wczytano częściowo wiersze: ilość wszystkich wierszy: %s, ilość wierszy poprawnie wczytanych: %s, "
+                    + "ilość wierszy błędnych (biznesowe): %s, ilość wierszy błednych (krytyczne): %s", allRows, successRows, bussinssRows, errorRows);
+    }
+
 
 }
