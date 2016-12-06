@@ -30,7 +30,6 @@ import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.electronicre
 import pl.sodexo.it.gryf.service.validation.publicbenefits.electronicreimbursements.CorrectionValidator;
 import pl.sodexo.it.gryf.service.validation.publicbenefits.electronicreimbursements.ErmbsValidator;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -105,7 +104,7 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         elctRmbsHeadDto = new ElctRmbsHeadDto();
         elctRmbsHeadDto.setTrainingInstanceId(trainingInstanceId);
         elctRmbsHeadDto.setGrantProgramId(grantProgramSearchDao.findGrantProgramIdByTrainingInstanceId(trainingInstanceId));
-        calculateCharges(elctRmbsHeadDto, trainingInstanceId);
+        calculateCharges(elctRmbsHeadDto);
         elctRmbsHeadDto.setProducts(productSearchDao.findProductsByTrainingInstanceId(trainingInstanceId));
         return elctRmbsHeadDto;
     }
@@ -117,6 +116,7 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
 
     @Override
     public Long saveErmbs(ElctRmbsHeadDto elctRmbsHeadDto) {
+        calculateCharges(elctRmbsHeadDto);
         Ereimbursement ereimbursement = saveErmbsData(elctRmbsHeadDto);
         ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.NEW_ERMBS));
         setToReimburseStatusForTiInstance(ereimbursement);
@@ -127,6 +127,7 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     @Override
     public Long sendToReimburse(ElctRmbsHeadDto elctRmbsHeadDto) {
         ermbsValidator.validateRmbs(elctRmbsHeadDto);
+        calculateCharges(elctRmbsHeadDto);
         Ereimbursement ereimbursement = saveErmbsData(elctRmbsHeadDto);
         ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.TO_ERMBS));
         ereimbursement.setReimbursementDate(gryfPLSQLRepository.getNthBusinessDay(new Date(), applicationParameters.getBusinessDaysNumberForReimbursement()));
@@ -179,62 +180,16 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         ereimbursement.getTrainingInstance().setStatus(trainingInstanceStatusRepository.get(GryfConstants.TO_REIMBURSE_TRAINING_INSTANCE_STATUS_CODE));
     }
 
-    private void calculateCharges(ElctRmbsHeadDto elctRmbsHeadDto, Long trainingInstanceId) {
-        CalculationChargesParamsDto params = electronicReimbursementsDao.findCalculationChargesParamsForTrInstId(trainingInstanceId);
+    private void calculateCharges(ElctRmbsHeadDto elctRmbsHeadDto) {
+        CalculationChargesParamsDto params = getCalculationChargesParamsDto(elctRmbsHeadDto);
+        elctRmbsHeadDto.calculateChargers(params);
+    }
+
+    private CalculationChargesParamsDto getCalculationChargesParamsDto(ElctRmbsHeadDto elctRmbsHeadDto) {
+        CalculationChargesParamsDto params = electronicReimbursementsDao.findCalculationChargesParamsForTrInstId(elctRmbsHeadDto.getTrainingInstanceId());
         if (params == null) {
             throw new NoCalculationParamsException();
         }
-        calculateSxoAmount(elctRmbsHeadDto, params);
-        calculateIndAmount(elctRmbsHeadDto, params);
-    }
-
-    private void calculateSxoAmount(ElctRmbsHeadDto elctRmbsHeadDto, CalculationChargesParamsDto params) {
-        if (params.getMaxProductInstance() == null) {
-            calculateSxoAmountForTrainings(elctRmbsHeadDto, params);
-        } else {
-            calculateSxoAmountForExam(elctRmbsHeadDto, params);
-        }
-
-    }
-
-    private void calculateSxoAmountForTrainings(ElctRmbsHeadDto elctRmbsHeadDto, CalculationChargesParamsDto params) {
-        BigDecimal normalizeHourPrice = new BigDecimal(params.getProductInstanceForHour()).multiply(params.getProductValue());
-        BigDecimal realHourPrice = params.getTrainingHourPrice().compareTo(normalizeHourPrice) < 0 ? params.getTrainingHourPrice() : normalizeHourPrice;
-        BigDecimal sxoAmount = new BigDecimal(params.getUsedProductsNumber()).multiply(realHourPrice).divide(new BigDecimal(params.getProductInstanceForHour()));
-        elctRmbsHeadDto.setSxoTiAmountDueTotal(sxoAmount);
-    }
-
-    private void calculateSxoAmountForExam(ElctRmbsHeadDto elctRmbsHeadDto, CalculationChargesParamsDto params) {
-        BigDecimal usedProductsAmount = new BigDecimal(params.getUsedProductsNumber()).multiply(params.getProductValue());
-        if (usedProductsAmount.compareTo(params.getTrainingPrice()) > 0) {
-            elctRmbsHeadDto.setSxoTiAmountDueTotal(params.getTrainingPrice());
-        } else {
-            elctRmbsHeadDto.setSxoTiAmountDueTotal(usedProductsAmount);
-        }
-
-    }
-
-    private void calculateIndAmount(ElctRmbsHeadDto elctRmbsHeadDto, CalculationChargesParamsDto params) {
-        if (params.getMaxProductInstance() == null) {
-            calculateIndAmountForTraining(elctRmbsHeadDto, params);
-        } else {
-            calculateIndAmountForExam(elctRmbsHeadDto, params);
-        }
-    }
-
-    private void calculateIndAmountForTraining(ElctRmbsHeadDto elctRmbsHeadDto, CalculationChargesParamsDto params) {
-        BigDecimal normalizedProductHourPrice = new BigDecimal(params.getProductInstanceForHour()).multiply(params.getProductValue());
-        BigDecimal trainingHourDifferenceCost = BigDecimal.ZERO;
-        Integer hoursPaidWithCash = params.getTrainingHoursNumber() - params.getUsedProductsNumber() / params.getProductInstanceForHour();
-        if (params.getTrainingHourPrice().compareTo(normalizedProductHourPrice) > 0) {
-            trainingHourDifferenceCost = new BigDecimal(params.getUsedProductsNumber() / params.getProductInstanceForHour())
-                    .multiply(params.getTrainingHourPrice().subtract(normalizedProductHourPrice));
-        }
-        BigDecimal hoursPaidWithCashCost = new BigDecimal(hoursPaidWithCash).multiply(params.getTrainingHourPrice());
-        elctRmbsHeadDto.setIndTiAmountDueTotal(trainingHourDifferenceCost.add(hoursPaidWithCashCost));
-    }
-
-    private void calculateIndAmountForExam(ElctRmbsHeadDto elctRmbsHeadDto, CalculationChargesParamsDto params) {
-        elctRmbsHeadDto.setIndTiAmountDueTotal(params.getTrainingPrice().subtract(elctRmbsHeadDto.getSxoTiAmountDueTotal()));
+        return params;
     }
 }
