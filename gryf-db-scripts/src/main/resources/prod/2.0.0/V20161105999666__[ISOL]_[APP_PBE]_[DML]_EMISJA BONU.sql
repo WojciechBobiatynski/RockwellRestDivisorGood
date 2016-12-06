@@ -20,7 +20,7 @@ insert into APP_PBE.PBE_PRODUCT_INSTANCE_POOL_STAS (ID, NAME, ORDINAL) values ('
 insert into APP_PBE.PBE_PRODUCT_INSTANCE_POOL_STAS (ID, NAME, ORDINAL) values ('REIMB', 'Rozliczony', 3);
 
 --PBE_PRODUCT_INSTANCE_E_T
-insert into APP_PBE.PBE_PRODUCT_INSTANCE_E_T (ID, NAME, ORDINAL) values ('NEW', 'Nowy (Utworzenie)', 1);
+insert into APP_PBE.PBE_PRODUCT_INSTANCE_E_T (ID, NAME, ORDINAL) values ('EMMITED', 'Wemitowany', 1);
 insert into APP_PBE.PBE_PRODUCT_INSTANCE_E_T (ID, NAME, ORDINAL) values ('RES', 'Zarezerwowanie', 2);
 insert into APP_PBE.PBE_PRODUCT_INSTANCE_E_T (ID, NAME, ORDINAL) values ('USE', 'Wykorzystanie', 3);
 insert into APP_PBE.PBE_PRODUCT_INSTANCE_E_T (ID, NAME, ORDINAL) values ('REIMB', 'Rozliczenie', 4);

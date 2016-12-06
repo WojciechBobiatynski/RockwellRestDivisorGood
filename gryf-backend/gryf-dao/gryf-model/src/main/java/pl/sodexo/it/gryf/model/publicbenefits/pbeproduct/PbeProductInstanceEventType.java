@@ -4,10 +4,7 @@ import lombok.ToString;
 import pl.sodexo.it.gryf.model.api.DictionaryEntity;
 import pl.sodexo.it.gryf.model.api.GryfEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Objects;
 
 /**
@@ -20,7 +17,7 @@ public class PbeProductInstanceEventType extends GryfEntity implements Dictionar
 
     //STATIC FEILDS - TYPE CODE
 
-    public static final String NEW_CODE = "NEW";
+    public static final String EMMITED_CODE = "EMMITED";
     public static final String RES_CODE = "RES";
     public static final String USE_CODE = "USE";
     public static final String REIMB_CODE = "REIMB";
