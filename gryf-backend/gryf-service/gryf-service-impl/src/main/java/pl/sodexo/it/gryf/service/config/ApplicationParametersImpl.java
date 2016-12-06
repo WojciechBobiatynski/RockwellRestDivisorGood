@@ -46,7 +46,7 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     private String sodexoAddress1 = "ul. Kłobucka 25";
     private String sodexoAddress2 = "02-699 Warszawa";
     private String sodexoVatRegNum = "5222357343";
-    private String sodexoBankName = "Bank BGZ BNP Paribas S.A.";
+    private String sodexoBankName = "Bank BGŻ BNP Paribas S.A.";
     private String pathReportImages = "report_images/";
     private String printNumberCountryCodePoland = "31";
     private Integer verificationCodeLength = 8;
