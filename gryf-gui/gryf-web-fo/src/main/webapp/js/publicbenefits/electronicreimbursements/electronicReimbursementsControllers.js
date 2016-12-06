@@ -52,6 +52,10 @@ angular.module('gryf.electronicreimbursements').controller("announce.electronicR
             });
         }
 
+        $scope.createDocuments = function() {
+            AnnounceEReimbursementService.createDocuments();
+        };
+
         $scope.getNewRequiredCorrectionDate = AnnounceEReimbursementService.getNewRequiredCorrectionDate;
         $scope.sendToCorrect = AnnounceEReimbursementService.sendToCorrect;
         $scope.findAllCorrections = AnnounceEReimbursementService.findAllCorrections;

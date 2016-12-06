@@ -148,12 +148,24 @@
     </div>
     <div class="grid-100">
         <div class="grid-20">
-            <strong class="label">Kwota należna od Operatora Finansowego</strong>
+            <strong class="label">Kwota należna IS od Sodexo</strong>
             {{eReimbObject.entity.sxoTiAmountDueTotal}}
         </div>
         <div class="grid-20">
-            <strong class="label">Kwota dopłaty od Użytkownika</strong>
+            <strong class="label">Kwota należna Uczestnikowi od Sodexo</strong>
+            {{eReimbObject.entity.sxoIndAmountDueTotal}}
+        </div>
+        <div class="grid-20">
+            <strong class="label">Kwota należna IS od Uczestnika</strong>
             {{eReimbObject.entity.indTiAmountDueTotal}}
+        </div>
+        <div class="grid-20">
+            <strong class="label">Wykorzystany wkład własny Uczestnika</strong>
+            {{eReimbObject.entity.indOwnContributionUsed}}
+        </div>
+        <div class="grid-20">
+            <strong class="label">Wartość dofinansowania Uczestnika</strong>
+            {{eReimbObject.entity.indSubsidyValue}}
         </div>
     </div>
 </section>

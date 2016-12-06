@@ -112,6 +112,7 @@ angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementS
             var CHANGE_STATUS_URL = contextPath + "/rest/publicBenefits/electronic/reimbursements/status";
             var NEW_CORRECTION_DATE_URL = contextPath + "/rest/publicBenefits/electronic/reimbursements/correctionDate";
             var FIND_RMBS_CORRECTIONS_LIST_URL = contextPath + "/rest/publicBenefits/electronic/reimbursements/correction/list/";
+            var CREATE_DOCUMENTS_URL = contextPath + "/rest/publicBenefits/electronic/reimbursements/createDocuments/";
 
             var eReimbObject = new EReimbObject();
             var correctionObject = new CorrectionObject();
@@ -221,7 +222,21 @@ angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementS
                     correctionObject.loadedCorrections = data;
                     correctionObject.isCorrectionsLoaded = true;
                 });
-            }
+            };
+
+            var createDocuments = function() {
+                var rmbsId =  + ($routeParams.id ? $routeParams.id : rmbsId);
+                return $http.post(CREATE_DOCUMENTS_URL + rmbsId)
+                    .success(function() {
+                        GryfPopups.setPopup("success", "Sukces", "Wystawiono dokumenty");
+                    })
+                    .error(function() {
+                        GryfPopups.setPopup("error", "Błąd", "Nie udało się wystawić dokumentów");
+                    })
+                    .finally(function() {
+                        GryfPopups.showPopup();
+                    });
+            };
 
             return {
                 getNewModel: getNewModel,
@@ -231,6 +246,7 @@ angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementS
                 sendToCorrect: sendToCorrect,
                 getCorrectionObject: getCorrectionObject,
                 getNewRequiredCorrectionDate: getNewRequiredCorrectionDate,
-                findAllCorrections: findAllCorrections
+                findAllCorrections: findAllCorrections,
+                createDocuments: createDocuments
             };
         }]);
