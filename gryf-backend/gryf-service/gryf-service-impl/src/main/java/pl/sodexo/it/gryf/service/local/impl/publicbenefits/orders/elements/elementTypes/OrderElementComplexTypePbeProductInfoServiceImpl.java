@@ -41,7 +41,7 @@ public class OrderElementComplexTypePbeProductInfoServiceImpl extends OrderEleme
         LIST_ELEM_ID.add(KK_PRODUCT_INSTANCE_NUM_ELEM_ID);
         LIST_ELEM_ID.add(KK_PRODUCT_INSTANCE_AMOUNT_ELEM_ID);
         LIST_ELEM_ID.add(KK_OWN_CONTRIBUTION_PERCENT_ELEM_ID);
-        LIST_ELEM_ID.add(KK_OWN_CONTRIBUTION_AMONT_ELEM_ID);
+        LIST_ELEM_ID.add(KK_OWN_CONTRIBUTION_AMOUNT_ELEM_ID);
         LIST_ELEM_ID.add(KK_GRANT_AMOUNT_ELEM_ID);
         LIST_ELEM_ID.add(KK_ORDER_AMOUNT_ELEM_ID);
     }
@@ -70,7 +70,7 @@ public class OrderElementComplexTypePbeProductInfoServiceImpl extends OrderEleme
                                         elementMap.get(KK_PRODUCT_INSTANCE_NUM_ELEM_ID).getValueNumber().intValue() : null;
         BigDecimal productInstanceAmount = elementMap.get(KK_PRODUCT_INSTANCE_AMOUNT_ELEM_ID).getValueNumber();
         BigDecimal ownContributionPercent = elementMap.get(KK_OWN_CONTRIBUTION_PERCENT_ELEM_ID).getValueNumber();
-        BigDecimal ownContributionAmont = elementMap.get(KK_OWN_CONTRIBUTION_AMONT_ELEM_ID).getValueNumber();
+        BigDecimal ownContributionAmont = elementMap.get(KK_OWN_CONTRIBUTION_AMOUNT_ELEM_ID).getValueNumber();
         BigDecimal grantAmount = elementMap.get(KK_GRANT_AMOUNT_ELEM_ID).getValueNumber();
         BigDecimal orderAmount = elementMap.get(KK_ORDER_AMOUNT_ELEM_ID).getValueNumber();
 
@@ -104,7 +104,7 @@ public class OrderElementComplexTypePbeProductInfoServiceImpl extends OrderEleme
         BigDecimal grantAmount = productInstanceNum.multiply(productInstanceAmount).subtract(ownContributionAmont);
         BigDecimal orderAmount = grantAmount.add(ownContributionAmont);
 
-        orderFlowElementService.addElementNumberValue(order, KK_OWN_CONTRIBUTION_AMONT_ELEM_ID, ownContributionAmont);
+        orderFlowElementService.addElementNumberValue(order, KK_OWN_CONTRIBUTION_AMOUNT_ELEM_ID, ownContributionAmont);
         orderFlowElementService.addElementNumberValue(order, KK_GRANT_AMOUNT_ELEM_ID, grantAmount);
         orderFlowElementService.addElementNumberValue(order, KK_ORDER_AMOUNT_ELEM_ID, orderAmount);
     }
@@ -115,7 +115,7 @@ public class OrderElementComplexTypePbeProductInfoServiceImpl extends OrderEleme
         checkContainsMap(order, elementMap, KK_PRODUCT_INSTANCE_NUM_ELEM_ID);
         checkContainsMap(order, elementMap, KK_PRODUCT_INSTANCE_AMOUNT_ELEM_ID);
         checkContainsMap(order, elementMap, KK_OWN_CONTRIBUTION_PERCENT_ELEM_ID);
-        checkContainsMap(order, elementMap, KK_OWN_CONTRIBUTION_AMONT_ELEM_ID);
+        checkContainsMap(order, elementMap, KK_OWN_CONTRIBUTION_AMOUNT_ELEM_ID);
         checkContainsMap(order, elementMap, KK_GRANT_AMOUNT_ELEM_ID);
         checkContainsMap(order, elementMap, KK_ORDER_AMOUNT_ELEM_ID);
     }
