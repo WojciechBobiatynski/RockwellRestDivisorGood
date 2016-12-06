@@ -45,21 +45,48 @@ public class Ereimbursement extends VersionableEntity {
     @Setter
     private EreimbursementStatus ereimbursementStatus;
 
+    @Column(name = "ARRIVAL_DATE")
+    @Temporal(TemporalType.DATE)
+    @Getter
+    @Setter
+    private Date arrivalDate;
+
     @Column(name = "REIMBURSEMENT_DATE")
     @Temporal(TemporalType.DATE)
     @Getter
     @Setter
     private Date reimbursementDate;
 
+    @Column(name = "RECON_DATE")
+    @Temporal(TemporalType.DATE)
+    @Getter
+    @Setter
+    private Date reconDate;
+
     @Column(name = "SXO_TI_AMOUNT_DUE_TOTAL")
     @Getter
     @Setter
     private BigDecimal sxoTiAmountDueTotal;
 
+    @Column(name = "SXO_IND_AMOUNT_DUE_TOTAL")
+    @Getter
+    @Setter
+    private BigDecimal sxoIndAmountDueTotal;
+
     @Column(name = "IND_TI_AMOUNT_DUE_TOTAL")
     @Getter
     @Setter
     private BigDecimal indTiAmountDueTotal;
+
+    @Column(name = "IND_OWN_CONTRIBUTION_USED")
+    @Getter
+    @Setter
+    private BigDecimal indOwnContributionUsed;
+
+    @Column(name = "IND_SUBSIDY_VALUE")
+    @Getter
+    @Setter
+    private BigDecimal indSubsidyValue;
 
     @Column(name = "TI_REIMB_ACCOUNT_NUMBER")
     @Getter
