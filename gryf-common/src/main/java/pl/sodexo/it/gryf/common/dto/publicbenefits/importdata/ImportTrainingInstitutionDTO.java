@@ -12,7 +12,7 @@ public class ImportTrainingInstitutionDTO {
 
     @Getter
     @Setter
-    private Long externalId;
+    private String externalId;
 
     @Getter
     @Setter

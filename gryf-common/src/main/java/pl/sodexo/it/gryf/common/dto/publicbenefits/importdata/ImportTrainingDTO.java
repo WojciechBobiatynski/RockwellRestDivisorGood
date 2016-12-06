@@ -15,6 +15,10 @@ public class ImportTrainingDTO {
 
     @Getter
     @Setter
+    private Long trainingInstanceExternalId;
+
+    @Getter
+    @Setter
     private String vatRegNum;
 
     @Getter

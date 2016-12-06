@@ -31,7 +31,7 @@ import java.util.Iterator;
 /**
  * Created by Isolution on 2016-12-02.
  */
-@Service(value = "importContractDataService")
+@Service(value = "importContractService")
 public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
 
     //PRIVATE METHODS
@@ -145,37 +145,34 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
                     c.getIndividual().setEmail(cell.getStringCellValue());
                     break;
                 case 16:
-                    c.getIndividual().setBankAccount(cell.getStringCellValue());
-                    break;
-                case 17:
                     c.setEnterprise(new ImportEnterpriseDTO());
                     c.getEnterprise().setName(cell.getStringCellValue());
                     break;
-                case 18:
+                case 17:
                     c.getEnterprise().setVatRegNum(cell.getStringCellValue());
                     break;
-                case 19:
+                case 18:
                     c.getEnterprise().setAddressInvoice(new ImportAddressDTO());
                     c.getEnterprise().getAddressInvoice().setAddress(cell.getStringCellValue());
                     break;
-                case 20:
+                case 19:
                     c.getEnterprise().getAddressInvoice().setZipCode(cell.getStringCellValue());
                     break;
-                case 21:
+                case 20:
                     c.getEnterprise().getAddressInvoice().setCity(cell.getStringCellValue());
                     break;
-                case 22:
+                case 21:
                     c.getEnterprise().setAddressCorr(new ImportAddressDTO());
                     c.getEnterprise().getAddressCorr().setAddress(cell.getStringCellValue());
                     break;
-                case 23:
+                case 22:
                     c.getEnterprise().getAddressCorr().setZipCode(cell.getStringCellValue());
                     break;
-                case 24:
+                case 23:
                     c.getEnterprise().getAddressCorr().setCity(cell.getStringCellValue());
                     break;
-                case 25:
-                    c.getEnterprise().setBankAccount(cell.getStringCellValue());
+                case 24:
+                    c.getEnterprise().setEmail(cell.getStringCellValue());
                     break;
             }
         }

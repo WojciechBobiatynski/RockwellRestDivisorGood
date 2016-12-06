@@ -7,10 +7,10 @@ import pl.sodexo.it.gryf.model.api.DictionaryEntity;
  */
 public enum AsynchronizeJobType implements DictionaryEntity {
 
-    IMPORT_CON("Import umów", "asynchJobImportServce", "importContractDataService"),
-    IMPORT_ORD("Błąd biznesowy", "asynchJobImportServce", "importOrderDataService"),
-    IMPORT_TRA_INS("Import instytucji szkoleniowych", "asynchJobImportServce", "importTrainingInstitutionDataService"),
-    IMPORT_TRA("Import szkoleń", "asynchJobImportServce", "importTrainingDataService"),
+    IMPORT_CON("Import umów", "asynchJobImportServce", "importContractService"),
+    IMPORT_ORD("Błąd biznesowy", "asynchJobImportServce", "importOrderService"),
+    IMPORT_TRA_INS("Import instytucji szkoleniowych", "asynchJobImportServce", "importTrainingInstitutionService"),
+    IMPORT_TRA("Import szkoleń", "asynchJobImportServce", "importTrainingService"),
     ORDER_TRANS("Zmiana statusu zamówienia", "asynchJobOrderTransitionService", null);
 
     private String label;

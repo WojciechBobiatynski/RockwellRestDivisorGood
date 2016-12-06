@@ -45,36 +45,36 @@ public class ImportTrainingInstitutionServiceImpl extends ImportBaseDataServiceI
 
             switch (cell.getColumnIndex()) {
                 case 0:
-                    ti.setExternalId((long)cell.getNumericCellValue());
+                    ti.setExternalId(getStringCellValue(cell));
                     break;
                 case 1:
-                    ti.setVatRegNum(cell.getStringCellValue());
+                    ti.setVatRegNum(getStringCellValue(cell));
                     break;
                 case 2:
-                    ti.setName(cell.getStringCellValue());
+                    ti.setName(getStringCellValue(cell));
                     break;
                 case 3:
                     ti.setAddressInvoice(new ImportAddressDTO());
-                    ti.getAddressInvoice().setAddress(cell.getStringCellValue());
+                    ti.getAddressInvoice().setAddress(getStringCellValue(cell));
                     break;
                 case 4:
-                    ti.getAddressInvoice().setZipCode(cell.getStringCellValue());
+                    ti.getAddressInvoice().setZipCode(getStringCellValue(cell));
                     break;
                 case 5:
-                    ti.getAddressInvoice().setCity(cell.getStringCellValue());
+                    ti.getAddressInvoice().setCity(getStringCellValue(cell));
                     break;
                 case 6:
                     ti.setAddressCorr(new ImportAddressDTO());
-                    ti.getAddressCorr().setAddress(cell.getStringCellValue());
+                    ti.getAddressCorr().setAddress(getStringCellValue(cell));
                     break;
                 case 7:
-                    ti.getAddressCorr().setZipCode(cell.getStringCellValue());
+                    ti.getAddressCorr().setZipCode(getStringCellValue(cell));
                     break;
                 case 8:
-                    ti.getAddressCorr().setCity(cell.getStringCellValue());
+                    ti.getAddressCorr().setCity(getStringCellValue(cell));
                     break;
                 case 9:
-                    ti.setEmail(cell.getStringCellValue());
+                    ti.setEmail(getStringCellValue(cell));
                     break;
             }
         }

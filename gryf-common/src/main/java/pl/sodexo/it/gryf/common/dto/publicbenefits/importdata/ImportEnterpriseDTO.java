@@ -29,4 +29,8 @@ public class ImportEnterpriseDTO {
     @Getter
     @Setter
     private String bankAccount;
+
+    @Getter
+    @Setter
+    private String email;//TODO: tbilski zmapować
 }

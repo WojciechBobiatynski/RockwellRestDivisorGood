@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.service.local.impl.publicbenefits.importdata;
 
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
@@ -93,5 +94,24 @@ public abstract class ImportBaseDataServiceImpl implements ImportDataService{
         }
         return null;
     }
+
+    protected String getStringCellValue(Cell cell){
+        try{
+            return cell.getStringCellValue();
+        }catch(RuntimeException e){
+            throw new RuntimeException(String.format("Błąd przy pobraniu wartości "
+                    + "z kolumny numer %s. Komunikat: %s.", cell.getColumnIndex() + 1, e.getMessage()), e);
+        }
+    }
+
+    protected double getNumericCellValue(Cell cell){
+        try{
+            return cell.getNumericCellValue();
+        }catch(RuntimeException e){
+            throw new RuntimeException(String.format("Błąd przy pobraniu wartości "
+                    + "z kolumny numer %s. Komunikat: %s.", cell.getColumnIndex() + 1, e.getMessage()), e);
+        }
+    }
+
 
 }

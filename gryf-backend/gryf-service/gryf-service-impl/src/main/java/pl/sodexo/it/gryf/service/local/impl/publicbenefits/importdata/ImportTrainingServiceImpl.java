@@ -1,5 +1,7 @@
 package pl.sodexo.it.gryf.service.local.impl.publicbenefits.importdata;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsfo
 import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.TrainingService;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.Iterator;
 
 /**
@@ -44,43 +47,46 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
 
             switch (cell.getColumnIndex()) {
                 case 0:
-                    t.setVatRegNum(cell.getStringCellValue());
+                    t.setTrainingInstanceExternalId((long)getNumericCellValue(cell));
                     break;
                 case 1:
-                    t.setTrainingInstanceName(cell.getStringCellValue());
+                    t.setVatRegNum(getStringCellValue(cell));
                     break;
                 case 2:
-                    t.setExternalId((long)cell.getNumericCellValue());
+                    t.setTrainingInstanceName(getStringCellValue(cell));
                     break;
                 case 3:
-                    t.setName(cell.getStringCellValue());
+                    t.setExternalId((long)getNumericCellValue(cell));
                     break;
                 case 4:
-                    t.setStartDate(cell.getDateCellValue());
+                    t.setName(getStringCellValue(cell));
                     break;
                 case 5:
-                    t.setEndDate(cell.getDateCellValue());
+                    t.setStartDate(cell.getDateCellValue());
                     break;
                 case 6:
-                    t.setStatus(cell.getStringCellValue());
+                    t.setEndDate(cell.getDateCellValue());
                     break;
                 case 7:
-                    t.setPlace(cell.getStringCellValue());
+                    t.setStatus(getStringCellValue(cell));
                     break;
                 case 8:
-                    t.setPrice(new BigDecimal(cell.getNumericCellValue()));
+                    t.setPlace(getStringCellValue(cell));
                     break;
                 case 9:
-                    t.setHoursNumber((int)cell.getNumericCellValue());
+                    t.setPrice(new BigDecimal(getNumericCellValue(cell)));
                     break;
                 case 10:
-                    t.setHourPrice(new BigDecimal(cell.getNumericCellValue()));
+                    t.setHoursNumber((int)getNumericCellValue(cell));
                     break;
                 case 11:
-                    t.setCategory(cell.getStringCellValue());
+                    t.setHourPrice(new BigDecimal(getNumericCellValue(cell)));
                     break;
                 case 12:
-                    t.setReimbursmentCondition(cell.getStringCellValue());
+                    t.setCategory(getStringCellValue(cell));
+                    break;
+                case 13:
+                    t.setReimbursmentCondition(getStringCellValue(cell));
                     break;
             }
         }
@@ -91,9 +97,18 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
 
     private TrainingDTO createTrainingDTO(ImportTrainingDTO importDTO){
         TrainingDTO dto = new TrainingDTO();
-
-
-
+        dto.setTrainingId(null);
+        dto.setTrainingInstitution(1l);//TODO: tbilski
+        dto.setInstitutionName(null);
+        dto.setName(importDTO.getName());
+        dto.setPrice(importDTO.getPrice());
+        dto.setStartDate(importDTO.getStartDate());
+        dto.setEndDate(importDTO.getEndDate());
+        dto.setPlace(importDTO.getPlace());
+        dto.setHoursNumber(importDTO.getHoursNumber());
+        dto.setHourPrice(importDTO.getHourPrice());
+        dto.setCategory(importDTO.getCategory());
+        dto.setTrainingCategoryCatalogId(null);
         return dto;
     }
 

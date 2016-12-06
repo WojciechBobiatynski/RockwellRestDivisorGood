@@ -13,7 +13,7 @@ import java.util.Iterator;
 /**
  * Created by Isolution on 2016-12-02.
  */
-@Service(value = "importOrderDataService")
+@Service(value = "importOrderService")
 public class ImportOrderServiceImpl extends ImportBaseDataServiceImpl {
 
     //PRIVATE FIELDS

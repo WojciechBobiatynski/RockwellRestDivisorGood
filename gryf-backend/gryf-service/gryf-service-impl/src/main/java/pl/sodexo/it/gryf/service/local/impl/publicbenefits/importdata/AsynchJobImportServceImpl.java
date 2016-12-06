@@ -101,10 +101,10 @@ public class AsynchJobImportServceImpl implements AsynchJobService{
 
     private String createDescription(int allRows, int successRows, int bussinssRows, int errorRows){
         if(allRows == successRows){
-            return String.format("Wczytano wszystkie wiersze: ilość wierszy: ", successRows);
+            return String.format("Wczytano wszystkie wiersze. Ilość wczytanych wierszy: %s.", successRows);
         }
-        return String.format("Wczytano częściowo wiersze: ilość wszystkich wierszy: %s, ilość wierszy poprawnie wczytanych: %s, "
-                    + "ilość wierszy błędnych (biznesowe): %s, ilość wierszy błednych (krytyczne): %s", allRows, successRows, bussinssRows, errorRows);
+        return String.format("Wczytano częściowo wiersze. Ilość wszystkich wierszy: %s, ilość wierszy poprawnie wczytanych: %s, "
+                    + "ilość wierszy błędnych (biznesowe): %s, ilość wierszy błednych (krytyczne): %s.", allRows, successRows, bussinssRows, errorRows);
     }
 
 

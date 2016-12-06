@@ -73,6 +73,9 @@ public class OrderServiceLocalImpl implements OrderServiceLocal {
         gryfValidator.validate(dto);
 
         Contract contract = contractRepository.get(dto.getContractId());
+        if(contract == null){
+            gryfValidator.validate(String.format("Nie znaleziono umowy o identyfikatorze (%s).", dto.getContractId()));
+        }
         GrantProgram grantProgram = contract.getGrantProgram();
         OrderFlowForGrantProgram orderForGrPr = paramInDateService.findOrderFlowForGrantProgram(grantProgram.getId(), new Date(), true);
         OrderFlow orderFlow = orderForGrPr.getOrderFlow();
