@@ -36,6 +36,8 @@ public class OrderFlow100Service extends OrderFlowBaseService {
         orderElementComplexTypePbeProductInfoService.addPbeProductElements(order, contract, dto);
         orderFlowElementService.addElementVarcharValue(order, KK_ADDRESS_INVOICE_ELEM_ID, dto.getAddressInvoice());
         orderFlowElementService.addElementVarcharValue(order, KK_ADDRESS_CORRESPONDENCE_ELEM_ID, dto.getAddressCorr());
+        orderFlowElementService.addElementVarcharValue(order, KK_POSTAL_CODE_INVOICE_ELEM_ID, dto.getZipCodeInvoice());
+        orderFlowElementService.addElementVarcharValue(order, KK_POSTAL_CODE_CORRESPONDENCE_ELEM_ID, dto.getZipCodeCorr());
         return order;
     }
 }

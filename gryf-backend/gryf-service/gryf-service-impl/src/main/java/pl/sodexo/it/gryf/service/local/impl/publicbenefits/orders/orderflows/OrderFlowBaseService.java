@@ -124,24 +124,14 @@ public abstract class OrderFlowBaseService implements OrderFlowService {
             dto.setEnterpriseName(enterprise.getName());
             dto.setEnterpriseVatRegNum(enterprise.getVatRegNum());
         }
+
+        //ADRESY
         if(enterprise != null){
-            ZipCode zipCodeInvoice = enterprise.getZipCodeInvoice();
-            if(enterprise.getAddressInvoice() != null && zipCodeInvoice != null){
-                dto.setAddressInvoice(getAddressStr(enterprise.getAddressInvoice(), zipCodeInvoice));
-            }
-            ZipCode zipCodeCorr = enterprise.getZipCodeCorr();
-            if(enterprise.getAddressCorr() != null && zipCodeCorr != null){
-                dto.setAddressCorr(getAddressStr(enterprise.getAddressCorr(), zipCodeCorr));
-            }
+            setAddresses(dto, enterprise.getAddressInvoice(), enterprise.getZipCodeInvoice(),
+                                enterprise.getAddressCorr(), enterprise.getZipCodeCorr());
         }else if(individual != null){
-            ZipCode zipCodeInvoice = individual.getZipCodeInvoice();
-            if(individual.getAddressInvoice() != null && zipCodeInvoice != null){
-                dto.setAddressInvoice(getAddressStr(individual.getAddressInvoice(), zipCodeInvoice));
-            }
-            ZipCode zipCodeCorr = individual.getZipCodeCorr();
-            if(individual.getAddressCorr() != null && zipCodeCorr != null){
-                dto.setAddressCorr(getAddressStr(individual.getAddressCorr(), zipCodeCorr));
-            }
+            setAddresses(dto, individual.getAddressInvoice(), individual.getZipCodeInvoice(),
+                                individual.getAddressCorr(), individual.getZipCodeCorr());
         }
 
         dto.setExternalOrderId(null);
@@ -218,8 +208,24 @@ public abstract class OrderFlowBaseService implements OrderFlowService {
         }
     }
 
-    private String getAddressStr(String address, ZipCode zipcode){
-        return String.format("%s, %s %s", address, zipcode.getZipCode(), zipcode.getCityName());
+    private String getZipCodeStr(ZipCode zipcode){
+        return String.format("%s %s", zipcode.getZipCode(), zipcode.getCityName());
+    }
+
+    private void setAddresses(CreateOrderDTO dto, String addressInvoice, ZipCode zipCodeInvoice,
+                                                  String addressCorr, ZipCode zipCodeCorr){
+        if(addressInvoice != null){
+            dto.setAddressInvoice(addressInvoice);
+        }
+        if(zipCodeInvoice != null){
+            dto.setZipCodeInvoice(getZipCodeStr(zipCodeInvoice));
+        }
+        if(addressCorr != null){
+            dto.setAddressCorr(addressCorr);
+        }
+        if(zipCodeCorr != null){
+            dto.setZipCodeCorr(getZipCodeStr(zipCodeCorr));
+        }
     }
 
 

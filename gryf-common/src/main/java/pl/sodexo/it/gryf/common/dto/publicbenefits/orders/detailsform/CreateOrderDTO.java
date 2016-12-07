@@ -61,7 +61,15 @@ public class CreateOrderDTO {
 
     @Getter
     @Setter
+    private String zipCodeInvoice;
+
+    @Getter
+    @Setter
     private String addressCorr;
+
+    @Getter
+    @Setter
+    private String zipCodeCorr;
 
     @Getter
     @Setter
