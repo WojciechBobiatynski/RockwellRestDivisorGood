@@ -29,7 +29,7 @@ import java.util.Objects;
 @ToString(exclude = {"zipCodeInvoice", "zipCodeCorr", "contacts", "orders", "employments"})
 @Entity
 @Table(name = "ENTERPRISES", schema = "APP_PBE")
-@SequenceGenerator(name="ent_seq", schema = "eagle", sequenceName = "ent_seq", allocationSize = 1)
+@SequenceGenerator(name="ind_seq", schema = "eagle", sequenceName = "ind_seq", allocationSize = 1)
 @NamedQueries({
         @NamedQuery(name = "Enterprise.findByVatRegNum", query = "select e from Enterprise e where e.vatRegNum = :vatRegNum order by e.addressCorr"),
         @NamedQuery(name = "Enterprise.getForUpdate", query = "select e from Enterprise e left join fetch e.contacts where e.id = :id"),
@@ -63,7 +63,7 @@ public class Enterprise extends VersionableEntity implements AccountContractPair
 
     @Id
     @Column(name = "ID")
-    @GeneratedValue(generator = "ent_seq")
+    @GeneratedValue(generator = "ind_seq")
     private Long id;
 
     @Column(name = "CODE")
