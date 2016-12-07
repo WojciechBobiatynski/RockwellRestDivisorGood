@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.common.enums.FileType;
 import pl.sodexo.it.gryf.common.enums.ReportParameter;
+import pl.sodexo.it.gryf.common.enums.ReportSourceType;
 import pl.sodexo.it.gryf.common.enums.ReportTemplateCode;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
@@ -60,7 +61,7 @@ public class CareerDirectionGenerateDocumentsActionService extends ActionBaseSer
         //TODO: tbilski nazwa pliku
         String reportFileName = String.format("%s_%s_Nota_obciazeniowo_ksiegowa_na_wklad_wlasny.pdf", entityId, order.getId());
         String reportLocation = reportService.generateReport(ReportTemplateCode.DEBIT_NOTE, reportFileName,
-                                                            FileType.ORDERS, parameters);
+                                                            FileType.ORDERS, parameters, ReportSourceType.ORDER, order.getId());
 
         //DTO DLA DANEGO ELEMENT
         orderFlowElementService.addElementEmpty(order, KK_DOCUMENT_OWN_CONTRIBUTION_ELEM_ID);

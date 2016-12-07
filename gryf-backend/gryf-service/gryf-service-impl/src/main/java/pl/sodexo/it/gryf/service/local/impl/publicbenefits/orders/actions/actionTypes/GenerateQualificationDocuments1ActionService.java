@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.sodexo.it.gryf.common.enums.FileType;
 import pl.sodexo.it.gryf.common.enums.ReportParameter;
+import pl.sodexo.it.gryf.common.enums.ReportSourceType;
 import pl.sodexo.it.gryf.common.enums.ReportTemplateCode;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
@@ -40,7 +41,7 @@ public class GenerateQualificationDocuments1ActionService extends ActionBaseServ
 
         String reportFileName = String.format("%s_%s_Umowa_z_przedsiebiorstewem_o_dofinansowanie.pdf", entityId, order.getId());
         String reportLocation = reportService.generateReport(ReportTemplateCode.ENTERPRISE_AGREEMENT, reportFileName,
-                FileType.ORDERS, parameters);
+                FileType.ORDERS, parameters, ReportSourceType.ORDER, order.getId());
 
         //DTO DLA DANEGO ELEMENT
         OrderElement orderElement = order.getElement("EQCONTRCT1");

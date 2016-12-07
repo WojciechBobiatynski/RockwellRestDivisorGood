@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.dto.other.FileDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.detailsform.ReimbursementDTO;
 import pl.sodexo.it.gryf.common.enums.FileType;
+import pl.sodexo.it.gryf.common.enums.ReportSourceType;
 import pl.sodexo.it.gryf.common.enums.ReportTemplateCode;
 import pl.sodexo.it.gryf.common.exception.StaleDataException;
 import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
@@ -239,7 +240,7 @@ public class ReimbursementServiceImpl implements ReimbursementService {
 
             //GENERATOE REPORT
             String reportFileName = reimbursementAttachmentLocalService.findAttachmentName(entity, ReimbursementAttachment.ATTACHMENT_TYPE_IN_PATH, reportAttachment.getId(), reportAttachment.getName()) + ".pdf";
-            reportLocation = reportService.generateReport(ReportTemplateCode.GRANT_ACKNOWLEDGMENT_REPORT, reportFileName, FileType.REIMBURSEMENTS);
+            reportLocation = reportService.generateReport(ReportTemplateCode.GRANT_ACKNOWLEDGMENT_REPORT, reportFileName, FileType.REIMBURSEMENTS, ReportSourceType.REIMBURSEMENT, entity.getId());
 
             //UPDATE REPORT PATH
             reportAttachment.setFileLocation(reportLocation);

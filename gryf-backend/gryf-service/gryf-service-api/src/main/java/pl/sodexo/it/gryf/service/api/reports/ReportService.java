@@ -1,6 +1,7 @@
 package pl.sodexo.it.gryf.service.api.reports;
 
 import pl.sodexo.it.gryf.common.enums.FileType;
+import pl.sodexo.it.gryf.common.enums.ReportSourceType;
 import pl.sodexo.it.gryf.common.enums.ReportTemplateCode;
 
 import java.util.Map;
@@ -10,7 +11,7 @@ import java.util.Map;
  */
 public interface ReportService {
 
-    String generateReport(ReportTemplateCode templateCode, String reportFileName, FileType fileType);
+    String generateReport(ReportTemplateCode templateCode, String reportFileName, FileType fileType, ReportSourceType reportSourceType, Long sourceId);
 
-    String generateReport(ReportTemplateCode templateCode, String reportFileName, FileType fileType, Map<String, Object> parameters);
+    String generateReport(ReportTemplateCode templateCode, String reportFileName, FileType fileType, Map<String, Object> parameters, ReportSourceType reportSourceType, Long sourceId);
 }

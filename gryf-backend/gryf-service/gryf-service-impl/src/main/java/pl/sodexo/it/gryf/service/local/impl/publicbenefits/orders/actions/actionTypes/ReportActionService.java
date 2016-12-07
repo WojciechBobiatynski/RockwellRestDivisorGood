@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.common.enums.FileType;
+import pl.sodexo.it.gryf.common.enums.ReportSourceType;
 import pl.sodexo.it.gryf.common.enums.ReportTemplateCode;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
@@ -46,7 +47,7 @@ public class ReportActionService extends ActionBaseService {
 
         String reportFileName = String.format("Invoice_%s.pdf", order.getId());
         String reportLocation = reportService.generateReport(ReportTemplateCode.INVOICE, reportFileName,
-                                                                FileType.ORDERS, parameters);
+                                                                FileType.ORDERS, parameters, ReportSourceType.INVOICE, 1308L);
 
         //DTO DLA DANEGO ELEMENT
         OrderElement orderElement = order.getElement("ATT_REP_T");

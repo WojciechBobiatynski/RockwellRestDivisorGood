@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.common.enums.FileType;
 import pl.sodexo.it.gryf.common.enums.ReportParameter;
+import pl.sodexo.it.gryf.common.enums.ReportSourceType;
 import pl.sodexo.it.gryf.common.enums.ReportTemplateCode;
 import pl.sodexo.it.gryf.service.api.reports.ReportService;
 import pl.sodexo.it.gryf.service.local.api.FileService;
@@ -42,12 +43,14 @@ public class ReportServiceImpl implements ReportService {
     //PUBLIC METHODS
 
     @Override
-    public String generateReport(ReportTemplateCode templateCode, String reportFileName, FileType fileType) {
-        return generateReport(templateCode, reportFileName, fileType, new HashMap<String, Object>());
+    public String generateReport(ReportTemplateCode templateCode, String reportFileName, FileType fileType,
+                                ReportSourceType reportSourceType, Long sourceId) {
+        return generateReport(templateCode, reportFileName, fileType, new HashMap<>(), reportSourceType, sourceId);
     }
 
     @Override
-    public String generateReport(ReportTemplateCode templateCode, String reportFileName, FileType fileType, Map<String, Object> parameters) {
+    public String generateReport(ReportTemplateCode templateCode, String reportFileName, FileType fileType, Map<String, Object> parameters,
+                                    ReportSourceType reportSourceType, Long sourceId) {
         try {
             //ADD STD PARAMS
             parameters.put(ReportParameter.IMAGES_PATH.getParam(),
