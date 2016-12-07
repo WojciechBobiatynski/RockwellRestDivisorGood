@@ -1,24 +1,24 @@
 CREATE TABLE APP_PBE.REPORT_INSTANCES
 (
-	ID NUMBER NOT NULL,    -- Identyfikator wydruku. Klucz g艂贸wny
+	ID NUMBER NOT NULL,    -- Identyfikator wydruku. Klucz g丑wny
 	TEMPLATE_NAME VARCHAR (100) NOT NULL,   -- Nazwa szablonu wykonywanego raportu
-	CREATED_USER VARCHAR(100) NOT NULL,   -- U偶ytkownik wykonuj膮cy raport
+	CREATED_USER VARCHAR(100) NOT NULL,   -- U縴tkownik wykonuj筩y raport
 	CREATED_TIMESTAMP TIMESTAMP(6) NOT NULL,    -- Data wykonania raportu
-	PARAMETERS CLOB NOT NULL,   -- Lista parametr贸w raportu
+	PARAMETERS CLOB NOT NULL,   -- Lista parametr體 raportu
 	PATH VARCHAR(200) NOT NULL,   -- Link do pliku wynikowego raportu
-	SOURCE_TYPE VARCHAR(30) NOT NULL,    -- Rodzaj 藕r贸d艂a dla raportu - np. zam贸wienie, rozliczenie
-	SOURCE_ID NUMBER NOT NULL    -- ID obiektu powi膮zanego, np. id zam贸wienia, id rozliczenia
+	SOURCE_TYPE VARCHAR(30) NOT NULL,    -- Rodzaj 焤骴砤 dla raportu - np. zam體ienie, rozliczenie
+	SOURCE_ID NUMBER NOT NULL    -- ID obiektu powi箊anego, np. id zam體ienia, id rozliczenia
 );
 
-COMMENT ON TABLE APP_PBE.REPORT_INSTANCES IS '@Author(Andrzej Dziobek); @Project(Gryf-PBE); @Date(2016-12-07);@Purpose(Tabela przechowuj膮ca dane wydruk贸w);';
-COMMENT ON COLUMN APP_PBE.REPORT_INSTANCES.ID IS 'Identyfikator wydruku. Klucz g艂贸wny. Sekwencja PBE_REPORT_INSTANCES_SEQ';
+COMMENT ON TABLE APP_PBE.REPORT_INSTANCES IS '@Author(Andrzej Dziobek); @Project(Gryf-PBE); @Date(2016-12-07);@Purpose(Tabela przechowuj筩a dane wydruk體);';
+COMMENT ON COLUMN APP_PBE.REPORT_INSTANCES.ID IS 'Identyfikator wydruku. Klucz g丑wny. Sekwencja PBE_REPORT_INSTANCES_SEQ';
 COMMENT ON COLUMN APP_PBE.REPORT_INSTANCES.TEMPLATE_NAME IS 'Nazwa szablonu wykonywanego raportu';
-COMMENT ON COLUMN APP_PBE.REPORT_INSTANCES.CREATED_USER IS 'U偶ytkownik wykonuj膮cy raport';
+COMMENT ON COLUMN APP_PBE.REPORT_INSTANCES.CREATED_USER IS 'U縴tkownik wykonuj筩y raport';
 COMMENT ON COLUMN APP_PBE.REPORT_INSTANCES.CREATED_TIMESTAMP  IS 'Data wykonania raportu';
 COMMENT ON COLUMN APP_PBE.REPORT_INSTANCES.PARAMETERS IS 'Data wykonania raportu';
 COMMENT ON COLUMN APP_PBE.REPORT_INSTANCES.PATH IS 'Link do pliku wynikowego raportu';
-COMMENT ON COLUMN APP_PBE.REPORT_INSTANCES.SOURCE_TYPE  IS 'Rodzaj 藕r贸d艂a dla raportu';
-COMMENT ON COLUMN APP_PBE.REPORT_INSTANCES.SOURCE_ID  IS 'ID obiektu powi膮zanego';
+COMMENT ON COLUMN APP_PBE.REPORT_INSTANCES.SOURCE_TYPE  IS 'Rodzaj 焤骴砤 dla raportu';
+COMMENT ON COLUMN APP_PBE.REPORT_INSTANCES.SOURCE_ID  IS 'ID obiektu powi箊anego';
 
 -- uprawnienia
 BEGIN
