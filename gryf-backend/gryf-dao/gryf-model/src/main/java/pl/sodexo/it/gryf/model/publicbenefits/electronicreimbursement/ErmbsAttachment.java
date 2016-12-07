@@ -3,7 +3,9 @@ package pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import pl.sodexo.it.gryf.model.api.BooleanConverter;
 import pl.sodexo.it.gryf.model.api.VersionableEntity;
+import pl.sodexo.it.gryf.model.attachments.AttachmentFile;
 import pl.sodexo.it.gryf.model.attachments.AttachmentType;
 
 import javax.persistence.*;
@@ -14,11 +16,11 @@ import javax.validation.constraints.NotNull;
  *
  * Created by akmiecinski on 22.11.2016.
  */
-@ToString(exclude = {"ereimbursement", "correction", "attachmentType"})
+@ToString(exclude = {"ereimbursement", "attachmentType"})
 @Entity
 @Table(name = "E_RMBS_ATTACHMENTS", schema = "APP_PBE")
-@SequenceGenerator(name="ermbs_attach_seq", schema = "eagle", sequenceName = "ermbs_attach_seq", allocationSize = 1)
-public class ErmbsAttachment extends VersionableEntity{
+@SequenceGenerator(name = "ermbs_attach_seq", schema = "eagle", sequenceName = "ermbs_attach_seq", allocationSize = 1)
+public class ErmbsAttachment extends VersionableEntity {
 
     @Id
     @NotNull
@@ -33,12 +35,6 @@ public class ErmbsAttachment extends VersionableEntity{
     @Getter
     @Setter
     private Ereimbursement ereimbursement;
-
-    @ManyToOne
-    @JoinColumn(name = "CORR_ID", referencedColumnName = "ID")
-    @Getter
-    @Setter
-    private Correction correction;
 
     @ManyToOne
     @JoinColumn(name = "ATTACH_TYPE", referencedColumnName = "CODE")
@@ -56,14 +52,16 @@ public class ErmbsAttachment extends VersionableEntity{
     @Setter
     private String additionalDescription;
 
-    @Column(name = "ORGINAL_FILE_NAME")
+    @Column(name = "DELETED")
+    @Convert(converter = BooleanConverter.class)
     @Getter
     @Setter
-    private String orginalFileName;
+    private boolean deleted;
 
-    @Column(name = "FILE_LOCATION")
+    @OneToOne
+    @JoinColumn(name = "FILE_ID", referencedColumnName = "ID")
     @Getter
     @Setter
-    private String fileLocation;
+    private AttachmentFile attachmentFile;
 
 }

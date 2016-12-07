@@ -3,8 +3,8 @@ package pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.electronicr
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsAttachmentDto;
+import pl.sodexo.it.gryf.dao.api.crud.repository.attachments.AttachmentFileRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.attachments.AttachmentTypeRepository;
-import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.CorrectionRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementRepository;
 import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.ErmbsAttachment;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.VersionableDtoMapper;
@@ -24,7 +24,7 @@ public class ErmbsAttachmentDtoMapper extends VersionableDtoMapper<ErmbsAttachme
     private AttachmentTypeRepository attachmentTypeRepository;
 
     @Autowired
-    private CorrectionRepository correctionRepository;
+    private AttachmentFileRepository attachmentFileRepository;
 
     @Override
     protected ErmbsAttachment initDestination() {
@@ -36,12 +36,10 @@ public class ErmbsAttachmentDtoMapper extends VersionableDtoMapper<ErmbsAttachme
         super.map(dto, entity);
         entity.setId(dto.getId());
         entity.setEreimbursement(dto.getErmbsId() != null ? ereimbursementRepository.get(dto.getErmbsId()) : null);
-        entity.setCorrection(dto.getCorrId() != null ? correctionRepository.get(dto.getCorrId()) : null);
         entity.setAttachmentType(attachmentTypeRepository.get(dto.getCode()));
         entity.setDocumentNumber(dto.getDocumentNumber());
         entity.setAdditionalDescription(dto.getAdditionalDescription());
-        entity.setOrginalFileName(dto.getOriginalFileName());
-        entity.setFileLocation(dto.getFileLocation());
+        entity.setAttachmentFile(dto.getFileId() != null ? attachmentFileRepository.get(dto.getFileId()) : null);
     }
 
 }

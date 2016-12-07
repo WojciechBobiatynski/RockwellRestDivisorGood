@@ -125,24 +125,26 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
 
     @Override
     public Long saveErmbs(ElctRmbsHeadDto elctRmbsHeadDto) {
+        //wyliczanie składek zawsze przed zapisem na wypadek manipulowania danymi z frontu
         calculateCharges(elctRmbsHeadDto);
+        //musimy zapisać rmbs, żeby mieć ID potrzebne do nadania odpowiedniej nazwy załącznikom
         Ereimbursement ereimbursement = saveErmbsData(elctRmbsHeadDto);
-        ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.NEW_ERMBS));
-        setToReimburseStatusForTiInstance(ereimbursement);
-        saveAttachments(elctRmbsHeadDto, ereimbursement);
+        elctRmbsHeadDto.setErmbsId(ereimbursement.getId());
+        ermbsAttachmentService.manageErmbsAttachments(elctRmbsHeadDto);
+        setErmbsDataWhenSave(ereimbursement);
         return ereimbursement.getId();
     }
 
     @Override
     public Long sendToReimburse(ElctRmbsHeadDto elctRmbsHeadDto) {
         ermbsValidator.validateRmbs(elctRmbsHeadDto);
+        //wyliczanie składek zawsze przed zapisem na wypadek manipulowania danymi z frontu
         calculateCharges(elctRmbsHeadDto);
+        //musimy zapisać rmbs, żeby mieć ID potrzebne do nadania odpowiedniej nazwy załącznikom
         Ereimbursement ereimbursement = saveErmbsData(elctRmbsHeadDto);
-        ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.TO_ERMBS));
-        ereimbursement.setArrivalDate(new Date());
-        ereimbursement.setReimbursementDate(gryfPLSQLRepository.getNthBusinessDay(new Date(), applicationParameters.getBusinessDaysNumberForReimbursement()));
-        setToReimburseStatusForTiInstance(ereimbursement);
-        saveAttachments(elctRmbsHeadDto, ereimbursement);
+        elctRmbsHeadDto.setErmbsId(ereimbursement.getId());
+        ermbsAttachmentService.manageErmbsAttachments(elctRmbsHeadDto);
+        setErmbsDataWhenSendToReimburse(ereimbursement);
         return ereimbursement.getId();
     }
 
@@ -175,16 +177,22 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         return ereimbursement.getId();
     }
 
-    private void saveAttachments(ElctRmbsHeadDto elctRmbsHeadDto, Ereimbursement ereimbursement) {
-        ElctRmbsHeadDto dtoFromDatabase = ereimbursementEntityMapper.convert(ereimbursement);
-        dtoFromDatabase.setAttachments(elctRmbsHeadDto.getAttachments());
-        ermbsAttachmentService.saveErmbsAttachments(dtoFromDatabase);
-    }
-
     private Ereimbursement saveErmbsData(ElctRmbsHeadDto elctRmbsHeadDto) {
         Ereimbursement ereimbursement = ereimbursementDtoMapper.convert(elctRmbsHeadDto);
         ereimbursement = ereimbursement.getId() != null ? ereimbursementRepository.update(ereimbursement, ereimbursement.getId()) : ereimbursementRepository.save(ereimbursement);
         return ereimbursement;
+    }
+
+    private void setErmbsDataWhenSave(Ereimbursement ereimbursement) {
+        ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.NEW_ERMBS));
+        setToReimburseStatusForTiInstance(ereimbursement);
+    }
+
+    private void setErmbsDataWhenSendToReimburse(Ereimbursement ereimbursement) {
+        ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.TO_ERMBS));
+        ereimbursement.setArrivalDate(new Date());
+        ereimbursement.setReimbursementDate(gryfPLSQLRepository.getNthBusinessDay(new Date(), applicationParameters.getBusinessDaysNumberForReimbursement()));
+        setToReimburseStatusForTiInstance(ereimbursement);
     }
 
     private void setToReimburseStatusForTiInstance(Ereimbursement ereimbursement) {

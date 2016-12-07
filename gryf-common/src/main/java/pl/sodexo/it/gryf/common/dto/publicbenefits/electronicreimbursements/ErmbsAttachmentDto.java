@@ -27,7 +27,7 @@ public class ErmbsAttachmentDto extends VersionableDto implements Serializable {
 
     @Getter
     @Setter
-    private Long corrId;
+    private Long fileId;
 
     @Getter
     @Setter
