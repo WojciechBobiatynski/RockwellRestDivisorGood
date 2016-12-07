@@ -77,4 +77,9 @@ public interface ElectronicReimbursementsService {
      */
     Long sendToCorrect(CorrectionDto correctionDto);
 
+    /**
+     * Tworzy dokumenty księgowe, w tym notę uznaniową
+     * @param rmbsId
+     */
+    void createDocuments(Long rmbsId);
 }

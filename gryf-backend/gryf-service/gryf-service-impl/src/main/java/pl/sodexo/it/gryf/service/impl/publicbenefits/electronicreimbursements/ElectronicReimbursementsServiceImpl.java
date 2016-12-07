@@ -11,6 +11,8 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.Calc
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CorrectionDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto;
+import pl.sodexo.it.gryf.common.enums.FileType;
+import pl.sodexo.it.gryf.common.enums.ReportTemplateCode;
 import pl.sodexo.it.gryf.common.exception.NoCalculationParamsException;
 import pl.sodexo.it.gryf.common.utils.GryfConstants;
 import pl.sodexo.it.gryf.dao.api.crud.repository.other.GryfPLSQLRepository;
@@ -25,13 +27,16 @@ import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.Ereimburse
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.CorrectionService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.ElectronicReimbursementsService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.ErmbsAttachmentService;
+import pl.sodexo.it.gryf.service.api.reports.ReportService;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.electronicreimbursements.EreimbursementDtoMapper;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.electronicreimbursements.EreimbursementEntityMapper;
 import pl.sodexo.it.gryf.service.validation.publicbenefits.electronicreimbursements.CorrectionValidator;
 import pl.sodexo.it.gryf.service.validation.publicbenefits.electronicreimbursements.ErmbsValidator;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Serwis implementujący operacje na e-rozliczeniach
@@ -83,6 +88,9 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
 
     @Autowired
     private GrantProgramSearchDao grantProgramSearchDao;
+
+    @Autowired
+    private ReportService reportService;
 
     @Override
     public List<ElctRmbsDto> findEcltRmbsListByCriteria(ElctRmbsCriteria criteria) {
@@ -193,5 +201,24 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
             throw new NoCalculationParamsException();
         }
         return params;
+    }
+
+    @Override
+    public void createDocuments(Long rmbsId) {
+        //GENERATOE REPORT
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("rmbsId", rmbsId);
+        parameters.put("companyName", applicationParameters.getSodexoName());
+        parameters.put("companyAddress1", applicationParameters.getSodexoAddress1());
+        parameters.put("companyAddress2", applicationParameters.getSodexoAddress2());
+        parameters.put("companyVatRegNum", applicationParameters.getSodexoVatRegNum());
+        parameters.put("companyBankName", applicationParameters.getSodexoBankName());
+        Ereimbursement ereimbursement = ereimbursementRepository.get(rmbsId);
+
+        //TODO: tbilski nazwa pliku
+        String reportFileName = String.format("%s_Nota_uznaniowa.pdf", rmbsId);
+        String reportLocation = reportService.generateReport(ReportTemplateCode.CREDIT_NOTE, reportFileName,
+                FileType.E_REIMBURSEMENTS, parameters);
+
     }
 }
