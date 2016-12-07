@@ -12,6 +12,7 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.Corr
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto;
 import pl.sodexo.it.gryf.common.enums.FileType;
+import pl.sodexo.it.gryf.common.enums.ReportSourceType;
 import pl.sodexo.it.gryf.common.enums.ReportTemplateCode;
 import pl.sodexo.it.gryf.common.exception.NoCalculationParamsException;
 import pl.sodexo.it.gryf.common.utils.GryfConstants;
@@ -218,7 +219,7 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         //TODO: tbilski nazwa pliku
         String reportFileName = String.format("%s_Nota_uznaniowa.pdf", rmbsId);
         String reportLocation = reportService.generateReport(ReportTemplateCode.CREDIT_NOTE, reportFileName,
-                FileType.E_REIMBURSEMENTS, parameters);
+                FileType.E_REIMBURSEMENTS, parameters, ReportSourceType.EREIMBURSMENT, rmbsId);
 
     }
 }
