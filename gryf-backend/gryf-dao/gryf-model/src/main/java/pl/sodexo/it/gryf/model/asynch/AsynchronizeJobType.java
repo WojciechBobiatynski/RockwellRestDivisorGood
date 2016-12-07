@@ -2,15 +2,18 @@ package pl.sodexo.it.gryf.model.asynch;
 
 import pl.sodexo.it.gryf.model.api.DictionaryEntity;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by Isolution on 2016-12-01.
  */
 public enum AsynchronizeJobType implements DictionaryEntity {
 
-    IMPORT_CON("Import umów", "asynchJobImportServce", "importContractService"),
-    IMPORT_ORD("Błąd biznesowy", "asynchJobImportServce", "importOrderService"),
-    IMPORT_TRA_INS("Import instytucji szkoleniowych", "asynchJobImportServce", "importTrainingInstitutionService"),
-    IMPORT_TRA("Import szkoleń", "asynchJobImportServce", "importTrainingService"),
+    IMPORT_CON("Import umów", "asynchJobImportService", "importContractService"),
+    IMPORT_ORD("Błąd biznesowy", "asynchJobImportService", "importOrderService"),
+    IMPORT_TRA_INS("Import instytucji szkoleniowych", "asynchJobImportService", "importTrainingInstitutionService"),
+    IMPORT_TRA("Import szkoleń", "asynchJobImportService", "importTrainingService"),
     ORDER_TRANS("Zmiana statusu zamówienia", "asynchJobOrderTransitionService", null);
 
     private String label;
@@ -42,6 +45,14 @@ public enum AsynchronizeJobType implements DictionaryEntity {
     }
 
     //DICTIONARY METHODS
+
+    public static Map<String, String> getAsMap() {
+        Map<String, String> map = new HashMap<>();
+        for(AsynchronizeJobType type : values()) {
+            map.put(type.name(), type.label);
+        }
+        return map;
+    }
 
     @Override
     public Object getDictionaryId() {

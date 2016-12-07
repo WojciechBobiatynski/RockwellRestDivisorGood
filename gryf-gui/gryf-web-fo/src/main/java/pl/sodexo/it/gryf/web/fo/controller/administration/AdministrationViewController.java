@@ -21,16 +21,28 @@ public class AdministrationViewController {
 
     //TODO  przenieść do stałych po rozdzieleniu weba
     public static final String PATH_ADMINISTRATION = "/administration";
-    public static final String PATH_GENERATE_PRINT_NUMBERS = "/generatePrintNumbers";
+
+    public static final String PATH_GENERATE_PRINT_NUMBERS_PATCH = "/generatePrintNumbers";
     public static final String PATH_GENERATE_PRINT_NUMBERS_INDEX = "administration/generatePrintNumbers/printNumbersIndex.jsp";
+
+    public static final String IMPORT_FROM_FILE_PATCH = "/asynchjobs";
+    public static final String IMPORT_FROM_FILE_INDEX = "/administration/asynchjobs/asynchJobsIndex.jsp";
 
     @Autowired
     private SecurityChecker securityChecker;
 
-    @RequestMapping(value = PATH_GENERATE_PRINT_NUMBERS, method = RequestMethod.GET)
+    @RequestMapping(value = PATH_GENERATE_PRINT_NUMBERS_PATCH, method = RequestMethod.GET)
     public String generatePrintNumbersEnter(Model model) {
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_PRODUCTS_GEN_PRINT_NUM);
         model.addAttribute(MAIN_CONTENT_PARAM_NAME, PAGES_PREFIX + PATH_GENERATE_PRINT_NUMBERS_INDEX);
+        return DEFAULT_VIEW;
+    }
+
+    @RequestMapping(value = IMPORT_FROM_FILE_PATCH, method = RequestMethod.GET)
+    public String getImportFromFileView(Model model) {
+        //TODO: security checker
+        //securityChecker.assertServicePrivilege(Privileges.GRF_PBE_PRODUCTS_GEN_PRINT_NUM);
+        model.addAttribute(MAIN_CONTENT_PARAM_NAME, PAGES_PREFIX + IMPORT_FROM_FILE_INDEX);
         return DEFAULT_VIEW;
     }
 

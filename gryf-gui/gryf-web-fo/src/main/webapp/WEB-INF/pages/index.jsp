@@ -279,6 +279,26 @@
                         <a ng-href="${pageContext.request.contextPath}/administration/generatePrintNumbers/#"
                            gryf-link-privilege="GRF_ZIP_CODES">Generacja numerów dla bonów</a>
                     </li>
+                    <li class="submenu">
+                        <a ng-href="${pageContext.request.contextPath}/administration/asynchjobs/"
+                        <%--TODO: dodać uprawnienia--%>
+                           gryf-link-privilege="GRF_PBE_REIMB">Obsługa zadań
+                        </a>
+                        <ul>
+                            <li>
+                                <a ng-href="${pageContext.request.contextPath}/administration/asynchjobs/"
+                                <%--TODO: dodać uprawnienia--%>
+                                   gryf-link-privilege="GRF_PBE_REIMB">Lista zadań
+                                </a>
+                            </li>
+                            <li>
+                                <a ng-href="${pageContext.request.contextPath}/administration/asynchjobs/#modify"
+                                <%--TODO: dodać uprawnienia--%>
+                                   gryf-link-privilege="GRF_PBE_REIMB">Nowe zadanie importu
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
             </li>
         </ul>

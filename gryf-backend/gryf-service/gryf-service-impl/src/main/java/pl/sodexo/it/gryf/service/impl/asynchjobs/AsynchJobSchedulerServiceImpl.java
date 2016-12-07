@@ -10,11 +10,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.dto.asynchjobs.AsynchronizeJobInfoDTO;
+import pl.sodexo.it.gryf.common.dto.asynchjobs.searchform.AsynchJobSearchQueryDTO;
+import pl.sodexo.it.gryf.common.dto.asynchjobs.searchform.AsynchJobSearchResultDTO;
 import pl.sodexo.it.gryf.common.dto.asynchjobs.AsynchronizeJobResultInfoDTO;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.common.exception.EntityValidationException;
 import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.asynch.AsynchronizeJobRepository;
+import pl.sodexo.it.gryf.dao.api.search.dao.AsynchJobSearchDao;
 import pl.sodexo.it.gryf.model.asynch.AsynchronizeJob;
 import pl.sodexo.it.gryf.model.asynch.AsynchronizeJobStatus;
 import pl.sodexo.it.gryf.model.asynch.AsynchronizeJobType;
@@ -23,6 +26,8 @@ import pl.sodexo.it.gryf.service.local.api.asynchjobs.AsynchJobService;
 import pl.sodexo.it.gryf.service.utils.BeanUtils;
 
 import javax.annotation.PostConstruct;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Isolution on 2016-12-02.
@@ -42,6 +47,9 @@ public class AsynchJobSchedulerServiceImpl implements AsynchJobSchedulerService 
 
     @Autowired
     private AsynchronizeJobRepository asynchronizeJobRepository;
+
+    @Autowired
+    private AsynchJobSearchDao asynchJobSearchDao;
 
     private AsynchJobSchedulerService asynchJobSchedulerService;
 
@@ -161,6 +169,21 @@ public class AsynchJobSchedulerServiceImpl implements AsynchJobSchedulerService 
 
             asynchronizeJobRepository.update(job, job.getId());
         }
+    }
+
+    @Override
+    public List<AsynchJobSearchResultDTO> findAsynchronousJobs(AsynchJobSearchQueryDTO queryDTO) {
+        return asynchJobSearchDao.findAsynchronusJobs(queryDTO);
+    }
+
+    @Override
+    public Map<String, String> getJobStatuses() {
+        return AsynchronizeJobStatus.getAsMap();
+    }
+
+    @Override
+    public Map<String, String> getJobTypes() {
+        return AsynchronizeJobType.getAsMap();
     }
 
     //PRIVATE METHODS

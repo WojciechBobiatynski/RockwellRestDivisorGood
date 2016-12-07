@@ -1,0 +1,109 @@
+<div>
+    <header id="header">
+        <h1>Wyszukiwanie zadań</h1>
+        <ul>
+            <li><a ng-click="clear()" class="button button-refresh">Wyczyść</a></li>
+        </ul>
+    </header>
+
+    <div class="one-column">
+
+        <section class="overflow-x-auto">
+            <table class="table table-condensed">
+                <thead>
+                <tr class="grid-100">
+                    <th class="sortable grid-10" ng-class="getSortingTypeClass('id')">
+                        <div ng-click="getSortedBy('id')">ID zadania</div>
+                        <input placeholder="ID zadania" type="number" ng-model="searchObjModel.entity.id">
+                    </th>
+                    <th class="sortable grid-10" ng-class="getSortingTypeClass('orderId')">
+                        <div ng-click="getSortedBy('orderId')">ID zamówienia</div>
+                        <input placeholder="ID zamówienia" type="number" ng-model="searchObjModel.entity.orderId">
+                    </th>
+                    <th class="sortable grid-15" ng-class="getSortingTypeClass('type')">
+                        <div ng-click="getSortedBy('type')">Typ zadania</div>
+                        <select ng-options="key as val for (key, val) in dictionaries.jobTypes" ng-model="searchObjModel.entity.type">
+                            <option value="">-wybierz-</option>
+                        </select>
+                    </th>
+                    <th class="sortable grid-30" ng-class="getSortingTypeClass('description')">
+                        <div ng-click="getSortedBy('description')">Opis zadania</div>
+                        <input placeholder="Opis zadania" type="text" ng-model="searchObjModel.entity.description">
+                    </th>
+                    <th class="sortable grid-15" ng-class="getSortingTypeClass('createdDate')">
+                        <div ng-click="getSortedBy('createdDate')">
+                            Data utworzenia
+                        </div>
+                        <input type="text"
+                               placeholder="Data od"
+                               ng-model="searchObjModel.entity.createdDateFrom"
+                               datepicker-popup="yyyy-MM-dd"
+                               is-open="datepicker.isCreatedDateFromOpened"
+                               close-text="Zamknij"
+                               clear-text="Czyść"
+                               current-text="Dziś"
+                               ng-click="openDatepicker('isCreatedDateFromOpened')"/>
+                        <input type="text"
+                               placeholder="Data do"
+                               ng-model="searchObjModel.entity.createdDateTo"
+                               datepicker-popup="yyyy-MM-dd"
+                               is-open="datepicker.isCreatedDateToOpened"
+                               close-text="Zamknij"
+                               clear-text="Czyść"
+                               current-text="Dziś"
+                               ng-click="openDatepicker('isCreatedDateToOpened')"/>
+                    </th>
+                    <th class="sortable grid-10" ng-class="getSortingTypeClass('createdUser')">
+                        <div ng-click="getSortedBy('createdUser')">Użytkownik</div>
+                        <input placeholder="Użytkownik" type="text" ng-model="searchObjModel.entity.createdUser">
+                    </th>
+                    <th class="sortable grid-10" ng-class="getSortingTypeClass('status')">
+                        <div ng-click="getSortedBy('status')">Status zadania</div>
+                        <select ng-options="key as val for (key, val) in dictionaries.jobStatus" ng-model="searchObjModel.entity.status">
+                            <option value="">-wybierz-</option>
+                        </select>
+                    </th>
+                    <th class="grid-5">
+                        <a ng-click="find()"
+                           class="button button-search">szukaj</a>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in searchObjModel.result | limitTo: searchResultOptions.displayLimit">
+                    <td>{{::item.id}}</td>
+                    <td>{{::item.orderId}}</td>
+                    <td>{{::dictionaries.jobTypes[item.type]}}</td>
+                    <td>{{::item.description}}</td>
+                    <td>{{::item.createdDate}}</td>
+                    <td>{{::item.createdUser}}
+                    <td>{{::dictionaries.jobStatus[item.status]}}</td>
+                    <td>
+                        <ul class="buttons">
+                            <li>
+                                <a ng-href="#/modify/{{item.trainingInstanceId}}" gryf-privilege="GRF_TRAINING_INSTITUTION_MOD" class="button button-go">szczegóły</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div ng-show="searchResultOptions.overflow" class="centered-ul">
+                <ul>
+                    <li><a href="#/" ng-click="loadMore()"
+                           class="button button-infinity">wczytaj więcej wyników</a></li>
+                </ul>
+            </div>
+            <div class="emptyResult" ng-show="searchObjModel.result.length===0">
+                Brak wyników
+            </div>
+            <div class="msg msg-error" ng-show="searchResultOptions.badQuery">
+                <p>Błąd kryteriów zapytania - niepoprawny format</p>
+            </div>
+        </section>
+
+    </div>
+</div>
+
+
+

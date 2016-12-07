@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="pl.sodexo.it.gryf.dao.api.search.mapper.AsynchJobSearchMapper">
+
+    <select id="findAsynchronusJobs" resultType="pl.sodexo.it.gryf.common.dto.asynchjobs.searchform.AsynchJobSearchResultDTO" parameterType="list">
+        SELECT * FROM
+        (SELECT
+            asynch_job.ID                   id,
+            asynch_job.ORDER_ID             orderId,
+            asynch_job.TYPE                 type,
+            asynch_job.DESCRIPTION          description,
+            asynch_job.STATUS               status,
+            asynch_job.CREATED_TIMESTAMP    createdDate,
+            asynch_job.CREATED_USER         createdUser
+        FROM
+            APP_PBE.ASYNCH_JOBS asynch_job
+            <where>
+                <if test="searchParams.id != null">
+                    asynch_job.ID = #{searchParams.id}
+                </if>
+                <if test="searchParams.orderId != null">
+                    AND asynch_job.ORDER_ID = #{searchParams.orderId}
+                </if>
+                <if test="searchParams.type != null and searchParams.type != ''">
+                    AND asynch_job.TYPE = #{searchParams.type}
+                </if>
+                <if test="searchParams.description != null and searchParams.description != ''">
+                    AND asynch_job.DESCRIPTION LIKE #{searchParams.description}
+                </if>
+                <if test="searchParams.createdDateFrom != null">
+                    AND TRUNC(asynch_job.CREATED_TIMESTAMP) &gt;= #{searchParams.createdDateFrom}
+                </if>
+                <if test="searchParams.createdDateTo != null">
+                    AND TRUNC(asynch_job.CREATED_TIMESTAMP) &lt;= #{searchParams.createdDateTo}
+                </if>
+                <if test="searchParams.status != null and searchParams.status != ''">
+                    AND asynch_job.STATUS = #{searchParams.status}
+                </if>
+                <if test="searchParams.createdUser != null and searchParams.createdUser != ''">
+                    AND asynch_job.CREATED_USER LIKE #{searchParams.createdUser}
+                </if>
+            </where>
+            <if test="searchParams.sortColumns != null">
+                <foreach item="columnName" index="index" collection="searchParams.sortColumns" open="ORDER BY " separator="," close="">
+                    ${columnName} ${searchParams.sortTypes[index]}
+                </foreach>
+            </if>)
+        <where>
+            <if test="searchParams.limit != null">
+                ROWNUM &lt;= #{searchParams.limit} + 1
+            </if>
+        </where>
+    </select>
+
+</mapper>
