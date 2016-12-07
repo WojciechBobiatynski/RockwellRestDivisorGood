@@ -4,13 +4,18 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.sodexo.it.gryf.common.config.ApplicationParameters;
+import pl.sodexo.it.gryf.common.dto.user.GryfUser;
 import pl.sodexo.it.gryf.common.enums.FileType;
 import pl.sodexo.it.gryf.common.enums.ReportParameter;
 import pl.sodexo.it.gryf.common.enums.ReportSourceType;
 import pl.sodexo.it.gryf.common.enums.ReportTemplateCode;
+import pl.sodexo.it.gryf.common.utils.JsonMapperUtils;
+import pl.sodexo.it.gryf.dao.api.crud.repository.report.ReportInstanceRepository;
+import pl.sodexo.it.gryf.model.reports.ReportInstance;
 import pl.sodexo.it.gryf.service.api.reports.ReportService;
 import pl.sodexo.it.gryf.service.local.api.FileService;
 
@@ -20,6 +25,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,6 +46,9 @@ public class ReportServiceImpl implements ReportService {
     @Autowired
     private ApplicationParameters applicationParameters;
 
+    @Autowired
+    private ReportInstanceRepository reportInstanceRepository;
+
     //PUBLIC METHODS
 
     @Override
@@ -56,6 +65,9 @@ public class ReportServiceImpl implements ReportService {
             parameters.put(ReportParameter.IMAGES_PATH.getParam(),
                     applicationParameters.getPathAttachments() + applicationParameters.getPathReportTemplates() + applicationParameters.getPathReportImages());
 
+            //MAIN PARAMETERS
+            Map<String, Object> mainParameters = new HashedMap(parameters);
+
             try (Connection connection = dataSource.getConnection()){
                 //GENERATE REPORT
                 String templatePath = fileService.findPath(FileType.REPORT_TEMPLATES) + templateCode.getFileName();
@@ -68,7 +80,19 @@ public class ReportServiceImpl implements ReportService {
                 OutputStream reportOutputStream = fileService.getOutputStream(reportPath);
                 JasperExportManager.exportReportToPdfStream(jasperPrint, reportOutputStream);
                 reportOutputStream.close();
-    
+
+                //SAVE REPORT
+                ReportInstance reportInstance = new ReportInstance();
+                reportInstance.setTemplateName(templateCode.getFileName());
+                String loggedUser= GryfUser.getLoggedUser().getUsername();
+                reportInstance.setCreatedUser(loggedUser);
+                reportInstance.setCreatedTimestamp(new Date());
+                reportInstance.setParameters(JsonMapperUtils.writeValueAsString(mainParameters));
+                reportInstance.setPath(reportPath);
+                reportInstance.setSourceType(reportSourceType.name());
+                reportInstance.setSourceId(sourceId);
+                reportInstanceRepository.save(reportInstance);
+
                 return reportPath;
             }
         }catch(IOException e){
