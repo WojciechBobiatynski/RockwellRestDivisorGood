@@ -151,7 +151,7 @@ public class ElctRmbsHeadDto extends VersionableDto implements Serializable {
     private void calculateIndOwnContributionUsed(CalculationChargesParamsDto params) {
         //TODO wyciągnąć procentowy wkład własny ze zmiennych
         BigDecimal ownContributionPercentage = new BigDecimal("0.13");
-        setIndOwnContributionUsed(ownContributionPercentage.multiply(params.getProductValue().multiply(new BigDecimal(params.getUsedProductsNumber()))));
+        setIndOwnContributionUsed(ownContributionPercentage.multiply(getSxoTiAmountDueTotal()).setScale(2, RoundingMode.HALF_UP));
     }
 
     private void calculateIndSubsidyValue(CalculationChargesParamsDto params) {
