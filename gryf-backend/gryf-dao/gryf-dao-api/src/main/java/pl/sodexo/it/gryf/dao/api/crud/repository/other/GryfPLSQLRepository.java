@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.dao.api.crud.repository.other;
 
+import pl.sodexo.it.gryf.model.api.FinanceNoteResult;
 import pl.sodexo.it.gryf.model.enums.DayType;
 
 import java.util.Date;
@@ -34,4 +35,16 @@ public interface GryfPLSQLRepository {
      * @return numer konta
      */
     String generateAccountByCode(String code);
+
+    /**
+     * Generuje notę obciążeniowo-księgowa dla zamówienia.
+     * @param orderId identyfikator zamówienia
+     * @return resultat wywolania
+     */
+    FinanceNoteResult createCreditNoteForOrder(Long orderId);
+
+    /**
+     * Metoda robi flush do bazy danych
+     */
+    void flush();
 }
