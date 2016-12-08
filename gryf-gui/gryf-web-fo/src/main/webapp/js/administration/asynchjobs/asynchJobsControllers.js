@@ -59,11 +59,13 @@ function ($scope, $routeParams, GryfModals, GryfModulesUrlProvider, AsynchJobsSe
 
     AsynchJobsSearchService.findJobStatuses();
     AsynchJobsSearchService.findGrantPrograms();
-    AsynchJobsSearchService.findJobTypes(100, true);
 
     if($routeParams.id) {
+        AsynchJobsSearchService.findJobTypes(100, false);
         AsynchJobsModifyService.findDetailsById($routeParams.id);
         $scope.isDisabled = true;
+    } else {
+        AsynchJobsSearchService.findJobTypes(100, true);
     }
 
     $scope.findImportTypes = function(grantProgramId) {
@@ -106,6 +108,13 @@ function ($scope, $routeParams, GryfModals, GryfModulesUrlProvider, AsynchJobsSe
     $scope.find = function() {
         $scope.dataRowsSearchResultOptions.badQuery = false;
         ImportDataRowsSearchService.find();
+    };
+
+    $scope.isDictionaryEmpty = function(dictionary) {
+        if(!dictionary) {
+            return false;
+        }
+        return Object.keys(dictionary).length == 0;
     };
 
     $scope.showErrorDetails = function(errors) {
