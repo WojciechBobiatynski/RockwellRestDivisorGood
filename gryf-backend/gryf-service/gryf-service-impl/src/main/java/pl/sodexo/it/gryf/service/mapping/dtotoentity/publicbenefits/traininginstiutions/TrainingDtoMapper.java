@@ -47,5 +47,6 @@ public class TrainingDtoMapper extends VersionableDtoMapper<TrainingDTO, Trainin
                 entity.getCategory().getTrainingCategoryCatalog().setId(dto.getTrainingCategoryCatalogId());
             }
         }
+        entity.setReimbursmentConditions(dto.getReimbursmentConditions());
     }
 }

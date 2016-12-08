@@ -29,7 +29,8 @@ public class TrainingRestController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public TrainingDTO getTrainingById() {
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_TI_TRAININGS);
-        return trainingService.createTraining();
+        TrainingDTO a = trainingService.createTraining();
+        return a;
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
@@ -41,7 +42,8 @@ public class TrainingRestController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public TrainingDTO getTrainingById(@PathVariable Long id) {
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_TI_TRAININGS);
-        return trainingService.findTraining(id);
+        TrainingDTO a = trainingService.findTraining(id);
+        return a;
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json")

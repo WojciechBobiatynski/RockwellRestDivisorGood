@@ -79,6 +79,9 @@ public class Training extends VersionableEntity {
     @NotNull(message = "Należy wybrać kategorię szkolenia")
     private TrainingCategory category;
 
+    @Column(name = "REIMBURSMENT_CONDITIONS")
+    private String reimbursmentConditions;
+
     //GETTERS & SETTERS
 
     public Long getId() {
@@ -159,6 +162,14 @@ public class Training extends VersionableEntity {
 
     public void setCategory(TrainingCategory category) {
         this.category = category;
+    }
+
+    public String getReimbursmentConditions() {
+        return reimbursmentConditions;
+    }
+
+    public void setReimbursmentConditions(String reimbursmentConditions) {
+        this.reimbursmentConditions = reimbursmentConditions;
     }
 
     //EQUALS & HASH CODE
