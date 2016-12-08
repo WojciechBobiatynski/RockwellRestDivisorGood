@@ -26,7 +26,7 @@ import java.util.Iterator;
 /**
  * Created by Isolution on 2016-12-05.
  */
-@Service("asynchJobImportServce")
+@Service("asynchJobImportService")
 public class AsynchJobImportServceImpl implements AsynchJobService{
 
     //STATIC FIELDS

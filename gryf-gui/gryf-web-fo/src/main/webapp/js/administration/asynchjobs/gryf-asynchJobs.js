@@ -1,6 +1,6 @@
 "use strict";
 
-angular.module("gryf.asynchjobs", ["gryf.config"]);
+angular.module("gryf.asynchjobs", ["gryf.config", "ngFileUpload"]);
 
 angular.module("gryf.asynchjobs").config(["$routeProvider", function($routeProvider) {
     $routeProvider
@@ -9,7 +9,7 @@ angular.module("gryf.asynchjobs").config(["$routeProvider", function($routeProvi
             controller: "AsynchJobsSearchController"
         })
         .when("/modify/:id?", {
-            templateUrl: contextPath + "/templates/administration/asynchjobs/detailsformAsynchJobs.html",
+            templateUrl: contextPath + "/templates/administration/asynchjobs/detailsformImportJob.html",
             controller: "AsynchJobsModifyController"
         })
         .otherwise({

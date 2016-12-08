@@ -1,0 +1,143 @@
+<toaster-container toaster-options="{'position-class': 'toast-top-center'}"></toaster-container>
+
+<div>
+    <header id="header">
+        <h1>Szczegóły zadania</h1>
+        <ul>
+            <li data-ng-if="!isDisabled">
+                <a ng-click="createImportJob()" class="button button-save">Rozpocznij</a>
+            </li>
+            <li>
+                <a ng-click="newImportJob()" class="button button-save">Nowy import</a>
+            </li>
+        </ul>
+        <ol>
+            <li>
+                <a ng-href="./" class="button" target="_self">Wstecz</a>
+            </li>
+        </ol>
+    </header>
+
+    <section>
+        <div class="grid-100">
+            <header>
+                <h2>Parametry zadania</h2>
+            </header>
+        </div>
+        <div class="grid-100">
+            <div class="grid-10" data-ng-if="isDisabled">
+                <strong class="label">ID zadania</strong>
+                <input type="text" ng-model="importJobModel.entity.id" disabled="isDisabled">
+            </div>
+            <div class="grid-10" data-ng-if="isDisabled">
+                <strong class="label">ID zamówienia</strong>
+                <input type="text" ng-model="importJobModel.entity.orderId" disabled="isDisabled">
+            </div>
+            <div class="grid-15" data-ng-if="!isDisabled">
+                <strong class="label">Program dofinansowania</strong>
+                <select ng-options="item.id as item.name for item in dictionaries.grantPrograms" data-ng-change="findImportTypes(importJobModel.entity.grantProgramId)"
+                        ng-model="importJobModel.entity.grantProgramId" ng-disabled="isDisabled">
+                    <option value="">-wybierz-</option>
+                </select>
+                <gryf-validation-msg path="grantProgramId"></gryf-validation-msg>
+            </div>
+            <div class="grid-15">
+                <strong class="label">Typ zadania</strong>
+                <select ng-options="key as val for (key, val) in dictionaries.jobTypes" ng-model="importJobModel.entity.type" ng-disabled="isDisabled">
+                    <option value="" ng-if="false"></option>
+                </select>
+                <gryf-validation-msg path="type"></gryf-validation-msg>
+            </div>
+            <div class="grid-15" data-ng-if="isDisabled">
+                <strong class="label">Status zadania</strong>
+                <select ng-options="key as val for (key, val) in dictionaries.jobStatus" ng-model="importJobModel.entity.status" ng-disabled="isDisabled">
+                    <option value="">-wybierz-</option>
+                </select>
+            </div>
+            <div class="grid-15" data-ng-hide="importJobModel.entity.filePath">
+                <strong class="label">Plik</strong>
+                <input type="text" ng-model="importJobModel.file[0].name" disabled="disabled">
+                <gryf-validation-msg path="file"></gryf-validation-msg>
+                <a class="button" ng-model="importJobModel.file" ngf-select ngf-pattern=".xlsx">Wybierz</a>
+            </div>
+            <div class="grid-25" data-ng-show="importJobModel.entity.filePath">
+                <strong class="label">Parametry zadania</strong>
+                <textarea ng-model="importJobModel.entity.filePath" disabled="isDisabled"></textarea>
+            </div>
+        </div>
+        <div class="grid-100" data-ng-if="isDisabled">
+            <div class="grid-40">
+                <strong class="label">Opis zadania</strong>
+                <textarea ng-model="importJobModel.entity.description" disabled="isDisabled"></textarea>
+            </div>
+            <div class="grid-10">
+                <strong class="label">Twórca</strong>
+                <input type="text" ng-model="importJobModel.entity.createdUser" disabled="isDisabled">
+            </div>
+            <div class="grid-10">
+                <strong class="label">Data utworzenia</strong>
+                <input type="text" ng-model="importJobModel.entity.createdTimestamp" disabled="isDisabled">
+            </div>
+        </div>
+    </section>
+
+    <section class="overflow-x-auto" data-ng-hide="!isDisabled || importJobModel.entity.type == 'ORDER_TRANS'">
+        <div class="grid-100">
+            <header>
+                <h2>Wyniki importu</h2>
+            </header>
+        </div>
+        <div class="grid-100">
+            <table class="table table-condensed">
+                <thead>
+                <tr class="grid-100">
+                    <th class="sortable grid-15" ng-class="getSortingTypeClass('rowNumber')">
+                        <div ng-click="getSortedBy('rowNumber')">Numer wiersza</div>
+                        <input placeholder="Numer wiersza" type="number" ng-model="dataRowsSearchObjModel.entity.rowNumber">
+                    </th>
+                    <th class="sortable grid-60" ng-class="getSortingTypeClass('description')">
+                        <div ng-click="getSortedBy('description')">Informacje</div>
+                        <input placeholder="Informacje" type="text" ng-model="dataRowsSearchObjModel.entity.description">
+                    </th>
+                    <th class="sortable grid-15" ng-class="getSortingTypeClass('status')">
+                        <div ng-click="getSortedBy('status')">Status importu</div>
+                        <select ng-options="key as val for (key, val) in dataRowsDictionaries.rowStatus" ng-model="dataRowsSearchObjModel.entity.status">
+                            <option value="">-wybierz-</option>
+                        </select>
+                    </th>
+                    <th class="grid-10">
+                        <a ng-click="find()"
+                           class="button button-search">szukaj</a>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in dataRowsSearchObjModel.result | limitTo: dataRowsSearchResultOptions.displayLimit">
+                    <td>{{::item.rowNumber}}</td>
+                    <td>{{::item.description}}</td>
+                    <td>{{::dataRowsDictionaries.rowStatus[item.status]}}</td>
+                    <td>
+                        <ul class="buttons" ng-if="item.errors.length > 0">
+                            <li>
+                                <a data-ng-click="showErrorDetails(item.errors)" gryf-privilege="GRF_TRAINING_INSTITUTION_MOD" class="button button-go">szczegóły</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div ng-show="dataRowsSearchResultOptions.overflow" class="centered-ul grid-95">
+                <ul>
+                    <li><a ng-click="loadMore()"
+                           class="button button-infinity">wczytaj więcej wyników</a></li>
+                </ul>
+            </div>
+            <div class="centered-ul grid-95" ng-show="dataRowsSearchObjModel.result.length===0">
+                Brak wyników
+            </div>
+            <div class="msg msg-error" ng-show="dataRowsSearchResultOptions.badQuery">
+                <p>Błąd kryteriów zapytania - niepoprawny format</p>
+            </div>
+        </div>
+    </section>
+</div>

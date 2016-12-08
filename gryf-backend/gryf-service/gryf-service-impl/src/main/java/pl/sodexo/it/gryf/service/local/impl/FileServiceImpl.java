@@ -108,6 +108,8 @@ public class FileServiceImpl implements FileService {
                 return parameterService.getPathAttachments() + parameterService.getPathReimbursements();
             case E_REIMBURSEMENTS:
                 return parameterService.getPathAttachments() + parameterService.getPathEreimbursements();
+            case DATA_IMPORT:
+                return parameterService.getPathAttachments() + parameterService.getPathDataImport();
             default:
                 throw new RuntimeException(String.format("Nieznany typ pliku: [%s]", fileType));
         }

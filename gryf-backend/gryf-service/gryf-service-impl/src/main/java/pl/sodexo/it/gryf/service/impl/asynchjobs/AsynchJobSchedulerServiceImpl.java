@@ -10,9 +10,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.dto.asynchjobs.AsynchronizeJobInfoDTO;
+import pl.sodexo.it.gryf.common.dto.asynchjobs.AsynchronizeJobResultInfoDTO;
+import pl.sodexo.it.gryf.common.dto.asynchjobs.detailsform.AsynchJobDetailsDTO;
 import pl.sodexo.it.gryf.common.dto.asynchjobs.searchform.AsynchJobSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.asynchjobs.searchform.AsynchJobSearchResultDTO;
-import pl.sodexo.it.gryf.common.dto.asynchjobs.AsynchronizeJobResultInfoDTO;
+import pl.sodexo.it.gryf.common.dto.importdatarows.ImportDataRowSearchQueryDTO;
+import pl.sodexo.it.gryf.common.dto.importdatarows.ImportDataRowSearchResultDTO;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.common.exception.EntityValidationException;
 import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
@@ -21,13 +24,17 @@ import pl.sodexo.it.gryf.dao.api.search.dao.AsynchJobSearchDao;
 import pl.sodexo.it.gryf.model.asynch.AsynchronizeJob;
 import pl.sodexo.it.gryf.model.asynch.AsynchronizeJobStatus;
 import pl.sodexo.it.gryf.model.asynch.AsynchronizeJobType;
+import pl.sodexo.it.gryf.model.importdata.ImportDataRowStatus;
+import pl.sodexo.it.gryf.service.api.asynchjobs.AsynchJobFileService;
 import pl.sodexo.it.gryf.service.api.asynchjobs.AsynchJobSchedulerService;
 import pl.sodexo.it.gryf.service.local.api.asynchjobs.AsynchJobService;
 import pl.sodexo.it.gryf.service.utils.BeanUtils;
+import pl.sodexo.it.gryf.service.validation.asynchjobs.AsynchJobValidator;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Created by Isolution on 2016-12-02.
@@ -51,6 +58,12 @@ public class AsynchJobSchedulerServiceImpl implements AsynchJobSchedulerService 
     @Autowired
     private AsynchJobSearchDao asynchJobSearchDao;
 
+    @Autowired
+    private AsynchJobValidator asynchJobValidator;
+
+    @Autowired
+    private AsynchJobFileService asynchJobFileService;
+
     private AsynchJobSchedulerService asynchJobSchedulerService;
 
     //LIFECYCLE METHODS
@@ -62,14 +75,23 @@ public class AsynchJobSchedulerServiceImpl implements AsynchJobSchedulerService 
 
     //PUBLIC METHODS
 
+
+
     @Override
-    public Long saveAsynchronizeJob(String typeStr, String params, String description){
+    public Long saveAsynchronizeJob(AsynchJobDetailsDTO createDTO){
+        asynchJobValidator.validateJobProperties(createDTO);
+
         AsynchronizeJob job = new AsynchronizeJob();
-        job.setType(AsynchronizeJobType.valueOf(typeStr));
-        job.setParams(params);
-        job.setDescription(GryfStringUtils.substring(description, 0, AsynchronizeJob.DESCRIPTION_MAX_SIZE));
+        job.setType(AsynchronizeJobType.valueOf(createDTO.getType()));
+        job.setParams(createDTO.getFile().getFileLocation());
         job.setStatus(AsynchronizeJobStatus.N);
         job = asynchronizeJobRepository.save(job);
+
+        createDTO.setId(job.getId());
+        String params = asynchJobFileService.saveFile(createDTO);
+        job.setParams(params);
+        asynchronizeJobRepository.save(job);
+
         return job.getId();
     }
 
@@ -172,8 +194,18 @@ public class AsynchJobSchedulerServiceImpl implements AsynchJobSchedulerService 
     }
 
     @Override
-    public List<AsynchJobSearchResultDTO> findAsynchronousJobs(AsynchJobSearchQueryDTO queryDTO) {
-        return asynchJobSearchDao.findAsynchronusJobs(queryDTO);
+    public List<AsynchJobSearchResultDTO> findAsynchJobs(AsynchJobSearchQueryDTO queryDTO) {
+        return asynchJobSearchDao.findAsynchJobs(queryDTO);
+    }
+
+    @Override
+    public AsynchJobDetailsDTO findAsynchJobDetails(Long jobId) {
+        return asynchJobSearchDao.findAsynchJobDetails(jobId);
+    }
+
+    @Override
+    public List<ImportDataRowSearchResultDTO> findImportDataRows(ImportDataRowSearchQueryDTO queryDTO) {
+        return asynchJobSearchDao.findImportDataRows(queryDTO);
     }
 
     @Override
@@ -182,8 +214,13 @@ public class AsynchJobSchedulerServiceImpl implements AsynchJobSchedulerService 
     }
 
     @Override
-    public Map<String, String> getJobTypes() {
-        return AsynchronizeJobType.getAsMap();
+    public Map<String, String> getJobTypes(Optional<Long> grantProgramId, boolean onlyImportJobs) {
+        return AsynchronizeJobType.getAsMap(grantProgramId, onlyImportJobs);
+    }
+
+    @Override
+    public Map<String, String> getImportDataRowsStatuses() {
+        return ImportDataRowStatus.getAsMap();
     }
 
     //PRIVATE METHODS

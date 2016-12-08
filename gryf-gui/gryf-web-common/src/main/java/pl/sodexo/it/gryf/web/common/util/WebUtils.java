@@ -1,6 +1,7 @@
 package pl.sodexo.it.gryf.web.common.util;
 
 import org.springframework.web.multipart.MultipartFile;
+import pl.sodexo.it.gryf.common.dto.asynchjobs.detailsform.AsynchJobDetailsDTO;
 import pl.sodexo.it.gryf.common.dto.other.FileDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsAttachmentDto;
@@ -44,6 +45,17 @@ public final class WebUtils {
         fileDTO.setSize(file.getSize());
         fileDTO.setInputStream(file.getInputStream());
         return fileDTO;
+    }
+
+    public static AsynchJobDetailsDTO fillAsynchJobDtoWithAttachment(Map<String, MultipartFile> fileMap, AsynchJobDetailsDTO source) {
+        if(fileMap.size() > 0) {
+            try {
+                source.setFile(createFileDto((MultipartFile) fileMap.values().toArray()[0]));
+            } catch (IOException e) {
+                throw new GryfUploadException("Nie udało się zuploadować plików", e);
+            }
+        }
+        return source;
     }
 
     public static ElctRmbsHeadDto fillErmbsDtoWithAttachments(Map<String, MultipartFile> fileMap, ElctRmbsHeadDto source) throws IOException {

@@ -3,7 +3,7 @@
 
 <mapper namespace="pl.sodexo.it.gryf.dao.api.search.mapper.AsynchJobSearchMapper">
 
-    <select id="findAsynchronusJobs" resultType="pl.sodexo.it.gryf.common.dto.asynchjobs.searchform.AsynchJobSearchResultDTO" parameterType="list">
+    <select id="findAsynchJobs" resultType="pl.sodexo.it.gryf.common.dto.asynchjobs.searchform.AsynchJobSearchResultDTO" parameterType="list">
         SELECT * FROM
         (SELECT
             asynch_job.ID                   id,
@@ -52,5 +52,71 @@
             </if>
         </where>
     </select>
+
+    <select id="findAsynchJobDetails" resultType="pl.sodexo.it.gryf.common.dto.asynchjobs.detailsform.AsynchJobDetailsDTO">
+      SELECT
+            asynch_job.ID                   id,
+            asynch_job.ORDER_ID             orderId,
+            asynch_job.TYPE                 type,
+            asynch_job.DESCRIPTION          description,
+            asynch_job.STATUS               status,
+            asynch_job.PARAMS               filePath,
+            asynch_job.CREATED_USER         createdUser,
+            asynch_job.CREATED_TIMESTAMP    createdTimestamp,
+            asynch_job.MODIFIED_USER        modifiedUser,
+            asynch_job.MODIFIED_TIMESTAMP   modifiedTimestamp
+        FROM
+            APP_PBE.ASYNCH_JOBS asynch_job
+        WHERE
+            asynch_job.ID = #{jobId}
+    </select>
+
+    <select id="findImportDataRows" resultMap="importRowWithErrors">
+        SELECT * FROM
+        (SELECT
+            import_row.ID                   id,
+            import_row.ROW_NUM              rowNumber,
+            import_row.DESCRIPTION          description,
+            import_row.STATUS               status,
+            import_error.MESSAGE            error_message
+        FROM
+            APP_PBE.IMPORT_DATA_ROWS import_row
+            LEFT JOIN APP_PBE.IMPORT_DATA_ROW_ERRORS import_error on import_error.IMPORT_DATA_ROW_ID = import_row.ID
+        <where>
+            import_row.IMPORT_JOB_ID = #{searchParams.jobId}
+            <if test="searchParams.id != null">
+                AND import_row.IMPORT_JOB_ID = #{searchParams.id}
+            </if>
+            <if test="searchParams.rowNumber != null">
+                AND import_row.ROW_NUM = #{searchParams.rowNumber}
+            </if>
+            <if test="searchParams.description != null and searchParams.description != ''">
+                AND import_row.DESCRIPTION LIKE #{searchParams.description}
+            </if>
+            <if test="searchParams.status != null">
+                AND import_row.STATUS = #{searchParams.status}
+            </if>
+        </where>
+        <if test="searchParams.sortColumns != null">
+            <foreach item="columnName" index="index" collection="searchParams.sortColumns" open="ORDER BY " separator="," close="">
+                ${columnName} ${searchParams.sortTypes[index]}
+            </foreach>
+        </if>)
+        <where>
+            <if test="searchParams.limit != null">
+                ROWNUM &lt;= #{searchParams.limit} + 1
+            </if>
+        </where>
+    </select>
+
+    <resultMap id="importRowWithErrors" type="pl.sodexo.it.gryf.common.dto.importdatarows.ImportDataRowSearchResultDTO">
+        <result column="id" property="id" />
+        <result property="rowNumber" column="rowNumber"/>
+        <result property="description" column="description"/>
+        <result property="status" column="status"/>
+        <collection property="errors" ofType="java.lang.String" javaType="list" >
+            <result property="errors" column="error_message"/>
+        </collection>
+    </resultMap>
 
 </mapper>

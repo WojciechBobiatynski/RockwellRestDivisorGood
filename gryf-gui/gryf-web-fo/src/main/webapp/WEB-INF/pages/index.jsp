@@ -292,7 +292,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a ng-href="${pageContext.request.contextPath}/administration/asynchjobs/#modify"
+                                <a ng-href="${pageContext.request.contextPath}/administration/asynchjobs/#/modify"
                                 <%--TODO: dodać uprawnienia--%>
                                    gryf-link-privilege="GRF_PBE_REIMB">Nowe zadanie importu
                                 </a>

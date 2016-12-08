@@ -26,11 +26,11 @@
                             <option value="">-wybierz-</option>
                         </select>
                     </th>
-                    <th class="sortable grid-30" ng-class="getSortingTypeClass('description')">
+                    <th class="sortable grid-35" ng-class="getSortingTypeClass('description')">
                         <div ng-click="getSortedBy('description')">Opis zadania</div>
                         <input placeholder="Opis zadania" type="text" ng-model="searchObjModel.entity.description">
                     </th>
-                    <th class="sortable grid-15" ng-class="getSortingTypeClass('createdDate')">
+                    <th class="sortable grid-10" ng-class="getSortingTypeClass('createdDate')">
                         <div ng-click="getSortedBy('createdDate')">
                             Data utworzenia
                         </div>
@@ -81,7 +81,7 @@
                     <td>
                         <ul class="buttons">
                             <li>
-                                <a ng-href="#/modify/{{item.trainingInstanceId}}" gryf-privilege="GRF_TRAINING_INSTITUTION_MOD" class="button button-go">szczegóły</a>
+                                <a ng-href="#/modify/{{item.id}}" gryf-privilege="GRF_TRAINING_INSTITUTION_MOD" class="button button-go">szczegóły</a>
                             </li>
                         </ul>
                     </td>

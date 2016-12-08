@@ -25,6 +25,8 @@ public interface ApplicationParameters {
 
     String getPathReimbursements();
 
+    String getPathDataImport();
+
     String getPathEreimbursements();
 
     int getAttachmentMaxSize();

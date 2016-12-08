@@ -18,7 +18,7 @@ import java.util.Date;
                 "order by o.createdTimestamp ")
 })
 @SequenceGenerator(name = "asyn_job_seq", schema = "eagle", sequenceName = "asyn_job_seq", allocationSize = 1)
-public class AsynchronizeJob extends VersionableEntity{
+public class AsynchronizeJob extends VersionableEntity {
 
     //STATIC FIELDS
 

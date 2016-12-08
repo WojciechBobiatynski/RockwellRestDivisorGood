@@ -4,27 +4,28 @@ import pl.sodexo.it.gryf.model.api.DictionaryEntity;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Created by Isolution on 2016-12-01.
  */
 public enum AsynchronizeJobType implements DictionaryEntity {
 
-    IMPORT_CON("Import umów", "asynchJobImportService", "importContractService"),
-    IMPORT_ORD("Błąd biznesowy", "asynchJobImportService", "importOrderService"),
-    IMPORT_TRA_INS("Import instytucji szkoleniowych", "asynchJobImportService", "importTrainingInstitutionService"),
-    IMPORT_TRA("Import szkoleń", "asynchJobImportService", "importTrainingService"),
-    ORDER_TRANS("Zmiana statusu zamówienia", "asynchJobOrderTransitionService", null);
+    IMPORT_CON(100l, "Import umów", "asynchJobImportService", "importContractService"),
+    IMPORT_ORD(100l, "Import zamówień", "asynchJobImportService", "importOrderService"),
+    IMPORT_TRA_INS(100l, "Import instytucji szkoleniowych", "asynchJobImportService", "importTrainingInstitutionService"),
+    IMPORT_TRA(100l, "Import szkoleń", "asynchJobImportService", "importTrainingService"),
+    ORDER_TRANS(100l, "Zmiana statusu zamówienia", "asynchJobOrderTransitionService", null);
 
+    private Long grantProgramId;
     private String label;
-
     private String serviceName;
-
     private String params;
 
     //CONSTRUCTORS
 
-    AsynchronizeJobType(String label, String serviceName, String params){
+    AsynchronizeJobType(Long grantProgramId, String label, String serviceName, String params){
+        this.grantProgramId = grantProgramId;
         this.label = label;
         this.serviceName = serviceName;
         this.params = params;
@@ -46,9 +47,13 @@ public enum AsynchronizeJobType implements DictionaryEntity {
 
     //DICTIONARY METHODS
 
-    public static Map<String, String> getAsMap() {
+    public static Map<String, String> getAsMap(Optional<Long> grantProgramId, boolean onlyImportJobs) {
         Map<String, String> map = new HashMap<>();
         for(AsynchronizeJobType type : values()) {
+            if(onlyImportJobs && type.getParams() == null
+                    || grantProgramId.isPresent() && type.grantProgramId != grantProgramId.get()) {
+                continue;
+            }
             map.put(type.name(), type.label);
         }
         return map;
