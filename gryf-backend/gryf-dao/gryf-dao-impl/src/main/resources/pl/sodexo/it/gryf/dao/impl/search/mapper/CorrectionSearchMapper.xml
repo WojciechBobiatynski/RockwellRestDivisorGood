@@ -18,19 +18,35 @@
           </if>
     </select>
 
-    <select id="findCorrectionsByERmbsId" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CorrectionDto" parameterType="list">
+    <resultMap id="correctionMap" type="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CorrectionDto" autoMapping="true" >
+        <id column="id" property="id"/>
+        <collection property="attachments" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CorrectionAttachmentDto" autoMapping="true" columnPrefix="att_"/>
+    </resultMap>
+    <select id="findCorrectionsByERmbsId" resultMap="correctionMap">
         SELECT
-            allCor.ID               id,
-            allCor.E_RMBS_ID        ermbsId,
-            allCor.REASON           correctionReason,
-            allCor.COMPLEMENT_DATE  complementDate,
-            allCor.REQUIRED_DATE    requiredDate,
-            ROWNUM                  correctionNumber
+            allCor.ID                       id,
+            allCor.E_RMBS_ID                ermbsId,
+            allCor.REASON                   correctionReason,
+            allCor.COMPLEMENT_DATE          complementDate,
+            allCor.REQUIRED_DATE            requiredDate,
+            ROWNUM                          correctionNumber,
+            <!-- załączniki do korekty -->
+            cor_att.ID                      att_id,
+            cor_att.CORR_ID                 att_corrId,
+            cor_E_RMBS_ATT_ID               att_ermbsAttId,
+            cor_att.FILE_ID                 att_fileId,
+            cor_att.OLD_DOCUMENT_NUMBER     att_oldDocumentNumber,
+            cor_att.OLD_ADDITIONAL_DESC     att_oldAdditionalDesc,
+            att_t.NAME                      att_attTypeName,
+            rmbs_att.STATUS                 att_status
         FROM
             (SELECT *
             FROM APP_PBE.CORRECTIONS corr
             WHERE corr.E_RMBS_ID = #{ermbsId}
             ORDER BY corr.CREATED_TIMESTAMP ASC) allCor
+            LEFT JOIN APP_PBE.CORRECTION_ATTACHMENTS cor_att on allCor.ID = cor_att.CORR_ID
+            LEFT JOIN APP_PBE.E_RMBS_ATTACHMENTS rmbs_att ON rmbs_att.ID = cor_att.E_RMBS_ATT_ID
+            LEFT JOIN APP_PBE.ATTACHMENT_TYPES att_t ON att_t.CODE = rmbs_att.ATTACH_TYPE
         ORDER BY correctionNumber DESC
     </select>
 

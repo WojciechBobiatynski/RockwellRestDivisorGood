@@ -2,13 +2,7 @@ package pl.sodexo.it.gryf.web.fo.controller.publicbenefits;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.sodexo.it.gryf.common.criteria.electronicreimbursements.ElctRmbsCriteria;
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.other.FileDTO;
@@ -17,6 +11,7 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.Elct
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto;
 import pl.sodexo.it.gryf.common.enums.Privileges;
 import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
+import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.CorrectionAttachmentService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.CorrectionService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.ElectronicReimbursementsService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.ErmbsAttachmentService;
@@ -52,6 +47,9 @@ public class ElectronicReimbursementsRestController {
 
     @Autowired
     private CorrectionService correctionService;
+
+    @Autowired
+    private CorrectionAttachmentService correctionAttachmentService;
 
     @RequestMapping(value = PATH_ELECTRONIC_REIMBURSEMENTS_LIST, method = RequestMethod.GET)
     @ResponseBody
@@ -111,6 +109,19 @@ public class ElectronicReimbursementsRestController {
             Long elementId = Long.valueOf(idParam);
 
             FileDTO file = ermbsAttachmentService.getErmbsAttFileById(elementId);
+            writeFileToResponse(request, response, file.getInputStream(), file.getName());
+        }
+    }
+
+    @RequestMapping(PATH_ELECTRONIC_REIMBURSEMENTS_DOWNLOAD_CORR_ATT)
+    public void downloadCorrectionAttachment(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        //securityChecker.assertFormPrivilege(Privileges.GRF_PBE_REIMB);
+
+        String idParam = request.getParameter("id");
+        if(!GryfStringUtils.isEmpty(idParam)) {
+            Long elementId = Long.valueOf(idParam);
+
+            FileDTO file = correctionAttachmentService.getCorrAttFileById(elementId);
             writeFileToResponse(request, response, file.getInputStream(), file.getName());
         }
     }

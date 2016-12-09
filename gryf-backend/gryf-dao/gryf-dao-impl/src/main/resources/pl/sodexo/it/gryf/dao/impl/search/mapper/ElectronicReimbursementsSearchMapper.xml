@@ -130,6 +130,16 @@
           last_corr.CREATED_TIMESTAMP               corr_createdTimestamp,
           last_corr.MODIFIED_USER                   corr_modifiedUser,
           last_corr.MODIFIED_TIMESTAMP              corr_modifiedTimestamp,
+          <!-- załączniki do korekty -->
+          cor_att.ID                                corr_ctt_id,
+          cor_att.CORR_ID                           corr_ctt_corrId,
+          cor_att.E_RMBS_ATT_ID                     corr_ctt_ermbsAttId,
+          cor_att.FILE_ID                           corr_ctt_fileId,
+          cor_att.OLD_DOCUMENT_NUMBER               corr_ctt_oldDocumentNumber,
+          cor_att.OLD_ADDITIONAL_DESC               corr_ctt_oldAdditionalDesc,
+          ctt_t.NAME                                corr_ctt_attTypeName,
+          rmbs_att.STATUS                           corr_ctt_status,
+          c_file.ORIGINAL_FILE_NAME                 corr_ctt_originalFileName,
 --        produkty
           pool.ORDER_ID                             prd_orderId,
           pool_uses.ASSIGNED_NUM                    prd_reservedProductsCount,
@@ -160,7 +170,13 @@
           APP_PBE.E_REIMBURSEMENTS ermbs
           JOIN APP_PBE.TI_TRAINING_INSTANCES tr_in ON tr_in.ID = ermbs.TI_TR_INST_ID
           JOIN APP_PBE.TI_TRAININGS tr ON tr.ID = tr_in.TRAINING_ID
+
           LEFT JOIN <include refid="lastCorrection"/> last_corr ON last_corr.e_rmbs_id = ermbs.ID
+          LEFT JOIN APP_PBE.CORRECTION_ATTACHMENTS cor_att on last_corr.ID = cor_att.CORR_ID
+          LEFT JOIN APP_PBE.E_RMBS_ATTACHMENTS rmbs_att ON rmbs_att.ID = cor_att.E_RMBS_ATT_ID
+          LEFT JOIN APP_PBE.ATTACHMENT_TYPES ctt_t ON ctt_t.CODE = rmbs_att.ATTACH_TYPE
+          LEFT JOIN APP_PBE.ATTACHMENT_FILES c_file ON c_file.ID = cor_att.FILE_ID
+
           LEFT JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOL_USES pool_uses ON pool_uses.TRAINING_INSTANCE_ID = tr_in.ID
           LEFT JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOLS pool on pool_uses.PRODUCT_INSTANCE_POOL_ID = pool.ID
           LEFT JOIN APP_PBE.E_RMBS_ATTACHMENTS att ON (att.E_RMBS_ID = ermbs.ID AND att.STATUS != 'DELETED')
@@ -176,7 +192,10 @@
 
     <resultMap id="ecltRmbsHeadMap" type="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto" autoMapping="true" >
         <id column="ermbsId" property="ermbsId"/>
-        <association property="lastCorrectionDto" columnPrefix="corr_" autoMapping="true" javaType="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CorrectionDto"/>
+        <association property="lastCorrectionDto" columnPrefix="corr_" autoMapping="true" javaType="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CorrectionDto">
+            <id column="id" property="id"/>
+            <collection property="attachments" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CorrectionAttachmentDto" autoMapping="true" columnPrefix="ctt_"/>
+        </association>
         <collection property="products" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.ProductHeadDto" autoMapping="true" columnPrefix="prd_"/>
         <collection property="attachments" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsAttachmentDto" autoMapping="true" columnPrefix="att_"/>
     </resultMap>

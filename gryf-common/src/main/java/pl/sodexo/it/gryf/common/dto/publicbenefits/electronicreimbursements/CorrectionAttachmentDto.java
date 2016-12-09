@@ -36,4 +36,16 @@ public class CorrectionAttachmentDto extends VersionableDto{
     @Getter
     @Setter
     private String oldAdditionalDesc;
+
+    @Getter
+    @Setter
+    private String attTypeName;
+
+    @Getter
+    @Setter
+    private String status;
+
+    @Getter
+    @Setter
+    private String originalFileName;
 }

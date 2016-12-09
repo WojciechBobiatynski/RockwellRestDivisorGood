@@ -7,6 +7,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import pl.sodexo.it.gryf.common.dto.api.VersionableDto;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Dto dla korekty
@@ -40,4 +41,8 @@ public class CorrectionDto extends VersionableDto{
     @Getter
     @Setter
     private Date requiredDate;
+
+    @Getter
+    @Setter
+    private List<CorrectionAttachmentDto> attachments;
 }

@@ -179,20 +179,44 @@
     <div class="grid-100">
         <table class="table table-condensed" ng-show="correctionObject.loadedCorrections.length > 0">
             <thead>
-                <tr class="grid-100">
-                    <th class="grid-10">Numer korekty</th>
-                    <th class="grid-20">Wymagany termin korekty</th>
-                    <th class="grid-20">Data otrzymania korekty</th>
-                    <th class="grid-50">Powód korekty</th>
-                </tr>
+            <tr class="grid-100">
+                <th class="grid-10">Numer korekty</th>
+                <th class="grid-20">Wymagany termin korekty</th>
+                <th class="grid-20">Data otrzymania korekty</th>
+                <th class="grid-20">Powód korekty</th>
+                <th class="grid-20">Załączniki</th>
+            </tr>
             </thead>
             <tbody>
-                <tr data-ng-repeat="corr in correctionObject.loadedCorrections | orderBy : 'correctionNumber' : true">
-                    <td>{{::corr.correctionNumber}}</td>
-                    <td>{{::corr.requiredDate}}</td>
-                    <td>{{::corr.complementDate}}</td>
-                    <td>{{::corr.correctionReason}}</td>
-                </tr>
+            <tr data-ng-repeat="corr in correctionObject.loadedCorrections | orderBy : 'correctionNumber' : true">
+                <td>{{::corr.correctionNumber}}</td>
+                <td>{{::corr.requiredDate}}</td>
+                <td>{{::corr.complementDate}}</td>
+                <td>{{::corr.correctionReason}}</td>
+                <td data-ng-if="corr.attachments.length > 0">
+                    <!-- załączniki do korekt -->
+                    <table>
+                        <thead>
+                        <tr class="grid-100">
+                            <th class="grid-10">Rodzaj załącznika</th>
+                            <th class="grid-20">Numer dokumentu</th>
+                            <th class="grid-20">Opis dodatkowy</th>
+                            <th class="grid-20">Oryginalna nazwa pliku</th>
+                            <th class="grid-10">Status</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr data-ng-repeat="att in corr.attachments">
+                            <td>{{::att.attTypeName}}</td>
+                            <td>{{::att.oldDocumentNumber}}</td>
+                            <td>{{::att.oldAdditionalDesc}}</td>
+                            <td><a ng-href="{{getDownloadCorrAttachmentLink(att)}}">{{att.originalFileName}}</a></td>
+                            <td>{{att.status == 'DELETED' ? 'Usunięto' : 'Zmieniono'}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
             </tbody>
         </table>
         <h1 ng-show="correctionObject.loadedCorrections.length == 0">Brak korekt</h1>

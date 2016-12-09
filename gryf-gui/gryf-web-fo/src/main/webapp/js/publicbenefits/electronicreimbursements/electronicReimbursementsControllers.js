@@ -63,4 +63,8 @@ angular.module('gryf.electronicreimbursements').controller("announce.electronicR
         $scope.getPrevUrl = gryfSessionStorage.getUrlFromSessionStorage;
         $scope.getUrlFor = GryfModulesUrlProvider.getUrlFor;
 
+        $scope.getDownloadCorrAttachmentLink = function(attachment) {
+            return attachment.id != null ? contextPath + "/rest/publicBenefits/electronic/reimbursements/downloadCorrAttachment?id=" + attachment.id : '';
+        };
+
     }]);

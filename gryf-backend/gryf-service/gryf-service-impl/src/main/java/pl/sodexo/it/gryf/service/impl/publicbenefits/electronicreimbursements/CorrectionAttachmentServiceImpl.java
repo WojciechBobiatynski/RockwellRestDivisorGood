@@ -3,6 +3,7 @@ package pl.sodexo.it.gryf.service.impl.publicbenefits.electronicreimbursements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.sodexo.it.gryf.common.dto.other.FileDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CorrectionAttachmentDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsAttachmentDto;
@@ -14,6 +15,7 @@ import pl.sodexo.it.gryf.dao.api.search.dao.CorrectionAttachmentSearchDao;
 import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.CorrectionAttachment;
 import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.ErmbsAttachment;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.CorrectionAttachmentService;
+import pl.sodexo.it.gryf.service.local.api.FileService;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.electronicreimbursements.CorrectionAttachmentDtoMapper;
 
 import java.util.ArrayList;
@@ -39,6 +41,18 @@ public class CorrectionAttachmentServiceImpl implements CorrectionAttachmentServ
 
     @Autowired
     private CorrectionAttachmentRepository correctionAttachmentRepository;
+
+    @Autowired
+    private FileService fileService;
+
+    @Override
+    public FileDTO getCorrAttFileById(Long id) {
+        CorrectionAttachment attachment = correctionAttachmentRepository.get(id);
+        FileDTO dto = new FileDTO();
+        dto.setName(attachment.getAttachmentFile().getOrginalFileName());
+        dto.setInputStream(fileService.getInputStream(attachment.getAttachmentFile().getFileLocation()));
+        return dto;
+    }
 
     @Override
     public List<CorrectionAttachmentDto> createCorrAttIfNotExistsForErmbsAttBeingChanged(ElctRmbsHeadDto elctRmbsHeadDto) {

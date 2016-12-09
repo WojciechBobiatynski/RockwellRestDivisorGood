@@ -113,6 +113,7 @@ angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementS
             var NEW_CORRECTION_DATE_URL = contextPath + "/rest/publicBenefits/electronic/reimbursements/correctionDate";
             var FIND_RMBS_CORRECTIONS_LIST_URL = contextPath + "/rest/publicBenefits/electronic/reimbursements/correction/list/";
             var CREATE_DOCUMENTS_URL = contextPath + "/rest/publicBenefits/electronic/reimbursements/createDocuments/";
+            var CORR_ATTACHMENT = contextPath + "/rest/publicBenefits/electronic/reimbursements/downloadCorrAttachment";
 
             var eReimbObject = new EReimbObject();
             var correctionObject = new CorrectionObject();
