@@ -17,7 +17,7 @@ import java.util.Objects;
 @Table(name = "PBE_PRODUCT_INSTANCE_POOLS", schema = "APP_PBE")
 @NamedQueries({
         @NamedQuery(name = "PbeProductInstancePool.findAvaiableForUse", query = "select p from PbeProductInstancePool p " +
-                "where p.individual.id = :individualId and p.order.contract.grantProgram.id = :grantProgramId and p.status.id = :statusId " +
+                "where p.individual.id = :individualId and p.order.contract.grantProgram.id = :grantProgramId and p.availableNum > 0 " +
                 "and p.startDate <= :startDate and :expiryDate <= p.expiryDate order by p.expiryDate")})
 
 public class PbeProductInstancePool extends VersionableEntity {
@@ -26,10 +26,6 @@ public class PbeProductInstancePool extends VersionableEntity {
     @Column(name = "ID")
     @GeneratedValue(generator = "pk_seq")
     private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "STATUS_ID", referencedColumnName = "ID")
-    private PbeProductInstancePoolStatus status;
 
     @Column(name = "START_DATE")
     @Temporal(TemporalType.DATE)
@@ -54,6 +50,9 @@ public class PbeProductInstancePool extends VersionableEntity {
     @Column(name = "REMBURS_NUM")
     private Integer rembursNum;
 
+    @Column(name = "EXPIRED_NUM")
+    private Integer expiredNum;
+
     @ManyToOne
     @JoinColumn(name = "INDIVIDUAL_ID")
     private Individual individual;
@@ -74,14 +73,6 @@ public class PbeProductInstancePool extends VersionableEntity {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public PbeProductInstancePoolStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(PbeProductInstancePoolStatus status) {
-        this.status = status;
     }
 
     public Integer getAllNum() {
@@ -122,6 +113,14 @@ public class PbeProductInstancePool extends VersionableEntity {
 
     public void setRembursNum(Integer rembursNum) {
         this.rembursNum = rembursNum;
+    }
+
+    public Integer getExpiredNum() {
+        return expiredNum;
+    }
+
+    public void setExpiredNum(Integer expiredNum) {
+        this.expiredNum = expiredNum;
     }
 
     public Individual getIndividual() {

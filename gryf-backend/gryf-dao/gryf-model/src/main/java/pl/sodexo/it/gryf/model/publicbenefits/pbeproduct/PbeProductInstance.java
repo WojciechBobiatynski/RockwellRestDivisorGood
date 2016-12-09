@@ -50,6 +50,12 @@ public class PbeProductInstance extends VersionableEntity {
     @ManyToOne
     private PbeProductInstancePoolUse productInstancePoolUse;
 
+    @Column(name = "ORDER_ID")
+    private Long orderId;
+
+    @Column(name = "E_REIMBURSMENT_ID")
+    private Long electronicReimbursmentId;
+
     //GETTERS & SETTERS
 
     public PbeProductInstancePK getId() {
@@ -114,6 +120,22 @@ public class PbeProductInstance extends VersionableEntity {
 
     public void setProductInstancePoolUse(PbeProductInstancePoolUse productInstancePoolUse) {
         this.productInstancePoolUse = productInstancePoolUse;
+    }
+
+    public Long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
+    }
+
+    public Long getElectronicReimbursmentId() {
+        return electronicReimbursmentId;
+    }
+
+    public void setElectronicReimbursmentId(Long electronicReimbursmentId) {
+        this.electronicReimbursmentId = electronicReimbursmentId;
     }
 
     //EQUALS & HASH CODE

@@ -18,9 +18,12 @@ public class PbeProductInstancePoolEventType extends GryfEntity implements Dicti
 
     //STATIC FEILDS - TYPE CODE
 
-    public static final String ACTIVE_CODE = "ACTIVE";
+    public static final String ASSIGNMENT_CODE = "ASSIGNMENT";
+    public static final String RESRVATION_CODE = "RESRVATION";
+    public static final String UNRSRVATON_CODE = "UNRSRVATON";
     public static final String USE_CODE = "USE";
     public static final String REIMB_CODE = "REIMB";
+    public static final String EXPIRATION_CODE = "EXPIRATION";
 
     //FIELDS
 

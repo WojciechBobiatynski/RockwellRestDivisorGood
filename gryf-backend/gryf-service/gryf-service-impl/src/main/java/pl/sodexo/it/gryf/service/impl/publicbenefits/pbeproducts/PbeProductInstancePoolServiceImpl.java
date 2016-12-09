@@ -13,12 +13,9 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.trainingreservation.TrainingR
 import pl.sodexo.it.gryf.common.dto.security.individuals.IndUserAuthDataDto;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.contracts.ContractRepository;
-import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.grantprograms.GrantProgramProductRepository;
-import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.grantprograms.GrantProgramRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.individuals.IndividualRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.pbeproducts.*;
-import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingCategoryParamRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstanceRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstanceStatusRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingRepository;
@@ -40,9 +37,7 @@ import pl.sodexo.it.gryf.service.local.api.ParamInDateService;
 import pl.sodexo.it.gryf.service.local.impl.publicbenefits.products.PbeProductInstanceEventBuilder;
 import pl.sodexo.it.gryf.service.local.impl.publicbenefits.products.PbeProductInstancePoolEventBuilder;
 import pl.sodexo.it.gryf.service.local.impl.publicbenefits.products.PrintNumberGenerator;
-import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.pbeproductinstancepool.PbeProductInstancePoolEntityMapper;
 import pl.sodexo.it.gryf.service.validation.publicbenefits.trainingreservation.TrainingReservationValidator;
-import static pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElementCons.*;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -61,9 +56,6 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
     private OrderRepository orderRepository;
 
     @Autowired
-    private PbeProductInstancePoolStatusRepository productInstancePoolStatusRepository;
-
-    @Autowired
     private PbeProductInstancePoolRepository productInstancePoolRepository;
 
     @Autowired
@@ -71,9 +63,6 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
 
     @Autowired
     private PbeProductInstanceRepository productInstanceRepository;
-
-    @Autowired
-    private GrantProgramProductRepository grantProgramProductRepository;
 
     @Autowired
     private PbeProductInstanceStatusRepository productInstanceStatusRepository;
@@ -91,16 +80,10 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
     private IndividualRepository individualRepository;
 
     @Autowired
-    private GrantProgramRepository grantProgramRepository;
-
-    @Autowired
     private TrainingInstanceStatusRepository trainingInstanceStatusRepository;
 
     @Autowired
     private TrainingInstanceRepository trainingInstanceRepository;
-
-    @Autowired
-    private TrainingCategoryParamRepository trainingCategoryCatalogParamRepository;
 
     @Autowired
     private PbeProductInstancePoolUseRepository productInstancePoolUseRepository;
@@ -128,9 +111,6 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
     private PrintNumberGenerator printNumberGenerator;
 
     @Autowired
-    private PbeProductInstancePoolEntityMapper productInstancePoolEntityMapper;
-
-    @Autowired
     private IndividualService individualService;
 
     @Autowired
@@ -141,6 +121,9 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
 
     @Autowired
     GryfAccessCodeGenerator gryfAccessCodeGenerator;
+
+    @Autowired
+    private PbeProductInstancePoolEventTypeRepository productInstancePoolEventTypeRepository;
 
     //PUBLIC METHODS - FIND
 
@@ -167,24 +150,16 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
 
         //STWORZENIE EVENTU DO PULI BONÓW
         PbeProductInstancePoolEvent event = productInstancePoolEventBuilder.createPbeProductInstancePoolEvent(pool,
-                                                                            PbeProductInstancePoolEventType.ACTIVE_CODE, order.getId());
+                                                PbeProductInstancePoolEventType.ASSIGNMENT_CODE, order.getId(), productInstanceNum);
         productInstancePoolEventRepository.save(event);
-
-        //POBRANIE STATUSOW I TYPOW DLA REZERWOWANYCH INSTANCJI
-        PbeProductInstanceStatus reservedStatus = productInstanceStatusRepository.get(PbeProductInstanceStatus.RES_CODE);
-        PbeProductInstanceEventType reservedEventType = productInstanceEventTypeRepository.get(PbeProductInstanceEventType.RES_CODE);
 
         //POBRANIE INSTANCJI PRODUKTOW
         List<PbeProductInstance> productInstances = findAvaiableProductInstanceByGrantProgram(order.getPbeProduct(), productInstanceNum);
         for(PbeProductInstance instance : productInstances){
 
             //ZMIANY NA INSTANCJACH PRODUKTOW
-            reserveProductInstance(instance, reservedStatus, pool, contract);
-            instance = productInstanceRepository.update(instance, instance.getId());
-
-            //EVENTY DO INSTANCJI PRODUKTOW
-            PbeProductInstanceEvent piEvent = productInstanceEventBuilder.createPbeProductInstanceEvent(instance, reservedEventType, order.getId());
-            pbeProductInstanceEventRepository.save(piEvent);
+            assignProductInstance(instance, pool, contract);
+            productInstanceRepository.update(instance, instance.getId());
         }
 
         //TODO: tbilski - Optimistic Locking exception ??
@@ -228,11 +203,15 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
         trainingInstanceService.sendReimbursmentPin(trainingInstance.getId());
     }
 
+    @Override
     public void useTrainingInstance(Long trainingId, String pin){
 
         //POBRANIE STATUSOW
-        PbeProductInstanceStatus productInstStatUse = productInstanceStatusRepository.get(PbeProductInstanceStatus.USE_CODE);
+        PbeProductInstanceStatus productInstStatUse = productInstanceStatusRepository.get(PbeProductInstanceStatus.USED_CODE);
         TrainingInstanceStatus trainingInstStatUse = trainingInstanceStatusRepository.get(TrainingInstanceStatus.DONE_CODE);
+        PbeProductInstanceEventType useEventType = productInstanceEventTypeRepository.get(PbeProductInstanceEventType.USE_CODE);
+        PbeProductInstancePoolEventType usePoolEventType = productInstancePoolEventTypeRepository.get(PbeProductInstancePoolEventType.USE_CODE);
+
 
         //UAKTUALNINIE INSTANCJI
         TrainingInstance instance = trainingInstanceRepository.get(trainingId);
@@ -243,6 +222,11 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
         List<PbeProductInstancePoolUse> poolUses = instance.getPollUses();
         for(PbeProductInstancePoolUse poolUse : poolUses){
 
+            //POOL EVENT
+            PbeProductInstancePoolEvent event = productInstancePoolEventBuilder.createPbeProductInstancePoolEvent(poolUse.getProductInstancePool(),
+                                                                                        usePoolEventType, instance.getId(), poolUse.getAssignedNum());
+            productInstancePoolEventRepository.save(event);
+
             //UAKTUALNINIE PULI
             PbeProductInstancePool pool = poolUse.getProductInstancePool();
             pool.setReservedNum(pool.getReservedNum() - poolUse.getAssignedNum());
@@ -252,6 +236,11 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
             List<PbeProductInstance> instances = poolUse.getPollUses();
             for(PbeProductInstance i : instances){
                 i.setStatus(productInstStatUse);
+
+                //EVENTY DO INSTANCJI PRODUKTOW
+                PbeProductInstanceEvent piEvent = productInstanceEventBuilder.createPbeProductInstanceEvent(i,
+                                                                                useEventType, instance.getId());
+                pbeProductInstanceEventRepository.save(piEvent);
             }
         }
     }
@@ -266,9 +255,10 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
     public void cancelTrainingInstance(Long trainingId){
 
         //POBRANIE STATUSOW
-        PbeProductInstancePoolStatus productInstPoolStatActive = productInstancePoolStatusRepository.get(PbeProductInstancePoolStatus.ACTIVE_CODE);
-        PbeProductInstanceStatus productInstStatAssign = productInstanceStatusRepository.get(PbeProductInstanceStatus.ASSIGN_CODE);
+        PbeProductInstanceStatus productInstStatAssign = productInstanceStatusRepository.get(PbeProductInstanceStatus.ASSIGNED_CODE);
         TrainingInstanceStatus trainingInstStatCancel = trainingInstanceStatusRepository.get(TrainingInstanceStatus.CANCEL_CODE);
+        PbeProductInstanceEventType unrsrvatonEventType = productInstanceEventTypeRepository.get(PbeProductInstanceEventType.UNRSRVATON_CODE);
+        PbeProductInstancePoolEventType unrsrvatonEventPoolType = productInstancePoolEventTypeRepository.get(PbeProductInstancePoolEventType.UNRSRVATON_CODE);
 
         //UAKTUALNINIE INSTANCJI
         TrainingInstance instance = trainingInstanceRepository.get(trainingId);
@@ -282,13 +272,27 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
             PbeProductInstancePool pool = poolUse.getProductInstancePool();
             pool.setReservedNum(pool.getReservedNum() - poolUse.getAssignedNum());
             pool.setAvailableNum(pool.getAvailableNum() + poolUse.getAssignedNum());
-            pool.setStatus(productInstPoolStatActive);
+
+            PbeProductInstancePoolEvent event = productInstancePoolEventBuilder.createPbeProductInstancePoolEvent(pool,
+                                                            unrsrvatonEventPoolType, instance.getId(), poolUse.getAssignedNum());
+            productInstancePoolEventRepository.save(event);
 
             //ITERACJA PO INSTANCJACH PRODUKTU
             List<PbeProductInstance> instances = poolUse.getPollUses();
-            for(PbeProductInstance i : instances){
-                i.setStatus(productInstStatAssign);
-                poolUse.removePollUse(i);
+            for(int i = instances.size() - 1; i >= 0; i--){
+
+                PbeProductInstance ins = instances.get(i);
+
+                //ZMIANA W INSTANCJACH
+                ins.setStatus(productInstStatAssign);
+                ins.setOrderId(null);
+                poolUse.removePollUse(ins);
+                ins.setElectronicReimbursmentId(null);
+
+                //EVENTY DO INSTANCJI PRODUKTOW
+                PbeProductInstanceEvent piEvent = productInstanceEventBuilder.createPbeProductInstanceEvent(ins,
+                                                                    unrsrvatonEventType, instance.getId());
+                pbeProductInstanceEventRepository.save(piEvent);
             }
         }
     }
@@ -296,8 +300,10 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
     //PRIVATE METHODS
 
     private void createProductInstancePoolUses(TrainingInstance trainingInstance, List<PbeProductInstancePool> pools, int toReservedNum){
-        PbeProductInstancePoolStatus poolStatusUse = productInstancePoolStatusRepository.get(PbeProductInstancePoolStatus.USE_CODE);
-        PbeProductInstanceStatus instanceStatusRes = productInstanceStatusRepository.get(PbeProductInstanceStatus.RES_CODE);
+        PbeProductInstanceStatus resrvationInstanceStatus = productInstanceStatusRepository.get(PbeProductInstanceStatus.RESERVED_CODE);
+        PbeProductInstanceEventType resrvationEventType = productInstanceEventTypeRepository.get(PbeProductInstanceEventType.RESRVATION_CODE);
+        PbeProductInstancePoolEventType resrvationEventPoolType = productInstancePoolEventTypeRepository.get(PbeProductInstancePoolEventType.RESRVATION_CODE);
+
 
         //TWORZENIE OBIEKTOW UZYCIA PULI BONOW
         int leftToReservedNum = toReservedNum;
@@ -307,9 +313,11 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
             int toChange = (p.getAvailableNum() > leftToReservedNum) ? leftToReservedNum : p.getAvailableNum();
             p.setAvailableNum(p.getAvailableNum() - toChange);
             p.setReservedNum(p.getReservedNum() + toChange);
-            if(p.getAvailableNum() == 0){
-                p.setStatus(poolStatusUse);
-            }
+
+            //POOL EVENT
+            PbeProductInstancePoolEvent event = productInstancePoolEventBuilder.createPbeProductInstancePoolEvent(p,
+                                                                    resrvationEventPoolType, trainingInstance.getId(), toChange);
+            productInstancePoolEventRepository.save(event);
 
             //UTWORZENIE OBIEKTU UZYCIA PULI BONOW
             PbeProductInstancePoolUse poolUse = createPbeProductInstancePoolUse(p, trainingInstance, toChange);
@@ -319,7 +327,12 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
             List<PbeProductInstance> instances = productInstanceRepository.findAssignedByPool(p.getId(), toChange);
             for(PbeProductInstance i : instances){
                 i.setProductInstancePoolUse(poolUse);
-                i.setStatus(instanceStatusRes);
+                i.setStatus(resrvationInstanceStatus);
+
+                //EVENTY DO INSTANCJI PRODUKTOW
+                PbeProductInstanceEvent piEvent = productInstanceEventBuilder.createPbeProductInstanceEvent(i,
+                                                                        resrvationEventType, trainingInstance.getId());
+                pbeProductInstanceEventRepository.save(piEvent);
             }
 
             //INKREMENTACJA
@@ -436,7 +449,6 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
     private PbeProductInstancePool createProductInstancePool(Order order, Contract contract, Individual individual,
                                                                 PbeProduct product, Integer productInstanceNum){
         PbeProductInstancePool pool = new PbeProductInstancePool();
-        pool.setStatus(productInstancePoolStatusRepository.get(PbeProductInstancePoolStatus.ACTIVE_CODE));
         pool.setStartDate(new Date());
         pool.setExpiryDate(contract.getExpiryDate());
         pool.setAllNum(productInstanceNum);
@@ -444,6 +456,7 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
         pool.setReservedNum(0);
         pool.setUsedNum(0);
         pool.setRembursNum(0);
+        pool.setExpiredNum(0);
         pool.setIndividual(individual);
         pool.setOrder(order);
         pool.setProduct(product);
@@ -458,16 +471,26 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
         return poolUse;
     }
 
-    private void reserveProductInstance(PbeProductInstance instance, PbeProductInstanceStatus reservedStatus,
-                                        PbeProductInstancePool pool, Contract contract){
-        instance.setStatus(reservedStatus);
+    private void assignProductInstance(PbeProductInstance instance, PbeProductInstancePool pool, Contract contract){
+
+        //POBRANIE STATUSOW I TYPOW DLA INSTANCI
+        PbeProductInstanceStatus assignStatus = productInstanceStatusRepository.get(PbeProductInstanceStatus.ASSIGNED_CODE);
+        PbeProductInstanceEventType assignEventType = productInstanceEventTypeRepository.get(PbeProductInstanceEventType.ASSIGNMENT_CODE);
+
+        //INSTANCE
+        instance.setStatus(assignStatus);
         instance.setExpiryDate(contract.getExpiryDate());
+        instance.setOrderId(pool.getOrder().getId());
         instance.setProductInstancePool(pool);
 
         //GENEROWNAIE PRINT NUM
         PrintNumberResultDto piPrintNumber = generatePrintNumber(instance.getProductEmission().getProduct(), contract, instance);
         instance.setPrintNumber(piPrintNumber.getGeneratedPrintNumber());
         instance.setCrc(piPrintNumber.getGeneratedChecksum());
+
+        //EVENTY DO INSTANCJI PRODUKTOW
+        PbeProductInstanceEvent piEvent = productInstanceEventBuilder.createPbeProductInstanceEvent(instance, assignEventType, pool.getOrder().getId());
+        pbeProductInstanceEventRepository.save(piEvent);
     }
 
     private List<PbeProductInstance> findAvaiableProductInstanceByGrantProgram(PbeProduct product, Integer productInstanceNum){

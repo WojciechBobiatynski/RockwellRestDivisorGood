@@ -18,15 +18,15 @@ public class PbeProductInstanceEventBuilder {
 
     //PUBLIC METHODS - CREATE EVENTS
 
-    public PbeProductInstanceEvent createPbeProductInstanceEvent(PbeProductInstance instance, String typeId, Long sourceId){
+    public PbeProductInstanceEvent createPbeProductInstanceEvent(PbeProductInstance instance, String typeId, Object sourceId){
         return createPbeProductInstanceEvent(instance, productInstanceEventTypeRepository.get(typeId), sourceId);
     }
 
-    public PbeProductInstanceEvent createPbeProductInstanceEvent(PbeProductInstance instance, PbeProductInstanceEventType type, Long sourceId){
+    public PbeProductInstanceEvent createPbeProductInstanceEvent(PbeProductInstance instance, PbeProductInstanceEventType type, Object sourceId){
         PbeProductInstanceEvent event = new PbeProductInstanceEvent();
         event.setProductInstance(instance);
         event.setType(type);
-        event.setSourceId(sourceId);
+        event.setSourceId(sourceId != null ? sourceId.toString() : null);
         return event;
     }
 

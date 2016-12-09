@@ -30,7 +30,7 @@ public class PbeProductInstanceEvent extends VersionableEntity {
     private PbeProductInstanceEventType type;
 
     @Column(name = "SOURCE_ID")
-    private Long sourceId;
+    private String sourceId;
 
     //GETTERS & SETTERS
 
@@ -58,11 +58,11 @@ public class PbeProductInstanceEvent extends VersionableEntity {
         this.type = type;
     }
 
-    public Long getSourceId() {
+    public String getSourceId() {
         return sourceId;
     }
 
-    public void setSourceId(Long sourceId) {
+    public void setSourceId(String sourceId) {
         this.sourceId = sourceId;
     }
 

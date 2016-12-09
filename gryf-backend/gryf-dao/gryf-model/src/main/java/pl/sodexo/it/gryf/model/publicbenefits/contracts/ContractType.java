@@ -17,6 +17,9 @@ public class ContractType implements DictionaryEntity {
     //STATIC FIELDS - ATRIBUTES
     public static final String NAME_ATTR_NAME = "name";
 
+    public static final String TYPE_IND = "IND";
+    public static final String TYPE_ENT = "ENT";
+
     @Id
     @Column(name = "ID")
     private String id;

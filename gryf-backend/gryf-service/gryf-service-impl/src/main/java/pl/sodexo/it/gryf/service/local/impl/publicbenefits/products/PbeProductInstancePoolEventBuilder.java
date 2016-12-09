@@ -18,15 +18,16 @@ public class PbeProductInstancePoolEventBuilder {
 
     //PUBLIC METHODS - CREATE EVENTS
 
-    public PbeProductInstancePoolEvent createPbeProductInstancePoolEvent(PbeProductInstancePool pool, String typeId, Long sourceId){
-        return createPbeProductInstancePoolEvent(pool, productInstancePoolEventTypeRepository.get(typeId), sourceId);
+    public PbeProductInstancePoolEvent createPbeProductInstancePoolEvent(PbeProductInstancePool pool, String typeId, Long sourceId, Integer num){
+        return createPbeProductInstancePoolEvent(pool, productInstancePoolEventTypeRepository.get(typeId), sourceId, num);
     }
 
-    public PbeProductInstancePoolEvent createPbeProductInstancePoolEvent(PbeProductInstancePool pool, PbeProductInstancePoolEventType type, Long sourceId){
+    public PbeProductInstancePoolEvent createPbeProductInstancePoolEvent(PbeProductInstancePool pool, PbeProductInstancePoolEventType type, Long sourceId, Integer num){
         PbeProductInstancePoolEvent event = new PbeProductInstancePoolEvent();
         event.setProductInstancePool(pool);
         event.setType(type);
         event.setSourceId(sourceId);
+        event.setNum(num);
         return event;
     }
 

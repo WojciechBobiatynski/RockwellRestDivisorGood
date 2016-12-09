@@ -30,6 +30,9 @@ public class PbeProductInstancePoolEvent extends VersionableEntity {
     @Column(name = "SOURCE_ID")
     private Long sourceId;
 
+    @Column(name = "NUM")
+    private Integer num;
+
     //GETTERS & SETTERS
 
     public Long getId() {
@@ -62,6 +65,14 @@ public class PbeProductInstancePoolEvent extends VersionableEntity {
 
     public void setSourceId(Long sourceId) {
         this.sourceId = sourceId;
+    }
+
+    public Integer getNum() {
+        return num;
+    }
+
+    public void setNum(Integer num) {
+        this.num = num;
     }
 
     //HASH CODE & EQUALS
