@@ -1,8 +1,12 @@
 package pl.sodexo.it.gryf.service.attachments;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.sodexo.it.gryf.common.dto.attachments.AttachmentFileDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CorrectionAttachmentDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsAttachmentDto;
@@ -14,10 +18,13 @@ import pl.sodexo.it.gryf.common.enums.FileStatus;
 import pl.sodexo.it.gryf.common.enums.FileType;
 import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.attachments.AttachmentFileRepository;
+import pl.sodexo.it.gryf.dao.api.search.dao.AttachmentFileSearchDao;
 import pl.sodexo.it.gryf.model.attachments.AttachmentFile;
 import pl.sodexo.it.gryf.service.api.attachments.FileAttachmentService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.CorrectionAttachmentService;
 import pl.sodexo.it.gryf.service.local.api.FileService;
+
+import java.util.List;
 
 /**
  * Implementacja serwisu do operacji na plikach załączników
@@ -28,6 +35,11 @@ import pl.sodexo.it.gryf.service.local.api.FileService;
 @Transactional
 public class FileAttachmentServiceImpl implements FileAttachmentService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(FileAttachmentServiceImpl.class);
+
+    @Autowired
+    private AttachmentFileSearchDao attachmentFileSearchDao;
+
     @Autowired
     private AttachmentFileRepository attachmentFileRepository;
 
@@ -36,6 +48,17 @@ public class FileAttachmentServiceImpl implements FileAttachmentService {
 
     @Autowired
     private CorrectionAttachmentService correctionAttachmentService;
+
+    @Scheduled(cron = "0 0 0 * * ?")
+    public void deleteUnnecessaryFiles(){
+        List<AttachmentFileDto> attachmentsToDelete = attachmentFileSearchDao.findAttachmentsToDelete();
+        attachmentsToDelete.stream().forEach(attachmentFileDto -> {
+            AttachmentFile attachmentFile = attachmentFileRepository.get(attachmentFileDto.getId());
+            fileService.deleteFile(attachmentFile.getFileLocation());
+            attachmentFileRepository.delete(attachmentFile);
+            LOGGER.info("File deleted={}", attachmentFile);
+        });
+    }
 
     @Override
     public void manageAttachmentFiles(ElctRmbsHeadDto elctRmbsHeadDto) {

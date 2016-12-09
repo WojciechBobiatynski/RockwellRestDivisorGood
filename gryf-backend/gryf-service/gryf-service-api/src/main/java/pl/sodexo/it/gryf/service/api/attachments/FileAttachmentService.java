@@ -11,6 +11,11 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.Ermb
 public interface FileAttachmentService {
 
     /**
+     * Kasuje niepotrzebne pliki załączników
+     */
+    void deleteUnnecessaryFiles();
+
+    /**
      * Zapisuje pliki związane z rozliczeniem
      *
      * @param elctRmbsHeadDto - dto rozliczenia

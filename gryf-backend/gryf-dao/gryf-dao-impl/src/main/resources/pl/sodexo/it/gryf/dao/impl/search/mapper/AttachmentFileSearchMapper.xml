@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="pl.sodexo.it.gryf.dao.api.search.mapper.AttachmentFileSearchMapper">
+
+    <select id="findAttachmentsToDelete" resultType="pl.sodexo.it.gryf.common.dto.attachments.AttachmentFileDto" parameterType="list">
+        SELECT
+          att.ID                    id,
+          att.status                status,
+          att.ORIGINAL_FILE_NAME    originalFileName,
+          att.FILE_LOCATION         fileLocation,
+          att.VERSION               version,
+          att.CREATED_USER          createdUser,
+          att.CREATED_TIMESTAMP     createdTimestamp,
+          att.MODIFIED_USER         modifiedUser,
+          att.MODIFIED_TIMESTAMP    modifiedTimestamp
+        FROM
+          APP_PBE.ATTACHMENT_FILES att
+        WHERE
+          att.STATUS = 'TO_DELETE'
+        UNION
+          SELECT
+            att.ID                    id,
+            att.status                status,
+            att.ORIGINAL_FILE_NAME    originalFileName,
+            att.FILE_LOCATION         fileLocation,
+            att.VERSION               version,
+            att.CREATED_USER          createdUser,
+            att.CREATED_TIMESTAMP     createdTimestamp,
+            att.MODIFIED_USER         modifiedUser,
+            att.MODIFIED_TIMESTAMP    modifiedTimestamp
+          FROM
+            APP_PBE.ATTACHMENT_FILES att
+            LEFT JOIN APP_PBE.CORRECTION_ATTACHMENTS cor ON cor.FILE_ID = att.ID
+            LEFT JOIN APP_PBE.E_RMBS_ATTACHMENTS ermbs ON ermbs.FILE_ID = att.ID
+          WHERE
+            cor.ID is NULL
+            AND ermbs.ID is NULL
+            AND att.STATUS != 'TO_DELETE'
+    </select>
+
+</mapper>
