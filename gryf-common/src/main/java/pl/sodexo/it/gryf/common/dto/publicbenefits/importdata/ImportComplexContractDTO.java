@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import javax.validation.Valid;
+
 /**
  * Created by Isolution on 2016-11-30.
  */
@@ -12,10 +14,12 @@ public class ImportComplexContractDTO {
 
     @Getter
     @Setter
+    @Valid
     private ImportContractDTO contract;
 
     @Getter
     @Setter
+    @Valid
     private ImportIndividualDTO individual;
 
     @Getter

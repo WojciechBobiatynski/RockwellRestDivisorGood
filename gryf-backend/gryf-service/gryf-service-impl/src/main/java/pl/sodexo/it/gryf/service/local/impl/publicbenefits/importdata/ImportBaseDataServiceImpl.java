@@ -17,6 +17,9 @@ import pl.sodexo.it.gryf.model.importdata.ImportDataRowError;
 import pl.sodexo.it.gryf.model.importdata.ImportDataRowStatus;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.importdata.*;
 
+import java.math.BigDecimal;
+import java.util.Date;
+
 /**
  * Created by Isolution on 2016-11-30.
  */
@@ -97,20 +100,63 @@ public abstract class ImportBaseDataServiceImpl implements ImportDataService{
 
     protected String getStringCellValue(Cell cell){
         try{
-            return cell.getStringCellValue();
+            String val = cell.getStringCellValue();
+            return (val != null) ? val.trim() : null;
         }catch(RuntimeException e){
             throw new RuntimeException(String.format("Błąd przy pobraniu wartości "
                     + "z kolumny numer %s. Komunikat: %s.", cell.getColumnIndex() + 1, e.getMessage()), e);
         }
     }
 
-    protected double getNumericCellValue(Cell cell){
+    protected Integer getIntegerCellValue(Cell cell){
+        try{
+            double d = cell.getNumericCellValue();
+            return (int)d;
+        }catch(RuntimeException e){
+            throw new RuntimeException(String.format("Błąd przy pobraniu wartości "
+                    + "z kolumny numer %s. Komunikat: %s.", cell.getColumnIndex() + 1, e.getMessage()), e);
+        }
+    }
+
+    protected BigDecimal getBigDecimalCellValue(Cell cell){
+        try{
+            return new BigDecimal(cell.getNumericCellValue());
+        }catch(RuntimeException e){
+            throw new RuntimeException(String.format("Błąd przy pobraniu wartości "
+                    + "z kolumny numer %s. Komunikat: %s.", cell.getColumnIndex() + 1, e.getMessage()), e);
+        }
+    }
+
+    protected Long getLongCellValue(Cell cell){
+        try{
+            double d = cell.getNumericCellValue();
+            return (long)d;
+        }catch(RuntimeException e){
+            throw new RuntimeException(String.format("Błąd przy pobraniu wartości "
+                    + "z kolumny numer %s. Komunikat: %s.", cell.getColumnIndex() + 1, e.getMessage()), e);
+        }
+    }
+
+    protected Double getDoubleCellValue(Cell cell){
         try{
             return cell.getNumericCellValue();
         }catch(RuntimeException e){
             throw new RuntimeException(String.format("Błąd przy pobraniu wartości "
                     + "z kolumny numer %s. Komunikat: %s.", cell.getColumnIndex() + 1, e.getMessage()), e);
         }
+    }
+
+    protected Date getDateCellValue(Cell cell){
+        try{
+            return cell.getDateCellValue();
+        }catch(RuntimeException e){
+            throw new RuntimeException(String.format("Błąd przy pobraniu wartości "
+                    + "z kolumny numer %s. Komunikat: %s.", cell.getColumnIndex() + 1, e.getMessage()), e);
+        }
+    }
+
+    protected Object getIdToDescription(Object val){
+        return val == null ? "brak" : val;
     }
 
 

@@ -29,7 +29,7 @@ public class ImportOrderServiceImpl extends ImportBaseDataServiceImpl {
         CreateOrderDTO createOrderDTO = createCreateOrderDTO(importDTO);
         Long orderId = orderService.createOrder(createOrderDTO);
 
-        return String.format("Poprawno zapisano dane: zamówienie (%s)", orderId);
+        return String.format("Poprawno zapisano dane: zamówienie (%s)", getIdToDescription(orderId));
     }
 
     //PRIVATE METHODS - CREATE IMPORT DTO
@@ -43,16 +43,16 @@ public class ImportOrderServiceImpl extends ImportBaseDataServiceImpl {
 
             switch (cell.getColumnIndex()) {
                 case 0:
-                    o.setContractId((long)cell.getNumericCellValue());
+                    o.setContractId(getLongCellValue(cell));
                     break;
                 case 1:
-                    o.setExternalOrderId(cell.getStringCellValue());
+                    o.setExternalOrderId(getStringCellValue(cell));
                     break;
                 case 2:
-                    o.setOrderDate(cell.getDateCellValue());
+                    o.setOrderDate(getDateCellValue(cell));
                     break;
                 case 3:
-                    o.setProductInstanceNum((int)cell.getNumericCellValue());
+                    o.setProductInstanceNum(getIntegerCellValue(cell));
                     break;
             }
         }

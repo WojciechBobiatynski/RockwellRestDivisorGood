@@ -161,8 +161,6 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
             assignProductInstance(instance, pool, contract);
             productInstanceRepository.update(instance, instance.getId());
         }
-
-        //TODO: tbilski - Optimistic Locking exception ??
     }
 
     @Override

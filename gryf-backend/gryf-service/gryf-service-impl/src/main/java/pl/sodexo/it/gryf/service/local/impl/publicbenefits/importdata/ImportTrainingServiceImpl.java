@@ -33,7 +33,7 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
         TrainingDTO trainingDTO = createTrainingDTO(importDTO);
         Long trainingId = trainingService.saveTraining(trainingDTO);
 
-        return String.format("Poprawno zapisano dane: szkolenie (%s)", trainingId);
+        return String.format("Poprawno zapisano dane: szkolenie (%s)", getIdToDescription(trainingId));
     }
 
     //PRIVATE METHODS - CREATE IMPORT DTO
@@ -47,7 +47,7 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
 
             switch (cell.getColumnIndex()) {
                 case 0:
-                    t.setTrainingInstanceExternalId((long)getNumericCellValue(cell));
+                    t.setTrainingInstanceExternalId(getLongCellValue(cell));
                     break;
                 case 1:
                     t.setVatRegNum(getStringCellValue(cell));
@@ -56,16 +56,16 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
                     t.setTrainingInstanceName(getStringCellValue(cell));
                     break;
                 case 3:
-                    t.setExternalId((long)getNumericCellValue(cell));
+                    t.setExternalId(getLongCellValue(cell));
                     break;
                 case 4:
                     t.setName(getStringCellValue(cell));
                     break;
                 case 5:
-                    t.setStartDate(cell.getDateCellValue());
+                    t.setStartDate(getDateCellValue(cell));
                     break;
                 case 6:
-                    t.setEndDate(cell.getDateCellValue());
+                    t.setEndDate(getDateCellValue(cell));
                     break;
                 case 7:
                     t.setStatus(getStringCellValue(cell));
@@ -74,13 +74,13 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
                     t.setPlace(getStringCellValue(cell));
                     break;
                 case 9:
-                    t.setPrice(new BigDecimal(getNumericCellValue(cell)));
+                    t.setPrice(getBigDecimalCellValue(cell));
                     break;
                 case 10:
-                    t.setHoursNumber((int)getNumericCellValue(cell));
+                    t.setHoursNumber(getIntegerCellValue(cell));
                     break;
                 case 11:
-                    t.setHourPrice(new BigDecimal(getNumericCellValue(cell)));
+                    t.setHourPrice(getBigDecimalCellValue(cell));
                     break;
                 case 12:
                     t.setCategory(getStringCellValue(cell));

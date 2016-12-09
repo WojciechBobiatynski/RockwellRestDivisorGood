@@ -31,7 +31,7 @@ public class ImportTrainingInstitutionServiceImpl extends ImportBaseDataServiceI
         TrainingInstitutionDto trainingInstitutionDto = createTrainingInstitutionDTO(importDTO);
         Long trainingInstitutionId = trainingInstitutionService.saveTrainingInstitution(trainingInstitutionDto, true);
 
-        return String.format("Poprawno zapisano dane: instytucje szkoleniową (%s)", trainingInstitutionId);
+        return String.format("Poprawno zapisano dane: instytucje szkoleniową (%s)", getIdToDescription(trainingInstitutionId));
     }
 
     //PRIVATE METHODS - CREATE IMPORT DTO
