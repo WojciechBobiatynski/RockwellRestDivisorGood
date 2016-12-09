@@ -10,6 +10,7 @@ import pl.sodexo.it.gryf.common.criteria.traininginstance.TrainingInstanceCriter
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceDetailsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceDto;
+import pl.sodexo.it.gryf.common.enums.Privileges;
 import pl.sodexo.it.gryf.service.api.publicbenefits.pbeproductinstancepool.PbeProductInstancePoolService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.TrainingInstanceService;
 import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
@@ -40,34 +41,35 @@ public class TrainingInstanceRestController {
     @RequestMapping(value = PATH_TRAINING_INSTANCE_LIST, method = RequestMethod.GET)
     @ResponseBody
     public List<TrainingInstanceDto> findTrainingInstancesByCriteria(TrainingInstanceCriteria trainingInstanceCriteria){
-        //securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS);
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_TI_TRAINING_INSTANCES);
         return trainingInstanceService.findTrainingInstanceListByCriteria(trainingInstanceCriteria);
     }
 
     @RequestMapping(value = PATH_TRAINING_INSTANCE_STATUSES_LIST, method = RequestMethod.GET)
     @ResponseBody
     public List<SimpleDictionaryDto> findTrainingInstanceStatuses(){
-        //securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS);
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_TI_TRAINING_INSTANCES);
         return trainingInstanceService.findTrainingInstanceStatuses();
     }
 
     @RequestMapping(value = PATH_TRAINING_INSTANCE_DETAILS_FIND + "/{trainingInstanceId}", method = RequestMethod.GET)
     @ResponseBody
     public TrainingInstanceDetailsDto findTrainingDetails(@PathVariable Long trainingInstanceId){
-        //securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS);
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_TI_TRAINING_INSTANCES);
         return trainingInstanceService.findTrainingInstanceDetails(trainingInstanceId);
     }
 
     @RequestMapping(value = "/cancelTrainingReservation/{id}", method = RequestMethod.PUT)
     public void cancelTrainingReservation(@PathVariable("id") Long trainingInstanceId) {
-        //securityChecker.assertServicePrivilege(Privileges.GRF_PBE_TI_TRAININGS);
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_TI_TRAINING_INSTANCES_MOD);
         productInstancePoolService.cancelTrainingInstance(trainingInstanceId);
     }
 
     @RequestMapping(value = "/confirmPin/{trainingInstanceId}/{pinCode}", method = RequestMethod.PUT)
     public void confirmPin(@PathVariable("trainingInstanceId") Long trainingInstanceId,
                            @PathVariable("pinCode") String pinCode) {
-        //securityChecker.assertServicePrivilege(Privileges.GRF_PBE_TI_TRAININGS);
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_TI_TRAINING_INSTANCES_MOD);
         productInstancePoolService.useTrainingInstance(trainingInstanceId, pinCode);
     }
+
 }

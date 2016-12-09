@@ -5,10 +5,12 @@
         <h1>Szczegóły zadania</h1>
         <ul>
             <li data-ng-if="!isDisabled">
-                <a ng-click="createImportJob()" class="button button-save">Rozpocznij</a>
+                <a ng-click="createImportJob()" class="button button-save"
+                   gryf-privilege="GRF_PBE_DATA_IMPORT_MOD">Rozpocznij</a>
             </li>
             <li>
-                <a ng-click="newImportJob()" class="button button-save">Nowy import</a>
+                <a ng-click="newImportJob()" class="button button-add"
+                   gryf-privilege="GRF_PBE_DATA_IMPORT_MOD">Nowy import</a>
             </li>
         </ul>
         <ol>

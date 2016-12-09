@@ -2,13 +2,20 @@ package pl.sodexo.it.gryf.web.fo.controller.publicbenefits;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 import pl.sodexo.it.gryf.common.criteria.electronicreimbursements.ElctRmbsCriteria;
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.other.FileDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CorrectionDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto;
+import pl.sodexo.it.gryf.common.enums.Privileges;
 import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.CorrectionService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.ElectronicReimbursementsService;
@@ -49,54 +56,55 @@ public class ElectronicReimbursementsRestController {
     @RequestMapping(value = PATH_ELECTRONIC_REIMBURSEMENTS_LIST, method = RequestMethod.GET)
     @ResponseBody
     public List<ElctRmbsDto> findElctRmbsByCriteria(ElctRmbsCriteria elctRmbsCriteria){
-        //securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS);
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS);
         return electronicReimbursementsService.findEcltRmbsListByCriteria(elctRmbsCriteria);
     }
 
     @RequestMapping(value = PATH_ELECTRONIC_REIMBURSEMENTS_STATUSES_LIST, method = RequestMethod.GET)
     @ResponseBody
     public List<SimpleDictionaryDto> findElctRmbsStatuses(){
-        //securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS);
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS);
         return electronicReimbursementsService.findElctRmbsStatuses();
     }
 
     @RequestMapping(value = PATH_ELECTRONIC_REIMBURSEMENTS_FIND + "{ermbsId}", method = RequestMethod.GET)
     @ResponseBody
     public ElctRmbsHeadDto findElctRmbsById(@PathVariable Long ermbsId){
-        //securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS);
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS);
         return electronicReimbursementsService.findEcltRmbsById(ermbsId);
     }
 
     @RequestMapping(value = PATH_ELECTRONIC_REIMBURSEMENTS_CHANGE_STATUS + "/tocorrect", method = RequestMethod.POST)
     @ResponseBody
     public Long sendToCorrect(@RequestBody CorrectionDto correctionDto) {
-        //securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS);
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS_MOD);
        return electronicReimbursementsService.sendToCorrect(correctionDto);
     }
 
     @RequestMapping(value = PATH_ELECTRONIC_REIMBURSEMENTS_CORRECTION_DATE, method = RequestMethod.GET)
     @ResponseBody
     public Date getRequiredCorrectionDate() {
-        //securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS);
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS_MOD);
         return correctionService.getRequiredCorrectionDate();
     }
 
     @RequestMapping(value = PATH_ELECTRONIC_REIMBURSEMENTS_CORRECTIONS_LIST + "{ermbsId}", method = RequestMethod.GET)
     @ResponseBody
     public List<CorrectionDto> findCorrectionsByERmbsId(@PathVariable Long ermbsId) {
-        //securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS);
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS);
         return correctionService.findCorrectionsByERmbsId(ermbsId);
     }
 
     @RequestMapping(value = PATH_ELECTRONIC_REIMBURSEMENTS_CREATE_DOCUMENTS + "{rmbsId}", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.OK)
     public void createDocuments(@PathVariable("rmbsId") Long rmbsId) {
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS_MOD);
         electronicReimbursementsService.createDocuments(rmbsId);
     }
 
     @RequestMapping(PATH_ELECTRONIC_REIMBURSEMENTS_DOWNLOAD_ATT)
     public void downloadReimbursementAttachment(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        //securityChecker.assertFormPrivilege(Privileges.GRF_PBE_REIMB);
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS_MOD);
 
         String idParam = request.getParameter("id");
         if(!GryfStringUtils.isEmpty(idParam)) {

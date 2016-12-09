@@ -31,32 +31,32 @@ public class ContractsRestController {
     @RequestMapping(value = "/grantProgramsDictionaries", method = RequestMethod.GET)
     @ResponseBody
     public List<GrantProgramDictionaryDTO> findGrantProgramsDictionaries() {
-        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_APPLICATIONS);
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_CONTRACTS);
         return contractService.FindGrantProgramsDictionaries();
     }
 
     @RequestMapping(value = "/contractTypes", method = RequestMethod.GET)
     @ResponseBody
     public List<DictionaryDTO> findContractTypes() {
-        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_APPLICATIONS);
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_CONTRACTS);
         return contractService.findContractTypesDictionaries();
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public Long saveContract(@RequestBody ContractDTO contractDTO) {
-        securityChecker.assertFormPrivilege(Privileges.GRF_ENTERPRISE_MOD);
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_CONTRACTS_MOD);
         return contractService.saveContract(contractDTO);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ContractDTO getContract(@PathVariable Long id) {
-        securityChecker.assertServicePrivilege(Privileges.GRF_ENTERPRISES);
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_CONTRACTS);
         return contractService.findContract(id);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json")
     public Long updateContract(@PathVariable Long id, @RequestBody ContractDTO contractDTO) {
-        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_TI_TRAININGS_MOD);
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_CONTRACTS_MOD);
         GryfUtils.checkForUpdate(id, contractDTO.getId());
 
         contractService.updateContract(contractDTO);
@@ -64,7 +64,7 @@ public class ContractsRestController {
     }
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public List<ContractSearchResultDTO> findContracts(ContractSearchQueryDTO dto) {
-        securityChecker.assertServicePrivilege(Privileges.GRF_ENTERPRISES);
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_CONTRACTS);
         return contractService.findContracts(dto);
     }
 }

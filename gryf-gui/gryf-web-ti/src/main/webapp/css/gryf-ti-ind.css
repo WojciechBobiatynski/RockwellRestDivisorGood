@@ -94,6 +94,7 @@ body > .grid {
 
 .navbar-separator {
     border: 4px solid #6aa84f;
+    margin-right: 0;
 }
 
 .navbar-separator.green {

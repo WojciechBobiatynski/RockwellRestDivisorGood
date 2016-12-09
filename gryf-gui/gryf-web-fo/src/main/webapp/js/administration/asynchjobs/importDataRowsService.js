@@ -2,8 +2,8 @@ angular.module("gryf.asynchjobs").factory("ImportDataRowsSearchService", ["$http
     function ($http, $routeParams, GryfModals, GryfPopups, GryfExceptionHandler, GryfHelpers, GryfTables) {
         var REST_URL = contextPath + "/rest/administration/asynchjobs";
 
-        var FIND_IMPORT_DATA_ROWS_LIST_URL = REST_URL + "/rows";
-        var GET_IMPORT_DATA_ROWS_STATUSES_LIST_URL = REST_URL + "/rows/statuses";
+        var FIND_IMPORT_DATA_ROWS_LIST_URL = REST_URL + "/rows/list";
+        var GET_IMPORT_DATA_ROWS_STATUSES_LIST_URL = REST_URL + "/dictionary/rows/statuses";
 
         var searchObjModel = new SearchObjModel();
         var searchResultOptions = new SearchResultOptions();

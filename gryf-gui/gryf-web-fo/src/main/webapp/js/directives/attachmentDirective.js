@@ -37,6 +37,10 @@ angular.module("gryf.config").directive("attachments", ['AttachmentService',
                     return attachement.id != null ? contextPath + "/rest/reimbursements/downloadAttachment?id=" + attachement.id : '';
                 };
 
+                $scope.hasNotPrivilege = function (privilege) {
+                    return !privileges[privilege];
+                };
+
             },
             link: function ($scope) {
 

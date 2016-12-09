@@ -5,10 +5,12 @@
         <h1>Szczegóły rezerwacji szkolenia</h1>
         <ul ng-if="isInStatus('RES')">
             <li>
-                <a ng-click="confirmReservationPIN()" class="button button-save">Zatwierdź obecność</a>
+                <a ng-click="confirmReservationPIN()" class="button button-save"
+                   gryf-privilege="GRF_PBE_TI_TRAINING_INSTANCES_MOD">Zatwierdź obecność</a>
             </li>
             <li>
-                <a ng-click="cancelTrainingReservation()" class="button button-save">Anuluj rezerwację</a>
+                <a ng-click="cancelTrainingReservation()" class="button button-save"
+                   gryf-privilege="GRF_PBE_TI_TRAINING_INSTANCES_MOD">Anuluj rezerwację</a>
             </li>
         </ul>
         <ol>
@@ -46,7 +48,7 @@
         <div class="grid-100" ng-show="isInStatus('RES')">
             <div class="grid-20">
                 <strong class="label">PIN do zatwierdzenia obecności</strong>
-                <input type="text" ng-model="pinCode">
+                <input type="text" ng-model="pinCode" gryf-privilege="GRF_PBE_TI_TRAINING_INSTANCES_MOD">
             </div>
         </div>
     </section>

@@ -116,7 +116,7 @@ angular.module('gryf.contracts').controller("detailsform.ContractsController",
             if($scope.model.entity.contractType.id == 'IND') {
                 $scope.model.entity.enterprise = null;
             }
-        }
+        };
 
         $scope.saveAndAdd = function() {
             $scope.save(NEW_CONTRACT_URL);
@@ -142,10 +142,15 @@ angular.module('gryf.contracts').controller("detailsform.ContractsController",
                     }
                     window.location = redirectUrl;
                 });
-            }
-
-            $scope.getPrevUrl = function() {
-                return gryfSessionStorage.getUrlFromSessionStorage();
             };
         };
+
+        $scope.hasNotPrivilege = function (privilege) {
+            return !privileges[privilege];
+        };
+
+        $scope.getPrevUrl = function() {
+            return gryfSessionStorage.getUrlFromSessionStorage();
+        };
+
     }]);

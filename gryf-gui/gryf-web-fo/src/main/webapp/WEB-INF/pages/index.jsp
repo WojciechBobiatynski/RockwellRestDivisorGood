@@ -83,43 +83,53 @@
                 <a>OBoSz</a>
                 <ul>
                     <li class="submenu">
-                        <a
-                                ng-href="${pageContext.request.contextPath}/publicBenefits/enterprises/"
-                                gryf-link-privilege="GRF_ENTERPRISES">MŚP</a>
+                        <a ng-href="${pageContext.request.contextPath}/publicBenefits/enterprises/"
+                           gryf-link-privilege="GRF_ENTERPRISES">
+                            MŚP
+                        </a>
                         <ul>
                             <li>
                                 <a ng-href="${pageContext.request.contextPath}/publicBenefits/enterprises/"
-                                   gryf-link-privilege="GRF_ENTERPRISES">Lista MŚP
-                                </a></li>
+                                   gryf-link-privilege="GRF_ENTERPRISES">
+                                    Lista MŚP
+                                </a>
+                            </li>
                             <li>
                                 <a ng-href="${pageContext.request.contextPath}/publicBenefits/enterprises/#modify"
-                                   gryf-link-privilege="GRF_ENTERPRISE_MOD">Nowe MŚP</a></li>
+                                   gryf-link-privilege="GRF_ENTERPRISE_MOD">
+                                    Nowe MŚP
+                                </a>
+                            </li>
                         </ul>
                     </li>
                     <li class="submenu">
-                        <a
-                                ng-href="${pageContext.request.contextPath}/publicBenefits/individuals/"
-                                gryf-link-privilege="GRF_INDIVIDUALS">Osoby fizyczne</a>
+                        <a ng-href="${pageContext.request.contextPath}/publicBenefits/individuals/"
+                           gryf-link-privilege="GRF_INDIVIDUALS">
+                            Osoby fizyczne
+                        </a>
                         <ul>
                             <li>
                                 <a ng-href="${pageContext.request.contextPath}/publicBenefits/individuals/"
-                                   gryf-link-privilege="GRF_ENTERPRISES">Lista osób fizycznych
-                                </a></li>
+                                   gryf-link-privilege="GRF_INDIVIDUALS">
+                                    Lista osób fizycznych
+                                </a>
+                            </li>
                             <li>
                                 <a ng-href="${pageContext.request.contextPath}/publicBenefits/individuals/#modify"
-                                   gryf-link-privilege="GRF_ENTERPRISE_MOD">Nowa osoby fizyczna</a></li>
+                                   gryf-link-privilege="GRF_INDIVIDUAL_MOD">
+                                    Nowa osoby fizyczna
+                                </a>
+                            </li>
                         </ul>
                     </li>
                     <li class="submenu">
-                        <a
-                                ng-href="${pageContext.request.contextPath}/publicBenefits/trainingInstitutions/"
-                                gryf-link-privilege="GRF_TRAINING_INSTITUTIONS">IS</a>
+                        <a ng-href="${pageContext.request.contextPath}/publicBenefits/trainingInstitutions/"
+                           gryf-link-privilege="GRF_TRAINING_INSTITUTIONS">IS</a>
                         <ul>
                             <li>
-                                <a
-                                        ng-href="${pageContext.request.contextPath}/publicBenefits/trainingInstitutions/"
-                                        gryf-link-privilege="GRF_TRAINING_INSTITUTIONS">
-                                    Lista IS</small>
+                                <a ng-href="${pageContext.request.contextPath}/publicBenefits/trainingInstitutions/"
+                                   gryf-link-privilege="GRF_TRAINING_INSTITUTIONS">
+                                    Lista IS
                                 </a>
                             </li>
                             <li>
@@ -144,8 +154,9 @@
                                 </ul>
                             </li>
                             <li>
-                                <a ng-href="${pageContext.request.contextPath}/publicBenefits/trainingInstances/">
-                                    rezerwacje szkoleń
+                                <a ng-href="${pageContext.request.contextPath}/publicBenefits/trainingInstances/"
+                                   gryf-link-privilege="GRF_PBE_TI_TRAINING_INSTANCES">
+                                    Rezerwacje szkoleń
                                 </a>
                             </li>
                         </ul>
@@ -168,15 +179,19 @@
                     </li>
                     <li class="submenu">
                         <a ng-href="${pageContext.request.contextPath}/publicBenefits/contracts/"
-                           gryf-link-privilege="GRF_PBE_APPLICATIONS">Umowy</a>
+                           gryf-link-privilege="GRF_PBE_CONTRACTS">
+                            Umowy
+                        </a>
                         <ul>
                             <li>
                                 <a ng-href="${pageContext.request.contextPath}/publicBenefits/contracts/"
-                                   gryf-link-privilege="GRF_PBE_APPLICATIONS">Lista umów</a>
+                                   gryf-link-privilege="GRF_PBE_CONTRACTS">
+                                    Lista umów
+                                </a>
                             </li>
                             <li>
                                 <a ng-href="${pageContext.request.contextPath}/publicBenefits/contracts/#modify"
-                                   gryf-link-privilege="GRF_PBE_APPLICATION_MOD">
+                                   gryf-link-privilege="GRF_PBE_CONTRACTS_MOD">
                                     Nowa umowa
                                 </a>
                             </li>
@@ -192,7 +207,7 @@
                             </li>
                             <li>
                                 <a ng-href="${pageContext.request.contextPath}/publicBenefits/orders/#create"
-                                   gryf-link-privilege="GRF_PBE_ORDERS">Nowe zamówienie</a>
+                                   gryf-link-privilege="GRF_PBE_ORDERS_CREATE">Nowe zamówienie</a>
                             </li>
                         </ul>
                     </li>
@@ -233,20 +248,17 @@
                     </li>
                     <li class="submenu">
                         <a ng-href="${pageContext.request.contextPath}/publicBenefits/electronic/reimbursements/#search"
-                        <%--TODO: dodać uprawnienia--%>
-                                gryf-link-privilege="GRF_PBE_REIMB">Rozliczenia elektroniczne
+                           gryf-link-privilege="GRF_PBE_E_REIMBURSEMENTS">Rozliczenia elektroniczne
                         </a>
                         <ul>
                             <li>
                                 <a ng-href="${pageContext.request.contextPath}/publicBenefits/electronic/reimbursements/#search"
-                                <%--TODO: dodać uprawnienia--%>
-                                   gryf-link-privilege="GRF_PBE_REIMB">Lista rozliczeń
+                                   gryf-link-privilege="GRF_PBE_E_REIMBURSEMENTS">Lista rozliczeń
                                 </a>
                             </li>
                             <li>
                                 <a ng-href="${pageContext.request.contextPath}/publicBenefits/electronic/reimbursements/#announce"
-                                <%--TODO: dodać uprawnienia--%>
-                                   gryf-link-privilege="GRF_PBE_REIMB">Nowe rozliczenie
+                                   gryf-link-privilege="GRF_PBE_E_REIMBURSEMENTS_MOD">Nowe rozliczenie
                                 </a>
                             </li>
                         </ul>
@@ -274,27 +286,19 @@
             <li>
                 <a title="administracja">Administracja</a>
                 <ul>
-                    <li>
-                        <%--TODO uprawnienia--%>
-                        <a ng-href="${pageContext.request.contextPath}/administration/generatePrintNumbers/#"
-                           gryf-link-privilege="GRF_ZIP_CODES">Generacja numerów dla bonów</a>
-                    </li>
                     <li class="submenu">
                         <a ng-href="${pageContext.request.contextPath}/administration/asynchjobs/"
-                        <%--TODO: dodać uprawnienia--%>
-                           gryf-link-privilege="GRF_PBE_REIMB">Obsługa zadań
+                           gryf-link-privilege="GRF_PBE_ASYNCH_JOBS">Obsługa zadań
                         </a>
                         <ul>
                             <li>
                                 <a ng-href="${pageContext.request.contextPath}/administration/asynchjobs/"
-                                <%--TODO: dodać uprawnienia--%>
-                                   gryf-link-privilege="GRF_PBE_REIMB">Lista zadań
+                                   gryf-link-privilege="GRF_PBE_ASYNCH_JOBS">Lista zadań
                                 </a>
                             </li>
                             <li>
                                 <a ng-href="${pageContext.request.contextPath}/administration/asynchjobs/#/modify"
-                                <%--TODO: dodać uprawnienia--%>
-                                   gryf-link-privilege="GRF_PBE_REIMB">Nowe zadanie importu
+                                   gryf-link-privilege="GRF_PBE_DATA_IMPORT_MOD">Nowe zadanie importu
                                 </a>
                             </li>
                         </ul>

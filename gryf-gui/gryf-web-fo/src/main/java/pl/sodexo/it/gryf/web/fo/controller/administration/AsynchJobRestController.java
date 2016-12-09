@@ -12,6 +12,7 @@ import pl.sodexo.it.gryf.common.dto.asynchjobs.searchform.AsynchJobSearchQueryDT
 import pl.sodexo.it.gryf.common.dto.asynchjobs.searchform.AsynchJobSearchResultDTO;
 import pl.sodexo.it.gryf.common.dto.importdatarows.ImportDataRowSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.importdatarows.ImportDataRowSearchResultDTO;
+import pl.sodexo.it.gryf.common.enums.Privileges;
 import pl.sodexo.it.gryf.common.utils.JsonMapperUtils;
 import pl.sodexo.it.gryf.service.api.asynchjobs.AsynchJobSchedulerService;
 import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
@@ -37,53 +38,55 @@ public class AsynchJobRestController {
     @RequestMapping(value = ASYNCH_JOBS_URL + "/list", method = RequestMethod.GET)
     @ResponseBody
     public List<AsynchJobSearchResultDTO> findAsynchronousJobs(AsynchJobSearchQueryDTO queryDTO) {
-        //securityChecker.assertServicePrivilege(Privileges.GRF_PBE_PRODUCTS_GEN_PRINT_NUM);
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_ASYNCH_JOBS);
         return asynchJobSchedulerService.findAsynchJobs(queryDTO);
+    }
+
+
+    @RequestMapping(value = ASYNCH_JOBS_URL + "/rows/list", method = RequestMethod.GET)
+    @ResponseBody
+    public List<ImportDataRowSearchResultDTO> findImportDataRows(ImportDataRowSearchQueryDTO queryDTO) {
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_ASYNCH_JOBS);
+        return asynchJobSchedulerService.findImportDataRows(queryDTO);
     }
 
     @RequestMapping(value = ASYNCH_JOBS_URL + "/details/{jobId}", method = RequestMethod.GET)
     @ResponseBody
     public AsynchJobDetailsDTO findAsynchJobDetails(@PathVariable("jobId") Long jobId) {
-        //securityChecker.assertServicePrivilege(Privileges.GRF_PBE_PRODUCTS_GEN_PRINT_NUM);
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_ASYNCH_JOBS);
         return asynchJobSchedulerService.findAsynchJobDetails(jobId);
     }
 
     @RequestMapping(value = ASYNCH_JOBS_URL + "/dictionary/statuses", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, String> getJobStatuses() {
-        //securityChecker.assertServicePrivilege(Privileges.GRF_PBE_PRODUCTS_GEN_PRINT_NUM);
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_ASYNCH_JOBS);
         return asynchJobSchedulerService.getJobStatuses();
+    }
+
+    @RequestMapping(value = ASYNCH_JOBS_URL + "/dictionary/rows/statuses", method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, String> getImportDataRowsStatuses() {
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_ASYNCH_JOBS);
+        return asynchJobSchedulerService.getImportDataRowsStatuses();
     }
 
     @RequestMapping(value = {ASYNCH_JOBS_URL + "/dictionary/types/{onlyImportJobs}",
                              ASYNCH_JOBS_URL + "/dictionary/types/{grantProgramId}/{onlyImportJobs}"}, method = RequestMethod.GET)
     @ResponseBody
-    public Map<String, String> getJobTypes(@PathVariable("grantProgramId") Optional<Long> grantProgramId, @PathVariable("onlyImportJobs") boolean onlyImportJobs) {
-        //securityChecker.assertServicePrivilege(Privileges.GRF_PBE_PRODUCTS_GEN_PRINT_NUM);
+    public Map<String, String> getJobTypes(@PathVariable("grantProgramId") Optional<Long> grantProgramId,
+                                           @PathVariable("onlyImportJobs") boolean onlyImportJobs) {
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_ASYNCH_JOBS);
         return asynchJobSchedulerService.getJobTypes(grantProgramId, onlyImportJobs);
     }
 
     @RequestMapping(value = ASYNCH_JOBS_URL + "/createImportJob", method = RequestMethod.POST)
     @ResponseBody
     public Long createImportJob(MultipartHttpServletRequest request) {
-        //securityChecker.assertServicePrivilege(Privileges.GRF_PBE_PRODUCTS_GEN_PRINT_NUM);
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_DATA_IMPORT_MOD);
         AsynchJobDetailsDTO jobDto = JsonMapperUtils.readValue(request.getParameter("data"), AsynchJobDetailsDTO.class);
         WebUtils.fillAsynchJobDtoWithAttachment(request.getFileMap(), jobDto);
-
         return asynchJobSchedulerService.saveAsynchronizeJob(jobDto);
     }
 
-    @RequestMapping(value = ASYNCH_JOBS_URL + "/rows", method = RequestMethod.GET)
-    @ResponseBody
-    public List<ImportDataRowSearchResultDTO> findImportDataRows(ImportDataRowSearchQueryDTO queryDTO) {
-        //securityChecker.assertServicePrivilege(Privileges.GRF_PBE_PRODUCTS_GEN_PRINT_NUM);
-        return asynchJobSchedulerService.findImportDataRows(queryDTO);
-    }
-
-    @RequestMapping(value = ASYNCH_JOBS_URL + "/rows/statuses", method = RequestMethod.GET)
-    @ResponseBody
-    public Map<String, String> getImportDataRowsStatuses() {
-        //securityChecker.assertServicePrivilege(Privileges.GRF_PBE_PRODUCTS_GEN_PRINT_NUM);
-        return asynchJobSchedulerService.getImportDataRowsStatuses();
-    }
 }

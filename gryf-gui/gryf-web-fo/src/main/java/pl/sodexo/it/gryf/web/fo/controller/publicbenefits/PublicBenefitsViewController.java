@@ -46,8 +46,7 @@ public class PublicBenefitsViewController {
 
     @RequestMapping("/individuals")
     public String getIndividualsView(Model model) {
-        //TODO uprawnienia do zmiany
-        securityChecker.assertFormPrivilege(Privileges.GRF_ENTERPRISES);
+        securityChecker.assertFormPrivilege(Privileges.GRF_INDIVIDUALS);
         model.addAttribute(MAIN_CONTENT_PARAM_NAME, PAGES_PREFIX + "publicbenefits/individualsIndex.jsp");
         return DEFAULT_VIEW;
     }
@@ -75,7 +74,7 @@ public class PublicBenefitsViewController {
 
     @RequestMapping("/contracts")
     public String getContractsView(Model model) {
-        securityChecker.assertFormPrivilege(Privileges.GRF_PBE_APPLICATIONS);
+        securityChecker.assertFormPrivilege(Privileges.GRF_PBE_CONTRACTS);
         model.addAttribute(MAIN_CONTENT_PARAM_NAME, PAGES_PREFIX + "publicbenefits/contractsIndex.jsp");
         return DEFAULT_VIEW;
     }
@@ -89,8 +88,7 @@ public class PublicBenefitsViewController {
 
     @RequestMapping("/trainingInstances")
     public String getTrainingInstancesView(Model model) {
-        //TODO: priviliges
-        //securityChecker.assertFormPrivilege(Privileges.GRF_PBE_TI_TRAININGS);
+        securityChecker.assertFormPrivilege(Privileges.GRF_PBE_TI_TRAINING_INSTANCES);
         model.addAttribute(MAIN_CONTENT_PARAM_NAME, PAGES_PREFIX + "publicbenefits/trainingInstancesIndex.jsp");
         return DEFAULT_VIEW;
     }
@@ -104,8 +102,7 @@ public class PublicBenefitsViewController {
 
     @RequestMapping(PATH_ELECTRONIC_REIMBURSEMENTS)
     public String getElectronicReimbursementsView(Model model) {
-        //TODO dodać uprawnienie do bazy i odkomentować
-//        securityChecker.assertFormPrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS);
+        securityChecker.assertFormPrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS);
         model.addAttribute(MAIN_CONTENT_PARAM_NAME, PAGES_PREFIX + PAGE_ELECTRONIC_REIMBURSEMENTS_SEARCH);
         return DEFAULT_VIEW;
     }

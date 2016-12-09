@@ -43,30 +43,26 @@ public class IndividualsRestController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public IndividualDto getNewIndividual() {
-        //TODO uprawnienia
-        securityChecker.assertFormPrivilege(Privileges.GRF_ENTERPRISES);
+        securityChecker.assertServicePrivilege(Privileges.GRF_INDIVIDUALS);
         return individualService.createIndividual();
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public Long saveIndividual(@RequestParam(value = "checkPeselDup", required = false, defaultValue = "true") boolean checkPeselDup, @RequestBody IndividualDto individualDto) {
-        //TODO uprawnienia
-        securityChecker.assertFormPrivilege(Privileges.GRF_ENTERPRISE_MOD);
+        securityChecker.assertServicePrivilege(Privileges.GRF_INDIVIDUAL_MOD);
         return  individualService.saveIndividual(individualDto, checkPeselDup, true);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public IndividualDto getIndividual(@PathVariable Long id) {
-        //TODO uprawnienia
-        securityChecker.assertFormPrivilege(Privileges.GRF_ENTERPRISES);
+        securityChecker.assertServicePrivilege(Privileges.GRF_INDIVIDUALS);
         return individualService.findIndividual(id);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json")
     public Long updateIndividual(@PathVariable Long id,
                                  @RequestParam(value = "checkPeselDup", required = false, defaultValue = "true") boolean checkPeselDup, @RequestBody IndividualDto individualDto) {
-        //TODO uprawnienia
-        securityChecker.assertServicePrivilege(Privileges.GRF_ENTERPRISE_MOD);
+        securityChecker.assertServicePrivilege(Privileges.GRF_INDIVIDUAL_MOD);
         GryfUtils.checkForUpdate(id, individualDto.getId());
 
         individualService.updateIndividual(individualDto, checkPeselDup, true);
@@ -75,16 +71,13 @@ public class IndividualsRestController {
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public List<IndividualSearchResultDTO> findIndividuals(IndividualSearchQueryDTO dto) {
-        //TODO uprawnienia
-        securityChecker.assertFormPrivilege(Privileges.GRF_ENTERPRISES);
+        securityChecker.assertServicePrivilege(Privileges.GRF_INDIVIDUALS);
         return individualService.findIndividuals(dto);
-
     }
 
     @RequestMapping(value = VER_CODE_GENERATE_PATH + "/{id}", method = RequestMethod.GET)
     public String getNewVerificationCode(@PathVariable Long id) {
-        //TODO uprawnienia
-        securityChecker.assertFormPrivilege(Privileges.GRF_ENTERPRISES);
+        securityChecker.assertServicePrivilege(Privileges.GRF_INDIVIDUAL_MOD);
         String newVerificationCode = gryfAccessCodeGenerator.createVerificationCode();
         GryfIndUserDto gryfIndUserDto = individualUserService.saveNewVerificationCodeForIndividual(id, newVerificationCode);
         return writeValueAsString(gryfIndUserDto.getVerificationCode());
@@ -92,6 +85,7 @@ public class IndividualsRestController {
 
     @RequestMapping(value = VER_CODE_SEND_PATH, method = RequestMethod.POST)
     public void sendMailWithVerCode(@RequestBody IndividualDto individualDto, HttpServletRequest request){
+        securityChecker.assertServicePrivilege(Privileges.GRF_INDIVIDUAL_MOD);
         individualService.sendEmailNotification(individualDto, getURLWithContextPath(request));
     }
 }

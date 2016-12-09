@@ -62,4 +62,5 @@ angular.module('gryf.electronicreimbursements').controller("announce.electronicR
 
         $scope.getPrevUrl = gryfSessionStorage.getUrlFromSessionStorage;
         $scope.getUrlFor = GryfModulesUrlProvider.getUrlFor;
+
     }]);

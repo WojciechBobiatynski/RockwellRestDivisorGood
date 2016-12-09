@@ -6,14 +6,13 @@
             <ul>
                 <li>
                     <a ng-click="save()" class="button button-save"
-                       gryf-privilege="GRF_ENTERPRISE_MOD">zapisz</a>
+                       gryf-privilege="GRF_INDIVIDUAL_MOD">Zapisz</a>
                 </li>
                 <li>
                     <a ng-click="saveAndAdd()" class="button button-save"
-                       gryf-privilege="GRF_ENTERPRISE_MOD">zapisz i dodaj
+                       gryf-privilege="GRF_INDIVIDUAL_MOD">Zapisz i dodaj
                         następną</a>
                 </li>
-                <!--TODO: dodać odpowiednie uprawnienia-->
             </ul>
             <ol>
                 <li>
@@ -24,7 +23,7 @@
             <ol>
                 <li>
                     <a ng-href="#" ng-click="newIndividual()" class="button button-new"
-                       target="_self">
+                       gryf-privilege="GRF_INDIVIDUAL_MOD" target="_self">
                         Nowa Osoba fizyczna</a>
                 </li>
             </ol>
@@ -101,7 +100,8 @@
                 <header>
                     <h2>Powiązane przedsiębiorstwa</h2>
                     <ul>
-                        <li><a class="button button-add" data-ng-click="openEnterpriseLov()">Dodaj przedsiębiorstwo</a></li>
+                        <li><a class="button button-add" data-ng-click="openEnterpriseLov()"
+                               gryf-privilege="GRF_INDIVIDUAL_MOD">Dodaj przedsiębiorstwo</a></li>
                     </ul>
                 </header>
                 <table class="table">
@@ -122,7 +122,8 @@
                             <gryf-validation-msg path="enterprises[{{$index}}].name"></gryf-validation-msg>
                         </td>
                         <td>
-                            <a class="button button-delete" data-ng-click="removeEnterprise(enterprise)">Usuń</a>
+                            <a class="button button-delete" gryf-privilege="GRF_INDIVIDUAL_MOD"
+                               data-ng-click="removeEnterprise(enterprise)">Usuń</a>
                         </td>
                     </tr>
                 </table>
@@ -144,6 +145,7 @@
                         <gryf-validation-msg path="zipCodeInvoice.cityName"></gryf-validation-msg>
                               </span>
                     <div><a href="" ng-click="openInvoiceZipCodesLov()"
+                            gryf-privilege="GRF_INDIVIDUAL_MOD"
                             class="button button-new">wybierz</a></div>
                 </div>
             </div>
@@ -165,7 +167,8 @@
                         <gryf-validation-msg path="zipCodeCorr.cityName"></gryf-validation-msg>
                     </span>
                     <div>
-                        <a href="" ng-click="openCorrZipCodesLov()" class="button button-new">wybierz
+                        <a href="" gryf-privilege="GRF_INDIVIDUAL_MOD"
+                           ng-click="openCorrZipCodesLov()" class="button button-new">wybierz
                         </a>
                     </div>
                 </div>
@@ -203,7 +206,8 @@
             <header>
                 <h2>Kontakty</h2>
                 <ul>
-                    <li><a class="button button-add" ng-click="addContact()">Dodaj kontakt</a></li>
+                    <li><a class="button button-add" ng-click="addContact()"
+                           gryf-privilege="GRF_INDIVIDUAL_MOD">Dodaj kontakt</a></li>
                 </ul>
             </header>
             <table class="table">
