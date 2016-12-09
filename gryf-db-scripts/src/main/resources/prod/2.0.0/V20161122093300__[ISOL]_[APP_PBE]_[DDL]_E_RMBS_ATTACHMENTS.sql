@@ -6,7 +6,7 @@ CREATE TABLE APP_PBE.E_RMBS_ATTACHMENTS
 	FILE_ID NUMBER, -- Id do rekordu z informacjami o zapisanym pliku.
 	DOCUMENT_NUMBER VARCHAR2(200),    -- Numer dokumentu (Np. FV) lub opis
 	ADDITIONAL_DESCRIPTION VARCHAR2(200),    -- Dodatkowy opis
-	DELETED VARCHAR2(1) NOT NULL,    -- Flaga mówi¹ca czy dany za³¹cznik zosta³ usuniêty w ramach korekty
+	STATUS VARCHAR2(10),    -- Stan za³¹cznika (TEMP, DELTED, SENDED)
 	VERSION NUMBER NOT NULL,    -- Standardowa kolumna wersji na potrzeby optymistycznego blokowania (Gryf)
 	CREATED_USER VARCHAR2(100) NOT NULL,    -- U¿ytkownik tworzacy wiersz - kolumna audytowa
 	CREATED_TIMESTAMP TIMESTAMP(6) NOT NULL,    -- Timestamp utworzenia wiersza - kolumna audytowa
@@ -46,7 +46,7 @@ COMMENT ON COLUMN APP_PBE.E_RMBS_ATTACHMENTS.ATTACH_TYPE IS 'Typ dokumentu. Kluc
 COMMENT ON COLUMN APP_PBE.E_RMBS_ATTACHMENTS.FILE_ID IS 'Id do rekordu z informacjami o zapisanym pliku.';
 COMMENT ON COLUMN APP_PBE.E_RMBS_ATTACHMENTS.DOCUMENT_NUMBER IS 'Numer dokumentu (Np. FV) lub opis';
 COMMENT ON COLUMN APP_PBE.E_RMBS_ATTACHMENTS.ADDITIONAL_DESCRIPTION IS 'Dodatkowy opis';
-COMMENT ON COLUMN APP_PBE.E_RMBS_ATTACHMENTS.DELETED IS 'Czy za³¹cznik usuniêty podczas korekty';
+COMMENT ON COLUMN APP_PBE.E_RMBS_ATTACHMENTS.STATUS IS 'Stan za³¹cznika (TEMP, DELTED, SENDED)';
 COMMENT ON COLUMN APP_PBE.E_RMBS_ATTACHMENTS.VERSION IS 'Standardowa kolumna wersji na potrzeby optymistycznego blokowania (Gryf)';
 COMMENT ON COLUMN APP_PBE.E_RMBS_ATTACHMENTS.CREATED_USER IS 'U¿ytkownik tworzacy wiersz - kolumna audytowa';
 COMMENT ON COLUMN APP_PBE.E_RMBS_ATTACHMENTS.CREATED_TIMESTAMP IS 'Timestamp utworzenia wiersza - kolumna audytowa';

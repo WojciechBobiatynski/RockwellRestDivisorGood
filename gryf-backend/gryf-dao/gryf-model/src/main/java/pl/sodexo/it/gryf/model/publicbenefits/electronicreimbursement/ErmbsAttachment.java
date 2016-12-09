@@ -3,7 +3,7 @@ package pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import pl.sodexo.it.gryf.model.api.BooleanConverter;
+import pl.sodexo.it.gryf.common.enums.ErmbsAttachmentStatus;
 import pl.sodexo.it.gryf.model.api.VersionableEntity;
 import pl.sodexo.it.gryf.model.attachments.AttachmentFile;
 import pl.sodexo.it.gryf.model.attachments.AttachmentType;
@@ -52,16 +52,16 @@ public class ErmbsAttachment extends VersionableEntity {
     @Setter
     private String additionalDescription;
 
-    @Column(name = "DELETED")
-    @Convert(converter = BooleanConverter.class)
-    @Getter
-    @Setter
-    private boolean deleted;
-
     @OneToOne
     @JoinColumn(name = "FILE_ID", referencedColumnName = "ID")
     @Getter
     @Setter
     private AttachmentFile attachmentFile;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name="STATUS")
+    @Getter
+    @Setter
+    private ErmbsAttachmentStatus status;
 
 }

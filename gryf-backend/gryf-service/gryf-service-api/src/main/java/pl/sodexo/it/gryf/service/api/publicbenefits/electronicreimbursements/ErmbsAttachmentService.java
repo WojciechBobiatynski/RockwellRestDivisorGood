@@ -2,6 +2,7 @@ package pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements;
 
 import pl.sodexo.it.gryf.common.dto.other.FileDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto;
+import pl.sodexo.it.gryf.common.enums.ErmbsAttachmentStatus;
 
 /**
  * Serwis do operacji na załącznikach dla bonów elektronicznych
@@ -20,18 +21,14 @@ public interface ErmbsAttachmentService {
     /**
      * Zapisuje dane załączniki dla danego rozliczenia
      * @param elctRmbsHeadDto - dto rozliczenia
+     * @param status - stauts załącznika
      */
-    void manageErmbsAttachments(ElctRmbsHeadDto elctRmbsHeadDto);
+    void manageErmbsAttachments(ElctRmbsHeadDto elctRmbsHeadDto, ErmbsAttachmentStatus status);
 
     /**
      * Zapisuje dane załączniki dla danego rozliczenia
      * @param elctRmbsHeadDto - dto rozliczenia
      */
-    void saveErmbsAttachments(ElctRmbsHeadDto elctRmbsHeadDto);
+    void manageErmbsAttachmentsForCorrection(ElctRmbsHeadDto elctRmbsHeadDto, ErmbsAttachmentStatus status);
 
-    /**
-     * Zapisuje dane załączniki dla danego rozliczenia z korektą
-     * @param elctRmbsHeadDto - dto rozliczenia
-     */
-    void saveErmbsAttachmentsForCorr(ElctRmbsHeadDto elctRmbsHeadDto);
 }

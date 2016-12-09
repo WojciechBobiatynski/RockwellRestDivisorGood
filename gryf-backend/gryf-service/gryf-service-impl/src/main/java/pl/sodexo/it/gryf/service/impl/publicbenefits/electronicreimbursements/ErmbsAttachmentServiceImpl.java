@@ -6,13 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.dto.other.FileDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsAttachmentDto;
-import pl.sodexo.it.gryf.common.dto.user.GryfTiUser;
-import pl.sodexo.it.gryf.common.dto.user.GryfUser;
-import pl.sodexo.it.gryf.common.enums.AttachmentParentType;
-import pl.sodexo.it.gryf.common.enums.FileType;
-import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
+import pl.sodexo.it.gryf.common.enums.ErmbsAttachmentStatus;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementAttachmentRepository;
-import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.Ereimbursement;
 import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.ErmbsAttachment;
 import pl.sodexo.it.gryf.service.api.attachments.FileAttachmentService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.ErmbsAttachmentService;
@@ -54,34 +49,37 @@ public class ErmbsAttachmentServiceImpl implements ErmbsAttachmentService {
     }
 
     @Override
-    public void saveErmbsAttachments(ElctRmbsHeadDto elctRmbsHeadDto) {
-        for (ErmbsAttachmentDto ermbsAttachment : elctRmbsHeadDto.getAttachments()) {
-            if (deleteIfMarked(ermbsAttachment, false))
-                continue;
-            Ereimbursement ereimbursement = ereimbursementDtoMapper.convert(elctRmbsHeadDto);
-            ErmbsAttachment entity = ermbsAttachmentDtoMapper.convert(ermbsAttachment);
-            saveFile(ermbsAttachment, entity, ereimbursement);
-            saveAttachmentEntity(ereimbursement, entity);
-        }
+    public void manageErmbsAttachments(ElctRmbsHeadDto elctRmbsHeadDto, ErmbsAttachmentStatus status) {
+        fileAttachmentService.manageAttachmentFiles(elctRmbsHeadDto);
+        manageErmbsAttachmentsEntity(elctRmbsHeadDto, status);
     }
 
     @Override
-    public void manageErmbsAttachments(ElctRmbsHeadDto elctRmbsHeadDto) {
-        fileAttachmentService.manageAttachmentFiles(elctRmbsHeadDto);
-        manageErmbsAttachmentsEntity(elctRmbsHeadDto);
+    public void manageErmbsAttachmentsForCorrection(ElctRmbsHeadDto elctRmbsHeadDto, ErmbsAttachmentStatus status) {
+        fileAttachmentService.manageAttachmentFilesForCorrections(elctRmbsHeadDto);
+        manageErmbsAttachmentsEntity(elctRmbsHeadDto, status);
     }
 
-    private void manageErmbsAttachmentsEntity(ElctRmbsHeadDto elctRmbsHeadDto) {
+    private void manageErmbsAttachmentsEntity(ElctRmbsHeadDto elctRmbsHeadDto, ErmbsAttachmentStatus status) {
         for (ErmbsAttachmentDto ermbsAttachment : elctRmbsHeadDto.getAttachments()) {
-            ErmbsAttachment entity = ermbsAttachmentDtoMapper.convert(ermbsAttachment);
-            if (ermbsAttachment.isMarkToDelete()) {
-                //oznaczone do usunięcia mogą być tylko pliki już wczesniej zapisane w bazie
-                ereimbursementAttachmentRepository.delete(entity);
-                continue;
-            }
-            entity.setEreimbursement(ereimbursementDtoMapper.convert(elctRmbsHeadDto));
-            saveOrUpdateEntity(entity);
+            manageEntity(elctRmbsHeadDto, ermbsAttachment, status);
         }
+    }
+
+    private Long manageEntity(ElctRmbsHeadDto elctRmbsHeadDto, ErmbsAttachmentDto ermbsAttachment, ErmbsAttachmentStatus status) {
+        ErmbsAttachment entity = ermbsAttachmentDtoMapper.convert(ermbsAttachment);
+        if (ermbsAttachment.isMarkToDelete()) {
+            //oznaczone do usunięcia mogą być tylko pliki już wczesniej zapisane w bazie
+            ereimbursementAttachmentRepository.delete(entity);
+            return null;
+        }
+        entity.setEreimbursement(ereimbursementDtoMapper.convert(elctRmbsHeadDto));
+        // możemy zmieniać status załącznika tylko gdy jeszcze go nie ma lub gdy jest to załącznik tymczasowy (zapisz bez wyślij)
+        if(entity.getStatus() == null || entity.getStatus().equals(ErmbsAttachmentStatus.TEMP) ){
+            entity.setStatus(status);
+        }
+        saveOrUpdateEntity(entity);
+        return entity.getId();
     }
 
     private void saveOrUpdateEntity(ErmbsAttachment entity) {
@@ -90,59 +88,6 @@ public class ErmbsAttachmentServiceImpl implements ErmbsAttachmentService {
         } else {
             ereimbursementAttachmentRepository.save(entity);
         }
-    }
-
-    @Override
-    public void saveErmbsAttachmentsForCorr(ElctRmbsHeadDto elctRmbsHeadDto) {
-
-    }
-
-    private boolean deleteIfMarked(ErmbsAttachmentDto ermbsAttachment, boolean leaveFile) {
-        if (ermbsAttachment.isMarkToDelete()) {
-            if (leaveFile) {
-                ErmbsAttachment entity = ermbsAttachmentDtoMapper.convert(ermbsAttachment);
-                ereimbursementAttachmentRepository.update(entity, entity.getId());
-                return true;
-            }
-            fileService.deleteFile(ermbsAttachment.getFileLocation());
-            ErmbsAttachment entity = ermbsAttachmentDtoMapper.convert(ermbsAttachment);
-            ereimbursementAttachmentRepository.delete(entity);
-            return true;
-        }
-        return false;
-    }
-
-    private void saveFile(ErmbsAttachmentDto ermbsAttachment, ErmbsAttachment entity, Ereimbursement ereimbursement) {
-        if (ermbsAttachment.isChanged()) {
-            fileService.deleteFile(ermbsAttachment.getFileLocation());
-            Long trainingInstitutionId = ((GryfTiUser) GryfUser.getLoggedUser()).getTrainingInstitutionId();
-            String fileName = String
-                    .format("%s_%s_%s_%s_%s", trainingInstitutionId, ereimbursement.getId(), AttachmentParentType.EREIMB, entity.getId(), ermbsAttachment.getFile().getOriginalFilename());
-            String newFileName = GryfStringUtils.convertFileName(fileName);
-            String filePath = fileService.writeFile(FileType.E_REIMBURSEMENTS, newFileName, ermbsAttachment.getFile(), entity);
-        }
-    }
-
-    private ErmbsAttachment saveAttachmentEntity(Ereimbursement ereimbursement, ErmbsAttachment entity) {
-        entity.setEreimbursement(ereimbursement);
-        entity = entity.getId() != null ? ereimbursementAttachmentRepository.update(entity, entity.getId()) : ereimbursementAttachmentRepository.save(entity);
-        return entity;
-    }
-
-    private String getNewFileNameForCorr(ErmbsAttachment entity) {
-        return fileService.findPath(FileType.E_REIMBURSEMENTS);
-    }
-
-    private boolean isTheSameCorrection(ElctRmbsHeadDto elctRmbsHeadDto, ErmbsAttachment entity) {
-        return true;
-    }
-
-    private void prepareAttEntityToUpdateForCorr(ErmbsAttachmentDto ermbsAttachment, ErmbsAttachment entity) {
-        Long trainingInstitutionId = ((GryfTiUser) GryfUser.getLoggedUser()).getTrainingInstitutionId();
-        String fileName = String
-                .format("%s_%s_%s_%s_%s", trainingInstitutionId, entity.getEreimbursement().getId(), AttachmentParentType.EREIMB, entity.getId(), ermbsAttachment.getFile().getOriginalFilename());
-        String newFileName = GryfStringUtils.convertFileName(fileName);
-        String filePath = fileService.writeFile(FileType.E_REIMBURSEMENTS, newFileName, ermbsAttachment.getFile(), entity);
     }
 
 }

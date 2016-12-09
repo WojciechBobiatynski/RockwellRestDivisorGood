@@ -5,6 +5,6 @@ package pl.sodexo.it.gryf.common.enums;
  *
  * Created by akmiecinski on 05.12.2016.
  */
-public enum FileSystemStatus {
-    TEMP, TO_DELETE, SAVED, REMOVED, CORRECT
+public enum FileStatus {
+    TO_DELETE, SAVED, CORRECT
 }

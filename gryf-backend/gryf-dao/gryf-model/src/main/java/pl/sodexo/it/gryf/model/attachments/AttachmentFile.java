@@ -3,7 +3,7 @@ package pl.sodexo.it.gryf.model.attachments;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import pl.sodexo.it.gryf.common.enums.FileSystemStatus;
+import pl.sodexo.it.gryf.common.enums.FileStatus;
 import pl.sodexo.it.gryf.model.api.VersionableEntity;
 
 import javax.persistence.*;
@@ -32,7 +32,7 @@ public class AttachmentFile extends VersionableEntity {
     @Enumerated(EnumType.STRING)
     @Getter
     @Setter
-    private FileSystemStatus filetatus;
+    private FileStatus filetatus;
 
     @Column(name = "ORIGINAL_FILE_NAME")
     @Getter

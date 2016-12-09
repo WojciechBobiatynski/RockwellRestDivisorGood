@@ -141,6 +141,7 @@
           files.ID                                  att_fileId,
           att.DOCUMENT_NUMBER                       att_documentNumber,
           att.ADDITIONAL_DESCRIPTION                att_additionalDescription,
+          att.STATUS                                att_status,
           files.ORIGINAL_FILE_NAME                  att_originalFileName,
           files.FILE_LOCATION                       att_fileLocation,
           att_t.MAX_BYTES_PER_FILE                  att_maxFileSize,
@@ -162,7 +163,7 @@
           LEFT JOIN <include refid="lastCorrection"/> last_corr ON last_corr.e_rmbs_id = ermbs.ID
           LEFT JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOL_USES pool_uses ON pool_uses.TRAINING_INSTANCE_ID = tr_in.ID
           LEFT JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOLS pool on pool_uses.PRODUCT_INSTANCE_POOL_ID = pool.ID
-          LEFT JOIN APP_PBE.E_RMBS_ATTACHMENTS att ON att.E_RMBS_ID = ermbs.ID
+          LEFT JOIN APP_PBE.E_RMBS_ATTACHMENTS att ON (att.E_RMBS_ID = ermbs.ID AND att.STATUS != 'DELETED')
           LEFT JOIN APP_PBE.ATTACHMENT_FILES files ON files.ID = att.FILE_ID
           LEFT JOIN APP_PBE.ATTACHMENT_TYPES att_t ON att_t.CODE = att.ATTACH_TYPE
           LEFT JOIN APP_PBE.GRANT_PROGRAM_ATTACH_REQ att_req ON (

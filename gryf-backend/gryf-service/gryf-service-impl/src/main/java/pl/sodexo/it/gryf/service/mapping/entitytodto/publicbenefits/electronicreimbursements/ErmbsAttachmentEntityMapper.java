@@ -25,5 +25,6 @@ public class ErmbsAttachmentEntityMapper extends VersionableEntityMapper<ErmbsAt
         dto.setDocumentNumber(entity.getDocumentNumber());
         dto.setAdditionalDescription(entity.getAdditionalDescription());
         dto.setFileId(entity.getAttachmentFile() != null ? entity.getAttachmentFile().getId() : null);
+        dto.setStatus(entity.getStatus());
     }
 }

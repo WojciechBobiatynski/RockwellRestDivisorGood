@@ -7,10 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.common.criteria.electronicreimbursements.ElctRmbsCriteria;
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CalculationChargesParamsDto;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CorrectionDto;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsDto;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.*;
+import pl.sodexo.it.gryf.common.enums.ErmbsAttachmentStatus;
 import pl.sodexo.it.gryf.common.enums.FileType;
 import pl.sodexo.it.gryf.common.enums.ReportSourceType;
 import pl.sodexo.it.gryf.common.enums.ReportTemplateCode;
@@ -25,6 +23,7 @@ import pl.sodexo.it.gryf.dao.api.search.dao.GrantProgramSearchDao;
 import pl.sodexo.it.gryf.dao.api.search.dao.ProductSearchDao;
 import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.Ereimbursement;
 import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.EreimbursementStatus;
+import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.CorrectionAttachmentService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.CorrectionService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.ElectronicReimbursementsService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.ErmbsAttachmentService;
@@ -93,6 +92,9 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     @Autowired
     private ReportService reportService;
 
+    @Autowired
+    private CorrectionAttachmentService correctionAttachmentService;
+
     @Override
     public List<ElctRmbsDto> findEcltRmbsListByCriteria(ElctRmbsCriteria criteria) {
         return electronicReimbursementsDao.findEcltRmbsListByCriteria(criteria);
@@ -130,7 +132,7 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         //musimy zapisać rmbs, żeby mieć ID potrzebne do nadania odpowiedniej nazwy załącznikom
         Ereimbursement ereimbursement = saveErmbsData(elctRmbsHeadDto);
         elctRmbsHeadDto.setErmbsId(ereimbursement.getId());
-        ermbsAttachmentService.manageErmbsAttachments(elctRmbsHeadDto);
+        ermbsAttachmentService.manageErmbsAttachments(elctRmbsHeadDto, ErmbsAttachmentStatus.TEMP);
         setErmbsDataWhenSave(ereimbursement);
         return ereimbursement.getId();
     }
@@ -143,7 +145,7 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         //musimy zapisać rmbs, żeby mieć ID potrzebne do nadania odpowiedniej nazwy załącznikom
         Ereimbursement ereimbursement = saveErmbsData(elctRmbsHeadDto);
         elctRmbsHeadDto.setErmbsId(ereimbursement.getId());
-        ermbsAttachmentService.manageErmbsAttachments(elctRmbsHeadDto);
+        ermbsAttachmentService.manageErmbsAttachments(elctRmbsHeadDto, ErmbsAttachmentStatus.SENDED);
         setErmbsDataWhenSendToReimburse(ereimbursement);
         return ereimbursement.getId();
     }
@@ -151,7 +153,9 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     @Override
     public Long saveErmbsWithCorr(ElctRmbsHeadDto elctRmbsHeadDto) {
         Ereimbursement ereimbursement = saveErmbsData(elctRmbsHeadDto);
-        ermbsAttachmentService.saveErmbsAttachmentsForCorr(elctRmbsHeadDto);
+        List<CorrectionAttachmentDto> correctionAttachmentDtoList = correctionAttachmentService.createCorrAttIfNotExistsForErmbsAttBeingChanged(elctRmbsHeadDto);
+        ermbsAttachmentService.manageErmbsAttachmentsForCorrection(elctRmbsHeadDto, ErmbsAttachmentStatus.TEMP);
+        correctionAttachmentService.saveCorrectionAttachments(correctionAttachmentDtoList);
         return ereimbursement.getId();
     }
 
@@ -161,7 +165,9 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         calculateCharges(elctRmbsHeadDto);
         Ereimbursement ereimbursement = saveErmbsData(elctRmbsHeadDto);
         ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.TO_ERMBS));
-        ermbsAttachmentService.saveErmbsAttachmentsForCorr(elctRmbsHeadDto);
+        List<CorrectionAttachmentDto> correctionAttachmentDtoList = correctionAttachmentService.createCorrAttIfNotExistsForErmbsAttBeingChanged(elctRmbsHeadDto);
+        ermbsAttachmentService.manageErmbsAttachmentsForCorrection(elctRmbsHeadDto, ErmbsAttachmentStatus.SENDED);
+        correctionAttachmentService.saveCorrectionAttachments(correctionAttachmentDtoList);
         correctionService.completeCorrection(elctRmbsHeadDto.getLastCorrectionDto().getId());
         return ereimbursement.getId();
     }

@@ -40,6 +40,7 @@ public class ErmbsAttachmentDtoMapper extends VersionableDtoMapper<ErmbsAttachme
         entity.setDocumentNumber(dto.getDocumentNumber());
         entity.setAdditionalDescription(dto.getAdditionalDescription());
         entity.setAttachmentFile(dto.getFileId() != null ? attachmentFileRepository.get(dto.getFileId()) : null);
+        entity.setStatus(dto.getStatus());
     }
 
 }

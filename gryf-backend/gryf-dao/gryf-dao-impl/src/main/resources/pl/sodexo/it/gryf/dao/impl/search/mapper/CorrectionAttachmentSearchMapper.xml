@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="pl.sodexo.it.gryf.dao.api.search.mapper.CorrectionAttachmentSearchMapper">
+
+    <select id="getCorrAttByAttByErmbsAttIdAndCorrId" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CorrectionAttachmentDto">
+        SELECT
+          cor_att.ID          id,
+          cor_att.FILE_ID     fileId
+        FROM
+          APP_PBE.CORRECTION_ATTACHMENTS cor_att
+          JOIN APP_PBE.CORRECTIONS cor ON cor.ID = cor_att.CORR_ID
+          JOIN APP_PBE.E_REIMBURSEMENTS ermbs ON ermbs.ID = cor.E_RMBS_ID
+          JOIN APP_PBE.TI_TRAINING_INSTANCES tr_in ON tr_in.ID = ermbs.TI_TR_INST_ID
+          JOIN APP_PBE.TI_TRAININGS tr ON tr.ID = tr_in.TRAINING_ID
+        WHERE
+          cor_att.E_RMBS_ATT_ID = #{ermbsAttId}
+          AND cor_att.CORR_ID = #{corrId}
+          <if test="criteria.gryfUser.userType == 'TRAINING_INSTITUTION'">
+            AND tr.TRAINING_INSTITUTION_ID = #{criteria.gryfUser.trainingInstitutionId}
+          </if>
+    </select>
+
+</mapper>
