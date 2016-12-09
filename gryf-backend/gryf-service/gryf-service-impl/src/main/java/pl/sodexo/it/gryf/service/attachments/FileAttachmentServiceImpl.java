@@ -9,6 +9,7 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.Ermb
 import pl.sodexo.it.gryf.common.dto.user.GryfTiUser;
 import pl.sodexo.it.gryf.common.dto.user.GryfUser;
 import pl.sodexo.it.gryf.common.enums.AttachmentParentType;
+import pl.sodexo.it.gryf.common.enums.ErmbsAttachmentStatus;
 import pl.sodexo.it.gryf.common.enums.FileStatus;
 import pl.sodexo.it.gryf.common.enums.FileType;
 import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
@@ -60,7 +61,8 @@ public class FileAttachmentServiceImpl implements FileAttachmentService {
     @Override
     public void manageAttachmentFilesForCorrections(ElctRmbsHeadDto elctRmbsHeadDto) {
         for (ErmbsAttachmentDto ermbsAttachment : elctRmbsHeadDto.getAttachments()) {
-            if (isExsistedAtt(ermbsAttachment) && isFirstChangeOfAttachmentFileInCorrection(elctRmbsHeadDto, ermbsAttachment)) {
+            if (isExsistedAtt(ermbsAttachment) && isFirstChangeOfAttachmentFileInCorrection(elctRmbsHeadDto, ermbsAttachment)
+                    && ermbsAttachment.getStatus().equals(ErmbsAttachmentStatus.SENDED)) {
                 if (ermbsAttachment.isMarkToDelete()) {
                     markFileToDeleteForCorr(ermbsAttachment);
                     return;

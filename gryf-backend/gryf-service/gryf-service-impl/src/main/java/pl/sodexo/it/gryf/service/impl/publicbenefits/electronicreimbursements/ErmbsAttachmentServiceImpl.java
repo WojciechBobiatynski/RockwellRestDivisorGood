@@ -68,14 +68,18 @@ public class ErmbsAttachmentServiceImpl implements ErmbsAttachmentService {
 
     private Long manageEntity(ElctRmbsHeadDto elctRmbsHeadDto, ErmbsAttachmentDto ermbsAttachment, ErmbsAttachmentStatus status) {
         ErmbsAttachment entity = ermbsAttachmentDtoMapper.convert(ermbsAttachment);
+        //oznaczone do usunięcia mogą być tylko pliki już wczesniej zapisane w bazie, a usuwamy tylko te tymczasowe
         if (ermbsAttachment.isMarkToDelete()) {
-            //oznaczone do usunięcia mogą być tylko pliki już wczesniej zapisane w bazie
-            ereimbursementAttachmentRepository.delete(entity);
-            return null;
+            if (ermbsAttachment.getStatus().equals(ErmbsAttachmentStatus.SENDED)) {
+                entity.setStatus(ErmbsAttachmentStatus.DELETED);
+            } else {
+                ereimbursementAttachmentRepository.delete(entity);
+                return ermbsAttachment.getId();
+            }
         }
         entity.setEreimbursement(ereimbursementDtoMapper.convert(elctRmbsHeadDto));
         // możemy zmieniać status załącznika tylko gdy jeszcze go nie ma lub gdy jest to załącznik tymczasowy (zapisz bez wyślij)
-        if(entity.getStatus() == null || entity.getStatus().equals(ErmbsAttachmentStatus.TEMP) ){
+        if (entity.getStatus() == null || entity.getStatus().equals(ErmbsAttachmentStatus.TEMP)) {
             entity.setStatus(status);
         }
         saveOrUpdateEntity(entity);
