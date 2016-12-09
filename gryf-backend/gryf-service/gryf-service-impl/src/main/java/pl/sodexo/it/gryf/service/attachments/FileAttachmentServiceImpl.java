@@ -88,7 +88,7 @@ public class FileAttachmentServiceImpl implements FileAttachmentService {
                     && ermbsAttachment.getStatus().equals(ErmbsAttachmentStatus.SENDED)) {
                 if (ermbsAttachment.isMarkToDelete()) {
                     markFileToDeleteForCorr(ermbsAttachment);
-                    return;
+                    continue;
                 }
                 if (ermbsAttachment.isChanged()) {
                     Long newFileId = saveNewFileAndGetFileEntityId(ermbsAttachment, elctRmbsHeadDto);

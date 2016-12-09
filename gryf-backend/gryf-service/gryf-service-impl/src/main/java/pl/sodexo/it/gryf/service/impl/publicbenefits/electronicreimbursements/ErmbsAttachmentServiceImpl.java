@@ -70,7 +70,7 @@ public class ErmbsAttachmentServiceImpl implements ErmbsAttachmentService {
         ErmbsAttachment entity = ermbsAttachmentDtoMapper.convert(ermbsAttachment);
         //oznaczone do usunięcia mogą być tylko pliki już wczesniej zapisane w bazie, a usuwamy tylko te tymczasowe
         if (ermbsAttachment.isMarkToDelete()) {
-            if (ermbsAttachment.getStatus().equals(ErmbsAttachmentStatus.SENDED)) {
+            if (ErmbsAttachmentStatus.SENDED.equals(ermbsAttachment.getStatus())) {
                 entity.setStatus(ErmbsAttachmentStatus.DELETED);
             } else {
                 ereimbursementAttachmentRepository.delete(entity);
