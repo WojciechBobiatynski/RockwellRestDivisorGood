@@ -16,32 +16,32 @@ public class ImportIndividualDTO {
 
     @Getter
     @Setter
-    @NotEmpty(message = "Imię nie moze być puste")
+    @NotEmpty(message = "Imię nie może być puste")
     private String firstName;
 
     @Getter
     @Setter
-    @NotEmpty(message = "Nazwisko nie moze być puste")
+    @NotEmpty(message = "Nazwisko nie może być puste")
     private String lastName;
 
     @Getter
     @Setter
-    @NotEmpty(message = "PESEL nie moze być pusty")
+    @NotEmpty(message = "PESEL nie może być pusty")
     private String pesel;
 
     @Getter
     @Setter
     @NotNull(message = "Pola adresu użytkownika do faktury nie mogą być puste")
-    private ImportAddressDTO addressInvoice;
+    private ImportAddressDTO addressInvoice = new ImportAddressDTO();
 
     @Getter
     @Setter
     @NotNull(message = "Pola adresu użytkownika korespondencyjnego nie mogą być puste")
-    private ImportAddressDTO addressCorr;
+    private ImportAddressDTO addressCorr = new ImportAddressDTO();
 
     @Getter
     @Setter
-    @NotEmpty(message = "Email jest wymagany")
+    @NotEmpty(message = "Email nie może być pusty")
     private String email;
 
 }

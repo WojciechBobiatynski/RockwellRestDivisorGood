@@ -9,6 +9,7 @@ import pl.sodexo.it.gryf.common.dto.other.DictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.other.GrantProgramDictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.ContactTypeDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.contracts.detailsform.ContractDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.enterprises.detailsform.EnterpriseContactDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.enterprises.detailsform.EnterpriseDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.enterprises.searchform.EnterpriseSearchResultDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.importdata.*;
@@ -58,7 +59,7 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
     //OVERRIDE
 
     @Override
-    protected String saveData(Row row){
+    protected String saveData(ImportParamsDTO paramsDTO, Row row){
         ImportComplexContractDTO dto = createComplexContractDTO(row);
         validateImport(dto);
         ImportComplexContractResultDTO importResult = saveContractData(dto);
@@ -119,7 +120,6 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
 
             switch (cell.getColumnIndex()) {
                 case 0:
-                    c.setContract(new ImportContractDTO());
                     c.getContract().setId(getLongCellValue(cell));
                     break;
                 case 1:
@@ -138,7 +138,6 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
                     c.getContract().setContractTrainingCategories(getStringCellValue(cell));
                     break;
                 case 6:
-                    c.setIndividual(new ImportIndividualDTO());
                     c.getIndividual().setFirstName(getStringCellValue(cell));
                     break;
                 case 7:
@@ -148,7 +147,6 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
                     c.getIndividual().setPesel(getStringCellValue(cell));
                     break;
                 case 9:
-                    c.getIndividual().setAddressInvoice(new ImportAddressDTO());
                     c.getIndividual().getAddressInvoice().setAddress(getStringCellValue(cell));
                     break;
                 case 10:
@@ -158,7 +156,6 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
                     c.getIndividual().getAddressInvoice().setCity(getStringCellValue(cell));
                     break;
                 case 12:
-                    c.getIndividual().setAddressCorr(new ImportAddressDTO());
                     c.getIndividual().getAddressCorr().setAddress(getStringCellValue(cell));
                     break;
                 case 13:
@@ -171,14 +168,12 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
                     c.getIndividual().setEmail(getStringCellValue(cell));
                     break;
                 case 16:
-                    c.setEnterprise(new ImportEnterpriseDTO());
                     c.getEnterprise().setName(getStringCellValue(cell));
                     break;
                 case 17:
                     c.getEnterprise().setVatRegNum(getStringCellValue(cell));
                     break;
                 case 18:
-                    c.getEnterprise().setAddressInvoice(new ImportAddressDTO());
                     c.getEnterprise().getAddressInvoice().setAddress(getStringCellValue(cell));
                     break;
                 case 19:
@@ -188,7 +183,6 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
                     c.getEnterprise().getAddressInvoice().setCity(getStringCellValue(cell));
                     break;
                 case 21:
-                    c.getEnterprise().setAddressCorr(new ImportAddressDTO());
                     c.getEnterprise().getAddressCorr().setAddress(getStringCellValue(cell));
                     break;
                 case 22:
@@ -216,18 +210,23 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
         dto.setName(importDTO.getName());
         dto.setVatRegNum(importDTO.getVatRegNum());
 
-        if(importDTO.getAddressInvoice() != null) {
+        if(!importDTO.getAddressInvoice().isEmpty()) {
             ImportAddressDTO address = importDTO.getAddressInvoice();
             dto.setAddressInvoice(address.getAddress());
             dto.setZipCodeInvoice(createZipCodeDTO(address));
         }
-        if(importDTO.getAddressCorr() != null) {
+        if(!importDTO.getAddressCorr().isEmpty()) {
             ImportAddressDTO address = importDTO.getAddressCorr();
             dto.setAddressCorr(address.getAddress());
             dto.setZipCodeCorr(createZipCodeDTO(address));
         }
 
-        dto.setContacts(Lists.newArrayList());
+        EnterpriseContactDto contactDTO = new EnterpriseContactDto();
+        contactDTO.setContactType(new ContactTypeDto());
+        contactDTO.getContactType().setType(ContactType.TYPE_EMAIL);
+        contactDTO.setContactData(importDTO.getEmail());
+        dto.setContacts(Lists.newArrayList(contactDTO));
+
         return dto;
     }
 
@@ -245,12 +244,12 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
         dto.setSex(createSex(importDTO));
         dto.setDocumentType(null);
         dto.setDocumentNumber(null);
-        if(importDTO.getAddressInvoice() != null) {
+        if(!importDTO.getAddressInvoice().isEmpty()) {
             ImportAddressDTO address = importDTO.getAddressInvoice();
             dto.setAddressInvoice(address.getAddress());
             dto.setZipCodeInvoice(createZipCodeDTO(address));
         }
-        if(importDTO.getAddressCorr() != null) {
+        if(!importDTO.getAddressCorr().isEmpty()) {
             ImportAddressDTO address = importDTO.getAddressInvoice();
             dto.setAddressCorr(address.getAddress());
             dto.setZipCodeCorr(createZipCodeDTO(address));

@@ -15,14 +15,14 @@ public class ImportComplexContractDTO {
     @Getter
     @Setter
     @Valid
-    private ImportContractDTO contract;
+    private ImportContractDTO contract = new ImportContractDTO();
 
     @Getter
     @Setter
     @Valid
-    private ImportIndividualDTO individual;
+    private ImportIndividualDTO individual = new ImportIndividualDTO();
 
     @Getter
     @Setter
-    private ImportEnterpriseDTO enterprise;
+    private ImportEnterpriseDTO enterprise = new ImportEnterpriseDTO();
 }

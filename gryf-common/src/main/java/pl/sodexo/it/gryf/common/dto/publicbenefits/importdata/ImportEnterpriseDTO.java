@@ -27,25 +27,25 @@ public class ImportEnterpriseDTO {
     @Getter
     @Setter
     @NotNull(message = "Pola adresu MŚP do faktury nie mogą być puste")
-    private ImportAddressDTO addressInvoice;
+    private ImportAddressDTO addressInvoice = new ImportAddressDTO();
 
     @Getter
     @Setter
     @NotNull(message = "Pola adresu MŚP korespondencyjnego nie mogą być puste")
-    private ImportAddressDTO addressCorr;
+    private ImportAddressDTO addressCorr = new ImportAddressDTO();
 
     @Getter
     @Setter
     @NotEmpty(message = "Email dla MŚP nie może być pusty")
-    private String email;//TODO: tbilski zmapować
+    private String email;
 
     //PUBLIC METHODS
 
     public boolean isEmpty(){
         return Strings.isNullOrEmpty(name) &&
                 Strings.isNullOrEmpty(vatRegNum) &&
-                (addressInvoice == null || addressInvoice.isEmpty()) &&
-                (addressCorr == null || addressCorr.isEmpty()) &&
+                addressInvoice.isEmpty() &&
+                addressCorr.isEmpty() &&
                 Strings.isNullOrEmpty(email);
     }
 }

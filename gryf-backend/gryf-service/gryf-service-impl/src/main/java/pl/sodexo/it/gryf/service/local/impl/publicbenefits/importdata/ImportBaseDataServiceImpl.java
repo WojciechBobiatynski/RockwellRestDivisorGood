@@ -1,11 +1,13 @@
 package pl.sodexo.it.gryf.service.local.impl.publicbenefits.importdata;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.importdata.ImportAddressDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.importdata.ImportParamsDTO;
 import pl.sodexo.it.gryf.common.dto.zipcodes.detailsform.ZipCodeDto;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.common.exception.EntityValidationException;
@@ -50,17 +52,17 @@ public abstract class ImportBaseDataServiceImpl implements ImportDataService{
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void saveData(Long importJobId, Row row){
+    public void saveData(Long importJobId, ImportParamsDTO paramsDTO, Row row){
         ImportDataRow rowInfo = importDataRowRepository.getByImportJobAndRowNum(importJobId, row.getRowNum());
 
-        String description = saveData(row);
+        String description = saveData(paramsDTO, row);
 
         rowInfo.setDescription(description);
         rowInfo.setStatus(ImportDataRowStatus.S);
         importDataRowRepository.update(rowInfo, rowInfo.getId());
     }
 
-    protected abstract String saveData(Row row);
+    protected abstract String saveData(ImportParamsDTO paramsDTO, Row row);
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -100,7 +102,7 @@ public abstract class ImportBaseDataServiceImpl implements ImportDataService{
 
     protected String getStringCellValue(Cell cell){
         try{
-            String val = cell.getStringCellValue();
+            String val = isEmpty(cell) ? null : cell.getStringCellValue();
             return (val != null) ? val.trim() : null;
         }catch(RuntimeException e){
             throw new RuntimeException(String.format("Błąd przy pobraniu wartości "
@@ -110,8 +112,7 @@ public abstract class ImportBaseDataServiceImpl implements ImportDataService{
 
     protected Integer getIntegerCellValue(Cell cell){
         try{
-            double d = cell.getNumericCellValue();
-            return (int)d;
+            return isEmpty(cell) ? null : (int) cell.getNumericCellValue();
         }catch(RuntimeException e){
             throw new RuntimeException(String.format("Błąd przy pobraniu wartości "
                     + "z kolumny numer %s. Komunikat: %s.", cell.getColumnIndex() + 1, e.getMessage()), e);
@@ -120,7 +121,7 @@ public abstract class ImportBaseDataServiceImpl implements ImportDataService{
 
     protected BigDecimal getBigDecimalCellValue(Cell cell){
         try{
-            return new BigDecimal(cell.getNumericCellValue());
+            return isEmpty(cell) ? null : new BigDecimal(cell.getNumericCellValue());
         }catch(RuntimeException e){
             throw new RuntimeException(String.format("Błąd przy pobraniu wartości "
                     + "z kolumny numer %s. Komunikat: %s.", cell.getColumnIndex() + 1, e.getMessage()), e);
@@ -129,8 +130,7 @@ public abstract class ImportBaseDataServiceImpl implements ImportDataService{
 
     protected Long getLongCellValue(Cell cell){
         try{
-            double d = cell.getNumericCellValue();
-            return (long)d;
+            return isEmpty(cell) ? null : (long) cell.getNumericCellValue();
         }catch(RuntimeException e){
             throw new RuntimeException(String.format("Błąd przy pobraniu wartości "
                     + "z kolumny numer %s. Komunikat: %s.", cell.getColumnIndex() + 1, e.getMessage()), e);
@@ -139,7 +139,7 @@ public abstract class ImportBaseDataServiceImpl implements ImportDataService{
 
     protected Double getDoubleCellValue(Cell cell){
         try{
-            return cell.getNumericCellValue();
+            return isEmpty(cell) ? null : cell.getNumericCellValue();
         }catch(RuntimeException e){
             throw new RuntimeException(String.format("Błąd przy pobraniu wartości "
                     + "z kolumny numer %s. Komunikat: %s.", cell.getColumnIndex() + 1, e.getMessage()), e);
@@ -148,7 +148,7 @@ public abstract class ImportBaseDataServiceImpl implements ImportDataService{
 
     protected Date getDateCellValue(Cell cell){
         try{
-            return cell.getDateCellValue();
+            return isEmpty(cell) ? null : cell.getDateCellValue();
         }catch(RuntimeException e){
             throw new RuntimeException(String.format("Błąd przy pobraniu wartości "
                     + "z kolumny numer %s. Komunikat: %s.", cell.getColumnIndex() + 1, e.getMessage()), e);
@@ -159,5 +159,9 @@ public abstract class ImportBaseDataServiceImpl implements ImportDataService{
         return val == null ? "brak" : val;
     }
 
+    protected boolean isEmpty(Cell cell){
+        //Jezeli przejdziemy na POI 3.15 to użyć: CellType.BLANK == cell.getCellType()
+        return CellType.BLANK.getCode() == cell.getCellType();
+    }
 
 }

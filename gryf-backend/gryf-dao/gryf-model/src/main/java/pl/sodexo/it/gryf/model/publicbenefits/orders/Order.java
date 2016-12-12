@@ -21,7 +21,7 @@ import java.util.*;
 
 /**
  * Główna encja przetrzymująca dane dla zamówienia. Wyjątkowo nazwa klasy jest inna niż nazwa encji.
- * Encja nie moze nazywać sie order, ponieważ jest to słow kluczowe w jpql.
+ * Encja nie może nazywać sie order, ponieważ jest to słow kluczowe w jpql.
  * @author Michal.CHWEDCZUK.ext
  */
 @ToString(exclude = {"orderFlow", "application", "enterprise", "individual", "status", "product", "orderElements", "orderElementMap"})
@@ -50,7 +50,14 @@ import java.util.*;
                                                                                             "and o.status not in " +
                                                                                             "(SELECT p.status FROM OrderFlowStatusProperty p " +
                                                                                             "WHERE o.orderFlow = p.orderFlow " +
-                                                                                            "AND p.finalStatus = 'Y' and p.successStatus = 'N')")
+                                                                                            "AND p.finalStatus = 'Y' and p.successStatus = 'N')"),
+        @NamedQuery(name = "Order.countByGrantProgramAndExternalOrderId", query="select count(o) from OrderEntity o " +
+                                                                "where o.grantProgram.id = :grantProgramId and " +
+                                                                "o.externalOrderId = :externalOrderId "),
+
+
+
+
 })
 @OptimisticLocking(cascade=true)
 @SequenceGenerator(name="order_seq", schema = "eagle", sequenceName = "order_seq", allocationSize = 1)

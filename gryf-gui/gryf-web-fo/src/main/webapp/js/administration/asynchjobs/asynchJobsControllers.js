@@ -75,25 +75,15 @@ function ($scope, $routeParams, GryfModals, GryfModulesUrlProvider, AsynchJobsSe
     };
 
     $scope.createImportJob = function() {
-        GryfModals.openModal(GryfModals.MODALS_URL.CONFIRM).result.then(function(result) {
-            if (!result) {
-                return;
-            }
-            AsynchJobsModifyService.createImportJob();
-            $scope.violations = AsynchJobsModifyService.getNewViolations();
-        });
+        AsynchJobsModifyService.createImportJob();
+        $scope.violations = AsynchJobsModifyService.getNewViolations();
     };
 
     $scope.newImportJob = function() {
-        GryfModals.openModal(GryfModals.MODALS_URL.CONFIRM).result.then(function(result) {
-            if(!result) {
-                return;
-            }
-            $scope.isDisabled = false;
-            $scope.importJobModel = AsynchJobsModifyService.getNewImportJobModel();
-            $scope.violations = AsynchJobsModifyService.getNewViolations();
-            window.location = AsynchJobsModifyService.getNewImportJobUrl();
-        });
+        $scope.isDisabled = false;
+        $scope.importJobModel = AsynchJobsModifyService.getNewImportJobModel();
+        $scope.violations = AsynchJobsModifyService.getNewViolations();
+        window.location = AsynchJobsModifyService.getNewImportJobUrl();
     };
 
 

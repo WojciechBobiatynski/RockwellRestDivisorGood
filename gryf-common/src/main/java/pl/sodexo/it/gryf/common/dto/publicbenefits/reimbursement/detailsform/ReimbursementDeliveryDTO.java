@@ -75,7 +75,7 @@ public class ReimbursementDeliveryDTO extends VersionableDto{
 
     private boolean sodexoRealization;
 
-    @NotNull(message = "Id dostawy podrzędnej nie moze być puste", groups = ValidationGroupSecondaryReimbursementDelivery.class)
+    @NotNull(message = "Id dostawy podrzędnej nie może być puste", groups = ValidationGroupSecondaryReimbursementDelivery.class)
     @InsertablePrivilege(message = "Nie posiadasz uprawnień do edycji pola 'Id dostawy podrzędnej'", privileges = Privileges.GRF_PBE_DELIVERIES_REIMB)
     private Long parentId;
 

@@ -1,5 +1,7 @@
 package pl.sodexo.it.gryf.service.local.impl.publicbenefits.importdata;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -12,6 +14,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.dto.asynchjobs.AsynchronizeJobInfoDTO;
 import pl.sodexo.it.gryf.common.dto.asynchjobs.AsynchronizeJobResultInfoDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.importdata.ImportParamsDTO;
 import pl.sodexo.it.gryf.common.exception.EntityValidationException;
 import pl.sodexo.it.gryf.model.asynch.AsynchronizeJobStatus;
 import pl.sodexo.it.gryf.service.local.api.FileService;
@@ -54,9 +57,10 @@ public class AsynchJobImportServceImpl implements AsynchJobService{
 
             //GET SERVICE
             ImportDataService importDataService = (ImportDataService) BeanUtils.findBean(context, dto.getTypeParams());
+            ImportParamsDTO paramsDTO = createImportParamDTO(dto.getParams());
 
             //OPEN FILE
-            InputStream is = fileService.getInputStream(dto.getParams());
+            InputStream is = fileService.getInputStream(paramsDTO.getPath());
 
             //ITERATORS
             XSSFWorkbook workbook = new XSSFWorkbook(is);
@@ -72,7 +76,7 @@ public class AsynchJobImportServceImpl implements AsynchJobService{
                 if(row.getRowNum() != 0){
                     try {
                         //SAVE DATA
-                        importDataService.saveData(dto.getId(), row);
+                        importDataService.saveData(dto.getId(), paramsDTO, row);
                         successRows++;
 
                         //BLEDY BIZNESOWE
@@ -99,6 +103,8 @@ public class AsynchJobImportServceImpl implements AsynchJobService{
         }
     }
 
+    //PRIVATE METHODS
+
     private String createDescription(int allRows, int successRows, int bussinssRows, int errorRows){
         if(allRows == successRows){
             return String.format("Wczytano wszystkie wiersze. Ilość wczytanych wierszy: %s.", successRows);
@@ -106,6 +112,27 @@ public class AsynchJobImportServceImpl implements AsynchJobService{
         return String.format("Wczytano częściowo wiersze. Ilość wszystkich wierszy: %s, ilość wierszy poprawnie wczytanych: %s, "
                     + "ilość wierszy błędnych (biznesowe): %s, ilość wierszy błednych (krytyczne): %s.", allRows, successRows, bussinssRows, errorRows);
     }
+
+   private ImportParamsDTO createImportParamDTO(String params){
+       ImportParamsDTO result = new ImportParamsDTO();
+
+       String[] tabParams = params.split(";");
+       if(tabParams.length != 2){
+           throw new RuntimeException("Parametry dla importy plików muszą być w formacie: "
+                   + "identyfikator_programu_dofinansowania;scieżka_do_pliku'");
+       }
+
+       try {
+           result.setGramtProgramId(Long.parseLong(tabParams[0]));
+       }catch(NumberFormatException e) {
+           throw new RuntimeException(String.format("Nie udało się odczytać idnetyfikatora programu "
+                                            + "dofinansowania z wartości [%s]", tabParams[0]));
+       }
+       result.setPath(tabParams[1]);
+
+       return result;
+   }
+
 
 
 }

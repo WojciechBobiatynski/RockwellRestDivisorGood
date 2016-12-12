@@ -6,6 +6,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.importdata.ImportParamsDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.importdata.ImportTrainingDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingDTO;
 import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.TrainingService;
@@ -28,7 +29,7 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
     //OVERRIDE
 
     @Override
-    protected String saveData(Row row){
+    protected String saveData(ImportParamsDTO paramsDTO, Row row){
         ImportTrainingDTO importDTO = createImportDTO(row);
         TrainingDTO trainingDTO = createTrainingDTO(importDTO);
         Long trainingId = trainingService.saveTraining(trainingDTO);

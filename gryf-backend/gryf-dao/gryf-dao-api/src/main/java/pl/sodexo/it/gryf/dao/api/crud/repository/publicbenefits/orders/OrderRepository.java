@@ -20,4 +20,6 @@ public interface OrderRepository extends GenericRepository<Order, Long> {
     Integer countNotCanceledOrdersByContract(Long contractId);
 
     Integer sumProductInstanceNumInNotCanceledOrdersByContract(Long contractId);
+
+    Integer countByGrantProgramAndExternalOrderId(Long grantProgramId, String externalOrderId);
 }

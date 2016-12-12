@@ -83,20 +83,19 @@ public class AsynchJobSchedulerServiceImpl implements AsynchJobSchedulerService 
 
         AsynchronizeJob job = new AsynchronizeJob();
         job.setType(AsynchronizeJobType.valueOf(createDTO.getType()));
-        job.setParams(createDTO.getFile().getFileLocation());
         job.setStatus(AsynchronizeJobStatus.N);
         job = asynchronizeJobRepository.save(job);
 
         createDTO.setId(job.getId());
-        String params = asynchJobFileService.saveFile(createDTO);
-        job.setParams(params);
+        String path = asynchJobFileService.saveFile(createDTO);
+        job.setParams(String.format("%s;%s", createDTO.getGrantProgramId(), path));
+
         asynchronizeJobRepository.save(job);
 
         return job.getId();
     }
-
     @Override
-    @Scheduled(initialDelay = 15 * 1000, fixedDelay= 15 * 1000)
+    @Scheduled(initialDelay = 15 * 1000, fixedDelay= 5 * 1000)
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public void processAsynchronizeJob(){
         Long jobId;

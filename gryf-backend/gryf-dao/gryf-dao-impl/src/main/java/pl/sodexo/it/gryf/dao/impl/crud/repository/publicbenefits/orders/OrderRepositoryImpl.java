@@ -189,4 +189,14 @@ public class OrderRepositoryImpl extends GenericRepositoryImpl<Order, Long> impl
         return result != null ? result.intValue() : 0;
     }
 
+    @Override
+    public Integer countByGrantProgramAndExternalOrderId(Long grantProgramId, String externalOrderId){
+        TypedQuery<Long> query = entityManager.createNamedQuery("Order.countByGrantProgramAndExternalOrderId", Long.class);
+        query.setParameter("externalOrderId", externalOrderId);
+        query.setParameter("grantProgramId", grantProgramId);
+
+        Long result = query.getSingleResult();
+        return result != null ? result.intValue() : 0;
+    }
+
 }

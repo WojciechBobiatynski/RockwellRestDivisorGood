@@ -26,12 +26,12 @@ public class ImportContractDTO {
 
     @Getter
     @Setter
-    @NotEmpty(message = "Rodzaj umowy nie moze być pusty")
+    @NotEmpty(message = "Rodzaj umowy nie może być pusty")
     private String contractType;
 
     @Getter
     @Setter
-    @NotNull(message = "Data podpisania umowy nie moze być pusta")
+    @NotNull(message = "Data podpisania umowy nie może być pusta")
     private Date signDate;
 
     @Getter
