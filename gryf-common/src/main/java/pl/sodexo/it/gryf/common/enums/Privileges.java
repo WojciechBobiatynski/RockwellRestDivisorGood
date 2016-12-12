@@ -88,7 +88,8 @@ public enum Privileges {
     GRF_PBE_ASYNCH_JOBS,
     GRF_PBE_DATA_IMPORT_MOD,
 
-    //INDIVIDUAL
+    //INDIVIDUAL & TI
 
-    IND_DESKTOP_ROLE
+    IND_DESKTOP_ROLE,
+    TI_MAIN_ROLE
 }

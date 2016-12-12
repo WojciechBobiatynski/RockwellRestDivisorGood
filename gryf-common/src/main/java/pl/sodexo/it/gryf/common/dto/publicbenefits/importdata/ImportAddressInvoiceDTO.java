@@ -12,18 +12,21 @@ import javax.validation.constraints.NotNull;
  * Created by Isolution on 2016-11-30.
  */
 @ToString
-public class ImportAddressDTO {
+public class ImportAddressInvoiceDTO {
 
     @Getter
     @Setter
+    @NotEmpty(message = "Adres do faktury nie może być pusty")
     private String address;
 
     @Getter
     @Setter
+    @NotEmpty(message = "Kod pocztowy adresu do faktury nie może być pusty")
     private String zipCode;
 
     @Getter
     @Setter
+    @NotEmpty(message = "Miasto adresu do faktury nie może być puste")
     private String city;
 
     public boolean isEmpty(){

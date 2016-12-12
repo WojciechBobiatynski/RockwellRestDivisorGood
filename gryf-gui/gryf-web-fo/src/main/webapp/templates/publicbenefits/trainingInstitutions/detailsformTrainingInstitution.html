@@ -34,7 +34,11 @@
                     <input type="text" ng-model="model.entity.id" maxlength="500"
                            disabled="disabled">
                 </div>
-                <div class="grid-70">
+                <div class="grid-20">
+                    <strong class="label">Identyfikator zewnętrzny</strong>
+                    <input type="text" ng-model="model.entity.externalId" maxlength="20" data-ng-disabled="model.entity.id != null">
+                </div>
+                <div class="grid-50">
                     <strong class="label">Nazwa</strong>
                     <input type="text" ng-model="model.entity.name" maxlength="500">
                     <gryf-validation-msg path="name"></gryf-validation-msg>

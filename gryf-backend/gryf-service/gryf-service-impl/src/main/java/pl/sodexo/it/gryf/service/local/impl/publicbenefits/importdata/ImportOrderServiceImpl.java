@@ -38,28 +38,28 @@ public class ImportOrderServiceImpl extends ImportBaseDataServiceImpl {
     protected String saveData(ImportParamsDTO paramsDTO, Row row){
         ImportOrderDTO importDTO = createImportDTO(row);
         validateImport(paramsDTO, importDTO);
+
         CreateOrderDTO createOrderDTO = createCreateOrderDTO(importDTO);
         Long orderId = orderService.createOrder(createOrderDTO);
+        return String.format("Poprawno utworzono dane: zamówienie (%s)", getIdToDescription(orderId));
+    }
 
-        return String.format("Poprawno zapisano dane: zamówienie (%s)", getIdToDescription(orderId));
+    //PRIVATE METHODS - VALIDATE
+
+    private void validateImport(ImportParamsDTO paramsDTO, ImportOrderDTO importDTO){
+        List<EntityConstraintViolation> violations = gryfValidator.generateViolation(importDTO);
+
+        if(!Strings.isNullOrEmpty(importDTO.getExternalOrderId())){
+            Integer orderNum = orderRepository.countByGrantProgramAndExternalOrderId(paramsDTO.getGramtProgramId(), importDTO.getExternalOrderId());
+            if(orderNum > 0){
+                violations.add(new EntityConstraintViolation(String.format("W systemie dla danego programu "
+                        + "dofinansowania istnieje zamówienie o idnetyfikatorze [%s].", importDTO.getExternalOrderId())));
+            }
+        }
+        gryfValidator.validate(violations);
     }
 
     //PRIVATE METHODS - CREATE IMPORT DTO
-
-    private void validateImport(ImportParamsDTO paramsDTO, ImportOrderDTO dto){
-        List<EntityConstraintViolation> violations = gryfValidator.generateViolation(dto);
-
-        if(!Strings.isNullOrEmpty(dto.getExternalOrderId())){
-            Integer orderNum = orderRepository.countByGrantProgramAndExternalOrderId(paramsDTO.getGramtProgramId(), dto.getExternalOrderId());
-            if(orderNum > 0){
-                violations.add(new EntityConstraintViolation(String.format("W systemie dla danego programu "
-                        + "dofinansowania istnieje zamówienie o idnetyfikatorze [%s].", dto.getExternalOrderId())));
-            }
-        }
-
-
-        gryfValidator.validate(violations);
-    }
 
     private ImportOrderDTO createImportDTO(Row row){
         ImportOrderDTO o = new ImportOrderDTO();

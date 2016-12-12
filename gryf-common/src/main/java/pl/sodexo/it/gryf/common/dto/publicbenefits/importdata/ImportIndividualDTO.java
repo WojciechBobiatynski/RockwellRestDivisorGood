@@ -31,13 +31,15 @@ public class ImportIndividualDTO {
 
     @Getter
     @Setter
+    @Valid
     @NotNull(message = "Pola adresu użytkownika do faktury nie mogą być puste")
-    private ImportAddressDTO addressInvoice = new ImportAddressDTO();
+    private ImportAddressInvoiceDTO addressInvoice = new ImportAddressInvoiceDTO();
 
     @Getter
     @Setter
+    @Valid
     @NotNull(message = "Pola adresu użytkownika korespondencyjnego nie mogą być puste")
-    private ImportAddressDTO addressCorr = new ImportAddressDTO();
+    private ImportAddressCorrDTO addressCorr = new ImportAddressCorrDTO();
 
     @Getter
     @Setter

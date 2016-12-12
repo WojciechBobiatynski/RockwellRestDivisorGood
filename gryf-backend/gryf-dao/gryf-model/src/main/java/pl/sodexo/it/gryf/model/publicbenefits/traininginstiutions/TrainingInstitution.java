@@ -29,6 +29,7 @@ import java.util.Objects;
 @NamedQueries({
         @NamedQuery(name = "TrainingInstitution.findByVatRegNum", query = "select e from TrainingInstitution e where e.vatRegNum = :vatRegNum order by e.addressCorr"),
         @NamedQuery(name = "TrainingInstitution.getForUpdate", query = "select e from TrainingInstitution e left join fetch e.contacts left join fetch e.trainingInstitutionUsers u left join fetch u.roles where e.id = :id"),
+        @NamedQuery(name = "TrainingInstitution.findByExternalId", query = "select e from TrainingInstitution e where e.externalId = :externalId "),
 })
 @OptimisticLocking(cascade=true)
 public class TrainingInstitution extends VersionableEntity {
@@ -57,6 +58,9 @@ public class TrainingInstitution extends VersionableEntity {
     @Column(name = "ID")
     @GeneratedValue(generator = "trin_seq")
     private Long id;
+
+    @Column(name = "EXTERNAL_ID")
+    private String externalId;
 
     @Column(name = "CODE")
     private String code;
@@ -109,6 +113,14 @@ public class TrainingInstitution extends VersionableEntity {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getExternalId() {
+        return externalId;
+    }
+
+    public void setExternalId(String externalId) {
+        this.externalId = externalId;
     }
 
     public String getCode() {

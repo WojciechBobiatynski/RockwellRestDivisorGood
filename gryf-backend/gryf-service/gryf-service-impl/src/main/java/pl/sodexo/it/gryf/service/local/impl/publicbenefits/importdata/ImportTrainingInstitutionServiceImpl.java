@@ -5,13 +5,25 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.importdata.ImportAddressDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.ContactTypeDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.importdata.ImportAddressCorrDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.importdata.ImportAddressInvoiceDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.importdata.ImportParamsDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.importdata.ImportTrainingInstitutionDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingInstitutionContactDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingInstitutionDto;
+import pl.sodexo.it.gryf.common.dto.security.RoleDto;
+import pl.sodexo.it.gryf.common.dto.security.trainingInstitutions.GryfTiUserDto;
+import pl.sodexo.it.gryf.common.enums.Privileges;
+import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstitutionRepository;
+import pl.sodexo.it.gryf.model.publicbenefits.api.ContactType;
+import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstitution;
 import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.TrainingInstitutionService;
+import pl.sodexo.it.gryf.service.local.api.GryfValidator;
 
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by Isolution on 2016-12-02.
@@ -24,15 +36,36 @@ public class ImportTrainingInstitutionServiceImpl extends ImportBaseDataServiceI
     @Autowired
     private TrainingInstitutionService trainingInstitutionService;
 
+    @Autowired
+    private GryfValidator gryfValidator;
+
+    @Autowired
+    private TrainingInstitutionRepository trainingInstitutionRepository;
+
     //OVERRIDE
 
     @Override
     protected String saveData(ImportParamsDTO paramsDTO, Row row){
         ImportTrainingInstitutionDTO importDTO = createImportDTO(row);
-        TrainingInstitutionDto trainingInstitutionDto = createTrainingInstitutionDTO(importDTO);
-        Long trainingInstitutionId = trainingInstitutionService.saveTrainingInstitution(trainingInstitutionDto, true);
+        validateImport(importDTO);
 
-        return String.format("Poprawno zapisano dane: instytucje szkoleniową (%s)", getIdToDescription(trainingInstitutionId));
+        TrainingInstitution trainingInstitution = trainingInstitutionRepository.findByExternalId(importDTO.getExternalId());
+        TrainingInstitutionDto trainingInstitutionDto = createTrainingInstitutionDTO(trainingInstitution, importDTO);
+
+        if(trainingInstitution == null){
+            Long trainingInstitutionId = trainingInstitutionService.saveTrainingInstitution(trainingInstitutionDto, false);
+            return String.format("Poprawno utworzono dane: instytucje szkoleniową (%s)", getIdToDescription(trainingInstitutionId));
+        }else{
+            trainingInstitutionService.updateTrainingInstitution(trainingInstitutionDto, false);
+            return String.format("Poprawno zaaktualizowano dane: instytucje szkoleniową (%s)", trainingInstitutionDto.getId());
+        }
+    }
+
+    //PRIVATE METHODS - VALIDATE & SAVE
+
+    private void validateImport(ImportTrainingInstitutionDTO importDTO){
+        List<EntityConstraintViolation> violations = gryfValidator.generateViolation(importDTO);
+        gryfValidator.validate(violations);
     }
 
     //PRIVATE METHODS - CREATE IMPORT DTO
@@ -55,7 +88,6 @@ public class ImportTrainingInstitutionServiceImpl extends ImportBaseDataServiceI
                     ti.setName(getStringCellValue(cell));
                     break;
                 case 3:
-                    ti.setAddressInvoice(new ImportAddressDTO());
                     ti.getAddressInvoice().setAddress(getStringCellValue(cell));
                     break;
                 case 4:
@@ -65,7 +97,6 @@ public class ImportTrainingInstitutionServiceImpl extends ImportBaseDataServiceI
                     ti.getAddressInvoice().setCity(getStringCellValue(cell));
                     break;
                 case 6:
-                    ti.setAddressCorr(new ImportAddressDTO());
                     ti.getAddressCorr().setAddress(getStringCellValue(cell));
                     break;
                 case 7:
@@ -84,26 +115,49 @@ public class ImportTrainingInstitutionServiceImpl extends ImportBaseDataServiceI
 
     //PRIVATE METHODS - CREATE BUSSINESS DTO
 
-    private TrainingInstitutionDto createTrainingInstitutionDTO(ImportTrainingInstitutionDTO importDTO){
+    private TrainingInstitutionDto createTrainingInstitutionDTO(TrainingInstitution trainingInstitution,
+                                                                ImportTrainingInstitutionDTO importDTO){
         TrainingInstitutionDto dto = new TrainingInstitutionDto();
+        dto.setId(trainingInstitution != null ? trainingInstitution.getId() : null);
+        dto.setExternalId(importDTO.getExternalId());
         dto.setCode(null);
         dto.setName(importDTO.getName());
         dto.setVatRegNum(importDTO.getVatRegNum());
 
         if(importDTO.getAddressInvoice() != null) {
-            ImportAddressDTO address = importDTO.getAddressInvoice();
+            ImportAddressInvoiceDTO address = importDTO.getAddressInvoice();
             dto.setAddressInvoice(address.getAddress());
             dto.setZipCodeInvoice(createZipCodeDTO(address));
         }
         if(importDTO.getAddressCorr() != null) {
-            ImportAddressDTO address = importDTO.getAddressCorr();
+            ImportAddressCorrDTO address = importDTO.getAddressCorr();
             dto.setAddressCorr(address.getAddress());
             dto.setZipCodeCorr(createZipCodeDTO(address));
         }
 
         dto.setRemarks(null);
-        dto.setContacts(Lists.newArrayList());//TODO: tbilski
-        dto.setUsers(Lists.newArrayList());//TODO: tbilski
+
+        TrainingInstitutionContactDto contactDTO = new TrainingInstitutionContactDto();
+        contactDTO.setContactType(new ContactTypeDto());
+        contactDTO.getContactType().setType(ContactType.TYPE_EMAIL);
+        contactDTO.setContactData(importDTO.getEmail());
+        dto.setContacts(Lists.newArrayList(contactDTO));
+
+        if(trainingInstitution == null) {
+            GryfTiUserDto user = new GryfTiUserDto();
+            user.setLogin(importDTO.getEmail());
+            user.setEmail(importDTO.getEmail());
+            RoleDto roleDTO = new RoleDto();
+            roleDTO.setCode(Privileges.TI_MAIN_ROLE.name());
+            user.setRoles(Lists.newArrayList(roleDTO));
+            dto.setUsers(Lists.newArrayList(user));
+        }else{
+            dto.setUsers(Lists.newArrayList());
+        }
+
+        dto.setVersion(trainingInstitution != null ? trainingInstitution.getVersion() : null);
+        dto.setCreatedUser(trainingInstitution != null ? trainingInstitution.getCreatedUser() : null);
+        dto.setCreatedTimestamp(trainingInstitution != null ? trainingInstitution.getCreatedTimestamp() : null);
         return dto;
     }
 

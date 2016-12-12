@@ -18,4 +18,6 @@ public interface TrainingInstitutionRepository extends GenericRepository<Trainin
     List<TrainingInstitution> findTrainingInstitutions(TrainingInstitutionSearchQueryDTO dto);
 
     TrainingInstitution findTrainingInstitutionByUserLogin(String login);
+
+    TrainingInstitution findByExternalId(String externalId);
 }

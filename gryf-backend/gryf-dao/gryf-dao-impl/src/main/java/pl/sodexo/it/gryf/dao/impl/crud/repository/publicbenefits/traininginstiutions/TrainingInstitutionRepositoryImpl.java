@@ -99,4 +99,12 @@ public class TrainingInstitutionRepositoryImpl extends GenericRepositoryImpl<Tra
         query.setParameter("login", login);
         return query.getSingleResult();
     }
+
+    @Override
+    public TrainingInstitution findByExternalId(String externalId){
+        TypedQuery<TrainingInstitution> query = entityManager.createNamedQuery("TrainingInstitution.findByExternalId", TrainingInstitution.class);
+        query.setParameter("externalId", externalId);
+        List<TrainingInstitution> result = query.getResultList();
+        return result.isEmpty() ? null : result.get(0);
+    }
 }

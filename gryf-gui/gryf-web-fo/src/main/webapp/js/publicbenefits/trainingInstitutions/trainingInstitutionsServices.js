@@ -10,6 +10,7 @@ angular.module("gryf.trainingInstitutions").factory("BrowseTrainingInsService",
             this.searchResultList = [];
             this.entity = {
                 id: null,
+                externalId: null,
                 name: null,
                 vatRegNum: null,
                 addressInvoice: null,

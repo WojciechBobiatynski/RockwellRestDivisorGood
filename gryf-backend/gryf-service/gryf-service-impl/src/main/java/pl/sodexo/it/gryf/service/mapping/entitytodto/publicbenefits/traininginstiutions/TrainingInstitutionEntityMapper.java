@@ -34,6 +34,7 @@ public class TrainingInstitutionEntityMapper extends VersionableEntityMapper<Tra
     public void map(TrainingInstitution entity, TrainingInstitutionDto dto) {
         super.map(entity, dto);
         dto.setId(entity.getId());
+        dto.setExternalId(entity.getExternalId());
         dto.setCode(entity.getCode());
         dto.setName(entity.getName());
         dto.setVatRegNum(entity.getVatRegNum());

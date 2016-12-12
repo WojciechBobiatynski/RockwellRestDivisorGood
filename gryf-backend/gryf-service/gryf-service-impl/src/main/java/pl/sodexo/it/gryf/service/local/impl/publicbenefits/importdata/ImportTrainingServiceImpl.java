@@ -31,9 +31,9 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
     @Override
     protected String saveData(ImportParamsDTO paramsDTO, Row row){
         ImportTrainingDTO importDTO = createImportDTO(row);
+
         TrainingDTO trainingDTO = createTrainingDTO(importDTO);
         Long trainingId = trainingService.saveTraining(trainingDTO);
-
         return String.format("Poprawno zapisano dane: szkolenie (%s)", getIdToDescription(trainingId));
     }
 

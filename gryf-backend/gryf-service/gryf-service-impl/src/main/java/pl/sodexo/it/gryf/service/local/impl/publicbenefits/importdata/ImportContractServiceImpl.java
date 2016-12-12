@@ -60,28 +60,39 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
 
     @Override
     protected String saveData(ImportParamsDTO paramsDTO, Row row){
-        ImportComplexContractDTO dto = createComplexContractDTO(row);
-        validateImport(dto);
-        ImportComplexContractResultDTO importResult = saveContractData(dto);
-        return String.format("Poprawno zapisano dane: umowa (%s) użytkownik (%s), MŚP (%s)",
+        ImportComplexContractDTO importDTO = createComplexContractDTO(row);
+        validateImport(importDTO);
+
+        ImportComplexContractResultDTO importResult = saveContractData(importDTO);
+        return String.format("Poprawno utworzono dane: umowa (%s) użytkownik (%s), MŚP (%s)",
                 getIdToDescription(importResult.getContractId()), getIdToDescription(importResult.getIndividualId()),
                 getIdToDescription(importResult.getEnterpriseId()));
     }
 
-    //PRIVATE METHODS - SAVE
+    //PRIVATE METHODS - VALIDATE & SAVE
 
-    private void validateImport(ImportComplexContractDTO dto){
-        List<EntityConstraintViolation> violations = gryfValidator.generateViolation(dto);
+    private void validateImport(ImportComplexContractDTO importDTO){
+        List<EntityConstraintViolation> contractViolations = gryfValidator.generateViolation(importDTO.getContract());
+        addPrefixMessage("Dla umowy: ", contractViolations);
 
-        if(ContractType.TYPE_ENT.equals(dto.getContract().getContractType())){
-            violations.addAll(gryfValidator.generateViolation(dto.getEnterprise()));
+        List<EntityConstraintViolation> individualViolations = gryfValidator.generateViolation(importDTO.getIndividual());
+        addPrefixMessage("Dla uczestnika: ", individualViolations);
+
+        List<EntityConstraintViolation> enterpriseViolations = Lists.newArrayList();
+        if(ContractType.TYPE_ENT.equals(importDTO.getContract().getContractType())){
+            enterpriseViolations.addAll(gryfValidator.generateViolation(importDTO.getEnterprise()));
         }else{
-            if(!dto.getEnterprise().isEmpty()){
-                violations.add(new EntityConstraintViolation("Dla typu kontraktu 'IND' (osoba fizyczna) pola dla MŚP powinny być puste."));
+            if(!importDTO.getEnterprise().isEmpty()){
+                enterpriseViolations.add(new EntityConstraintViolation("Dla typu kontraktu 'IND' (osoba fizyczna) pola dla MŚP powinny być puste."));
             }
         }
+        addPrefixMessage("Dla MŚP: ", enterpriseViolations);
 
-        gryfValidator.validate(violations);
+        List<EntityConstraintViolation> allViolation = Lists.newArrayList();
+        allViolation.addAll(contractViolations);
+        allViolation.addAll(individualViolations);
+        allViolation.addAll(enterpriseViolations);
+        gryfValidator.validate(allViolation);
     }
 
     private ImportComplexContractResultDTO saveContractData(ImportComplexContractDTO importDTO){
@@ -211,12 +222,12 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
         dto.setVatRegNum(importDTO.getVatRegNum());
 
         if(!importDTO.getAddressInvoice().isEmpty()) {
-            ImportAddressDTO address = importDTO.getAddressInvoice();
+            ImportAddressInvoiceDTO address = importDTO.getAddressInvoice();
             dto.setAddressInvoice(address.getAddress());
             dto.setZipCodeInvoice(createZipCodeDTO(address));
         }
         if(!importDTO.getAddressCorr().isEmpty()) {
-            ImportAddressDTO address = importDTO.getAddressCorr();
+            ImportAddressCorrDTO address = importDTO.getAddressCorr();
             dto.setAddressCorr(address.getAddress());
             dto.setZipCodeCorr(createZipCodeDTO(address));
         }
@@ -245,12 +256,12 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
         dto.setDocumentType(null);
         dto.setDocumentNumber(null);
         if(!importDTO.getAddressInvoice().isEmpty()) {
-            ImportAddressDTO address = importDTO.getAddressInvoice();
+            ImportAddressInvoiceDTO address = importDTO.getAddressInvoice();
             dto.setAddressInvoice(address.getAddress());
             dto.setZipCodeInvoice(createZipCodeDTO(address));
         }
         if(!importDTO.getAddressCorr().isEmpty()) {
-            ImportAddressDTO address = importDTO.getAddressInvoice();
+            ImportAddressInvoiceDTO address = importDTO.getAddressInvoice();
             dto.setAddressCorr(address.getAddress());
             dto.setZipCodeCorr(createZipCodeDTO(address));
         }
@@ -308,4 +319,13 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
         return PeselUtils.isMale(importDTO.getPesel()) ? Sex.M.name() : Sex.K.name();
     }
 
+    private void addPrefixMessage(String prefix, List<EntityConstraintViolation> violations){
+        for(EntityConstraintViolation v : violations){
+            addPrefixMessage(prefix, v);
+        }
+    }
+
+    private void addPrefixMessage(String prefix, EntityConstraintViolation violation){
+        violation.setMessage(prefix + violation.getMessage());
+    }
 }

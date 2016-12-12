@@ -21,6 +21,10 @@ public class TrainingInstitutionDto extends VersionableDto {
 
     @Getter
     @Setter
+    private String externalId;
+
+    @Getter
+    @Setter
     private String code;
 
     @Getter

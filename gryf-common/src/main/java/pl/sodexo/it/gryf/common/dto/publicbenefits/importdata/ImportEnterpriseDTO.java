@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -26,13 +27,15 @@ public class ImportEnterpriseDTO {
 
     @Getter
     @Setter
+    @Valid
     @NotNull(message = "Pola adresu MŚP do faktury nie mogą być puste")
-    private ImportAddressDTO addressInvoice = new ImportAddressDTO();
+    private ImportAddressInvoiceDTO addressInvoice = new ImportAddressInvoiceDTO();
 
     @Getter
     @Setter
+    @Valid
     @NotNull(message = "Pola adresu MŚP korespondencyjnego nie mogą być puste")
-    private ImportAddressDTO addressCorr = new ImportAddressDTO();
+    private ImportAddressCorrDTO addressCorr = new ImportAddressCorrDTO();
 
     @Getter
     @Setter

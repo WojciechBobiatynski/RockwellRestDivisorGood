@@ -6,7 +6,8 @@ import org.apache.poi.ss.usermodel.Row;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.importdata.ImportAddressDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.importdata.ImportAddressCorrDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.importdata.ImportAddressInvoiceDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.importdata.ImportParamsDTO;
 import pl.sodexo.it.gryf.common.dto.zipcodes.detailsform.ZipCodeDto;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
@@ -90,7 +91,17 @@ public abstract class ImportBaseDataServiceImpl implements ImportDataService{
 
     //PROTECTED METHODS
 
-    protected ZipCodeDto createZipCodeDTO(ImportAddressDTO address){
+    protected ZipCodeDto createZipCodeDTO(ImportAddressInvoiceDTO address){
+        ZipCode zipCode = zipCodeRepository.findActiveByCode(address.getZipCode());
+        if(zipCode != null){
+            ZipCodeDto dto = new ZipCodeDto();
+            dto.setId(zipCode.getId());
+            return dto;
+        }
+        return null;
+    }
+
+    protected ZipCodeDto createZipCodeDTO(ImportAddressCorrDTO address){
         ZipCode zipCode = zipCodeRepository.findActiveByCode(address.getZipCode());
         if(zipCode != null){
             ZipCodeDto dto = new ZipCodeDto();
