@@ -93,8 +93,6 @@ CREATE TABLE APP_PBE.IMPORT_DATA_ROWS
   MODIFIED_TIMESTAMP TIMESTAMP(6) NOT NULL
 );
 
---TODO: tbilski klucze obce
-
 -- uprawnienia
 BEGIN
   dbms_output.put_line(SYS.PK_ADMIN.F_GRANT_TO_EAGLE('APP_PBE', 'EAGLE', 'IMPORT_DATA_ROWS', 'ALL'));
