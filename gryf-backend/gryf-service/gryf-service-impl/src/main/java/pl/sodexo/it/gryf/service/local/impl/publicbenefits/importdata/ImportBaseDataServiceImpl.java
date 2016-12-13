@@ -74,7 +74,7 @@ public abstract class ImportBaseDataServiceImpl implements ImportDataService{
     //PUBLIC METHODS
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional(propagation = Propagation.REQUIRED)
     public int saveEmptyRows(Long importJobId, int rowNums){
         int savedSize = 0;
         savedSize += saveEmptyExtraRows(importJobId, rowNums);
@@ -83,7 +83,7 @@ public abstract class ImportBaseDataServiceImpl implements ImportDataService{
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional(propagation = Propagation.REQUIRED)
     public void saveData(Long importJobId, ImportParamsDTO paramsDTO, Row row){
         ImportDataRow rowInfo = importDataRowRepository.getByImportJobAndRowNum(importJobId, row.getRowNum());
 
@@ -104,14 +104,13 @@ public abstract class ImportBaseDataServiceImpl implements ImportDataService{
     //PUBLIC METGHODS - EXTRA DATA
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional(propagation = Propagation.REQUIRED)
     public List<Long> getExtraRows(Long importJobId){
-        ImportDataRow extraRow = importDataRowRepository.getByImportJobAndRowNum(importJobId, 0);
-        return Lists.newArrayList(extraRow.getId());
+        return getInternalExtraRows(importJobId);
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional(propagation = Propagation.REQUIRED)
     public void saveExtraRow(Long extraRowId, ImportParamsDTO paramsDTO){
         ImportDataRow rowInfo = importDataRowRepository.get(extraRowId);
 
@@ -125,28 +124,28 @@ public abstract class ImportBaseDataServiceImpl implements ImportDataService{
     //PUBLIC METHODS - ERROR METHODS
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional(propagation = Propagation.REQUIRED)
     public void saveEntityValidationError(Long importJobId, Row row, EntityValidationException e){
         ImportDataRow rowInfo = importDataRowRepository.getByImportJobAndRowNum(importJobId, row.getRowNum());
         saveEntityValidationError(rowInfo, e);
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional(propagation = Propagation.REQUIRED)
     public void saveEntityValidationError(Long rowId, EntityValidationException e){
         ImportDataRow rowInfo = importDataRowRepository.get(rowId);
         saveEntityValidationError(rowInfo, e);
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional(propagation = Propagation.REQUIRED)
     public void saveRuntimeError(Long importJobId, Row row, RuntimeException e){
         ImportDataRow rowInfo = importDataRowRepository.getByImportJobAndRowNum(importJobId, row.getRowNum());
         saveRuntimeError(rowInfo, e);
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional(propagation = Propagation.REQUIRED)
     public void saveRuntimeError(Long rowId, RuntimeException e){
         ImportDataRow rowInfo = importDataRowRepository.get(rowId);
         saveRuntimeError(rowInfo, e);
@@ -175,6 +174,10 @@ public abstract class ImportBaseDataServiceImpl implements ImportDataService{
 
     protected String saveInternalExtraData(ImportParamsDTO paramsDTO, ImportDataRow importDataRow){
         return null;
+    }
+
+    protected List<Long> getInternalExtraRows(Long importJobId){
+        return Lists.newArrayList();
     }
 
     //PROTECTED METHODS - SAVE EXCEPTIONS

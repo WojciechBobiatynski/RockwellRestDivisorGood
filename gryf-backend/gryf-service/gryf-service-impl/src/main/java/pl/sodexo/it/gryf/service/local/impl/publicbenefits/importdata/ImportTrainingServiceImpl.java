@@ -101,6 +101,11 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
                                 "Brak deaktywowanych szkoleń.";
     }
 
+    protected List<Long> getInternalExtraRows(Long importJobId){
+        ImportDataRow extraRow = importDataRowRepository.getByImportJobAndRowNum(importJobId, 0);
+        return Lists.newArrayList(extraRow.getId());
+    }
+
     //PRIVATE METHODS - VALIDATE & SAVE
 
     private void validateImport(ImportTrainingDTO importDTO){
