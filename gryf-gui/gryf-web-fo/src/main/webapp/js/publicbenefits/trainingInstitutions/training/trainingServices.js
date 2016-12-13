@@ -12,6 +12,7 @@ angular.module("gryf.training").factory("BrowseTrainingService",
             this.searchResultList = [];
             this.entity = {
                 trainingId: null,
+                externalTrainingId: null,
                 institutionId: null,
                 institutionName: null,
                 name: null,

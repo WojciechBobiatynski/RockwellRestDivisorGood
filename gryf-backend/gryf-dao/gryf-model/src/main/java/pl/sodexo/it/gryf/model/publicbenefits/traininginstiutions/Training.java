@@ -4,18 +4,11 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
+import pl.sodexo.it.gryf.model.api.BooleanConverter;
 import pl.sodexo.it.gryf.model.api.VersionableEntity;
+import pl.sodexo.it.gryf.model.asynch.AsynchronizeJob;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -29,6 +22,12 @@ import java.util.Objects;
 @Entity
 @Table(name = "TI_TRAININGS", schema = "APP_PBE")
 @SequenceGenerator(name = "ti_tra_seq", schema = "eagle", sequenceName = "ti_tra_seq", allocationSize = 1)
+@NamedQueries({
+        @NamedQuery(name = "Training.findByExternalId", query = "select e from Training e where e.externalId = :externalId "),
+        @NamedQuery(name = "Training.deactiveTrainings", query = "update Training tt set tt.active = false, tt.deactivateDate = CURRENT_TIMESTAMP, "
+                + "tt.deactivateJob = :importJob, tt.version = (tt.version + 1), tt.modifiedTimestamp = CURRENT_TIMESTAMP, tt.modifiedUser = :modifiedUser "
+                + "where tt.active = true and tt.id not in "
+                + "(select r.training.id from ImportDataRow r where  r.training.id is not null and r.importJob = :importJob)")})
 @ToString
 public class Training extends VersionableEntity {
 
@@ -38,6 +37,9 @@ public class Training extends VersionableEntity {
     @Column(name = "ID")
     @GeneratedValue(generator = "ti_tra_seq")
     private Long id;
+
+    @Column(name = "EXTERNAL_ID")
+    private String externalId;
 
     @OneToOne
     @JoinColumn(name = "TRAINING_INSTITUTION_ID")
@@ -82,6 +84,21 @@ public class Training extends VersionableEntity {
     @Column(name = "REIMBURSMENT_CONDITIONS")
     private String reimbursmentConditions;
 
+    @Convert(converter = BooleanConverter.class)
+    @Column(name = "ACTIVE")
+    private boolean active = true;
+
+    @Column(name = "DEACTIVATE_USER")
+    private String deactivateUser;
+
+    @Column(name = "DEACTIVATE_DATE")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date deactivateDate;
+
+    @ManyToOne
+    @JoinColumn(name = "DEACTIVATE_JOB_ID")
+    private AsynchronizeJob deactivateJob;
+
     //GETTERS & SETTERS
 
     public Long getId() {
@@ -90,6 +107,14 @@ public class Training extends VersionableEntity {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getExternalId() {
+        return externalId;
+    }
+
+    public void setExternalId(String externalId) {
+        this.externalId = externalId;
     }
 
     public TrainingInstitution getTrainingInstitution() {
@@ -170,6 +195,38 @@ public class Training extends VersionableEntity {
 
     public void setReimbursmentConditions(String reimbursmentConditions) {
         this.reimbursmentConditions = reimbursmentConditions;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public String getDeactivateUser() {
+        return deactivateUser;
+    }
+
+    public void setDeactivateUser(String deactivateUser) {
+        this.deactivateUser = deactivateUser;
+    }
+
+    public Date getDeactivateDate() {
+        return deactivateDate;
+    }
+
+    public void setDeactivateDate(Date deactivateDate) {
+        this.deactivateDate = deactivateDate;
+    }
+
+    public AsynchronizeJob getDeactivateJob() {
+        return deactivateJob;
+    }
+
+    public void setDeactivateJob(AsynchronizeJob deactivateJob) {
+        this.deactivateJob = deactivateJob;
     }
 
     //EQUALS & HASH CODE

@@ -35,13 +35,17 @@ public class ImportOrderServiceImpl extends ImportBaseDataServiceImpl {
     //OVERRIDE
 
     @Override
-    protected String saveData(ImportParamsDTO paramsDTO, Row row){
+    protected ImportResultDTO saveInternalNormalData(ImportParamsDTO paramsDTO, Row row){
         ImportOrderDTO importDTO = createImportDTO(row);
         validateImport(paramsDTO, importDTO);
 
         CreateOrderDTO createOrderDTO = createCreateOrderDTO(importDTO);
         Long orderId = orderService.createOrder(createOrderDTO);
-        return String.format("Poprawno utworzono dane: zamówienie (%s)", getIdToDescription(orderId));
+
+        ImportResultDTO result = new ImportResultDTO();
+        result.setOrderId(orderId);
+        result.setDescrption(String.format("Poprawno utworzono dane: zamówienie (%s)", getIdToDescription(orderId)));
+        return result;
     }
 
     //PRIVATE METHODS - VALIDATE

@@ -1,7 +1,5 @@
 package pl.sodexo.it.gryf.service.local.impl.publicbenefits.importdata;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -25,6 +23,7 @@ import pl.sodexo.it.gryf.service.utils.BeanUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by Isolution on 2016-12-05.
@@ -68,9 +67,9 @@ public class AsynchJobImportServceImpl implements AsynchJobService{
             Iterator<Row> rowIterator = sheet.iterator();
 
             //SAVE EMPTY ROWS
-            allRows = sheet.getPhysicalNumberOfRows() - 1;
-            importDataService.saveEmptyRows(dto.getId(), allRows);
+            allRows = importDataService.saveEmptyRows(dto.getId(), sheet.getPhysicalNumberOfRows() - 1);
 
+            //ZAPIS PODSTAWOWYCH WIERSZY
             while(rowIterator.hasNext()) {
                 Row row = rowIterator.next();
                 if(row.getRowNum() != 0){
@@ -93,6 +92,25 @@ public class AsynchJobImportServceImpl implements AsynchJobService{
                     }
                 }
             }
+
+            //ZAPIS DODATKOWYCH WIERSZY
+            List<Long> extraRowIdList = importDataService.getExtraRows(dto.getId());
+            for(Long extraRowId : extraRowIdList){
+                try {
+                    importDataService.saveExtraRow(extraRowId, paramsDTO);
+                }catch(EntityValidationException e){
+                        bussinssRows++;
+                        importDataService.saveEntityValidationError(extraRowId, e);
+
+                    //BLEDY KRYTYCZNE
+                }catch(RuntimeException e){
+                    errorRows++;
+                    LOGGER.error(String.format("Nieoczekiwane błąd podczas dodatkowego zadania (indetyfikator wiersza = %s)"
+                            + "dla zlecenia importu [%s]", extraRowId, dto.getId()), e);
+                    importDataService.saveRuntimeError(extraRowId, e);
+                }
+            }
+
             AsynchronizeJobResultInfoDTO resultDTO = new AsynchronizeJobResultInfoDTO(dto.getId());
             resultDTO.setStatus((allRows == successRows) ? AsynchronizeJobStatus.S.name() : AsynchronizeJobStatus.C.name());
             resultDTO.setDescription(createDescription(allRows, successRows, bussinssRows, errorRows));

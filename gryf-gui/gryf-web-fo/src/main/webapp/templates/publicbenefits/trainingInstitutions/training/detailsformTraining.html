@@ -22,7 +22,7 @@
             <ol>
                 <li>
                     <a ng-href="#" ng-click="newTraining()" class="button button-new"
-                       target="_self">Nowe szkolenie </a>
+                       target="_self">Nowe szkolenie</a>
                 </li>
             </ol>
         </header>
@@ -33,6 +33,11 @@
                     <strong class="label">Id szkolenia</strong>
                     <input type="text" ng-model="model.entity.trainingId" maxlength="500" disabled="disabled">
                 </div>
+                <div class="grid-20">
+                    <strong class="label">Identyfikator zewnętrzny</strong>
+                    <input type="text" ng-model="model.entity.externalTrainingId" maxlength="20" data-ng-disabled="model.entity.trainingId != null">
+                    <gryf-validation-msg path="externalTrainingId"></gryf-validation-msg>
+                </div>
                 <div class="grid-10">
                     <strong class="label">Id instytucji</strong>
                     <input type="text" ng-model="model.entity.trainingInstitution" maxlength="500" disabled="disabled">
@@ -40,12 +45,14 @@
                         Wybierz
                     </a>
                 </div>
-                <div class="grid-20">
+                <div class="grid-40">
                     <strong class="label">Nazwa instytucji</strong>
                     <input type="text" ng-model="model.entity.institutionName" maxlength="500" disabled="disabled">
                     <gryf-validation-msg path="trainingInstitution"></gryf-validation-msg>
                 </div>
-                <div class="grid-20">
+            </div>
+            <div class="grid-100">
+                <div class="grid-40">
                     <strong class="label">Nazwa</strong>
                     <input type="text" ng-model="model.entity.name" maxlength="500">
                     <gryf-validation-msg path="name"></gryf-validation-msg>

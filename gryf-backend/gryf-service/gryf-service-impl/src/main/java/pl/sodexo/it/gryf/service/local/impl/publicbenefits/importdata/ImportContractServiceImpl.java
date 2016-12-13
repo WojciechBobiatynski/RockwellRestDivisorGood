@@ -59,14 +59,21 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
     //OVERRIDE
 
     @Override
-    protected String saveData(ImportParamsDTO paramsDTO, Row row){
+    protected int saveEmptyExtraRows(Long importJobId, int rowNums) {
+        return 0;
+    }
+
+    @Override
+    protected ImportResultDTO saveInternalNormalData(ImportParamsDTO paramsDTO, Row row){
         ImportComplexContractDTO importDTO = createComplexContractDTO(row);
         validateImport(importDTO);
 
-        ImportComplexContractResultDTO importResult = saveContractData(importDTO);
-        return String.format("Poprawno utworzono dane: umowa (%s) użytkownik (%s), MŚP (%s)",
-                getIdToDescription(importResult.getContractId()), getIdToDescription(importResult.getIndividualId()),
-                getIdToDescription(importResult.getEnterpriseId()));
+        ImportResultDTO importResult = saveContractData(importDTO);
+        importResult.setDescrption(String.format("Poprawno utworzono dane: umowa (%s) użytkownik (%s), MŚP (%s)",
+                                    getIdToDescription(importResult.getContractId()),
+                                    getIdToDescription(importResult.getIndividualId()),
+                                    getIdToDescription(importResult.getEnterpriseId())));
+        return importResult;
     }
 
     //PRIVATE METHODS - VALIDATE & SAVE
@@ -95,7 +102,7 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
         gryfValidator.validate(allViolation);
     }
 
-    private ImportComplexContractResultDTO saveContractData(ImportComplexContractDTO importDTO){
+    private ImportResultDTO saveContractData(ImportComplexContractDTO importDTO){
 
         Long contractId = importDTO.getContract().getId();
         Long enterpriseId = null;
@@ -113,7 +120,7 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
         ContractDTO contract = createContractDTO(importDTO.getContract(), individualId, enterpriseId);
         contractService.saveContract(contract);
 
-        ImportComplexContractResultDTO result = new ImportComplexContractResultDTO();
+        ImportResultDTO result = new ImportResultDTO();
         result.setContractId(contractId);
         result.setEnterpriseId(enterpriseId);
         result.setIndividualId(individualId);

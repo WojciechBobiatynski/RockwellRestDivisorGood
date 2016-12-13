@@ -79,6 +79,10 @@ public abstract class GryfUser extends User {
         return user.getLogin();
     }
 
+    public static String getLoggedUserLoginOrDefault() {
+        return !GryfUser.getLoggedUserLogin().isEmpty() ? GryfUser.getLoggedUserLogin() : "GRYF";
+    }
+
     public static Long getLoggedTiUserInstitutionId() {
         GryfTiUser loggedUser = (GryfTiUser) GryfUser.getLoggedUser();
 

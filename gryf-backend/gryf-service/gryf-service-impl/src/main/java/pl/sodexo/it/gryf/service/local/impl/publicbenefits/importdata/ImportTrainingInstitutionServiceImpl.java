@@ -6,10 +6,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.ContactTypeDto;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.importdata.ImportAddressCorrDTO;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.importdata.ImportAddressInvoiceDTO;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.importdata.ImportParamsDTO;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.importdata.ImportTrainingInstitutionDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.importdata.*;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingInstitutionContactDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingInstitutionDto;
 import pl.sodexo.it.gryf.common.dto.security.RoleDto;
@@ -45,19 +42,28 @@ public class ImportTrainingInstitutionServiceImpl extends ImportBaseDataServiceI
     //OVERRIDE
 
     @Override
-    protected String saveData(ImportParamsDTO paramsDTO, Row row){
+    protected ImportResultDTO saveInternalNormalData(ImportParamsDTO paramsDTO, Row row){
         ImportTrainingInstitutionDTO importDTO = createImportDTO(row);
         validateImport(importDTO);
 
         TrainingInstitution trainingInstitution = trainingInstitutionRepository.findByExternalId(importDTO.getExternalId());
-        TrainingInstitutionDto trainingInstitutionDto = createTrainingInstitutionDTO(trainingInstitution, importDTO);
 
+        TrainingInstitutionDto trainingInstitutionDto = createTrainingInstitutionDTO(trainingInstitution, importDTO);
         if(trainingInstitution == null){
             Long trainingInstitutionId = trainingInstitutionService.saveTrainingInstitution(trainingInstitutionDto, false);
-            return String.format("Poprawno utworzono dane: instytucje szkoleniową (%s)", getIdToDescription(trainingInstitutionId));
+
+            ImportResultDTO result = new ImportResultDTO();
+            result.setTrainingInstitutionId(trainingInstitutionId);
+            result.setDescrption(String.format("Poprawno utworzono dane: instytucje szkoleniową (%s)", getIdToDescription(trainingInstitutionId)));
+            return result;
+
         }else{
             trainingInstitutionService.updateTrainingInstitution(trainingInstitutionDto, false);
-            return String.format("Poprawno zaaktualizowano dane: instytucje szkoleniową (%s)", trainingInstitutionDto.getId());
+
+            ImportResultDTO result = new ImportResultDTO();
+            result.setTrainingInstitutionId(trainingInstitutionDto.getId());
+            result.setDescrption(String.format("Poprawno zaktualizowano dane: instytucje szkoleniową (%s)", trainingInstitutionDto.getId()));
+            return result;
         }
     }
 

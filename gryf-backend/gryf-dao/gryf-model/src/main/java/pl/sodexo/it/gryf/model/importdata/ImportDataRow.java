@@ -2,9 +2,13 @@ package pl.sodexo.it.gryf.model.importdata;
 
 import lombok.ToString;
 import pl.sodexo.it.gryf.model.api.VersionableEntity;
-import pl.sodexo.it.gryf.model.mail.EmailInstance;
-import pl.sodexo.it.gryf.model.mail.EmailInstanceAttachment;
+import pl.sodexo.it.gryf.model.asynch.AsynchronizeJob;
+import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
+import pl.sodexo.it.gryf.model.publicbenefits.enterprises.Enterprise;
+import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
+import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.Training;
+import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstitution;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -19,19 +23,22 @@ import java.util.Objects;
 @Entity
 @NamedQueries({
         @NamedQuery(name = "ImportDataRow.getByImportJobAndRowNum", query="select o from ImportDataRow o " +
-                "where o.importJob = :importJobId " +
+                "where o.importJob.id = :importJobId " +
                 "and o.rowNum = :rowNum ")
 })
 @Table(name = "IMPORT_DATA_ROWS", schema = "APP_PBE")
 public class ImportDataRow extends VersionableEntity {
+
+    public static final int DESCRIPTION_MAX_SIZE = 1000;
 
     @Id
     @Column(name = "ID")
     @GeneratedValue(generator = "pk_seq")
     private Long id;
 
-    @Column(name = "IMPORT_JOB_ID")
-    private Long importJob;
+    @ManyToOne
+    @JoinColumn(name = "IMPORT_JOB_ID")
+    private AsynchronizeJob importJob;
 
     @Column(name = "ROW_NUM")
     private Integer rowNum;
@@ -42,6 +49,30 @@ public class ImportDataRow extends VersionableEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "STATUS")
     private ImportDataRowStatus status;
+
+    @ManyToOne
+    @JoinColumn(name = "CONTRACT_ID")
+    private Contract contract;
+
+    @ManyToOne
+    @JoinColumn(name = "INDIVIDUAL_ID")
+    private Individual individual;
+
+    @ManyToOne
+    @JoinColumn(name = "ENTERPRISE_ID")
+    private Enterprise enterprise;
+
+    @ManyToOne
+    @JoinColumn(name = "ORDER_ID")
+    private Order order;
+
+    @ManyToOne
+    @JoinColumn(name = "TRAINING_INSTITUTION_ID")
+    private TrainingInstitution trainingInstitution;
+
+    @ManyToOne
+    @JoinColumn(name = "TRAINING_ID")
+    private Training training;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "row")
     private List<ImportDataRowError> errors;
@@ -56,11 +87,11 @@ public class ImportDataRow extends VersionableEntity {
         this.id = id;
     }
 
-    public Long getImportJob() {
+    public AsynchronizeJob getImportJob() {
         return importJob;
     }
 
-    public void setImportJob(Long importJob) {
+    public void setImportJob(AsynchronizeJob importJob) {
         this.importJob = importJob;
     }
 
@@ -88,6 +119,53 @@ public class ImportDataRow extends VersionableEntity {
         this.status = status;
     }
 
+    public Contract getContract() {
+        return contract;
+    }
+
+    public void setContract(Contract contract) {
+        this.contract = contract;
+    }
+
+    public Individual getIndividual() {
+        return individual;
+    }
+
+    public void setIndividual(Individual individual) {
+        this.individual = individual;
+    }
+
+    public Enterprise getEnterprise() {
+        return enterprise;
+    }
+
+    public void setEnterprise(Enterprise enterprise) {
+        this.enterprise = enterprise;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
+    public TrainingInstitution getTrainingInstitution() {
+        return trainingInstitution;
+    }
+
+    public void setTrainingInstitution(TrainingInstitution trainingInstitution) {
+        this.trainingInstitution = trainingInstitution;
+    }
+
+    public Training getTraining() {
+        return training;
+    }
+
+    public void setTraining(Training training) {
+        this.training = training;
+    }
 
     //LIST METHODS
 

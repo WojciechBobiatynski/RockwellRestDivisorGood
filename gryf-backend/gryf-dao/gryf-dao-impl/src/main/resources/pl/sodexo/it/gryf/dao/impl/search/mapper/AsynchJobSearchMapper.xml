@@ -101,6 +101,9 @@
             <foreach item="columnName" index="index" collection="searchParams.sortColumns" open="ORDER BY " separator="," close="">
                 ${columnName} ${searchParams.sortTypes[index]}
             </foreach>
+        </if>
+        <if test="searchParams.sortColumns == null">
+            ORDER BY import_row.ROW_NUM
         </if>)
         <where>
             <if test="searchParams.limit != null">

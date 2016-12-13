@@ -1,19 +1,31 @@
 package pl.sodexo.it.gryf.service.local.impl.publicbenefits.importdata;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.google.common.collect.Lists;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.importdata.ImportParamsDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.importdata.ImportResultDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.importdata.ImportTrainingDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingDTO;
+import pl.sodexo.it.gryf.common.dto.user.GryfUser;
+import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
+import pl.sodexo.it.gryf.dao.api.crud.repository.asynch.AsynchronizeJobRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.importdata.ImportDataRowRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstitutionRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingRepository;
+import pl.sodexo.it.gryf.model.asynch.AsynchronizeJob;
+import pl.sodexo.it.gryf.model.importdata.ImportDataRow;
+import pl.sodexo.it.gryf.model.importdata.ImportDataRowStatus;
+import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.Training;
+import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstitution;
 import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.TrainingService;
+import pl.sodexo.it.gryf.service.local.api.GryfValidator;
 
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by Isolution on 2016-12-02.
@@ -24,17 +36,101 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
     //PRIVATE FIELDS
 
     @Autowired
+    private AsynchronizeJobRepository asynchronizeJobRepository;
+
+    @Autowired
     private TrainingService trainingService;
+
+    @Autowired
+    private GryfValidator gryfValidator;
+
+    @Autowired
+    private TrainingRepository trainingRepository;
+
+    @Autowired
+    private TrainingInstitutionRepository trainingInstitutionRepository;
+
+    @Autowired
+    private ImportDataRowRepository importDataRowRepository;
 
     //OVERRIDE
 
     @Override
-    protected String saveData(ImportParamsDTO paramsDTO, Row row){
-        ImportTrainingDTO importDTO = createImportDTO(row);
+    protected int saveEmptyExtraRows(Long importJobId, int rowNums) {
+        ImportDataRow rowExtra = new ImportDataRow();
+        rowExtra.setImportJob(asynchronizeJobRepository.get(importJobId));
+        rowExtra.setRowNum(0);
+        rowExtra.setDescription(null);
+        rowExtra.setStatus(ImportDataRowStatus.N);
+        importDataRowRepository.save(rowExtra);
+        return 1;
+    }
 
-        TrainingDTO trainingDTO = createTrainingDTO(importDTO);
-        Long trainingId = trainingService.saveTraining(trainingDTO);
-        return String.format("Poprawno zapisano dane: szkolenie (%s)", getIdToDescription(trainingId));
+    @Override
+    protected ImportResultDTO saveInternalNormalData(ImportParamsDTO paramsDTO, Row row){
+        ImportTrainingDTO importDTO = createImportDTO(row);
+        validateImport(importDTO);
+
+        TrainingInstitution trainingInstitution = trainingInstitutionRepository.findByExternalId(importDTO.getTrainingInstitutionExternalId());
+        Training training = trainingRepository.findByExternalId(importDTO.getExternalId());
+        validateConnectedData(importDTO, trainingInstitution, training);
+
+        TrainingDTO trainingDTO = createTrainingDTO(training, trainingInstitution, importDTO);
+        if(training == null){
+            Long trainingId = trainingService.saveTraining(trainingDTO);
+
+            ImportResultDTO result = new ImportResultDTO();
+            result.setTrainingId(trainingId);
+            result.setDescrption(String.format("Poprawno utworzono dane: szkolenie (%s)", getIdToDescription(trainingId)));
+            return result;
+
+        }else{
+            trainingService.updateTraining(trainingDTO);
+
+            ImportResultDTO result = new ImportResultDTO();
+            result.setTrainingId(trainingDTO.getTrainingId());
+            result.setDescrption(String.format("Poprawno zaktualizowano dane: szkolenie (%s)", trainingDTO.getTrainingId()));
+            return result;
+        }
+    }
+
+    @Override
+    protected String saveInternalExtraData(ImportParamsDTO paramsDTO, ImportDataRow importDataRow){
+        int updateNum = trainingRepository.deactiveTrainings(importDataRow.getImportJob(), GryfUser.getLoggedUserLoginOrDefault());
+        return updateNum > 0 ? String.format("Poprawnie deaktywowano szkolenia: ilość zmienionych szkoleń (%s).", updateNum) :
+                                "Brak deaktywowanych szkoleń.";
+    }
+
+    //PRIVATE METHODS - VALIDATE & SAVE
+
+    private void validateImport(ImportTrainingDTO importDTO){
+        List<EntityConstraintViolation> violations = gryfValidator.generateViolation(importDTO);
+
+        BigDecimal calcHourPrice = importDTO.getHourPrice().multiply(new BigDecimal(importDTO.getHoursNumber()));
+        if(calcHourPrice.compareTo(importDTO.getPrice()) != 0){
+            violations.add(new EntityConstraintViolation(String.format("Cena szkolenia (%sPLN) nie zgadza się z iloscią godzin (%s) "
+                    + "oraz cena za 1h szkolenia (%sPLN). Otrzymany wynik: %sPLN", importDTO.getPrice(), importDTO.getHoursNumber(),
+                    importDTO.getHourPrice(), calcHourPrice)));
+        }
+
+        gryfValidator.validate(violations);
+    }
+
+    private void validateConnectedData(ImportTrainingDTO importDTO, TrainingInstitution trainingInstitution, Training training){
+        List<EntityConstraintViolation> violations = Lists.newArrayList();
+
+        if(trainingInstitution == null){
+            violations.add(new EntityConstraintViolation(String.format("Nie znaleziono instytucji szkoleniowej "
+                            + "o identyfikatorze zewnętrzym (%s)", importDTO.getTrainingInstitutionExternalId())));
+        }
+        if(trainingInstitution != null && training != null){
+            if(!training.getTrainingInstitution().equals(trainingInstitution)){//TODO: tbilski nie wiem czy ma być taka walidacjia, zapytanie w mailu
+                violations.add(new EntityConstraintViolation(String.format("Szkolenie (%s) jest połączone z instytucją szkoleniową (%s). "
+                        + "Nie można zmienić przynależności takiego szkolenia do innej instytucji (%s).",
+                        training.getExternalId(), training.getTrainingInstitution().getExternalId(), trainingInstitution.getExternalId())));
+            }
+        }
+        gryfValidator.validate(violations);
     }
 
     //PRIVATE METHODS - CREATE IMPORT DTO
@@ -48,7 +144,7 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
 
             switch (cell.getColumnIndex()) {
                 case 0:
-                    t.setTrainingInstanceExternalId(getLongCellValue(cell));
+                    t.setTrainingInstitutionExternalId(getStringCellValue(cell));
                     break;
                 case 1:
                     t.setVatRegNum(getStringCellValue(cell));
@@ -57,7 +153,7 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
                     t.setTrainingInstanceName(getStringCellValue(cell));
                     break;
                 case 3:
-                    t.setExternalId(getLongCellValue(cell));
+                    t.setExternalId(getStringCellValue(cell));
                     break;
                 case 4:
                     t.setName(getStringCellValue(cell));
@@ -69,24 +165,21 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
                     t.setEndDate(getDateCellValue(cell));
                     break;
                 case 7:
-                    t.setStatus(getStringCellValue(cell));
-                    break;
-                case 8:
                     t.setPlace(getStringCellValue(cell));
                     break;
-                case 9:
+                case 8:
                     t.setPrice(getBigDecimalCellValue(cell));
                     break;
-                case 10:
+                case 9:
                     t.setHoursNumber(getIntegerCellValue(cell));
                     break;
-                case 11:
+                case 10:
                     t.setHourPrice(getBigDecimalCellValue(cell));
                     break;
-                case 12:
+                case 11:
                     t.setCategory(getStringCellValue(cell));
                     break;
-                case 13:
+                case 12:
                     t.setReimbursmentCondition(getStringCellValue(cell));
                     break;
             }
@@ -96,10 +189,11 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
 
     //PRIVATE METHODS - CREATE BUSSINESS DTO
 
-    private TrainingDTO createTrainingDTO(ImportTrainingDTO importDTO){
+    private TrainingDTO createTrainingDTO(Training training, TrainingInstitution trainingInstitution, ImportTrainingDTO importDTO){
         TrainingDTO dto = new TrainingDTO();
-        dto.setTrainingId(null);
-        dto.setTrainingInstitution(1l);//TODO: tbilski
+        dto.setTrainingId(training != null ? training.getId() : null);
+        dto.setExternalTrainingId(importDTO.getExternalId());
+        dto.setTrainingInstitution(trainingInstitution.getId());
         dto.setInstitutionName(null);
         dto.setName(importDTO.getName());
         dto.setPrice(importDTO.getPrice());
@@ -110,6 +204,11 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
         dto.setHourPrice(importDTO.getHourPrice());
         dto.setCategory(importDTO.getCategory());
         dto.setTrainingCategoryCatalogId(null);
+
+        dto.setVersion(training != null ? training.getVersion() : null);
+        dto.setCreatedUser(training != null ? training.getCreatedUser() : null);
+        dto.setCreatedTimestamp(training != null ? training.getCreatedTimestamp() : null);
+
         return dto;
     }
 

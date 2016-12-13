@@ -85,7 +85,7 @@
     </select>
 
     <select id="findTraining" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingDTO">
-        SELECT t.ID as trainingId, t.TRAINING_INSTITUTION_ID as trainingInstitution, i.NAME as institutionName, t.NAME, t.PRICE, t.START_DATE as startDate, t.END_DATE as endDate, t.PLACE,
+        SELECT t.ID as trainingId, t.EXTERNAL_ID as externalTrainingId, t.TRAINING_INSTITUTION_ID as trainingInstitution, i.NAME as institutionName, t.NAME, t.PRICE, t.START_DATE as startDate, t.END_DATE as endDate, t.PLACE,
         t.HOURS_NUMBER as hoursNumber, t.HOUR_PRICE as hourPrice, t.TRAINING_CATEGORY_ID as category, t.REIMBURSMENT_CONDITIONS AS  reimbursmentConditions, t.VERSION, t.CREATED_USER as createdUser, c.CATALOG_ID as trainingCategoryCatalogId,
         t.CREATED_TIMESTAMP as createdTimestamp,t.MODIFIED_USER as modifiedUser, t.MODIFIED_TIMESTAMP as modifiedTimestamp
         FROM APP_PBE.TI_TRAININGS t
