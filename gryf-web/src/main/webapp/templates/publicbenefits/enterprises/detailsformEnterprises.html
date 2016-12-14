@@ -96,7 +96,7 @@
                 </div>
                 <div class="grid-80">
                     <strong class="label">Konto MŚP do zwrotu środków</strong>
-                    <input type="text" ng-model="model.entity.accountRepayment"
+                    <input type="text" ng-model="model.entity.accountRepayment" maxlength="26"
                            ng-disabled="hasNotPrivilege('GRF_ENTERPRISE_REPAY_ACC_MOD')">
                     <gryf-validation-msg path="accountRepayment"></gryf-validation-msg>
                 </div>
@@ -139,11 +139,11 @@
                         <gryf-validation-msg path="contacts[{{$index}}].contactTypes"></gryf-validation-msg>
                     </td>
                     <td>
-                        <input type="text" ng-model="contact.contactData" />
+                        <input type="text" ng-model="contact.contactData"  maxlength="300"/>
                         <gryf-validation-msg path="contacts[{{$index}}].contactData"></gryf-validation-msg>
                     </td>
                     <td>
-                        <input type="text" ng-model="contact.remarks" />
+                        <input type="text" ng-model="contact.remarks" maxlength="300"/>
                         <gryf-validation-msg path="contacts[{{$index}}].remarks"></gryf-validation-msg>
                     </td>
                     <td>

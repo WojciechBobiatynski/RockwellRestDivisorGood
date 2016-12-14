@@ -35,7 +35,7 @@
                 </div>
                 <div class="grid-20">
                     <strong class="label">Identyfikator zewnętrzny</strong>
-                    <input type="text" ng-model="model.entity.externalTrainingId" maxlength="20" data-ng-disabled="model.entity.trainingId != null">
+                    <input type="text" ng-model="model.entity.externalTrainingId" maxlength="10" data-ng-disabled="model.entity.trainingId != null">
                     <gryf-validation-msg path="externalTrainingId"></gryf-validation-msg>
                 </div>
                 <div class="grid-10">
@@ -54,7 +54,7 @@
             <div class="grid-100">
                 <div class="grid-40">
                     <strong class="label">Nazwa</strong>
-                    <input type="text" ng-model="model.entity.name" maxlength="500">
+                    <input type="text" ng-model="model.entity.name" maxlength="200">
                     <gryf-validation-msg path="name"></gryf-validation-msg>
                 </div>
                 <div class="grid-20">

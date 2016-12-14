@@ -296,7 +296,7 @@
                 <strong class="label">
                     Numer rachunku bankowego
                 </strong>
-                <input type="text" ng-model="entityVersionObject.accountRepayment"
+                <input type="text" ng-model="entityVersionObject.accountRepayment"  maxlength="26"
                        gryf-editable-only-in-new="GRF_PBE_APPLICATION_MOD, GRF_PBE_APPLICATION_PROC"
                        gryf-editable-in-applied="GRF_PBE_APPLICATION_PROC"/>
                 <gryf-validation-msg path="accountRepayment"/>
