@@ -14,6 +14,7 @@ import pl.sodexo.it.gryf.model.security.trainingInstitutions.TrainingInstitution
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -60,22 +61,27 @@ public class TrainingInstitution extends VersionableEntity {
     private Long id;
 
     @Column(name = "EXTERNAL_ID")
+    @Size(max = 10, message = "Identyfikator zewnętrzny instytucji szkoleniowej musi zawierać maksymalnie 10 znaków")
     private String externalId;
 
     @Column(name = "CODE")
+    @Size(max = 8, message = "Kod instytucji szkoleniowej musi zawierać maksymalnie 8 znaków")
     private String code;
 
     @Column(name = "NAME")
-    @NotEmpty(message = "Nazwa nie może być pusta")
+    @NotEmpty(message = "Nazwa instytucji szkoleniowej nie może być pusta")
+    @Size(max = 500, message = "Nazwa instytucji szkoleniowej musi zawierać maksymalnie 500 znaków")
     private String name;
 
     @Column(name = "VAT_REG_NUM")
     @NotEmpty(message = "NIP nie może być pusty")
     @VatRegNumFormat(message = "Błedny format NIP")
+    @Size(max = 20, message = "NIP instytucji szkoleniowej musi zawierać maksymalnie 20 znaków")
     private String vatRegNum;
 
     @Column(name = "ADDRESS_INVOICE")
     @NotEmpty(message = "Adres do faktury nie może być pusty")
+    @Size(max = 200, message = "Adres do faktury instytucji szkoleniowej musi zawierać maksymalnie 200 znaków")
     private String addressInvoice;
 
     @ManyToOne
@@ -85,6 +91,7 @@ public class TrainingInstitution extends VersionableEntity {
 
     @Column(name = "ADDRESS_CORR")
     @NotEmpty(message = "Adres korespondencyjny nie może być pusty")
+    @Size(max = 200, message = "Adres korespondencyjny instytucji szkoleniowej musi zawierać maksymalnie 200 znaków")
     private String addressCorr;
 
     @ManyToOne
@@ -93,6 +100,7 @@ public class TrainingInstitution extends VersionableEntity {
     private ZipCode zipCodeCorr;
 
     @Column(name = "REMARKS")
+    @Size(max = 4000, message = "Uwagi dla instytucji szkoleniowej musą zawierać maksymalnie 4000 znaków")
     private String remarks;
 
     @Valid

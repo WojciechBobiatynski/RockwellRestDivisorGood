@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -74,6 +75,7 @@ public class CreateOrderDTO {
     @Getter
     @Setter
     @NotNull(message = "Zewnętrzny identyfikator zamówienia nie może być pusty")
+    @Size(max = 20, message = "Identyfikator zewnętrzny zamowienia musi zawierać maksymalnie 20 znaków")
     private String externalOrderId;
 
     @Getter

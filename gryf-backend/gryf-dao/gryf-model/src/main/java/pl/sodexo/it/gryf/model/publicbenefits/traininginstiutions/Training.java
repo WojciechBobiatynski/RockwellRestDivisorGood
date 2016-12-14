@@ -9,6 +9,7 @@ import pl.sodexo.it.gryf.model.api.VersionableEntity;
 import pl.sodexo.it.gryf.model.asynch.AsynchronizeJob;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -39,6 +40,7 @@ public class Training extends VersionableEntity {
     private Long id;
 
     @Column(name = "EXTERNAL_ID")
+    @Size(max = 10, message = "Idnetyfikator zewnętrzny szkolenia musi zawierać maksymalnie 10 znaków")
     private String externalId;
 
     @OneToOne
@@ -48,6 +50,7 @@ public class Training extends VersionableEntity {
 
     @Column(name = "NAME")
     @NotEmpty(message = "Nazwa szkolenia nie może być pusta")
+    @Size(max = 200, message = "Nazwa szkolenia musi zawierać maksymalnie 200 znaków")
     private String name;
 
     @Column(name = "PRICE")
@@ -66,6 +69,7 @@ public class Training extends VersionableEntity {
 
     @Column(name = "PLACE")
     @NotEmpty(message = "Należy podać miejsce szkolenia")
+    @Size(max = 200, message = "Miejsce szkolenia musi zawierać maksymalnie 200 znaków")
     private String place;
 
     @Column(name = "HOURS_NUMBER")
@@ -82,6 +86,7 @@ public class Training extends VersionableEntity {
     private TrainingCategory category;
 
     @Column(name = "REIMBURSMENT_CONDITIONS")
+    @Size(max = 1000, message = "Warunki szkolenia muszą zawierać maksymalnie 1000 znaków")
     private String reimbursmentConditions;
 
     @Convert(converter = BooleanConverter.class)
@@ -89,6 +94,7 @@ public class Training extends VersionableEntity {
     private boolean active = true;
 
     @Column(name = "DEACTIVATE_USER")
+    @Size(max = 100, message = "Uzytkownik deaktywujący szkolenie musi zawierać maksymalnie 100 znaków")
     private String deactivateUser;
 
     @Column(name = "DEACTIVATE_DATE")

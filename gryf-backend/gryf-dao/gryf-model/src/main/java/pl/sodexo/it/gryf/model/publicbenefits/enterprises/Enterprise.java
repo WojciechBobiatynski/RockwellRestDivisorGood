@@ -18,6 +18,7 @@ import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -67,29 +68,35 @@ public class Enterprise extends VersionableEntity implements AccountContractPair
     private Long id;
 
     @Column(name = "CODE")
+    @Size(max = 8, message = "Kod MŚP musi zawierać maksymalnie 8 znaków")
     private String code;
 
     /**
      * Numer konta do przelewów. Wypełniniany przez triger.
      */
     @Column(name = "ACCOUNT_PAYMENT")
+    @Size(max = 26, message = "Konto do wpłaty na bony MŚP musi zawierać maksymalnie 26 znaków")
     private String accountPayment;
 
     @Column(name = "ACCOUNT_REPAYMENT")
     @Pattern(message = "Numer bankowy musi zawierać 26 cyfr", regexp = "^[0-9]{26}$")
+    @Size(max = 26, message = "Numer bankowy MŚP musi zawierać maksymalnie 26 znaków")
     private String accountRepayment;
 
     @Column(name = "NAME")
     @NotEmpty(message = "Nazwa nie może być pusta")
+    @Size(max = 500, message = "Nazwa MŚP musi zawierać maksymalnie 500 znaków")
     private String name;
 
     @Column(name = "VAT_REG_NUM")
     @NotEmpty(message = "NIP nie może być pusty")
     @VatRegNumFormat(message = "Błedny format NIP")
+    @Size(max = 20, message = "NIP dla MŚP musi zawierać maksymalnie 20 znaków")
     private String vatRegNum;
 
     @Column(name = "ADDRESS_INVOICE")
     @NotEmpty(message = "Adres do faktury nie może być pusty")
+    @Size(max = 200, message = "Adres do faktury MŚP musi zawierać maksymalnie 200 znaków")
     private String addressInvoice;
 
     @ManyToOne
@@ -99,6 +106,7 @@ public class Enterprise extends VersionableEntity implements AccountContractPair
 
     @Column(name = "ADDRESS_CORR")
     @NotEmpty(message = "Adres korespondencyjny nie może być pusty")
+    @Size(max = 200, message = "Adres korespondencyjny MŚP musi zawierać maksymalnie 200 znaków")
     private String addressCorr;
 
     @ManyToOne
@@ -107,6 +115,7 @@ public class Enterprise extends VersionableEntity implements AccountContractPair
     private ZipCode zipCodeCorr;
 
     @Column(name = "REMARKS")
+    @Size(max = 4000, message = "Uwagi dla użytkownika muszą zawierać maksymalnie 4000 znaków")
     private String remarks;
 
     @Valid

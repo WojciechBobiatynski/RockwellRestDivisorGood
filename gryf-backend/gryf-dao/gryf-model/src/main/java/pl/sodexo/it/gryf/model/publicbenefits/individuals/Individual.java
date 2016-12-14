@@ -17,6 +17,7 @@ import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -72,36 +73,44 @@ public class Individual extends VersionableEntity implements AccountContractPair
     private Long id;
 
     @Column(name = "CODE")
+    @Size(max = 8, message = "Kod użytkownika musi zawierać maksymalnie 8 znaków")
     private String code;
 
     /**
      * Numer konta do przelewów. Wypełniniany przez triger.
      */
     @Column(name = "ACCOUNT_PAYMENT")
+    @Size(max = 26, message = "Konto do wpłaty na bony musi zawierać maksymalnie 26 znaków")
     private String accountPayment;
 
     @Column(name = "ACCOUNT_REPAYMENT")
     @Pattern(message = "Numer bankowy musi zawierać 26 cyfr", regexp = "^[0-9]{26}$")
+    @Size(max = 26, message = "Numer bankowy użytkownika musi zawierać maksymalnie 26 znaków")
     private String accountRepayment;
 
     @Column(name = "FIRST_NAME")
     @NotEmpty(message = "Imię nie może być puste")
+    @Size(max = 100, message = "Imię użytkownika musi zawierać maksymalnie 100 znaków")
     private String firstName;
 
     @Column(name = "LAST_NAME")
     @NotEmpty(message = "Nazwisko nie może być puste")
+    @Size(max = 300, message = "Nazwisko użytkownika musi zawierać maksymalnie 300 znaków")
     private String lastName;
 
     @Column(name = "PESEL")
     @NotEmpty(message = "PESEL nie może być pusty")
     @PeselFormat(message = "Błedny format PESEL")
+    @Size(max = 11, message = "PESEL użytkownika musi zawierać maksymalnie 300 znaków")
     private String pesel;
 
     @Column(name = "SEX")
     @NotEmpty(message = "Płeć nie może być pusta")
+    @Size(max = 1, message = "Płęć użytkownika musi zawierać maksymalnie 1 znak")
     private String sex;
 
     @Column(name = "DOCUMENT_TYPE")
+    @Size(max = 30, message = "Rodzaj dokumentu użytkownika musi zawierać maksymalnie 30 znaków")
     private String documentType;
 
     @Column(name = "DOCUMENT_NUMBER")
@@ -109,6 +118,7 @@ public class Individual extends VersionableEntity implements AccountContractPair
 
     @Column(name = "ADDRESS_INVOICE")
     @NotEmpty(message = "Adres do faktury nie może być pusty")
+    @Size(max = 200, message = "Adres do faktury użytkownika musi zawierać maksymalnie 200 znaków")
     private String addressInvoice;
 
     @ManyToOne
@@ -118,6 +128,7 @@ public class Individual extends VersionableEntity implements AccountContractPair
 
     @Column(name = "ADDRESS_CORR")
     @NotEmpty(message = "Adres korespondencyjny nie może być pusty")
+    @Size(max = 200, message = "Adres korespondencyjny użytkownika musi zawierać maksymalnie 200 znaków")
     private String addressCorr;
 
     @ManyToOne
@@ -126,6 +137,7 @@ public class Individual extends VersionableEntity implements AccountContractPair
     private ZipCode zipCodeCorr;
 
     @Column(name = "REMARKS")
+    @Size(max = 4000, message = "Uwagi dla użytkownika muszą zawierać maksymalnie 4000 znaków")
     private String remarks;
 
     @OneToOne(cascade = CascadeType.PERSIST, mappedBy = "individual")

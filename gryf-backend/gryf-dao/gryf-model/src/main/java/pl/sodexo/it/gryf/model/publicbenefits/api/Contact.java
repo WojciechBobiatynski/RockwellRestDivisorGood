@@ -8,6 +8,7 @@ import pl.sodexo.it.gryf.model.api.AuditableEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * Klasa bazowa dla encji typu kontakt
@@ -34,6 +35,7 @@ public abstract class Contact extends AuditableEntity {
 
     @Column(name = "CONTACT_DATA")
     @NotEmpty(message = "Dane kontaktowe nie mogą być puste")
+    @Size(max = 300, message = "Dane kontaktowe muszą zawierać maksymalnie 300 znaków")
     @Getter
     @Setter
     protected String contactData;
