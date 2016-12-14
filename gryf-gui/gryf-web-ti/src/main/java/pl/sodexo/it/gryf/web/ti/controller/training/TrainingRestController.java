@@ -31,6 +31,15 @@ public class TrainingRestController {
         return trainingService.findTrainingCategories();
     }
 
+    @RequestMapping(value = "/listToReserve", method = RequestMethod.GET)
+    public List<TrainingSearchResultDTO> findTrainingsToReserve(TrainingSearchQueryDTO dto) {
+        //securityChecker.assertServicePrivilege(Privileges.GRF_PBE_TI_TRAININGS);
+        Long loggedUserInstitutionId = GryfUser.getLoggedTiUserInstitutionId();
+        dto.setInstitutionId(loggedUserInstitutionId);
+        dto.setActive(true);
+        return trainingService.findTrainings(dto);
+    }
+
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public List<TrainingSearchResultDTO> findTrainings(TrainingSearchQueryDTO dto) {
         //securityChecker.assertServicePrivilege(Privileges.GRF_PBE_TI_TRAININGS);

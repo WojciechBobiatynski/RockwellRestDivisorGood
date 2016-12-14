@@ -99,6 +99,13 @@
                         <input placeholder="Kategoria"
                                ng-model="searchDTO.entity.categoryName">
                     </th>
+                    <th class="sortable grid-15" ng-class="getSortingTypeClass('active')">
+                        <div ng-click="getSortedBy('active')">Aktywne</div>
+                        <select name="singleSelect" ng-model="searchDTO.entity.active">
+                            <option value="true">Tak</option>
+                            <option value="false">Nie</option>
+                        </select>
+                    </th>
                     <th>
                         <a ng-click="find()"
                            class="button button-search">szukaj</a>
@@ -118,6 +125,7 @@
                     <td>{{::item.hoursNumber}}</td>
                     <td>{{::item.hourPrice}}</td>
                     <td>{{::item.category}}</td>
+                    <td>{{::item.active ? 'Tak' : 'Nie'}}</td>
                     <td>
                         <ul class="buttons">
                             <li><a ng-href="#/modify/{{item.trainingId}}"

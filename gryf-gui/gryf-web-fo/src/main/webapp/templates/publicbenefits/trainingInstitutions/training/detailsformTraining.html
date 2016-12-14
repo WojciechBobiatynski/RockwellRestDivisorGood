@@ -45,10 +45,15 @@
                         Wybierz
                     </a>
                 </div>
-                <div class="grid-40">
+                <div class="grid-30">
                     <strong class="label">Nazwa instytucji</strong>
                     <input type="text" ng-model="model.entity.institutionName" maxlength="500" disabled="disabled">
                     <gryf-validation-msg path="trainingInstitution"></gryf-validation-msg>
+                </div>
+                <div class="grid-10">
+                    <strong class="label">Aktywne</strong>
+                    <input type="text" value="{{model.entity.active ? 'Tak' : 'Nie'}}" maxlength="3" disabled="disabled">
+                    <gryf-validation-msg path="active"></gryf-validation-msg>
                 </div>
             </div>
             <div class="grid-100">

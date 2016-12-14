@@ -67,4 +67,20 @@ public class TrainingDTO extends VersionableDto {
     @Getter
     @Setter
     private String reimbursmentConditions;
+
+    @Getter
+    @Setter
+    private boolean active;
+
+    @Getter
+    @Setter
+    private String deactivateUser;
+
+    @Getter
+    @Setter
+    private Date deactivateDate;
+
+    @Getter
+    @Setter
+    private Long deactivateJobId;
 }

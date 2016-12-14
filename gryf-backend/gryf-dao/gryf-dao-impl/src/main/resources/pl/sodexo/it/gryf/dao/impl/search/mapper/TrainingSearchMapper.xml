@@ -15,7 +15,8 @@
             t.PLACE                     place,
             t.HOURS_NUMBER              hoursNumber,
             t.HOUR_PRICE                hourPrice,
-            c.name                      category
+            c.name                      category,
+            CASE t.ACTIVE WHEN 'Y' THEN 1 ELSE 0 END as active
         FROM APP_PBE.TI_TRAININGS t
             JOIN APP_PBE.TI_TRAINING_CATEGORIES c on c.ID = t.TRAINING_CATEGORY_ID
             JOIN APP_PBE.TRAINING_INSTITUTIONS i on i.ID = t.TRAINING_INSTITUTION_ID
@@ -67,6 +68,9 @@
             <if test="searchParams.categoryName != null and searchParams.categoryName != ''">
                 AND LOWER(c.NAME) like '%' || LOWER(#{searchParams.categoryName}) || '%'
             </if>
+            <if test="searchParams.active != null">
+                AND t.ACTIVE = #{searchParams.activeStr}
+            </if>
         </where>
         <if test="searchParams.sortColumns != null">
             <foreach item="columnName" index="index" collection="searchParams.sortColumns" open="ORDER BY " separator="," close="">
@@ -87,7 +91,9 @@
     <select id="findTraining" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingDTO">
         SELECT t.ID as trainingId, t.EXTERNAL_ID as externalTrainingId, t.TRAINING_INSTITUTION_ID as trainingInstitution, i.NAME as institutionName, t.NAME, t.PRICE, t.START_DATE as startDate, t.END_DATE as endDate, t.PLACE,
         t.HOURS_NUMBER as hoursNumber, t.HOUR_PRICE as hourPrice, t.TRAINING_CATEGORY_ID as category, t.REIMBURSMENT_CONDITIONS AS  reimbursmentConditions, t.VERSION, t.CREATED_USER as createdUser, c.CATALOG_ID as trainingCategoryCatalogId,
-        t.CREATED_TIMESTAMP as createdTimestamp,t.MODIFIED_USER as modifiedUser, t.MODIFIED_TIMESTAMP as modifiedTimestamp
+        t.CREATED_TIMESTAMP as createdTimestamp,t.MODIFIED_USER as modifiedUser, t.MODIFIED_TIMESTAMP as modifiedTimestamp,
+        CASE t.ACTIVE WHEN 'Y' THEN 1 ELSE 0 END as active,
+        t.DEACTIVATE_USER as deactivateUser, t.DEACTIVATE_DATE as deactivateDate, t.DEACTIVATE_JOB_ID as deactivateJobId
         FROM APP_PBE.TI_TRAININGS t
         JOIN APP_PBE.TRAINING_INSTITUTIONS i on i.ID = t.TRAINING_INSTITUTION_ID
         JOIN APP_PBE.TI_TRAINING_CATEGORIES c on c.id = t.TRAINING_CATEGORY_ID

@@ -23,6 +23,9 @@
          <th class="sortable grid-25" ng-class="getSortingTypeClass('category')">
             <div ng-click="getSortedBy('category')">Kategoria</div>
          </th>
+         <th class="sortable grid-15" ng-class="getSortingTypeClass('active')">
+            <div ng-click="getSortedBy('active')">Aktywne</div>
+         </th>
       </tr>
       <tr class="grid-100 tableHeader-options">
          <th class="grid-20">
@@ -56,6 +59,12 @@
                <option value="">-wybierz-</option>
             </select>
          </th>
+         <th class="grid-15">
+            <select name="singleSelect" ng-model="searchDTO.entity.active"  >
+               <option value="true">Tak</option>
+               <option value="false">Nie</option>
+            </select>
+         </th>
          <th class="grid-5">
             <button class="standardButton" ng-click="find()">Wyszukaj</button>
          </th>
@@ -70,6 +79,7 @@
          <td>{{::item.endDate}}</td>
          <td>{{::item.place}}</td>
          <td>{{::item.category}}</td>
+         <td>{{::item.active ? 'Tak' : 'Nie'}}</td>
          <td>
             <ul class="text-center no-margin-padding">
                <li class="textButton green" ui-sref="ourTrainings.trainingDetails({trainingId: item.trainingId})">SZCZEGÓŁY</li>

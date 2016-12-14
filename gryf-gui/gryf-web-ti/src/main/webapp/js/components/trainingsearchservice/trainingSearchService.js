@@ -1,5 +1,6 @@
 angular.module("gryf.ti").factory("TrainingSearchService", function($http, GryfModals, GryfTables, GryfHelpers, GryfPopups) {
     var FIND_TRAINING_URL = contextPath + "/rest/training/list";
+    var FIND_TRAINING_TO_RESERVE_URL = contextPath + "/rest/training/listToReserve";
     var FIND_SINGLE_TRAINING_URL = contextPath + "/rest/training/";
 
     var searchDTO = new SearchObjModel();
@@ -22,6 +23,7 @@ angular.module("gryf.ti").factory("TrainingSearchService", function($http, GryfM
             hourPriceFrom: null,
             hourPriceTo: null,
             categoryCodes: null,
+            active: null,
 
 
             limit: 10,
@@ -82,6 +84,29 @@ angular.module("gryf.ti").factory("TrainingSearchService", function($http, GryfM
         return promise;
     };
 
+    var findToReserve = function(restUrl) {
+        var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING);
+        GryfHelpers.transformDatesToString(searchDTO.entity);
+        if (!restUrl) {
+            restUrl = FIND_TRAINING_TO_RESERVE_URL;
+        }
+        var promise = $http.get(restUrl, {params: searchDTO.entity});
+        promise.then(function(response) {
+            //success
+            searchDTO.searchResultList = response.data;
+            searchResultOptions.overflow = isResultsOverflow(response.data);
+        }, function() {
+            //error
+            resetSearchResultOptions();
+            searchResultOptions.badQuery = true;
+        });
+
+        promise.finally(function() {
+            GryfModals.closeModal(modalInstance);
+        });
+        return promise;
+    };
+
     var findDetailsById = function(trainingId) {
         return $http.get(FIND_SINGLE_TRAINING_URL + trainingId).error(function() {
             GryfPopups.setPopup("error", "Błąd", "Nie można pobrać szkolenia o wskazanym id");
@@ -115,6 +140,7 @@ angular.module("gryf.ti").factory("TrainingSearchService", function($http, GryfM
         getNewSearchResultOptions: getNewSearchResultOptions,
         getSearchResultOptions: getSearchResultOptions,
         find: find,
+        findToReserve: findToReserve,
         findSortedBy: findSortedBy,
         findDetailsById: findDetailsById,
         getSortingTypeClass: getSortingTypeClass,

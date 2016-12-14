@@ -55,4 +55,9 @@ public class TrainingSearchResultDTO {
     @Getter
     @Setter
     private String category;
+
+    @Getter
+    @Setter
+    private Boolean active;
+
 }

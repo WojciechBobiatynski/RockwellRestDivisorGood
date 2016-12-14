@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 import pl.sodexo.it.gryf.common.dto.api.SearchDto;
+import pl.sodexo.it.gryf.common.utils.GryfConstants;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -80,4 +81,16 @@ public class TrainingSearchQueryDTO extends SearchDto {
     @Getter
     @Setter
     private String categoryName;
+
+    @Getter
+    @Setter
+    private Boolean active;
+
+    public String getActiveStr(){
+        if(active == null){
+            return null;
+        }
+        return (active) ? GryfConstants.FLAG_TRUE : GryfConstants.FLAG_FALSE;
+    }
+
 }

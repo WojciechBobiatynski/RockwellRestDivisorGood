@@ -16,7 +16,6 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.importdata.ImportDataRowReposit
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingCategoryRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstitutionRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingRepository;
-import pl.sodexo.it.gryf.model.asynch.AsynchronizeJob;
 import pl.sodexo.it.gryf.model.importdata.ImportDataRow;
 import pl.sodexo.it.gryf.model.importdata.ImportDataRowStatus;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.Training;
@@ -224,6 +223,10 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
         dto.setCategory(trainingCategory.getId());
         dto.setTrainingCategoryCatalogId(null);
         dto.setReimbursmentConditions(importDTO.getReimbursmentCondition());
+        dto.setActive(true);
+        dto.setDeactivateUser(null);
+        dto.setDeactivateDate(null);
+        dto.setDeactivateJobId(null);
 
         dto.setVersion(training != null ? training.getVersion() : null);
         dto.setCreatedUser(training != null ? training.getCreatedUser() : null);

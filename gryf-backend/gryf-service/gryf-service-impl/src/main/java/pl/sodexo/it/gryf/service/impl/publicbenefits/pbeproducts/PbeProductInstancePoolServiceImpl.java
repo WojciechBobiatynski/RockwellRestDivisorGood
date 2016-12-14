@@ -344,6 +344,10 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
     private void validateTrainingReservation(Contract contract, Training training) {
         List<EntityConstraintViolation> violations = Lists.newArrayList();
 
+        if(!training.isActive()){
+            violations.add(new EntityConstraintViolation("Nie można zapisać użytkownika na nieaktywne szkolenie."));
+        }
+
         //CATEGORIE SZKOLEN
         if(training.getCategory() != null){
             if(!contract.getCategories().contains(training.getCategory())){

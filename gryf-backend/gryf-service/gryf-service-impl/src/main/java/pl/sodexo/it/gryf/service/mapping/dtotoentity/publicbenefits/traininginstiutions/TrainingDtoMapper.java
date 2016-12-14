@@ -3,6 +3,7 @@ package pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.trainingins
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingDTO;
+import pl.sodexo.it.gryf.dao.api.crud.repository.asynch.AsynchronizeJobRepository;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.Training;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingCategory;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingCategoryCatalog;
@@ -13,10 +14,7 @@ import pl.sodexo.it.gryf.service.mapping.dtotoentity.VersionableDtoMapper;
 public class TrainingDtoMapper extends VersionableDtoMapper<TrainingDTO, Training> {
 
     @Autowired
-    TrainingInstitutionDtoMapper institutionDtoMapper;
-
-    @Autowired
-    TrainingCategoryDtoMapper categoryDtoMapper;
+    private AsynchronizeJobRepository asynchronizeJobRepository;
 
     @Override
     protected Training initDestination() {
@@ -49,5 +47,11 @@ public class TrainingDtoMapper extends VersionableDtoMapper<TrainingDTO, Trainin
             }
         }
         entity.setReimbursmentConditions(dto.getReimbursmentConditions());
+
+        entity.setActive(dto.isActive());
+        entity.setDeactivateUser(dto.getDeactivateUser());
+        entity.setDeactivateDate(dto.getDeactivateDate());
+        entity.setDeactivateJob(dto.getDeactivateJobId() != null ? asynchronizeJobRepository.get(dto.getDeactivateJobId()) : null);
+
     }
 }

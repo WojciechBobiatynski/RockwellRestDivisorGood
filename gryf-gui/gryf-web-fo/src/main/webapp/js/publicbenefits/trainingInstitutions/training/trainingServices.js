@@ -180,7 +180,11 @@ angular.module("gryf.training").factory("ModifyTrainingService",
                 hourPrice: null,
                 category: null,
                 trainingCategoryCatalogId: null,
-                reimbursmentConditions: null
+                reimbursmentConditions: null,
+                active: true,
+                deactivateUser: null,
+                deactivateDate: null,
+                deactivateJobId: null
             }
         }
 
