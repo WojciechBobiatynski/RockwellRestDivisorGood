@@ -213,8 +213,7 @@ public abstract class ImportBaseDataServiceImpl implements ImportDataService{
         return null;
     }
 
-    protected ZipCodeDto createZipCodeDTO(ImportAddressCorrDTO address){
-        ZipCode zipCode = zipCodeRepository.findActiveByCode(address.getZipCode());
+    protected ZipCodeDto createZipCodeDTO(ZipCode zipCode){
         if(zipCode != null){
             ZipCodeDto dto = new ZipCodeDto();
             dto.setId(zipCode.getId());

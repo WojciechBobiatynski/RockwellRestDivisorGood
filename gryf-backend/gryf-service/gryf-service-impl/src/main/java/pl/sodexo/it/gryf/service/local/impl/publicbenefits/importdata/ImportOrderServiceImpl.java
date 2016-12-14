@@ -1,6 +1,7 @@
 package pl.sodexo.it.gryf.service.local.impl.publicbenefits.importdata;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,12 @@ import org.springframework.stereotype.Service;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.importdata.*;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.CreateOrderDTO;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.contracts.ContractRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderRepository;
+import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
+import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.Training;
+import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingCategory;
+import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstitution;
 import pl.sodexo.it.gryf.service.api.publicbenefits.orders.OrderService;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
 
@@ -32,12 +38,18 @@ public class ImportOrderServiceImpl extends ImportBaseDataServiceImpl {
     @Autowired
     private OrderRepository orderRepository;
 
+    @Autowired
+    private ContractRepository contractRepository;
+
     //OVERRIDE
 
     @Override
     protected ImportResultDTO saveInternalNormalData(ImportParamsDTO paramsDTO, Row row){
         ImportOrderDTO importDTO = createImportDTO(row);
         validateImport(paramsDTO, importDTO);
+
+        Contract contract = contractRepository.get(importDTO.getContractId());
+        validateConnectedData(importDTO, contract);
 
         CreateOrderDTO createOrderDTO = createCreateOrderDTO(importDTO);
         Long orderId = orderService.createOrder(createOrderDTO);
@@ -54,11 +66,20 @@ public class ImportOrderServiceImpl extends ImportBaseDataServiceImpl {
         List<EntityConstraintViolation> violations = gryfValidator.generateViolation(importDTO);
 
         if(!Strings.isNullOrEmpty(importDTO.getExternalOrderId())){
-            Integer orderNum = orderRepository.countByGrantProgramAndExternalOrderId(paramsDTO.getGramtProgramId(), importDTO.getExternalOrderId());
+            Integer orderNum = orderRepository.countByGrantProgramAndExternalOrderId(paramsDTO.getGrantProgramId(), importDTO.getExternalOrderId());
             if(orderNum > 0){
                 violations.add(new EntityConstraintViolation(String.format("W systemie dla danego programu "
                         + "dofinansowania istnieje zamówienie o idnetyfikatorze [%s].", importDTO.getExternalOrderId())));
             }
+        }
+        gryfValidator.validate(violations);
+    }
+
+    private void validateConnectedData(ImportOrderDTO importDTO, Contract contract){
+        List<EntityConstraintViolation> violations = Lists.newArrayList();
+
+        if(contract == null){
+            violations.add(new EntityConstraintViolation(String.format("Nie znaleziono umowy o identyfikatorze (%s).", importDTO.getContractId())));
         }
         gryfValidator.validate(violations);
     }

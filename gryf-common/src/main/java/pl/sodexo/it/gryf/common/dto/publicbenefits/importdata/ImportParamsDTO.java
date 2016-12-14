@@ -12,7 +12,7 @@ public class ImportParamsDTO {
 
     @Getter
     @Setter
-    private Long gramtProgramId;
+    private Long grantProgramId;
 
     @Getter
     @Setter

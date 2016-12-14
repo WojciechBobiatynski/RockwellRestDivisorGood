@@ -38,7 +38,7 @@ public class EnterpriseEntityMapper extends VersionableEntityMapper<Enterprise, 
         dto.setAddressInvoice(entity.getAddressInvoice());
         dto.setZipCodeInvoice(zipCodeEntityMapper.convert(entity.getZipCodeInvoice()));
         dto.setAddressCorr(entity.getAddressCorr());
-        dto.setZipCodeCorr(zipCodeEntityMapper.convert(entity.getZipCodeInvoice()));
+        dto.setZipCodeCorr(zipCodeEntityMapper.convert(entity.getZipCodeCorr()));
         dto.setRemarks(entity.getRemarks());
         dto.setContacts(enterpriseContactEntityMapper.convert(entity.getContacts()));
 

@@ -141,7 +141,7 @@ public class AsynchJobImportServceImpl implements AsynchJobService{
        }
 
        try {
-           result.setGramtProgramId(Long.parseLong(tabParams[0]));
+           result.setGrantProgramId(Long.parseLong(tabParams[0]));
        }catch(NumberFormatException e) {
            throw new RuntimeException(String.format("Nie udało się odczytać idnetyfikatora programu "
                                             + "dofinansowania z wartości [%s]", tabParams[0]));

@@ -38,7 +38,7 @@ public class EnterpriseDtoMapper extends VersionableDtoMapper<EnterpriseDto,Ente
         entity.setAddressInvoice(dto.getAddressInvoice());
         entity.setZipCodeInvoice(dto.getZipCodeInvoice() == null ? null : zipCodeDtoMapper.convert(dto.getZipCodeInvoice()));
         entity.setAddressCorr(dto.getAddressCorr());
-        entity.setZipCodeCorr(dto.getZipCodeInvoice() == null ? null: zipCodeDtoMapper.convert(dto.getZipCodeInvoice()));
+        entity.setZipCodeCorr(dto.getZipCodeInvoice() == null ? null: zipCodeDtoMapper.convert(dto.getZipCodeCorr()));
         entity.setRemarks(dto.getRemarks());
         for (EnterpriseContactDto contact:dto.getContacts()) {
             entity.addContact(enterpriseContactDtoMapper.convert(contact));

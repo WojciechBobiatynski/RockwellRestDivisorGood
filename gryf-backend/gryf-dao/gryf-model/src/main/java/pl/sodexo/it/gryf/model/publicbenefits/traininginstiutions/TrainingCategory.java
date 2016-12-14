@@ -21,7 +21,12 @@ import java.util.Objects;
         "join tccgp.catalog c join c.trainingCategories tc " +
         "where tccgp.grantProgram.id = :grantProgramId "),
         @NamedQuery(name = "TrainingCategory.findByCatalogId", query = "select tcc.trainingCategories from TrainingCategoryCatalog tcc " +
-        "where tcc.id = :catalogId ")})
+        "where tcc.id = :catalogId "),
+        @NamedQuery(name = "TrainingCategory.findByIdList", query = "select tc from TrainingCategory tc " +
+                "where tc.id in :idList ")
+
+
+})
 public class TrainingCategory extends GryfEntity implements DictionaryEntity {
 
     @Id

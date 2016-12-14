@@ -13,11 +13,19 @@ import pl.sodexo.it.gryf.common.dto.security.RoleDto;
 import pl.sodexo.it.gryf.common.dto.security.trainingInstitutions.GryfTiUserDto;
 import pl.sodexo.it.gryf.common.enums.Privileges;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
+import pl.sodexo.it.gryf.common.utils.GryfUtils;
+import pl.sodexo.it.gryf.dao.api.crud.dao.traininginstitutions.TrainingInstitutionUserDao;
+import pl.sodexo.it.gryf.dao.api.crud.repository.dictionaries.ZipCodeRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstitutionRepository;
+import pl.sodexo.it.gryf.model.dictionaries.ZipCode;
 import pl.sodexo.it.gryf.model.publicbenefits.api.ContactType;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstitution;
+import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstitutionContact;
+import pl.sodexo.it.gryf.model.security.trainingInstitutions.TrainingInstitutionUser;
 import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.TrainingInstitutionService;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
+import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.traininginstiutions.TrainingInstitutionContactEntityMapper;
+import pl.sodexo.it.gryf.service.mapping.entitytodto.security.traininginstitutions.TrainingInstitutionUserEntityMapper;
 
 import java.util.Iterator;
 import java.util.List;
@@ -39,6 +47,18 @@ public class ImportTrainingInstitutionServiceImpl extends ImportBaseDataServiceI
     @Autowired
     private TrainingInstitutionRepository trainingInstitutionRepository;
 
+    @Autowired
+    private ZipCodeRepository zipCodeRepository;
+
+    @Autowired
+    private TrainingInstitutionUserDao trainingInstitutionUserDao;
+
+    @Autowired
+    private TrainingInstitutionUserEntityMapper trainingInstitutionUserEntityMapper;
+
+    @Autowired
+    private TrainingInstitutionContactEntityMapper trainingInstitutionContactEntityMapper;
+
     //OVERRIDE
 
     @Override
@@ -46,9 +66,14 @@ public class ImportTrainingInstitutionServiceImpl extends ImportBaseDataServiceI
         ImportTrainingInstitutionDTO importDTO = createImportDTO(row);
         validateImport(importDTO);
 
-        TrainingInstitution trainingInstitution = trainingInstitutionRepository.findByExternalId(importDTO.getExternalId());
 
-        TrainingInstitutionDto trainingInstitutionDto = createTrainingInstitutionDTO(trainingInstitution, importDTO);
+        TrainingInstitution trainingInstitution = trainingInstitutionRepository.findByExternalId(importDTO.getExternalId());
+        TrainingInstitutionUser tiUser = trainingInstitutionUserDao.findByLogin(importDTO.getEmail());
+        ZipCode zipCodeInvoice = zipCodeRepository.findActiveByCode(importDTO.getAddressInvoice().getZipCode());
+        ZipCode zipCodeCorr = zipCodeRepository.findActiveByCode(importDTO.getAddressCorr().getZipCode());
+        validateConnectedData(importDTO, trainingInstitution, zipCodeInvoice, zipCodeCorr, tiUser);
+
+        TrainingInstitutionDto trainingInstitutionDto = createTrainingInstitutionDTO(trainingInstitution, importDTO, zipCodeInvoice, zipCodeCorr);
         if(trainingInstitution == null){
             Long trainingInstitutionId = trainingInstitutionService.saveTrainingInstitution(trainingInstitutionDto, false);
 
@@ -71,6 +96,35 @@ public class ImportTrainingInstitutionServiceImpl extends ImportBaseDataServiceI
 
     private void validateImport(ImportTrainingInstitutionDTO importDTO){
         List<EntityConstraintViolation> violations = gryfValidator.generateViolation(importDTO);
+        gryfValidator.validate(violations);
+    }
+
+    private void validateConnectedData(ImportTrainingInstitutionDTO importDTO, TrainingInstitution trainingInstitution,
+                                        ZipCode zipCodeInvoice, ZipCode zipCodeCorr, TrainingInstitutionUser tiUser){
+        List<EntityConstraintViolation> violations = Lists.newArrayList();
+
+        if(zipCodeInvoice == null){
+            violations.add(new EntityConstraintViolation(String.format("Nie znaleziono kodu pocztowego dla adresu do faktury "
+                    + "o wartości (%s)", importDTO.getAddressInvoice().getZipCode())));
+        }
+        if(zipCodeCorr == null){
+            violations.add(new EntityConstraintViolation(String.format("Nie znaleziono kodu pocztowego dla adresu korespondencyjnego "
+                    + "o wartości (%s)", importDTO.getAddressCorr().getZipCode())));
+        }
+        if(tiUser != null){
+            if(trainingInstitution == null) {
+                violations.add(new EntityConstraintViolation(
+                        String.format("Email (%s) jest już używany jako login użytkonika TI. Użytkownik o danym emailu "
+                                        + "istnieje w instytucji szkoleniowej o identyfikatorze (%s).", importDTO.getEmail(),
+                                tiUser.getTrainingInstitution().getId())));
+            }else if(!tiUser.getTrainingInstitution().equals(trainingInstitution)){
+                violations.add(new EntityConstraintViolation(
+                        String.format("Email (%s) jest już używany jako login użytkonika TI. Użytkownik o danym emailu "
+                                        + "istnieje w instytucji szkoleniowej o identyfikatorze (%s).", importDTO.getEmail(),
+                                tiUser.getTrainingInstitution().getId())));
+            }
+        }
+
         gryfValidator.validate(violations);
     }
 
@@ -121,8 +175,8 @@ public class ImportTrainingInstitutionServiceImpl extends ImportBaseDataServiceI
 
     //PRIVATE METHODS - CREATE BUSSINESS DTO
 
-    private TrainingInstitutionDto createTrainingInstitutionDTO(TrainingInstitution trainingInstitution,
-                                                                ImportTrainingInstitutionDTO importDTO){
+    private TrainingInstitutionDto createTrainingInstitutionDTO(TrainingInstitution trainingInstitution, final ImportTrainingInstitutionDTO importDTO,
+                                                                ZipCode zipCodeInvoice, ZipCode zipCodeCorr){
         TrainingInstitutionDto dto = new TrainingInstitutionDto();
         dto.setId(trainingInstitution != null ? trainingInstitution.getId() : null);
         dto.setExternalId(importDTO.getExternalId());
@@ -133,38 +187,68 @@ public class ImportTrainingInstitutionServiceImpl extends ImportBaseDataServiceI
         if(importDTO.getAddressInvoice() != null) {
             ImportAddressInvoiceDTO address = importDTO.getAddressInvoice();
             dto.setAddressInvoice(address.getAddress());
-            dto.setZipCodeInvoice(createZipCodeDTO(address));
+            dto.setZipCodeInvoice(createZipCodeDTO(zipCodeInvoice));
         }
         if(importDTO.getAddressCorr() != null) {
             ImportAddressCorrDTO address = importDTO.getAddressCorr();
             dto.setAddressCorr(address.getAddress());
-            dto.setZipCodeCorr(createZipCodeDTO(address));
+            dto.setZipCodeCorr(createZipCodeDTO(zipCodeCorr));
         }
 
         dto.setRemarks(null);
 
-        TrainingInstitutionContactDto contactDTO = new TrainingInstitutionContactDto();
-        contactDTO.setContactType(new ContactTypeDto());
-        contactDTO.getContactType().setType(ContactType.TYPE_EMAIL);
-        contactDTO.setContactData(importDTO.getEmail());
-        dto.setContacts(Lists.newArrayList(contactDTO));
-
+        //USER & CONTACTS
         if(trainingInstitution == null) {
-            GryfTiUserDto user = new GryfTiUserDto();
-            user.setLogin(importDTO.getEmail());
-            user.setEmail(importDTO.getEmail());
-            RoleDto roleDTO = new RoleDto();
-            roleDTO.setCode(Privileges.TI_MAIN_ROLE.name());
-            user.setRoles(Lists.newArrayList(roleDTO));
-            dto.setUsers(Lists.newArrayList(user));
+            dto.setUsers(Lists.newArrayList(createGryfTiUserDto(importDTO)));
+            dto.setContacts(Lists.newArrayList(createTrainingInstitutionContactDto(importDTO)));
         }else{
-            dto.setUsers(Lists.newArrayList());
+
+            //USER
+            dto.setUsers(trainingInstitutionUserEntityMapper.convert(trainingInstitution.getTrainingInstitutionUsers()));
+            boolean userExist = GryfUtils.contain(trainingInstitution.getTrainingInstitutionUsers(), new GryfUtils.Predicate<TrainingInstitutionUser>() {
+                public boolean apply(TrainingInstitutionUser input) {
+                    return input.getEmail().equals(importDTO.getEmail());
+                }
+            });
+            if(!userExist){
+                dto.getUsers().add(createGryfTiUserDto(importDTO));
+            }
+
+            //CONTACT
+            dto.setContacts(trainingInstitutionContactEntityMapper.convert(trainingInstitution.getContacts()));
+            boolean contactExist = GryfUtils.contain(trainingInstitution.getContacts(), new GryfUtils.Predicate<TrainingInstitutionContact>() {
+                public boolean apply(TrainingInstitutionContact input) {
+                    return ContactType.TYPE_EMAIL.equals(input.getContactType().getType()) &&
+                            importDTO.getEmail().equals(input.getContactData());
+                }
+            });
+            if(!contactExist){
+                dto.getContacts().add(createTrainingInstitutionContactDto(importDTO));
+            }
         }
 
         dto.setVersion(trainingInstitution != null ? trainingInstitution.getVersion() : null);
         dto.setCreatedUser(trainingInstitution != null ? trainingInstitution.getCreatedUser() : null);
         dto.setCreatedTimestamp(trainingInstitution != null ? trainingInstitution.getCreatedTimestamp() : null);
         return dto;
+    }
+
+    private GryfTiUserDto createGryfTiUserDto(ImportTrainingInstitutionDTO importDTO){
+        GryfTiUserDto user = new GryfTiUserDto();
+        user.setLogin(importDTO.getEmail());
+        user.setEmail(importDTO.getEmail());
+        RoleDto roleDTO = new RoleDto();
+        roleDTO.setCode(Privileges.TI_MAIN_ROLE.name());
+        user.setRoles(Lists.newArrayList(roleDTO));
+        return user;
+    }
+
+    private TrainingInstitutionContactDto createTrainingInstitutionContactDto(ImportTrainingInstitutionDTO importDTO){
+        TrainingInstitutionContactDto contactDTO = new TrainingInstitutionContactDto();
+        contactDTO.setContactType(new ContactTypeDto());
+        contactDTO.getContactType().setType(ContactType.TYPE_EMAIL);
+        contactDTO.setContactData(importDTO.getEmail());
+        return contactDTO;
     }
 
 }

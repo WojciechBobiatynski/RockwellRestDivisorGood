@@ -23,4 +23,13 @@ public class ImportComplexContractDTO {
     @Getter
     @Setter
     private ImportEnterpriseDTO enterprise = new ImportEnterpriseDTO();
+
+    //PUBLIC METHODS
+
+    public boolean checkContractType(String type) {
+        if(type != null) {
+            return type.equals(contract.getContractType());
+        }
+        return false;
+    }
 }

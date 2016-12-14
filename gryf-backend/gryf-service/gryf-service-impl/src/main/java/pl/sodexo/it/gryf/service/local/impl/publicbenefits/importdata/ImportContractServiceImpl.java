@@ -19,11 +19,17 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.searchform.Indivi
 import pl.sodexo.it.gryf.common.dto.security.RoleDto;
 import pl.sodexo.it.gryf.common.enums.Privileges;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
+import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.common.utils.PeselUtils;
+import pl.sodexo.it.gryf.dao.api.crud.repository.dictionaries.ZipCodeRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.contracts.ContractTypeRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingCategoryRepository;
 import pl.sodexo.it.gryf.model.accounts.AccountContractPair;
+import pl.sodexo.it.gryf.model.dictionaries.ZipCode;
 import pl.sodexo.it.gryf.model.enums.Sex;
 import pl.sodexo.it.gryf.model.publicbenefits.api.ContactType;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.ContractType;
+import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingCategory;
 import pl.sodexo.it.gryf.service.api.publicbenefits.contracts.ContractService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.enterprises.EnterpriseService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.individuals.IndividualService;
@@ -32,6 +38,7 @@ import pl.sodexo.it.gryf.service.local.api.GryfValidator;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Isolution on 2016-12-02.
@@ -56,6 +63,15 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
     @Autowired
     private GryfValidator gryfValidator;
 
+    @Autowired
+    private ContractTypeRepository contractTypeRepository;
+
+    @Autowired
+    private TrainingCategoryRepository trainingCategoryRepository;
+
+    @Autowired
+    private ZipCodeRepository zipCodeRepository;
+
     //OVERRIDE
 
     @Override
@@ -68,7 +84,25 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
         ImportComplexContractDTO importDTO = createComplexContractDTO(row);
         validateImport(importDTO);
 
-        ImportResultDTO importResult = saveContractData(importDTO);
+        ContractType contractType = contractTypeRepository.get(importDTO.getContract().getContractType());
+        List<TrainingCategory> trainingCategories = trainingCategoryRepository.findByIdList(importDTO.getContract().getContractTrainingCategoryList());
+
+        ZipCode zipCodeIndividualInvoice = zipCodeRepository.findActiveByCode(importDTO.getIndividual().getAddressInvoice().getZipCode());
+        ZipCode zipCodeIndividualCorr = zipCodeRepository.findActiveByCode(importDTO.getIndividual().getAddressCorr().getZipCode());
+        ZipCode zipCodeEnterpriseInvoice = importDTO.checkContractType(ContractType.TYPE_ENT) ?
+                                            zipCodeRepository.findActiveByCode(importDTO.getEnterprise().getAddressInvoice().getZipCode()) : null;
+        ZipCode zipCodeEnterpriseCorr = importDTO.checkContractType(ContractType.TYPE_ENT) ?
+                                            zipCodeRepository.findActiveByCode(importDTO.getEnterprise().getAddressCorr().getZipCode()) : null;
+
+        validateConnectedData(importDTO, contractType, trainingCategories,
+                                zipCodeIndividualInvoice, zipCodeIndividualCorr,
+                                zipCodeEnterpriseInvoice, zipCodeEnterpriseCorr);
+
+
+        ImportResultDTO importResult = saveContractData(importDTO, paramsDTO,
+                                                        contractType, trainingCategories,
+                                                        zipCodeIndividualInvoice, zipCodeIndividualCorr,
+                                                        zipCodeEnterpriseInvoice, zipCodeEnterpriseCorr);
         importResult.setDescrption(String.format("Poprawno utworzono dane: umowa (%s) użytkownik (%s), MŚP (%s)",
                                     getIdToDescription(importResult.getContractId()),
                                     getIdToDescription(importResult.getIndividualId()),
@@ -86,9 +120,9 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
         addPrefixMessage("Dla uczestnika: ", individualViolations);
 
         List<EntityConstraintViolation> enterpriseViolations = Lists.newArrayList();
-        if(ContractType.TYPE_ENT.equals(importDTO.getContract().getContractType())){
+        if(importDTO.checkContractType(ContractType.TYPE_ENT)){
             enterpriseViolations.addAll(gryfValidator.generateViolation(importDTO.getEnterprise()));
-        }else{
+        }else if(importDTO.checkContractType(ContractType.TYPE_IND)){
             if(!importDTO.getEnterprise().isEmpty()){
                 enterpriseViolations.add(new EntityConstraintViolation("Dla typu kontraktu 'IND' (osoba fizyczna) pola dla MŚP powinny być puste."));
             }
@@ -102,22 +136,78 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
         gryfValidator.validate(allViolation);
     }
 
-    private ImportResultDTO saveContractData(ImportComplexContractDTO importDTO){
+    private void validateConnectedData(ImportComplexContractDTO importDTO, ContractType contractType, List<TrainingCategory> trainingCategories,
+                                        ZipCode zipCodeIndividualInvoice, ZipCode zipCodeIndividualCorr,
+                                        ZipCode zipCodeEnterpriseInvoice, ZipCode zipCodeEnterpriseCorr){
+        List<EntityConstraintViolation> violations = Lists.newArrayList();
+
+        if(contractType == null){
+            violations.add(new EntityConstraintViolation(String.format("Nie znaleziono rodzaju umowy "
+                    + "o identyfikatorze (%s)", importDTO.getContract().getContractType())));
+        }
+
+        Map<String, TrainingCategory> trainingCategoryMap = GryfUtils.constructMap(trainingCategories, new GryfUtils.MapConstructor<String, TrainingCategory>() {
+            public boolean isAddToMap(TrainingCategory input) {
+                return true;
+            }
+            public String getKey(TrainingCategory input) {
+                return input.getId();
+            }
+        });
+
+        for(String c : importDTO.getContract().getContractTrainingCategoryList()){
+            if(!trainingCategoryMap.containsKey(c)){
+                violations.add(new EntityConstraintViolation(String.format("Nie znaleziono kategori szkolenia przydzielonej użytkownikowi "
+                        + "o identyfikatorze (%s)", c)));
+            }
+        }
+
+        if(zipCodeIndividualInvoice == null){
+            violations.add(new EntityConstraintViolation(String.format("Nie znaleziono kodu pocztowego dla adresu użytkownika do faktury "
+                    + "o wartości (%s)", importDTO.getIndividual().getAddressInvoice().getZipCode())));
+        }
+        if(zipCodeIndividualCorr == null){
+            violations.add(new EntityConstraintViolation(String.format("Nie znaleziono kodu pocztowego dla adresu korespondencyjnego użytkownika "
+                    + "o wartości (%s)", importDTO.getIndividual().getAddressCorr().getZipCode())));
+        }
+        if(importDTO.checkContractType(ContractType.TYPE_ENT)){
+            if(zipCodeEnterpriseInvoice == null){
+                violations.add(new EntityConstraintViolation(String.format("Nie znaleziono kodu pocztowego dla MŚP do faktury "
+                        + "o wartości (%s)", importDTO.getEnterprise().getAddressInvoice().getZipCode())));
+            }
+            if(zipCodeEnterpriseCorr == null){
+                violations.add(new EntityConstraintViolation(String.format("Nie znaleziono kodu pocztowego dla adresu korespondencyjnego MŚP "
+                        + "o wartości (%s)", importDTO.getEnterprise().getAddressCorr().getZipCode())));
+            }
+        }
+
+        gryfValidator.validate(violations);
+    }
+
+
+    private ImportResultDTO saveContractData(ImportComplexContractDTO importDTO, ImportParamsDTO paramsDTO,
+                                            ContractType contractType, List<TrainingCategory> trainingCategories,
+                                            ZipCode zipCodeIndividualInvoice, ZipCode zipCodeIndividualCorr,
+                                            ZipCode zipCodeEnterpriseInvoice, ZipCode zipCodeEnterpriseCorr){
 
         Long contractId = importDTO.getContract().getId();
         Long enterpriseId = null;
         Long individualId = null;
 
         if(ContractType.TYPE_ENT.equals(importDTO.getContract().getContractType())){
-            EnterpriseDto enterpriseDTO = createEnterpriseDTO(importDTO.getEnterprise());
+            EnterpriseDto enterpriseDTO = createEnterpriseDTO(importDTO.getEnterprise(), zipCodeEnterpriseInvoice, zipCodeEnterpriseCorr);
             enterpriseId = enterpriseService.saveEnterpriseDto(enterpriseDTO, false, false);
         }
 
 
-        IndividualDto individualDTO = createIndividualDTO(importDTO.getIndividual(), contractId, enterpriseId);
+        IndividualDto individualDTO = createIndividualDTO(importDTO.getIndividual(),
+                                                            zipCodeIndividualInvoice, zipCodeIndividualCorr,
+                                                            contractId, enterpriseId);
         individualId = individualService.saveIndividual(individualDTO, true, false);
 
-        ContractDTO contract = createContractDTO(importDTO.getContract(), individualId, enterpriseId);
+        ContractDTO contract = createContractDTO(importDTO.getContract(), paramsDTO,
+                                                contractType, trainingCategories,
+                                                individualId, enterpriseId);
         contractService.saveContract(contract);
 
         ImportResultDTO result = new ImportResultDTO();
@@ -219,7 +309,7 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
 
     //PRIVATE METHODS - CREATE BUSSINESS DTO
 
-    private EnterpriseDto createEnterpriseDTO(ImportEnterpriseDTO importDTO){
+    private EnterpriseDto createEnterpriseDTO(ImportEnterpriseDTO importDTO, ZipCode zipCodeEnterpriseInvoice, ZipCode zipCodeEnterpriseCorr){
         EnterpriseDto dto = new EnterpriseDto();
 
         dto.setCode(null);
@@ -231,12 +321,12 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
         if(!importDTO.getAddressInvoice().isEmpty()) {
             ImportAddressInvoiceDTO address = importDTO.getAddressInvoice();
             dto.setAddressInvoice(address.getAddress());
-            dto.setZipCodeInvoice(createZipCodeDTO(address));
+            dto.setZipCodeInvoice(createZipCodeDTO(zipCodeEnterpriseInvoice));
         }
         if(!importDTO.getAddressCorr().isEmpty()) {
             ImportAddressCorrDTO address = importDTO.getAddressCorr();
             dto.setAddressCorr(address.getAddress());
-            dto.setZipCodeCorr(createZipCodeDTO(address));
+            dto.setZipCodeCorr(createZipCodeDTO(zipCodeEnterpriseCorr));
         }
 
         EnterpriseContactDto contactDTO = new EnterpriseContactDto();
@@ -248,7 +338,9 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
         return dto;
     }
 
-    private IndividualDto createIndividualDTO(ImportIndividualDTO importDTO, Long contractId, Long enterpriseId){
+    private IndividualDto createIndividualDTO(ImportIndividualDTO importDTO,
+                                            ZipCode zipCodeIndividualInvoice, ZipCode zipCodeIndividualCorr,
+                                            Long contractId, Long enterpriseId){
         IndividualDto dto = new IndividualDto();
 
         AccountContractPair pair = accountContractPairService.getValidAccountContractPairForUsed(contractId);
@@ -265,12 +357,12 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
         if(!importDTO.getAddressInvoice().isEmpty()) {
             ImportAddressInvoiceDTO address = importDTO.getAddressInvoice();
             dto.setAddressInvoice(address.getAddress());
-            dto.setZipCodeInvoice(createZipCodeDTO(address));
+            dto.setZipCodeInvoice(createZipCodeDTO(zipCodeIndividualInvoice));
         }
         if(!importDTO.getAddressCorr().isEmpty()) {
             ImportAddressInvoiceDTO address = importDTO.getAddressInvoice();
             dto.setAddressCorr(address.getAddress());
-            dto.setZipCodeCorr(createZipCodeDTO(address));
+            dto.setZipCodeCorr(createZipCodeDTO(zipCodeIndividualCorr));
         }
         dto.setRemarks(null);
         dto.setVerificationCode(null);
@@ -297,16 +389,18 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
         return dto;
     }
 
-    private ContractDTO createContractDTO(ImportContractDTO importDTO, Long individualId, Long enterpriseId){
+    private ContractDTO createContractDTO(ImportContractDTO importDTO, ImportParamsDTO paramsDTO,
+                                            ContractType contractType, List<TrainingCategory> trainingCategories,
+                                            Long individualId, Long enterpriseId){
         ContractDTO dto = new ContractDTO();
         dto.setId(importDTO.getId());
         dto.setSignDate(importDTO.getSignDate());
         dto.setExpiryDate(importDTO.getSignDate());
-        dto.setTrainingCategory(Lists.newArrayList(importDTO.getContractTrainingCategories().split(",")));
+        dto.setTrainingCategory(importDTO.getContractTrainingCategoryList());
         dto.setContractType(new DictionaryDTO(importDTO.getContractType()));
 
         GrantProgramDictionaryDTO grantProgram = new GrantProgramDictionaryDTO();
-        grantProgram.setId(importDTO.getGrantProgramId());
+        grantProgram.setId(paramsDTO.getGrantProgramId());
         dto.setGrantProgram(grantProgram);
 
         IndividualSearchResultDTO individual = new IndividualSearchResultDTO();
