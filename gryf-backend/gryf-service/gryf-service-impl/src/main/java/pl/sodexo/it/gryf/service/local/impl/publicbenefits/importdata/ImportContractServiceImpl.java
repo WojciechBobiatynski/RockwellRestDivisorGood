@@ -417,7 +417,11 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
     }
 
     private String createSex(ImportIndividualDTO importDTO){
-        return PeselUtils.isMale(importDTO.getPesel()) ? Sex.M.name() : Sex.K.name();
+        Boolean isMale = PeselUtils.isMale(importDTO.getPesel());
+        if(isMale == null){
+            return null;
+        }
+        return isMale ? Sex.M.name() : Sex.K.name();
     }
 
     private void addPrefixMessage(String prefix, List<EntityConstraintViolation> violations){
