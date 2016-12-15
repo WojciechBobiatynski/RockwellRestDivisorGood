@@ -14,7 +14,7 @@ import java.util.Date;
 @Table(name = "ASYNCH_JOBS", schema = "APP_PBE")
 @NamedQueries({
         @NamedQuery(name = "AsynchronizeJob.findFirstAsynchronizeJobToWork", query="select o from AsynchronizeJob o " +
-                "where o.status = :status " +
+                "where o.status = :status and (o.nextStartTimestamp is null or CURRENT_DATE <= o.nextStartTimestamp) " +
                 "order by o.createdTimestamp ")
 })
 @SequenceGenerator(name = "asyn_job_seq", schema = "eagle", sequenceName = "asyn_job_seq", allocationSize = 1)
@@ -48,6 +48,14 @@ public class AsynchronizeJob extends VersionableEntity {
     @Column(name = "NEXT_START_TIMESTAMP")
     @Temporal(TemporalType.TIMESTAMP)
     private Date nextStartTimestamp;
+
+    @Column(name = "START_TIMESTAMP")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date startTimestamp;
+
+    @Column(name = "STOP_TIMESTAMP")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date stopTimestamp;
 
     @Column(name = "ORDER_ID")
     private Long orderId;
@@ -100,6 +108,22 @@ public class AsynchronizeJob extends VersionableEntity {
 
     public void setNextStartTimestamp(Date nextStartTimestamp) {
         this.nextStartTimestamp = nextStartTimestamp;
+    }
+
+    public Date getStartTimestamp() {
+        return startTimestamp;
+    }
+
+    public void setStartTimestamp(Date startTimestamp) {
+        this.startTimestamp = startTimestamp;
+    }
+
+    public Date getStopTimestamp() {
+        return stopTimestamp;
+    }
+
+    public void setStopTimestamp(Date stopTimestamp) {
+        this.stopTimestamp = stopTimestamp;
     }
 
     public Long getOrderId() {

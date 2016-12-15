@@ -61,6 +61,8 @@
             asynch_job.DESCRIPTION          description,
             asynch_job.STATUS               status,
             asynch_job.PARAMS               filePath,
+            asynch_job.START_TIMESTAMP      startTimestamp,
+            asynch_job.STOP_TIMESTAMP       stopTimestamp,
             asynch_job.CREATED_USER         createdUser,
             asynch_job.CREATED_TIMESTAMP    createdTimestamp,
             asynch_job.MODIFIED_USER        modifiedUser,

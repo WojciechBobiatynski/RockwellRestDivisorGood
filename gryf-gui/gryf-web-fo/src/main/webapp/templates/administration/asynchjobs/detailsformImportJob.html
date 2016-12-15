@@ -62,7 +62,7 @@
                 <gryf-validation-msg path="file"></gryf-validation-msg>
                 <a class="button" ng-model="importJobModel.file" ngf-select ngf-pattern=".xlsx">Wybierz</a>
             </div>
-            <div class="grid-25" data-ng-show="importJobModel.entity.filePath">
+            <div class="grid-35" data-ng-show="importJobModel.entity.filePath">
                 <strong class="label">Parametry zadania</strong>
                 <textarea ng-model="importJobModel.entity.filePath" disabled="isDisabled"></textarea>
             </div>
@@ -76,9 +76,13 @@
                 <strong class="label">Twórca</strong>
                 <input type="text" ng-model="importJobModel.entity.createdUser" disabled="isDisabled">
             </div>
-            <div class="grid-10">
+            <div class="grid-15">
                 <strong class="label">Data utworzenia</strong>
                 <input type="text" ng-model="importJobModel.entity.createdTimestamp" disabled="isDisabled">
+            </div>
+            <div class="grid-15">
+                <strong class="label">Czas trwania</strong>
+                <input type="text" ng-model="importJobModel.entity.durationTime" disabled="isDisabled">
             </div>
         </div>
     </section>

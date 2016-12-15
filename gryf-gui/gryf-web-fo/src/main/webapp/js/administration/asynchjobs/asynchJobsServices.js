@@ -159,7 +159,10 @@ function ($http, Upload, GryfModals, GryfPopups, GryfExceptionHandler, GryfHelpe
             type: null,
             description: null,
             status: null,
-            filePath: null
+            filePath: null,
+            startTimestamp: null,
+            stopTimestamp: null,
+            durationTime: null
         };
     }
 

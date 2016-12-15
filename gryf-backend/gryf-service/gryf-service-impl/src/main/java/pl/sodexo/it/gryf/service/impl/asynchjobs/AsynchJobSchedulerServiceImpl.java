@@ -32,6 +32,7 @@ import pl.sodexo.it.gryf.service.utils.BeanUtils;
 import pl.sodexo.it.gryf.service.validation.asynchjobs.AsynchJobValidator;
 
 import javax.annotation.PostConstruct;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -132,6 +133,7 @@ public class AsynchJobSchedulerServiceImpl implements AsynchJobSchedulerService 
         AsynchronizeJob job = asynchronizeJobRepository.findFirstAsynchronizeJobToWork();
         if(job != null) {
             job.setStatus(AsynchronizeJobStatus.P);
+            job.setStartTimestamp(new Date());
             job = asynchronizeJobRepository.update(job, job.getId());
             return job.getId();
         }
@@ -145,6 +147,7 @@ public class AsynchJobSchedulerServiceImpl implements AsynchJobSchedulerService 
         if(job != null) {
             job.setStatus(Strings.isNullOrEmpty(resultDTO.getStatus()) ? AsynchronizeJobStatus.S :
                                                 AsynchronizeJobStatus.valueOf(resultDTO.getStatus()));
+            job.setStopTimestamp(new Date());
             job.setDescription(Strings.isNullOrEmpty(resultDTO.getDescription()) ? "Zadanie zakończono sukcesem." :
                                                 resultDTO.getDescription());
             asynchronizeJobRepository.update(job, job.getId());
@@ -173,6 +176,7 @@ public class AsynchJobSchedulerServiceImpl implements AsynchJobSchedulerService 
         AsynchronizeJob job = asynchronizeJobRepository.get(jobId);
         if(job != null) {
             job.setStatus(AsynchronizeJobStatus.E);
+            job.setStopTimestamp(new Date());
             job.setDescription(GryfStringUtils.substring("Wystapił bład biznesowy: " + createBussinesViolation(e),
                                                         0, AsynchronizeJob.DESCRIPTION_MAX_SIZE));
             asynchronizeJobRepository.update(job, job.getId());
@@ -185,6 +189,7 @@ public class AsynchJobSchedulerServiceImpl implements AsynchJobSchedulerService 
         AsynchronizeJob job = asynchronizeJobRepository.get(jobId);
         if(job != null) {
             job.setStatus(AsynchronizeJobStatus.F);
+            job.setStopTimestamp(new Date());
             job.setDescription(GryfStringUtils.substring("Wystapił bład krytyczny: " + e.getMessage(),
                                                         0, AsynchronizeJob.DESCRIPTION_MAX_SIZE));
 
@@ -199,7 +204,9 @@ public class AsynchJobSchedulerServiceImpl implements AsynchJobSchedulerService 
 
     @Override
     public AsynchJobDetailsDTO findAsynchJobDetails(Long jobId) {
-        return asynchJobSearchDao.findAsynchJobDetails(jobId);
+        AsynchJobDetailsDTO dto = asynchJobSearchDao.findAsynchJobDetails(jobId);
+        dto.calculateDurationTime();
+        return dto;
     }
 
     @Override
