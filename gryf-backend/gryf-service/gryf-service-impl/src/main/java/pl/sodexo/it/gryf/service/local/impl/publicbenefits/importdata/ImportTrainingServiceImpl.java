@@ -240,7 +240,8 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
         dto.setVersion(training != null ? training.getVersion() : null);
         dto.setCreatedUser(training != null ? training.getCreatedUser() : null);
         dto.setCreatedTimestamp(training != null ? training.getCreatedTimestamp() : null);
-
+        dto.setModifiedUser(training != null ? training.getModifiedUser() : null);
+        dto.setModifiedTimestamp(training != null ? training.getModifiedTimestamp() : null);
         return dto;
     }
 

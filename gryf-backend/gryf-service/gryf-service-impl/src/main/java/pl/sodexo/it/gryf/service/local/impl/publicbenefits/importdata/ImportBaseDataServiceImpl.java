@@ -9,16 +9,13 @@ import org.apache.poi.ss.usermodel.Row;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.importdata.ImportAddressCorrDTO;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.importdata.ImportAddressInvoiceDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.importdata.ImportParamsDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.importdata.ImportResultDTO;
+import pl.sodexo.it.gryf.common.dto.user.GryfUser;
 import pl.sodexo.it.gryf.common.dto.zipcodes.detailsform.ZipCodeDto;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.common.exception.EntityValidationException;
 import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
-import pl.sodexo.it.gryf.dao.api.crud.repository.asynch.AsynchronizeJobRepository;
-import pl.sodexo.it.gryf.dao.api.crud.repository.dictionaries.ZipCodeRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.importdata.ImportDataRowRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.contracts.ContractRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.enterprises.EnterpriseRepository;
@@ -26,7 +23,6 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.individuals.Indi
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstitutionRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingRepository;
-import pl.sodexo.it.gryf.model.asynch.AsynchronizeJob;
 import pl.sodexo.it.gryf.model.dictionaries.ZipCode;
 import pl.sodexo.it.gryf.model.importdata.ImportDataRow;
 import pl.sodexo.it.gryf.model.importdata.ImportDataRowError;
@@ -45,13 +41,7 @@ public abstract class ImportBaseDataServiceImpl implements ImportDataService{
     //PRIVATE FILEDS
 
     @Autowired
-    private AsynchronizeJobRepository asynchronizeJobRepository;
-
-    @Autowired
     private ImportDataRowRepository importDataRowRepository;
-
-    @Autowired
-    private ZipCodeRepository zipCodeRepository;
 
     @Autowired
     private ContractRepository contractRepository;
@@ -154,16 +144,7 @@ public abstract class ImportBaseDataServiceImpl implements ImportDataService{
     //PROTECTED METHODS
 
     protected int saveEmptyNormalRows(Long importJobId, int rowNums){
-        AsynchronizeJob importJob = asynchronizeJobRepository.get(importJobId);
-        for(int i = 0; i< rowNums; i++){
-            ImportDataRow row = new ImportDataRow();
-            row.setImportJob(importJob);
-            row.setRowNum(i + 1);
-            row.setDescription(null);
-            row.setStatus(ImportDataRowStatus.N);
-            importDataRowRepository.save(row);
-        }
-        return rowNums;
+        return importDataRowRepository.saveRowsForJob(importJobId, ImportDataRowStatus.N, GryfUser.getLoggedUserLoginOrDefault(), rowNums);
     }
 
     protected int saveEmptyExtraRows(Long importJobId, int rowNums){
@@ -202,16 +183,6 @@ public abstract class ImportBaseDataServiceImpl implements ImportDataService{
     }
 
     //PROTECTED METHODS
-
-    protected ZipCodeDto createZipCodeDTO(ImportAddressInvoiceDTO address){
-        ZipCode zipCode = zipCodeRepository.findActiveByCode(address.getZipCode());
-        if(zipCode != null){
-            ZipCodeDto dto = new ZipCodeDto();
-            dto.setId(zipCode.getId());
-            return dto;
-        }
-        return null;
-    }
 
     protected ZipCodeDto createZipCodeDTO(ZipCode zipCode){
         if(zipCode != null){

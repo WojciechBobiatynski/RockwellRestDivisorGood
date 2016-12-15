@@ -47,5 +47,11 @@ public class TrainingInstitutionDtoMapper extends VersionableDtoMapper<TrainingI
             entity.addContact(trainingInstitutionContactDtoMapper.convert(contactDto));
         }
         dto.getUsers().stream().forEach(gryfTiUserDto -> entity.getTrainingInstitutionUsers().add(gryfTiUserDtoMapper.convert(gryfTiUserDto)));
+
+        entity.setVersion(dto.getVersion());
+        entity.setCreatedUser(dto.getCreatedUser());
+        entity.setCreatedTimestamp(dto.getCreatedTimestamp());
+        entity.setModifiedUser(dto.getModifiedUser());
+        entity.setModifiedTimestamp(dto.getModifiedTimestamp());
     }
 }

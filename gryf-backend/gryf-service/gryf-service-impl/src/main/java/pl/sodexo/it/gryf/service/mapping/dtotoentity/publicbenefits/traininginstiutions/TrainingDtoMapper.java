@@ -52,6 +52,5 @@ public class TrainingDtoMapper extends VersionableDtoMapper<TrainingDTO, Trainin
         entity.setDeactivateUser(dto.getDeactivateUser());
         entity.setDeactivateDate(dto.getDeactivateDate());
         entity.setDeactivateJob(dto.getDeactivateJobId() != null ? asynchronizeJobRepository.get(dto.getDeactivateJobId()) : null);
-
     }
 }

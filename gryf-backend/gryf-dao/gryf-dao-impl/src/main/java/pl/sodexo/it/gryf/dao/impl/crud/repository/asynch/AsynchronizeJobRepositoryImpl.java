@@ -5,7 +5,6 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.asynch.AsynchronizeJobRepositor
 import pl.sodexo.it.gryf.dao.impl.crud.repository.GenericRepositoryImpl;
 import pl.sodexo.it.gryf.model.asynch.AsynchronizeJob;
 import pl.sodexo.it.gryf.model.asynch.AsynchronizeJobStatus;
-import pl.sodexo.it.gryf.model.importdata.ImportDataRow;
 
 import javax.persistence.TypedQuery;
 import java.util.List;
@@ -24,4 +23,5 @@ public class AsynchronizeJobRepositoryImpl extends GenericRepositoryImpl<Asynchr
         List<AsynchronizeJob> result = query.getResultList();
         return result.isEmpty() ? null : result.get(0);
     }
+
 }
