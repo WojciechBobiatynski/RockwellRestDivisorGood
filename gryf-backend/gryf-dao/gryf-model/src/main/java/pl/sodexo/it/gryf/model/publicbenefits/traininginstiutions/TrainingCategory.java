@@ -29,6 +29,8 @@ import java.util.Objects;
 })
 public class TrainingCategory extends GryfEntity implements DictionaryEntity {
 
+    public static final String EGZ_TYPE = "EGZ";
+
     @Id
     @Column(name = "ID")
     private String id;

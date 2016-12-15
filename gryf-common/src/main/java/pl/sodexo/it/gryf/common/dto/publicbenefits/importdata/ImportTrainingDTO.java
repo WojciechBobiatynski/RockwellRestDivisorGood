@@ -62,12 +62,10 @@ public class ImportTrainingDTO {
 
     @Getter
     @Setter
-    @NotNull(message = "Ilość godzin lekcyjnych nie może być pusta")
     private Integer hoursNumber;
 
     @Getter
     @Setter
-    @NotNull(message = "Cena 1h szkolenia nie może być pusta")
     private BigDecimal hourPrice;
 
     @Getter

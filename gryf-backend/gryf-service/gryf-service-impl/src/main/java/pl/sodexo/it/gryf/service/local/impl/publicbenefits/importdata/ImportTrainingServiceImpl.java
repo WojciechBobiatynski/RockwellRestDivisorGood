@@ -116,12 +116,21 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
     private void validateImport(ImportTrainingDTO importDTO){
         List<EntityConstraintViolation> violations = gryfValidator.generateViolation(importDTO);
 
-        if(importDTO.getHourPrice() != null && importDTO.getHoursNumber() != null && importDTO.getPrice() != null) {
-            BigDecimal calcHourPrice = importDTO.getHourPrice().multiply(new BigDecimal(importDTO.getHoursNumber()));
-            if (calcHourPrice.compareTo(importDTO.getPrice()) != 0) {
-                violations.add(new EntityConstraintViolation(
-                        String.format("Cena szkolenia (%sPLN) nie zgadza się z iloscią godzin (%s) " + "oraz cena za 1h szkolenia (%sPLN). Otrzymany wynik: %sPLN", importDTO.getPrice(), importDTO.getHoursNumber(),
-                                importDTO.getHourPrice(), calcHourPrice)));
+        if(!TrainingCategory.EGZ_TYPE.equals(importDTO.getCategory())) {
+
+            if(importDTO.getHoursNumber() == null){
+                violations.add(new EntityConstraintViolation("Ilość godzin lekcyjnych nie może być pusta"));
+            }
+            if(importDTO.getHourPrice() == null){
+                violations.add(new EntityConstraintViolation("Cena 1h szkolenia nie może być pusta"));
+            }
+            if (importDTO.getHourPrice() != null && importDTO.getHoursNumber() != null && importDTO.getPrice() != null) {
+                BigDecimal calcHourPrice = importDTO.getHourPrice().multiply(new BigDecimal(importDTO.getHoursNumber()));
+                if (calcHourPrice.compareTo(importDTO.getPrice()) != 0) {
+                    violations.add(new EntityConstraintViolation(
+                            String.format("Cena szkolenia (%sPLN) nie zgadza się z iloscią godzin (%s) " + "oraz cena za 1h szkolenia (%sPLN). Otrzymany wynik: %sPLN", importDTO.getPrice(), importDTO.getHoursNumber(),
+                                    importDTO.getHourPrice(), calcHourPrice)));
+                }
             }
         }
 

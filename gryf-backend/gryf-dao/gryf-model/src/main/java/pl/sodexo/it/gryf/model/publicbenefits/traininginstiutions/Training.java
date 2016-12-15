@@ -73,11 +73,9 @@ public class Training extends VersionableEntity {
     private String place;
 
     @Column(name = "HOURS_NUMBER")
-    @NotNull(message = "Należy podać liczbę godzin szkolenia")
     private Integer hoursNumber;
 
     @Column(name = "HOUR_PRICE")
-    @NotNull(message = "Należy podać cenę za godzinę szkolenia")
     private BigDecimal hourPrice;
 
     @OneToOne
