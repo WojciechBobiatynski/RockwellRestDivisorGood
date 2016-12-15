@@ -8,7 +8,7 @@ USR_ID number;
 
 BEGIN
 
-FOR counter in 1..100 LOOP
+FOR counter in 1..1100 LOOP
 
   --Na razie zmienne z palca, bo skrypt jest na nasze potrzeby. W aplikacji s¹ ju¿ zdefiniowane parametry
   -- prefix to GRYF_INDIVIDUAL_CODE_PREFIX i ma wartoœæ 7
