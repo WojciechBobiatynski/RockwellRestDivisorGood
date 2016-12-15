@@ -81,7 +81,7 @@ public class ContractValidator {
     }
 
     private void validateContractId(Contract contract, List<EntityConstraintViolation> violations) {
-        if (contract.getId() != null) {
+        if (contract.getId() != null && contract.getIndividual() != null) {
             String message = "";
 
             if (contractRepository.get(contract.getId()) != null) {
