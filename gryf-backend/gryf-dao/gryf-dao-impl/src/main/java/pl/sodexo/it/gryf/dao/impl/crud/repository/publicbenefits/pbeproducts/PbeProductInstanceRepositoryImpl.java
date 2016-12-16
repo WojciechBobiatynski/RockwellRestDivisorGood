@@ -21,9 +21,7 @@ public class PbeProductInstanceRepositoryImpl extends GenericRepositoryImpl<PbeP
         query.setParameter("productId", productId);
         query.setParameter("statusId", PbeProductInstanceStatus.EMITTED_CODE);
         query.setMaxResults(productInstanceNum);
-        List<PbeProductInstance> l = query.getResultList();
-        System.out.println("DDDD=" + l.size());
-        return l;
+        return query.getResultList();
     }
 
     public List<PbeProductInstance> findAssignedByPool(Long poolId, Integer productInstanceNum){
