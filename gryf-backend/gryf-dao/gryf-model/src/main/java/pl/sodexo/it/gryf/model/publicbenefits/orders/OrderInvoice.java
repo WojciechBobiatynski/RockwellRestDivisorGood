@@ -31,6 +31,9 @@ public class OrderInvoice extends VersionableEntity{
     @Column(name = "INVOICE_NUMBER")
     private String invoiceNumber;
 
+    @Column(name = "INVOICE_TYPE")
+    private String invoiceType;
+
     @Column(name = "INVOICE_DATE")
     @Temporal(TemporalType.DATE)
     private Date invoiceDate;
@@ -67,6 +70,14 @@ public class OrderInvoice extends VersionableEntity{
 
     public void setInvoiceNumber(String invoiceNumber) {
         this.invoiceNumber = invoiceNumber;
+    }
+
+    public String getInvoiceType() {
+        return invoiceType;
+    }
+
+    public void setInvoiceType(String invoiceType) {
+        this.invoiceType = invoiceType;
     }
 
     public Date getInvoiceDate() {

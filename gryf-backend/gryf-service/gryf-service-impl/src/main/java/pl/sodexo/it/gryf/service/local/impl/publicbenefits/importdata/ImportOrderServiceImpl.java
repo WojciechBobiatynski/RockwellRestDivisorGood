@@ -17,6 +17,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingCatego
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstitution;
 import pl.sodexo.it.gryf.service.api.publicbenefits.orders.OrderService;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
+import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.OrderServiceLocal;
 
 import java.util.Iterator;
 import java.util.List;
@@ -41,6 +42,9 @@ public class ImportOrderServiceImpl extends ImportBaseDataServiceImpl {
     @Autowired
     private ContractRepository contractRepository;
 
+    @Autowired
+    protected OrderServiceLocal orderServiceLocal;
+
     //OVERRIDE
 
     @Override
@@ -51,7 +55,7 @@ public class ImportOrderServiceImpl extends ImportBaseDataServiceImpl {
         Contract contract = contractRepository.get(importDTO.getContractId());
         validateConnectedData(importDTO, contract);
 
-        CreateOrderDTO createOrderDTO = createCreateOrderDTO(importDTO);
+        CreateOrderDTO createOrderDTO = createCreateOrderDTO(importDTO, contract);
         Long orderId = orderService.createOrder(createOrderDTO);
 
         ImportResultDTO result = new ImportResultDTO();
@@ -113,9 +117,8 @@ public class ImportOrderServiceImpl extends ImportBaseDataServiceImpl {
 
     //PRIVATE METHODS - CREATE BUSSINESS DTO
 
-    private CreateOrderDTO createCreateOrderDTO(ImportOrderDTO importDTO){
-        CreateOrderDTO dto = new CreateOrderDTO();
-        dto.setContractId(importDTO.getContractId());
+    private CreateOrderDTO createCreateOrderDTO(ImportOrderDTO importDTO, Contract contract){
+        CreateOrderDTO dto = orderServiceLocal.createCreateOrderDTO(contract);
         dto.setExternalOrderId(importDTO.getExternalOrderId());
         dto.setOrderDate(importDTO.getOrderDate());
         dto.setProductInstanceNum(importDTO.getProductInstanceNum());

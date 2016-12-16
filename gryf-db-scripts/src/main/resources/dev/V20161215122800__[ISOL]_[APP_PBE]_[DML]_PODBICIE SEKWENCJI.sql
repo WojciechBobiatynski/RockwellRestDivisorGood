@@ -10,7 +10,7 @@ NOORDER NOCYCLE;
 
 -- uprawnienia
 BEGIN
-  dbms_output.put_line(SYS.PK_ADMIN.F_GRANT_TO_EAGLE('EAGLE', 'SRV_EE', 'ASYN_JOB_SEQ', 'ALL'));
-  dbms_output.put_line(SYS.PK_ADMIN.F_GRANT_TO_EAGLE('EAGLE', 'DEVELOPER', 'ASYN_JOB_SEQ', 'SELECT'));
+  dbms_output.put_line(SYS.PK_ADMIN.F_GRANT_TO_EAGLE('EAGLE', 'SRV_EE', 'ind_seq', 'ALL'));
+  dbms_output.put_line(SYS.PK_ADMIN.F_GRANT_TO_EAGLE('EAGLE', 'DEVELOPER', 'ind_seq', 'SELECT'));
 END;
 /

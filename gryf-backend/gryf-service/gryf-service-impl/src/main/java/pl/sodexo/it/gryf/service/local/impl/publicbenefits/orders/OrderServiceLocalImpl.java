@@ -1,21 +1,16 @@
 package pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders;
 
-import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.CreateOrderDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementDTO;
-import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.contracts.ContractRepository;
-import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderRepository;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationVersion;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
-import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgramParam;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.*;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
 import pl.sodexo.it.gryf.service.local.api.ParamInDateService;
@@ -43,9 +38,6 @@ public class OrderServiceLocalImpl implements OrderServiceLocal {
 
     @Autowired
     private OrderFlowElementService orderFlowElementService;
-
-    @Autowired
-    private OrderRepository orderRepository;
 
     @Autowired
     private ParamInDateService paramInDateService;
