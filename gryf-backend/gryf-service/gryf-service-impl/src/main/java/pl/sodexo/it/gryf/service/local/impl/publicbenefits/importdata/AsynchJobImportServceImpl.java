@@ -50,9 +50,12 @@ public class AsynchJobImportServceImpl implements AsynchJobService{
     public AsynchronizeJobResultInfoDTO processAsynchronizeJob(AsynchronizeJobInfoDTO dto){
         try {
             int allRows;
-            int successRows = 0;
-            int bussinssRows = 0;
-            int errorRows = 0;
+            int normalSuccessRows = 0;
+            int normalBussinssRows = 0;
+            int normalErrorRows = 0;
+            int extraSuccessRows = 0;
+            int extraBussinssRows = 0;
+            int extraErrorRows = 0;
 
             //GET SERVICE
             ImportDataService importDataService = (ImportDataService) BeanUtils.findBean(context, dto.getTypeParams());
@@ -76,16 +79,16 @@ public class AsynchJobImportServceImpl implements AsynchJobService{
                     try {
                         //SAVE DATA
                         importDataService.saveData(dto.getId(), paramsDTO, row);
-                        successRows++;
+                        normalSuccessRows++;
 
                         //BLEDY BIZNESOWE
                     }catch(EntityValidationException e){
-                        bussinssRows++;
+                        normalBussinssRows++;
                         importDataService.saveEntityValidationError(dto.getId(), row, e);
 
                         //BLEDY KRYTYCZNE
                     }catch(RuntimeException e){
-                        errorRows++;
+                        normalErrorRows++;
                         LOGGER.error(String.format("Nieoczekiwane błąd podczas importu wiersza numer [%s] "
                                 + "dla zlecenia importu [%s]", row.getRowNum(), dto.getId()), e);
                         importDataService.saveRuntimeError(dto.getId(), row, e);
@@ -98,13 +101,14 @@ public class AsynchJobImportServceImpl implements AsynchJobService{
             for(Long extraRowId : extraRowIdList){
                 try {
                     importDataService.saveExtraRow(extraRowId, paramsDTO);
+                    extraSuccessRows++;
                 }catch(EntityValidationException e){
-                        bussinssRows++;
+                        extraBussinssRows++;
                         importDataService.saveEntityValidationError(extraRowId, e);
 
                     //BLEDY KRYTYCZNE
                 }catch(RuntimeException e){
-                    errorRows++;
+                    extraErrorRows++;
                     LOGGER.error(String.format("Nieoczekiwane błąd podczas dodatkowego zadania (indetyfikator wiersza = %s)"
                             + "dla zlecenia importu [%s]", extraRowId, dto.getId()), e);
                     importDataService.saveRuntimeError(extraRowId, e);
@@ -112,8 +116,9 @@ public class AsynchJobImportServceImpl implements AsynchJobService{
             }
 
             AsynchronizeJobResultInfoDTO resultDTO = new AsynchronizeJobResultInfoDTO(dto.getId());
-            resultDTO.setStatus((allRows == successRows) ? AsynchronizeJobStatus.S.name() : AsynchronizeJobStatus.C.name());
-            resultDTO.setDescription(createDescription(allRows, successRows, bussinssRows, errorRows));
+            resultDTO.setStatus((allRows == (normalSuccessRows + extraSuccessRows)) ? AsynchronizeJobStatus.S.name() : AsynchronizeJobStatus.C.name());
+            resultDTO.setDescription(importDataService.createDescription(allRows, normalSuccessRows, normalBussinssRows, normalErrorRows,
+                                                                                    extraSuccessRows, extraBussinssRows, extraErrorRows));
             return resultDTO;
 
         } catch (IOException e) {
@@ -122,14 +127,6 @@ public class AsynchJobImportServceImpl implements AsynchJobService{
     }
 
     //PRIVATE METHODS
-
-    private String createDescription(int allRows, int successRows, int bussinssRows, int errorRows){
-        if(allRows == successRows){
-            return String.format("Wczytano wszystkie wiersze. Ilość wczytanych wierszy: %s.", successRows);
-        }
-        return String.format("Wczytano częściowo wiersze. Ilość wszystkich wierszy: %s, ilość wierszy poprawnie wczytanych: %s, "
-                    + "ilość wierszy błędnych (biznesowe): %s, ilość wierszy błednych (krytyczne): %s.", allRows, successRows, bussinssRows, errorRows);
-    }
 
    private ImportParamsDTO createImportParamDTO(String params){
        ImportParamsDTO result = new ImportParamsDTO();

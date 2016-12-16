@@ -70,10 +70,9 @@ public class AsynchJobDetailsDTO extends VersionableDto {
         if(startTimestamp != null && stopTimestamp != null){
             long time = stopTimestamp.getTime() - startTimestamp.getTime();
             long miliSeconds = time % 1000;
-            long seconds = time / 1000;
-            long minutes = time / (1000 * 60);
-            long houres = time / (1000 * 60 * 60);
-            long days = time / (1000 * 60 * 60 * 24);
+            long seconds = (time / 1000) % 60 ;
+            long minutes = (time / (1000 * 60)) % 60;
+            long houres = (time / (1000 * 60 * 60)) % 24;
 
             durationTime = miliSeconds + "ms";
             if(seconds > 0){
@@ -84,9 +83,6 @@ public class AsynchJobDetailsDTO extends VersionableDto {
             }
             if(houres > 0){
                 durationTime = houres + "h " + durationTime;
-            }
-            if(days > 0){
-                durationTime = days + "d " + durationTime;
             }
         }else {
             durationTime = null;

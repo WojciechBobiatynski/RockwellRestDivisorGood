@@ -106,9 +106,31 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
                                 "Brak deaktywowanych szkoleń.";
     }
 
+    @Override
     protected List<Long> getInternalExtraRows(Long importJobId){
         ImportDataRow extraRow = importDataRowRepository.getByImportJobAndRowNum(importJobId, 0);
         return Lists.newArrayList(extraRow.getId());
+    }
+
+    @Override
+    protected String createInternalDescription(int allRows, int normalSuccessRows, int normalBussinssRows, int normalErrorRows,
+            int extraSuccessRows, int extraBussinssRows, int extraErrorRows){
+        StringBuilder sb = new StringBuilder();
+        if(allRows == normalSuccessRows + (extraSuccessRows + extraBussinssRows + extraErrorRows)){
+            sb.append(String.format("Wczytano wszystkie wiersze. Ilość wczytanych wierszy: %s. ", normalSuccessRows));
+        }else {
+            sb.append(String.format("Wczytano częściowo wiersze. Ilość wszystkich wierszy: %s, ilość wierszy poprawnie wczytanych: %s, "
+                            + "ilość wierszy błędnych (biznesowe): %s, ilość wierszy błednych (krytyczne): %s. ",
+                    allRows, normalSuccessRows, normalBussinssRows, normalErrorRows));
+        }
+
+        if(extraBussinssRows == 0 && extraErrorRows == 0){
+            sb.append("Deaktywacja nistniejących rekordów przebiegła pomyślnie.");
+        }else{
+            sb.append("Nie udało się deaktywować nieistniejących rekordów z powodu błedów ").
+                    append(extraBussinssRows != 0 ? "biznesowych" : "krytycznych").append(".");
+        }
+        return sb.toString();
     }
 
     //PRIVATE METHODS - VALIDATE & SAVE

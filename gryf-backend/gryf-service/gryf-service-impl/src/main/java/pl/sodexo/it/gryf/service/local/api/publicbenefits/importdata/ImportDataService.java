@@ -31,5 +31,6 @@ public interface ImportDataService {
 
     void saveEntityValidationError(Long rowId, EntityValidationException e);
 
-
+    String createDescription(int allRows, int normalSuccessRows, int normalBussinssRows, int NormalErrorRows,
+                                            int extraSuccessRows, int extraBussinssRows, int extraErrorRows);
 }

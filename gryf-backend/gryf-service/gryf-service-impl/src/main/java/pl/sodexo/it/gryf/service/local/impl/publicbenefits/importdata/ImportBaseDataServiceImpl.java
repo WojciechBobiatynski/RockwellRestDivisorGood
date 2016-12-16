@@ -91,6 +91,14 @@ public abstract class ImportBaseDataServiceImpl implements ImportDataService{
         importDataRowRepository.update(rowInfo, rowInfo.getId());
     }
 
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public String createDescription(int allRows, int normalSuccessRows, int normalBussinssRows, int normalErrorRows,
+                                                int extraSuccessRows, int extraBussinssRows, int extraErrorRows){
+        return createInternalDescription(allRows, normalSuccessRows, normalBussinssRows, normalErrorRows,
+                                                extraSuccessRows, extraBussinssRows, extraErrorRows);
+    }
+
     //PUBLIC METGHODS - EXTRA DATA
 
     @Override
@@ -159,6 +167,15 @@ public abstract class ImportBaseDataServiceImpl implements ImportDataService{
 
     protected List<Long> getInternalExtraRows(Long importJobId){
         return Lists.newArrayList();
+    }
+
+    protected String createInternalDescription(int allRows, int normalSuccessRows, int normalBussinssRows, int normalErrorRows,
+                                                                int extraSuccessRows, int extraBussinssRows, int extraErrorRows){
+        if(allRows == normalSuccessRows){
+            return String.format("Wczytano wszystkie wiersze. Ilość wczytanych wierszy: %s.", normalSuccessRows);
+        }
+        return String.format("Wczytano częściowo wiersze. Ilość wszystkich wierszy: %s, ilość wierszy poprawnie wczytanych: %s, "
+                + "ilość wierszy błędnych (biznesowe): %s, ilość wierszy błednych (krytyczne): %s.", allRows, normalSuccessRows, normalBussinssRows, normalErrorRows);
     }
 
     //PROTECTED METHODS - SAVE EXCEPTIONS
