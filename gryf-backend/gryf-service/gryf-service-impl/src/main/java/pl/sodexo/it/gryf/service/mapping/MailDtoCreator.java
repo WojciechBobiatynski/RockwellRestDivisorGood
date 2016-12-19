@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import pl.sodexo.it.gryf.common.authentication.AEScryptographer;
 import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.common.dto.mail.MailDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CorrectionNotificationEmailParamsDto;
 import pl.sodexo.it.gryf.common.dto.security.individuals.Verifiable;
 import pl.sodexo.it.gryf.common.mail.MailPlaceholders;
 import pl.sodexo.it.gryf.dao.api.crud.repository.mail.EmailTemplateRepository;
@@ -12,7 +13,10 @@ import pl.sodexo.it.gryf.model.mail.EmailTemplate;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstance;
 import pl.sodexo.it.gryf.service.local.api.MailService;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import static pl.sodexo.it.gryf.common.utils.GryfConstants.*;
 
@@ -48,7 +52,8 @@ public class MailDtoCreator {
 
     public MailDTO createMailDTOForVerificationCode(Verifiable verifiable, String appUrl) {
         MailDTO mailDTO = new MailDTO();
-        MailPlaceholders mailPlaceholders = mailService.createPlaceholders(EMAIL_BODY_VER_CODE_PLACEHOLDER, verifiable.getVerificationCode()).add(EMAIL_BODY_LOGIN_PLACEHOLDER, verifiable.getLogin())
+        MailPlaceholders mailPlaceholders = mailService.createPlaceholders(EMAIL_BODY_VER_CODE_PLACEHOLDER, verifiable.getVerificationCode())
+                .add(EMAIL_BODY_LOGIN_PLACEHOLDER, verifiable.getLogin())
                 .add(EMAIL_BODY_URL_PLACEHOLDER, appUrl);
         EmailTemplate emailTemplate = emailTemplateRepository.get(VERIFICATION_CODE_EMAIL_TEMPLATE_CODE);
         mailDTO.setTemplateId(emailTemplate.getId());
@@ -105,5 +110,25 @@ public class MailDtoCreator {
         mailDTO.setAttachments(Collections.emptyList());
 
         return mailDTO;
+    }
+
+    public List<MailDTO> createMailDTOsForCorrecionNotification(CorrectionNotificationEmailParamsDto paramsDto) {
+        List<MailDTO> result = new ArrayList<>();
+        paramsDto.getEmails().stream().forEach(email -> {
+            MailDTO mailDTO = new MailDTO();
+            SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT);
+            MailPlaceholders mailPlaceholders = mailService.createPlaceholders(ARRIVAL_DATE_PLACEHOLDER, format.format(paramsDto.getArrivalDate()))
+                    .add(RMBS_NUMBER_PLACEHOLDER, paramsDto.getRmbsNumber().toString())
+                    .add(GRANT_PROGRAM_PLACEHOLDER, paramsDto.getGrantProgramName());
+            EmailTemplate emailTemplate = emailTemplateRepository.get(CORR_NOTIF_EMAIL_TEMPLATE_CODE);
+            mailDTO.setTemplateId(emailTemplate.getId());
+            mailDTO.setSubject(mailPlaceholders.replace(emailTemplate.getEmailSubjectTemplate()));
+            mailDTO.setAddressesFrom(applicationParameters.getGryfPbeAdmEmailFrom());
+            mailDTO.setAddressesTo(email);
+            mailDTO.setBody(mailPlaceholders.replace(emailTemplate.getEmailBodyTemplate()));
+            mailDTO.setAttachments(Collections.emptyList());
+            result.add(mailDTO);
+        });
+        return result;
     }
 }

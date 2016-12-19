@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.common.criteria.electronicreimbursements.ElctRmbsCriteria;
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
+import pl.sodexo.it.gryf.common.dto.mail.MailDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.*;
 import pl.sodexo.it.gryf.common.enums.ErmbsAttachmentStatus;
 import pl.sodexo.it.gryf.common.enums.FileType;
@@ -30,6 +31,8 @@ import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.Cor
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.ElectronicReimbursementsService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.ErmbsAttachmentService;
 import pl.sodexo.it.gryf.service.api.reports.ReportService;
+import pl.sodexo.it.gryf.service.local.api.MailService;
+import pl.sodexo.it.gryf.service.mapping.MailDtoCreator;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.electronicreimbursements.EreimbursementDtoMapper;
 import pl.sodexo.it.gryf.service.validation.publicbenefits.electronicreimbursements.CorrectionValidator;
 import pl.sodexo.it.gryf.service.validation.publicbenefits.electronicreimbursements.ErmbsValidator;
@@ -95,6 +98,12 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
 
     @Autowired
     private CorrectionAttachmentService correctionAttachmentService;
+
+    @Autowired
+    private MailService mailService;
+
+    @Autowired
+    private MailDtoCreator mailDtoCreator;
 
     @Override
     public List<ElctRmbsDto> findEcltRmbsListByCriteria(ElctRmbsCriteria criteria) {
@@ -183,7 +192,14 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.TO_CORRECT));
         ereimbursement = ereimbursementRepository.save(ereimbursement);
         correctionService.createAndSaveCorrection(correctionDto);
+        sendMailsToTiUsers(ereimbursement.getId());
         return ereimbursement.getId();
+    }
+
+    private void sendMailsToTiUsers(Long ermbsId) {
+        CorrectionNotificationEmailParamsDto corrNotifParamsByErmbsId = correctionService.findCorrNotifParamsByErmbsId(ermbsId);
+        List<MailDTO> mailsToSend = mailDtoCreator.createMailDTOsForCorrecionNotification(corrNotifParamsByErmbsId);
+        mailsToSend.stream().forEach(mailDTO -> mailService.scheduleMail(mailDTO));
     }
 
     private Ereimbursement saveErmbsData(ElctRmbsHeadDto elctRmbsHeadDto) {

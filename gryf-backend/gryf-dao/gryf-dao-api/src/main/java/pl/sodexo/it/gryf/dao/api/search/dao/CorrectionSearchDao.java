@@ -1,6 +1,7 @@
 package pl.sodexo.it.gryf.dao.api.search.dao;
 
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CorrectionDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CorrectionNotificationEmailParamsDto;
 
 import java.util.List;
 
@@ -24,4 +25,11 @@ public interface CorrectionSearchDao {
      * @return lista wszystkich korekt rozliczenia
      */
     List<CorrectionDto> findCorrectionsByERmbsId(Long ermbsId);
+
+    /**
+     * Znajduje parametry potrzebne do wysyłki maila
+     * @param ermbsId - id rozliczenia
+     * @return dto z parametrami
+     */
+    CorrectionNotificationEmailParamsDto findCorrNotifParamsByErmbsId(Long ermbsId);
 }

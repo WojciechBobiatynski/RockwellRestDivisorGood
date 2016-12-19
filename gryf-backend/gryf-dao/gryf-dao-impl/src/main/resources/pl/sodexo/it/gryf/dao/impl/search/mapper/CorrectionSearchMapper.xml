@@ -50,4 +50,28 @@
         ORDER BY correctionNumber DESC
     </select>
 
+    <resultMap id="corrNotifParam" type="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CorrectionNotificationEmailParamsDto" autoMapping="true" >
+        <id column="rmbsNumber" property="rmbsNumber"/>
+        <collection property="emails" ofType="java.lang.String">
+            <result column="EMAIL" property="EMAIL"/>
+        </collection>
+    </resultMap>
+    <select id="findCorrNotifParamsByErmbsId" resultMap="corrNotifParam">
+        SELECT
+          ermbs.ID                   rmbsNumber,
+          gr_pr.PROGRAM_NAME         grantProgramName,
+          ermbs.ARRIVAL_DATE         arrivalDate,
+          usr.EMAIL                  email
+        FROM
+          APP_PBE.E_REIMBURSEMENTS ermbs
+          JOIN APP_PBE.TI_TRAINING_INSTANCES ti ON ti.ID = ermbs.TI_TR_INST_ID
+          JOIN APP_PBE.TI_TRAININGS tr ON tr.ID = ti.TRAINING_ID
+          JOIN APP_PBE.TRAINING_INSTITUTIONS tinst ON tinst.ID = tr.TRAINING_INSTITUTION_ID
+          JOIN APP_PBE.TRAINING_INSTITUTION_USERS usr ON usr.TRAINING_ISTITUTION_ID = tinst.ID
+          JOIN APP_PBE.GRANT_PROGRAMS gr_pr ON gr_pr.ID = ti.GRANT_PROGRAM_ID
+        WHERE
+          ermbs.ID = #{ermbsId}
+    </select>
+
+
 </mapper>

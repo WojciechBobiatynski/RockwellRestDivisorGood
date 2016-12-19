@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.criteria.UserCriteria;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CorrectionDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CorrectionNotificationEmailParamsDto;
 import pl.sodexo.it.gryf.dao.api.search.dao.CorrectionSearchDao;
 import pl.sodexo.it.gryf.dao.api.search.mapper.CorrectionSearchMapper;
 
@@ -31,5 +32,10 @@ public class CorrectionSearchDaoImpl implements CorrectionSearchDao{
     @Override
     public List<CorrectionDto> findCorrectionsByERmbsId(Long ermbsId) {
         return correctionSearchMapper.findCorrectionsByERmbsId( ermbsId);
+    }
+
+    @Override
+    public CorrectionNotificationEmailParamsDto findCorrNotifParamsByErmbsId(Long ermbsId) {
+        return correctionSearchMapper.findCorrNotifParamsByErmbsId(new UserCriteria(), ermbsId);
     }
 }

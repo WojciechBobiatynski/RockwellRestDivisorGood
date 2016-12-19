@@ -1,6 +1,7 @@
 package pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements;
 
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CorrectionDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CorrectionNotificationEmailParamsDto;
 
 import java.util.Date;
 import java.util.List;
@@ -44,5 +45,12 @@ public interface CorrectionService {
      * @return
      */
     Long completeCorrection(Long correctionId);
+
+    /**
+     * Znajduje parametry potrzebne do wysyłki maila
+     * @param ermbsId - id rozliczenia
+     * @return dto z parametrami
+     */
+    CorrectionNotificationEmailParamsDto findCorrNotifParamsByErmbsId(Long ermbsId);
 
 }

@@ -3,6 +3,7 @@ package pl.sodexo.it.gryf.dao.api.search.mapper;
 import org.apache.ibatis.annotations.Param;
 import pl.sodexo.it.gryf.common.criteria.UserCriteria;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CorrectionDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CorrectionNotificationEmailParamsDto;
 
 import java.util.List;
 
@@ -27,4 +28,12 @@ public interface CorrectionSearchMapper {
      * @return lista wszystkich korekt rozliczenia
      */
     List<CorrectionDto> findCorrectionsByERmbsId(Long ermbsId);
+
+    /**
+     * Znajduje parametry potrzebne do wysyłki maila
+     * @param criteria - krytertia użytkownika
+     * @param ermbsId - id rozliczenia
+     * @return dto z parametrami
+     */
+    CorrectionNotificationEmailParamsDto findCorrNotifParamsByErmbsId(@Param("criteria") UserCriteria criteria, @Param("ermbsId") Long ermbsId);
 }
