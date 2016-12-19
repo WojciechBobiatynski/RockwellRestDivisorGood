@@ -73,7 +73,7 @@ create or replace PACKAGE BODY       PK_GRF_UTILS AS
     BEGIN
       PK_AUDIT.AUDIT_MODULE('PK_GRF_UTILS', 'Create_Debit_Note', ivar('A_ORDER_ID',a_order_id)||var('; USER',USER ) );
 
-      o_inv_id := TO_NUMBER(TO_CHAR(sysdate,'YYMMDDHH24MISS'));
+      o_inv_id := 814;
       o_invoice_number := a_order_id||'/NOPB/'||to_char(SYSDATE,'MM/YY');
       o_invoice_type   := 'CNOPB';
       o_invoice_date   := sysdate;
