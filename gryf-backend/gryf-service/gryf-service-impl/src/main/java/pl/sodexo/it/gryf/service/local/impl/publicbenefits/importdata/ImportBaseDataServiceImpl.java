@@ -30,6 +30,8 @@ import pl.sodexo.it.gryf.model.importdata.ImportDataRowStatus;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.importdata.*;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -37,6 +39,8 @@ import java.util.List;
  * Created by Isolution on 2016-11-30.
  */
 public abstract class ImportBaseDataServiceImpl implements ImportDataService{
+
+    private static final String FORMAT_DATE = "yyyy-MM-dd";
 
     //PRIVATE FILEDS
 
@@ -212,8 +216,16 @@ public abstract class ImportBaseDataServiceImpl implements ImportDataService{
 
     protected String getStringCellValue(Cell cell){
         try{
-            String val = isEmpty(cell) ? null : cell.getStringCellValue();
-            return (val != null) ? val.trim() : null;
+            if(isEmpty(cell)) {
+                return null;
+            }
+            if(isNumber(cell)) {
+                double valueNumberic = cell.getNumericCellValue();
+                return (valueNumberic == (long) valueNumberic) ? String.format("%d", (long) valueNumberic) :
+                                                                 String.format("%s",valueNumberic);
+            }
+            return cell.getStringCellValue().trim();
+
         }catch(RuntimeException e){
             throw new RuntimeException(String.format("Błąd przy pobraniu wartości "
                     + "z kolumny numer %s. Komunikat: %s.", cell.getColumnIndex() + 1, e.getMessage()), e);
@@ -222,7 +234,15 @@ public abstract class ImportBaseDataServiceImpl implements ImportDataService{
 
     protected Integer getIntegerCellValue(Cell cell){
         try{
-            return isEmpty(cell) ? null : (int) cell.getNumericCellValue();
+            if(isEmpty(cell)) {
+                return null;
+            }
+            if(isString(cell)) {
+                String valueStr = cell.getStringCellValue().trim();
+                return Integer.valueOf(valueStr);
+            }
+            return (int)cell.getNumericCellValue();
+
         }catch(RuntimeException e){
             throw new RuntimeException(String.format("Błąd przy pobraniu wartości "
                     + "z kolumny numer %s. Komunikat: %s.", cell.getColumnIndex() + 1, e.getMessage()), e);
@@ -231,7 +251,15 @@ public abstract class ImportBaseDataServiceImpl implements ImportDataService{
 
     protected BigDecimal getBigDecimalCellValue(Cell cell){
         try{
-            return isEmpty(cell) ? null : new BigDecimal(cell.getNumericCellValue());
+            if(isEmpty(cell)) {
+                return null;
+            }
+            if(isString(cell)) {
+                String valueStr = cell.getStringCellValue().trim();
+                return new BigDecimal(valueStr);
+            }
+            return new BigDecimal(cell.getNumericCellValue());
+
         }catch(RuntimeException e){
             throw new RuntimeException(String.format("Błąd przy pobraniu wartości "
                     + "z kolumny numer %s. Komunikat: %s.", cell.getColumnIndex() + 1, e.getMessage()), e);
@@ -240,7 +268,15 @@ public abstract class ImportBaseDataServiceImpl implements ImportDataService{
 
     protected Long getLongCellValue(Cell cell){
         try{
-            return isEmpty(cell) ? null : (long) cell.getNumericCellValue();
+            if(isEmpty(cell)) {
+                return null;
+            }
+            if(isString(cell)) {
+                String valueStr = cell.getStringCellValue().trim();
+                return Long.valueOf(valueStr);
+            }
+            return (long)cell.getNumericCellValue();
+
         }catch(RuntimeException e){
             throw new RuntimeException(String.format("Błąd przy pobraniu wartości "
                     + "z kolumny numer %s. Komunikat: %s.", cell.getColumnIndex() + 1, e.getMessage()), e);
@@ -249,8 +285,16 @@ public abstract class ImportBaseDataServiceImpl implements ImportDataService{
 
     protected Date getDateCellValue(Cell cell){
         try{
-            return isEmpty(cell) ? null : cell.getDateCellValue();
-        }catch(RuntimeException e){
+            if(isEmpty(cell)) {
+                return null;
+            }
+            if(isString(cell)) {
+                String valueStr = cell.getStringCellValue().trim();
+                return new SimpleDateFormat(FORMAT_DATE).parse(valueStr);
+            }
+            return cell.getDateCellValue();
+
+        }catch(RuntimeException | ParseException e){
             throw new RuntimeException(String.format("Błąd przy pobraniu wartości "
                     + "z kolumny numer %s. Komunikat: %s.", cell.getColumnIndex() + 1, e.getMessage()), e);
         }
@@ -263,6 +307,16 @@ public abstract class ImportBaseDataServiceImpl implements ImportDataService{
     protected boolean isEmpty(Cell cell){
         //Jezeli przejdziemy na POI 3.15 to użyć: CellType.BLANK == cell.getCellType()
         return CellType.BLANK.getCode() == cell.getCellType();
+    }
+
+    protected boolean isString(Cell cell){
+        //Jezeli przejdziemy na POI 3.15 to użyć: CellType.BLANK == cell.getCellType()
+        return CellType.STRING.getCode() == cell.getCellType();
+    }
+
+    protected boolean isNumber(Cell cell){
+        //Jezeli przejdziemy na POI 3.15 to użyć: CellType.BLANK == cell.getCellType()
+        return CellType.NUMERIC.getCode() == cell.getCellType();
     }
 
 }
