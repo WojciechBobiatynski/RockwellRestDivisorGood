@@ -241,7 +241,12 @@ public abstract class ImportBaseDataServiceImpl implements ImportDataService{
                 String valueStr = cell.getStringCellValue().trim();
                 return Integer.valueOf(valueStr);
             }
-            return (int)cell.getNumericCellValue();
+            double valueNumberic = cell.getNumericCellValue();
+            if(valueNumberic != (int) valueNumberic){
+                throw new RuntimeException(String.format("Błąd przy pobraniu wartości "
+                        + "z kolumny numer %s. Komunikat: Wartość %s musi być liczbą całkowitą.", cell.getColumnIndex() + 1, valueNumberic));
+            }
+            return (int)valueNumberic;
 
         }catch(RuntimeException e){
             throw new RuntimeException(String.format("Błąd przy pobraniu wartości "
@@ -267,6 +272,7 @@ public abstract class ImportBaseDataServiceImpl implements ImportDataService{
     }
 
     protected Long getLongCellValue(Cell cell){
+        boolean retrowThisException = false;
         try{
             if(isEmpty(cell)) {
                 return null;
@@ -275,9 +281,18 @@ public abstract class ImportBaseDataServiceImpl implements ImportDataService{
                 String valueStr = cell.getStringCellValue().trim();
                 return Long.valueOf(valueStr);
             }
-            return (long)cell.getNumericCellValue();
+            double valueNumberic = cell.getNumericCellValue();
+            if(valueNumberic != (long) valueNumberic){
+                retrowThisException = true;
+                throw new RuntimeException(String.format("Błąd przy pobraniu wartości "
+                        + "z kolumny numer %s. Komunikat: Wartość %s musi być liczbą całkowitą.", cell.getColumnIndex() + 1, valueNumberic));
+            }
+            return (long)valueNumberic;
 
         }catch(RuntimeException e){
+            if(retrowThisException){
+                throw e;
+            }
             throw new RuntimeException(String.format("Błąd przy pobraniu wartości "
                     + "z kolumny numer %s. Komunikat: %s.", cell.getColumnIndex() + 1, e.getMessage()), e);
         }
