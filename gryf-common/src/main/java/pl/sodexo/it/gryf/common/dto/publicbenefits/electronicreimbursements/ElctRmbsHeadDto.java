@@ -28,11 +28,19 @@ public class ElctRmbsHeadDto extends VersionableDto implements Serializable {
 
     @Getter
     @Setter
+    private String typeCode;
+
+    @Getter
+    @Setter
     private Long trainingInstanceId;
 
     @Getter
     @Setter
     private Long trainingInstitutionId;
+
+    @Getter
+    @Setter
+    private Long poolId;
 
     @Getter
     @Setter

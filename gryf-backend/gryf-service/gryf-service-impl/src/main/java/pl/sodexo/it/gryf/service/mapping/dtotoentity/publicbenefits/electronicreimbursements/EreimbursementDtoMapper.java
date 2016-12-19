@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementStatusRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementTypeRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.pbeproducts.PbeProductInstancePoolRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstanceRepository;
 import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.Ereimbursement;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.VersionableDtoMapper;
@@ -22,6 +24,12 @@ public class EreimbursementDtoMapper extends VersionableDtoMapper<ElctRmbsHeadDt
     @Autowired
     private EreimbursementStatusRepository ereimbursementStatusRepository;
 
+    @Autowired
+    private EreimbursementTypeRepository ereimbursementTypeRepository;
+
+    @Autowired
+    private PbeProductInstancePoolRepository pbeProductInstancePoolRepository;
+
     @Override
     protected Ereimbursement initDestination() {
         return new Ereimbursement();
@@ -31,7 +39,9 @@ public class EreimbursementDtoMapper extends VersionableDtoMapper<ElctRmbsHeadDt
     protected void map(ElctRmbsHeadDto dto, Ereimbursement entity) {
         super.map(dto, entity);
         entity.setId(dto.getErmbsId());
+        entity.setEreimbursementType(dto.getTypeCode() != null ? ereimbursementTypeRepository.get(dto.getTypeCode()) : null);
         entity.setTrainingInstance(dto.getTrainingInstanceId() != null ? trainingInstanceRepository.get(dto.getTrainingInstanceId()) : null);
+        entity.setProductInstancePool(dto.getPoolId() != null ? pbeProductInstancePoolRepository.get(dto.getPoolId()) : null);
         entity.setEreimbursementStatus(dto.getStatusCode() != null ? ereimbursementStatusRepository.get(dto.getStatusCode()) : null);
         entity.setSxoTiAmountDueTotal(dto.getSxoTiAmountDueTotal());
         entity.setSxoIndAmountDueTotal(dto.getSxoIndAmountDueTotal());

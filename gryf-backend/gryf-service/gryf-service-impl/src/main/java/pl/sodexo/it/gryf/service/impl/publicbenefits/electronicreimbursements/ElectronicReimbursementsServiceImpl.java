@@ -17,19 +17,20 @@ import pl.sodexo.it.gryf.common.utils.GryfConstants;
 import pl.sodexo.it.gryf.dao.api.crud.repository.other.GryfPLSQLRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementStatusRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementTypeRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstanceStatusRepository;
 import pl.sodexo.it.gryf.dao.api.search.dao.ElectronicReimbursementsDao;
 import pl.sodexo.it.gryf.dao.api.search.dao.GrantProgramSearchDao;
 import pl.sodexo.it.gryf.dao.api.search.dao.ProductSearchDao;
 import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.Ereimbursement;
 import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.EreimbursementStatus;
+import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.EreimbursementType;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.CorrectionAttachmentService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.CorrectionService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.ElectronicReimbursementsService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.ErmbsAttachmentService;
 import pl.sodexo.it.gryf.service.api.reports.ReportService;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.electronicreimbursements.EreimbursementDtoMapper;
-import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.electronicreimbursements.EreimbursementEntityMapper;
 import pl.sodexo.it.gryf.service.validation.publicbenefits.electronicreimbursements.CorrectionValidator;
 import pl.sodexo.it.gryf.service.validation.publicbenefits.electronicreimbursements.ErmbsValidator;
 
@@ -84,7 +85,7 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     private ErmbsAttachmentService ermbsAttachmentService;
 
     @Autowired
-    private EreimbursementEntityMapper ereimbursementEntityMapper;
+    private EreimbursementTypeRepository ereimbursementTypeRepository;
 
     @Autowired
     private GrantProgramSearchDao grantProgramSearchDao;
@@ -191,14 +192,16 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
 
     private void setErmbsDataWhenSave(Ereimbursement ereimbursement) {
         ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.NEW_ERMBS));
+        ereimbursement.setEreimbursementType(ereimbursementTypeRepository.get(EreimbursementType.TI_INST));
         setToReimburseStatusForTiInstance(ereimbursement);
     }
 
     private void setErmbsDataWhenSendToReimburse(Ereimbursement ereimbursement) {
         ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.TO_ERMBS));
+        ereimbursement.setEreimbursementType(ereimbursementTypeRepository.get(EreimbursementType.TI_INST));
+        setToReimburseStatusForTiInstance(ereimbursement);
         ereimbursement.setArrivalDate(new Date());
         ereimbursement.setReimbursementDate(gryfPLSQLRepository.getNthBusinessDay(new Date(), applicationParameters.getBusinessDaysNumberForReimbursement()));
-        setToReimburseStatusForTiInstance(ereimbursement);
     }
 
     private void setToReimburseStatusForTiInstance(Ereimbursement ereimbursement) {

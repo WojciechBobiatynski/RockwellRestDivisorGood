@@ -103,7 +103,9 @@
         SELECT
 --        rozliczenie
           ermbs.ID                                  ermbsId,
+          ermbs.TYPE_ID                             typeCode,
           ermbs.TI_TR_INST_ID                       trainingInstanceId,
+          ermbs.PRODUCT_INSTANCE_POOL_ID            poolId,
           ermbs.STATUS_ID                           statusCode,
           tr_in.GRANT_PROGRAM_ID                    grantProgramId,
           tr.TRAINING_INSTITUTION_ID                trainingInstitutionId,
@@ -130,7 +132,7 @@
           last_corr.CREATED_TIMESTAMP               corr_createdTimestamp,
           last_corr.MODIFIED_USER                   corr_modifiedUser,
           last_corr.MODIFIED_TIMESTAMP              corr_modifiedTimestamp,
-          <!-- załączniki do korekty -->
+--        załączniki do korekty
           cor_att.ID                                corr_ctt_id,
           cor_att.CORR_ID                           corr_ctt_corrId,
           cor_att.E_RMBS_ATT_ID                     corr_ctt_ermbsAttId,

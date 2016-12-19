@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.eclipse.persistence.annotations.OptimisticLocking;
 import pl.sodexo.it.gryf.model.api.VersionableEntity;
+import pl.sodexo.it.gryf.model.publicbenefits.pbeproduct.PbeProductInstancePool;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstance;
 
 import javax.persistence.*;
@@ -33,11 +34,23 @@ public class Ereimbursement extends VersionableEntity {
     @Setter
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "TYPE_ID", referencedColumnName = "CODE")
+    @Getter
+    @Setter
+    private EreimbursementType ereimbursementType;
+
     @OneToOne
     @JoinColumn(name = "TI_TR_INST_ID", referencedColumnName = "ID")
     @Getter
     @Setter
     private TrainingInstance trainingInstance;
+
+    @JoinColumn(name = "PRODUCT_INSTANCE_POOL_ID", referencedColumnName = "ID")
+    @Getter
+    @Setter
+    @ManyToOne
+    private PbeProductInstancePool productInstancePool;
 
     @ManyToOne
     @JoinColumn(name = "STATUS_ID", referencedColumnName = "ID")

@@ -26,7 +26,9 @@ public class EreimbursementEntityMapper extends VersionableEntityMapper<Ereimbur
     public void map(Ereimbursement entity, ElctRmbsHeadDto dto) {
         super.map(entity, dto);
         dto.setErmbsId(entity.getId());
+        dto.setTypeCode(entity.getEreimbursementType().getCode());
         dto.setTrainingInstanceId(entity.getTrainingInstance() != null ? entity.getTrainingInstance().getId() : null);
+        dto.setPoolId(entity.getProductInstancePool() != null ? entity.getProductInstancePool().getId() : null);
         dto.setStatusCode(entity.getEreimbursementStatus() != null ? entity.getEreimbursementStatus().getId() : null);
         dto.setSxoTiAmountDueTotal(entity.getSxoTiAmountDueTotal());
         dto.setSxoIndAmountDueTotal(entity.getSxoIndAmountDueTotal());
