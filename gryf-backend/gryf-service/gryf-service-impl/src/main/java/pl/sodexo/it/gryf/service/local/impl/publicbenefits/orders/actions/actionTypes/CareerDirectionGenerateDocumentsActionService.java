@@ -56,6 +56,7 @@ public class CareerDirectionGenerateDocumentsActionService extends ActionBaseSer
         parameters.put("companyAddress2", applicationParameters.getSodexoAddress2());
         parameters.put("companyVatRegNum", applicationParameters.getSodexoVatRegNum());
         parameters.put("companyBankName", applicationParameters.getSodexoBankName());
+        parameters.put("imagesPath", applicationParameters.getPathReportImages());
         Long entityId = order.getEnterprise() != null ? order.getEnterprise().getId() : order.getContract().getIndividual().getId();
 
         //TODO: tbilski nazwa pliku
