@@ -103,9 +103,9 @@ public final class OrderElementDTOProvider {
         dto.setEnterpriseId((order.getEnterprise() != null) ? order.getEnterprise().getId() : null);
         dto.setEnterpriseName((order.getEnterprise() != null) ? order.getEnterprise().getName() : null);
         dto.setVatRegNum((order.getEnterprise() != null) ? order.getEnterprise().getVatRegNum() : null);
-        dto.setIndividualId((order.getIndividual() != null) ? order.getIndividual().getId() : null);
-        dto.setIndividualName((order.getIndividual() != null) ? order.getIndividual().getFirstName() + " " + order.getIndividual().getLastName() : null);
-        dto.setPesel((order.getIndividual() != null) ? order.getIndividual().getPesel() : null);
+        dto.setIndividualId((order.getContract() != null && order.getContract().getIndividual() != null) ? order.getContract().getIndividual().getId() : null);
+        dto.setIndividualName((order.getContract() != null && order.getContract().getIndividual() != null) ? order.getContract().getIndividual().getFirstName() + " " + order.getContract().getIndividual().getLastName() : null);
+        dto.setPesel((order.getContract() != null && order.getContract().getIndividual() != null) ? order.getContract().getIndividual().getPesel() : null);
         return dto;
     }
 
@@ -174,7 +174,9 @@ public final class OrderElementDTOProvider {
         Order order = builder.getOrder();
         dto.setGivenVouchersNumber(order.getVouchersNumber());
         dto.setPaymentAmount(paymentAmount);
-        dto.setPaymentAccount(order.getEnterprise() != null ? order.getEnterprise().getAccountPayment() : order.getIndividual().getAccountPayment());
+        dto.setPaymentAccount(order.getEnterprise() != null ? order.getEnterprise().getAccountPayment() :
+                        (order.getContract() != null && order.getContract().getIndividual() != null ?
+                                order.getContract().getIndividual().getAccountPayment() : null));
         return dto;
     }
 

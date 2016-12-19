@@ -39,9 +39,9 @@ public class OrderEntityToSearchResultMapper extends GryfEntityMapper<Order, Ord
         dto.setEnterpriseId((entity.getEnterprise() != null) ? entity.getEnterprise().getId() : null);
         dto.setEnterpriseName((entity.getEnterprise() != null) ? entity.getEnterprise().getName() : null);
         dto.setVatRegNum((entity.getEnterprise() != null) ? entity.getEnterprise().getVatRegNum() : null);
-        dto.setIndividualId((entity.getIndividual() != null) ? entity.getIndividual().getId() : null);
-        dto.setIndividualName((entity.getIndividual() != null) ? entity.getIndividual().getFirstName() + " " + entity.getIndividual().getLastName() : null);
-        dto.setPesel((entity.getIndividual() != null) ? entity.getIndividual().getPesel() : null);
+        dto.setIndividualId((entity.getContract() != null && entity.getContract().getIndividual() != null) ? entity.getContract().getIndividual().getId() : null);
+        dto.setIndividualName((entity.getContract() != null && entity.getContract().getIndividual() != null) ? entity.getContract().getIndividual().getFirstName() + " " + entity.getContract().getIndividual().getLastName() : null);
+        dto.setPesel((entity.getContract() != null && entity.getContract().getIndividual() != null) ? entity.getContract().getIndividual().getPesel() : null);
         dto.setOperator(entity.getOperator());
     }
 

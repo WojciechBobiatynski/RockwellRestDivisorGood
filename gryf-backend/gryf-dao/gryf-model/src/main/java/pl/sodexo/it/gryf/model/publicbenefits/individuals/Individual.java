@@ -148,10 +148,6 @@ public class Individual extends VersionableEntity implements AccountContractPair
     @OneToMany(mappedBy = IndividualContact.INDIVIDUAL_ATTR_NAME, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<IndividualContact> contacts;
 
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "individual")
-    private List<Order> orders;
-
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "individual")
     private List<Employment> employments;
 
@@ -307,26 +303,6 @@ public class Individual extends VersionableEntity implements AccountContractPair
         contact.setIndividual(this);
     }
 
-    private List<Order> getInitializedOrderList() {
-        if (orders == null)
-            orders = new ArrayList<>();
-        return orders;
-    }
-
-    public List<Order> getOrders() {
-        return Collections.unmodifiableList(getInitializedOrderList());
-    }
-
-    public void addOrder(Order order) {
-        if (order.getIndividual() != null && order.getIndividual() != this) {
-            order.getIndividual().getInitializedOrderList().remove(order);
-        }
-        if (order.getId() == null || !getInitializedOrderList().contains(order)) {
-            getInitializedOrderList().add(order);
-        }
-        order.setIndividual(this);
-    }
-
     private List<Employment> getInitializedEmploymentsList() {
         if (employments == null)
             employments = new ArrayList<>();
@@ -339,9 +315,9 @@ public class Individual extends VersionableEntity implements AccountContractPair
 
     public void addEmployment(Employment employment) {
         if (employment.getIndividual() != null && employment.getIndividual() != this) {
-            employment.getIndividual().getInitializedOrderList().remove(employment);
+            employment.getIndividual().getInitializedEmploymentsList().remove(employment);
         }
-        if (employment.getEmpId() == null || !getInitializedOrderList().contains(employment)) {
+        if (employment.getEmpId() == null || !getInitializedEmploymentsList().contains(employment)) {
             getInitializedEmploymentsList().add(employment);
         }
         employment.setIndividual(this);

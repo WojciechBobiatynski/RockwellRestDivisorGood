@@ -37,7 +37,9 @@ public class GenerateQualificationDocuments1ActionService extends ActionBaseServ
         //GENERATOE REPORT
         Map<String, Object> parameters = new HashMap<>();
         parameters.put(ReportParameter.ORDER_ID.getParam(), order.getId());
-        Long entityId = order.getEnterprise() != null ? order.getEnterprise().getId() : order.getIndividual().getId();
+        Long entityId = order.getEnterprise() != null ? order.getEnterprise().getId() :
+                (order.getContract() != null && order.getContract().getIndividual() != null ?
+                                                        order.getContract().getIndividual().getId() : null);
 
         String reportFileName = String.format("%s_%s_Umowa_z_przedsiebiorstewem_o_dofinansowanie.pdf", entityId, order.getId());
         String reportLocation = reportService.generateReport(ReportTemplateCode.ENTERPRISE_AGREEMENT, reportFileName,

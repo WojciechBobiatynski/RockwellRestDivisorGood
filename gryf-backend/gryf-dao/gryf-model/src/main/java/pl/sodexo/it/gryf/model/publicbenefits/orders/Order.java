@@ -71,7 +71,7 @@ public class Order extends VersionableEntity {
     public static final String APPLICATION_ATTR_NAME = "application";
     public static final String GRANT_PROGRAM_ATTR_NAME = "grantProgram";
     public static final String ENTERPRISE_ATTR_NAME = "enterprise";
-    public static final String INDIVIDUAL_ATTR_NAME = "individual";
+    public static final String CONTRACT_ATTR_NAME = "contract";
     public static final String OPERATOR_ATTR_NAME = "operator";
     public static final String ORDER_ELEMENTS_ATTR_NAME = "orderElements";
 
@@ -108,10 +108,6 @@ public class Order extends VersionableEntity {
     @ManyToOne()
     private Enterprise enterprise;
     
-    @JoinColumn(name = "INDIVIDUAL_ID", referencedColumnName = "ID")
-    @ManyToOne()
-    private Individual individual;
-
     @JoinColumn(name = "CONTRACT_ID", referencedColumnName = "ID")
     @ManyToOne()
     private Contract contract;
@@ -207,14 +203,6 @@ public class Order extends VersionableEntity {
 
     public void setEnterprise(Enterprise enterprise) {
         this.enterprise = enterprise;
-    }
-
-    public Individual getIndividual() {
-        return individual;
-    }
-
-    public void setIndividual(Individual individual) {
-        this.individual = individual;
     }
 
     public Contract getContract() {

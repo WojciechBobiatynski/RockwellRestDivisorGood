@@ -24,19 +24,19 @@ public class GrantOwnerQualifyingEmailService implements EmailDTOService {
     public MailDTO createMailDTO(OrderElementDTOBuilder builder) {
         Order order = builder.getOrder();
         
-        String name, regNum, invoiceAddress, invoiceZipCode, invoiceCityName;
+        String name = null, regNum = null, invoiceAddress = null, invoiceZipCode = null, invoiceCityName = null;
         if (order.getEnterprise() != null) {
             name = order.getEnterprise().getName();
             regNum = order.getEnterprise().getVatRegNum();
             invoiceAddress = order.getEnterprise().getAddressInvoice();
             invoiceZipCode = order.getEnterprise().getZipCodeInvoice().getZipCode();
             invoiceCityName = order.getEnterprise().getZipCodeInvoice().getCityName();
-        } else {
-            name = order.getIndividual().getFirstName() + " " + order.getIndividual().getLastName();
-            regNum = order.getIndividual().getPesel();
-            invoiceAddress = order.getIndividual().getAddressInvoice();
-            invoiceZipCode = order.getIndividual().getZipCodeInvoice().getZipCode();
-            invoiceCityName = order.getIndividual().getZipCodeInvoice().getCityName();
+        } else if(order.getContract() != null && order.getContract().getIndividual() != null){
+            name = order.getContract().getIndividual().getFirstName() + " " + order.getContract().getIndividual().getLastName();
+            regNum = order.getContract().getIndividual().getPesel();
+            invoiceAddress = order.getContract().getIndividual().getAddressInvoice();
+            invoiceZipCode = order.getContract().getIndividual().getZipCodeInvoice().getZipCode();
+            invoiceCityName = order.getContract().getIndividual().getZipCodeInvoice().getCityName();
         }
         MailPlaceholders mailPlaceholders = mailService.createPlaceholders("grantProgramName", order.getApplication().getProgram().getProgramName())
                                                                    .add("grantedVouchersNumber",order.getVouchersNumber().toString())

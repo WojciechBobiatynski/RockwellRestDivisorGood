@@ -8,6 +8,7 @@ import pl.sodexo.it.gryf.common.enums.SortType;
 import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderRepository;
 import pl.sodexo.it.gryf.dao.impl.crud.repository.GenericRepositoryImpl;
+import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
 import pl.sodexo.it.gryf.model.publicbenefits.enterprises.Enterprise;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
@@ -37,8 +38,8 @@ public class OrderRepositoryImpl extends GenericRepositoryImpl<Order, Long> impl
         Root<Order> from = cq.from(Order.class);
         Join<Order, OrderElement> joinOrderElements = from.join(Order.ORDER_ELEMENTS_ATTR_NAME, JoinType.LEFT);
         Join<Order, GrantApplication> joinGrantApplications = from.join(Order.APPLICATION_ATTR_NAME, JoinType.LEFT);//ABY DZIALALO SORTOWANIE
-        Join<Order, GrantApplication> joinEnterprises = from.join(Order.ENTERPRISE_ATTR_NAME, JoinType.LEFT);//ABY DZIALALO SORTOWANIE
-        Join<Order, GrantApplication> joinIndividuals = from.join(Order.INDIVIDUAL_ATTR_NAME, JoinType.LEFT);//ABY DZIALALO SORTOWANIE
+        Join<Order, Enterprise> joinEnterprises = from.join(Order.ENTERPRISE_ATTR_NAME, JoinType.LEFT);//ABY DZIALALO SORTOWANIE
+        Join<Order, Contract> joinIndividuals = from.join(Order.CONTRACT_ATTR_NAME, JoinType.LEFT);//ABY DZIALALO SORTOWANIE
 
         //PREDICATE
         List<Predicate> predicates = new ArrayList<>();
@@ -71,16 +72,16 @@ public class OrderRepositoryImpl extends GenericRepositoryImpl<Order, Long> impl
             predicates.add(cb.like(cb.upper(from.get(Order.ENTERPRISE_ATTR_NAME).<String>get(Enterprise.VAT_REG_NUM_ATTR_NAME)), getLikeWildCard(dto.getVatRegNum())));
         }
         if(dto.getIndividualId() != null){
-            predicates.add(cb.equal(from.get(Order.INDIVIDUAL_ATTR_NAME).get(Individual.ID_ATTR_NAME), dto.getIndividualId()));
+            predicates.add(cb.equal(from.get(Order.CONTRACT_ATTR_NAME).get(Contract.INDIVIDUAL_ATTR_NAME).get(Individual.ID_ATTR_NAME), dto.getIndividualId()));
         }
         if(!GryfStringUtils.isEmpty(dto.getIndividualFirstName())){
-            predicates.add(cb.like(cb.upper(from.get(Order.INDIVIDUAL_ATTR_NAME).<String>get(Individual.FIRST_NAME_ATTR_NAME)), getLikeWildCard(dto.getIndividualFirstName())));
+            predicates.add(cb.like(cb.upper(from.get(Order.CONTRACT_ATTR_NAME).get(Contract.INDIVIDUAL_ATTR_NAME).<String>get(Individual.FIRST_NAME_ATTR_NAME)), getLikeWildCard(dto.getIndividualFirstName())));
         }
         if(!GryfStringUtils.isEmpty(dto.getIndividualLastName())){
-            predicates.add(cb.like(cb.upper(from.get(Order.INDIVIDUAL_ATTR_NAME).<String>get(Individual.LAST_NAME_ATTR_NAME)), getLikeWildCard(dto.getIndividualLastName())));
+            predicates.add(cb.like(cb.upper(from.get(Order.CONTRACT_ATTR_NAME).get(Contract.INDIVIDUAL_ATTR_NAME).<String>get(Individual.LAST_NAME_ATTR_NAME)), getLikeWildCard(dto.getIndividualLastName())));
         }
         if(!GryfStringUtils.isEmpty(dto.getPesel())){
-            predicates.add(cb.like(cb.upper(from.get(Order.INDIVIDUAL_ATTR_NAME).<String>get(Individual.PESEL_ATTR_NAME)), getLikeWildCard(dto.getPesel())));
+            predicates.add(cb.like(cb.upper(from.get(Order.CONTRACT_ATTR_NAME).get(Contract.INDIVIDUAL_ATTR_NAME).<String>get(Individual.PESEL_ATTR_NAME)), getLikeWildCard(dto.getPesel())));
         }
         if(!GryfStringUtils.isEmpty(dto.getOperator())){
             predicates.add(cb.like(cb.upper(from.<String>get(Order.OPERATOR_ATTR_NAME)), getLikeWildCard(dto.getOperator())));
