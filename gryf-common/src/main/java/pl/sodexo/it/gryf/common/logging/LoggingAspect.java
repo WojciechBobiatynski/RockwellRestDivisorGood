@@ -31,12 +31,16 @@ public class LoggingAspect {
     public void executionOfAnyServiceMethod() {
     }
 
-    @Before("executionOfAnyServiceMethod()")
+    @Pointcut("!@annotation(pl.sodexo.it.gryf.common.annotation.LoggingDisabled)")
+    public void enabled() {
+    }
+
+    @Before("executionOfAnyServiceMethod() && enabled()")
     public void doBefore(JoinPoint joinPoint) throws ClassNotFoundException {
         createLogBefore(joinPoint);
     }
 
-    @AfterReturning(pointcut = "executionOfAnyServiceMethod()", returning = "result")
+    @AfterReturning(pointcut = "executionOfAnyServiceMethod() && enabled()", returning = "result")
     public void doAfter(JoinPoint joinPoint, Object result) {
         createLogAfter(joinPoint, result);
     }

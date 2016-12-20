@@ -54,7 +54,7 @@
             <appender name="FILE_IP${user_role}" class="ch.qos.logback.core.rolling.RollingFileAppender">
                 <file>${catalina.home}/logs/${user_role}.log</file>
                 <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-                    <fileNamePattern>${catalina.home}/logs/gryf-ip-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+                    <fileNamePattern>${catalina.home}/logs/${user_role}-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
                     <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                         <maxFileSize>${MAX_FILE_SIZE}</maxFileSize>
                     </timeBasedFileNamingAndTriggeringPolicy>

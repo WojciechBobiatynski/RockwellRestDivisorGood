@@ -8,6 +8,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import pl.sodexo.it.gryf.common.annotation.LoggingDisabled;
 import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.common.dto.mail.EmailSourceType;
 import pl.sodexo.it.gryf.common.dto.mail.MailDTO;
@@ -179,6 +180,7 @@ public class MailServiceImpl implements MailService {
 
     @Override
     @Scheduled(initialDelay = 60 * 1000, fixedDelay= 60 * 1000)
+    @LoggingDisabled
     public void sendMails(){
 
         //POBRANIE INSTANCJI MAILA
