@@ -9,10 +9,11 @@ import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchResultDTO;
 import pl.sodexo.it.gryf.common.dto.user.GryfUser;
+import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.TrainingService;
-import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
 import pl.sodexo.it.gryf.web.ti.util.UrlConstants;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -22,27 +23,23 @@ public class TrainingRestController {
     @Autowired
     private TrainingService trainingService;
 
-    @Autowired
-    private SecurityChecker securityChecker;
-
     @RequestMapping(value = "/categories", method = RequestMethod.GET)
     public List<SimpleDictionaryDto> getTrainingCategoriesDict() {
-        //securityChecker.assertServicePrivilege(Privileges.GRF_PBE_TI_TRAININGS);
         return trainingService.findTrainingCategories();
     }
 
     @RequestMapping(value = "/listToReserve", method = RequestMethod.GET)
     public List<TrainingSearchResultDTO> findTrainingsToReserve(TrainingSearchQueryDTO dto) {
-        //securityChecker.assertServicePrivilege(Privileges.GRF_PBE_TI_TRAININGS);
-        Long loggedUserInstitutionId = GryfUser.getLoggedTiUserInstitutionId();
-        dto.setInstitutionId(loggedUserInstitutionId);
+        dto.setInstitutionId(GryfUser.getLoggedTiUserInstitutionId());
+        dto.setStartDateFrom(getStartDateFromToReservation(dto));
         dto.setActive(true);
+
+        System.out.println("dto.getStartDateFrom()=" + dto.getStartDateFrom());
         return trainingService.findTrainings(dto);
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public List<TrainingSearchResultDTO> findTrainings(TrainingSearchQueryDTO dto) {
-        //securityChecker.assertServicePrivilege(Privileges.GRF_PBE_TI_TRAININGS);
         Long loggedUserInstitutionId = GryfUser.getLoggedTiUserInstitutionId();
         dto.setInstitutionId(loggedUserInstitutionId);
         return trainingService.findTrainings(dto);
@@ -50,7 +47,18 @@ public class TrainingRestController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public TrainingSearchResultDTO findTrainingById(@PathVariable("id") Long trainingId) {
-        //securityChecker.assertServicePrivilege(Privileges.GRF_PBE_TI_TRAININGS);
         return trainingService.findTrainingOfInstitutionById(trainingId);
+    }
+
+    //PRIVATE METHODS
+
+    private Date getStartDateFromToReservation(TrainingSearchQueryDTO dto){
+        Date now = GryfUtils.getStartDay(new Date());
+        if(dto.getStartDateFrom() == null){
+            return now;
+        }else if(dto.getStartDateFrom().before(new Date())){
+            return now;
+        }
+        return dto.getStartDateFrom();
     }
 }
