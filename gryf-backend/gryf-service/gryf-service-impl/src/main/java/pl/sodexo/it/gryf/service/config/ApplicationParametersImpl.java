@@ -48,6 +48,7 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     private String sodexoAddress2 = "02-699 Warszawa";
     private String sodexoVatRegNum = "5222357343";
     private String sodexoBankName = "Bank BGŻ BNP Paribas S.A.";
+    private String documentGeneratePlace = "Warszawa";
     private String pathReportImages = "report_images/";
     private String printNumberCountryCodePoland = "31";
     private Integer verificationCodeLength = 8;
@@ -176,6 +177,14 @@ public class ApplicationParametersImpl implements ApplicationParameters {
         String dbSodexoVatRegNum = null;//TODO: pobrac z bazy
         if (dbSodexoVatRegNum != null) {
             sodexoVatRegNum = dbSodexoVatRegNum;
+        }
+        String dbSodexoBankName = null;//TODO: pobrac z bazy
+        if (dbSodexoBankName != null) {
+            sodexoBankName = dbSodexoBankName;
+        }
+        String dbDocumentGeneratePlace = null;//TODO: pobrac z bazy
+        if (dbDocumentGeneratePlace != null) {
+            documentGeneratePlace = dbDocumentGeneratePlace;
         }
         String dbPathReportImages = (String) findParameter("GRYF_PATH_REPORT_IMAGES");
         if (dbPathReportImages != null) {
@@ -405,6 +414,11 @@ public class ApplicationParametersImpl implements ApplicationParameters {
 
     public String getSodexoBankName() {
         return sodexoBankName;
+    }
+
+    @Override
+    public String getDocumentGeneratePlace() {
+        return documentGeneratePlace;
     }
 
     @Override

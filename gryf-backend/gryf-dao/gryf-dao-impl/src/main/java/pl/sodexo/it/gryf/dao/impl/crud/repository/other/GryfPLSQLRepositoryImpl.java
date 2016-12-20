@@ -56,7 +56,28 @@ public class GryfPLSQLRepositoryImpl implements GryfPLSQLRepository {
     }
 
     @Override
-    public FinanceNoteResult createCreditNoteForOrder(Long orderId){
+    public FinanceNoteResult createDebitNoteForOrder(Long orderId){
+        StoredProcedureQuery query = entityManager.createStoredProcedureQuery("PK_GRF_UTILS.Create_Pb_Cus_Note");
+        query.registerStoredProcedureParameter("o_inv_id", Double.class, ParameterMode.OUT);
+        query.registerStoredProcedureParameter("o_invoice_number", String.class, ParameterMode.OUT);
+        query.registerStoredProcedureParameter("o_invoice_type", String.class, ParameterMode.OUT);
+        query.registerStoredProcedureParameter("o_invoice_date", Date.class, ParameterMode.OUT);
+        query.registerStoredProcedureParameter("a_order_id", Double.class, ParameterMode.IN);
+        query.setParameter("a_order_id", orderId);
+
+        query.execute();
+
+        FinanceNoteResult result = new FinanceNoteResult();
+        result.setInvoiceId(((Double) query.getOutputParameterValue("o_inv_id")).longValue());
+        result.setInvoiceNumber((String) query.getOutputParameterValue("o_invoice_number"));
+        result.setInvoiceType((String) query.getOutputParameterValue("o_invoice_type"));
+        result.setInvoiceDate((Date) query.getOutputParameterValue("o_invoice_date"));
+        return result;
+    }
+
+    @Override
+    public FinanceNoteResult createCreditNoteForReimbursment(Long orderId){
+        //TODO: tbilski zminic nazwe procedury
         StoredProcedureQuery query = entityManager.createStoredProcedureQuery("PK_GRF_UTILS.Create_Pb_Cus_Note");
         query.registerStoredProcedureParameter("o_inv_id", Double.class, ParameterMode.OUT);
         query.registerStoredProcedureParameter("o_invoice_number", String.class, ParameterMode.OUT);

@@ -13,6 +13,7 @@ import pl.sodexo.it.gryf.common.enums.ErmbsAttachmentStatus;
 import pl.sodexo.it.gryf.common.exception.NoCalculationParamsException;
 import pl.sodexo.it.gryf.common.utils.GryfConstants;
 import pl.sodexo.it.gryf.dao.api.crud.repository.other.GryfPLSQLRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementInvoiceRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementStatusRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementTypeRepository;
@@ -20,7 +21,9 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiuti
 import pl.sodexo.it.gryf.dao.api.search.dao.ElectronicReimbursementsDao;
 import pl.sodexo.it.gryf.dao.api.search.dao.GrantProgramSearchDao;
 import pl.sodexo.it.gryf.dao.api.search.dao.ProductSearchDao;
+import pl.sodexo.it.gryf.model.api.FinanceNoteResult;
 import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.Ereimbursement;
+import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.EreimbursementInvoice;
 import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.EreimbursementStatus;
 import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.EreimbursementType;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.CorrectionAttachmentService;
@@ -99,6 +102,9 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
 
     @Autowired
     private MailDtoCreator mailDtoCreator;
+
+    @Autowired
+    private EreimbursementInvoiceRepository ereimbursementInvoiceRepository;
 
     @Override
     public List<ElctRmbsDto> findEcltRmbsListByCriteria(ElctRmbsCriteria criteria) {
@@ -193,17 +199,40 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
 
     @Override
     public Long createDocuments(Long rmbsId) {
+
         Ereimbursement ereimbursement = ereimbursementRepository.get(rmbsId);
         ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.GENERATED_DOCUMENTS));
-        //TODO: dodać wywłanie odpowiedneij procedury
         ereimbursementRepository.update(ereimbursement, ereimbursement.getId());
+
+        gryfPLSQLRepository.flush();
+        FinanceNoteResult financeNoteResult = gryfPLSQLRepository.createCreditNoteForReimbursment(rmbsId);
+
+        EreimbursementInvoice ereimbursementInvoice = new EreimbursementInvoice();
+        ereimbursementInvoice.setEreimbursement(ereimbursement);
+        ereimbursementInvoice.setInvoiceId(financeNoteResult.getInvoiceId());
+        ereimbursementInvoice.setInvoiceNumber(financeNoteResult.getInvoiceNumber());
+        ereimbursementInvoice.setInvoiceType(financeNoteResult.getInvoiceType());
+        ereimbursementInvoice.setInvoiceDate(financeNoteResult.getInvoiceDate());
+        ereimbursementInvoiceRepository.save(ereimbursementInvoice);
+
         return ereimbursement.getId();
     }
 
     @Override
     public Long printReports(Long rmbsId) {
-        //TODO: tbilski scieżkę do pliku
-        String reportLocation = reportService.generateCreditNoteForReimbursment(rmbsId);
+
+        //TODO: tbilski podpiąć w odpowiednie miejsce scieżkę
+
+        String creditNoteLocation = reportService.generateCreditNoteForReimbursment(rmbsId);
+        System.out.println("CreditNote=" + creditNoteLocation);
+
+        String bankTransferConfirmationLocation = reportService.generateBankTransferConfirmationForReimbursment(rmbsId);
+        System.out.println("BankTransferConfirmation=" + bankTransferConfirmationLocation);
+
+        String grantAidConfirmationLocation = reportService.generateGrantAidConfirmationForReimbursment(rmbsId);
+        System.out.println("GrantAidConfirmation=" + grantAidConfirmationLocation);
+
+
         Ereimbursement ereimbursement = ereimbursementRepository.get(rmbsId);
         ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.TO_VERIFY));
         ereimbursementRepository.update(ereimbursement, ereimbursement.getId());

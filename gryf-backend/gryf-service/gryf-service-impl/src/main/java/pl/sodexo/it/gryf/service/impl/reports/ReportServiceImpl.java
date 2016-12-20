@@ -117,15 +117,15 @@ public class ReportServiceImpl implements ReportService {
         parameters.put("companyBankName", applicationParameters.getSodexoBankName());
 
         //TODO: tbilski nazwa pliku
-        String reportFileName = String.format("%s_%s_nota_obciazeniowo_ksiegowa.pdf", orderId);
+        String reportFileName = String.format("%s_nota_obciazeniowo_ksiegowa.pdf", orderId);
         return generateReport(ReportTemplateCode.DEBIT_NOTE, reportFileName, FileType.ORDERS, parameters,
                                 ReportSourceType.ORDER, orderId);
     }
 
     @Override
-    public String generateCreditNoteForReimbursment(Long rmbsId) {
+    public String generateCreditNoteForReimbursment(Long reimbursmentId) {
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("rmbsId", rmbsId);
+        parameters.put("rmbsId", reimbursmentId);
         parameters.put("companyName", applicationParameters.getSodexoName());
         parameters.put("companyAddress1", applicationParameters.getSodexoAddress1());
         parameters.put("companyAddress2", applicationParameters.getSodexoAddress2());
@@ -133,15 +133,15 @@ public class ReportServiceImpl implements ReportService {
         parameters.put("companyBankName", applicationParameters.getSodexoBankName());
 
         //TODO: tbilski nazwa pliku
-        String reportFileName = String.format("%s_nota_uznaniowa.pdf", rmbsId);
+        String reportFileName = String.format("%s_nota_uznaniowa.pdf", reimbursmentId);
         return generateReport(ReportTemplateCode.CREDIT_NOTE, reportFileName, FileType.E_REIMBURSEMENTS,
-                              parameters, ReportSourceType.EREIMBURSMENT, rmbsId);
+                              parameters, ReportSourceType.EREIMBURSMENT, reimbursmentId);
     }
 
     @Override
-    public String generateBankTransferConfirmationForReimbursment(Long rmbsId) {
+    public String generateBankTransferConfirmationForReimbursment(Long reimbursmentId) {
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("rmbsId", rmbsId);
+        parameters.put("rmbsId", reimbursmentId);
         parameters.put("companyName", applicationParameters.getSodexoName());
         parameters.put("companyAddress1", applicationParameters.getSodexoAddress1());
         parameters.put("companyAddress2", applicationParameters.getSodexoAddress2());
@@ -149,25 +149,26 @@ public class ReportServiceImpl implements ReportService {
         parameters.put("companyBankName", applicationParameters.getSodexoBankName());
 
         //TODO: tbilski nazwa pliku
-        String reportFileName = String.format("%s_potwierdzenie_wyplaty_naleznosci.pdf", rmbsId);
+        String reportFileName = String.format("%s_potwierdzenie_wyplaty_naleznosci.pdf", reimbursmentId);
         return generateReport(ReportTemplateCode.BANK_TRANSFER_CONFIRMATION, reportFileName, FileType.E_REIMBURSEMENTS,
-                                parameters, ReportSourceType.EREIMBURSMENT, rmbsId);
+                                parameters, ReportSourceType.EREIMBURSMENT, reimbursmentId);
     }
 
     @Override
-    public String generateGrantAidConfirmationForReimbursment(Long rmbsId) {
+    public String generateGrantAidConfirmationForReimbursment(Long reimbursmentId) {
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("rmbsId", rmbsId);
+        parameters.put("reimbId", reimbursmentId);
         parameters.put("companyName", applicationParameters.getSodexoName());
         parameters.put("companyAddress1", applicationParameters.getSodexoAddress1());
         parameters.put("companyAddress2", applicationParameters.getSodexoAddress2());
         parameters.put("companyVatRegNum", applicationParameters.getSodexoVatRegNum());
         parameters.put("companyBankName", applicationParameters.getSodexoBankName());
+        parameters.put("place", applicationParameters.getDocumentGeneratePlace());
 
         //TODO: tbilski nazwa pliku
-        String reportFileName = String.format("%s_potwierdzenie_realizacji_dofinansowania.pdf", rmbsId);
+        String reportFileName = String.format("%s_potwierdzenie_realizacji_dofinansowania.pdf", reimbursmentId);
         return generateReport(ReportTemplateCode.GRANT_AID_CONFIRMATION, reportFileName, FileType.E_REIMBURSEMENTS,
-                parameters, ReportSourceType.EREIMBURSMENT, rmbsId);
+                parameters, ReportSourceType.EREIMBURSMENT, reimbursmentId);
     }
 
 }

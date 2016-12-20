@@ -41,7 +41,14 @@ public interface GryfPLSQLRepository {
      * @param orderId identyfikator zamówienia
      * @return resultat wywolania
      */
-    FinanceNoteResult createCreditNoteForOrder(Long orderId);
+    FinanceNoteResult createDebitNoteForOrder(Long orderId);
+
+    /**
+     * Generuje notę uznaniową dla rozliczenia.
+     * @param reimbursmentId identyfikator zamówienia
+     * @return resultat wywolania
+     */
+    FinanceNoteResult createCreditNoteForReimbursment(Long reimbursmentId);
 
     /**
      * Metoda robi flush do bazy danych

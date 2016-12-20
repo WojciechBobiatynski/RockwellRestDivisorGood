@@ -41,7 +41,7 @@ public class CareerDirectionCreateProducyInstancePoolActionService extends Actio
 
     private void saveOrderInvoice(Order order){
         gryfPLSQLRepository.flush();
-        FinanceNoteResult financeNoteResult = gryfPLSQLRepository.createCreditNoteForOrder(order.getId());
+        FinanceNoteResult financeNoteResult = gryfPLSQLRepository.createDebitNoteForOrder(order.getId());
 
         OrderInvoice orderInvoice = new OrderInvoice();
         orderInvoice.setOrder(order);
