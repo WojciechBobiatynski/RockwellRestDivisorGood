@@ -1,0 +1,27 @@
+MERGE INTO APP_PBE.E_REIMBURSEMENT_STATUSES ug USING (
+  SELECT
+      'G_DOC' ID,
+      'Wygenerowane dokumenty' NAME,
+      null ORDINAL
+  FROM dual
+) ins
+ON ( ug.ID = ins.ID)
+WHEN MATCHED THEN
+  UPDATE SET ug.NAME = ins.NAME, ug.ORDINAL = ins.ORDINAL
+WHEN NOT MATCHED THEN INSERT
+  (ID, NAME, ORDINAL)
+  VALUES (ins.ID, ins.NAME, ins.ORDINAL);
+
+MERGE INTO APP_PBE.E_REIMBURSEMENT_STATUSES ug USING (
+  SELECT
+      'CNCL' ID,
+      'Anulowane' NAME,
+      null ORDINAL
+  FROM dual
+) ins
+ON ( ug.ID = ins.ID)
+WHEN MATCHED THEN
+  UPDATE SET ug.NAME = ins.NAME, ug.ORDINAL = ins.ORDINAL
+WHEN NOT MATCHED THEN INSERT
+  (ID, NAME, ORDINAL)
+  VALUES (ins.ID, ins.NAME, ins.ORDINAL);

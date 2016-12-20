@@ -3,11 +3,12 @@
     <h1>Rozliczenie szkolenia</h1>
     <ul>
         <li><a class="button button-save" ng-click="save()"  gryf-privilege="GRF_PBE_E_REIMBURSEMENTS_MOD">Zapisz</a></li>
-        <li><a class="button button-save" ng-click="sendToCorrect()" gryf-privilege="GRF_PBE_E_REIMBURSEMENTS_MOD">Do korekty</a></li>
-        <li><a class="button button-save" ng-click="calculate()" gryf-privilege="GRF_PBE_E_REIMBURSEMENTS_MOD">Do weryfikacji</a></li>
-        <li><a class="button button-save" ng-click="createDocuments()" gryf-privilege="GRF_PBE_E_REIMBURSEMENTS_MOD">Wystaw dokumenty</a></li>
-        <li><a class="button button-save" ng-click="createRaports()" gryf-privilege="GRF_PBE_E_REIMBURSEMENTS_MOD">Wygeneruj raporty</a></li>
-        <li><a class="button button-save" ng-click="settle()" gryf-privilege="GRF_PBE_E_REIMBURSEMENTS_MOD">Rozlicz</a></li>
+        <li><a class="button button-save" ng-click="settle()" gryf-privilege="GRF_PBE_E_REIMBURSEMENTS_MOD" ng-if="reimburseButtonVisible()">Rozlicz</a></li>
+        <li><a class="button button-save" ng-click="sendToCorrect()" gryf-privilege="GRF_PBE_E_REIMBURSEMENTS_MOD" ng-if="correctButtonVisible()">Koryguj</a></li>
+        <li><a class="button button-save" ng-click="createReports()" gryf-privilege="GRF_PBE_E_REIMBURSEMENTS_MOD" ng-if="generateDocumentsButtonVisible()">Generuj dokumenty</a></li>
+        <li><a class="button button-save" ng-click="createDocuments()" gryf-privilege="GRF_PBE_E_REIMBURSEMENTS_MOD" ng-if="printReportsButtonVisible()">Drukuj raporty</a></li>
+        <li><a class="button button-save" ng-click="confirm()" gryf-privilege="GRF_PBE_E_REIMBURSEMENTS_MOD" ng-if="confirmButtonVisible()">Zatwierdź rozliczenie</a></li>
+        <li><a class="button button-save" ng-click="cancel()" gryf-privilege="GRF_PBE_E_REIMBURSEMENTS_MOD" ng-if="cancelButtonVisible()">Anuluj</a></li>
     </ul>
     <ol>
         <li><a class="button" ng-href="{{getPrevUrl()}}" >Wróć</a></li>

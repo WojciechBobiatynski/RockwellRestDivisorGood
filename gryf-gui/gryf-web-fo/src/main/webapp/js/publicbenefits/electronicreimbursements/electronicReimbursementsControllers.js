@@ -52,12 +52,7 @@ angular.module('gryf.electronicreimbursements').controller("announce.electronicR
             });
         }
 
-        $scope.createDocuments = function() {
-            AnnounceEReimbursementService.createDocuments();
-        };
-
         $scope.getNewRequiredCorrectionDate = AnnounceEReimbursementService.getNewRequiredCorrectionDate;
-        $scope.sendToCorrect = AnnounceEReimbursementService.sendToCorrect;
         $scope.findAllCorrections = AnnounceEReimbursementService.findAllCorrections;
 
         $scope.getPrevUrl = gryfSessionStorage.getUrlFromSessionStorage;
@@ -65,6 +60,56 @@ angular.module('gryf.electronicreimbursements').controller("announce.electronicR
 
         $scope.getDownloadCorrAttachmentLink = function(attachment) {
             return attachment.id != null ? contextPath + "/rest/publicBenefits/electronic/reimbursements/downloadCorrAttachment?id=" + attachment.id : '';
+        };
+
+        $scope.reimburseButtonVisible = function(){
+            return $scope.eReimbObject.entity != null && ($scope.eReimbObject.entity.statusCode === 'NEW' || $scope.eReimbObject.entity.statusCode === 'T_CRR');
+        };
+
+        $scope.correctButtonVisible = function(){
+            return $scope.eReimbObject.entity != null && $scope.eReimbObject.entity.statusCode === 'T_RMS';
+        };
+
+        $scope.generateDocumentsButtonVisible = function(){
+            return $scope.eReimbObject.entity != null && $scope.eReimbObject.entity.statusCode === 'T_RMS';
+        };
+
+        $scope.printReportsButtonVisible = function(){
+            return $scope.eReimbObject.entity != null && ($scope.eReimbObject.entity.statusCode === 'G_DOC' || $scope.eReimbObject.entity.statusCode === 'T_VRF');
+        };
+
+        $scope.confirmButtonVisible = function(){
+            return $scope.eReimbObject.entity != null && $scope.eReimbObject.entity.statusCode === 'T_VRF';
+        };
+
+        $scope.cancelButtonVisible = function(){
+            return $scope.eReimbObject.entity != null && ($scope.eReimbObject.entity.statusCode === 'NEW' || $scope.eReimbObject.entity.statusCode === 'T_RMS' || $scope.eReimbObject.entity.statusCode === 'T_CRR');
+        };
+
+        $scope.save = function(){
+
+        };
+
+        $scope.settle = function(){
+
+        };
+
+        $scope.sendToCorrect = AnnounceEReimbursementService.sendToCorrect;
+
+        $scope.createReports = function() {
+
+        };
+
+        $scope.createDocuments = function() {
+            AnnounceEReimbursementService.createDocuments();
+        };
+
+        $scope.confirm = function() {
+
+        };
+
+        $scope.cancel = function() {
+
         };
 
     }]);
