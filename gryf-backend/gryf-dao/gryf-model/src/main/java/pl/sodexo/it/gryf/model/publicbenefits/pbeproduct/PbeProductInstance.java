@@ -54,7 +54,7 @@ public class PbeProductInstance extends VersionableEntity {
     private Long orderId;
 
     @Column(name = "E_REIMBURSMENT_ID")
-    private Long electronicReimbursmentId;
+    private Long ereimbursmentId;
 
     //GETTERS & SETTERS
 
@@ -130,12 +130,12 @@ public class PbeProductInstance extends VersionableEntity {
         this.orderId = orderId;
     }
 
-    public Long getElectronicReimbursmentId() {
-        return electronicReimbursmentId;
+    public Long getEreimbursmentId() {
+        return ereimbursmentId;
     }
 
-    public void setElectronicReimbursmentId(Long electronicReimbursmentId) {
-        this.electronicReimbursmentId = electronicReimbursmentId;
+    public void setEreimbursmentId(Long electronicReimbursmentId) {
+        this.ereimbursmentId = electronicReimbursmentId;
     }
 
     //EQUALS & HASH CODE

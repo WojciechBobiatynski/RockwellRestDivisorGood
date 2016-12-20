@@ -13,6 +13,7 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.trainingreservation.TrainingR
 import pl.sodexo.it.gryf.common.dto.security.individuals.IndUserAuthDataDto;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.contracts.ContractRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.individuals.IndividualRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.pbeproducts.*;
@@ -20,6 +21,7 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiuti
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstanceStatusRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingRepository;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
+import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.Ereimbursement;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
@@ -117,10 +119,13 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
     private ParamInDateService paramInDateService;
 
     @Autowired
-    TrainingInstanceService trainingInstanceService;
+    private TrainingInstanceService trainingInstanceService;
 
     @Autowired
-    GryfAccessCodeGenerator gryfAccessCodeGenerator;
+    private EreimbursementRepository ereimbursementRepository;
+
+    @Autowired
+    private GryfAccessCodeGenerator gryfAccessCodeGenerator;
 
     @Autowired
     private PbeProductInstancePoolEventTypeRepository productInstancePoolEventTypeRepository;
@@ -243,13 +248,7 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
         }
     }
 
-    private void checkPin(TrainingInstance instance, String pin) {
-        String trainingPin = AEScryptographer.decrypt(instance.getReimbursmentPin());
-        if (!trainingPin.equals(pin)) {
-            gryfValidator.validate("Pin nie jest zgodny z pinem ze szkolenia");
-        }
-    }
-
+    @Override
     public void cancelTrainingInstance(Long trainingId){
 
         //POBRANIE STATUSOW
@@ -285,7 +284,7 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
                 ins.setStatus(productInstStatAssign);
                 ins.setOrderId(null);
                 poolUse.removePollUse(ins);
-                ins.setElectronicReimbursmentId(null);
+                ins.setEreimbursmentId(null);
 
                 //EVENTY DO INSTANCJI PRODUKTOW
                 PbeProductInstanceEvent piEvent = productInstanceEventBuilder.createPbeProductInstanceEvent(ins,
@@ -295,13 +294,90 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
         }
     }
 
+    public void reimbursProductInstancePools(Long reimbursmentId){
+
+        //POBRANIE STATUSOW
+        PbeProductInstanceStatus reimbInstStat = productInstanceStatusRepository.get(PbeProductInstanceStatus.REIMBD_CODE);
+        PbeProductInstanceEventType reimbEventType = productInstanceEventTypeRepository.get(PbeProductInstanceEventType.REIMB_CODE);
+        PbeProductInstancePoolEventType reimbEventPoolType = productInstancePoolEventTypeRepository.get(PbeProductInstancePoolEventType.REIMB_CODE);
+
+        //UAKTUALNINIE INSTANCJI
+        Ereimbursement ereimbursement = ereimbursementRepository.get(reimbursmentId);
+        //TODO: tbilski może tutaj zmienć status rozliczenia??
+
+        //ITERACJA PO UZYCIACH PULI
+        List<PbeProductInstancePoolUse> poolUses = ereimbursement.getTrainingInstance().getPollUses();
+        for(PbeProductInstancePoolUse poolUse : poolUses){
+
+            //UAKTUALNINIE PULI
+            PbeProductInstancePool pool = poolUse.getProductInstancePool();
+            pool.setUsedNum(pool.getReservedNum() - poolUse.getAssignedNum());
+            pool.setRembursNum(pool.getAvailableNum() + poolUse.getAssignedNum());
+
+            PbeProductInstancePoolEvent event = productInstancePoolEventBuilder.createPbeProductInstancePoolEvent(pool,
+                                                            reimbEventPoolType, ereimbursement.getId(), poolUse.getAssignedNum());
+            productInstancePoolEventRepository.save(event);
+
+            //ITERACJA PO INSTANCJACH PRODUKTU
+            List<PbeProductInstance> instances = poolUse.getPollUses();
+            for(PbeProductInstance i : instances){
+                i.setStatus(reimbInstStat);
+                i.setEreimbursmentId(ereimbursement.getId());
+
+                //EVENTY DO INSTANCJI PRODUKTOW
+                PbeProductInstanceEvent piEvent = productInstanceEventBuilder.createPbeProductInstanceEvent(i,
+                                                                            reimbEventType, ereimbursement.getId());
+                pbeProductInstanceEventRepository.save(piEvent);
+            }
+        }
+    }
+
+    public void expireProductInstancePools(Long reimbursmentId){
+
+        //POBRANIE STATUSOW
+        PbeProductInstanceStatus expireInstStat = productInstanceStatusRepository.get(PbeProductInstanceStatus.EXPIRED_CODE);
+        PbeProductInstanceEventType expireEventType = productInstanceEventTypeRepository.get(PbeProductInstanceEventType.EXPIRATION_CODE);
+        PbeProductInstancePoolEventType expireEventPoolType = productInstancePoolEventTypeRepository.get(PbeProductInstancePoolEventType.EXPIRATION_CODE);
+
+        //UAKTUALNINIE INSTANCJI
+        Ereimbursement ereimbursement = ereimbursementRepository.get(reimbursmentId);
+        //TODO: tbilski może tutaj zmienć status rozliczenia??
+
+        //ITERACJA PO UZYCIACH PULI
+        List<PbeProductInstancePoolUse> poolUses = ereimbursement.getTrainingInstance().getPollUses();
+        for(PbeProductInstancePoolUse poolUse : poolUses){
+
+            //UAKTUALNINIE PULI
+            PbeProductInstancePool pool = poolUse.getProductInstancePool();
+            pool.setUsedNum(pool.getReservedNum() - poolUse.getAssignedNum());
+            pool.setExpiredNum(pool.getAvailableNum() + poolUse.getAssignedNum());
+
+            PbeProductInstancePoolEvent event = productInstancePoolEventBuilder.createPbeProductInstancePoolEvent(pool,
+                                                            expireEventPoolType, ereimbursement.getId(), poolUse.getAssignedNum());
+            productInstancePoolEventRepository.save(event);
+
+            //ITERACJA PO INSTANCJACH PRODUKTU
+            List<PbeProductInstance> instances = poolUse.getPollUses();
+            for(PbeProductInstance i : instances){
+                i.setStatus(expireInstStat);
+                i.setEreimbursmentId(ereimbursement.getId());
+
+                //EVENTY DO INSTANCJI PRODUKTOW
+                PbeProductInstanceEvent piEvent = productInstanceEventBuilder.createPbeProductInstanceEvent(i,
+                                                            expireEventType, ereimbursement.getId());
+                pbeProductInstanceEventRepository.save(piEvent);
+            }
+        }
+    }
+
     //PRIVATE METHODS
 
     private void createProductInstancePoolUses(TrainingInstance trainingInstance, List<PbeProductInstancePool> pools, int toReservedNum){
+
+        //POBRANIE STATUSOW
         PbeProductInstanceStatus resrvationInstanceStatus = productInstanceStatusRepository.get(PbeProductInstanceStatus.RESERVED_CODE);
         PbeProductInstanceEventType resrvationEventType = productInstanceEventTypeRepository.get(PbeProductInstanceEventType.RESRVATION_CODE);
         PbeProductInstancePoolEventType resrvationEventPoolType = productInstancePoolEventTypeRepository.get(PbeProductInstancePoolEventType.RESRVATION_CODE);
-
 
         //TWORZENIE OBIEKTOW UZYCIA PULI BONOW
         int leftToReservedNum = toReservedNum;
@@ -371,7 +447,7 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
         gryfValidator.validate(violations);
     }
 
-     private void validatePoolReservation(Training training, GrantProgram grantProgram, Integer toReservedNum, List<PbeProductInstancePool> pools){
+    private void validatePoolReservation(Training training, GrantProgram grantProgram, Integer toReservedNum, List<PbeProductInstancePool> pools){
          List<EntityConstraintViolation> violations = Lists.newArrayList();
 
         //NIE ZNALEZLISMY ZADNYCH PULI BONOW DO ROZLICZENIA
@@ -509,5 +585,12 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
             sum += p.getAvailableNum();
         }
         return sum;
+    }
+
+    private void checkPin(TrainingInstance instance, String pin) {
+        String trainingPin = AEScryptographer.decrypt(instance.getReimbursmentPin());
+        if (!trainingPin.equals(pin)) {
+            gryfValidator.validate("Pin nie jest zgodny z pinem ze szkolenia");
+        }
     }
 }

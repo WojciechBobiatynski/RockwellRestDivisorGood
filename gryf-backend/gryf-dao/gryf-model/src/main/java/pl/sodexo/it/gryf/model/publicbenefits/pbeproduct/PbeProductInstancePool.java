@@ -2,6 +2,7 @@ package pl.sodexo.it.gryf.model.publicbenefits.pbeproduct;
 
 import lombok.ToString;
 import pl.sodexo.it.gryf.model.api.VersionableEntity;
+import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.Ereimbursement;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 
@@ -75,6 +76,22 @@ public class PbeProductInstancePool extends VersionableEntity {
         this.id = id;
     }
 
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getExpiryDate() {
+        return expiryDate;
+    }
+
+    public void setExpiryDate(Date expiryDate) {
+        this.expiryDate = expiryDate;
+    }
+
     public Integer getAllNum() {
         return allNum;
     }
@@ -137,22 +154,6 @@ public class PbeProductInstancePool extends VersionableEntity {
 
     public void setOrder(Order order) {
         this.order = order;
-    }
-
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    public Date getExpiryDate() {
-        return expiryDate;
-    }
-
-    public void setExpiryDate(Date expiryDate) {
-        this.expiryDate = expiryDate;
     }
 
     public PbeProduct getProduct() {

@@ -22,4 +22,8 @@ public interface PbeProductInstancePoolService {
     void useTrainingInstance(Long trainingId, String pin);
 
     void cancelTrainingInstance(Long trainingId);
+
+    void reimbursProductInstancePools(Long reimbursmentId);
+
+    void expireProductInstancePools(Long reimbursmentId);
 }
