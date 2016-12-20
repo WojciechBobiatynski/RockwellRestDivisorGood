@@ -93,13 +93,6 @@ public class ElectronicReimbursementsRestController {
         return correctionService.findCorrectionsByERmbsId(ermbsId);
     }
 
-    @RequestMapping(value = PATH_ELECTRONIC_REIMBURSEMENTS_CREATE_DOCUMENTS + "{rmbsId}", method = RequestMethod.POST)
-    @ResponseStatus(value = HttpStatus.OK)
-    public void createDocuments(@PathVariable("rmbsId") Long rmbsId) {
-        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS_MOD);
-        electronicReimbursementsService.createDocuments(rmbsId);
-    }
-
     @RequestMapping(PATH_ELECTRONIC_REIMBURSEMENTS_DOWNLOAD_ATT)
     public void downloadReimbursementAttachment(HttpServletRequest request, HttpServletResponse response) throws IOException {
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS_MOD);
@@ -124,6 +117,28 @@ public class ElectronicReimbursementsRestController {
             FileDTO file = correctionAttachmentService.getCorrAttFileById(elementId);
             writeFileToResponse(request, response, file.getInputStream(), file.getName());
         }
+    }
+
+    @RequestMapping(value = PATH_ELECTRONIC_REIMBURSEMENTS_CREATE_DOCUMENTS + "{rmbsId}", method = RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.OK)
+    public void createDocuments(@PathVariable("rmbsId") Long rmbsId) {
+    //    TODO
+    }
+
+    @RequestMapping(value = PATH_ELECTRONIC_REIMBURSEMENTS_PRINT_REPORTS + "{rmbsId}", method = RequestMethod.POST)
+    public void printReports(@PathVariable("rmbsId") Long rmbsId) {
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS_MOD);
+        electronicReimbursementsService.printDocuments(rmbsId);
+    }
+
+    @RequestMapping(value = PATH_ELECTRONIC_REIMBURSEMENTS_CONFIRM + "{rmbsId}", method = RequestMethod.POST)
+    public void confirm(@PathVariable("rmbsId") Long rmbsId) {
+        //TODO
+    }
+
+    @RequestMapping(value = PATH_ELECTRONIC_REIMBURSEMENTS_CANCEL + "{rmbsId}", method = RequestMethod.POST)
+    public void cancel(@PathVariable("rmbsId") Long rmbsId) {
+        //TODO
     }
 
 }

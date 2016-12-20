@@ -81,5 +81,5 @@ public interface ElectronicReimbursementsService {
      * Tworzy dokumenty księgowe, w tym notę uznaniową
      * @param rmbsId
      */
-    void createDocuments(Long rmbsId);
+    void printDocuments(Long rmbsId);
 }

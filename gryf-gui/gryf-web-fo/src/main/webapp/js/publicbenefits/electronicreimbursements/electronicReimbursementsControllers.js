@@ -96,20 +96,12 @@ angular.module('gryf.electronicreimbursements').controller("announce.electronicR
 
         $scope.sendToCorrect = AnnounceEReimbursementService.sendToCorrect;
 
-        $scope.createReports = function() {
+        $scope.createDocuments = AnnounceEReimbursementService.createDocuments;
 
-        };
+        $scope.printReports = AnnounceEReimbursementService.printReports;
 
-        $scope.createDocuments = function() {
-            AnnounceEReimbursementService.createDocuments();
-        };
+        $scope.confirm = AnnounceEReimbursementService.confirm;
 
-        $scope.confirm = function() {
-
-        };
-
-        $scope.cancel = function() {
-
-        };
+        $scope.cancel = AnnounceEReimbursementService.cancel;
 
     }]);

@@ -10,9 +10,6 @@ import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.mail.MailDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.*;
 import pl.sodexo.it.gryf.common.enums.ErmbsAttachmentStatus;
-import pl.sodexo.it.gryf.common.enums.FileType;
-import pl.sodexo.it.gryf.common.enums.ReportSourceType;
-import pl.sodexo.it.gryf.common.enums.ReportTemplateCode;
 import pl.sodexo.it.gryf.common.exception.NoCalculationParamsException;
 import pl.sodexo.it.gryf.common.utils.GryfConstants;
 import pl.sodexo.it.gryf.dao.api.crud.repository.other.GryfPLSQLRepository;
@@ -38,9 +35,7 @@ import pl.sodexo.it.gryf.service.validation.publicbenefits.electronicreimburseme
 import pl.sodexo.it.gryf.service.validation.publicbenefits.electronicreimbursements.ErmbsValidator;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Serwis implementujący operacje na e-rozliczeniach
@@ -240,7 +235,7 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     }
 
     @Override
-    public void createDocuments(Long rmbsId) {
+    public void printDocuments(Long rmbsId) {
         //TODO: tbilski scieżkę do pliku
         String reportLocation = reportService.generateCreditNoteForReimbursment(rmbsId);
 

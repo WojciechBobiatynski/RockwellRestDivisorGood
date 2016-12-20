@@ -114,6 +114,9 @@ angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementS
             var FIND_RMBS_CORRECTIONS_LIST_URL = contextPath + "/rest/publicBenefits/electronic/reimbursements/correction/list/";
             var CREATE_DOCUMENTS_URL = contextPath + "/rest/publicBenefits/electronic/reimbursements/createDocuments/";
             var CORR_ATTACHMENT = contextPath + "/rest/publicBenefits/electronic/reimbursements/downloadCorrAttachment";
+            var PRINT_REPORTS_URL = contextPath + "/rest/publicBenefits/electronic/reimbursements/printReports/";
+            var CONFIRM_URL = contextPath + "/rest/publicBenefits/electronic/reimbursements/confirm/";
+            var CANCEL_URL = contextPath + "/rest/publicBenefits/electronic/reimbursements/cancel/";
 
             var eReimbObject = new EReimbObject();
             var correctionObject = new CorrectionObject();
@@ -239,6 +242,36 @@ angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementS
                     });
             };
 
+            var printReports = function() {
+                var rmbsId =  $routeParams.id;
+                var promise = $http.post(CREATE_REPORTS_URL + rmbsId);
+                promise.then(function(response) {
+                });
+                promise.finally(function() {
+                });
+                return promise;
+            };
+
+            var confirm = function() {
+                var rmbsId =  $routeParams.id;
+                var promise = $http.post(CONFIRM_URL + rmbsId);
+                promise.then(function(response) {
+                });
+                promise.finally(function() {
+                });
+                return promise;
+            };
+
+            var cancel = function() {
+                var rmbsId =  $routeParams.id;
+                var promise = $http.post(CANCEL_URL + rmbsId);
+                promise.then(function(response) {
+                });
+                promise.finally(function() {
+                });
+                return promise;
+            };
+
             return {
                 getNewModel: getNewModel,
                 getViolation: getViolations,
@@ -248,6 +281,9 @@ angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementS
                 getCorrectionObject: getCorrectionObject,
                 getNewRequiredCorrectionDate: getNewRequiredCorrectionDate,
                 findAllCorrections: findAllCorrections,
-                createDocuments: createDocuments
+                createDocuments: createDocuments,
+                printReports: printReports,
+                confirm: confirm,
+                cancel: cancel
             };
         }]);
