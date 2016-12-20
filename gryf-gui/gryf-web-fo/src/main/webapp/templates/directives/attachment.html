@@ -8,7 +8,7 @@
         <div class="grid-20">Opis dodatkowy</div>
         <div class="grid-20">Oryginalna nazwa pliku</div>
     </div>
-    <div ng-repeat="item in [1,2,3]" class="grid-100" data-ng-hide="item.markToDelete">
+    <div ng-repeat="item in model.attachments" class="grid-100" data-ng-hide="item.markToDelete">
         <div class="grid-20">
             <select ng-model="item.code" data-ng-disabled="item.required">
                 <option data-ng-repeat="t in modelTypes.types" data-ng-show="!t.required" ng-selected="{{t.code == item.code}}" value="{{t.code}}">{{t.name}}</option>
@@ -22,12 +22,13 @@
             <input ng-disabled="hasNotPrivilege('GRF_PBE_CONTRACTS_MOD')" type="text" data-ng-model="item.additionalDescription"/>
         </div>
         <div class="grid-20">
-            <a>{{item.file.name ? item.file.name : item.originalFileName}}</a>
+            <a ng-href="{{getDownloadAttachmentLink(item)}}" ng-if="item.originalFileName && !item.changed">{{item.originalFileName}}</a>
+            <a ng-if="item.file.name">{{item.file.name}}</a>
         </div>
         <div class="grid-20" ng-hide="isDisabled">
             <!--TODO: dodać zmienną definiującą maksymalny rozmiar pliku, gdy nie został zdefiniowany per typ-->
             <a ng-if="(item.file.name || item.originalFileName)" ng-href="{{getDownloadAttachmentLink(item)}}"><button class="button">Pobierz</button></a>
-            <a class="button" ng-model="item.file" ngf-select gryf-privilege="GRF_PBE_E_REIMBURSEMENTS_MOD"
+            <a class="button" ng-model="item.file" ngf-select gryf-privilege="GRF_PBE_E_REIMBURSEMENTS_MOD" ng-if="!item.required"
                     style="margin-left: 10px;"
                     ngf-max-size="{{item.maxFileSize ? item.maxFileSize : '2MB'}}"
                     ngf-model-invalid="item.errorFile" data-ng-click="onItemClick(item, $index)"
