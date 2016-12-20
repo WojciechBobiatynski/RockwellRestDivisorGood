@@ -241,20 +241,8 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
 
     @Override
     public void createDocuments(Long rmbsId) {
-        //GENERATOE REPORT
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("rmbsId", rmbsId);
-        parameters.put("companyName", applicationParameters.getSodexoName());
-        parameters.put("companyAddress1", applicationParameters.getSodexoAddress1());
-        parameters.put("companyAddress2", applicationParameters.getSodexoAddress2());
-        parameters.put("companyVatRegNum", applicationParameters.getSodexoVatRegNum());
-        parameters.put("companyBankName", applicationParameters.getSodexoBankName());
-        Ereimbursement ereimbursement = ereimbursementRepository.get(rmbsId);
-
-        //TODO: tbilski nazwa pliku
-        String reportFileName = String.format("%s_Nota_uznaniowa.pdf", rmbsId);
-        String reportLocation = reportService.generateReport(ReportTemplateCode.CREDIT_NOTE, reportFileName,
-                FileType.E_REIMBURSEMENTS, parameters, ReportSourceType.EREIMBURSMENT, rmbsId);
+        //TODO: tbilski scieżkę do pliku
+        String reportLocation = reportService.generateCreditNoteForReimbursment(rmbsId);
 
     }
 }

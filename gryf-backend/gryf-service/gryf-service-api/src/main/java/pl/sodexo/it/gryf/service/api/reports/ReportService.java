@@ -14,4 +14,32 @@ public interface ReportService {
     String generateReport(ReportTemplateCode templateCode, String reportFileName, FileType fileType, ReportSourceType reportSourceType, Long sourceId);
 
     String generateReport(ReportTemplateCode templateCode, String reportFileName, FileType fileType, Map<String, Object> parameters, ReportSourceType reportSourceType, Long sourceId);
+
+    /**
+     * Nota obciążeniowo-ksiegowa
+     * @param orderId
+     * @return
+     */
+    String generateDebitNoteForOrder(Long orderId);
+
+    /**
+     * Nota uznaniowa
+     * @param reimbursmentId
+     * @return
+     */
+    String generateCreditNoteForReimbursment(Long reimbursmentId);
+
+    /**
+     * Potwierdzenie wpłaty należnosci
+     * @param reimbursmentId
+     * @return
+     */
+    String generateBankTransferConfirmationForReimbursment(Long reimbursmentId);
+
+    /**
+     * Potwierdzenie realizacji dofinansowania
+     * @param reimbursmentId
+     * @return
+     */
+    String generateGrantAidConfirmationForReimbursment(Long reimbursmentId);
 }

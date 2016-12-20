@@ -104,4 +104,70 @@ public class ReportServiceImpl implements ReportService {
         }
     }
 
+    //PUBLIC METHODS FOR DOCUMENTS
+
+    @Override
+    public String generateDebitNoteForOrder(Long orderId){
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put(ReportParameter.ORDER_ID.getParam(), orderId);
+        parameters.put("companyName", applicationParameters.getSodexoName());
+        parameters.put("companyAddress1", applicationParameters.getSodexoAddress1());
+        parameters.put("companyAddress2", applicationParameters.getSodexoAddress2());
+        parameters.put("companyVatRegNum", applicationParameters.getSodexoVatRegNum());
+        parameters.put("companyBankName", applicationParameters.getSodexoBankName());
+
+        //TODO: tbilski nazwa pliku
+        String reportFileName = String.format("%s_%s_nota_obciazeniowo_ksiegowa.pdf", orderId);
+        return generateReport(ReportTemplateCode.DEBIT_NOTE, reportFileName, FileType.ORDERS, parameters,
+                                ReportSourceType.ORDER, orderId);
+    }
+
+    @Override
+    public String generateCreditNoteForReimbursment(Long rmbsId) {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("rmbsId", rmbsId);
+        parameters.put("companyName", applicationParameters.getSodexoName());
+        parameters.put("companyAddress1", applicationParameters.getSodexoAddress1());
+        parameters.put("companyAddress2", applicationParameters.getSodexoAddress2());
+        parameters.put("companyVatRegNum", applicationParameters.getSodexoVatRegNum());
+        parameters.put("companyBankName", applicationParameters.getSodexoBankName());
+
+        //TODO: tbilski nazwa pliku
+        String reportFileName = String.format("%s_nota_uznaniowa.pdf", rmbsId);
+        return generateReport(ReportTemplateCode.CREDIT_NOTE, reportFileName, FileType.E_REIMBURSEMENTS,
+                              parameters, ReportSourceType.EREIMBURSMENT, rmbsId);
+    }
+
+    @Override
+    public String generateBankTransferConfirmationForReimbursment(Long rmbsId) {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("rmbsId", rmbsId);
+        parameters.put("companyName", applicationParameters.getSodexoName());
+        parameters.put("companyAddress1", applicationParameters.getSodexoAddress1());
+        parameters.put("companyAddress2", applicationParameters.getSodexoAddress2());
+        parameters.put("companyVatRegNum", applicationParameters.getSodexoVatRegNum());
+        parameters.put("companyBankName", applicationParameters.getSodexoBankName());
+
+        //TODO: tbilski nazwa pliku
+        String reportFileName = String.format("%s_potwierdzenie_wyplaty_naleznosci.pdf", rmbsId);
+        return generateReport(ReportTemplateCode.BANK_TRANSFER_CONFIRMATION, reportFileName, FileType.E_REIMBURSEMENTS,
+                                parameters, ReportSourceType.EREIMBURSMENT, rmbsId);
+    }
+
+    @Override
+    public String generateGrantAidConfirmationForReimbursment(Long rmbsId) {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("rmbsId", rmbsId);
+        parameters.put("companyName", applicationParameters.getSodexoName());
+        parameters.put("companyAddress1", applicationParameters.getSodexoAddress1());
+        parameters.put("companyAddress2", applicationParameters.getSodexoAddress2());
+        parameters.put("companyVatRegNum", applicationParameters.getSodexoVatRegNum());
+        parameters.put("companyBankName", applicationParameters.getSodexoBankName());
+
+        //TODO: tbilski nazwa pliku
+        String reportFileName = String.format("%s_potwierdzenie_realizacji_dofinansowania.pdf", rmbsId);
+        return generateReport(ReportTemplateCode.GRANT_AID_CONFIRMATION, reportFileName, FileType.E_REIMBURSEMENTS,
+                parameters, ReportSourceType.EREIMBURSMENT, rmbsId);
+    }
+
 }
