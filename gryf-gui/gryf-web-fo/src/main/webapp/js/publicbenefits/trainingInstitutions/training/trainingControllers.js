@@ -36,8 +36,10 @@ angular.module("gryf.training").controller("searchform.TrainingController",
         };
 
         $scope.datepicker = {
-            isTrainingStartDateOpened: false,
-            isTrainingEndDateOpened: false
+            isTrainingStartDateFromOpened: false,
+            isTrainingStartDateToOpened: false,
+            isTrainingEndDateFromOpened: false,
+            isTrainingEndDateToOpened: false
         };
 
         $scope.openDatepicker = function(value) {
@@ -130,8 +132,10 @@ angular.module("gryf.training").controller("detailsform.TrainingController",
          };
 
          $scope.datepicker = {
-             isTrainingStartDateOpened: false,
-             isTrainingEndDateOpened: false
+             isTrainingStartDateFromOpened: false,
+             isTrainingStartDateToOpened: false,
+             isTrainingEndDateFromOpened: false,
+             isTrainingEndDateToOpened: false
          };
 
          $scope.openDatepicker = function(value) {

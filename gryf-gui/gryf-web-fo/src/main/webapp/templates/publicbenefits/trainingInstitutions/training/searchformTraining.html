@@ -49,14 +49,23 @@
                             Data rozpoczęcia
                         </div>
                         <input type="text"
-                               placeholder="Data rozpoczęcia"
-                               ng-model="searchDTO.entity.startDate"
+                               placeholder="Data rozpoczęcia od"
+                               ng-model="searchDTO.entity.startDateFrom"
                                datepicker-popup="yyyy-MM-dd"
-                               is-open="datepicker.isTrainingStartDateOpened"
+                               is-open="datepicker.isTrainingStartDateFromOpened"
                                close-text="Zamknij"
                                clear-text="Czyść"
                                current-text="Dziś"
-                               ng-click="openDatepicker('isTrainingStartDateOpened')"/>
+                               ng-click="openDatepicker('isTrainingStartDateFromOpened')"/>
+                        <input type="text"
+                               placeholder="Data rozpoczęcia do"
+                               ng-model="searchDTO.entity.startDateTo"
+                               datepicker-popup="yyyy-MM-dd"
+                               is-open="datepicker.isTrainingStartDateToOpened"
+                               close-text="Zamknij"
+                               clear-text="Czyść"
+                               current-text="Dziś"
+                               ng-click="openDatepicker('isTrainingStartDateToOpened')"/>
                     </th>
                     <th class="sortable grid-10"
                         ng-class="getSortingTypeClass('endDate')">
@@ -64,14 +73,23 @@
                             Data zakończenia
                         </div>
                         <input type="text"
-                               placeholder="Data zakończenia"
-                               ng-model="searchDTO.entity.endDate"
+                               placeholder="Data zakończenia od"
+                               ng-model="searchDTO.entity.endDateFrom"
                                datepicker-popup="yyyy-MM-dd"
-                               is-open="datepicker.isTrainingEndDateOpened"
+                               is-open="datepicker.isTrainingEndDateFromOpened"
                                close-text="Zamknij"
                                clear-text="Czyść"
                                current-text="Dziś"
-                               ng-click="openDatepicker('isTrainingEndDateOpened')"/>
+                               ng-click="openDatepicker('isTrainingEndDateFromOpened')"/>
+                        <input type="text"
+                               placeholder="Data zakończenia do"
+                               ng-model="searchDTO.entity.endDateTo"
+                               datepicker-popup="yyyy-MM-dd"
+                               is-open="datepicker.isTrainingEndDateToOpened"
+                               close-text="Zamknij"
+                               clear-text="Czyść"
+                               current-text="Dziś"
+                               ng-click="openDatepicker('isTrainingEndDateToOpened')"/>
                     </th>
                     <th class="sortable grid-10" ng-class="getSortingTypeClass('place')">
                         <div ng-click="getSortedBy('place')">Miejsce</div>

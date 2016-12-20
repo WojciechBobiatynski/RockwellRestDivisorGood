@@ -40,16 +40,24 @@
             <input type="number" placeholder="Max" ng-model="searchDTO.entity.hoursNumberTo">
          </th>
          <th class="grid-10">
-            <input type="text" ng-model="searchDTO.entity.startDate"
-                   datepicker-popup="yyyy-MM-dd" is-open="datepicker.isTrainingStartDateOpened"
+            <input type="text" ng-model="searchDTO.entity.startDateFrom"
+                   datepicker-popup="yyyy-MM-dd" is-open="datepicker.isTrainingStartDateFromOpened"
                    close-text="Zamknij" clear-text="Czyść" current-text="Dziś"
-                   ng-click="openDatepicker('isTrainingStartDateOpened')"/>
+                   ng-click="openDatepicker('isTrainingStartDateFromOpened')"/>
+            <input type="text" ng-model="searchDTO.entity.startDateTo"
+                   datepicker-popup="yyyy-MM-dd" is-open="datepicker.isTrainingStartDateToOpened"
+                   close-text="Zamknij" clear-text="Czyść" current-text="Dziś"
+                   ng-click="openDatepicker('isTrainingStartDateToOpened')"/>
          </th>
          <th class="grid-10">
-            <input type="text" ng-model="searchDTO.entity.endDate"
-                   datepicker-popup="yyyy-MM-dd" is-open="datepicker.isTrainingEndDateOpened"
+            <input type="text" ng-model="searchDTO.entity.endDateFrom"
+                   datepicker-popup="yyyy-MM-dd" is-open="datepicker.isTrainingEndDateFromOpened"
                    close-text="Zamknij" clear-text="Czyść" current-text="Dziś"
-                   ng-click="openDatepicker('isTrainingEndDateOpened')"/>
+                   ng-click="openDatepicker('isTrainingEndDateFromOpened')"/>
+            <input type="text" ng-model="searchDTO.entity.endDateTo"
+                   datepicker-popup="yyyy-MM-dd" is-open="datepicker.isTrainingEndDateToOpened"
+                   close-text="Zamknij" clear-text="Czyść" current-text="Dziś"
+                   ng-click="openDatepicker('isTrainingEndDateToOpened')"/>
          </th>
          <th class="grid-10">
             <input ng-model="searchDTO.entity.place">

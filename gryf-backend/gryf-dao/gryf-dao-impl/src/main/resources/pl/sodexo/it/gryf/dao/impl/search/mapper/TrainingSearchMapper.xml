@@ -39,11 +39,17 @@
             <if test="searchParams.priceTo != null">
                 AND t.PRICE &lt;= #{searchParams.priceTo}
             </if>
-            <if test="searchParams.startDate != null">
-                AND t.START_DATE >= #{searchParams.startDate}
+            <if test="searchParams.startDateFrom != null">
+                AND #{searchParams.startDateFrom} &lt;= t.START_DATE
             </if>
-            <if test="searchParams.endDate != null">
-                AND t.END_DATE &lt;= #{searchParams.endDate}
+            <if test="searchParams.startDateTo != null">
+                AND t.START_DATE &lt;= #{searchParams.startDateTo}
+            </if>
+            <if test="searchParams.endDateFrom != null">
+                AND #{searchParams.endDateFrom} &lt;= t.END_DATE
+            </if>
+            <if test="searchParams.endDateTo != null">
+                AND t.END_DATE &lt;= #{searchParams.endDateTo}
             </if>
             <if test="searchParams.place != null and searchParams.place != ''">
                 AND LOWER(t.PLACE) like '%' || LOWER(#{searchParams.place}) || '%'

@@ -27,8 +27,10 @@ angular.module("gryf.ti").controller("OurTrainingsController",
     };
 
     $scope.datepicker = {
-        isTrainingStartDateOpened: false,
-        isTrainingEndDateOpened: false
+        isTrainingStartDateFromOpened: false,
+        isTrainingStartDateToOpened: false,
+        isTrainingEndDateFromOpened: false,
+        isTrainingEndDateToOpened: false
     };
 
     $scope.openDatepicker = function(value) {

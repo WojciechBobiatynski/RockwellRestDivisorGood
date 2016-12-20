@@ -43,12 +43,22 @@ public class TrainingSearchQueryDTO extends SearchDto {
     @Getter
     @Setter
     @DateTimeFormat(pattern = DATE_FORMAT)
-    private Date startDate;
+    private Date startDateFrom;
 
     @Getter
     @Setter
     @DateTimeFormat(pattern = DATE_FORMAT)
-    private Date endDate;
+    private Date startDateTo;
+
+    @Getter
+    @Setter
+    @DateTimeFormat(pattern = DATE_FORMAT)
+    private Date endDateFrom;
+
+    @Getter
+    @Setter
+    @DateTimeFormat(pattern = DATE_FORMAT)
+    private Date endDateTo;
 
     @Getter
     @Setter
