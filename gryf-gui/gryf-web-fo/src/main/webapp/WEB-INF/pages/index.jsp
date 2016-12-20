@@ -256,11 +256,6 @@
                                    gryf-link-privilege="GRF_PBE_E_REIMBURSEMENTS">Lista rozliczeń
                                 </a>
                             </li>
-                            <li>
-                                <a ng-href="${pageContext.request.contextPath}/publicBenefits/electronic/reimbursements/#announce"
-                                   gryf-link-privilege="GRF_PBE_E_REIMBURSEMENTS_MOD">Nowe rozliczenie
-                                </a>
-                            </li>
                         </ul>
                     </li>
                 </ul>

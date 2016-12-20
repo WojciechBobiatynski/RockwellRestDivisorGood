@@ -75,7 +75,7 @@ angular.module('gryf.electronicreimbursements').controller("announce.electronicR
         };
 
         $scope.printReportsButtonVisible = function(){
-            return $scope.eReimbObject.entity != null && ($scope.eReimbObject.entity.statusCode === 'G_DOC' || $scope.eReimbObject.entity.statusCode === 'T_VRF');
+            return $scope.eReimbObject.entity != null && $scope.eReimbObject.entity.statusCode === 'G_DOC';
         };
 
         $scope.confirmButtonVisible = function(){

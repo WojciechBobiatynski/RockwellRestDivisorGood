@@ -194,7 +194,7 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     @Override
     public Long createDocuments(Long rmbsId) {
         Ereimbursement ereimbursement = ereimbursementRepository.get(rmbsId);
-        ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.G_DOC));
+        ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.GENERATED_DOCUMENTS));
         //TODO: dodać wywłanie odpowiedneij procedury
         ereimbursementRepository.update(ereimbursement, ereimbursement.getId());
         return ereimbursement.getId();
@@ -205,7 +205,7 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         //TODO: tbilski scieżkę do pliku
         String reportLocation = reportService.generateCreditNoteForReimbursment(rmbsId);
         Ereimbursement ereimbursement = ereimbursementRepository.get(rmbsId);
-        ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.G_DOC));
+        ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.TO_VERIFY));
         ereimbursementRepository.update(ereimbursement, ereimbursement.getId());
         return ereimbursement.getId();
     }

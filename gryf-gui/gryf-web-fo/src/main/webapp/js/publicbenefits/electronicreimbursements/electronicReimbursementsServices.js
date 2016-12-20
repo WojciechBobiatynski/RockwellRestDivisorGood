@@ -247,7 +247,7 @@ angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementS
                 var rmbsId =  $routeParams.id;
                 var promise = $http.post(PRINT_REPORTS_URL + rmbsId);
                 promise.then(function(response) {
-                    eReimbObject.entity = response;
+                    eReimbObject.entity = response.data;
                 });
                 promise.finally(function() {
 
