@@ -142,8 +142,8 @@ public class IndividualServiceImpl implements IndividualService {
     }
 
     @Override
-    public void sendEmailNotification(IndividualDto individualDto, String appUrl) {
-        mailService.scheduleMail(mailDtoCreator.createMailDTOForVerificationCode(individualDto, appUrl));
+    public void sendEmailNotification(IndividualDto individualDto) {
+        mailService.scheduleMail(mailDtoCreator.createMailDTOForVerificationCode(individualDto));
     }
 
     @Override

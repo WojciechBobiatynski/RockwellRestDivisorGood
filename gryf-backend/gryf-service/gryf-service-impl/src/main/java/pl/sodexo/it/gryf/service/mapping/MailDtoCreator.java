@@ -50,11 +50,11 @@ public class MailDtoCreator {
         return mailDTO;
     }
 
-    public MailDTO createMailDTOForVerificationCode(Verifiable verifiable, String appUrl) {
+    public MailDTO createMailDTOForVerificationCode(Verifiable verifiable) {
         MailDTO mailDTO = new MailDTO();
         MailPlaceholders mailPlaceholders = mailService.createPlaceholders(EMAIL_BODY_VER_CODE_PLACEHOLDER, verifiable.getVerificationCode())
                 .add(EMAIL_BODY_LOGIN_PLACEHOLDER, verifiable.getLogin())
-                .add(EMAIL_BODY_URL_PLACEHOLDER, appUrl);
+                .add(EMAIL_BODY_URL_PLACEHOLDER, applicationParameters.getIndUserUrl());
         EmailTemplate emailTemplate = emailTemplateRepository.get(VERIFICATION_CODE_EMAIL_TEMPLATE_CODE);
         mailDTO.setTemplateId(emailTemplate.getId());
         mailDTO.setSubject(emailTemplate.getEmailSubjectTemplate());

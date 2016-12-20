@@ -5,6 +5,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.sodexo.it.gryf.common.authentication.AEScryptographer;
 import pl.sodexo.it.gryf.common.dto.other.DictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.other.GrantProgramDictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.ContactTypeDto;
@@ -17,24 +18,29 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.detailsForm.Indiv
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.detailsForm.IndividualDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.searchform.IndividualSearchResultDTO;
 import pl.sodexo.it.gryf.common.dto.security.RoleDto;
+import pl.sodexo.it.gryf.common.dto.security.individuals.Verifiable;
 import pl.sodexo.it.gryf.common.enums.Privileges;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.common.utils.PeselUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.dictionaries.ZipCodeRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.contracts.ContractTypeRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.individuals.IndividualRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingCategoryRepository;
 import pl.sodexo.it.gryf.model.accounts.AccountContractPair;
 import pl.sodexo.it.gryf.model.dictionaries.ZipCode;
 import pl.sodexo.it.gryf.model.enums.Sex;
 import pl.sodexo.it.gryf.model.publicbenefits.api.ContactType;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.ContractType;
+import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingCategory;
 import pl.sodexo.it.gryf.service.api.publicbenefits.contracts.ContractService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.enterprises.EnterpriseService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.individuals.IndividualService;
 import pl.sodexo.it.gryf.service.local.api.AccountContractPairService;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
+import pl.sodexo.it.gryf.service.local.api.MailService;
+import pl.sodexo.it.gryf.service.mapping.MailDtoCreator;
 
 import java.util.Iterator;
 import java.util.List;
@@ -58,6 +64,9 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
     private IndividualService individualService;
 
     @Autowired
+    private IndividualRepository individualRepository;
+
+    @Autowired
     private AccountContractPairService accountContractPairService;
 
     @Autowired
@@ -71,6 +80,12 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
 
     @Autowired
     private ZipCodeRepository zipCodeRepository;
+
+    @Autowired
+    private MailService mailService;
+
+    @Autowired
+    private MailDtoCreator mailDtoCreator;
 
     //OVERRIDE
 
@@ -204,6 +219,10 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
                                                             zipCodeIndividualInvoice, zipCodeIndividualCorr,
                                                             contractId, enterpriseId);
         individualId = individualService.saveIndividual(individualDTO, true, false);
+        Individual individual = individualRepository.get(individualId);
+        Verifiable verifiable = createVerifiable(individual, individualDTO);
+        mailService.scheduleMail(mailDtoCreator.createMailDTOForVerificationCode(verifiable));
+
 
         ContractDTO contract = createContractDTO(importDTO.getContract(), paramsDTO,
                                                 contractType, trainingCategories,
@@ -432,5 +451,22 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
 
     private void addPrefixMessage(String prefix, EntityConstraintViolation violation){
         violation.setMessage(prefix + violation.getMessage());
+    }
+
+    private Verifiable createVerifiable(final Individual individual, IndividualDto individualDTO){
+        return new Verifiable(){
+            @Override
+            public String getLogin() {
+                return individual.getPesel();
+            }
+            @Override
+            public String getVerificationCode() {
+                return AEScryptographer.decrypt(individual.getIndividualUser().getVerificationCode());
+            }
+            @Override
+            public String getVerificationEmail() {
+                return individualDTO.getVerificationEmail();
+            }
+        };
     }
 }

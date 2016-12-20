@@ -56,9 +56,9 @@ public class VerificationServiceImpl implements VerificationService {
     private MailDtoCreator mailDtoCreator;
 
     @Override
-    public void resendVerificationCode(VerificationDto verificationDto, String appUrl) throws GryfVerificationException {
+    public void resendVerificationCode(VerificationDto verificationDto) throws GryfVerificationException {
         GryfIndUserDto user = validateVerificationData(verificationDto);
-        mailService.scheduleMail(mailDtoCreator.createMailDTOForVerificationCode(user, appUrl));
+        mailService.scheduleMail(mailDtoCreator.createMailDTOForVerificationCode(user));
     }
 
     private GryfIndUserDto validateVerificationData(VerificationDto verificationDto) throws GryfVerificationException {

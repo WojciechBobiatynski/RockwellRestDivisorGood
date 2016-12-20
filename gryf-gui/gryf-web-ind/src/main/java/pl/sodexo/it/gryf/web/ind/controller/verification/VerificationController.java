@@ -42,13 +42,13 @@ public class VerificationController {
         LOGGER.info("resendVerificationCode, PESEL={}, email={}",pesel, email);
 
         VerificationDto verificationDto = new VerificationDto(pesel, email);
-        return sendAndGetComeBackUrl(uiModel, verificationDto, request);
+        return sendAndGetComeBackUrl(uiModel, verificationDto);
     }
 
-    private String sendAndGetComeBackUrl(Model uiModel, VerificationDto verificationDto, HttpServletRequest request) {
+    private String sendAndGetComeBackUrl(Model uiModel, VerificationDto verificationDto) {
         String comebackPage;
         try {
-            verificationService.resendVerificationCode(verificationDto, getURLWithContextPath(request));
+            verificationService.resendVerificationCode(verificationDto);
             comebackPage = PAGE_VERIFICATION_RESEND_SUCCESS;
         } catch (GryfRuntimeException e){
             LOGGER.error("Blad podczas obslugi", e);

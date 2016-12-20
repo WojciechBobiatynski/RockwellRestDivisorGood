@@ -43,9 +43,8 @@ public interface IndividualService {
     /**
      * Wysyła maila z kodem weryfikacyjnym
      * @param individualDto - dto osoby fizycznej
-     * @param appUrl - adres aplikacji na potrzeby wysyłki maila
      */
-    void sendEmailNotification(IndividualDto individualDto, String appUrl);
+    void sendEmailNotification(IndividualDto individualDto);
 
     UserTrainingReservationDataDto findUserTrainingReservationData(String pesel);
 

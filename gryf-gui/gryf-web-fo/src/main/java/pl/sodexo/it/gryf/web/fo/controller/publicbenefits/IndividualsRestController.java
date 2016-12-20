@@ -86,6 +86,6 @@ public class IndividualsRestController {
     @RequestMapping(value = VER_CODE_SEND_PATH, method = RequestMethod.POST)
     public void sendMailWithVerCode(@RequestBody IndividualDto individualDto, HttpServletRequest request){
         securityChecker.assertServicePrivilege(Privileges.GRF_INDIVIDUAL_MOD);
-        individualService.sendEmailNotification(individualDto, getURLWithContextPath(request));
+        individualService.sendEmailNotification(individualDto);
     }
 }
