@@ -24,6 +24,8 @@ public class EreimbursementStatus {
     public static final String TO_CORRECT = "T_CRR";
     public static final String TO_VERIFY = "T_VRF";
     public static final String SETTLED = "REIMB";
+    public static final String G_DOC = "G_DOC";
+    public static final String CNCL = "CNCL";
 
     @Id
     @Column(name = "ID")

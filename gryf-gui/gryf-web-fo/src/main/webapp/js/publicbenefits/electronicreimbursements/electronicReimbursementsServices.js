@@ -231,8 +231,9 @@ angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementS
             var createDocuments = function() {
                 var rmbsId =  + ($routeParams.id ? $routeParams.id : rmbsId);
                 return $http.post(CREATE_DOCUMENTS_URL + rmbsId)
-                    .success(function() {
+                    .success(function(response) {
                         GryfPopups.setPopup("success", "Sukces", "Wystawiono dokumenty");
+                        eReimbObject.entity = response;
                     })
                     .error(function() {
                         GryfPopups.setPopup("error", "Błąd", "Nie udało się wystawić dokumentów");
@@ -244,10 +245,12 @@ angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementS
 
             var printReports = function() {
                 var rmbsId =  $routeParams.id;
-                var promise = $http.post(CREATE_REPORTS_URL + rmbsId);
+                var promise = $http.post(PRINT_REPORTS_URL + rmbsId);
                 promise.then(function(response) {
+                    eReimbObject.entity = response;
                 });
                 promise.finally(function() {
+
                 });
                 return promise;
             };
@@ -256,8 +259,10 @@ angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementS
                 var rmbsId =  $routeParams.id;
                 var promise = $http.post(CONFIRM_URL + rmbsId);
                 promise.then(function(response) {
+
                 });
                 promise.finally(function() {
+
                 });
                 return promise;
             };

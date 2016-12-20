@@ -78,8 +78,16 @@ public interface ElectronicReimbursementsService {
     Long sendToCorrect(CorrectionDto correctionDto);
 
     /**
-     * Tworzy dokumenty księgowe, w tym notę uznaniową
+     * Generuje odpowiednie dokumenty dla rozliczenia bonów elektronicznych
      * @param rmbsId
+     * @return id zapisanego obiektu
      */
-    void printDocuments(Long rmbsId);
+    Long createDocuments(Long rmbsId);
+
+    /**
+     * Drukuje raporty jasperowe dla rozliczenia bonów elektronicznych
+     * @param rmbsId
+     * @return id zapisanego obiektu
+     */
+    Long printReports(Long rmbsId);
 }

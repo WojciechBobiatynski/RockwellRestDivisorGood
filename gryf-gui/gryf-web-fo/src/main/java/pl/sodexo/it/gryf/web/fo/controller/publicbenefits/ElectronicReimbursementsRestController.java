@@ -1,7 +1,6 @@
 package pl.sodexo.it.gryf.web.fo.controller.publicbenefits;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import pl.sodexo.it.gryf.common.criteria.electronicreimbursements.ElctRmbsCriteria;
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
@@ -120,15 +119,19 @@ public class ElectronicReimbursementsRestController {
     }
 
     @RequestMapping(value = PATH_ELECTRONIC_REIMBURSEMENTS_CREATE_DOCUMENTS + "{rmbsId}", method = RequestMethod.POST)
-    @ResponseStatus(value = HttpStatus.OK)
-    public void createDocuments(@PathVariable("rmbsId") Long rmbsId) {
-    //    TODO
+    @ResponseBody
+    public ElctRmbsHeadDto createDocuments(@PathVariable("rmbsId") Long rmbsId) {
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS_MOD);
+        Long id = electronicReimbursementsService.createDocuments(rmbsId);
+        return electronicReimbursementsService.findEcltRmbsById(id);
     }
 
     @RequestMapping(value = PATH_ELECTRONIC_REIMBURSEMENTS_PRINT_REPORTS + "{rmbsId}", method = RequestMethod.POST)
-    public void printReports(@PathVariable("rmbsId") Long rmbsId) {
+    @ResponseBody
+    public ElctRmbsHeadDto printReports(@PathVariable("rmbsId") Long rmbsId) {
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS_MOD);
-        electronicReimbursementsService.printDocuments(rmbsId);
+        Long id = electronicReimbursementsService.printReports(rmbsId);
+        return electronicReimbursementsService.findEcltRmbsById(id);
     }
 
     @RequestMapping(value = PATH_ELECTRONIC_REIMBURSEMENTS_CONFIRM + "{rmbsId}", method = RequestMethod.POST)

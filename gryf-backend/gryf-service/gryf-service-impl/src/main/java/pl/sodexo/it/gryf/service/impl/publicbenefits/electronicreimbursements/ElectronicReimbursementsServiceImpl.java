@@ -191,6 +191,25 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         return ereimbursement.getId();
     }
 
+    @Override
+    public Long createDocuments(Long rmbsId) {
+        Ereimbursement ereimbursement = ereimbursementRepository.get(rmbsId);
+        ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.G_DOC));
+        //TODO: dodać wywłanie odpowiedneij procedury
+        ereimbursementRepository.update(ereimbursement, ereimbursement.getId());
+        return ereimbursement.getId();
+    }
+
+    @Override
+    public Long printReports(Long rmbsId) {
+        //TODO: tbilski scieżkę do pliku
+        String reportLocation = reportService.generateCreditNoteForReimbursment(rmbsId);
+        Ereimbursement ereimbursement = ereimbursementRepository.get(rmbsId);
+        ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.G_DOC));
+        ereimbursementRepository.update(ereimbursement, ereimbursement.getId());
+        return ereimbursement.getId();
+    }
+
     private void sendMailsToTiUsers(Long ermbsId) {
         CorrectionNotificationEmailParamsDto corrNotifParamsByErmbsId = correctionService.findCorrNotifParamsByErmbsId(ermbsId);
         List<MailDTO> mailsToSend = mailDtoCreator.createMailDTOsForCorrecionNotification(corrNotifParamsByErmbsId);
@@ -232,12 +251,5 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
             throw new NoCalculationParamsException();
         }
         return params;
-    }
-
-    @Override
-    public void printDocuments(Long rmbsId) {
-        //TODO: tbilski scieżkę do pliku
-        String reportLocation = reportService.generateCreditNoteForReimbursment(rmbsId);
-
     }
 }
