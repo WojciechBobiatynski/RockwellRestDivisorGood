@@ -5,6 +5,7 @@ import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CalculationChargesParamsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsMailParamsDto;
 
 import java.util.List;
 
@@ -49,5 +50,12 @@ public interface ElectronicReimbursementsDao {
      * @return Dto rozliczenia
      */
     ElctRmbsHeadDto findEcltRmbsByTrainingInstanceId(Long trainingInstanceId);
+
+    /**
+     * Znajduje parametry potrzbene do wypełnienia maila z rozliczeń
+     * @param ermbsId - id rozliczenia
+     * @return parametry pootrzebne do wypełnienia maila
+     */
+    ErmbsMailParamsDto findMailParams(Long ermbsId);
 
 }

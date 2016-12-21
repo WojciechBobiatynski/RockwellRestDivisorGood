@@ -117,6 +117,7 @@ angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementS
             var PRINT_REPORTS_URL = contextPath + "/rest/publicBenefits/electronic/reimbursements/printReports/";
             var CONFIRM_URL = contextPath + "/rest/publicBenefits/electronic/reimbursements/confirm/";
             var CANCEL_URL = contextPath + "/rest/publicBenefits/electronic/reimbursements/cancel/";
+            var CREATE_EMAILS_FROM_TEMPLATE = contextPath + "/rest/publicBenefits/electronic/reimbursements/email/create/";
 
             var eReimbObject = new EReimbObject();
             var correctionObject = new CorrectionObject();
@@ -287,6 +288,15 @@ angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementS
                 return promise;
             };
 
+            var createEmailsFromTemplate = function() {
+                var rmbsId =  $routeParams.id;
+                var promise = $http.post(CREATE_EMAILS_FROM_TEMPLATE + rmbsId);
+                promise.success(function(response) {
+                    eReimbObject.entity.emails = response;
+                });
+                return promise;
+            };
+
             return {
                 getNewModel: getNewModel,
                 getViolation: getViolations,
@@ -299,6 +309,7 @@ angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementS
                 createDocuments: createDocuments,
                 printReports: printReports,
                 confirm: confirm,
-                cancel: cancel
+                cancel: cancel,
+                createEmailsFromTemplate: createEmailsFromTemplate
             };
         }]);

@@ -269,18 +269,18 @@
             <h2>Maile do wysłania</h2>
         </header>
     </div>
-    <div class="grid-100">
+    <div class="grid-100" data-ng-repeat="mail in eReimbObject.entity.emails">
         <div class="grid-30">
             <div>Adresaci email</div>
-            <input type="text" value="lucjan@sodexo.com, marcel@sodexo.com">
+            <input type="text" data-ng-model="mail.emailsTo">
         </div>
         <div class="grid-30">
             <div>Tytuł maila</div>
-            <input type="text" value="Tytuł">
+            <input type="text" data-ng-model="mail.emailSubject">
         </div>
         <div class="grid-40">
             <div>Treść maila</div>
-            <textarea rows="5" cols="50" value="Treść maila"></textarea>
+            <textarea rows="5" cols="50" data-ng-model="mail.emailBody"></textarea>
         </div>
         <div class="grid-30">
             <div>Załączniki</div>

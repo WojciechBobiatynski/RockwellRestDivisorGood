@@ -8,6 +8,7 @@ import pl.sodexo.it.gryf.common.dto.other.FileDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CorrectionDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsMailDto;
 import pl.sodexo.it.gryf.common.enums.Privileges;
 import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.*;
@@ -49,6 +50,9 @@ public class ElectronicReimbursementsRestController {
 
     @Autowired
     private ErmbsReportService ermbsReportService;
+
+    @Autowired
+    private ErmbsMailService ermbsMailService;
 
     @RequestMapping(value = PATH_ELECTRONIC_REIMBURSEMENTS_LIST, method = RequestMethod.GET)
     @ResponseBody
@@ -152,6 +156,14 @@ public class ElectronicReimbursementsRestController {
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS_MOD);
         Long id = electronicReimbursementsService.cancel(rmbsId);
         return electronicReimbursementsService.findEcltRmbsById(id);
+    }
+
+    @RequestMapping(value = PATH_ELECTRONIC_REIMBURSEMENTS_CREATE_EMAIL_FROM_TEMPLATE + "{rmbsId}", method = RequestMethod.POST)
+    @ResponseBody
+    public List<ErmbsMailDto> createEmailsFromTemplate(@PathVariable("rmbsId") Long rmbsId) {
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS_MOD);
+        List<ErmbsMailDto> mailFromTemplates = ermbsMailService.createMailFromTemplates(rmbsId);
+        return mailFromTemplates;
     }
 
     @RequestMapping(PATH_ELECTRONIC_REIMBURSEMENTS_DOWNLOAD_REPORT_FILE)

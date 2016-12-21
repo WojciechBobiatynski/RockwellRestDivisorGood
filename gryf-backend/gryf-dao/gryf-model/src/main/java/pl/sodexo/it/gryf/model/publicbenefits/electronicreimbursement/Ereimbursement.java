@@ -122,4 +122,9 @@ public class Ereimbursement extends VersionableEntity {
     @Setter
     private List<EreimbursementReport> ereimbursementReports;
 
+    @OneToMany(mappedBy = "ereimbursement")
+    @Getter
+    @Setter
+    private List<EreimbursementMail> ereimbursementMails;
+
 }

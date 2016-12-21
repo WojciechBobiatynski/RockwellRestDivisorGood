@@ -125,6 +125,13 @@
           report.E_REIMBURSEMENT_ID                 rep_ermbsId,
           report.TYPE_NAME                          rep_typeName,
           report.FILE_LOCATION                      rep_fileLocation,
+--        maile
+          mails.EMAILS_TO                           mail_emailsTo,
+          mails.EMAIL_SUBJECT                       mail_emailSubject,
+          mails.EMAIL_BODY                          mail_body,
+--        załączniki maili
+          e_att.ATTACHMENT_PATH                     mail_ett_fileLocation,
+          e_att.ATTACHMENT_NAME                     mail_ett_name,
 --        korekta
           last_corr.ID                              corr_id,
           last_corr.E_RMBS_ID                       corr_ermbsId,
@@ -180,6 +187,9 @@
 
           LEFT JOIN APP_PBE.E_REIMBURSEMENT_REPORTS report ON report.E_REIMBURSEMENT_ID = ermbs.ID
 
+          LEFT JOIN APP_PBE.E_REIMBURSEMENT_EMAILS mails ON mails.E_REIMBURSEMENT_ID = ermbs.ID
+          LEFT JOIN APP_PBE.EMAIL_INSTANCE_ATTACHMENTS e_att ON e_att.EMAIL_INSTANCE_ID = mails.EMAIL_INSTANCE_ID
+
           LEFT JOIN <include refid="lastCorrection"/> last_corr ON last_corr.e_rmbs_id = ermbs.ID
           LEFT JOIN APP_PBE.CORRECTION_ATTACHMENTS cor_att on last_corr.ID = cor_att.CORR_ID
           LEFT JOIN APP_PBE.E_RMBS_ATTACHMENTS rmbs_att ON rmbs_att.ID = cor_att.E_RMBS_ATT_ID
@@ -209,6 +219,10 @@
         <collection property="products" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.ProductHeadDto" autoMapping="true" columnPrefix="prd_"/>
         <collection property="attachments" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsAttachmentDto" autoMapping="true" columnPrefix="att_"/>
         <collection property="reports" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsReportDto" autoMapping="true" columnPrefix="rep_"/>
+        <collection property="emails" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsMailDto" autoMapping="true" columnPrefix="mail_">
+            <id column="id" property="id"/>
+            <collection property="attachments" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CorrectionAttachmentDto" autoMapping="true" columnPrefix="ett_"/>
+        </collection>
     </resultMap>
     <select id="findEcltRmbsById" resultMap="ecltRmbsHeadMap">
         <include refid="baseForReimbursement"/>
@@ -237,5 +251,36 @@
             FROM APP_PBE.CORRECTIONS correct)
         WHERE corr_order = 1)
     </sql>
+
+    <select id="findMailParams" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsMailParamsDto">
+        SELECT
+          gr_pr.PROGRAM_NAME         grantProgramName,
+          ind.FIRST_NAME             firstName,
+          ind.LAST_NAME              lastName,
+          tr.NAME                    trainingName,
+          contact.CONTACT_DATA       email,
+          CASE
+            WHEN CONTRACT_TYPE_ID = 'IND'
+              THEN 0
+            ELSE
+              1
+          END                        msp
+        FROM
+          APP_PBE.E_REIMBURSEMENTS ermbs
+          JOIN APP_PBE.TI_TRAINING_INSTANCES ti ON ti.ID = ermbs.TI_TR_INST_ID
+          JOIN APP_PBE.TI_TRAININGS tr ON tr.ID = ti.TRAINING_ID
+          JOIN APP_PBE.TRAINING_INSTITUTIONS tinst ON tinst.ID = tr.TRAINING_INSTITUTION_ID
+          JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOL_USES pipu on ti.ID = pipu.TRAINING_INSTANCE_ID
+          JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOLS pip on pipu.PRODUCT_INSTANCE_POOL_ID = pip.ID
+          JOIN APP_PBE.ORDERS ord on pip.ORDER_ID = ord.ID
+          JOIN APP_PBE.CONTRACTS cnt on ord.CONTRACT_ID = cnt.ID
+          JOIN APP_PBE.INDIVIDUALS ind on ind.ID = cnt.INDIVIDUAL_ID
+          JOIN APP_PBE.GRANT_PROGRAMS gr_pr ON gr_pr.ID = ti.GRANT_PROGRAM_ID
+          JOIN APP_PBE.INDIVIDUAL_CONTACTS contact ON contact.IND_ID = ind.ID
+        WHERE
+          ermbs.ID = #{ermbsId}
+          AND contact.CONTACT_TYPE = 'VER_EMAIL'
+          AND rownum &lt;= 1
+    </select>
 
 </mapper>

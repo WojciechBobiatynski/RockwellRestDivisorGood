@@ -21,11 +21,16 @@ public final class GryfConstants {
     public static final String RESEND_TRAINING_REIMBURSMENT_PIN_TEMPLATE_CODE = "PIN_RESEND";
     public static final String REALIZE_ORDER_TEMPLATE_CODE = "KK_ORDER";
     public static final String CORR_NOTIF_EMAIL_TEMPLATE_CODE = "CORR_NOTIF";
+    public static final String E_REIMB_CONFIRMATION_EMAIL_TEMPLATE_CODE = "E_REIMB";
+    public static final String CONFIRMATION_PAYMENT_EMAIL_TEMPLATE_CODE = "CNF_PYMT";
 
     public static final String GRANT_PROGRAM_PLACEHOLDER = "grantProgramName";
     public static final String ARRIVAL_DATE_PLACEHOLDER = "arrivalDate";
     public static final String RMBS_NUMBER_PLACEHOLDER = "rmbsNumber";
 
+    public static final String FIRST_NAME_PLACEHOLDER = "firstName";
+    public static final String LAST_NAME_PLACEHOLDER = "lastName";
+    public static final String TRAINING_NAME_PLACEHOLDER = "trainingName";
 
     public static final String EMAIL_BODY_VER_CODE_PLACEHOLDER = "verificationCode";
     public static final String EMAIL_BODY_LOGIN_PLACEHOLDER = "login";

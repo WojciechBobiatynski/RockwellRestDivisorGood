@@ -6,6 +6,7 @@ import pl.sodexo.it.gryf.common.authentication.AEScryptographer;
 import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.common.dto.mail.MailDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CorrectionNotificationEmailParamsDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsMailParamsDto;
 import pl.sodexo.it.gryf.common.dto.security.individuals.Verifiable;
 import pl.sodexo.it.gryf.common.mail.MailPlaceholders;
 import pl.sodexo.it.gryf.dao.api.crud.repository.mail.EmailTemplateRepository;
@@ -130,5 +131,23 @@ public class MailDtoCreator {
             result.add(mailDTO);
         });
         return result;
+    }
+
+    public MailDTO createConfirmReimbMailDto(ErmbsMailParamsDto paramsDto) {
+        MailPlaceholders mailPlaceholders = mailService.createPlaceholders(GRANT_PROGRAM_PLACEHOLDER, paramsDto.getGrantProgramName())
+                .add(FIRST_NAME_PLACEHOLDER, paramsDto.getFirstName())
+                .add(LAST_NAME_PLACEHOLDER, paramsDto.getLastName())
+                .add(TRAINING_NAME_PLACEHOLDER, paramsDto.getTrainingName());
+        EmailTemplate emailTemplate = emailTemplateRepository.get(E_REIMB_CONFIRMATION_EMAIL_TEMPLATE_CODE);
+        return createAndFillMailDTO(emailTemplate, paramsDto.getEmail(), mailPlaceholders);
+    }
+
+    public MailDTO createConfirmPaymentMailDto(ErmbsMailParamsDto paramsDto) {
+        MailPlaceholders mailPlaceholders = mailService.createPlaceholders(GRANT_PROGRAM_PLACEHOLDER, paramsDto.getGrantProgramName())
+                .add(FIRST_NAME_PLACEHOLDER, paramsDto.getFirstName())
+                .add(LAST_NAME_PLACEHOLDER, paramsDto.getLastName())
+                .add(TRAINING_NAME_PLACEHOLDER, paramsDto.getTrainingName());
+        EmailTemplate emailTemplate = emailTemplateRepository.get(CONFIRMATION_PAYMENT_EMAIL_TEMPLATE_CODE);
+        return createAndFillMailDTO(emailTemplate, paramsDto.getEmail(), mailPlaceholders);
     }
 }

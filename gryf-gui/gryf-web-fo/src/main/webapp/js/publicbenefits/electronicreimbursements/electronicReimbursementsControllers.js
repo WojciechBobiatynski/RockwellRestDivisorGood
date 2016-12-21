@@ -95,14 +95,15 @@ angular.module('gryf.electronicreimbursements').controller("announce.electronicR
         };
 
         $scope.sendToCorrect = AnnounceEReimbursementService.sendToCorrect;
-
         $scope.createDocuments = AnnounceEReimbursementService.createDocuments;
-
-        $scope.printReports = AnnounceEReimbursementService.printReports;
-
         $scope.confirm = AnnounceEReimbursementService.confirm;
-
         $scope.cancel = AnnounceEReimbursementService.cancel;
+
+        $scope.printReports = function () {
+            AnnounceEReimbursementService.printReports().success(function(response){
+                AnnounceEReimbursementService.createEmailsFromTemplate();
+            });
+        };
 
         $scope.generatedReportsAndEmailsSectionVisible = function () {
             return $scope.eReimbObject.entity != null && ($scope.eReimbObject.entity.statusCode === 'T_VRF' || $scope.eReimbObject.entity.statusCode === 'REIMB');
