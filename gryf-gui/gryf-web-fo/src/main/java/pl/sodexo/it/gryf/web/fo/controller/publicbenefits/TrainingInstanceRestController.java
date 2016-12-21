@@ -62,14 +62,14 @@ public class TrainingInstanceRestController {
     @RequestMapping(value = "/cancelTrainingReservation/{id}", method = RequestMethod.PUT)
     public void cancelTrainingReservation(@PathVariable("id") Long trainingInstanceId) {
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_TI_TRAINING_INSTANCES_MOD);
-        productInstancePoolService.cancelTrainingInstance(trainingInstanceId);
+        trainingInstanceService.cancelTrainingInstance(trainingInstanceId);
     }
 
     @RequestMapping(value = "/confirmPin/{trainingInstanceId}/{pinCode}", method = RequestMethod.PUT)
     public void confirmPin(@PathVariable("trainingInstanceId") Long trainingInstanceId,
                            @PathVariable("pinCode") String pinCode) {
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_TI_TRAINING_INSTANCES_MOD);
-        productInstancePoolService.useTrainingInstance(trainingInstanceId, pinCode);
+        trainingInstanceService.useTrainingInstance(trainingInstanceId, pinCode);
     }
 
 }

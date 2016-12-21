@@ -136,7 +136,14 @@ public class ElectronicReimbursementsRestController {
 
     @RequestMapping(value = PATH_ELECTRONIC_REIMBURSEMENTS_CONFIRM + "{rmbsId}", method = RequestMethod.POST)
     public void confirm(@PathVariable("rmbsId") Long rmbsId) {
-        //TODO
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS_MOD);
+        electronicReimbursementsService.confirm(rmbsId);
+    }
+
+    @RequestMapping(value = PATH_ELECTRONIC_REIMBURSEMENTS_EXPIRE + "{rmbsId}", method = RequestMethod.POST)
+    public void expire(@PathVariable("rmbsId") Long rmbsId) {
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS_MOD);
+        electronicReimbursementsService.expire(rmbsId);
     }
 
     @RequestMapping(value = PATH_ELECTRONIC_REIMBURSEMENTS_CANCEL + "{rmbsId}", method = RequestMethod.POST)

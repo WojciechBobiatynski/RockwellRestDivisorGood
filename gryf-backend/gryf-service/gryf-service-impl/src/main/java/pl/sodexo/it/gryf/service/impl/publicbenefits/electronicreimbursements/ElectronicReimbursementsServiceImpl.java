@@ -30,6 +30,7 @@ import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.Ele
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.ErmbsAttachmentService;
 import pl.sodexo.it.gryf.service.api.reports.ReportService;
 import pl.sodexo.it.gryf.service.local.api.MailService;
+import pl.sodexo.it.gryf.service.local.api.publicbenefits.pbeproduct.PbeProductInstancePoolLocalService;
 import pl.sodexo.it.gryf.service.mapping.MailDtoCreator;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.electronicreimbursements.EreimbursementDtoMapper;
 import pl.sodexo.it.gryf.service.validation.publicbenefits.electronicreimbursements.CorrectionValidator;
@@ -104,6 +105,9 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
 
     @Autowired
     private EreimbursementInvoiceRepository ereimbursementInvoiceRepository;
+
+    @Autowired
+    private PbeProductInstancePoolLocalService pbeProductInstancePoolLocalService;
 
     @Override
     public List<ElctRmbsDto> findEcltRmbsListByCriteria(ElctRmbsCriteria criteria) {
@@ -268,6 +272,22 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         setDoneReimburseStatusForTiInstance(ereimbursement);
         ereimbursementRepository.update(ereimbursement, ereimbursement.getId());
         return ereimbursement.getId();
+    }
+
+    @Override
+    public void confirm(Long rmbsId) {
+        Ereimbursement ereimbursement = ereimbursementRepository.get(rmbsId);
+        //TODO: akmiecinski pozminiac statusy
+
+        pbeProductInstancePoolLocalService.reimbursPools(ereimbursement);
+    }
+
+    @Override
+    public void expire(Long rmbsId) {
+        Ereimbursement ereimbursement = ereimbursementRepository.get(rmbsId);
+        //TODO: akmiecinski pozminiac statusy
+
+        pbeProductInstancePoolLocalService.expirePools(ereimbursement);
     }
 
     private void sendMailsToTiUsers(Long ermbsId) {

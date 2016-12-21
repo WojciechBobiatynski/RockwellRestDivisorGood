@@ -10,6 +10,7 @@ import pl.sodexo.it.gryf.model.api.FinanceNoteResult;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderInvoice;
 import pl.sodexo.it.gryf.service.api.publicbenefits.pbeproductinstancepool.PbeProductInstancePoolService;
+import pl.sodexo.it.gryf.service.local.api.publicbenefits.pbeproduct.PbeProductInstancePoolLocalService;
 import pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.actions.ActionBaseService;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public class CareerDirectionCreateProducyInstancePoolActionService extends Actio
     private static final Logger LOGGER = LoggerFactory.getLogger(CareerDirectionCreateProducyInstancePoolActionService.class);
 
     @Autowired
-    private PbeProductInstancePoolService productInstancePoolService;
+    private PbeProductInstancePoolLocalService productInstancePoolLocalService;
 
     @Autowired
     private GryfPLSQLRepository gryfPLSQLRepository;
@@ -35,7 +36,7 @@ public class CareerDirectionCreateProducyInstancePoolActionService extends Actio
 
     public void execute(Order order, List<String> acceptedPathViolations) {
         LOGGER.debug("Uutworzenie puli bonów dla zamówienia [{}]", order.getId());
-        productInstancePoolService.createProductInstancePool(order.getId());
+        productInstancePoolLocalService.createPool(order);
         saveOrderInvoice(order);
     }
 

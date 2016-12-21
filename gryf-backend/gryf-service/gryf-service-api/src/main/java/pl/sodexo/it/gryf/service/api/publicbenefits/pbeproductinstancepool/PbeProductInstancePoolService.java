@@ -9,21 +9,6 @@ import pl.sodexo.it.gryf.common.dto.security.individuals.IndUserAuthDataDto;
  */
 public interface PbeProductInstancePoolService {
 
-    //FIND METHODS
-
     UserTrainingReservationDataDto findUserTrainingReservationData(IndUserAuthDataDto userAuthDataDto);
 
-    //ACTION METHODS
-
-    void createProductInstancePool(Long orderId);
-
-    void createTrainingInstance(TrainingReservationDto reservationDto);
-
-    void useTrainingInstance(Long trainingId, String pin);
-
-    void cancelTrainingInstance(Long trainingId);
-
-    void reimbursProductInstancePools(Long reimbursmentId);
-
-    void expireProductInstancePools(Long reimbursmentId);
 }

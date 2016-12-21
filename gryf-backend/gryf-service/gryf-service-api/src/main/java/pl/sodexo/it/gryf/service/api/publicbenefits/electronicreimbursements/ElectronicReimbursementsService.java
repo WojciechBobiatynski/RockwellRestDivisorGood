@@ -97,4 +97,16 @@ public interface ElectronicReimbursementsService {
      * @return id zapisanego obiektu
      */
     Long cancel(Long rmbsId);
+
+    /**
+     * Potwierdza rozlicznie
+     * @param rmbsId
+     */
+    void confirm(Long rmbsId);
+
+    /**
+     * Rozlicza niewykorzystaną pule bonów
+     * @param rmbsId
+     */
+    void expire(Long rmbsId);
 }

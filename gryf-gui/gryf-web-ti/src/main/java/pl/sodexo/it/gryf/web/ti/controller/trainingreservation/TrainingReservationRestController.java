@@ -10,6 +10,7 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.UserTrainingR
 import pl.sodexo.it.gryf.common.dto.publicbenefits.trainingreservation.TrainingReservationDto;
 import pl.sodexo.it.gryf.common.dto.security.individuals.IndUserAuthDataDto;
 import pl.sodexo.it.gryf.service.api.publicbenefits.pbeproductinstancepool.PbeProductInstancePoolService;
+import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.TrainingInstanceService;
 import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
 import pl.sodexo.it.gryf.web.ti.util.UrlConstants;
 
@@ -19,6 +20,9 @@ public class TrainingReservationRestController {
 
     @Autowired
     private PbeProductInstancePoolService productInstancePoolService;
+
+    @Autowired
+    private TrainingInstanceService trainingInstanceService;
 
     @Autowired
     private SecurityChecker securityChecker;
@@ -32,19 +36,19 @@ public class TrainingReservationRestController {
     @RequestMapping(value = "/reserveTraining", method = RequestMethod.POST)
     public void reserveTraining(@RequestBody TrainingReservationDto reservationDto) {
         //securityChecker.assertServicePrivilege(Privileges.GRF_PBE_TI_TRAININGS);
-        productInstancePoolService.createTrainingInstance(reservationDto);
+        trainingInstanceService.createTrainingInstance(reservationDto);
     }
 
     @RequestMapping(value = "/cancelTrainingReservation/{id}", method = RequestMethod.PUT)
     public void cancelTrainingReservation(@PathVariable("id") Long trainingInstanceId) {
         //securityChecker.assertServicePrivilege(Privileges.GRF_PBE_TI_TRAININGS);
-        productInstancePoolService.cancelTrainingInstance(trainingInstanceId);
+        trainingInstanceService.cancelTrainingInstance(trainingInstanceId);
     }
 
     @RequestMapping(value = "/confirmPin/{trainingInstanceId}/{pinCode}", method = RequestMethod.PUT)
     public void confirmPin(@PathVariable("trainingInstanceId") Long trainingInstanceId,
                                           @PathVariable("pinCode") String pinCode) {
         //securityChecker.assertServicePrivilege(Privileges.GRF_PBE_TI_TRAININGS);
-        productInstancePoolService.useTrainingInstance(trainingInstanceId, pinCode);
+        trainingInstanceService.useTrainingInstance(trainingInstanceId, pinCode);
     }
 }
