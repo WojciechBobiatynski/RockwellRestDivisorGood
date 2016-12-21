@@ -100,9 +100,13 @@ angular.module('gryf.electronicreimbursements').controller("announce.electronicR
         $scope.cancel = AnnounceEReimbursementService.cancel;
 
         $scope.printReports = function () {
-            AnnounceEReimbursementService.printReports().success(function(response){
+            AnnounceEReimbursementService.printReports();
+        };
+
+        $scope.generateMailFromTemplatesOnInitIfNull = function () {
+            if($scope.eReimbObject.entity.emails == null || $scope.eReimbObject.entity.emails === undefined || $scope.eReimbObject.entity.emails.length == 0){
                 AnnounceEReimbursementService.createEmailsFromTemplate();
-            });
+            }
         };
 
         $scope.generatedReportsAndEmailsSectionVisible = function () {

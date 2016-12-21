@@ -58,8 +58,9 @@ public class ErmbsMailServiceImpl implements ErmbsMailService {
         List<FileDTO> fileList = new ArrayList<>();
         FileDTO fileDTO = new FileDTO();
         fileDTO.setFileLocation("abc");
-        fileDTO.setAttachmentName("123");
+        fileDTO.setOriginalFilename("123");
         fileDTO.setName("zxc");
+        fileList.add(fileDTO);
         fileList.add(fileDTO);
         ermbsMailDto.setAttachments(fileList);
     }

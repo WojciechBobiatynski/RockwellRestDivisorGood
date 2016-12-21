@@ -10,7 +10,7 @@
         <li><a class="button button-save" ng-click="cancel()" gryf-privilege="GRF_PBE_E_REIMBURSEMENTS_MOD" ng-if="cancelButtonVisible()">Anuluj</a></li>
     </ul>
     <ol>
-        <li><a class="button" ng-href="{{getPrevUrl()}}" >Wróć</a></li>
+        <li><a class="button" ng-href="{{getPrevUrl()}}">Wróć</a></li>
     </ol>
 </header>
 <!--------------------------------------DANE_INSTYTUCJI_SZKOLENIOWEJ---------------------------------------------->
@@ -223,10 +223,13 @@
     </div>
     <div class="grid-100">
         <button ng-hide="correctionObject.isNewCorrect" class="button button-new"
-                ng-click="getNewRequiredCorrectionDate()" gryf-privilege="">Nowa korekta</button>
+                ng-click="getNewRequiredCorrectionDate()" gryf-privilege="">Nowa korekta
+        </button>
 
         <button ng-show="!correctionObject.isCorrectionsLoaded && correctionObject.loadedCorrections[0].correctionNumber > 1" class="button button-infinity"
-                ng-click="findAllCorrections()" style="margin-left: 10px;">Wczytaj wszystkie</button></td>
+                ng-click="findAllCorrections()" style="margin-left: 10px;">Wczytaj wszystkie
+        </button>
+        </td>
 
         <div class="grid-15" ng-show="correctionObject.isNewCorrect">
             <strong class="label">Wymagany termin korekty</strong>
@@ -263,28 +266,58 @@
     </div>
 </section>
 <!--------------------------------------Maile do wysłania---------------------------------------------->
-<section data-ng-if="generatedReportsAndEmailsSectionVisible()">
+<section data-ng-if="generatedReportsAndEmailsSectionVisible()" data-ng-init="generateMailFromTemplatesOnInitIfNull()">
     <div class="grid-100">
         <header>
             <h2>Maile do wysłania</h2>
         </header>
     </div>
     <div class="grid-100" data-ng-repeat="mail in eReimbObject.entity.emails">
-        <div class="grid-30">
-            <div>Adresaci email</div>
-            <input type="text" data-ng-model="mail.emailsTo">
+        <div class="grid-100">
+            <div class="grid-30">
+                <div>Adresaci email</div>
+                <input type="text" data-ng-model="mail.emailsTo">
+            </div>
+            <div class="grid-30">
+                <div>Tytuł maila</div>
+                <input type="text" data-ng-model="mail.emailSubject">
+            </div>
+            <div class="grid-40">
+                <div>Treść maila</div>
+                <textarea rows="5" cols="50" data-ng-model="mail.emailBody"></textarea>
+            </div>
         </div>
-        <div class="grid-30">
-            <div>Tytuł maila</div>
-            <input type="text" data-ng-model="mail.emailSubject">
+        <div class="grid-100">
+            <header>
+                <h3>Załączniki</h3>
+            </header>
+            <div class="grid-100" data-ng-repeat="att in mail.attachments">
+                <div class="grid-100">
+                    <div class="grid-20">
+                        <div>Nazwa załącznika</div>
+                        <input type="text" data-ng-model="att.name">
+                    </div>
+                    <div class="grid-30">
+                        <div>{{att.originalFilename}}</div>
+                    </div>
+                    <div class="grid-40">
+                        <button class="button button-save" ng-model="att.file" ngf-select ngf-max-size="2MB" ngf-model-invalid="att.errorFile"
+                                ngf-pattern=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.gif">
+                            {{(!att.file.name && !att.originalFileName) ? "Wgraj plik" : "Zmień plik"}}
+                        </button>
+                        <button class="button button-save" ng-click="deleteMailAtt(att)">
+                            Usuń
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="grid-100">
+                <button class="button button-save" ng-click="addNew()">Dodaj plik</button>
+            </div>
         </div>
-        <div class="grid-40">
-            <div>Treść maila</div>
-            <textarea rows="5" cols="50" data-ng-model="mail.emailBody"></textarea>
-        </div>
-        <div class="grid-30">
-            <div>Załączniki</div>
-        </div>
+    </div>
+    <div class="grid-100">
+        <button class="button button-save" ng-click="sendMails()">Wyślij maile</button>
     </div>
 </section>
 <!--------------------------------------ZALACZNIKI---------------------------------------------->

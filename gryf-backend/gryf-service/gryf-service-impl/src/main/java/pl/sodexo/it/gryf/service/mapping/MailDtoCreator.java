@@ -103,7 +103,7 @@ public class MailDtoCreator {
     private MailDTO createAndFillMailDTO(EmailTemplate emailTemplate, String email, MailPlaceholders mailPlaceholders) {
         MailDTO mailDTO = new MailDTO();
         mailDTO.setTemplateId(emailTemplate.getId());
-        mailDTO.setSubject(emailTemplate.getEmailSubjectTemplate());
+        mailDTO.setSubject(mailPlaceholders.replace(emailTemplate.getEmailSubjectTemplate()));
         mailDTO.setAddressesFrom(applicationParameters.getGryfPbeDefPubEmailFrom());
         mailDTO.setAddressesReplyTo(applicationParameters.getGryfPbeDefPubEmailReplyTo());
         mailDTO.setAddressesTo(email);
