@@ -244,16 +244,46 @@
         </div>
     </div>
 </section>
-<!--------------------------------------ADRESACI_EMAIL---------------------------------------------->
-<section>
+<!--------------------------------------WYGENEROWANE_RAPORTY---------------------------------------------->
+<section data-ng-if="generatedReportsAndEmailsSectionVisible()">
     <div class="grid-100">
         <header>
-            <h2>Adresaci email</h2>
+            <h2>Wygenerowane raporty</h2>
+        </header>
+    </div>
+    <div ng-repeat="item in eReimbObject.entity.reports" class="grid-100">
+        <div class="grid-30">
+            {{item.typeName}}
+        </div>
+        <div class="grid-30">
+            <a class="button button-new" ng-href="{{getReportFile(item)}}">
+                Pobierz
+            </a>
+        </div>
+    </div>
+</section>
+<!--------------------------------------Maile do wysłania---------------------------------------------->
+<section data-ng-if="generatedReportsAndEmailsSectionVisible()">
+    <div class="grid-100">
+        <header>
+            <h2>Maile do wysłania</h2>
         </header>
     </div>
     <div class="grid-100">
         <div class="grid-30">
+            <div>Adresaci email</div>
             <input type="text" value="lucjan@sodexo.com, marcel@sodexo.com">
+        </div>
+        <div class="grid-30">
+            <div>Tytuł maila</div>
+            <input type="text" value="Tytuł">
+        </div>
+        <div class="grid-40">
+            <div>Treść maila</div>
+            <textarea rows="5" cols="50" value="Treść maila"></textarea>
+        </div>
+        <div class="grid-30">
+            <div>Załączniki</div>
         </div>
     </div>
 </section>

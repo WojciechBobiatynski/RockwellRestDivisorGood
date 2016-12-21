@@ -117,4 +117,9 @@ public class Ereimbursement extends VersionableEntity {
     @Setter
     private List<ErmbsAttachment> ermbsAttachmentList;
 
+    @OneToMany(mappedBy = "ereimbursement")
+    @Getter
+    @Setter
+    private List<EreimbursementReport> ereimbursementReports;
+
 }

@@ -62,6 +62,10 @@ angular.module('gryf.electronicreimbursements').controller("announce.electronicR
             return attachment.id != null ? contextPath + "/rest/publicBenefits/electronic/reimbursements/downloadCorrAttachment?id=" + attachment.id : '';
         };
 
+        $scope.getReportFile = function(attachment) {
+            return attachment.id != null ? contextPath + "/rest/publicBenefits/electronic/reimbursements/downloadReportFile?id=" + attachment.id : '';
+        };
+
         $scope.reimburseButtonVisible = function(){
             return $scope.eReimbObject.entity != null && ($scope.eReimbObject.entity.statusCode === 'NEW' || $scope.eReimbObject.entity.statusCode === 'T_CRR');
         };
@@ -86,10 +90,6 @@ angular.module('gryf.electronicreimbursements').controller("announce.electronicR
             return $scope.eReimbObject.entity != null && ($scope.eReimbObject.entity.statusCode === 'NEW' || $scope.eReimbObject.entity.statusCode === 'T_RMS' || $scope.eReimbObject.entity.statusCode === 'T_CRR');
         };
 
-        $scope.save = function(){
-
-        };
-
         $scope.settle = function(){
 
         };
@@ -103,5 +103,9 @@ angular.module('gryf.electronicreimbursements').controller("announce.electronicR
         $scope.confirm = AnnounceEReimbursementService.confirm;
 
         $scope.cancel = AnnounceEReimbursementService.cancel;
+
+        $scope.generatedReportsAndEmailsSectionVisible = function () {
+            return $scope.eReimbObject.entity != null && ($scope.eReimbObject.entity.statusCode === 'T_VRF' || $scope.eReimbObject.entity.statusCode === 'REIMB');
+        }
 
     }]);

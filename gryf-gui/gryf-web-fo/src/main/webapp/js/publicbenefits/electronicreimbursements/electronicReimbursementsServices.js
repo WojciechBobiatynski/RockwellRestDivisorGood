@@ -246,11 +246,15 @@ angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementS
             var printReports = function() {
                 var rmbsId =  $routeParams.id;
                 var promise = $http.post(PRINT_REPORTS_URL + rmbsId);
-                promise.then(function(response) {
-                    eReimbObject.entity = response.data;
-                });
-                promise.finally(function() {
-
+                promise.success(function(response) {
+                    GryfPopups.setPopup("success", "Sukces", "Wydrukowano dokumenty");
+                    eReimbObject.entity = response;
+                })
+                .error(function() {
+                    GryfPopups.setPopup("error", "Błąd", "Nie udało się wydrukować dokumentów");
+                })
+                .finally(function() {
+                    GryfPopups.showPopup();
                 });
                 return promise;
             };
@@ -270,11 +274,15 @@ angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementS
             var cancel = function() {
                 var rmbsId =  $routeParams.id;
                 var promise = $http.post(CANCEL_URL + rmbsId);
-                promise.then(function(response) {
-                    eReimbObject.entity = response.data;
-                });
-                promise.finally(function() {
-
+                promise.success(function(response) {
+                    GryfPopups.setPopup("success", "Sukces", "Anulowano rozliczenie");
+                    eReimbObject.entity = response;
+                })
+                .error(function() {
+                    GryfPopups.setPopup("error", "Błąd", "Nie udało się anulować rozliczenia");
+                })
+                .finally(function() {
+                    GryfPopups.showPopup();
                 });
                 return promise;
             };

@@ -94,6 +94,10 @@ public class ElctRmbsHeadDto extends VersionableDto implements Serializable {
     @Setter
     private CorrectionDto lastCorrectionDto;
 
+    @Getter
+    @Setter
+    private List <ErmbsReportDto> reports;
+
     public void calculateChargers(CalculationChargesParamsDto params) {
         calculateSxoTiAmount(params);
         calculateIndTiAmount(params);

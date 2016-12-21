@@ -8,19 +8,26 @@ public enum ReportTemplateCode {
     INVOICE("Invoice.jasper"),
     GRANT_ACKNOWLEDGMENT_REPORT("GrantAcknowledgmentReport.jasper"),
     ENTERPRISE_AGREEMENT("EnterpriseAgreementReport.jasper"),
-    DEBIT_NOTE("DebitNote.jasper"),//nota obciążeniowo-ksiegowa
-    CREDIT_NOTE("CreditNote.jasper"),//nota uznaniowa
-    BANK_TRANSFER_CONFIRMATION("BankTransferConfirmation.jasper"),//potwierdzenie wpłaty należnosci
-    GRANT_AID_CONFIRMATION("GrantAidConfirmation.jasper");//Potwierdzenie realizacji dofinansowania
+    DEBIT_NOTE("DebitNote.jasper", "Nota obciążeniowo-ksiegowa"),
+    CREDIT_NOTE("CreditNote.jasper", "Nota uznaniowa"),
+    BANK_TRANSFER_CONFIRMATION("BankTransferConfirmation.jasper", "Potwierdzenie wpłaty należnosci"),
+    GRANT_AID_CONFIRMATION("GrantAidConfirmation.jasper", "Potwierdzenie realizacji dofinansowania");
 
     //FIELDS
 
     private String fileName;
 
+    private String typeName;
+
     //CONSTRUCTORS
 
-    private ReportTemplateCode(String fileName){
+    ReportTemplateCode(String fileName){
         this.fileName = fileName;
+    }
+
+    ReportTemplateCode(String fileName, String typeName){
+        this.fileName = fileName;
+        this.typeName = typeName;
     }
 
     //GETTERS
@@ -29,4 +36,7 @@ public enum ReportTemplateCode {
         return fileName;
     }
 
+    public String getTypeName() {
+        return typeName;
+    }
 }

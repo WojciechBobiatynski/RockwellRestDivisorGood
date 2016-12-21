@@ -120,6 +120,11 @@
           ermbs.CREATED_TIMESTAMP                   createdTimestamp,
           ermbs.MODIFIED_USER                       modifiedUser,
           ermbs.MODIFIED_TIMESTAMP                  modifiedTimestamp,
+--        raporty
+          report.ID                                 rep_id,
+          report.E_REIMBURSEMENT_ID                 rep_ermbsId,
+          report.TYPE_NAME                          rep_typeName,
+          report.FILE_LOCATION                      rep_fileLocation,
 --        korekta
           last_corr.ID                              corr_id,
           last_corr.E_RMBS_ID                       corr_ermbsId,
@@ -173,6 +178,8 @@
           JOIN APP_PBE.TI_TRAINING_INSTANCES tr_in ON tr_in.ID = ermbs.TI_TR_INST_ID
           JOIN APP_PBE.TI_TRAININGS tr ON tr.ID = tr_in.TRAINING_ID
 
+          LEFT JOIN APP_PBE.E_REIMBURSEMENT_REPORTS report ON report.E_REIMBURSEMENT_ID = ermbs.ID
+
           LEFT JOIN <include refid="lastCorrection"/> last_corr ON last_corr.e_rmbs_id = ermbs.ID
           LEFT JOIN APP_PBE.CORRECTION_ATTACHMENTS cor_att on last_corr.ID = cor_att.CORR_ID
           LEFT JOIN APP_PBE.E_RMBS_ATTACHMENTS rmbs_att ON rmbs_att.ID = cor_att.E_RMBS_ATT_ID
@@ -181,6 +188,7 @@
 
           LEFT JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOL_USES pool_uses ON pool_uses.TRAINING_INSTANCE_ID = tr_in.ID
           LEFT JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOLS pool on pool_uses.PRODUCT_INSTANCE_POOL_ID = pool.ID
+
           LEFT JOIN APP_PBE.E_RMBS_ATTACHMENTS att ON (att.E_RMBS_ID = ermbs.ID AND att.STATUS != 'DELETED')
           LEFT JOIN APP_PBE.ATTACHMENT_FILES files ON files.ID = att.FILE_ID
           LEFT JOIN APP_PBE.ATTACHMENT_TYPES att_t ON att_t.CODE = att.ATTACH_TYPE
@@ -200,13 +208,14 @@
         </association>
         <collection property="products" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.ProductHeadDto" autoMapping="true" columnPrefix="prd_"/>
         <collection property="attachments" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsAttachmentDto" autoMapping="true" columnPrefix="att_"/>
+        <collection property="reports" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsReportDto" autoMapping="true" columnPrefix="rep_"/>
     </resultMap>
     <select id="findEcltRmbsById" resultMap="ecltRmbsHeadMap">
         <include refid="baseForReimbursement"/>
         WHERE
           ermbs.ID = #{ermbsId}
         <if test="criteria.gryfUser.userType == 'TRAINING_INSTITUTION'">
-            AND tr.TRAINING_INSTITUTION_ID = #{criteria.gryfUser.trainingInstitutionId}
+          AND tr.TRAINING_INSTITUTION_ID = #{criteria.gryfUser.trainingInstitutionId}
         </if>
     </select>
 

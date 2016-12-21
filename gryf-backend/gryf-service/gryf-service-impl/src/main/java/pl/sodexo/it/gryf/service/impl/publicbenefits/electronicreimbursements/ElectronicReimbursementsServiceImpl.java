@@ -10,6 +10,7 @@ import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.mail.MailDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.*;
 import pl.sodexo.it.gryf.common.enums.ErmbsAttachmentStatus;
+import pl.sodexo.it.gryf.common.enums.ReportTemplateCode;
 import pl.sodexo.it.gryf.common.exception.NoCalculationParamsException;
 import pl.sodexo.it.gryf.common.utils.GryfConstants;
 import pl.sodexo.it.gryf.dao.api.crud.repository.other.GryfPLSQLRepository;
@@ -22,10 +23,7 @@ import pl.sodexo.it.gryf.dao.api.search.dao.ElectronicReimbursementsDao;
 import pl.sodexo.it.gryf.dao.api.search.dao.GrantProgramSearchDao;
 import pl.sodexo.it.gryf.dao.api.search.dao.ProductSearchDao;
 import pl.sodexo.it.gryf.model.api.FinanceNoteResult;
-import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.Ereimbursement;
-import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.EreimbursementInvoice;
-import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.EreimbursementStatus;
-import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.EreimbursementType;
+import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.*;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.CorrectionAttachmentService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.CorrectionService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.ElectronicReimbursementsService;
@@ -37,6 +35,7 @@ import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.electronicre
 import pl.sodexo.it.gryf.service.validation.publicbenefits.electronicreimbursements.CorrectionValidator;
 import pl.sodexo.it.gryf.service.validation.publicbenefits.electronicreimbursements.ErmbsValidator;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -222,21 +221,44 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     public Long printReports(Long rmbsId) {
 
         //TODO: tbilski podpiąć w odpowiednie miejsce scieżkę
-
-        String creditNoteLocation = reportService.generateCreditNoteForReimbursment(rmbsId);
-        System.out.println("CreditNote=" + creditNoteLocation);
-
-        String bankTransferConfirmationLocation = reportService.generateBankTransferConfirmationForReimbursment(rmbsId);
-        System.out.println("BankTransferConfirmation=" + bankTransferConfirmationLocation);
-
-        String grantAidConfirmationLocation = reportService.generateGrantAidConfirmationForReimbursment(rmbsId);
-        System.out.println("GrantAidConfirmation=" + grantAidConfirmationLocation);
-
-
         Ereimbursement ereimbursement = ereimbursementRepository.get(rmbsId);
+        List<EreimbursementReport> ereimbursementReports = new ArrayList<>();
+
+        createCreditNote(ereimbursement, ereimbursementReports);
+        createBankTransferConfirmation(ereimbursement, ereimbursementReports);
+        createGrantAidConfirmation(ereimbursement, ereimbursementReports);
+
         ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.TO_VERIFY));
+        ereimbursement.setEreimbursementReports(ereimbursementReports);
         ereimbursementRepository.update(ereimbursement, ereimbursement.getId());
         return ereimbursement.getId();
+    }
+
+    private void createGrantAidConfirmation(Ereimbursement ereimbursement, List<EreimbursementReport> ereimbursementReports) {
+        String grantAidConfirmationLocation = reportService.generateGrantAidConfirmationForReimbursment(ereimbursement.getId());
+        EreimbursementReport report = new EreimbursementReport();
+        report.setEreimbursement(ereimbursement);
+        report.setFileLocation(grantAidConfirmationLocation);
+        report.setTypeName(ReportTemplateCode.GRANT_AID_CONFIRMATION.getTypeName());
+        ereimbursementReports.add(report);
+    }
+
+    private void createBankTransferConfirmation(Ereimbursement ereimbursement, List<EreimbursementReport> ereimbursementReports) {
+        String bankTransferConfirmationLocation = reportService.generateBankTransferConfirmationForReimbursment(ereimbursement.getId());
+        EreimbursementReport report = new EreimbursementReport();
+        report.setEreimbursement(ereimbursement);
+        report.setFileLocation(bankTransferConfirmationLocation);
+        report.setTypeName(ReportTemplateCode.BANK_TRANSFER_CONFIRMATION.getTypeName());
+        ereimbursementReports.add(report);
+    }
+
+    private void createCreditNote(Ereimbursement ereimbursement, List<EreimbursementReport> ereimbursementReports) {
+        String creditNoteLocation = reportService.generateCreditNoteForReimbursment(ereimbursement.getId());
+        EreimbursementReport report = new EreimbursementReport();
+        report.setEreimbursement(ereimbursement);
+        report.setFileLocation(creditNoteLocation);
+        report.setTypeName(ReportTemplateCode.CREDIT_NOTE.getTypeName());
+        ereimbursementReports.add(report);
     }
 
     @Override
