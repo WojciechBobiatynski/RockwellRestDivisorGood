@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Param;
 import pl.sodexo.it.gryf.common.criteria.UserCriteria;
 import pl.sodexo.it.gryf.common.criteria.electronicreimbursements.ElctRmbsCriteria;
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
+import pl.sodexo.it.gryf.common.dto.other.FileDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CalculationChargesParamsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto;
@@ -66,5 +67,13 @@ public interface ElectronicReimbursementsSearchMapper {
      * @return parametry pootrzebne do wypełnienia maila
      */
     ErmbsMailParamsDto findMailParams(@Param("criteria") UserCriteria criteria, @Param("ermbsId") Long ermbsId);
+
+    /**
+     * Pobiera raporty wygenerowane dla rozliczenia jako dto plików
+     * @param criteria - krytertia użytkownika
+     * @param ermbsId - id rozliczenia
+     * @return lista plików raportów
+     */
+    List<FileDTO> findReportsByErmbsId(@Param("criteria") UserCriteria criteria, @Param("ermbsId") Long ermbsId);
 
 }

@@ -7,6 +7,7 @@ import pl.sodexo.it.gryf.common.dto.mail.MailDTO;
 import pl.sodexo.it.gryf.common.dto.other.FileDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsMailDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsMailParamsDto;
+import pl.sodexo.it.gryf.common.enums.ReportTemplateCode;
 import pl.sodexo.it.gryf.dao.api.search.dao.ElectronicReimbursementsDao;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.ErmbsMailService;
 import pl.sodexo.it.gryf.service.mapping.MailDtoCreator;
@@ -33,13 +34,14 @@ public class ErmbsMailServiceImpl implements ErmbsMailService {
     public List<ErmbsMailDto> createMailFromTemplates(Long ermbsId) {
         List<ErmbsMailDto> mails = new ArrayList<>();
         ErmbsMailParamsDto paramsDto = electronicReimbursementsDao.findMailParams(ermbsId);
+        List<FileDTO> reportFiles = electronicReimbursementsDao.findReportsByErmbsId(ermbsId);
 
         ErmbsMailDto confirmPaymentMail = createErmbsMailFromMailDTO(mailDtoCreator.createConfirmPaymentMailDto(paramsDto), ermbsId);
-        addFakeAttachments(confirmPaymentMail);
+        addReportToConfirmPaymentMailsAsAttachments(confirmPaymentMail, reportFiles);
         mails.add(confirmPaymentMail);
 
         ErmbsMailDto confirmReimbMail = createErmbsMailFromMailDTO(mailDtoCreator.createConfirmReimbMailDto(paramsDto), ermbsId);
-        addFakeAttachments(confirmReimbMail);
+        addReportToConfirmReimbMailsAsAttachments(confirmReimbMail, reportFiles);
         mails.add(confirmReimbMail);
 
         return mails;
@@ -54,14 +56,11 @@ public class ErmbsMailServiceImpl implements ErmbsMailService {
         return ermbsMailDto;
     }
 
-    private void addFakeAttachments(ErmbsMailDto ermbsMailDto){
-        List<FileDTO> fileList = new ArrayList<>();
-        FileDTO fileDTO = new FileDTO();
-        fileDTO.setFileLocation("abc");
-        fileDTO.setOriginalFilename("123");
-        fileDTO.setName("zxc");
-        fileList.add(fileDTO);
-        fileList.add(fileDTO);
-        ermbsMailDto.setAttachments(fileList);
+    private void addReportToConfirmPaymentMailsAsAttachments(ErmbsMailDto mail, List<FileDTO> reportFiles){
+        mail.getAttachments().add(reportFiles.stream().filter(fileDTO -> ReportTemplateCode.GRANT_AID_CONFIRMATION.getTypeName().equals(fileDTO.getName())).findFirst().get());
+    }
+
+    private void addReportToConfirmReimbMailsAsAttachments(ErmbsMailDto mail, List<FileDTO> reportFiles){
+        mail.getAttachments().add(reportFiles.stream().filter(fileDTO -> ReportTemplateCode.BANK_TRANSFER_CONFIRMATION.getTypeName().equals(fileDTO.getName())).findFirst().get());
     }
 }

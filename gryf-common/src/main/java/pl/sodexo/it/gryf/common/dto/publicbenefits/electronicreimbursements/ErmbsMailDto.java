@@ -7,6 +7,7 @@ import pl.sodexo.it.gryf.common.dto.api.VersionableDto;
 import pl.sodexo.it.gryf.common.dto.other.FileDTO;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -43,5 +44,5 @@ public class ErmbsMailDto extends VersionableDto implements Serializable {
 
     @Getter
     @Setter
-    private List<FileDTO> attachments;
+    private List<FileDTO> attachments = new ArrayList<>();
 }

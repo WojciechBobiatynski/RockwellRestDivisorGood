@@ -2,6 +2,7 @@ package pl.sodexo.it.gryf.dao.api.search.dao;
 
 import pl.sodexo.it.gryf.common.criteria.electronicreimbursements.ElctRmbsCriteria;
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
+import pl.sodexo.it.gryf.common.dto.other.FileDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CalculationChargesParamsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto;
@@ -57,5 +58,12 @@ public interface ElectronicReimbursementsDao {
      * @return parametry pootrzebne do wypełnienia maila
      */
     ErmbsMailParamsDto findMailParams(Long ermbsId);
+
+    /**
+     * Pobiera raporty wygenerowane dla rozliczenia jako dto plików
+     * @param ermbsId - id rozliczenia
+     * @return lista plików raportów
+     */
+    List<FileDTO> findReportsByErmbsId(Long ermbsId);
 
 }
