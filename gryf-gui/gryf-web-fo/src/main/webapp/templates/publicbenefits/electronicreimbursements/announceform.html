@@ -298,21 +298,21 @@
                         <input type="text" data-ng-model="att.name">
                     </div>
                     <div class="grid-30">
-                        <div>{{att.originalFilename}}</div>
+                        <div>{{att.file[0].name ? att.file[0].name : att.originalFilename}}</div>
                     </div>
                     <div class="grid-40">
-                        <button class="button button-save" ng-model="att.file" ngf-select ngf-max-size="2MB" ngf-model-invalid="att.errorFile"
+                        <button class="button button-save" ng-model="att.file" ngf-select
                                 ngf-pattern=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.gif">
-                            {{(!att.file.name && !att.originalFileName) ? "Wgraj plik" : "Zmień plik"}}
+                            {{(!att.file[0].name && !att.originalFileName) ? "Wgraj plik" : "Zmień plik"}}
                         </button>
-                        <button class="button button-save" ng-click="deleteMailAtt(att)">
+                        <button class="button button-save" ng-click="deleteMailAtt(mail,att)">
                             Usuń
                         </button>
                     </div>
                 </div>
             </div>
             <div class="grid-100">
-                <button class="button button-save" ng-click="addNew()">Dodaj plik</button>
+                <button class="button button-save" ng-click="addNewAttToMail(mail)">Dodaj plik</button>
             </div>
         </div>
     </div>

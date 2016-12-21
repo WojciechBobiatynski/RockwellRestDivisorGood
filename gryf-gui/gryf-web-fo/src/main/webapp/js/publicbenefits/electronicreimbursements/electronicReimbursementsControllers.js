@@ -32,7 +32,7 @@ angular.module('gryf.electronicreimbursements').controller("searchform.electroni
 
     }]);
 
-
+var test;
 angular.module('gryf.electronicreimbursements').controller("announce.electronicReimbursementsController",
     ['$scope', "$routeParams", "GryfModulesUrlProvider", "BrowseTrainingInsService", "TrainingInstanceSearchService", "AnnounceEReimbursementService",
     function ($scope, $routeParams, GryfModulesUrlProvider, BrowseTrainingInsService, TrainingInstanceSearchService, AnnounceEReimbursementService) {
@@ -40,6 +40,8 @@ angular.module('gryf.electronicreimbursements').controller("announce.electronicR
         $scope.correctionObject = AnnounceEReimbursementService.getCorrectionObject();
         $scope.eReimbObject = AnnounceEReimbursementService.getNewModel();
         $scope.violations = AnnounceEReimbursementService.getNewViolations();
+
+        test = $scope;
 
         if($routeParams.id) {
             AnnounceEReimbursementService.findById($routeParams.id).then(function() {
@@ -111,6 +113,15 @@ angular.module('gryf.electronicreimbursements').controller("announce.electronicR
 
         $scope.generatedReportsAndEmailsSectionVisible = function () {
             return $scope.eReimbObject.entity != null && ($scope.eReimbObject.entity.statusCode === 'T_VRF' || $scope.eReimbObject.entity.statusCode === 'REIMB');
-        }
+        };
+
+        $scope.deleteMailAtt = function(parent, child) {
+            var index = parent.attachments.indexOf(child);
+            parent.attachments.splice(index, 1);
+        };
+
+        $scope.addNewAttToMail = function(mail) {
+            mail.attachments.push({});
+        };
 
     }]);
