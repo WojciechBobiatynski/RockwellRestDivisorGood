@@ -80,10 +80,6 @@ public class IndividualValidator {
         boolean isEditable = securityChecker.hasPrivilege(Privileges.GRF_INDIVIDUAL_REPAY_ACC_MOD);
 
         String accountRepayment = individual.getAccountRepayment();
-        if (isEditable && GryfStringUtils.isEmpty(accountRepayment)) {
-            violations.add(new EntityConstraintViolation(Individual.ACCOUNT_REPAYMENT_NAME, "Konto do zwrotu środków nie może być puste", accountRepayment));
-        }
-
         if (!isEditable) {
             if (individual.getId() != null) {
                 Individual existingIndividual = individualRepository.get(individual.getId());

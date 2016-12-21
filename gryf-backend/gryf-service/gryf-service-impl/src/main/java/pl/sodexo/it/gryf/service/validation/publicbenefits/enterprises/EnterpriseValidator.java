@@ -66,10 +66,6 @@ public class EnterpriseValidator {
         boolean isEditable = securityChecker.hasPrivilege(Privileges.GRF_ENTERPRISE_REPAY_ACC_MOD);
 
         String accountRepayment = enterprise.getAccountRepayment();
-        if (isEditable && GryfStringUtils.isEmpty(accountRepayment)) {
-            violations.add(new EntityConstraintViolation(Enterprise.ACCOUNT_REPAYMENT_NAME, "Konto do zwrotu środków nie może być puste", accountRepayment));
-        }
-
         if (!isEditable) {
             if (enterprise.getId() != null) {
                 Enterprise existingEnterprise = enterpriseRepository.get(enterprise.getId());
