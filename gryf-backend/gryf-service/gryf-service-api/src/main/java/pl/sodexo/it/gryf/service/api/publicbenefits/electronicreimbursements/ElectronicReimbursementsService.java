@@ -90,4 +90,11 @@ public interface ElectronicReimbursementsService {
      * @return id zapisanego obiektu
      */
     Long printReports(Long rmbsId);
+
+    /**
+     * Anuluje rozliczenie
+     * @param rmbsId
+     * @return id zapisanego obiektu
+     */
+    Long cancel(Long rmbsId);
 }

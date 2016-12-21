@@ -239,6 +239,15 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         return ereimbursement.getId();
     }
 
+    @Override
+    public Long cancel(Long rmbsId) {
+        Ereimbursement ereimbursement = ereimbursementRepository.get(rmbsId);
+        ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.CANCELED));
+        setDoneReimburseStatusForTiInstance(ereimbursement);
+        ereimbursementRepository.update(ereimbursement, ereimbursement.getId());
+        return ereimbursement.getId();
+    }
+
     private void sendMailsToTiUsers(Long ermbsId) {
         CorrectionNotificationEmailParamsDto corrNotifParamsByErmbsId = correctionService.findCorrNotifParamsByErmbsId(ermbsId);
         List<MailDTO> mailsToSend = mailDtoCreator.createMailDTOsForCorrecionNotification(corrNotifParamsByErmbsId);
@@ -268,6 +277,11 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     private void setToReimburseStatusForTiInstance(Ereimbursement ereimbursement) {
         ereimbursement.getTrainingInstance().setStatus(trainingInstanceStatusRepository.get(GryfConstants.TO_REIMBURSE_TRAINING_INSTANCE_STATUS_CODE));
     }
+
+    private void setDoneReimburseStatusForTiInstance(Ereimbursement ereimbursement) {
+        ereimbursement.getTrainingInstance().setStatus(trainingInstanceStatusRepository.get(GryfConstants.DONE_TRAINING_INSTANCE_STATUS_CODE));
+    }
+
 
     private void calculateCharges(ElctRmbsHeadDto elctRmbsHeadDto) {
         CalculationChargesParamsDto params = getCalculationChargesParamsDto(elctRmbsHeadDto);

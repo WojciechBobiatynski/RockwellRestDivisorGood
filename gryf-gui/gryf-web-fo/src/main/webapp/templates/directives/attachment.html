@@ -15,11 +15,11 @@
             </select>
         </div>
         <div class="grid-20">
-            <input type="text" ng-disabled="hasNotPrivilege('GRF_PBE_CONTRACTS_MOD')" data-ng-model="item.documentNumber"/>
+            <input type="text" ng-disabled="hasNotPrivilege('GRF_PBE_CONTRACTS_MOD') || item.required" data-ng-model="item.documentNumber"/>
             <gryf-validation-msg style="position: absolute;" path="attachments[{{$index}}].documentNumber"></gryf-validation-msg>
         </div>
         <div class="grid-20">
-            <input ng-disabled="hasNotPrivilege('GRF_PBE_CONTRACTS_MOD')" type="text" data-ng-model="item.additionalDescription"/>
+            <input ng-disabled="hasNotPrivilege('GRF_PBE_CONTRACTS_MOD') || item.required" type="text" data-ng-model="item.additionalDescription"/>
         </div>
         <div class="grid-20">
             <a ng-href="{{getDownloadAttachmentLink(item)}}" ng-if="item.originalFileName && !item.changed">{{item.originalFileName}}</a>

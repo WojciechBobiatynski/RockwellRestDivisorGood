@@ -140,8 +140,11 @@ public class ElectronicReimbursementsRestController {
     }
 
     @RequestMapping(value = PATH_ELECTRONIC_REIMBURSEMENTS_CANCEL + "{rmbsId}", method = RequestMethod.POST)
-    public void cancel(@PathVariable("rmbsId") Long rmbsId) {
-        //TODO
+    @ResponseBody
+    public ElctRmbsHeadDto cancel(@PathVariable("rmbsId") Long rmbsId) {
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS_MOD);
+        Long id = electronicReimbursementsService.cancel(rmbsId);
+        return electronicReimbursementsService.findEcltRmbsById(id);
     }
 
 }
