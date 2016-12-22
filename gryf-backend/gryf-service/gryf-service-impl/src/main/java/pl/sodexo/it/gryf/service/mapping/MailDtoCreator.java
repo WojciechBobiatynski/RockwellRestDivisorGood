@@ -6,6 +6,7 @@ import pl.sodexo.it.gryf.common.authentication.AEScryptographer;
 import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.common.dto.mail.MailDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CorrectionNotificationEmailParamsDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsMailDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsMailParamsDto;
 import pl.sodexo.it.gryf.common.dto.security.individuals.Verifiable;
 import pl.sodexo.it.gryf.common.mail.MailPlaceholders;
@@ -149,5 +150,12 @@ public class MailDtoCreator {
                 .add(TRAINING_NAME_PLACEHOLDER, paramsDto.getTrainingName());
         EmailTemplate emailTemplate = emailTemplateRepository.get(CONFIRMATION_PAYMENT_EMAIL_TEMPLATE_CODE);
         return createAndFillMailDTO(emailTemplate, paramsDto.getEmail(), mailPlaceholders);
+    }
+
+    public MailDTO createMailDTOForEreimbMail(ErmbsMailDto dto){
+        MailPlaceholders mailPlaceholders = mailService.createPlaceholders(EMAIL_BODY_PLACEHOLDER, dto.getEmailBody())
+                .add(EMAIL_SUBJECT_PLACEHOLDER, dto.getEmailSubject());
+        EmailTemplate emailTemplate = emailTemplateRepository.get(DEFAULT_EMAIL_TEMPLATE_CODE);
+        return createAndFillMailDTO(emailTemplate, dto.getEmailsTo(), mailPlaceholders);
     }
 }

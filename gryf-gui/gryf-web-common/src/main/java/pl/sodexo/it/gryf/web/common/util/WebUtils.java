@@ -58,7 +58,7 @@ public final class WebUtils {
         return source;
     }
 
-    public static ElctRmbsHeadDto fillErmbsDtoWithAttachments(Map<String, MultipartFile> fileMap, ElctRmbsHeadDto source) throws IOException {
+    public static ElctRmbsHeadDto fillErmbsDtoWithAttachments(Map<String, MultipartFile> fileMap, ElctRmbsHeadDto source) {
         source.getAttachments().stream().filter(ErmbsAttachmentDto::isChanged).forEach(ermbsAttachmentsDto -> {
             MultipartFile multipartFile = fileMap.get("file[" + ermbsAttachmentsDto.getIndex() + "]");
             try {

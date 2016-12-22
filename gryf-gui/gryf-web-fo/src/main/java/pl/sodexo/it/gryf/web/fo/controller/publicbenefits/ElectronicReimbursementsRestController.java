@@ -2,17 +2,18 @@ package pl.sodexo.it.gryf.web.fo.controller.publicbenefits;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import pl.sodexo.it.gryf.common.criteria.electronicreimbursements.ElctRmbsCriteria;
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.other.FileDTO;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CorrectionDto;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsDto;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsMailDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.*;
 import pl.sodexo.it.gryf.common.enums.Privileges;
 import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
+import pl.sodexo.it.gryf.common.utils.JsonMapperUtils;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.*;
 import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
+import pl.sodexo.it.gryf.web.common.util.WebUtils;
 import pl.sodexo.it.gryf.web.fo.utils.UrlConstants;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +21,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.function.IntConsumer;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static pl.sodexo.it.gryf.web.common.util.WebUtils.writeFileToResponse;
 import static pl.sodexo.it.gryf.web.fo.utils.UrlConstants.*;
@@ -166,6 +170,16 @@ public class ElectronicReimbursementsRestController {
         return mailFromTemplates;
     }
 
+    @RequestMapping(value = PATH_ELECTRONIC_REIMBURSEMENTS_SEND_EMAILS, method = RequestMethod.POST)
+    @ResponseBody
+    public ErmbsMailDto sendEmails(MultipartHttpServletRequest request, @RequestParam("file") MultipartFile[] files) throws IOException {
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS_MOD);
+        ErmbsMailDto dto = JsonMapperUtils.readValue(request.getParameter("data"), ErmbsMailDto.class);
+        List<FileDTO> fileDtoList = WebUtils.createFileDtoList(files);
+        fillErmbsMailAttachmentWithFiles(dto, fileDtoList);
+        return ermbsMailService.sendErmbsMail(dto);
+    }
+
     @RequestMapping(PATH_ELECTRONIC_REIMBURSEMENTS_DOWNLOAD_REPORT_FILE)
     public void downloadReportFile(HttpServletRequest request, HttpServletResponse response) throws IOException {
         securityChecker.assertFormPrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS_MOD);
@@ -177,6 +191,14 @@ public class ElectronicReimbursementsRestController {
             FileDTO file = ermbsReportService.getErmbsReportFileById(elementId);
             writeFileToResponse(request, response, file.getInputStream(), file.getName());
         }
+    }
+
+    private void fillErmbsMailAttachmentWithFiles(ErmbsMailDto dto, List<FileDTO> fileDtoList){
+        List<ErmbsMailAttachmentDto> notReportAttachments = dto.getAttachments().stream().filter(ermbsMailAttachmentDto -> !ermbsMailAttachmentDto.isReportFile()).collect(Collectors.toList());
+        IntConsumer myConsumer = (index) -> {
+            notReportAttachments.get(index).setFile(fileDtoList.get(index));
+        };
+        IntStream.range(0, notReportAttachments.size()).forEach(myConsumer);
     }
 
 }

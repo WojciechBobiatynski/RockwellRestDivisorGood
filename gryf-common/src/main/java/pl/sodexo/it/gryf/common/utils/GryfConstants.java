@@ -23,6 +23,7 @@ public final class GryfConstants {
     public static final String CORR_NOTIF_EMAIL_TEMPLATE_CODE = "CORR_NOTIF";
     public static final String E_REIMB_CONFIRMATION_EMAIL_TEMPLATE_CODE = "E_REIMB";
     public static final String CONFIRMATION_PAYMENT_EMAIL_TEMPLATE_CODE = "CNF_PYMT";
+    public static final String DEFAULT_EMAIL_TEMPLATE_CODE = "STD_EMAIL";
 
     public static final String GRANT_PROGRAM_PLACEHOLDER = "grantProgramName";
     public static final String ARRIVAL_DATE_PLACEHOLDER = "arrivalDate";
@@ -36,6 +37,9 @@ public final class GryfConstants {
     public static final String EMAIL_BODY_LOGIN_PLACEHOLDER = "login";
     public static final String EMAIL_BODY_URL_PLACEHOLDER = "url";
     public static final String EMAIL_BODY_RESET_LINK_PLACEHOLDER = "resetLink";
+
+    public static final String EMAIL_BODY_PLACEHOLDER = "emailBody";
+    public static final String EMAIL_SUBJECT_PLACEHOLDER = "emailSubject";
 
     public static final String DEFAULT_FAILURE_LOGIN_URL = "/login?error";
     public static final String RESET_LINK_URL_PREFIX = "/reset/";

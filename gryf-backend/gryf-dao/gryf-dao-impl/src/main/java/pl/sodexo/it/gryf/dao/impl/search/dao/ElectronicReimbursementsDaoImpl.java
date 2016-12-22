@@ -7,11 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.criteria.UserCriteria;
 import pl.sodexo.it.gryf.common.criteria.electronicreimbursements.ElctRmbsCriteria;
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
-import pl.sodexo.it.gryf.common.dto.other.FileDTO;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CalculationChargesParamsDto;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsDto;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsMailParamsDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.*;
 import pl.sodexo.it.gryf.dao.api.search.dao.ElectronicReimbursementsDao;
 import pl.sodexo.it.gryf.dao.api.search.mapper.ElectronicReimbursementsSearchMapper;
 
@@ -60,8 +56,13 @@ public class ElectronicReimbursementsDaoImpl implements ElectronicReimbursements
     }
 
     @Override
-    public List<FileDTO> findReportsByErmbsId(Long ermbsId) {
+    public List<ErmbsMailAttachmentDto> findReportsByErmbsId(Long ermbsId) {
         return electronicReimbursementsSearchMapper.findReportsByErmbsId(new UserCriteria(), ermbsId);
+    }
+
+    @Override
+    public List<ErmbsMailDto> findMailsByErmbsId(Long ermbsId) {
+        return electronicReimbursementsSearchMapper.findMailsByErmbsId(new UserCriteria(), ermbsId);
     }
 
 }

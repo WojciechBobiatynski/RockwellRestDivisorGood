@@ -272,7 +272,7 @@
             <h2>Maile do wysłania</h2>
         </header>
     </div>
-    <div class="grid-100" data-ng-repeat="mail in eReimbObject.entity.emails">
+    <fieldset class="grid-100" data-ng-repeat="mail in eReimbObject.entity.emails" data-ng-disabled="{{mail.id != null}}">
         <div class="grid-100">
             <div class="grid-30">
                 <div>Adresaci email</div>
@@ -313,12 +313,10 @@
             </div>
             <div class="grid-100">
                 <button class="button button-save" ng-click="addNewAttToMail(mail)">Dodaj plik</button>
+                <button class="button button-save" ng-click="sendMail(mail)">Wyślij maila</button>
             </div>
         </div>
-    </div>
-    <div class="grid-100">
-        <button class="button button-save" ng-click="sendMails()">Wyślij maile</button>
-    </div>
+    </fieldset>
 </section>
 <!--------------------------------------ZALACZNIKI---------------------------------------------->
 <section>

@@ -126,12 +126,16 @@
           report.TYPE_NAME                          rep_typeName,
           report.FILE_LOCATION                      rep_fileLocation,
 --        maile
+          mails.ID                                  mail_id,
+          mails.EMAIL_TYPE                          mail_emailType,
           mails.EMAILS_TO                           mail_emailsTo,
           mails.EMAIL_SUBJECT                       mail_emailSubject,
-          mails.EMAIL_BODY                          mail_body,
+          mails.EMAIL_BODY                          mail_emailBody,
 --        załączniki maili
+          e_att.ID                                  mail_ett_id,
           e_att.ATTACHMENT_PATH                     mail_ett_fileLocation,
           e_att.ATTACHMENT_NAME                     mail_ett_name,
+          e_att.ATTACHMENT_NAME                     mail_ett_originalFilename,
 --        korekta
           last_corr.ID                              corr_id,
           last_corr.E_RMBS_ID                       corr_ermbsId,
@@ -221,7 +225,7 @@
         <collection property="reports" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsReportDto" autoMapping="true" columnPrefix="rep_"/>
         <collection property="emails" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsMailDto" autoMapping="true" columnPrefix="mail_">
             <id column="id" property="id"/>
-            <collection property="attachments" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CorrectionAttachmentDto" autoMapping="true" columnPrefix="ett_"/>
+            <collection property="attachments" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsMailAttachmentDto" autoMapping="true" columnPrefix="ett_"/>
         </collection>
     </resultMap>
     <select id="findEcltRmbsById" resultMap="ecltRmbsHeadMap">
@@ -283,7 +287,7 @@
           AND rownum &lt;= 1
     </select>
 
-    <select id="findReportsByErmbsId" resultType="pl.sodexo.it.gryf.common.dto.other.FileDTO" parameterType="list">
+    <select id="findReportsByErmbsId" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsMailAttachmentDto" parameterType="list">
         SELECT
           report.TYPE_NAME                name,
           report.TYPE_NAME || '.pdf'      originalFilename,
@@ -291,6 +295,20 @@
         FROM
           APP_PBE.E_REIMBURSEMENTS ermbs
           JOIN APP_PBE.E_REIMBURSEMENT_REPORTS report ON report.E_REIMBURSEMENT_ID = ermbs.ID
+        WHERE
+          ermbs.ID = #{ermbsId}
+    </select>
+
+    <select id="findMailsByErmbsId" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsMailDto" parameterType="list">
+        SELECT
+          mails.ID                                  id,
+          mails.EMAIL_TYPE                          emailType,
+          mails.EMAILS_TO                           emailsTo,
+          mails.EMAIL_SUBJECT                       emailSubject,
+          mails.EMAIL_BODY                          emailBody
+        FROM
+          APP_PBE.E_REIMBURSEMENTS ermbs
+          JOIN APP_PBE.E_REIMBURSEMENT_EMAILS mails ON mails.E_REIMBURSEMENT_ID = ermbs.ID
         WHERE
           ermbs.ID = #{ermbsId}
     </select>

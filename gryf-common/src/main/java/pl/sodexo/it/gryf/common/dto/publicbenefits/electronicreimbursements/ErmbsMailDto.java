@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import pl.sodexo.it.gryf.common.dto.api.VersionableDto;
-import pl.sodexo.it.gryf.common.dto.other.FileDTO;
+import pl.sodexo.it.gryf.common.enums.ErmbsMailType;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -32,6 +32,10 @@ public class ErmbsMailDto extends VersionableDto implements Serializable {
 
     @Getter
     @Setter
+    private ErmbsMailType emailType;
+
+    @Getter
+    @Setter
     private String emailsTo;
 
     @Getter
@@ -44,5 +48,5 @@ public class ErmbsMailDto extends VersionableDto implements Serializable {
 
     @Getter
     @Setter
-    private List<FileDTO> attachments = new ArrayList<>();
+    private List<ErmbsMailAttachmentDto> attachments = new ArrayList<>();
 }

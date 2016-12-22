@@ -106,7 +106,7 @@ angular.module('gryf.electronicreimbursements').controller("announce.electronicR
         };
 
         $scope.generateMailFromTemplatesOnInitIfNull = function () {
-            if($scope.eReimbObject.entity.emails == null || $scope.eReimbObject.entity.emails === undefined || $scope.eReimbObject.entity.emails.length == 0){
+            if($scope.eReimbObject.entity.emails == null || $scope.eReimbObject.entity.emails === undefined || $scope.eReimbObject.entity.emails.length < 2){
                 AnnounceEReimbursementService.createEmailsFromTemplate();
             }
         };
@@ -122,6 +122,10 @@ angular.module('gryf.electronicreimbursements').controller("announce.electronicR
 
         $scope.addNewAttToMail = function(mail) {
             mail.attachments.push({});
+        };
+
+        $scope.sendMail = function (mail) {
+            AnnounceEReimbursementService.sendMail(mail);
         };
 
     }]);

@@ -3,6 +3,7 @@ package pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import pl.sodexo.it.gryf.common.enums.ErmbsMailType;
 import pl.sodexo.it.gryf.model.api.VersionableEntity;
 import pl.sodexo.it.gryf.model.mail.EmailInstance;
 
@@ -13,7 +14,7 @@ import javax.validation.constraints.NotNull;
  * Created by Isolution on 2016-12-20.
  */
 @Entity
-@Table(name = "E_REIMBURSEMENT_MAILS", schema = "APP_PBE")
+@Table(name = "E_REIMBURSEMENT_EMAILS", schema = "APP_PBE")
 @ToString
 public class EreimbursementMail extends VersionableEntity {
 
@@ -36,6 +37,12 @@ public class EreimbursementMail extends VersionableEntity {
     @Getter
     @Setter
     private EmailInstance emailInstance;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "EMAIL_TYPE")
+    @Getter
+    @Setter
+    private ErmbsMailType emailType;
 
     @Column(name = "EMAILS_TO")
     @Getter

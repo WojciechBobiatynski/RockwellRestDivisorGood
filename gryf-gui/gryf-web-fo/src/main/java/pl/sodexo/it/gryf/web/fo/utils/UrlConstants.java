@@ -45,6 +45,7 @@ public final class UrlConstants {
     public static final String PATH_ELECTRONIC_REIMBURSEMENTS_DOWNLOAD_CORR_ATT = "/downloadCorrAttachment";
     public static final String PATH_ELECTRONIC_REIMBURSEMENTS_DOWNLOAD_REPORT_FILE = "/downloadReportFile";
     public static final String PATH_ELECTRONIC_REIMBURSEMENTS_CREATE_EMAIL_FROM_TEMPLATE= "/email/create/";
+    public static final String PATH_ELECTRONIC_REIMBURSEMENTS_SEND_EMAILS= "/email/send";
 
     public static final String PATH_TRAINING_INSTANCE = "/trainingInstance";
     public static final String PATH_TRAINING_INSTANCE_LIST =  "/list";

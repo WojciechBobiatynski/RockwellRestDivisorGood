@@ -105,8 +105,8 @@ angular.module('gryf.electronicreimbursements').factory("electronicReimbursement
     }]);
 
 angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementService",
-    ["$http", "$routeParams", "GryfModals", "GryfExceptionHandler", "GryfPopups",
-        function($http, $routeParams, GryfModals, GryfExceptionHandler, GryfPopups) {
+    ["$http", "$routeParams", "GryfModals", "GryfExceptionHandler", "GryfPopups", "Upload",
+        function($http, $routeParams, GryfModals, GryfExceptionHandler, GryfPopups, Upload) {
 
             var FIND_RMBS_URL = contextPath + "/rest/publicBenefits/electronic/reimbursements/";
             var CHANGE_STATUS_URL = contextPath + "/rest/publicBenefits/electronic/reimbursements/status";
@@ -118,6 +118,7 @@ angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementS
             var CONFIRM_URL = contextPath + "/rest/publicBenefits/electronic/reimbursements/confirm/";
             var CANCEL_URL = contextPath + "/rest/publicBenefits/electronic/reimbursements/cancel/";
             var CREATE_EMAILS_FROM_TEMPLATE = contextPath + "/rest/publicBenefits/electronic/reimbursements/email/create/";
+            var SEND_EMAILS = contextPath + "/rest/publicBenefits/electronic/reimbursements/email/send";
 
             var eReimbObject = new EReimbObject();
             var correctionObject = new CorrectionObject();
@@ -292,7 +293,45 @@ angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementS
                 var rmbsId =  $routeParams.id;
                 var promise = $http.post(CREATE_EMAILS_FROM_TEMPLATE + rmbsId);
                 promise.success(function(response) {
-                    eReimbObject.entity.emails = response;
+                    angular.forEach(response, function (mail) {
+                        eReimbObject.entity.emails.push(mail);
+                    });
+                });
+                return promise;
+            };
+
+            function findAllFileAttachments(mail) {
+                var resultArray = [];
+                for (var i = 0; i < mail.attachments.length; i++) {
+                    var attachmentFileField = mail.attachments[i].file;
+                    if (attachmentFileField) {
+                        if (attachmentFileField.length) {
+                            resultArray.push(mail.attachments[i].file[0]);
+                            mail.attachments[i].fileIncluded = true;
+                            mail.attachments[i].originalFilename=mail.attachments[i].file[0].name;
+                        }
+                    }
+                }
+                return resultArray;
+            }
+
+            var sendMail = function(mail) {
+                var files = findAllFileAttachments(mail);
+                var promise = Upload.upload({
+                    url: SEND_EMAILS,
+                    data: angular.toJson(mail),
+                    file: files
+                });
+                promise.success(function(response) {
+                    GryfPopups.setPopup("success", "Sukces", "Mail został wysłany");
+                    var index = eReimbObject.entity.emails.indexOf(mail);
+                    eReimbObject.entity.emails[index] = response;
+                })
+                .error(function() {
+                GryfPopups.setPopup("error", "Błąd", "Nie udało się wysłać maila");
+                })
+                .finally(function() {
+                    GryfPopups.showPopup();
                 });
                 return promise;
             };
@@ -310,6 +349,7 @@ angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementS
                 printReports: printReports,
                 confirm: confirm,
                 cancel: cancel,
-                createEmailsFromTemplate: createEmailsFromTemplate
+                createEmailsFromTemplate: createEmailsFromTemplate,
+                sendMail: sendMail
             };
         }]);

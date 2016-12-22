@@ -11,6 +11,17 @@ import java.util.List;
  */
 public interface ErmbsMailService {
 
+    /**
+     * Tworzy maile zgodne z szablonami w momencie gdy jeszcze żaden mail nie został wysłany
+     * @param ermbsId - id rozliczenia
+     * @return lista maili z szablonu
+     */
     List<ErmbsMailDto> createMailFromTemplates(Long ermbsId);
 
+    /**
+     * Wysyła maile z rozliczeń bonów elektronicznych
+     * @param dto - dto maila rozliczeń
+     * @return nowe dto
+     */
+    ErmbsMailDto sendErmbsMail(ErmbsMailDto dto);
 }

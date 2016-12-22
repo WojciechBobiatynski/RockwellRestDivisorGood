@@ -173,6 +173,7 @@ public class MailServiceImpl implements MailService {
             }
         }
         emailInstanceRepository.save(em);
+        mailDTO.setEmailInstanceId(em.getId());
         return mailDTO;
     }
 

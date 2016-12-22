@@ -33,6 +33,8 @@ public class MailDTO {
 
     private List<MailAttachmentDTO> attachments;
 
+    private Long emailInstanceId;
+
     //CONSTRUCTORS
 
     public MailDTO() {
@@ -142,5 +144,13 @@ public class MailDTO {
 
     public void setAttachments(List<MailAttachmentDTO> attachments) {
         this.attachments = attachments;
+    }
+
+    public Long getEmailInstanceId() {
+        return emailInstanceId;
+    }
+
+    public void setEmailInstanceId(Long emailInstanceId) {
+        this.emailInstanceId = emailInstanceId;
     }
 }

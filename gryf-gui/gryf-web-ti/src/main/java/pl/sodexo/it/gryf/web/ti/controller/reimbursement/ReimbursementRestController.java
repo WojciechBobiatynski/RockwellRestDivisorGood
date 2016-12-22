@@ -77,7 +77,7 @@ public class ReimbursementRestController {
     }
 
     @RequestMapping(value = PATH_REIMBURSEMENTS_SAVE, method = RequestMethod.POST)
-    public ElctRmbsHeadDto saveReimbursement(MultipartHttpServletRequest request) throws IOException {
+    public ElctRmbsHeadDto saveReimbursement(MultipartHttpServletRequest request) {
 //        securityChecker.assertFormPrivilege(Privileges.GRF_PBE_REIMB);
         ElctRmbsHeadDto dto = getElctRmbsHeadDtoFromMultipartRequest(request);
         Long ermbsId = electronicReimbursementsService.saveErmbs(dto);
@@ -85,7 +85,7 @@ public class ReimbursementRestController {
     }
 
     @RequestMapping(value = PATH_REIMBURSEMENTS_SEND, method = RequestMethod.POST)
-    public ElctRmbsHeadDto sendToReimburse(MultipartHttpServletRequest request) throws IOException {
+    public ElctRmbsHeadDto sendToReimburse(MultipartHttpServletRequest request) {
 //        securityChecker.assertFormPrivilege(Privileges.GRF_PBE_REIMB);
         ElctRmbsHeadDto dto = getElctRmbsHeadDtoFromMultipartRequest(request);
         Long ermbsId = electronicReimbursementsService.sendToReimburse(dto);
@@ -93,7 +93,7 @@ public class ReimbursementRestController {
     }
 
     @RequestMapping(value = PATH_REIMBURSEMENTS_SAVE_WITH_CORR, method = RequestMethod.POST)
-    public ElctRmbsHeadDto saveReimbursementWithCorr(MultipartHttpServletRequest request) throws IOException {
+    public ElctRmbsHeadDto saveReimbursementWithCorr(MultipartHttpServletRequest request) {
         //        securityChecker.assertFormPrivilege(Privileges.GRF_PBE_REIMB);
         ElctRmbsHeadDto dto = getElctRmbsHeadDtoFromMultipartRequest(request);
         Long ermbsId = electronicReimbursementsService.saveErmbsWithCorr(dto);
@@ -101,7 +101,7 @@ public class ReimbursementRestController {
     }
 
     @RequestMapping(value = PATH_REIMBURSEMENTS_SEND_WITH_CORR, method = RequestMethod.POST)
-    public ElctRmbsHeadDto sendToReimburseWithCorr(MultipartHttpServletRequest request) throws IOException {
+    public ElctRmbsHeadDto sendToReimburseWithCorr(MultipartHttpServletRequest request) {
         //        securityChecker.assertFormPrivilege(Privileges.GRF_PBE_REIMB);
         ElctRmbsHeadDto dto = getElctRmbsHeadDtoFromMultipartRequest(request);
         Long ermbsId = electronicReimbursementsService.sendToReimburseWithCorr(dto);
@@ -121,7 +121,7 @@ public class ReimbursementRestController {
         }
     }
 
-    private ElctRmbsHeadDto getElctRmbsHeadDtoFromMultipartRequest(MultipartHttpServletRequest request) throws IOException {
+    private ElctRmbsHeadDto getElctRmbsHeadDtoFromMultipartRequest(MultipartHttpServletRequest request){
         ElctRmbsHeadDto dto = JsonMapperUtils.readValue(request.getParameter("model"), ElctRmbsHeadDto.class);
         Map<String, MultipartFile> fileMap = request.getFileMap();
         WebUtils.fillErmbsDtoWithAttachments(fileMap, dto);

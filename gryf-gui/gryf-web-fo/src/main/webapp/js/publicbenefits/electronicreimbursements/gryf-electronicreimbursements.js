@@ -1,6 +1,6 @@
 "use strict";
 
-angular.module("gryf.electronicreimbursements", ["gryf.config", "ngFileUpload", "ui.utils.masks", "gryf.trainingInstitutions", "gryf.trainingInstances"]);
+angular.module("gryf.electronicreimbursements", ["gryf.config", "ngFileUpload", "ui.utils.masks", "gryf.trainingInstitutions", "gryf.trainingInstances", "ngFileUpload"]);
 
 angular.module("gryf.electronicreimbursements").config(["$routeProvider", function($routeProvider) {
     $routeProvider
