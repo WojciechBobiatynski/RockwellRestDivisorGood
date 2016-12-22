@@ -2,6 +2,7 @@ package pl.sodexo.it.gryf.service.impl.publicbenefits.electronicreimbursements;
 
 import com.googlecode.ehcache.annotations.Cacheable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.config.ApplicationParameters;
@@ -9,6 +10,7 @@ import pl.sodexo.it.gryf.common.criteria.electronicreimbursements.ElctRmbsCriter
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.mail.MailDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.*;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.pbeproductinstancepool.PbeProductInstancePoolDto;
 import pl.sodexo.it.gryf.common.enums.ErmbsAttachmentStatus;
 import pl.sodexo.it.gryf.common.enums.ReportTemplateCode;
 import pl.sodexo.it.gryf.common.exception.NoCalculationParamsException;
@@ -18,6 +20,7 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbu
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementStatusRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementTypeRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.pbeproducts.PbeProductInstancePoolRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstanceStatusRepository;
 import pl.sodexo.it.gryf.dao.api.search.dao.ElectronicReimbursementsDao;
 import pl.sodexo.it.gryf.dao.api.search.dao.GrantProgramSearchDao;
@@ -36,9 +39,11 @@ import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.electronicre
 import pl.sodexo.it.gryf.service.validation.publicbenefits.electronicreimbursements.CorrectionValidator;
 import pl.sodexo.it.gryf.service.validation.publicbenefits.electronicreimbursements.ErmbsValidator;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * Serwis implementujący operacje na e-rozliczeniach
@@ -108,6 +113,9 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
 
     @Autowired
     private PbeProductInstancePoolLocalService pbeProductInstancePoolLocalService;
+
+    @Autowired
+    private PbeProductInstancePoolRepository productInstancePoolRepository;
 
     @Override
     public List<ElctRmbsDto> findEcltRmbsListByCriteria(ElctRmbsCriteria criteria) {
@@ -348,5 +356,20 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
             throw new NoCalculationParamsException();
         }
         return params;
+    }
+
+    @Override
+    @Scheduled(cron = "0 0 0 * * ?")
+    public void createReimbursementForExpiredInstancesPool() {
+        List<PbeProductInstancePoolDto> expiredPoolInstances = pbeProductInstancePoolLocalService.findExpiredPoolInstances();
+        Consumer<PbeProductInstancePoolDto> pInsPoolCons =  pbeProductInstancePool -> {
+            Ereimbursement ereimbursement = new Ereimbursement();
+            ereimbursement.setEreimbursementType(ereimbursementTypeRepository.get(EreimbursementType.URSVD_POOL));
+            ereimbursement.setProductInstancePool(productInstancePoolRepository.get(pbeProductInstancePool.getId()));
+            ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.TO_ERMBS));
+            ereimbursement.setSxoIndAmountDueTotal(new BigDecimal(pbeProductInstancePool.getAvailableNum()).multiply(pbeProductInstancePool.getProductValue()));
+            ereimbursementRepository.save(ereimbursement);
+        };
+        expiredPoolInstances.stream().forEach(pInsPoolCons);
     }
 }

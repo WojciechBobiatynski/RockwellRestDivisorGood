@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 import pl.sodexo.it.gryf.common.dto.api.VersionableDto;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 @ToString
@@ -21,4 +22,8 @@ public class PbeProductInstancePoolDto extends VersionableDto {
     @Getter
     @Setter
     private Date expiryDate;
+
+    @Getter
+    @Setter
+    private BigDecimal productValue;
 }

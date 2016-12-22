@@ -116,4 +116,9 @@ public interface ElectronicReimbursementsService {
      * @param rmbsId
      */
     void expire(Long rmbsId);
+
+    /**
+     * Job, uruchamiany codziennie o północy, który sprawdza, czy jest jakaś przeterminowana pula bonów i jeśli tak to tworzy dla niej rozliczenie
+     */
+    void createReimbursementForExpiredInstancesPool();
 }

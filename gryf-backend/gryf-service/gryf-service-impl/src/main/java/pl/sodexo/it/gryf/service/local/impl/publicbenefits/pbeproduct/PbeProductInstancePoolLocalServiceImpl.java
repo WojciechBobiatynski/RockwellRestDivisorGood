@@ -4,11 +4,13 @@ import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.pbeproductinstancepool.PbeProductInstancePoolDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.products.PrintNumberDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.products.PrintNumberResultDto;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.pbeproducts.*;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstanceStatusRepository;
+import pl.sodexo.it.gryf.dao.api.search.dao.ProductInstancePoolSearchDao;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
 import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.Ereimbursement;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
@@ -80,6 +82,9 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
 
     @Autowired
     private TrainingInstanceStatusRepository trainingInstanceStatusRepository;
+
+    @Autowired
+    private ProductInstancePoolSearchDao productInstancePoolSearchDao;
 
     //PUBLIC METHODS
 
@@ -264,6 +269,11 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
                 productInstanceEventBuilder.saveEvent(i, expireEventType, ereimbursement.getId());
             }
         }
+    }
+
+    @Override
+    public List<PbeProductInstancePoolDto> findExpiredPoolInstances() {
+        return productInstancePoolSearchDao.findExpiredPoolInstances();
     }
 
     //PRIVATE METHODS
