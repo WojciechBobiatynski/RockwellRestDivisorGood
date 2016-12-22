@@ -75,4 +75,11 @@ public interface ElectronicReimbursementsDao {
      */
     List<ErmbsMailDto> findMailsByErmbsId(Long ermbsId);
 
+    /**
+     * Pobiera rozliczenie dla niewykorzystanej puli bonów
+     * @param ermbsId - id rozliczenia
+     * @return dto rozliczenia
+     */
+    UnrsvPoolRmbsDto findUnrsvPoolRmbsById(Long ermbsId);
+
 }

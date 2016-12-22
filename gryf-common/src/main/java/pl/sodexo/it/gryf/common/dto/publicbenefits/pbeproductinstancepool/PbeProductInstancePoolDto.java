@@ -17,6 +17,10 @@ public class PbeProductInstancePoolDto extends VersionableDto {
 
     @Getter
     @Setter
+    private Long orderId;
+
+    @Getter
+    @Setter
     private Integer availableNum;
 
     @Getter

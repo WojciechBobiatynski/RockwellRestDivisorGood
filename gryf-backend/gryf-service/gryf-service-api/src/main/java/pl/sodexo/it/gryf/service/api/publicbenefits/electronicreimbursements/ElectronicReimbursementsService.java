@@ -5,6 +5,7 @@ import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CorrectionDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.UnrsvPoolRmbsDto;
 
 import java.util.List;
 
@@ -121,4 +122,11 @@ public interface ElectronicReimbursementsService {
      * Job, uruchamiany codziennie o północy, który sprawdza, czy jest jakaś przeterminowana pula bonów i jeśli tak to tworzy dla niej rozliczenie
      */
     void createReimbursementForExpiredInstancesPool();
+
+    /**
+     * Pobiera rozliczenie dla niewykorzystanej puli bonów
+     * @param ermbsId - id rozliczenia
+     * @return dto rozliczenia
+     */
+    UnrsvPoolRmbsDto findUnrsvPoolRmbsById(Long ermbsId);
 }

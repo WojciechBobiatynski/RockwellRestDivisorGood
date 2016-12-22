@@ -330,4 +330,71 @@
           ermbs.ID = #{ermbsId}
     </select>
 
+    <resultMap id="unsrvPoolRmbsMap" type="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.UnrsvPoolRmbsDto" autoMapping="true" >
+        <id column="ermbsId" property="ermbsId"/>
+        <association property="pool" columnPrefix="pll_" autoMapping="true" javaType="pl.sodexo.it.gryf.common.dto.publicbenefits.pbeproductinstancepool.PbeProductInstancePoolDto"/>
+        <association property="email" columnPrefix="mail_" javaType="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsMailDto" autoMapping="true">
+            <id column="id" property="id"/>
+            <collection property="attachments" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsMailAttachmentDto" autoMapping="true" columnPrefix="ett_"/>
+        </association>
+        <association property="individual" columnPrefix="ind_" autoMapping="true" javaType="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.RmbsIndDto"/>
+        <collection property="reports" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsReportDto" autoMapping="true" columnPrefix="rep_"/>
+    </resultMap>
+    <select id="findUnrsvPoolRmbsById" resultMap="unsrvPoolRmbsMap">
+        SELECT
+--        rozliczenie
+          ermbs.ID                                  ermbsId,
+          ermbs.TYPE_ID                             typeCode,
+          ermbs.STATUS_ID                           statusCode,
+          ermbs.SXO_TI_AMOUNT_DUE_TOTAL             sxoTiAmountDueTotal,
+          ermbs.SXO_IND_AMOUNT_DUE_TOTAL            sxoIndAmountDueTotal,
+          ermbs.IND_TI_AMOUNT_DUE_TOTAL             indTiAmountDueTotal,
+          ermbs.TI_REIMB_ACCOUNT_NUMBER             tiReimbAccountNumber,
+          ermbs.IND_OWN_CONTRIBUTION_USED           indOwnContributionUsed,
+          ermbs.IND_SUBSIDY_VALUE                   indSubsidyValue,
+          ermbs.VERSION                             version,
+          ermbs.CREATED_USER                        createdUser,
+          ermbs.CREATED_TIMESTAMP                   createdTimestamp,
+          ermbs.MODIFIED_USER                       modifiedUser,
+          ermbs.MODIFIED_TIMESTAMP                  modifiedTimestamp,
+--        dane osoby fizycznej
+          ind.ID                                    ind_id,
+          ind.FIRST_NAME                            ind_firstName,
+          ind.LAST_NAME                             ind_lastName,
+          ind.PESEL                                 ind_pesel,
+--        pula
+          pip.ID                                    pll_id,
+          pip.ORDER_ID                              pll_orderId,
+          pip.AVAILABLE_NUM                         pll_availableNum,
+          pip.EXPIRY_DATE                           pll_expiryDate,
+--        raporty
+          report.ID                                 rep_id,
+          report.E_REIMBURSEMENT_ID                 rep_ermbsId,
+          report.TYPE_NAME                          rep_typeName,
+          report.FILE_LOCATION                      rep_fileLocation,
+--        maile
+          mails.ID                                  mail_id,
+          mails.EMAIL_TYPE                          mail_emailType,
+          mails.EMAILS_TO                           mail_emailsTo,
+          mails.EMAIL_SUBJECT                       mail_emailSubject,
+          mails.EMAIL_BODY                          mail_emailBody,
+--        załączniki maili
+          e_att.ID                                  mail_ett_id,
+          e_att.ATTACHMENT_PATH                     mail_ett_fileLocation,
+          e_att.ATTACHMENT_NAME                     mail_ett_name,
+          e_att.ATTACHMENT_NAME                     mail_ett_originalFilename
+        FROM
+          APP_PBE.E_REIMBURSEMENTS ermbs
+          JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOLS pip on ermbs.PRODUCT_INSTANCE_POOL_ID = pip.ID
+          JOIN APP_PBE.ORDERS ord on pip.ORDER_ID = ord.ID
+          JOIN APP_PBE.CONTRACTS cnt on ord.CONTRACT_ID = cnt.ID
+          JOIN APP_PBE.INDIVIDUALS ind on ind.ID = cnt.INDIVIDUAL_ID
+          LEFT JOIN APP_PBE.E_REIMBURSEMENT_REPORTS report ON report.E_REIMBURSEMENT_ID = ermbs.ID
+          LEFT JOIN APP_PBE.E_REIMBURSEMENT_EMAILS mails ON mails.E_REIMBURSEMENT_ID = ermbs.ID
+          LEFT JOIN APP_PBE.EMAIL_INSTANCE_ATTACHMENTS e_att ON e_att.EMAIL_INSTANCE_ID = mails.EMAIL_INSTANCE_ID
+        WHERE
+          ermbs.ID = #{ermbsId}
+          and rownum &lt;= 1
+    </select>
+
 </mapper>

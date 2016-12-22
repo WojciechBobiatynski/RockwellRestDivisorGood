@@ -368,3 +368,55 @@ angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementS
                 sendMail: sendMail
             };
         }]);
+
+angular.module("gryf.electronicreimbursements").factory("UnreservedPoolService",
+    ["$http", "$routeParams", "GryfModals", "GryfExceptionHandler", "GryfPopups", "Upload",
+        function($http, $routeParams, GryfModals, GryfExceptionHandler, GryfPopups, Upload) {
+            var FIND_UN_RMBS_URL = contextPath + "/rest/publicBenefits/unrsv/reimbursements/";
+
+            var unReimbObject = new UnReimbObject();
+
+            function UnReimbObject() {
+                this.entity = {
+                    ermbsId: null,
+                    typeCode: null,
+                    poolId: null,
+                    grantProgramId: null,
+                    pool: null,
+                    sxoTiAmountDueTotal: null,
+                    sxoIndAmountDueTotal: null,
+                    indTiAmountDueTotal: null,
+                    indOwnContributionUsed: null,
+                    indSubsidyValue: null,
+                    statusCode: null,
+                    reimbursementDate: null,
+                    reports: [],
+                    email: null,
+                    individual: null
+                }
+            }
+
+            var getNewModel = function() {
+                unReimbObject = new UnReimbObject();
+                return unReimbObject;
+            };
+
+            var findById = function(rmbsId) {
+                if ($routeParams.id || rmbsId) {
+                    var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING, {label: "Wczytuję dane"});
+                    var promise = $http.get(FIND_UN_RMBS_URL + ($routeParams.id ? $routeParams.id : rmbsId));
+                    promise.then(function(response) {
+                        unReimbObject.entity = response.data;
+                    });
+                    promise.finally(function() {
+                        GryfModals.closeModal(modalInstance);
+                    });
+                    return promise;
+                }
+            };
+
+            return {
+                getNewModel: getNewModel,
+                findById: findById
+            };
+        }]);

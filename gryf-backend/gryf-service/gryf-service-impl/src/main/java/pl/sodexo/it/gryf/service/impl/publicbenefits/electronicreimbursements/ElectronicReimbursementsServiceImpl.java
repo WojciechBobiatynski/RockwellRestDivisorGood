@@ -40,6 +40,7 @@ import pl.sodexo.it.gryf.service.validation.publicbenefits.electronicreimburseme
 import pl.sodexo.it.gryf.service.validation.publicbenefits.electronicreimbursements.ErmbsValidator;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -137,7 +138,7 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     @Override
     public ElctRmbsHeadDto createRmbsDtoByTrainingInstanceId(Long trainingInstanceId) {
         ElctRmbsHeadDto elctRmbsHeadDto = electronicReimbursementsDao.findEcltRmbsByTrainingInstanceId(trainingInstanceId);
-        if(elctRmbsHeadDto != null){
+        if (elctRmbsHeadDto != null) {
             return elctRmbsHeadDto;
         }
         elctRmbsHeadDto = new ElctRmbsHeadDto();
@@ -362,14 +363,22 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     @Scheduled(cron = "0 0 0 * * ?")
     public void createReimbursementForExpiredInstancesPool() {
         List<PbeProductInstancePoolDto> expiredPoolInstances = pbeProductInstancePoolLocalService.findExpiredPoolInstances();
-        Consumer<PbeProductInstancePoolDto> pInsPoolCons =  pbeProductInstancePool -> {
+        Consumer<PbeProductInstancePoolDto> pInsPoolCons = pbeProductInstancePool -> {
             Ereimbursement ereimbursement = new Ereimbursement();
             ereimbursement.setEreimbursementType(ereimbursementTypeRepository.get(EreimbursementType.URSVD_POOL));
             ereimbursement.setProductInstancePool(productInstancePoolRepository.get(pbeProductInstancePool.getId()));
             ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.TO_ERMBS));
-            ereimbursement.setSxoIndAmountDueTotal(new BigDecimal(pbeProductInstancePool.getAvailableNum()).multiply(pbeProductInstancePool.getProductValue()));
+            //TODO: pobrać procent wkładu własnego z parametrów
+            BigDecimal ownContributionPercentage = new BigDecimal("0.13");
+            ereimbursement.setSxoIndAmountDueTotal(
+                    new BigDecimal(pbeProductInstancePool.getAvailableNum()).multiply(pbeProductInstancePool.getProductValue()).multiply(ownContributionPercentage).setScale(2, RoundingMode.HALF_UP));
             ereimbursementRepository.save(ereimbursement);
         };
         expiredPoolInstances.stream().forEach(pInsPoolCons);
+    }
+
+    @Override
+    public UnrsvPoolRmbsDto findUnrsvPoolRmbsById(Long ermbsId) {
+        return electronicReimbursementsDao.findUnrsvPoolRmbsById(ermbsId);
     }
 }

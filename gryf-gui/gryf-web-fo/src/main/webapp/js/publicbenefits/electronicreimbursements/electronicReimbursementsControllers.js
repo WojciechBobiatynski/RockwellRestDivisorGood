@@ -137,8 +137,37 @@ angular.module('gryf.electronicreimbursements').controller("announce.electronicR
     }]);
 
 angular.module('gryf.electronicreimbursements').controller("unrsv.electronicReimbursementsController",
-    ['$scope', "$routeParams", "GryfModulesUrlProvider", "BrowseTrainingInsService", "AnnounceEReimbursementService",
-        function ($scope, $routeParams, GryfModulesUrlProvider, BrowseTrainingInsService, AnnounceEReimbursementService) {
+    ['$scope', "$routeParams", "GryfModulesUrlProvider", "UnreservedPoolService",
+        function ($scope, $routeParams, GryfModulesUrlProvider, UnreservedPoolService) {
             $scope.MODULES = GryfModulesUrlProvider.MODULES;
+            $scope.unReimbObject = UnreservedPoolService.getNewModel();
 
+            if($routeParams.id) {
+                UnreservedPoolService.findById($routeParams.id);
+            }
+
+            //TODO: ujednolicić, tak jak cały ekran dla rozliczeń niewykorzystanej puli bonów
+            $scope.reimburseButtonVisible = function(){
+                return $scope.unReimbObject.entity != null && ($scope.unReimbObject.entity.statusCode === 'NEW' || $scope.unReimbObject.entity.statusCode === 'T_CRR');
+            };
+
+            $scope.correctButtonVisible = function(){
+                return $scope.unReimbObject.entity != null && $scope.unReimbObject.entity.statusCode === 'T_RMS';
+            };
+
+            $scope.generateDocumentsButtonVisible = function(){
+                return $scope.unReimbObject.entity != null && $scope.unReimbObject.entity.statusCode === 'T_RMS';
+            };
+
+            $scope.printReportsButtonVisible = function(){
+                return $scope.unReimbObject.entity != null && $scope.unReimbObject.entity.statusCode === 'G_DOC';
+            };
+
+            $scope.confirmButtonVisible = function(){
+                return $scope.unReimbObject.entity != null && $scope.unReimbObject.entity.statusCode === 'T_VRF';
+            };
+
+            $scope.cancelButtonVisible = function(){
+                return $scope.unReimbObject.entity != null && ($scope.unReimbObject.entity.statusCode === 'NEW' || $scope.unReimbObject.entity.statusCode === 'T_RMS' || $scope.unReimbObject.entity.statusCode === 'T_CRR');
+            };
     }]);

@@ -70,4 +70,9 @@ public class ElectronicReimbursementsDaoImpl implements ElectronicReimbursements
         return electronicReimbursementsSearchMapper.findMailsByErmbsId(new UserCriteria(), ermbsId);
     }
 
+    @Override
+    public UnrsvPoolRmbsDto findUnrsvPoolRmbsById(Long ermbsId) {
+        return electronicReimbursementsSearchMapper.findUnrsvPoolRmbsById(new UserCriteria(), ermbsId);
+    }
+
 }

@@ -88,4 +88,12 @@ public interface ElectronicReimbursementsSearchMapper {
      */
     List<ErmbsMailDto> findMailsByErmbsId(@Param("criteria") UserCriteria criteria, @Param("ermbsId") Long ermbsId);
 
+    /**
+     * Pobiera rozliczenie dla niewykorzystanej puli bonów
+     * @param criteria - kryteria wyszukiwania
+     * @param ermbsId - id rozliczenia
+     * @return dto rozliczenia
+     */
+    UnrsvPoolRmbsDto findUnrsvPoolRmbsById(@Param("criteria") UserCriteria criteria, @Param("ermbsId") Long ermbsId);
+
 }
