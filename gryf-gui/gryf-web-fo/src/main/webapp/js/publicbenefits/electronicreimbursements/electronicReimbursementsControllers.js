@@ -167,7 +167,8 @@ angular.module('gryf.electronicreimbursements').controller("unrsv.electronicReim
                 return $scope.unReimbObject.entity != null && $scope.unReimbObject.entity.statusCode === 'T_VRF';
             };
 
-            $scope.cancelButtonVisible = function(){
-                return $scope.unReimbObject.entity != null && ($scope.unReimbObject.entity.statusCode === 'NEW' || $scope.unReimbObject.entity.statusCode === 'T_RMS' || $scope.unReimbObject.entity.statusCode === 'T_CRR');
-            };
+            $scope.createDocuments = UnreservedPoolService.createDocuments;
+            $scope.printReports = UnreservedPoolService.printReports;
+            $scope.expire = UnreservedPoolService.expire;
+
     }]);

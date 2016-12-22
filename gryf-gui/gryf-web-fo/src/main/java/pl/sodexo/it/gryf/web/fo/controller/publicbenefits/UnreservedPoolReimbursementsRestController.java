@@ -8,8 +8,7 @@ import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.Ele
 import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
 import pl.sodexo.it.gryf.web.fo.utils.UrlConstants;
 
-import static pl.sodexo.it.gryf.web.fo.utils.UrlConstants.PATH_UNRESERVED_POOL_REIMBURSEMENTS;
-import static pl.sodexo.it.gryf.web.fo.utils.UrlConstants.PATH_UNRESERVED_POOL_REIMBURSEMENTS_FIND;
+import static pl.sodexo.it.gryf.web.fo.utils.UrlConstants.*;
 
 /**
  * Kontroler dla elektornicznych rozliczeń niewykorzystanej puli bonów
@@ -31,6 +30,30 @@ public class UnreservedPoolReimbursementsRestController {
     public UnrsvPoolRmbsDto findElctRmbsById(@PathVariable Long ermbsId){
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS);
         return electronicReimbursementsService.findUnrsvPoolRmbsById(ermbsId);
+    }
+
+    @RequestMapping(value = PATH_UNRESERVED_POOL_CREATE_DOCUMENTS + "{rmbsId}", method = RequestMethod.POST)
+    @ResponseBody
+    public UnrsvPoolRmbsDto createDocuments(@PathVariable("rmbsId") Long rmbsId) {
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS_MOD);
+        Long id = electronicReimbursementsService.createDocuments(rmbsId);
+        return electronicReimbursementsService.findUnrsvPoolRmbsById(id);
+    }
+
+    @RequestMapping(value = PATH_UNRESERVED_POOL_PRINT_REPORTS + "{rmbsId}", method = RequestMethod.POST)
+    @ResponseBody
+    public UnrsvPoolRmbsDto printReports(@PathVariable("rmbsId") Long rmbsId) {
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS_MOD);
+        Long id = electronicReimbursementsService.printReports(rmbsId);
+        return electronicReimbursementsService.findUnrsvPoolRmbsById(id);
+    }
+
+    @RequestMapping(value = PATH_UNRESERVED_POOL__EXPIRE + "{rmbsId}", method = RequestMethod.POST)
+    @ResponseBody
+    public UnrsvPoolRmbsDto expire(@PathVariable("rmbsId") Long rmbsId) {
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS_MOD);
+        Long id = electronicReimbursementsService.expire(rmbsId);
+        return electronicReimbursementsService.findUnrsvPoolRmbsById(id);
     }
 
 }

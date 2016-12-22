@@ -41,7 +41,6 @@ public final class UrlConstants {
     public static final String PATH_ELECTRONIC_REIMBURSEMENTS_CREATE_DOCUMENTS = "/createDocuments/";
     public static final String PATH_ELECTRONIC_REIMBURSEMENTS_PRINT_REPORTS = "/printReports/";
     public static final String PATH_ELECTRONIC_REIMBURSEMENTS_CONFIRM = "/confirm/";
-    public static final String PATH_ELECTRONIC_REIMBURSEMENTS_EXPIRE = "/expire/";
     public static final String PATH_ELECTRONIC_REIMBURSEMENTS_CANCEL = "/cancel/";
     public static final String PATH_ELECTRONIC_REIMBURSEMENTS_DOWNLOAD_CORR_ATT = "/downloadCorrAttachment";
     public static final String PATH_ELECTRONIC_REIMBURSEMENTS_DOWNLOAD_REPORT_FILE = "/downloadReportFile";
@@ -50,6 +49,9 @@ public final class UrlConstants {
 
     public static final String PATH_UNRESERVED_POOL_REIMBURSEMENTS = "/unrsv/reimbursements";
     public static final String PATH_UNRESERVED_POOL_REIMBURSEMENTS_FIND =  "/";
+    public static final String PATH_UNRESERVED_POOL_CREATE_DOCUMENTS = "/createDocuments/";
+    public static final String PATH_UNRESERVED_POOL_PRINT_REPORTS = "/printReports/";
+    public static final String PATH_UNRESERVED_POOL__EXPIRE = "/expire/";
 
     public static final String PATH_TRAINING_INSTANCE = "/trainingInstance";
     public static final String PATH_TRAINING_INSTANCE_LIST =  "/list";

@@ -114,9 +114,10 @@ public interface ElectronicReimbursementsService {
 
     /**
      * Rozlicza niewykorzystaną pule bonów
-     * @param rmbsId
+     * @param rmbsId - id rozliczenia
+     * @return id rozliczenia zaktualizowanego
      */
-    void expire(Long rmbsId);
+    Long expire(Long rmbsId);
 
     /**
      * Job, uruchamiany codziennie o północy, który sprawdza, czy jest jakaś przeterminowana pula bonów i jeśli tak to tworzy dla niej rozliczenie

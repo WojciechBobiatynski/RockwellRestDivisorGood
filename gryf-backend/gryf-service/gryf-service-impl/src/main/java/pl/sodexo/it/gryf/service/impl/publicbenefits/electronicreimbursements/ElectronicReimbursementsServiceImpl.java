@@ -301,11 +301,14 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     }
 
     @Override
-    public void expire(Long rmbsId) {
+    public Long expire(Long rmbsId) {
         Ereimbursement ereimbursement = ereimbursementRepository.get(rmbsId);
         //TODO: akmiecinski pozminiac statusy
 
         pbeProductInstancePoolLocalService.expirePools(ereimbursement);
+        ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.SETTLED));
+        ereimbursementRepository.update(ereimbursement, ereimbursement.getId());
+        return ereimbursement.getId();
     }
 
     private void sendMailsToTiUsers(Long ermbsId) {

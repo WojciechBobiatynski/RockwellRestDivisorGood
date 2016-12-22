@@ -373,6 +373,9 @@ angular.module("gryf.electronicreimbursements").factory("UnreservedPoolService",
     ["$http", "$routeParams", "GryfModals", "GryfExceptionHandler", "GryfPopups", "Upload",
         function($http, $routeParams, GryfModals, GryfExceptionHandler, GryfPopups, Upload) {
             var FIND_UN_RMBS_URL = contextPath + "/rest/publicBenefits/unrsv/reimbursements/";
+            var CREATE_DOCUMENTS_URL = contextPath + "/rest/publicBenefits/unrsv/reimbursements/createDocuments/";
+            var PRINT_REPORTS_URL = contextPath + "/rest/publicBenefits/unrsv/reimbursements/printReports/";
+            var EXPIRE_URL = contextPath + "/rest/publicBenefits/unrsv/reimbursements/expire/";
 
             var unReimbObject = new UnReimbObject();
 
@@ -415,8 +418,58 @@ angular.module("gryf.electronicreimbursements").factory("UnreservedPoolService",
                 }
             };
 
+            var createDocuments = function() {
+                var rmbsId =  + ($routeParams.id ? $routeParams.id : rmbsId);
+                return $http.post(CREATE_DOCUMENTS_URL + rmbsId)
+                    .success(function(response) {
+                        GryfPopups.setPopup("success", "Sukces", "Wystawiono dokumenty");
+                        unReimbObject.entity = response;
+                    })
+                    .error(function() {
+                        GryfPopups.setPopup("error", "Błąd", "Nie udało się wystawić dokumentów");
+                    })
+                    .finally(function() {
+                        GryfPopups.showPopup();
+                    });
+            };
+
+            var printReports = function() {
+                var rmbsId =  $routeParams.id;
+                var promise = $http.post(PRINT_REPORTS_URL + rmbsId);
+                promise.success(function(response) {
+                    GryfPopups.setPopup("success", "Sukces", "Wydrukowano dokumenty");
+                    unReimbObject.entity = response;
+                })
+                    .error(function() {
+                        GryfPopups.setPopup("error", "Błąd", "Nie udało się wydrukować dokumentów");
+                    })
+                    .finally(function() {
+                        GryfPopups.showPopup();
+                    });
+                return promise;
+            };
+
+            var expire = function() {
+                var rmbsId =  $routeParams.id;
+                var promise = $http.post(EXPIRE_URL + rmbsId);
+                promise.success(function(response) {
+                    GryfPopups.setPopup("success", "Sukces", "Rozliczenie zostało zatwierdzone");
+                    unReimbObject.entity = response;
+                })
+                .error(function() {
+                    GryfPopups.setPopup("error", "Błąd", "Nie udało się zatwierdzić rozliczenia");
+                })
+                .finally(function() {
+                    GryfPopups.showPopup();
+                });
+                return promise;
+            };
+
             return {
                 getNewModel: getNewModel,
-                findById: findById
+                findById: findById,
+                createDocuments: createDocuments,
+                printReports: printReports,
+                expire: expire
             };
         }]);
