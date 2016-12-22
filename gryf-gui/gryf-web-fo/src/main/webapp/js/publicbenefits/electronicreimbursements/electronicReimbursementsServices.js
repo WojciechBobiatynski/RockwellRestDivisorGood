@@ -264,11 +264,15 @@ angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementS
             var confirm = function() {
                 var rmbsId =  $routeParams.id;
                 var promise = $http.post(CONFIRM_URL + rmbsId);
-                promise.then(function(response) {
-
-                });
-                promise.finally(function() {
-
+                promise.success(function(response) {
+                    GryfPopups.setPopup("success", "Sukces", "Rozliczenie zostało zatwierdzone");
+                    eReimbObject.entity = response;
+                })
+                .error(function() {
+                    GryfPopups.setPopup("success", "Sukces", "Nie udało się zatwierdzić rozliczenia");
+                })
+                .finally(function() {
+                    GryfPopups.showPopup();
                 });
                 return promise;
             };

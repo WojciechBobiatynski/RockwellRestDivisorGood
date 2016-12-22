@@ -275,11 +275,14 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     }
 
     @Override
-    public void confirm(Long rmbsId) {
+    public Long confirm(Long rmbsId) {
         Ereimbursement ereimbursement = ereimbursementRepository.get(rmbsId);
-        //TODO: akmiecinski pozminiac statusy
-
+        ereimbursement.setReconDate(new Date());
+        ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.SETTLED));
+        setReimbReimburseStatusForTiInstance(ereimbursement);
         pbeProductInstancePoolLocalService.reimbursPools(ereimbursement);
+        ereimbursementRepository.update(ereimbursement, ereimbursement.getId());
+        return ereimbursement.getId();
     }
 
     @Override
@@ -324,6 +327,9 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         ereimbursement.getTrainingInstance().setStatus(trainingInstanceStatusRepository.get(GryfConstants.DONE_TRAINING_INSTANCE_STATUS_CODE));
     }
 
+    private void setReimbReimburseStatusForTiInstance(Ereimbursement ereimbursement) {
+        ereimbursement.getTrainingInstance().setStatus(trainingInstanceStatusRepository.get(GryfConstants.REIMBURSED_TRAINING_INSTANCE_STATUS_CODE));
+    }
 
     private void calculateCharges(ElctRmbsHeadDto elctRmbsHeadDto) {
         CalculationChargesParamsDto params = getCalculationChargesParamsDto(elctRmbsHeadDto);

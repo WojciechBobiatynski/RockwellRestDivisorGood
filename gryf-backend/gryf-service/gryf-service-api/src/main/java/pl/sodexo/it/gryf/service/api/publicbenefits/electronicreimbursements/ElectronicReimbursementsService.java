@@ -100,9 +100,10 @@ public interface ElectronicReimbursementsService {
 
     /**
      * Potwierdza rozlicznie
-     * @param rmbsId
+     * @param rmbsId - id rozliczenia
+     * @return id rozliczenia zaktualizowanego
      */
-    void confirm(Long rmbsId);
+    Long confirm(Long rmbsId);
 
     /**
      * Rozlicza niewykorzystaną pule bonów
