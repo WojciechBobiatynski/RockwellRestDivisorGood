@@ -27,6 +27,10 @@ public class ElctRmbsDto implements Serializable {
 
     @Getter
     @Setter
+    private String rmbsTypeCode;
+
+    @Getter
+    @Setter
     private Long trainingInstanceId;
 
     @Getter

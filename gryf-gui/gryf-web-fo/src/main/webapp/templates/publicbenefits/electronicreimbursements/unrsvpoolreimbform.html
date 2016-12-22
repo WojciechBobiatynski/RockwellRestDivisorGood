@@ -1,0 +1,168 @@
+<toaster-container toaster-options="{'position-class': 'toast-top-center'}"></toaster-container>
+<header id="header">
+    <h1>Rozliczenie szkolenia</h1>
+    <ul>
+        <li><a class="button button-save" ng-click="settle()" gryf-privilege="GRF_PBE_E_REIMBURSEMENTS_MOD" ng-if="reimburseButtonVisible()">Rozlicz</a></li>
+        <li><a class="button button-save" ng-click="sendToCorrect()" gryf-privilege="GRF_PBE_E_REIMBURSEMENTS_MOD" ng-if="correctButtonVisible()">Koryguj</a></li>
+        <li><a class="button button-save" ng-click="createDocuments()" gryf-privilege="GRF_PBE_E_REIMBURSEMENTS_MOD" ng-if="generateDocumentsButtonVisible()">Generuj dokumenty</a></li>
+        <li><a class="button button-save" ng-click="printReports()" gryf-privilege="GRF_PBE_E_REIMBURSEMENTS_MOD" ng-if="printReportsButtonVisible()">Drukuj raporty</a></li>
+        <li><a class="button button-save" ng-click="confirm()" gryf-privilege="GRF_PBE_E_REIMBURSEMENTS_MOD" ng-if="confirmButtonVisible()">Zatwierdź rozliczenie</a></li>
+        <li><a class="button button-save" ng-click="cancel()" gryf-privilege="GRF_PBE_E_REIMBURSEMENTS_MOD" ng-if="cancelButtonVisible()">Anuluj</a></li>
+    </ul>
+    <ol>
+        <li><a class="button" ng-href="{{getPrevUrl()}}">Wróć</a></li>
+    </ol>
+</header>
+<!--------------------------------------DANE_UCZESTNIKA---------------------------------------------->
+<section>
+    <div class="grid-100">
+        <header>
+            <h2>Dane uczestnika</h2>
+        </header>
+    </div>
+    <div class="grid-100">
+        <div class="grid-10">
+            <a ng-href="{{getUrlFor(MODULES.Individual, eReimbObject.trainingInstance.participantId)}}">
+                <strong class="label">ID uczestnika &UpperRightArrow; </strong>
+            </a>
+            <input type="text" ng-model="eReimbObject.trainingInstance.participantId" readonly="readonly">
+        </div>
+        <div class="grid-10">
+            <strong class="label">PESEL</strong>
+            {{eReimbObject.trainingInstance.participantPesel}}
+        </div>
+        <div class="grid-10">
+            <strong class="label">Imię</strong>
+            {{eReimbObject.trainingInstance.participantName}}
+        </div>
+        <div class="grid-10">
+            <strong class="label">Nazwisko</strong>
+            {{eReimbObject.trainingInstance.participantSurname}}
+        </div>
+    </div>
+</section>
+<!--------------------------------------WYKORZYSTANE_BONY---------------------------------------------->
+<section>
+    <div class="grid-100">
+        <header>
+            <h2>Wykorzystane bony</h2>
+        </header>
+    </div>
+    <div class="grid-100" ng-repeat="prd in eReimbObject.entity.products">
+        <div class="grid-10">
+            <a ng-href="{{getUrlFor(MODULES.Order, prd.orderId)}}">
+                <strong class="label">ID zamówienia &UpperRightArrow; </strong>
+            </a>
+            <input type="text" ng-model="prd.orderId" readonly="readonly">
+        </div>
+        <div class="grid-10">
+            <strong class="label">Liczba bonów</strong>
+            {{prd.reservedProductsCount}}
+        </div>
+        <div class="grid-10">
+            <strong class="label">Data ważności bonów</strong>
+            {{prd.expirationDate}}
+        </div>
+    </div>
+</section>
+<!--------------------------------------KWOTY_ROZLICZEN---------------------------------------------->
+<section>
+    <div class="grid-100">
+        <header>
+            <h2>Kwoty rozliczeń</h2>
+        </header>
+    </div>
+    <div class="grid-100">
+        <div class="grid-20">
+            <strong class="label">Kwota należna IS od Sodexo</strong>
+            {{eReimbObject.entity.sxoTiAmountDueTotal}}
+        </div>
+        <div class="grid-20">
+            <strong class="label">Kwota należna Uczestnikowi od Sodexo</strong>
+            {{eReimbObject.entity.sxoIndAmountDueTotal}}
+        </div>
+        <div class="grid-20">
+            <strong class="label">Kwota należna IS od Uczestnika</strong>
+            {{eReimbObject.entity.indTiAmountDueTotal}}
+        </div>
+        <div class="grid-20">
+            <strong class="label">Wykorzystany wkład własny Uczestnika</strong>
+            {{eReimbObject.entity.indOwnContributionUsed}}
+        </div>
+        <div class="grid-20">
+            <strong class="label">Wartość dofinansowania Uczestnika</strong>
+            {{eReimbObject.entity.indSubsidyValue}}
+        </div>
+    </div>
+</section>
+<!--------------------------------------WYGENEROWANE_RAPORTY---------------------------------------------->
+<section data-ng-if="generatedReportsAndEmailsSectionVisible()">
+    <div class="grid-100">
+        <header>
+            <h2>Wygenerowane raporty</h2>
+        </header>
+    </div>
+    <div ng-repeat="item in eReimbObject.entity.reports" class="grid-100">
+        <div class="grid-30">
+            {{item.typeName}}
+        </div>
+        <div class="grid-30">
+            <a class="button button-new" ng-href="{{getReportFile(item)}}">
+                Pobierz
+            </a>
+        </div>
+    </div>
+</section>
+<!--------------------------------------Maile do wysłania---------------------------------------------->
+<section data-ng-if="generatedReportsAndEmailsSectionVisible()" data-ng-init="generateMailFromTemplatesOnInitIfNull()">
+    <div class="grid-100">
+        <header>
+            <h2>Maile do wysłania</h2>
+        </header>
+    </div>
+    <fieldset class="grid-100" data-ng-repeat="mail in eReimbObject.entity.emails" data-ng-disabled="{{mail.id != null}}">
+        <div class="grid-100">
+            <div class="grid-30">
+                <div>Adresaci email</div>
+                <input type="text" data-ng-model="mail.emailsTo">
+            </div>
+            <div class="grid-30">
+                <div>Tytuł maila</div>
+                <input type="text" data-ng-model="mail.emailSubject">
+            </div>
+            <div class="grid-40">
+                <div>Treść maila</div>
+                <textarea rows="5" cols="50" data-ng-model="mail.emailBody"></textarea>
+            </div>
+        </div>
+        <div class="grid-100">
+            <header>
+                <h3>Załączniki</h3>
+            </header>
+            <div class="grid-100" data-ng-repeat="att in mail.attachments">
+                <div class="grid-100">
+                    <div class="grid-20">
+                        <div>Nazwa załącznika</div>
+                        <input type="text" data-ng-model="att.name">
+                    </div>
+                    <div class="grid-30">
+                        <div>{{att.file[0].name ? att.file[0].name : att.originalFilename}}</div>
+                    </div>
+                    <div class="grid-40">
+                        <button class="button button-save" ng-model="att.file" ngf-select
+                                ngf-pattern=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.gif">
+                            {{(!att.file[0].name && !att.originalFileName) ? "Wgraj plik" : "Zmień plik"}}
+                        </button>
+                        <button class="button button-save" ng-click="deleteMailAtt(mail,att)">
+                            Usuń
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="grid-100">
+                <button class="button button-save" ng-click="addNewAttToMail(mail)">Dodaj plik</button>
+                <button class="button button-save" ng-click="sendMail(mail)">Wyślij maila</button>
+            </div>
+        </div>
+    </fieldset>
+</section>

@@ -15,7 +15,8 @@
             ermbs.REIMBURSEMENT_DATE  rmbsDate,
             status.NAME               rmbsStatus,
             status.ID                 rmbsStatusId,
-            tp.NAME                   rmbsType
+            tp.NAME                   rmbsType,
+            tp.CODE                   rmbsTypeCode
         FROM
             APP_PBE.E_REIMBURSEMENTS ermbs
             LEFT JOIN APP_PBE.TI_TRAINING_INSTANCES ti_in ON ti_in.ID = ermbs.TI_TR_INST_ID

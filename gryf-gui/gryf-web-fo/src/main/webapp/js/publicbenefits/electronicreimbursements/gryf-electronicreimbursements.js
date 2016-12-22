@@ -8,6 +8,10 @@ angular.module("gryf.electronicreimbursements").config(["$routeProvider", functi
             templateUrl: contextPath + "/templates/publicbenefits/electronicreimbursements/announceform.html",
             controller: "announce.electronicReimbursementsController"
         })
+        .when("/unrsv/:id?", {
+            templateUrl: contextPath + "/templates/publicbenefits/electronicreimbursements/unrsvpoolreimbform.html",
+            controller: "unrsv.electronicReimbursementsController"
+        })
         .when("/search/", {
             templateUrl: contextPath + "/templates/publicbenefits/electronicreimbursements/searchform.html",
             controller: "searchform.electronicReimbursementsController"

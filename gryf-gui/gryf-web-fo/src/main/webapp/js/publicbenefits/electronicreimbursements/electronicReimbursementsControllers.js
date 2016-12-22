@@ -28,9 +28,19 @@ angular.module('gryf.electronicreimbursements').controller("searchform.electroni
             $scope.datepicker[fieldName] = true;
         };
 
+        $scope.getEreimbursementDetailsLink = function (item) {
+            var detailsLink = new String();
+            if(item.rmbsTypeCode === 'TI_INST'){
+                detailsLink = '#/announce/'
+            } else {
+                detailsLink = '#/unrsv/'
+            }
+            detailsLink += item.rmbsNumber;
+            return detailsLink;
+        };
+
     }]);
 
-var test;
 angular.module('gryf.electronicreimbursements').controller("announce.electronicReimbursementsController",
     ['$scope', "$routeParams", "GryfModulesUrlProvider", "BrowseTrainingInsService", "TrainingInstanceSearchService", "AnnounceEReimbursementService",
     function ($scope, $routeParams, GryfModulesUrlProvider, BrowseTrainingInsService, TrainingInstanceSearchService, AnnounceEReimbursementService) {
@@ -38,8 +48,6 @@ angular.module('gryf.electronicreimbursements').controller("announce.electronicR
         $scope.correctionObject = AnnounceEReimbursementService.getCorrectionObject();
         $scope.eReimbObject = AnnounceEReimbursementService.getNewModel();
         $scope.violations = AnnounceEReimbursementService.getNewViolations();
-
-        test = $scope;
 
         if($routeParams.id) {
             AnnounceEReimbursementService.findById($routeParams.id).then(function() {
@@ -125,5 +133,12 @@ angular.module('gryf.electronicreimbursements').controller("announce.electronicR
         $scope.sendMail = function (mail) {
             AnnounceEReimbursementService.sendMail(mail);
         };
+
+    }]);
+
+angular.module('gryf.electronicreimbursements').controller("unrsv.electronicReimbursementsController",
+    ['$scope', "$routeParams", "GryfModulesUrlProvider", "BrowseTrainingInsService", "AnnounceEReimbursementService",
+        function ($scope, $routeParams, GryfModulesUrlProvider, BrowseTrainingInsService, AnnounceEReimbursementService) {
+            $scope.MODULES = GryfModulesUrlProvider.MODULES;
 
     }]);
