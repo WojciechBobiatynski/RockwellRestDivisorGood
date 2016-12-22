@@ -3,6 +3,7 @@ angular.module('gryf.electronicreimbursements').factory("electronicReimbursement
 
         var FIND_RMBS_LIST_URL = contextPath + "/rest/publicBenefits/electronic/reimbursements/list";
         var FIND_RMBS_STATUSES_LIST_URL = contextPath + "/rest/publicBenefits/electronic/reimbursements/statuses";
+        var FIND_RMBS_TYPES_LIST_URL = contextPath + "/rest/publicBenefits/electronic/reimbursements/types";
 
 
         var elctRmbsCriteria = new ElctRmbsCriteria();
@@ -11,6 +12,7 @@ angular.module('gryf.electronicreimbursements').factory("electronicReimbursement
 
         function ElctRmbsCriteria() {
             this.rmbsNumber =  null,
+            this.rmbsType =  null,
             this.trainingName= null,
             this.pesel= null,
             this.participantName= null,
@@ -93,6 +95,14 @@ angular.module('gryf.electronicreimbursements').factory("electronicReimbursement
             return promise;
         };
 
+        var loadReimbursementsTypes = function() {
+            var promise = $http.get(FIND_RMBS_TYPES_LIST_URL);
+            promise.then(function (response) {
+                elctRmbsModel.rmbsTypes = response.data;
+            });
+            return promise;
+        };
+
         return {
             getNewCriteria: getNewElctRmbsCriteria,
             getSearchResultOptions: getSearchResultOptions,
@@ -100,7 +110,8 @@ angular.module('gryf.electronicreimbursements').factory("electronicReimbursement
             getElctRmbsModel: getElctRmbsModel,
             find: find,
             loadMore: loadMore,
-            loadReimbursementsStatuses: loadReimbursementsStatuses
+            loadReimbursementsStatuses: loadReimbursementsStatuses,
+            loadReimbursementsTypes: loadReimbursementsTypes
         };
     }]);
 

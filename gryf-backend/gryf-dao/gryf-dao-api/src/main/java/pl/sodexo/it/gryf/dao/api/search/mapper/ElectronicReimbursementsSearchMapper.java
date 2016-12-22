@@ -32,6 +32,14 @@ public interface ElectronicReimbursementsSearchMapper {
     List<SimpleDictionaryDto> findElctRmbsStatuses(@Param("criteria") UserCriteria criteria);
 
     /**
+     * Metoda zwracająca listę typów rozliczeń
+     *
+     * @param criteria kryteria użytkownika
+     * @return - lista typów
+     */
+    List<SimpleDictionaryDto> findElctRmbsTypes(@Param("criteria") UserCriteria criteria);
+
+    /**
      * Metoda znajdująca parametry do obliczenia składek na rolizczeniu dla instancji szkolenia
      *
      * @param criteria - kryteria użytkownika

@@ -27,6 +27,12 @@ public interface ElectronicReimbursementsDao {
     List<SimpleDictionaryDto> findElctRmbsStatuses();
 
     /**
+     * Metoda zwracająca listę typów rozliczeń
+     * @return - lista typów
+     */
+    List<SimpleDictionaryDto> findElctRmbsTypes();
+
+    /**
      * Metoda znajdująca parametry do obliczenia składek na rolizczeniu dla instancji szkolenia
      *
      * @param trainingInstanceId - id instytucji szkoleniowej

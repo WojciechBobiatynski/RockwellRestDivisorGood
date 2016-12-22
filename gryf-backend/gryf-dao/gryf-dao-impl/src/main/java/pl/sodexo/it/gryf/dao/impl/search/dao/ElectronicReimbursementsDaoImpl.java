@@ -36,6 +36,11 @@ public class ElectronicReimbursementsDaoImpl implements ElectronicReimbursements
     }
 
     @Override
+    public List<SimpleDictionaryDto> findElctRmbsTypes() {
+        return electronicReimbursementsSearchMapper.findElctRmbsTypes(new UserCriteria());
+    }
+
+    @Override
     public CalculationChargesParamsDto findCalculationChargesParamsForTrInstId(Long trainingInstanceId) {
         return electronicReimbursementsSearchMapper.findCalculationChargesParamsForTrInstId(new UserCriteria(), trainingInstanceId);
     }

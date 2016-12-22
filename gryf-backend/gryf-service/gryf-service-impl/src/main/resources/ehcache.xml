@@ -36,4 +36,9 @@
            maxElementsInMemory="1000"
            overflowToDisk="false" />
 
+    <cache name="elctRmbsTypes" eternal="false"
+           timeToIdleSeconds="0" timeToLiveSeconds="3600"
+           maxElementsInMemory="1000"
+           overflowToDisk="false" />
+
 </ehcache>

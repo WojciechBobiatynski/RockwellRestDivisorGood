@@ -5,6 +5,8 @@ angular.module('gryf.electronicreimbursements').controller("searchform.electroni
         $scope.elctRmbsCriteria = electronicReimbursementSearchService.getNewCriteria();
         $scope.searchResultOptions = electronicReimbursementSearchService.getSearchResultOptions();
         $scope.elctRmbsModel = electronicReimbursementSearchService.getElctRmbsModel();
+        electronicReimbursementSearchService.loadReimbursementsStatuses();
+        electronicReimbursementSearchService.loadReimbursementsTypes();
 
         gryfSessionStorage.setUrlToSessionStorage();
 
@@ -25,10 +27,6 @@ angular.module('gryf.electronicreimbursements').controller("searchform.electroni
         $scope.openDatepicker = function (fieldName) {
             $scope.datepicker[fieldName] = true;
         };
-
-        ($scope.loadReimbursementsStatuses = function () {
-            electronicReimbursementSearchService.loadReimbursementsStatuses();
-        })();
 
     }]);
 

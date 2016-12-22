@@ -29,6 +29,12 @@ public interface ElectronicReimbursementsService {
     List<SimpleDictionaryDto> findElctRmbsStatuses();
 
     /**
+     * Metoda zwracająca listę typów rozliczeń
+     * @return - lista typów
+     */
+    List<SimpleDictionaryDto> findElctRmbsTypes();
+
+    /**
      * Tworzy nowe rozliczenie na podstawie Id instancji szkolenia
      * @param trainingInstanceId - id instancji szkolenia
      * @return id rozliczenia

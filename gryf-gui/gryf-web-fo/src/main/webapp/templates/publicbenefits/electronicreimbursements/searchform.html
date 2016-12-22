@@ -9,11 +9,18 @@
         <table class="table table-condensed">
             <thead>
             <tr class="grid-100">
-                <th class="sortable grid-15" ng-class="getSortingTypeClass('elctRmbsCriteria.rmbsNumber')">
+                <th class="sortable grid-10" ng-class="getSortingTypeClass('elctRmbsCriteria.rmbsNumber')">
                     <div ng-click="getSortedBy('elctRmbsCriteria.rmbsNumber')">
                         Numer rozliczenia
                     </div>
                     <input placeholder="Numer rozliczenia" type="text" ng-model="elctRmbsCriteria.rmbsNumber">
+                </th>
+                <th class="sortable grid-10" ng-class="getSortingTypeClass('elctRmbsCriteria.rmbsType')">
+                    <div ng-click="getSortedBy('elctRmbsCriteria.rmbsType')">
+                        Typ rozliczenia
+                    </div>
+                    <select ng-model="elctRmbsCriteria.rmbsType"
+                            ng-options="v.name as v.name for v in elctRmbsModel.rmbsTypes"></select>
                 </th>
                 <th class="sortable grid-20" ng-class="getSortingTypeClass('elctRmbsCriteria.trainingName')">
                     <div ng-click="getSortedBy('elctRmbsCriteria.trainingName')">
@@ -78,6 +85,7 @@
             <tbody>
             <tr ng-repeat="item in elctRmbsModel.foundRmbs | limitTo: searchResultOptions.displayLimit">
                 <td>{{::item.rmbsNumber}}</td>
+                <td>{{::item.rmbsType}}</td>
                 <td>{{::item.trainingName}}</td>
                 <td>{{::item.pesel}}</td>
                 <td>{{::item.participantName}}</td>

@@ -72,6 +72,13 @@ public class ElectronicReimbursementsRestController {
         return electronicReimbursementsService.findElctRmbsStatuses();
     }
 
+    @RequestMapping(value = PATH_ELECTRONIC_REIMBURSEMENTS_TYPES_LIST, method = RequestMethod.GET)
+    @ResponseBody
+    public List<SimpleDictionaryDto> findElctRmbsTypes(){
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS);
+        return electronicReimbursementsService.findElctRmbsTypes();
+    }
+
     @RequestMapping(value = PATH_ELECTRONIC_REIMBURSEMENTS_FIND + "{ermbsId}", method = RequestMethod.GET)
     @ResponseBody
     public ElctRmbsHeadDto findElctRmbsById(@PathVariable Long ermbsId){

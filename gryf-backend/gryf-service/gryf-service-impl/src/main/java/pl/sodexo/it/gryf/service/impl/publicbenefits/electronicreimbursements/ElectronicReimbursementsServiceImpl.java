@@ -121,6 +121,12 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     }
 
     @Override
+    @Cacheable(cacheName = "elctRmbsTypes")
+    public List<SimpleDictionaryDto> findElctRmbsTypes() {
+        return electronicReimbursementsDao.findElctRmbsTypes();
+    }
+
+    @Override
     public ElctRmbsHeadDto createRmbsDtoByTrainingInstanceId(Long trainingInstanceId) {
         ElctRmbsHeadDto elctRmbsHeadDto = electronicReimbursementsDao.findEcltRmbsByTrainingInstanceId(trainingInstanceId);
         if(elctRmbsHeadDto != null){

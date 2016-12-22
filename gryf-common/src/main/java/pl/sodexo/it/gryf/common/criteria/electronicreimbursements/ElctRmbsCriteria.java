@@ -28,6 +28,10 @@ public class ElctRmbsCriteria extends UserCriteria {
 
     @Getter
     @Setter
+    private String rmbsType;
+
+    @Getter
+    @Setter
     private String trainingName;
 
     @Getter

@@ -14,13 +14,15 @@
             ind.LAST_NAME             participantSurname,
             ermbs.REIMBURSEMENT_DATE  rmbsDate,
             status.NAME               rmbsStatus,
-            status.ID                 rmbsStatusId
+            status.ID                 rmbsStatusId,
+            tp.NAME                   rmbsType
         FROM
             APP_PBE.E_REIMBURSEMENTS ermbs
             LEFT JOIN APP_PBE.TI_TRAINING_INSTANCES ti_in ON ti_in.ID = ermbs.TI_TR_INST_ID
             LEFT JOIN APP_PBE.TI_TRAININGS ti ON ti.ID = ti_in.TRAINING_ID
             LEFT JOIN APP_PBE.INDIVIDUALS ind ON ind.ID = ti_in.INDIVIDUAL_ID
             LEFT JOIN APP_PBE.E_REIMBURSEMENT_STATUSES status ON status.ID = ermbs.STATUS_ID
+            LEFT JOIN APP_PBE.E_REIMBURSEMENT_TYPES tp ON tp.CODE = ermbs.TYPE_ID
         <where>
             <if test="criteria.rmbsNumber != null and criteria.rmbsNumber != ''">
                 ermbs.ID = #{criteria.rmbsNumber}
@@ -46,6 +48,9 @@
             <if test="criteria.rmbsStatus != null and criteria.rmbsStatus != ''">
                 AND status.NAME = #{criteria.rmbsStatus}
             </if>
+            <if test="criteria.rmbsType != null and criteria.rmbsType != ''">
+                AND tp.NAME = #{criteria.rmbsType}
+            </if>
             <if test="criteria.gryfUser.userType == 'TRAINING_INSTITUTION'">
                 AND ti.TRAINING_INSTITUTION_ID = #{criteria.gryfUser.trainingInstitutionId}
             </if>
@@ -69,6 +74,17 @@
             dic.ORDINAL     ordinal
         FROM
             APP_PBE.E_REIMBURSEMENT_STATUSES dic
+        ORDER BY
+            dic.ordinal
+    </select>
+
+    <select id="findElctRmbsTypes" resultType="pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto" parameterType="list">
+        SELECT
+            dic.code        id,
+            dic.NAME        name,
+            dic.ORDINAL     ordinal
+        FROM
+            APP_PBE.E_REIMBURSEMENT_TYPES dic
         ORDER BY
             dic.ordinal
     </select>
