@@ -222,7 +222,7 @@
                 <tr ng-repeat="contact in model.entity.contacts">
                     <td>
                         <select ng-options="contactType as contactType.name for contactType in model.contactTypes track by contactType.type " ng-model="contact.contactType"/>
-                        <gryf-validation-msg path="contacts[{{$index}}].contactTypes"></gryf-validation-msg>
+                        <gryf-validation-msg path="contacts[{{$index}}].contactType"></gryf-validation-msg>
                     </td>
                     <td>
                         <input type="text" ng-model="contact.contactData" maxlength="300"/>
