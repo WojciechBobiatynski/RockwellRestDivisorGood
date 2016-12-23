@@ -10,5 +10,8 @@ public interface TrainingInstanceRepository extends GenericRepository<TrainingIn
 
     int countByTrainingAndIndividualNotCaceled(Long trainingId, Long individualId);
 
-    boolean isInUserInstitution(Long trainingInstanceId, String user);
+    boolean isInUserInstitution(Long trainingInstanceId, String tiUserLogin);
+
+    boolean isInUserIndividual(Long trainingInstanceId, String indUserLogin);
+
 }

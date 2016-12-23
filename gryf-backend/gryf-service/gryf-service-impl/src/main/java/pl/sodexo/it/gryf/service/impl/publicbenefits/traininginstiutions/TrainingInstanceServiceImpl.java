@@ -111,6 +111,11 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
         return trainingInstanceRepository.isInUserInstitution(trainingInstanceId, GryfUser.getLoggedUserLogin());
     }
 
+    @Override
+    public boolean isTrainingInstanceInLoggedIndividual(Long trainingInstanceId){
+        return trainingInstanceRepository.isInUserIndividual(trainingInstanceId, GryfUser.getLoggedUserLogin());
+    }
+
     //PUBLIC METHODS - ACTIONS
 
     @Override

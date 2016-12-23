@@ -25,6 +25,8 @@ public interface SecurityChecker{
 
     void assertTiUserAccessEreimbursementAttachment(Long ereimbursementAttachmentId);
 
+    void assertIndUserAccessTrainingInstance(Long trainingInstanceId);
+
     //PUBLIC METHODS - HAS PRIVILEGE
 
     boolean hasPrivilege(String privilege);

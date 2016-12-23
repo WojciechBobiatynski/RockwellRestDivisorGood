@@ -21,7 +21,11 @@ import java.util.*;
 @NamedQuery(name = "TrainingInstance.isInUserInstitution", query = "select count(e) "
                 + "from TrainingInstance e join e.training t join t.trainingInstitution ti "
                 + "join ti.trainingInstitutionUsers tiu "
-                + "where e.id = :trainingInstanceId and tiu.login = :tiUserLogin")})
+                + "where e.id = :trainingInstanceId and tiu.login = :tiUserLogin"),
+        @NamedQuery(name = "TrainingInstance.isInUserIndividual", query = "select count(e) "
+                + "from TrainingInstance e join e.individual i "
+                + "where e.id = :trainingInstanceId and i.pesel = :indUserLogin"),
+})
 public class TrainingInstance extends VersionableEntity {
 
     @Id

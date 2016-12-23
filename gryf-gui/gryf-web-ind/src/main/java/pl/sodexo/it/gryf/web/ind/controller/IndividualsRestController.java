@@ -28,13 +28,13 @@ public class IndividualsRestController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public IndDto getIndividualAfterLogin() {
-        //securityChecker.assertServicePrivilege(Privileges.GRF_INDIVIDUALS);
         return individualService.findIndividualAfterLogin();
     }
 
     @RequestMapping(value = "/reimbursmentPin/resend/{trainingInstanceId}", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.OK)
     public void resendReimbursmentPin(@PathVariable("trainingInstanceId") Long trainingInstanceId) {
+        securityChecker.assertIndUserAccessTrainingInstance(trainingInstanceId);
         trainingInstanceService.resendReimbursmentPin(trainingInstanceId);
     }
 }

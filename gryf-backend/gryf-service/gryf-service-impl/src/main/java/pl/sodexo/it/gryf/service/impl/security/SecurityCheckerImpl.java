@@ -93,6 +93,15 @@ public class SecurityCheckerImpl implements SecurityChecker {
         }
     }
 
+    @Override
+    public void assertIndUserAccessTrainingInstance(Long trainingInstanceId){
+        if(trainingInstanceId != null){
+            if(!trainingInstanceService.isTrainingInstanceInLoggedIndividual(trainingInstanceId)){
+                gryfValidator.validate("Nie masz dostepu do danej instancji szkolenia");
+            }
+        }
+    }
+
     //PUBLIC METHODS - HAS PRIVILEGE
 
     @Override

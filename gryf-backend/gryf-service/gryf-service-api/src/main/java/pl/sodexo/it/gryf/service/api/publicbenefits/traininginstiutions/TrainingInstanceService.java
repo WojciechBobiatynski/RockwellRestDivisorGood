@@ -70,4 +70,11 @@ public interface TrainingInstanceService {
      * @return
      */
     boolean isTrainingInstanceInLoggedUserInstitution(Long trainingInstanceId);
+
+    /**
+     * Sprawdza czy dana instancja szkolenia jest w obrebie danego użytkownika indywidualnego.
+     * @param trainingInstanceId instancja szkolenia
+     * @return
+     */
+    boolean isTrainingInstanceInLoggedIndividual(Long trainingInstanceId);
 }

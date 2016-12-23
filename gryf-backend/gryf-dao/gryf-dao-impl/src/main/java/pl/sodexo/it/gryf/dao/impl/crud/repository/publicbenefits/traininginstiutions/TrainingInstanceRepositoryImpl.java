@@ -33,4 +33,12 @@ public class TrainingInstanceRepositoryImpl extends GenericRepositoryImpl<Traini
         query.setParameter("tiUserLogin", tiUserLogin);
         return query.getSingleResult() > 0;
     }
+
+    @Override
+    public boolean isInUserIndividual(Long trainingInstanceId, String indUserLogin){
+        TypedQuery<Long> query = entityManager.createNamedQuery("TrainingInstance.isInUserIndividual", Long.class);
+        query.setParameter("trainingInstanceId", trainingInstanceId);
+        query.setParameter("indUserLogin", indUserLogin);
+        return query.getSingleResult() > 0;
+    }
 }
