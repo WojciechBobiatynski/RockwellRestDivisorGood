@@ -37,7 +37,7 @@ import static pl.sodexo.it.gryf.web.ti.util.UrlConstants.*;
 @RequestMapping(value = UrlConstants.PATH_REIMBURSEMENT_REST, produces = "application/json;charset=UTF-8")
 public class ReimbursementRestController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ReimbursementRestController.class);
+    //PRIVATE FIELDS
 
     @Autowired
     private SecurityChecker securityChecker;
@@ -48,78 +48,91 @@ public class ReimbursementRestController {
     @Autowired
     private ErmbsAttachmentService ermbsAttachmentService;
 
+    //PUBLIC METHODS - FINDS
+
     @RequestMapping(value = PATH_REIMBURSEMENT_LIST, method = RequestMethod.GET)
     @ResponseBody
     public List<ElctRmbsDto> findElctRmbsByCriteria(ElctRmbsCriteria elctRmbsCriteria){
-        //        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS);
         return electronicReimbursementsService.findEcltRmbsListByCriteria(elctRmbsCriteria);
     }
 
-    @RequestMapping(value = PATH_REIMBURSEMENTS_STATUSES_LIST, method = RequestMethod.GET)
-    @ResponseBody
-    public List<SimpleDictionaryDto> findElctRmbsStatuses(){
-        //        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS);
-        return electronicReimbursementsService.findElctRmbsStatuses();
-    }
+    //PUBLIC METHODS - ACTIONS
 
     @RequestMapping(value = PATH_REIMBURSEMENTS_CREATE + "/{trainingInstanceId}", method = RequestMethod.GET)
     @ResponseBody
     public ElctRmbsHeadDto createRmbsForTrainingInstance(@PathVariable Long trainingInstanceId){
-        //        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS);
+        securityChecker.assertTiUserAccessTrainingInstance(trainingInstanceId);
         return electronicReimbursementsService.createRmbsDtoByTrainingInstanceId(trainingInstanceId);
     }
 
     @RequestMapping(value = PATH_REIMBURSEMENTS_MODIFY + "/{ermbsId}", method = RequestMethod.GET)
     @ResponseBody
     public ElctRmbsHeadDto modifyRmbsForTrainingInstance(@PathVariable Long ermbsId){
-        //        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS);
+        securityChecker.assertTiUserAccessEreimbursement(ermbsId);
         return electronicReimbursementsService.findEcltRmbsById(ermbsId);
     }
 
     @RequestMapping(value = PATH_REIMBURSEMENTS_SAVE, method = RequestMethod.POST)
     public ElctRmbsHeadDto saveReimbursement(MultipartHttpServletRequest request) {
-//        securityChecker.assertFormPrivilege(Privileges.GRF_PBE_REIMB);
         ElctRmbsHeadDto dto = getElctRmbsHeadDtoFromMultipartRequest(request);
+        securityChecker.assertTiUserAccessTrainingInstance(dto.getTrainingInstanceId());
+        securityChecker.assertTiUserAccessEreimbursement(dto.getErmbsId());
+
         Long ermbsId = electronicReimbursementsService.saveErmbs(dto);
         return electronicReimbursementsService.findEcltRmbsById(ermbsId);
     }
 
     @RequestMapping(value = PATH_REIMBURSEMENTS_SEND, method = RequestMethod.POST)
     public ElctRmbsHeadDto sendToReimburse(MultipartHttpServletRequest request) {
-//        securityChecker.assertFormPrivilege(Privileges.GRF_PBE_REIMB);
         ElctRmbsHeadDto dto = getElctRmbsHeadDtoFromMultipartRequest(request);
+        securityChecker.assertTiUserAccessTrainingInstance(dto.getTrainingInstanceId());
+        securityChecker.assertTiUserAccessEreimbursement(dto.getErmbsId());
+
         Long ermbsId = electronicReimbursementsService.sendToReimburse(dto);
         return electronicReimbursementsService.findEcltRmbsById(ermbsId);
     }
 
     @RequestMapping(value = PATH_REIMBURSEMENTS_SAVE_WITH_CORR, method = RequestMethod.POST)
     public ElctRmbsHeadDto saveReimbursementWithCorr(MultipartHttpServletRequest request) {
-        //        securityChecker.assertFormPrivilege(Privileges.GRF_PBE_REIMB);
         ElctRmbsHeadDto dto = getElctRmbsHeadDtoFromMultipartRequest(request);
+        securityChecker.assertTiUserAccessTrainingInstance(dto.getTrainingInstanceId());
+        securityChecker.assertTiUserAccessEreimbursement(dto.getErmbsId());
+
         Long ermbsId = electronicReimbursementsService.saveErmbsWithCorr(dto);
         return electronicReimbursementsService.findEcltRmbsById(ermbsId);
     }
 
     @RequestMapping(value = PATH_REIMBURSEMENTS_SEND_WITH_CORR, method = RequestMethod.POST)
     public ElctRmbsHeadDto sendToReimburseWithCorr(MultipartHttpServletRequest request) {
-        //        securityChecker.assertFormPrivilege(Privileges.GRF_PBE_REIMB);
         ElctRmbsHeadDto dto = getElctRmbsHeadDtoFromMultipartRequest(request);
+        securityChecker.assertTiUserAccessTrainingInstance(dto.getTrainingInstanceId());
+        securityChecker.assertTiUserAccessEreimbursement(dto.getErmbsId());
+
         Long ermbsId = electronicReimbursementsService.sendToReimburseWithCorr(dto);
         return electronicReimbursementsService.findEcltRmbsById(ermbsId);
     }
 
     @RequestMapping(PATH_REIMBURSEMENTS_DOWNLOAD_ATT)
     public void downloadReimbursementAttachment(HttpServletRequest request, HttpServletResponse response) throws IOException {
-//        securityChecker.assertFormPrivilege(Privileges.GRF_PBE_REIMB);
-
         String idParam = request.getParameter("id");
         if(!GryfStringUtils.isEmpty(idParam)) {
             Long elementId = Long.valueOf(idParam);
+            securityChecker.assertTiUserAccessEreimbursementAttachment(elementId);
 
             FileDTO file = ermbsAttachmentService.getErmbsAttFileById(elementId);
             writeFileToResponse(request, response, file.getInputStream(), file.getName());
         }
     }
+
+    //PUBLIC METHODS - OTHER
+
+    @RequestMapping(value = PATH_REIMBURSEMENTS_STATUSES_LIST, method = RequestMethod.GET)
+    @ResponseBody
+    public List<SimpleDictionaryDto> findElctRmbsStatuses(){
+        return electronicReimbursementsService.findElctRmbsStatuses();
+    }
+
+    //PRIVATE METRHODS
 
     private ElctRmbsHeadDto getElctRmbsHeadDtoFromMultipartRequest(MultipartHttpServletRequest request){
         ElctRmbsHeadDto dto = JsonMapperUtils.readValue(request.getParameter("model"), ElctRmbsHeadDto.class);

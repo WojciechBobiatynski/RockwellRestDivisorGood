@@ -7,6 +7,7 @@ import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchResultDTO;
+import pl.sodexo.it.gryf.common.dto.user.GryfUser;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingCategoryCatalogRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingCategoryRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingRepository;
@@ -86,6 +87,11 @@ public class TrainingServiceImpl implements TrainingService {
         trainingDtoMapper.mapObjects(trainingDto, training);//TODO: tbilski może po poprawieniu daty nie bedzie potrzebne
         trainingValidator.validateTraining(training);
         trainingRepository.update(training, training.getId());
+    }
+
+    @Override
+    public boolean isTrainingInLoggedUserInstitution(Long trainingId){
+        return trainingRepository.isInUserInstitution(trainingId, GryfUser.getLoggedUserLogin());
     }
 
     @Override

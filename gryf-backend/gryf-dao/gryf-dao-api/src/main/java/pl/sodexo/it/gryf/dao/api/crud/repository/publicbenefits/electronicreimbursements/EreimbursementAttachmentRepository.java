@@ -10,4 +10,5 @@ import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.ErmbsAttac
  */
 public interface EreimbursementAttachmentRepository extends GenericRepository<ErmbsAttachment, Long>{
 
+    boolean isInLoggedUserInstitution(Long ereimbursementAttachmentId, String tiUserLogin);
 }

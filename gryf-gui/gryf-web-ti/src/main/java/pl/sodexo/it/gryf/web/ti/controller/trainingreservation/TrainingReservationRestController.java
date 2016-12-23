@@ -18,6 +18,8 @@ import pl.sodexo.it.gryf.web.ti.util.UrlConstants;
 @RequestMapping(value = UrlConstants.PATH_TRAINING_RESERVATION_REST, produces = "application/json;charset=UTF-8")
 public class TrainingReservationRestController {
 
+    //PRIVATE FIELDS
+
     @Autowired
     private PbeProductInstancePoolService productInstancePoolService;
 
@@ -27,28 +29,30 @@ public class TrainingReservationRestController {
     @Autowired
     private SecurityChecker securityChecker;
 
+    //PUBLIC METHODS - FINDS
+
     @RequestMapping(value = "/userTrainingReservationData", method = RequestMethod.POST)
     public UserTrainingReservationDataDto findUserTrainingReservationData(@RequestBody IndUserAuthDataDto userAuthDataDto) {
-        //securityChecker.assertServicePrivilege(Privileges.GRF_TRAINING_INSTITUTIONS);
         return productInstancePoolService.findUserTrainingReservationData(userAuthDataDto);
     }
 
+    //PUBLIC METHODS - ACTIONS
+
     @RequestMapping(value = "/reserveTraining", method = RequestMethod.POST)
     public void reserveTraining(@RequestBody TrainingReservationDto reservationDto) {
-        //securityChecker.assertServicePrivilege(Privileges.GRF_PBE_TI_TRAININGS);
+        securityChecker.assertTiUserAccessTraining(reservationDto.getTrainingId());
         trainingInstanceService.createTrainingInstance(reservationDto);
     }
 
     @RequestMapping(value = "/cancelTrainingReservation/{id}", method = RequestMethod.PUT)
     public void cancelTrainingReservation(@PathVariable("id") Long trainingInstanceId) {
-        //securityChecker.assertServicePrivilege(Privileges.GRF_PBE_TI_TRAININGS);
+        securityChecker.assertTiUserAccessTrainingInstance(trainingInstanceId);
         trainingInstanceService.cancelTrainingInstance(trainingInstanceId);
     }
 
-    @RequestMapping(value = "/confirmPin/{trainingInstanceId}/{pinCode}", method = RequestMethod.PUT)
-    public void confirmPin(@PathVariable("trainingInstanceId") Long trainingInstanceId,
-                                          @PathVariable("pinCode") String pinCode) {
-        //securityChecker.assertServicePrivilege(Privileges.GRF_PBE_TI_TRAININGS);
+    @RequestMapping(value = "/confirmPin/{trainingInstanceId}", method = RequestMethod.PUT)
+    public void confirmPin(@PathVariable("trainingInstanceId") Long trainingInstanceId, @RequestBody String pinCode) {
+        securityChecker.assertTiUserAccessTrainingInstance(trainingInstanceId);
         trainingInstanceService.useTrainingInstance(trainingInstanceId, pinCode);
     }
 }

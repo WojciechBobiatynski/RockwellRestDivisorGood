@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.service.impl.publicbenefits.traininginstiutions;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.googlecode.ehcache.annotations.Cacheable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,10 @@ import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceDetailsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.trainingreservation.TrainingReservationDto;
+import pl.sodexo.it.gryf.common.dto.user.GryfUser;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
+import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
+import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.contracts.ContractRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.individuals.IndividualContactRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.individuals.IndividualRepository;
@@ -21,7 +25,6 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiuti
 import pl.sodexo.it.gryf.dao.api.search.dao.TrainingInstanceSearchDao;
 import pl.sodexo.it.gryf.model.publicbenefits.api.ContactType;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
-import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.IndividualContact;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.Training;
@@ -93,6 +96,7 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
 
     @Override
     public TrainingInstanceDetailsDto findTrainingInstanceDetails(Long trainingInstanceId) {
+        validateTrainingInstance(trainingInstanceId);
         return trainingInstanceSearchDao.findTrainingInstanceDetails(trainingInstanceId);
     }
 
@@ -103,23 +107,30 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
     }
 
     @Override
-    public void createTrainingInstance(TrainingReservationDto reservationDto) {
-        trainingReservationValidator.validateTrainingReservation(reservationDto);
+    public boolean isTrainingInstanceInLoggedUserInstitution(Long trainingInstanceId){
+        return trainingInstanceRepository.isInUserInstitution(trainingInstanceId, GryfUser.getLoggedUserLogin());
+    }
 
+    //PUBLIC METHODS - ACTIONS
+
+    @Override
+    public void createTrainingInstance(TrainingReservationDto reservationDto) {
+        validateTrainingReservation(reservationDto);
+
+        //POBRANIE DANYCH
         Training training = trainingRepository.get(reservationDto.getTrainingId());
         Individual individual = individualRepository.get(reservationDto.getIndividualId());
         Contract contract = contractRepository.get(reservationDto.getContractId());
-        GrantProgram grantProgram = contract.getGrantProgram();
         int toReservedNum = reservationDto.getToReservedNum();
 
         //VALIDACJA
-        validateTrainingReservation(contract, training);
+        validateTrainingReservation(training, individual, contract);
 
         //UTWORZENIE INSTANCJI SZKOLENIA
         TrainingInstance trainingInstance = new TrainingInstance();
         trainingInstance.setTraining(training);
         trainingInstance.setIndividual(individual);
-        trainingInstance.setGrantProgram(grantProgram);
+        trainingInstance.setGrantProgram(contract.getGrantProgram());
         trainingInstance.setStatus(trainingInstanceStatusRepository.get(TrainingInstanceStatus.RES_CODE));
         trainingInstance.setAssignedNum(toReservedNum);
         trainingInstance.setRegisterDate(new Date());
@@ -134,14 +145,16 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
     }
 
     @Override
-    public void useTrainingInstance(Long trainingId, String pin){
+    public void useTrainingInstance(Long trainingInstanceId, String pin){
+        validateUseTrainingInstance(trainingInstanceId, pin);
 
-        //POBRANIE STATUSOW
+        //POBRANIE DANYCH
         TrainingInstanceStatus trainingInstStatUse = trainingInstanceStatusRepository.get(TrainingInstanceStatus.DONE_CODE);
+        TrainingInstance trainingInstance = trainingInstanceRepository.get(trainingInstanceId);
 
-        //UAKTUALNINIE INSTANCJI
-        TrainingInstance trainingInstance = trainingInstanceRepository.get(trainingId);
-        checkPin(trainingInstance, pin);
+        //AKCJE
+        validateTrainingInstance(trainingInstance, TrainingInstanceStatus.RES_CODE);
+        validateUseTrainingInstance(trainingInstance, pin);
         trainingInstance.setStatus(trainingInstStatUse);
 
         //USE POOLS
@@ -149,13 +162,15 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
     }
 
     @Override
-    public void cancelTrainingInstance(Long trainingId){
+    public void cancelTrainingInstance(Long trainingInstanceId){
+        validateTrainingInstance(trainingInstanceId);
 
         //POBRANIE STATUSOW
         TrainingInstanceStatus trainingInstStatCancel = trainingInstanceStatusRepository.get(TrainingInstanceStatus.CANCEL_CODE);
 
         //UAKTUALNINIE INSTANCJI
-        TrainingInstance trainingInstance = trainingInstanceRepository.get(trainingId);
+        TrainingInstance trainingInstance = trainingInstanceRepository.get(trainingInstanceId);
+        validateTrainingInstance(trainingInstance, TrainingInstanceStatus.RES_CODE);
         trainingInstance.setStatus(trainingInstStatCancel);
 
         //ZWROCENIE PULI
@@ -164,54 +179,123 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
 
     @Override
     public void sendReimbursmentPin(Long trainingInstanceId) {
+        validateTrainingInstance(trainingInstanceId);
+
+        //WYSLANIE MAILA
         TrainingInstance trainingInstance = trainingInstanceRepository.get(trainingInstanceId);
+        validateTrainingInstance(trainingInstance);
         IndividualContact individualContact = individualContactRepository.findByIndividualAndContactType(trainingInstance.getIndividual().getId(), ContactType.TYPE_VER_EMAIL);
         mailService.scheduleMail(mailDtoCreator.createMailDTOForPinSend(trainingInstance, individualContact.getContactData()));
     }
 
     @Override
     public void resendReimbursmentPin(Long trainingInstanceId) {
+        validateTrainingInstance(trainingInstanceId);
+
+        //WYSLANIE MAILA
         TrainingInstance trainingInstance = trainingInstanceRepository.get(trainingInstanceId);
+        validateTrainingInstance(trainingInstance);
         IndividualContact individualContact = individualContactRepository.findByIndividualAndContactType(trainingInstance.getIndividual().getId(), ContactType.TYPE_VER_EMAIL);
         mailService.scheduleMail(mailDtoCreator.createMailDTOForPinResend(trainingInstance, individualContact.getContactData()));
     }
 
     //PRIVATE METHODS
 
-    private void validateTrainingReservation(Contract contract, Training training) {
+    private void validateTrainingReservation(TrainingReservationDto reservationDto){
+        trainingReservationValidator.validateTrainingReservation(reservationDto);
+    }
+
+    private void validateTrainingReservation(Training training, Individual individual, Contract contract) {
         List<EntityConstraintViolation> violations = Lists.newArrayList();
 
-        if(!training.isActive()){
+        //CZY DANE W BAZIE
+        if(training == null){
+            violations.add(new EntityConstraintViolation("Nie znaleziono rekordu dla danego identyfikatora szkolenia"));
+        }
+        if(individual == null){
+            violations.add(new EntityConstraintViolation("Nie znaleziono rekordu dla danego identyfikatora użytkownika"));
+        }
+        if(contract == null){
+            violations.add(new EntityConstraintViolation("Nie znaleziono rekordu dla danego identyfikatora umowy"));
+        }
+
+        //AKTUWNE SZKOLENIE
+        if(training != null && !training.isActive()){
             violations.add(new EntityConstraintViolation("Nie można zapisać użytkownika na nieaktywne szkolenie."));
         }
 
         //CATEGORIE SZKOLEN
-        if(training.getCategory() != null){
+        if(training != null && contract != null && training.getCategory() != null){
             if(!contract.getCategories().contains(training.getCategory())){
                 violations.add(new EntityConstraintViolation("Umowa zawarta przez użytkownika nie finansuje szkolenia z danej kategorii."));
             }
         }
 
         //CZY JUZ PRZYPISANY
-        int assignedTrainingInstances = trainingInstanceRepository.countByTrainingAndIndividualNotCaceled(
-                training.getId(), contract.getIndividual().getId());
-        if(assignedTrainingInstances > 0){
-            violations.add(new EntityConstraintViolation("Rezerwacja dla użytkownika została już dokonana na dane szkolenie."));
+        if(training != null && contract != null) {
+            int assignedTrainingInstances = trainingInstanceRepository.countByTrainingAndIndividualNotCaceled(training.getId(), contract.getIndividual().getId());
+            if (assignedTrainingInstances > 0) {
+                violations.add(new EntityConstraintViolation("Rezerwacja dla użytkownika została już dokonana na dane szkolenie."));
+            }
         }
 
         //CZY SZKOLENIE TRWA
-        if(training.getStartDate().before(new Date())){
+        if(training != null && training.getStartDate().before(new Date())){
             violations.add(new EntityConstraintViolation("Nie można zapisać użytkownika na trwające szkolenie."));
         }
-
 
         gryfValidator.validate(violations);
     }
 
-    private void checkPin(TrainingInstance instance, String pin) {
-        String trainingPin = AEScryptographer.decrypt(instance.getReimbursmentPin());
-        if (!trainingPin.equals(pin)) {
-            gryfValidator.validate("Pin nie jest zgodny z pinem ze szkolenia");
+    private void validateUseTrainingInstance(Long trainingInstanceId, String pin){
+        List<EntityConstraintViolation> violations = Lists.newArrayList();
+
+        if(trainingInstanceId == null){
+            violations.add(new EntityConstraintViolation("Identyfikator instancji szkolenia nie może być pusty"));
         }
+        if(Strings.isNullOrEmpty(pin)){
+            violations.add(new EntityConstraintViolation("Pin do potwierdzenie instancji szkolenia nie może być pusty"));
+        }
+        gryfValidator.validate(violations);
+    }
+
+    private void validateUseTrainingInstance(TrainingInstance trainingInstance, String pin) {
+        List<EntityConstraintViolation> violations = Lists.newArrayList();
+
+        if(trainingInstance != null) {
+            String trainingPin = AEScryptographer.decrypt(trainingInstance.getReimbursmentPin());
+            if (!trainingPin.equals(pin)) {
+                violations.add(new EntityConstraintViolation("Pin nie jest zgodny z pinem ze szkolenia"));
+            }
+        }
+        gryfValidator.validate(violations);
+    }
+
+    private void validateTrainingInstance(Long trainingInstanceId){
+        List<EntityConstraintViolation> violations = Lists.newArrayList();
+
+        if(trainingInstanceId == null){
+            violations.add(new EntityConstraintViolation("Identyfikator instancji szkolenia nie może być pusty"));
+        }
+        gryfValidator.validate(violations);
+    }
+
+    private void validateTrainingInstance(TrainingInstance trainingInstance, String ... allowedStatuses){
+        List<EntityConstraintViolation> violations = Lists.newArrayList();
+
+        if(trainingInstance == null){
+            violations.add(new EntityConstraintViolation("Nie znaleziono rekordu dla danej instancji szkolenia"));
+        }
+        if(trainingInstance != null && allowedStatuses != null && allowedStatuses.length > 0){
+            boolean isInTable = GryfUtils.contain(allowedStatuses, new GryfUtils.Predicate<String>() {
+                public boolean apply(String s) {
+                    return trainingInstance.getStatus().getId().equals(s);
+                }
+            });
+            if(!isInTable){
+                violations.add(new EntityConstraintViolation("Operacja nie jest dozwolna dla danego rekordu"));
+            }
+        }
+        gryfValidator.validate(violations);
     }
 }

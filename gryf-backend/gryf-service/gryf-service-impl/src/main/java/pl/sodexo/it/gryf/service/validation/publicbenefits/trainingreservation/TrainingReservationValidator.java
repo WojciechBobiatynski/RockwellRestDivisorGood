@@ -39,7 +39,7 @@ public class TrainingReservationValidator {
     public void validateTrainingReservation(TrainingReservationDto reservationDto) {
 
         //GENERAL VALIDATION
-        List<EntityConstraintViolation> violations = new ArrayList<>();
+        List<EntityConstraintViolation> violations = gryfValidator.generateViolation(reservationDto);
 
         if(reservationDto.getToReservedNum() == null || reservationDto.getToReservedNum() <= 0) {
             violations.add(new EntityConstraintViolation("toReservedNum", "Wartość pola 'Liczba rezerwowanych bonów' jest niepoprawna"));

@@ -41,16 +41,16 @@ public interface TrainingInstanceService {
 
     /**
      * Wykorzystuje instancje szkolenai (potwierdzenie pinem)
-     * @param trainingId
+     * @param trainingInstanceId
      * @param pin
      */
-    void useTrainingInstance(Long trainingId, String pin);
+    void useTrainingInstance(Long trainingInstanceId, String pin);
 
     /**
      * Anuluje instancje szkolenia.
-     * @param trainingId
+     * @param trainingInstanceId
      */
-    void cancelTrainingInstance(Long trainingId);
+    void cancelTrainingInstance(Long trainingInstanceId);
 
     /**
      * Metoda przesyłająca pin do szkolenia do uczestnika
@@ -63,4 +63,11 @@ public interface TrainingInstanceService {
      * @param trainingInstanceId
      */
     void resendReimbursmentPin(Long trainingInstanceId);
+
+    /**
+     * Sprawdza czy dana instancja szkolenia jest w obrebie instytucji skolenia użytkownika zalogwanego.
+     * @param trainingInstanceId instancja szkolenia
+     * @return
+     */
+    boolean isTrainingInstanceInLoggedUserInstitution(Long trainingInstanceId);
 }

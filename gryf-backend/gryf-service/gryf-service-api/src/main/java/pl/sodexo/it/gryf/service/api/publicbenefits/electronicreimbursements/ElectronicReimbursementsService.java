@@ -130,4 +130,12 @@ public interface ElectronicReimbursementsService {
      * @return dto rozliczenia
      */
     UnrsvPoolRmbsDto findUnrsvPoolRmbsById(Long ermbsId);
+
+    /**
+     * Sprawdza czy rozlicznei jest w ramach instytucji szkoleniowej zalogowanego zalogowanego użytkownika
+     * @param ereimbursementId
+     * @return
+     */
+    boolean isEreimbursementInLoggedUserInstitution(Long ereimbursementId);
+
 }

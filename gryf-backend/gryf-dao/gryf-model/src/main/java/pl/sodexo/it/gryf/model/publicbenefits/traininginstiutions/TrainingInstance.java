@@ -17,7 +17,11 @@ import java.util.*;
 @Table(name = "TI_TRAINING_INSTANCES", schema = "APP_PBE")
 @SequenceGenerator(name="ti_tra_ins_seq", schema = "eagle", sequenceName = "ti_tra_ins_seq", allocationSize = 1)
 @NamedQueries({@NamedQuery(name = "TrainingInstance.countByTrainingAndIndividualNotCaceled", query = "select count(t) from TrainingInstance t " +
-        "where t.training.id = :trainingId and t.individual.id = :individualId and t.status.id not in :excludedStatuses ")})
+        "where t.training.id = :trainingId and t.individual.id = :individualId and t.status.id not in :excludedStatuses "),
+@NamedQuery(name = "TrainingInstance.isInUserInstitution", query = "select count(e) "
+                + "from TrainingInstance e join e.training t join t.trainingInstitution ti "
+                + "join ti.trainingInstitutionUsers tiu "
+                + "where e.id = :trainingInstanceId and tiu.login = :tiUserLogin")})
 public class TrainingInstance extends VersionableEntity {
 
     @Id

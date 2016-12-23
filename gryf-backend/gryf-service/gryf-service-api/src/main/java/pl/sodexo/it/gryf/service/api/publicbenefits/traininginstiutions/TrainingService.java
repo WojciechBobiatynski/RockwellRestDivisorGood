@@ -24,6 +24,8 @@ public interface TrainingService {
 
     void updateTraining(TrainingDTO trainingDto);
 
+    boolean isTrainingInLoggedUserInstitution(Long trainingId);
+
     /**
      * Zwraca szkolenie na podstawie jego id oraz kontekstu zalogowanego użytkownika
      * @param id identyfikator szkolenia

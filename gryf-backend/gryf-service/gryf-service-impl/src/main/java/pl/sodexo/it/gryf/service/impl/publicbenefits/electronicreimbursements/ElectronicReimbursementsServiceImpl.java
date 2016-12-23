@@ -11,6 +11,7 @@ import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.mail.MailDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.*;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.pbeproductinstancepool.PbeProductInstancePoolDto;
+import pl.sodexo.it.gryf.common.dto.user.GryfUser;
 import pl.sodexo.it.gryf.common.enums.ErmbsAttachmentStatus;
 import pl.sodexo.it.gryf.common.enums.ReportTemplateCode;
 import pl.sodexo.it.gryf.common.exception.NoCalculationParamsException;
@@ -383,5 +384,10 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     @Override
     public UnrsvPoolRmbsDto findUnrsvPoolRmbsById(Long ermbsId) {
         return electronicReimbursementsDao.findUnrsvPoolRmbsById(ermbsId);
+    }
+
+    @Override
+    public boolean isEreimbursementInLoggedUserInstitution(Long ereimbursementId){
+        return ereimbursementRepository.isInLoggedUserInstitution(ereimbursementId, GryfUser.getLoggedUserLogin());
     }
 }

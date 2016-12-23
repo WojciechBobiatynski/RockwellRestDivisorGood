@@ -183,6 +183,15 @@ public final class GryfUtils {
         return false;
     }
 
+    public static <T> boolean contain(T[] table, Predicate<? super T> predicate){
+        for (T t : table) {
+            if(predicate.apply(t)){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static <T> int countOccurrence(List<T> list, Predicate<? super T> predicate){
         int occurrence = 0;
         for (T t : list) {
@@ -240,6 +249,14 @@ public final class GryfUtils {
     public interface SetConstructor<T, R>{
         boolean isAddToSet(T input);
         R create(T input);
+    }
+
+    public static String convertBooleanToDatabaseColumn(Boolean b) {
+        return (b != null && b) ? GryfConstants.FLAG_TRUE : GryfConstants.FLAG_FALSE;
+    }
+
+    public static Boolean convertDatabaseColumnToBoolean(String s) {
+        return GryfConstants.FLAG_TRUE.equals(s);
     }
 
 }

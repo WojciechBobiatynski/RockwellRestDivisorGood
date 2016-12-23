@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.dto.other.FileDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsAttachmentDto;
+import pl.sodexo.it.gryf.common.dto.user.GryfUser;
 import pl.sodexo.it.gryf.common.enums.ErmbsAttachmentStatus;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementAttachmentRepository;
 import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.ErmbsAttachment;
@@ -58,6 +59,12 @@ public class ErmbsAttachmentServiceImpl implements ErmbsAttachmentService {
     public void manageErmbsAttachmentsForCorrection(ElctRmbsHeadDto elctRmbsHeadDto, ErmbsAttachmentStatus status) {
         fileAttachmentService.manageAttachmentFilesForCorrections(elctRmbsHeadDto);
         manageErmbsAttachmentsEntity(elctRmbsHeadDto, status);
+    }
+
+    @Override
+    public boolean isEreimbursementAttachmentInLoggedUserInstitution(Long ereimbursementAttachmentId){
+        return ereimbursementAttachmentRepository.isInLoggedUserInstitution(ereimbursementAttachmentId,
+                                                                            GryfUser.getLoggedUserLogin());
     }
 
     private void manageErmbsAttachmentsEntity(ElctRmbsHeadDto elctRmbsHeadDto, ErmbsAttachmentStatus status) {

@@ -31,4 +31,12 @@ public class TrainingRepositoryImpl extends GenericRepositoryImpl<Training, Long
         query.setParameter("modifiedUser", modifiedUser);
         return query.executeUpdate();
     }
+
+    @Override
+    public boolean isInUserInstitution(Long trainingId, String tiUserLogin){
+        TypedQuery<Long> query = entityManager.createNamedQuery("Training.isInUserInstitution", Long.class);
+        query.setParameter("trainingId", trainingId);
+        query.setParameter("tiUserLogin", tiUserLogin);
+        return query.getSingleResult() > 0;
+    }
 }

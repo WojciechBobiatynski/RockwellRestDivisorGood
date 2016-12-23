@@ -77,6 +77,9 @@
             <if test="searchParams.active != null">
                 AND t.ACTIVE = #{searchParams.activeStr}
             </if>
+            <if test="criteria.gryfUser.userType == 'TRAINING_INSTITUTION'">
+                AND t.TRAINING_INSTITUTION_ID = #{criteria.gryfUser.trainingInstitutionId}
+            </if>
         </where>
         <if test="searchParams.sortColumns != null">
             <foreach item="columnName" index="index" collection="searchParams.sortColumns" open="ORDER BY " separator="," close="">

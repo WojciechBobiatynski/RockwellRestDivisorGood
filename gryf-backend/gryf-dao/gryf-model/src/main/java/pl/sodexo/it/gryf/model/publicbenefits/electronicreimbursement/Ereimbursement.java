@@ -24,6 +24,11 @@ import java.util.List;
 @Table(name = "E_REIMBURSEMENTS", schema = "APP_PBE")
 @SequenceGenerator(name = "pbe_e_reimb_seq", schema = "eagle", sequenceName = "pbe_e_reimb_seq", allocationSize = 1)
 @OptimisticLocking(cascade = true)
+@NamedQueries({
+        @NamedQuery(name = "Ereimbursement.isInUserInstitution", query = "select count(e) "
+                + "from Ereimbursement e join e.trainingInstance tins join tins.training t join t.trainingInstitution ti "
+                + "join ti.trainingInstitutionUsers tiu "
+                + "where e.id = :ereimbursementId and tiu.login = :tiUserLogin")})
 public class Ereimbursement extends VersionableEntity {
 
     @Id

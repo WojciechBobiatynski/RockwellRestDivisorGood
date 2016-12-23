@@ -1,7 +1,6 @@
 package pl.sodexo.it.gryf.model.api;
 
-import com.google.common.base.Strings;
-import pl.sodexo.it.gryf.common.utils.GryfConstants;
+import pl.sodexo.it.gryf.common.utils.GryfUtils;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
@@ -14,11 +13,11 @@ public class BooleanConverter implements AttributeConverter<Boolean, String> {
 
     @Override
     public String convertToDatabaseColumn(Boolean b) {
-        return (b != null && b) ? GryfConstants.FLAG_TRUE : GryfConstants.FLAG_FALSE;
+        return GryfUtils.convertBooleanToDatabaseColumn(b);
     }
 
     @Override
     public Boolean convertToEntityAttribute(String s) {
-        return GryfConstants.FLAG_TRUE.equals(s);
+        return  GryfUtils.convertDatabaseColumnToBoolean(s);
     }
 }

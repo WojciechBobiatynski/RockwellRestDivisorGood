@@ -13,4 +13,5 @@ public interface TrainingRepository extends GenericRepository<Training, Long> {
 
     int deactiveTrainings(AsynchronizeJob importJob, String modifiedUser);
 
+    boolean isInUserInstitution(Long id, String tiUserLogin);
 }

@@ -10,4 +10,5 @@ import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.Ereimburse
  */
 public interface EreimbursementRepository extends GenericRepository<Ereimbursement, Long> {
 
+    boolean isInLoggedUserInstitution(Long ereimbursementId, String tiUserLogin);
 }

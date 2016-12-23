@@ -31,4 +31,10 @@ public interface ErmbsAttachmentService {
      */
     void manageErmbsAttachmentsForCorrection(ElctRmbsHeadDto elctRmbsHeadDto, ErmbsAttachmentStatus status);
 
+    /**
+     * Sprawdza czy załacznik rozliczenia jest w ramach instytucji szkoleniowej zalogowanego zalogowanego użytkownika
+     * @param ereimbursementAttachmentId
+     * @return
+     */
+    boolean isEreimbursementAttachmentInLoggedUserInstitution(Long ereimbursementAttachmentId);
 }

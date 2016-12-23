@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import org.springframework.stereotype.Repository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstanceRepository;
 import pl.sodexo.it.gryf.dao.impl.crud.repository.GenericRepositoryImpl;
-import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingCategoryParam;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstance;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstanceStatus;
 
@@ -25,5 +24,13 @@ public class TrainingInstanceRepositoryImpl extends GenericRepositoryImpl<Traini
         query.setParameter("individualId", individualId);
         query.setParameter("excludedStatuses", Lists.newArrayList(TrainingInstanceStatus.CANCEL_CODE));
         return query.getSingleResult().intValue();
+    }
+
+    @Override
+    public boolean isInUserInstitution(Long trainingInstanceId, String tiUserLogin){
+        TypedQuery<Long> query = entityManager.createNamedQuery("TrainingInstance.isInUserInstitution", Long.class);
+        query.setParameter("trainingInstanceId", trainingInstanceId);
+        query.setParameter("tiUserLogin", tiUserLogin);
+        return query.getSingleResult() > 0;
     }
 }

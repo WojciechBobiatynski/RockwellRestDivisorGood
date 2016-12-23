@@ -7,6 +7,8 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbu
 import pl.sodexo.it.gryf.dao.impl.crud.repository.GenericRepositoryImpl;
 import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.Ereimbursement;
 
+import javax.persistence.TypedQuery;
+
 /**
  * Repozytorium dla rozliczeń bonów elektronicznych
  *
@@ -15,5 +17,13 @@ import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.Ereimburse
 @Repository
 @Transactional(propagation = Propagation.MANDATORY)
 public class EreimbursementRepositoryImpl extends GenericRepositoryImpl<Ereimbursement, Long> implements EreimbursementRepository {
+
+    @Override
+    public boolean isInLoggedUserInstitution(Long ereimbursementId, String tiUserLogin){
+        TypedQuery<Long> query = entityManager.createNamedQuery("Ereimbursement.isInUserInstitution", Long.class);
+        query.setParameter("ereimbursementId", ereimbursementId);
+        query.setParameter("tiUserLogin", tiUserLogin);
+        return query.getSingleResult() > 0;
+    }
 
 }

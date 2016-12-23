@@ -28,7 +28,13 @@ import java.util.Objects;
         @NamedQuery(name = "Training.deactiveTrainings", query = "update Training tt set tt.active = false, tt.deactivateDate = CURRENT_TIMESTAMP, "
                 + "tt.deactivateJob = :importJob, tt.version = (tt.version + 1), tt.modifiedTimestamp = CURRENT_TIMESTAMP, tt.modifiedUser = :modifiedUser "
                 + "where tt.active = true and tt.id not in "
-                + "(select r.training.id from ImportDataRow r where  r.training.id is not null and r.importJob = :importJob)")})
+                + "(select r.training.id from ImportDataRow r where  r.training.id is not null and r.importJob = :importJob)"),
+        @NamedQuery(name = "Training.isInUserInstitution", query = "select count(e) "
+                + "from Training e join e.trainingInstitution ti "
+                + "join ti.trainingInstitutionUsers tiu "
+                + "where e.id = :trainingId and tiu.login = :tiUserLogin"),
+
+})
 @ToString
 public class Training extends VersionableEntity {
 

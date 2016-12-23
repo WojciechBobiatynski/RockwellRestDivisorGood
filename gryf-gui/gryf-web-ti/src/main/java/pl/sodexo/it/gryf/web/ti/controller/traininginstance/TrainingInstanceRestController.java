@@ -29,30 +29,34 @@ import static pl.sodexo.it.gryf.web.ti.util.UrlConstants.PATH_TRAINING_INSTANCE_
 @RequestMapping(value = UrlConstants.PATH_TRAINING_INSTANCE_REST, produces = "application/json;charset=UTF-8")
 public class TrainingInstanceRestController {
 
+    //PRIVATE FIELDS
+
     @Autowired
     private SecurityChecker securityChecker;
 
     @Autowired
     private TrainingInstanceService trainingInstanceService;
 
+    //PUBLIC METHODS - FIND
+
     @RequestMapping(value = PATH_TRAINING_INSTANCE_LIST, method = RequestMethod.GET)
     @ResponseBody
     public List<TrainingInstanceDto> findTrainingInstancesByCriteria(TrainingInstanceCriteria trainingInstanceCriteria){
-        //securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS);
         return trainingInstanceService.findTrainingInstanceListByCriteria(trainingInstanceCriteria);
-    }
-
-    @RequestMapping(value = PATH_TRAINING_INSTANCE_STATUSES_LIST, method = RequestMethod.GET)
-    @ResponseBody
-    public List<SimpleDictionaryDto> findTrainingInstanceStatuses(){
-        //securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS);
-        return trainingInstanceService.findTrainingInstanceStatuses();
     }
 
     @RequestMapping(value = PATH_TRAINING_INSTANCE_DETAILS + "/{trainingInstanceId}", method = RequestMethod.GET)
     @ResponseBody
     public TrainingInstanceDetailsDto findTrainingInstanceDetails(@PathVariable Long trainingInstanceId){
-        //securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS);
+        securityChecker.assertTiUserAccessTrainingInstance(trainingInstanceId);
         return trainingInstanceService.findTrainingInstanceDetails(trainingInstanceId);
+    }
+
+    //PUBLIC METHODS - OTHERS
+
+    @RequestMapping(value = PATH_TRAINING_INSTANCE_STATUSES_LIST, method = RequestMethod.GET)
+    @ResponseBody
+    public List<SimpleDictionaryDto> findTrainingInstanceStatuses(){
+        return trainingInstanceService.findTrainingInstanceStatuses();
     }
 }
