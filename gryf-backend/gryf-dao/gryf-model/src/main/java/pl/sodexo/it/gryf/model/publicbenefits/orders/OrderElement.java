@@ -47,7 +47,7 @@ import java.util.Objects;
                         " FROM OrderEntity ox " +
                         " JOIN ox.orderFlow ofx " +
                         " WHERE ox.id = :id))) " +
-                "ORDER by e.id"),
+                "ORDER by eis.pos"),
         @NamedQuery(name = OrderElement.FIND_BY_ORDER_AND_ELEMENTS, query =
                 "SELECT oe " +
                 "FROM OrderElement oe " +

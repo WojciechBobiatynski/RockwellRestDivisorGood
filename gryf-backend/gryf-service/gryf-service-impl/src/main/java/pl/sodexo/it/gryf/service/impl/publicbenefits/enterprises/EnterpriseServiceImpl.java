@@ -50,7 +50,6 @@ public class EnterpriseServiceImpl implements EnterpriseService {
     }
 
     @Override
-    @Cacheable(cacheName = "enterpriseList")
     public List<EnterpriseSearchResultDTO> findEnterprises(EnterpriseSearchQueryDTO enterprise) {
         List<Enterprise> enterprises = enterpriseRepository.findEnterprises(enterprise);
         return enterpriseEntityToSearchResultMapper.convert(enterprises);
