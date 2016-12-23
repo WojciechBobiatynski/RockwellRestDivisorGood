@@ -104,7 +104,9 @@ public class TrainingInstitutionValidator {
             return;
         }
         List<TrainingInstitutionDto> trainingInstitutions = trainingInstitutionEntityMapper.convert(trainingInstitutionList);
-        trainingInstitutions.removeIf(dto -> trainingInstitution.getId().equals(dto.getId()));
+        if(trainingInstitution.getId() != null) {
+            trainingInstitutions.removeIf(dto -> trainingInstitution.getId().equals(dto.getId()));
+        }
         if (trainingInstitutions.size() > 0) {
             throw new VatRegNumTrainingInstitutionExistException("W systemie istnieja zapisane podmioty o danym numerze NIP", trainingInstitutions);
         }
