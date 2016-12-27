@@ -64,8 +64,9 @@ public final class JsonMapperUtils {
         ObjectMapper objectMapper = new ObjectMapper();
         SimpleModule mod = new SimpleModule();
         mod.addDeserializer(Object.class, createUntypedNumberDeserializer());
-        mod.addDeserializer(Date.class, new JsonDateDeserializer());
-        mod.addSerializer(Date.class ,new JsonDateSerializer());
+        //TODO: tbilski jeszcze zweryfikowac czy wykomentowanie poniższych rzeczy jest OK
+        //mod.addDeserializer(Date.class, new JsonDateDeserializer());
+        //mod.addSerializer(Date.class ,new JsonDateSerializer());
         objectMapper.registerModule(mod);
         return objectMapper;
     }
