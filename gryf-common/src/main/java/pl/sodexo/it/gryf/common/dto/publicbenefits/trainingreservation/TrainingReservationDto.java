@@ -26,4 +26,10 @@ public class TrainingReservationDto {
     @Setter
     @NotNull(message = "Ilość bonów nie może być pusta")
     private Integer toReservedNum;
+
+    @Getter
+    @Setter
+    @NotNull(message = "Wersja nie może być pusta")
+    private Integer version;
+
 }

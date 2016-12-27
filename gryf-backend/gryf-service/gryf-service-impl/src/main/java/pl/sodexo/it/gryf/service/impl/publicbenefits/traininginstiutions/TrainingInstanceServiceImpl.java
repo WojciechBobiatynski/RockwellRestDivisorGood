@@ -11,9 +11,11 @@ import pl.sodexo.it.gryf.common.criteria.traininginstance.TrainingInstanceCriter
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceDetailsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceUseDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.trainingreservation.TrainingReservationDto;
 import pl.sodexo.it.gryf.common.dto.user.GryfUser;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
+import pl.sodexo.it.gryf.common.exception.GryfOptimisticLockRuntimeException;
 import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.contracts.ContractRepository;
@@ -129,6 +131,7 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
         int toReservedNum = reservationDto.getToReservedNum();
 
         //VALIDACJA
+        validateTrainingVersion(training, reservationDto.getVersion());
         validateTrainingReservation(training, individual, contract);
 
         //UTWORZENIE INSTANCJI SZKOLENIA
@@ -150,16 +153,17 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
     }
 
     @Override
-    public void useTrainingInstance(Long trainingInstanceId, String pin){
-        validateUseTrainingInstance(trainingInstanceId, pin);
+    public void useTrainingInstance(TrainingInstanceUseDto useDto){
+        validateUseTrainingInstance(useDto);
 
         //POBRANIE DANYCH
         TrainingInstanceStatus trainingInstStatUse = trainingInstanceStatusRepository.get(TrainingInstanceStatus.DONE_CODE);
-        TrainingInstance trainingInstance = trainingInstanceRepository.get(trainingInstanceId);
+        TrainingInstance trainingInstance = trainingInstanceRepository.get(useDto.getId());
 
         //AKCJE
+        validateTrainingInstanceVersion(trainingInstance, useDto.getVersion());
         validateTrainingInstance(trainingInstance, TrainingInstanceStatus.RES_CODE);
-        validateUseTrainingInstance(trainingInstance, pin);
+        validateUseTrainingInstance(trainingInstance, useDto);
         trainingInstance.setStatus(trainingInstStatUse);
 
         //USE POOLS
@@ -167,7 +171,7 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
     }
 
     @Override
-    public void cancelTrainingInstance(Long trainingInstanceId){
+    public void cancelTrainingInstance(Long trainingInstanceId, Integer version){
         validateTrainingInstance(trainingInstanceId);
 
         //POBRANIE STATUSOW
@@ -175,6 +179,7 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
 
         //UAKTUALNINIE INSTANCJI
         TrainingInstance trainingInstance = trainingInstanceRepository.get(trainingInstanceId);
+        validateTrainingInstanceVersion(trainingInstance, version);
         validateTrainingInstance(trainingInstance, TrainingInstanceStatus.RES_CODE);
         trainingInstance.setStatus(trainingInstStatCancel);
 
@@ -252,24 +257,27 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
         gryfValidator.validate(violations);
     }
 
-    private void validateUseTrainingInstance(Long trainingInstanceId, String pin){
+    private void validateUseTrainingInstance(TrainingInstanceUseDto useDto){
         List<EntityConstraintViolation> violations = Lists.newArrayList();
 
-        if(trainingInstanceId == null){
+        if(useDto.getId() == null){
             violations.add(new EntityConstraintViolation("Identyfikator instancji szkolenia nie może być pusty"));
         }
-        if(Strings.isNullOrEmpty(pin)){
+        if(Strings.isNullOrEmpty(useDto.getPin())){
             violations.add(new EntityConstraintViolation("Pin do potwierdzenie instancji szkolenia nie może być pusty"));
+        }
+        if(useDto.getVersion() == null){
+            violations.add(new EntityConstraintViolation("Wersja instancji szkolenia nie może być pusty"));
         }
         gryfValidator.validate(violations);
     }
 
-    private void validateUseTrainingInstance(TrainingInstance trainingInstance, String pin) {
+    private void validateUseTrainingInstance(TrainingInstance trainingInstance, TrainingInstanceUseDto useDto) {
         List<EntityConstraintViolation> violations = Lists.newArrayList();
 
         if(trainingInstance != null) {
             String trainingPin = AEScryptographer.decrypt(trainingInstance.getReimbursmentPin());
-            if (!trainingPin.equals(pin)) {
+            if (!trainingPin.equals(useDto.getPin())) {
                 violations.add(new EntityConstraintViolation("Pin nie jest zgodny z pinem ze szkolenia"));
             }
         }
@@ -303,4 +311,17 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
         }
         gryfValidator.validate(violations);
     }
+
+    private void validateTrainingInstanceVersion(TrainingInstance trainingInstance, Integer version){
+        if(!trainingInstance.getVersion().equals(version)){
+            throw new GryfOptimisticLockRuntimeException();
+        }
+    }
+
+    private void validateTrainingVersion(Training training, Integer version){
+        if(!training.getVersion().equals(version)){
+            throw new GryfOptimisticLockRuntimeException();
+        }
+    }
+
 }

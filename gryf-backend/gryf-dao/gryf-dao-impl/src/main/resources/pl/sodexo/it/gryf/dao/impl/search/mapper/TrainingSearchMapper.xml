@@ -16,7 +16,8 @@
             t.HOURS_NUMBER              hoursNumber,
             t.HOUR_PRICE                hourPrice,
             c.name                      category,
-            CASE t.ACTIVE WHEN 'Y' THEN 1 ELSE 0 END as active
+            CASE t.ACTIVE WHEN 'Y' THEN 1 ELSE 0 END as active,
+            t.version                   version
         FROM APP_PBE.TI_TRAININGS t
             JOIN APP_PBE.TI_TRAINING_CATEGORIES c on c.ID = t.TRAINING_CATEGORY_ID
             JOIN APP_PBE.TRAINING_INSTITUTIONS i on i.ID = t.TRAINING_INSTITUTION_ID

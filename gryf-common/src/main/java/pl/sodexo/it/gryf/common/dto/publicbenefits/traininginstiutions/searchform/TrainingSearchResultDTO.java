@@ -60,4 +60,8 @@ public class TrainingSearchResultDTO {
     @Setter
     private Boolean active;
 
+    @Getter
+    @Setter
+    private Integer version;
+
 }

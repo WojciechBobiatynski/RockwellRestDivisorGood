@@ -89,14 +89,16 @@ function ($scope, $routeParams, GryfModals, GryfModulesUrlProvider, BrowseTraini
     };
 
     $scope.cancelTrainingReservation = function() {
-        TrainingInstanceModifyService.cancelTrainingReservation($scope.trainingInstanceModel.entity.trainingInstanceId)
+        TrainingInstanceModifyService.cancelTrainingReservation($scope.trainingInstanceModel.entity.trainingInstanceId,
+                                                                $scope.trainingInstanceModel.entity.trainingInstanceVersion)
             .then(function() {
                 TrainingInstanceSearchService.findDetailsById($routeParams.id);
             });
     };
 
     $scope.confirmReservationPIN = function() {
-        TrainingInstanceModifyService.confirmPin($scope.trainingInstanceModel.entity.trainingInstanceId, $scope.pinCode)
+        TrainingInstanceModifyService.confirmPin($scope.trainingInstanceModel.entity.trainingInstanceId, $scope.pinCode,
+                                                    $scope.trainingInstanceModel.entity.trainingInstanceVersion)
             .then(function() {
                 TrainingInstanceSearchService.findDetailsById($routeParams.id);
             });

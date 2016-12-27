@@ -18,6 +18,7 @@ angular.module("gryf.ti").controller("ReservationModalController", ["$scope", "$
         trainingReservationDto.individualId = $scope.userTrainingReservationData.data.id;
         trainingReservationDto.contractId = $scope.userTrainingReservationData.data.contracts[0].id;
         trainingReservationDto.toReservedNum = $scope.toReservedNum;
+        trainingReservationDto.version = $scope.training.data.version;
 
         TrainingReservationService.reserveTraining(trainingReservationDto).then(function() {
             $scope.close(true);

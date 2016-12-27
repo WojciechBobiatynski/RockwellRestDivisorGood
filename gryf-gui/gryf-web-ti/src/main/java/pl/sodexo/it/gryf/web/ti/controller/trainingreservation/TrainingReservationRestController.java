@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.UserTrainingReservationDataDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceUseDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.trainingreservation.TrainingReservationDto;
 import pl.sodexo.it.gryf.common.dto.security.individuals.IndUserAuthDataDto;
 import pl.sodexo.it.gryf.service.api.publicbenefits.pbeproductinstancepool.PbeProductInstancePoolService;
@@ -44,15 +45,15 @@ public class TrainingReservationRestController {
         trainingInstanceService.createTrainingInstance(reservationDto);
     }
 
-    @RequestMapping(value = "/cancelTrainingReservation/{id}", method = RequestMethod.PUT)
-    public void cancelTrainingReservation(@PathVariable("id") Long trainingInstanceId) {
+    @RequestMapping(value = "/cancelTrainingReservation/{id}/{version}", method = RequestMethod.PUT)
+    public void cancelTrainingReservation(@PathVariable("id") Long trainingInstanceId, @PathVariable("version") Integer version) {
         securityChecker.assertTiUserAccessTrainingInstance(trainingInstanceId);
-        trainingInstanceService.cancelTrainingInstance(trainingInstanceId);
+        trainingInstanceService.cancelTrainingInstance(trainingInstanceId, version);
     }
 
-    @RequestMapping(value = "/confirmPin/{trainingInstanceId}", method = RequestMethod.PUT)
-    public void confirmPin(@PathVariable("trainingInstanceId") Long trainingInstanceId, @RequestBody String pinCode) {
-        securityChecker.assertTiUserAccessTrainingInstance(trainingInstanceId);
-        trainingInstanceService.useTrainingInstance(trainingInstanceId, pinCode);
+    @RequestMapping(value = "/confirmPin", method = RequestMethod.PUT)
+    public void confirmPin(@RequestBody TrainingInstanceUseDto useDto) {
+        securityChecker.assertTiUserAccessTrainingInstance(useDto.getId());
+        trainingInstanceService.useTrainingInstance(useDto);
     }
 }

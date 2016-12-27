@@ -86,6 +86,7 @@
         tin.ID                                  trainingInstanceId,
         tin.STATUS_ID                           trainingInstanceStatusId,
         tin.ASSIGNED_NUM                        productAssignedNum,
+        tin.VERSION                             trainingInstanceVersion,
         tra.ID                                  trainingId,
         tra.NAME                                trainingName,
         cat.NAME                                trainingCategory,

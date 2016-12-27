@@ -1,15 +1,12 @@
 package pl.sodexo.it.gryf.web.fo.controller.publicbenefits;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.sodexo.it.gryf.common.criteria.traininginstance.TrainingInstanceCriteria;
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceDetailsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceUseDto;
 import pl.sodexo.it.gryf.common.enums.Privileges;
 import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.TrainingInstanceService;
 import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
@@ -52,20 +49,20 @@ public class TrainingInstanceRestController {
     @ResponseBody
     public TrainingInstanceDetailsDto findTrainingDetails(@PathVariable Long trainingInstanceId){
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_TI_TRAINING_INSTANCES);
-        return trainingInstanceService.findTrainingInstanceDetails(trainingInstanceId);
+        TrainingInstanceDetailsDto a = trainingInstanceService.findTrainingInstanceDetails(trainingInstanceId);
+        return a;
     }
 
-    @RequestMapping(value = "/cancelTrainingReservation/{id}", method = RequestMethod.PUT)
-    public void cancelTrainingReservation(@PathVariable("id") Long trainingInstanceId) {
+    @RequestMapping(value = "/cancelTrainingReservation/{id}/{version}", method = RequestMethod.PUT)
+    public void cancelTrainingReservation(@PathVariable("id") Long trainingInstanceId, @PathVariable("version") Integer version) {
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_TI_TRAINING_INSTANCES_MOD);
-        trainingInstanceService.cancelTrainingInstance(trainingInstanceId);
+        trainingInstanceService.cancelTrainingInstance(trainingInstanceId, version);
     }
 
-    @RequestMapping(value = "/confirmPin/{trainingInstanceId}/{pinCode}", method = RequestMethod.PUT)
-    public void confirmPin(@PathVariable("trainingInstanceId") Long trainingInstanceId,
-                           @PathVariable("pinCode") String pinCode) {
+    @RequestMapping(value = "/confirmPin", method = RequestMethod.PUT)
+    public void confirmPin(@RequestBody TrainingInstanceUseDto useDto) {
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_TI_TRAINING_INSTANCES_MOD);
-        trainingInstanceService.useTrainingInstance(trainingInstanceId, pinCode);
+        trainingInstanceService.useTrainingInstance(useDto);
     }
 
 }

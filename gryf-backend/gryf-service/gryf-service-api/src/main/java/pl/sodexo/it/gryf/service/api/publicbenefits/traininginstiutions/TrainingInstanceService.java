@@ -4,6 +4,7 @@ import pl.sodexo.it.gryf.common.criteria.traininginstance.TrainingInstanceCriter
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceDetailsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceUseDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.trainingreservation.TrainingReservationDto;
 
 import java.util.List;
@@ -41,16 +42,16 @@ public interface TrainingInstanceService {
 
     /**
      * Wykorzystuje instancje szkolenai (potwierdzenie pinem)
-     * @param trainingInstanceId
-     * @param pin
+     * @param useDto
      */
-    void useTrainingInstance(Long trainingInstanceId, String pin);
+    void useTrainingInstance(TrainingInstanceUseDto useDto);
 
     /**
      * Anuluje instancje szkolenia.
      * @param trainingInstanceId
+     * @param version
      */
-    void cancelTrainingInstance(Long trainingInstanceId);
+    void cancelTrainingInstance(Long trainingInstanceId, Integer version);
 
     /**
      * Metoda przesyłająca pin do szkolenia do uczestnika

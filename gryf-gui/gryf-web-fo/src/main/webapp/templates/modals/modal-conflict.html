@@ -4,16 +4,17 @@
     </div>
     <div class="modal-body text">
         <p ng-show="staleData.message">{{ staleData.message }}</p>
-        <p ng-show="!staleData.message">Ten obiekt został zmieniony przez {{
+        <p ng-show="!staleData.message && staleData.containObjectInfo">Ten obiekt został zmieniony przez {{
             staleData.modifiedUser}} w czasie {{ staleData.modifiedTimestamp | date:'yyyy-MM-dd HH:mm'}}.</p>
         <p>{{staleData.instructions}}</p>
     </div>
     <div class="modalscop-footer">
         <div class="centered-ul">
             <ul>
-                <li><a class="button button-refresh" ng-click="$close('refresh')">Odśwież</a></li>
-                <li><a class="button button-force" ng-click="$close('force')">Wymuś</a></li>
-                <li><a class="button button-cancel button-gray" ng-click="$dismiss()">Anuluj</a></li>
+                <li ng-show="staleData.containObjectInfo"><a class="button button-refresh" ng-click="$close('refresh')">Odśwież</a></li>
+                <li ng-show="staleData.containObjectInfo"><a class="button button-force" ng-click="$close('force')">Wymuś</a></li>
+                <li ng-show="staleData.containObjectInfo"><a class="button button-cancel button-gray" ng-click="$dismiss()">Anuluj</a></li>
+                <li ng-show="!staleData.containObjectInfo"><a class="button button-cancel" ng-click="$dismiss()">OK</a></li>
             </ul>
         </div>
     </div>

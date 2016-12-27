@@ -38,7 +38,13 @@ public class ExceptionHandlers {
     public ResponseEntity<StaleDataResponse> sde(StaleDataException sde) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(new StaleDataResponse(sde.getId(), sde.getVersion(), sde.getModifiedUser(), sde.getModifiedTimestamp(), sde.getMessage()));
     }
-    
+
+    @ExceptionHandler(GryfOptimisticLockRuntimeException.class)
+    @ResponseBody
+    public ResponseEntity<StaleDataResponse> sde(GryfOptimisticLockRuntimeException sde) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(new StaleDataResponse(null, null, null, null, sde.getMessage()));
+    }
+
     @ExceptionHandler(EntityValidationException.class)
     @ResponseBody
     public ResponseEntity<ValidationErrorResponse> validationException(EntityValidationException sde) {

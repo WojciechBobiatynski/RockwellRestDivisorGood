@@ -9,7 +9,8 @@ function($scope, $stateParams, TrainingInstanceSearchService, TrainingReservatio
     });
 
     $scope.cancelTrainingReservation = function() {
-        TrainingReservationService.cancelTrainingReservation($scope.trainingInstance.data.trainingInstanceId).then(function() {
+        TrainingReservationService.cancelTrainingReservation($scope.trainingInstance.data.trainingInstanceId,
+                                                            $scope.trainingInstance.data.trainingInstanceVersion).then(function() {
             TrainingInstanceSearchService.find();
             $scope.close(true);
         });;

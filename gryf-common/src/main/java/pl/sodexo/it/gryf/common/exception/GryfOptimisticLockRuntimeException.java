@@ -7,11 +7,14 @@ package pl.sodexo.it.gryf.common.exception;
  */
 public class GryfOptimisticLockRuntimeException extends GryfRuntimeException {
 
-    public GryfOptimisticLockRuntimeException(String message) {
-        super(message);
+    private final static String DEFAULT_MESSAGE = "Dane zostały zmodyfikowane przez innego użytkownika. "
+                                                + "Należy odswieżyć dane i spróbować ponownie.";
+
+    public GryfOptimisticLockRuntimeException() {
+        super(DEFAULT_MESSAGE);
     }
 
-    public GryfOptimisticLockRuntimeException(String message, Throwable cause) {
-        super(message, cause);
+    public GryfOptimisticLockRuntimeException(Throwable cause) {
+        super(DEFAULT_MESSAGE, cause);
     }
 }

@@ -23,7 +23,7 @@ public class HandleExceptionAspect {
         try {
             return pjp.proceed();
         } catch (JpaOptimisticLockingFailureException | OptimisticLockException | javax.persistence.OptimisticLockException e) {
-            throw new GryfOptimisticLockRuntimeException("OptimisticLock w trakcie operacji na bazie", e);
+            throw new GryfOptimisticLockRuntimeException(e);
         }
     }
 }

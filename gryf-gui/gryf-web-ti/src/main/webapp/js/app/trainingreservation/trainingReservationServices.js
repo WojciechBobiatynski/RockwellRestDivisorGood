@@ -54,10 +54,10 @@ angular.module("gryf.ti").factory("TrainingReservationService", function($http, 
         });
     };
 
-    var cancelTrainingReservation = function(trainingInstanceId) {
+    var cancelTrainingReservation = function(trainingInstanceId, trainingInstanceVersion) {
         var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING, {label: "Zapisuję"});
 
-        return $http.put(TRAINING_RESERVATION_URL + "/cancelTrainingReservation/" + trainingInstanceId
+        return $http.put(TRAINING_RESERVATION_URL + "/cancelTrainingReservation/" + trainingInstanceId + "/" + trainingInstanceVersion
         ).success(function(data) {
             GryfPopups.setPopup("success", "Sukces", "Anulowano zapis osoby na szkolenie");
             GryfPopups.showPopup();
@@ -74,10 +74,11 @@ angular.module("gryf.ti").factory("TrainingReservationService", function($http, 
         });
     };
 
-    var confirmPin = function(trainingInstanceId, pinCode) {
+    var confirmPin = function(trainingInstanceId, pinCode, trainingInstanceVersion) {
         var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING, {label: "Zapisuję"});
 
-        return $http.put(TRAINING_RESERVATION_URL + "/confirmPin/" + trainingInstanceId, pinCode
+        return $http.put(TRAINING_RESERVATION_URL + "/confirmPin",
+            {id: trainingInstanceId, pin: pinCode, version: trainingInstanceVersion}
         ).success(function(data) {
             GryfPopups.setPopup("success", "Sukces", "Potwierdzono uczestnictwo w szkoleniu");
             GryfPopups.showPopup();

@@ -44,6 +44,10 @@ public class TrainingInstanceDetailsDto implements Serializable {
 
     @Getter
     @Setter
+    private Integer trainingInstanceVersion;
+
+    @Getter
+    @Setter
     private String trainingName;
 
     @Getter

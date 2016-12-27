@@ -13,12 +13,15 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.common.exception.EntityValidationException;
+import pl.sodexo.it.gryf.common.exception.GryfOptimisticLockRuntimeException;
 import pl.sodexo.it.gryf.common.exception.StaleDataException;
 import pl.sodexo.it.gryf.common.exception.verification.GryfIndUserVerificationException;
 import pl.sodexo.it.gryf.web.ti.response.GeneralExceptionResponse;
 import pl.sodexo.it.gryf.web.ti.response.IndUserVerificationExceptionResponse;
 import pl.sodexo.it.gryf.web.ti.response.StaleDataResponse;
 import pl.sodexo.it.gryf.web.ti.response.ValidationErrorResponse;
+
+import java.util.Date;
 
 @ControllerAdvice
 @Order(Ordered.LOWEST_PRECEDENCE)
@@ -51,7 +54,13 @@ public class ExceptionHandlers {
     @ExceptionHandler(StaleDataException.class)
     @ResponseBody
     public ResponseEntity<StaleDataResponse> sde(StaleDataException sde) {
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(new StaleDataResponse(sde.getId(), sde.getVersion(), sde.getModifiedUser(), sde.getModifiedTimestamp(), sde.getMessage()));
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(new StaleDataResponse(sde.getMessage(), sde.getId(), sde.getVersion(), sde.getModifiedUser(), sde.getModifiedTimestamp()));
+    }
+
+    @ExceptionHandler(GryfOptimisticLockRuntimeException.class)
+    @ResponseBody
+    public ResponseEntity<StaleDataResponse> sde(GryfOptimisticLockRuntimeException sde) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(new StaleDataResponse(sde.getMessage()));
     }
     
 }

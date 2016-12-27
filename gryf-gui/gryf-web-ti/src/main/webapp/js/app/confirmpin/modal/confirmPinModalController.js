@@ -10,7 +10,9 @@ function($scope, $stateParams, TrainingInstanceSearchService, TrainingReservatio
     });
 
     $scope.confirmPin = function() {
-        TrainingReservationService.confirmPin($scope.trainingInstance.data.trainingInstanceId, $scope.pinCode).then(function() {
+        TrainingReservationService.confirmPin($scope.trainingInstance.data.trainingInstanceId, $scope.pinCode,
+                                              $scope.trainingInstance.data.trainingInstanceVersion
+        ).then(function() {
             TrainingInstanceSearchService.find();
             $scope.close(true);
         });

@@ -211,6 +211,7 @@ angular.module('gryf.exceptionHandler').factory('GryfExceptionHandler', ['GryfMo
                 staleData.modifiedUser = error.modifiedUser;
                 staleData.modifiedTimestamp = error.modifiedTimestamp;
                 staleData.message = error.message;
+                staleData.containObjectInfo = error.containObjectInfo;
 
                 GryfModals.openModal(GryfModals.MODALS_URL.CONFLICT, {staleData: staleData})
                     .result

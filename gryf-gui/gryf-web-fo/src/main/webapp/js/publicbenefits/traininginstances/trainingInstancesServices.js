@@ -14,6 +14,7 @@ angular.module("gryf.trainingInstances").factory("TrainingInstanceSearchService"
         function TrainingInstanceModel() {
             this.entity = {
                 trainingInstanceId: null,
+                trainingInstanceVersion: null,
                 trainingInstitutionId: null,
                 trainingInstitutionName: null,
                 trainingId: null,
@@ -164,10 +165,10 @@ function ($http, GryfModals, GryfPopups, GryfExceptionHandler, GryfHelpers, Gryf
     var TRAINING_RESERVATION_URL = contextPath + "/trainingInstance/";
     var violations = {};
 
-    var cancelTrainingReservation = function(trainingInstanceId) {
+    var cancelTrainingReservation = function(trainingInstanceId, trainingInstanceVersion) {
         var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING, {label: "Zapisuję"});
 
-        return $http.put(TRAINING_RESERVATION_URL + "cancelTrainingReservation/" + trainingInstanceId
+        return $http.put(TRAINING_RESERVATION_URL + "cancelTrainingReservation/" + trainingInstanceId + "/" + trainingInstanceVersion
         ).success(function() {
             GryfPopups.setPopup("success", "Sukces", "Anulowano zapis osoby na szkolenie");
             GryfPopups.showPopup();
@@ -182,10 +183,11 @@ function ($http, GryfModals, GryfPopups, GryfExceptionHandler, GryfHelpers, Gryf
         });
     };
 
-    var confirmPin = function(trainingInstanceId, pinCode) {
+    var confirmPin = function(trainingInstanceId, pinCode, trainingInstanceVersion) {
         var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING, {label: "Zapisuję"});
 
-        return $http.put(TRAINING_RESERVATION_URL + "confirmPin/" + trainingInstanceId + "/" + pinCode
+        return $http.put(TRAINING_RESERVATION_URL + "confirmPin",
+            {id: trainingInstanceId, pin: pinCode, version: trainingInstanceVersion}
         ).success(function() {
             GryfPopups.setPopup("success", "Sukces", "Potwierdzono uczestnictwo w szkoleniu");
             GryfPopups.showPopup();
