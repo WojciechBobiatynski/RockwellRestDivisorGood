@@ -5,10 +5,7 @@ import pl.sodexo.it.gryf.common.dto.mail.EmailSourceType;
 import pl.sodexo.it.gryf.model.api.CreationAuditedEntity;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Created by tomasz.bilski.ext on 2015-08-20.
@@ -17,13 +14,9 @@ import java.util.Objects;
 @Entity
 @Table(name = "EMAIL_INSTANCES", schema = "APP_PBE")
 @NamedQueries({
-        @NamedQuery(name = EmailInstance.FIND_BY_STATUS, query = "select e from EmailInstance e where e.status = :status order by e.createdUser"),
+        @NamedQuery(name = "EmailInstance.findByStatus", query = "select e from EmailInstance e where e.status = :status and (e.delayTimestamp is null or e.delayTimestamp <= current_timestamp) order by e.createdUser"),
 })
 public class EmailInstance extends CreationAuditedEntity{
-
-    //STATIC FIELDS - NAMED QUERY
-
-    public static final String FIND_BY_STATUS = "EmailInstance.findByStatus";
 
     //STATIC FIELDS
 
@@ -74,6 +67,10 @@ public class EmailInstance extends CreationAuditedEntity{
 
     @Column(name = "SOURCE_ID")
     private Long sourceId;
+
+    @Column(name = "DELAY_TIMESTAMP")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date delayTimestamp;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "emailInstance")
     private List<EmailInstanceAttachment> attachments;
@@ -158,6 +155,14 @@ public class EmailInstance extends CreationAuditedEntity{
 
     public void setSourceId(Long sourceId) {
         this.sourceId = sourceId;
+    }
+
+    public Date getDelayTimestamp() {
+        return delayTimestamp;
+    }
+
+    public void setDelayTimestamp(Date delayTimestamp) {
+        this.delayTimestamp = delayTimestamp;
     }
 
     //LIST METHODS
