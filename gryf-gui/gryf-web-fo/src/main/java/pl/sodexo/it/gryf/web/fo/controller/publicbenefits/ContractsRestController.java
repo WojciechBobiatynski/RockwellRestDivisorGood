@@ -32,7 +32,7 @@ public class ContractsRestController {
     @ResponseBody
     public List<GrantProgramDictionaryDTO> findGrantProgramsDictionaries() {
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_CONTRACTS);
-        return contractService.FindGrantProgramsDictionaries();
+        return contractService.findGrantProgramsDictionaries();
     }
 
     @RequestMapping(value = "/contractTypes", method = RequestMethod.GET)

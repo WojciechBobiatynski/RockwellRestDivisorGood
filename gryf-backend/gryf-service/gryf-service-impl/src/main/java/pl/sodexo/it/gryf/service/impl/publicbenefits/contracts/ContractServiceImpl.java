@@ -82,7 +82,7 @@ public class ContractServiceImpl implements ContractService {
     private GryfValidator gryfValidator;
 
     @Override
-    public List<GrantProgramDictionaryDTO> FindGrantProgramsDictionaries() {
+    public List<GrantProgramDictionaryDTO> findGrantProgramsDictionaries() {
         List<GrantProgram> grantPrograms = grantProgramRepository.findProgramsByDate(new Date());
         return grantProgramEntityMapper.convert(grantPrograms);
     }

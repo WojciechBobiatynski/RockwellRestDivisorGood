@@ -13,7 +13,7 @@ import java.util.List;
  */
 public interface ContractService {
 
-    List<GrantProgramDictionaryDTO> FindGrantProgramsDictionaries();
+    List<GrantProgramDictionaryDTO> findGrantProgramsDictionaries();
 
     ContractDTO findContract(Long id);
 

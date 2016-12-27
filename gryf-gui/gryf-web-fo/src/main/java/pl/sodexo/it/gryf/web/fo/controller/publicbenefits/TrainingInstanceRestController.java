@@ -11,7 +11,6 @@ import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceDetailsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceDto;
 import pl.sodexo.it.gryf.common.enums.Privileges;
-import pl.sodexo.it.gryf.service.api.publicbenefits.pbeproductinstancepool.PbeProductInstancePoolService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.TrainingInstanceService;
 import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
 import pl.sodexo.it.gryf.web.fo.utils.UrlConstants;
@@ -34,9 +33,6 @@ public class TrainingInstanceRestController {
 
     @Autowired
     private TrainingInstanceService trainingInstanceService;
-
-    @Autowired
-    private PbeProductInstancePoolService productInstancePoolService;
 
     @RequestMapping(value = PATH_TRAINING_INSTANCE_LIST, method = RequestMethod.GET)
     @ResponseBody

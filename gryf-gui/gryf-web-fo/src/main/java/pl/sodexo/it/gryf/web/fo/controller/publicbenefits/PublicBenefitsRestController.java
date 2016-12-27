@@ -50,7 +50,7 @@ public class PublicBenefitsRestController {
     @RequestMapping(value = "/grantPrograms", method = RequestMethod.GET)
     @ResponseBody
     public List<GrantProgramDictionaryDTO> findGrantProgramNames() {
-        return contractService.FindGrantProgramsDictionaries();
+        return contractService.findGrantProgramsDictionaries();
     }
 
 }
