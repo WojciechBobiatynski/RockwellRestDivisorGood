@@ -64,7 +64,7 @@ public class PbeProductOrderEmailService implements EmailDTOService {
 
         MailDTO a = mailService.createMailDTO(GryfConstants.REALIZE_ORDER_TEMPLATE_CODE,
                 mailPlaceholders,
-                verEmailContact.getContactData());
+                verEmailContact != null ? verEmailContact.getContactData() : null);
         return a;
     }
 
