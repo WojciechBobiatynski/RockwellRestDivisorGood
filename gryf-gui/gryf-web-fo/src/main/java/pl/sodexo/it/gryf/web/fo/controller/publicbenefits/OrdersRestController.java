@@ -67,11 +67,13 @@ public class OrdersRestController {
 
     @RequestMapping(value = "/load/{contractId}", method = RequestMethod.GET)
     public CreateOrderDTO createCreateOrderDTO(@PathVariable Long contractId) {
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_ORDERS_CREATE);
         return orderService.createCreateOrderDTO(contractId);
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public Long saveOrder(@RequestBody CreateOrderDTO createOrderDTO) {
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_ORDERS_CREATE);
         return orderService.createOrder(createOrderDTO);
     }
 
