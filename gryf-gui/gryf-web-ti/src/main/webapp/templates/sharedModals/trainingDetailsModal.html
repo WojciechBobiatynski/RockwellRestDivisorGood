@@ -12,10 +12,10 @@
             <div class="grid-100">{{training.data.category}}</div>
 
             <strong class="label">Data rozpoczęcia</strong>
-            <div class="grid-100">{{training.data.startDate}}</div>
+            <div class="grid-100">{{training.data.startDate  | date:'yyyy-MM-dd'}}</div>
 
             <strong class="label">Data zakończenia</strong>
-            <div class="grid-100">{{training.data.endDate}}</div>
+            <div class="grid-100">{{training.data.endDate  | date:'yyyy-MM-dd'}}</div>
         </div>
         <div class="separator-vertical"></div>
         <div class="block">

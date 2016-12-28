@@ -25,7 +25,7 @@
                     <tbody class="tableData">
                         <tr ng-repeat="agr in model.entity.agreements" ng-class="{'row-even': $even, 'row-odd': $odd}">
                             <td>{{::agr.id}}</td>
-                            <td>{{::agr.signingDate}}</td>
+                            <td>{{::agr.signingDate  | date:'yyyy-MM-dd'}}</td>
                             <td><span ng-repeat = "category in agr.trainingCategoriesNames">{{category}}{{$last ? '' : ', '}}</span></td>
                         </tr>
                     </tbody>
@@ -65,12 +65,12 @@
                 </thead>
                 <tbody class="tableData">
                 <tr ng-repeat="product in model.entity.products" ng-class="{'row-even': $even, 'row-odd': $odd}">
-                    <td>{{product.expirationDate}}</td>
+                    <td>{{product.expirationDate  | date:'yyyy-MM-dd'}}</td>
                     <td>{{product.grantedProductsCount}}</td>
                     <td>{{product.reservedProductsCount}}</td>
                     <td>{{product.availableProductsCount}}</td>
                     <td>{{product.usedProductsCount}}</td>
-                    <td>{{product.orderDate}}</td>
+                    <td>{{product.orderDate  | date:'yyyy-MM-dd'}}</td>
                     <td>{{product.orderId}}</td>
                 </tr>
                 </tbody>
@@ -115,9 +115,9 @@
                     <td>{{tra.name}}</td>
                     <td>{{tra.trainingInstitutionName}}</td>
                     <td>{{tra.productsCount}}</td>
-                    <td>{{tra.signDate}}</td>
-                    <td>{{tra.startDate}}</td>
-                    <td>{{tra.endDate}}</td>
+                    <td>{{tra.signDate  | date:'yyyy-MM-dd'}}</td>
+                    <td>{{tra.startDate  | date:'yyyy-MM-dd'}}</td>
+                    <td>{{tra.endDate  | date:'yyyy-MM-dd'}}</td>
                     <td>{{tra.trainingStatus}}</td>
                     <td>
                         <ul class="text-center no-margin-padding">

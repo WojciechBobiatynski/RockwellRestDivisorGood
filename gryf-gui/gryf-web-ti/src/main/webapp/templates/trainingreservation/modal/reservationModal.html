@@ -32,8 +32,8 @@
             <td>{{userTrainingReservationData.data.firstName}}</td>
             <td>{{userTrainingReservationData.data.lastName}}</td>
             <td>{{training.data.productCount}}</td>
-            <td>{{training.data.startDate}}</td>
-            <td>{{training.data.endDate}}</td>
+            <td>{{training.data.startDate  | date:'yyyy-MM-dd'}}</td>
+            <td>{{training.data.endDate  | date:'yyyy-MM-dd'}}</td>
         </tr>
         </tbody>
     </table>

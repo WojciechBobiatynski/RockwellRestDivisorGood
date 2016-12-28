@@ -49,7 +49,7 @@
                <tbody class="tableData">
                   <tr ng-repeat="pool in userTrainingReservationData.data.productInstancePools" ng-class="{'row-even': $even, 'row-odd': $odd}">
                      <td>{{::pool.availableNum}}</td>
-                     <td>{{::pool.expiryDate}}</td>
+                     <td>{{::pool.expiryDate  | date:'yyyy-MM-dd'}}</td>
                   </tr>
                </tbody>
             </table>
@@ -141,8 +141,8 @@
          <td>{{::item.name}}</td>
          <td>{{::item.price}}</td>
          <td>{{::item.hoursNumber}}</td>
-         <td>{{::item.startDate}}</td>
-         <td>{{::item.endDate}}</td>
+         <td>{{::item.startDate  | date:'yyyy-MM-dd'}}</td>
+         <td>{{::item.endDate  | date:'yyyy-MM-dd'}}</td>
          <td>{{::item.place}}</td>
          <td>{{::item.category}}</td>
          <td>

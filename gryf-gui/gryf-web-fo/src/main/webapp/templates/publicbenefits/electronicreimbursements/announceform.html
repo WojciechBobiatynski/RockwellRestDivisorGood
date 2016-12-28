@@ -79,11 +79,11 @@
         </div>
         <div class="grid-10">
             <strong class="label">Data rozpoczęcia</strong>
-            {{eReimbObject.trainingInstance.startDate}}
+            {{eReimbObject.trainingInstance.startDate  | date:'yyyy-MM-dd'}}
         </div>
         <div class="grid-10">
             <strong class="label">Data zakończenia</strong>
-            {{eReimbObject.trainingInstance.endDate}}
+            {{eReimbObject.trainingInstance.endDate  | date:'yyyy-MM-dd'}}
         </div>
     </div>
 </section>
@@ -135,7 +135,7 @@
         </div>
         <div class="grid-10">
             <strong class="label">Data ważności bonów</strong>
-            {{prd.expirationDate}}
+            {{prd.expirationDate  | date:'yyyy-MM-dd'}}
         </div>
     </div>
 </section>
@@ -190,8 +190,8 @@
             <tbody>
             <tr data-ng-repeat="corr in correctionObject.loadedCorrections | orderBy : 'correctionNumber' : true">
                 <td>{{::corr.correctionNumber}}</td>
-                <td>{{::corr.requiredDate}}</td>
-                <td>{{::corr.complementDate}}</td>
+                <td>{{::corr.requiredDate  | date:'yyyy-MM-dd'}}</td>
+                <td>{{::corr.complementDate  | date:'yyyy-MM-dd'}}</td>
                 <td>{{::corr.correctionReason}}</td>
                 <td data-ng-if="corr.attachments.length > 0">
                     <!-- załączniki do korekt -->

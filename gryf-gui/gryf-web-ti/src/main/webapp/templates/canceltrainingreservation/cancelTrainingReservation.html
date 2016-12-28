@@ -74,8 +74,8 @@
          <td>{{::item.participantPesel}}</td>
          <td>{{::item.participantName}}</td>
          <td>{{::item.participantSurname}}</td>
-         <td>{{::item.startDate}}</td>
-         <td>{{::item.endDate}}</td>
+         <td>{{::item.startDate  | date:'yyyy-MM-dd'}}</td>
+         <td>{{::item.endDate  | date:'yyyy-MM-dd'}}</td>
          <td>{{::item.trainingStatus}}</td>
          <td>
             <ul class="text-center no-margin-padding">

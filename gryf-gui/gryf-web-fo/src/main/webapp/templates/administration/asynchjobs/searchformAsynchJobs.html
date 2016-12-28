@@ -77,7 +77,7 @@
                     <td>{{::item.orderId}}</td>
                     <td>{{::dictionaries.jobTypes[item.type]}}</td>
                     <td>{{::item.description}}</td>
-                    <td>{{::item.createdDate}}</td>
+                    <td>{{::item.createdDate  | date:'yyyy-MM-dd'}}</td>
                     <td>{{::item.createdUser}}
                     <td>{{::dictionaries.jobStatus[item.status]}}</td>
                     <td>

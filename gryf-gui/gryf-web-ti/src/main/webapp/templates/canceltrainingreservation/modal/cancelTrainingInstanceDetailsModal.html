@@ -27,8 +27,8 @@
             <td>{{trainingInstance.data.participantName}}</td>
             <td>{{trainingInstance.data.participantSurname}}</td>
             <td>{{trainingInstance.data.productAssignedNum}}</td>
-            <td>{{trainingInstance.data.startDate}}</td>
-            <td>{{trainingInstance.data.endDate}}</td>
+            <td>{{trainingInstance.data.startDate  | date:'yyyy-MM-dd'}}</td>
+            <td>{{trainingInstance.data.endDate  | date:'yyyy-MM-dd'}}</td>
         </tr>
         </tbody>
     </table>

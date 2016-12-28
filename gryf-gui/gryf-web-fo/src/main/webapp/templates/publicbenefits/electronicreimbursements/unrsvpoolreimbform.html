@@ -59,7 +59,7 @@
         </div>
         <div class="grid-10">
             <strong class="label">Data ważności bonów</strong>
-            {{unReimbObject.entity.pool.expiryDate}}
+            {{unReimbObject.entity.pool.expiryDate  | date:'yyyy-MM-dd'}}
         </div>
     </div>
 </section>

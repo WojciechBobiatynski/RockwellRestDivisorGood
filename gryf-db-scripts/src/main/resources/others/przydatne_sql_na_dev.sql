@@ -13,3 +13,10 @@ update APP_PBE.GRANT_PROGRAM_PARAMS
 set value = '20'
 where GRANT_PROGRAM_ID = 100 and PARAM_ID = 'M_ORD_CON';
 
+
+update APP_PBE.TI_TRAININGS
+set ACTIVE = 'Y',
+  DEACTIVATE_USER = null,
+  DEACTIVATE_DATE = null,
+  DEACTIVATE_JOB_ID = null;
+
