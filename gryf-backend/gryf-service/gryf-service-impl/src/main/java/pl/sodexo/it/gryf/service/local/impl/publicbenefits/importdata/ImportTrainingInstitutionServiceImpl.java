@@ -180,7 +180,7 @@ public class ImportTrainingInstitutionServiceImpl extends ImportBaseDataServiceI
         TrainingInstitutionDto dto = new TrainingInstitutionDto();
         dto.setId(trainingInstitution != null ? trainingInstitution.getId() : null);
         dto.setExternalId(importDTO.getExternalId());
-        dto.setCode(null);
+        dto.setCode(trainingInstitution != null ? trainingInstitution.getCode(): null);
         dto.setName(importDTO.getName());
         dto.setVatRegNum(importDTO.getVatRegNum());
 
@@ -195,7 +195,7 @@ public class ImportTrainingInstitutionServiceImpl extends ImportBaseDataServiceI
             dto.setZipCodeCorr(createZipCodeDTO(zipCodeCorr));
         }
 
-        dto.setRemarks(null);
+        dto.setRemarks(trainingInstitution != null ? trainingInstitution.getRemarks(): null);
 
         //USER & CONTACTS
         if(trainingInstitution == null) {
@@ -230,6 +230,8 @@ public class ImportTrainingInstitutionServiceImpl extends ImportBaseDataServiceI
         dto.setVersion(trainingInstitution != null ? trainingInstitution.getVersion() : null);
         dto.setCreatedUser(trainingInstitution != null ? trainingInstitution.getCreatedUser() : null);
         dto.setCreatedTimestamp(trainingInstitution != null ? trainingInstitution.getCreatedTimestamp() : null);
+        dto.setModifiedUser(trainingInstitution != null ? trainingInstitution.getModifiedUser() : null);
+        dto.setModifiedTimestamp(trainingInstitution != null ? trainingInstitution.getModifiedTimestamp() : null);
         return dto;
     }
 

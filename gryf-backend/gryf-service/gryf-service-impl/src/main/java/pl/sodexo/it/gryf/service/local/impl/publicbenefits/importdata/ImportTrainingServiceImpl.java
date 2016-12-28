@@ -243,7 +243,7 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
         dto.setTrainingId(training != null ? training.getId() : null);
         dto.setExternalTrainingId(importDTO.getExternalId());
         dto.setTrainingInstitution(trainingInstitution.getId());
-        dto.setInstitutionName(null);
+        dto.setInstitutionName(trainingInstitution.getName());
         dto.setName(importDTO.getName());
         dto.setPrice(importDTO.getPrice());
         dto.setStartDate(importDTO.getStartDate());
@@ -252,7 +252,7 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
         dto.setHoursNumber(importDTO.getHoursNumber());
         dto.setHourPrice(importDTO.getHourPrice());
         dto.setCategory(trainingCategory.getId());
-        dto.setTrainingCategoryCatalogId(null);
+        dto.setTrainingCategoryCatalogId(trainingCategory.getTrainingCategoryCatalog().getId());
         dto.setReimbursmentConditions(importDTO.getReimbursmentCondition());
         dto.setActive(true);
         dto.setDeactivateUser(null);
