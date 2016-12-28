@@ -15,60 +15,80 @@
                 <thead>
                 <tr>
                     <th class="sortable" ng-class="getSortingTypeClass('id')">
-                        <div ng-click="getSortedEnterprises('id')">Id</div>
+                        <div ng-click="getSortedBy('id')">Id</div>
                         <input placeholder="ID" type="text"
                                ng-model="searchObjModel.entity.id">
                     </th>
                     <th class="sortable" ng-class="getSortingTypeClass('contractType.name')">
-                        <div ng-click="getSortedEnterprises('contractType.name')">Rodzaj umowy</div>
+                        <div ng-click="getSortedBy('contractType.name')">Rodzaj umowy</div>
                         <input placeholder="Rodzaj umowy" type="text"
                                ng-model="searchObjModel.entity.contractTypeDescription">
                     </th>
                     <th class="sortable" ng-class="getSortingTypeClass('individual.pesel')">
-                        <div ng-click="getSortedEnterprises('individual.pesel')">Pesel uczestnika</div>
+                        <div ng-click="getSortedBy('individual.pesel')">Pesel uczestnika</div>
                         <input placeholder="Pesel uczestnika"
                                ng-model="searchObjModel.entity.pesel">
                     </th>
                     <th class="sortable" ng-class="getSortingTypeClass('enterprise.vatRegNum')">
-                        <div ng-click="getSortedEnterprises('enterprise.vatRegNum')">Nip MŚP
+                        <div ng-click="getSortedBy('enterprise.vatRegNum')">Nip MŚP
                         </div>
                         <input placeholder="NIP MŚP"
                                ng-model="searchObjModel.entity.vatRegNum">
                     </th>
                     <th class="sortable"
                         ng-class="getSortingTypeClass('signDate')">
-                        <div ng-click="getSortedEnterprises('signDate')">
+                        <div ng-click="getSortedBy('signDate')">
                             Data podpisania
                         </div>
                         <input type="text"
-                               placeholder="Data podpisania"
-                               ng-model="searchObjModel.entity.signDate"
+                               placeholder="Data podpisania od"
+                               ng-model="searchObjModel.entity.signDateFrom"
                                datepicker-popup="yyyy-MM-dd"
-                               is-open="datepicker.signDate"
+                               is-open="datepicker.signDateFrom"
                                close-text="Zamknij"
                                clear-text="Czyść"
                                current-text="Dziś"
-                               ng-click="openDatepicker('signDate')"
+                               ng-click="openDatepicker('signDateFrom')"
+                               search-on-enter/>
+                        <input type="text"
+                               placeholder="Data podpisania do"
+                               ng-model="searchObjModel.entity.signDateTo"
+                               datepicker-popup="yyyy-MM-dd"
+                               is-open="datepicker.signDateTo"
+                               close-text="Zamknij"
+                               clear-text="Czyść"
+                               current-text="Dziś"
+                               ng-click="openDatepicker('signDateTo')"
                                search-on-enter/>
                     </th>
                     <th class="sortable"
                         ng-class="getSortingTypeClass('expiryDate')">
-                        <div ng-click="getSortedEnterprises('expiryDate')">
+                        <div ng-click="getSortedBy('expiryDate')">
                             Data ważności
                         </div>
                         <input type="text"
-                               placeholder="Data ważności"
-                               ng-model="searchObjModel.entity.expiryDate"
+                               placeholder="Data ważności od"
+                               ng-model="searchObjModel.entity.expiryDateFrom"
                                datepicker-popup="yyyy-MM-dd"
-                               is-open="datepicker.expiryDate"
+                               is-open="datepicker.expiryDateFrom"
                                close-text="Zamknij"
                                clear-text="Czyść"
                                current-text="Dziś"
-                               ng-click="openDatepicker('expiryDate')"
+                               ng-click="openDatepicker('expiryDateFrom')"
+                               search-on-enter/>
+                        <input type="text"
+                               placeholder="Data ważności do"
+                               ng-model="searchObjModel.entity.expiryDateTo"
+                               datepicker-popup="yyyy-MM-dd"
+                               is-open="datepicker.expiryDateTo"
+                               close-text="Zamknij"
+                               clear-text="Czyść"
+                               current-text="Dziś"
+                               ng-click="openDatepicker('expiryDateTo')"
                                search-on-enter/>
                     </th>
                     <th class="sortable" ng-class="getSortingTypeClass('grantProgram.programName')">
-                        <div ng-click="getSortedEnterprises('grantProgram.programName')">
+                        <div ng-click="getSortedBy('grantProgram.programName')">
                             Program dofinansowania
                         </div>
                         <input placeholder="Program dofinansowania"
@@ -76,7 +96,7 @@
                     </th>
                     <th class="sortable"
                         ng-class="getSortingTypeClass('grantProgram.grantOwnerId.name')">
-                        <div ng-click="getSortedEnterprises('grantProgram.grantOwnerId.name')">
+                        <div ng-click="getSortedBy('grantProgram.grantOwnerId.name')">
                             Dysponent  środków
                         </div>
                         <input placeholder="Dysponent  środków"

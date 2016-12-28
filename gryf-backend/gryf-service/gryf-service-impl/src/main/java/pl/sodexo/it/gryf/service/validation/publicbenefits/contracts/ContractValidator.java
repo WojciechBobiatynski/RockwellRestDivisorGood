@@ -118,11 +118,19 @@ public class ContractValidator {
     }
 
     private void validateContractType(Contract contract, List<EntityConstraintViolation> violations) {
-        if (contractTypeIdNotNull(contract) && isIndividualContractType(contract)) {
-            if (contract.getEnterprise() != null) {
-                violations.add(new EntityConstraintViolation(Contract.ENTERPRISE_ATTR_NAME, "Dane MŚP dla umowy osoby fizycznej powinny " + "być puste", null));
+        if(contractTypeIdNotNull(contract)){
+            if (isIndividualContractType(contract)) {
+                if (contract.getEnterprise() != null) {
+                    violations.add(new EntityConstraintViolation(Contract.ENTERPRISE_ATTR_NAME, "Dane MŚP dla rodzaju umowy 'Osoba fizyczna' powinny być puste", null));
+                }
+            }
+            if(isEnterpriseContractType(contract)){
+                if (contract.getEnterprise() == null) {
+                    violations.add(new EntityConstraintViolation(Contract.ENTERPRISE_ATTR_NAME, "Dane MŚP dla rodzaju umowy 'MŚP' powinny być wypełnione", null));
+                }
             }
         }
+
     }
 
     private boolean contractTypeIdNotNull(Contract contract) {

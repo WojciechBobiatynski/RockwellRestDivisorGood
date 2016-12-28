@@ -26,12 +26,44 @@
                            ng-model="model.entity.vatRegNum">
                 </th>
                 <th>
-                    <input placeholder="Data podpisania"
-                           ng-model="model.entity.signDate">
+                    <input type="text"
+                           placeholder="Data podpisania od"
+                           ng-model="model.entity.signDateFrom"
+                           datepicker-popup="yyyy-MM-dd"
+                           is-open="datepicker.signDateFrom"
+                           close-text="Zamknij"
+                           clear-text="Czyść"
+                           current-text="Dziś"
+                           ng-click="openDatepicker('signDateFrom')"/>
+                    <input type="text"
+                           placeholder="Data podpisania do"
+                           ng-model="model.entity.signDateTo"
+                           datepicker-popup="yyyy-MM-dd"
+                           is-open="datepicker.signDateTo"
+                           close-text="Zamknij"
+                           clear-text="Czyść"
+                           current-text="Dziś"
+                           ng-click="openDatepicker('signDateTo')"/>
                 </th>
                 <th>
-                    <input placeholder="Data ważności"
-                           ng-model="model.entity.expiryDate">
+                    <input type="text"
+                           placeholder="Data ważności od"
+                           ng-model="model.entity.expiryDateFrom"
+                           datepicker-popup="yyyy-MM-dd"
+                           is-open="datepicker.expiryDateFrom"
+                           close-text="Zamknij"
+                           clear-text="Czyść"
+                           current-text="Dziś"
+                           ng-click="openDatepicker('expiryDateFrom')"/>
+                    <input type="text"
+                           placeholder="Data ważności do"
+                           ng-model="model.entity.expiryDateTo"
+                           datepicker-popup="yyyy-MM-dd"
+                           is-open="datepicker.expiryDateTo"
+                           close-text="Zamknij"
+                           clear-text="Czyść"
+                           current-text="Dziś"
+                           ng-click="openDatepicker('expiryDateTo')"/>
                 </th>
                 <th>
                     <input placeholder="Program dofinansowania"
@@ -49,8 +81,8 @@
                 <td>{{item.contractType.name}}</td>
                 <td>{{item.individual.pesel}}</td>
                 <td>{{item.enterprise.vatRegNum}}</td>
-                <td>{{item.signDate}}</td>
-                <td>{{item.expiryDate}}</td>
+                <td>{{item.signDate  | date:'yyyy-MM-dd'}}</td>
+                <td>{{item.expiryDate  | date:'yyyy-MM-dd'}}</td>
                 <td>{{item.grantProgram.name}}</td>
                 <td>{{item.grantProgram.grantProgramOwnerName}}</td>
             </tr>

@@ -10,9 +10,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.contracts.ContractType;
 import pl.sodexo.it.gryf.model.publicbenefits.enterprises.Enterprise;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantOwner;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
-import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgramLimit;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
-import pl.sodexo.it.gryf.model.publicbenefits.pbeproduct.PbeProductInstancePool;
 
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -57,12 +55,19 @@ public class ContractRepositoryImpl extends GenericRepositoryImpl<Contract, Long
         if(!GryfStringUtils.isEmpty(dto.getGrantProgramOwnerName())){
             predicatesList.add(cb.like(cb.upper(from.get(Contract.GRANT_PROGRAM_ATTR_NAME).get(GrantProgram.PROGRAM_OWNER_ATTR_NAME).<String>get(GrantOwner.NAME_ATTR_NAME)), getLikeWildCard(dto.getGrantProgramOwnerName())));
         }
-        if(dto.getSignDate() != null){
-            addDateEqual(cb, predicatesList, from.<Date>get(Contract.SIGN_DATE_ATTR_NAME), dto.getSignDate());
+        if(dto.getSignDateFrom() != null){
+            addDateFrom(cb, predicatesList, from.<Date>get(Contract.SIGN_DATE_ATTR_NAME), dto.getSignDateFrom());
         }
-        if(dto.getExpiryDate() != null){
-            addDateEqual(cb, predicatesList, from.<Date>get(Contract.EXPIRY_DATE_ATTR_NAME), dto.getExpiryDate());
+        if(dto.getSignDateTo() != null){
+            addDateTo(cb, predicatesList, from.<Date>get(Contract.SIGN_DATE_ATTR_NAME), dto.getSignDateTo());
         }
+        if(dto.getExpiryDateFrom() != null){
+            addDateFrom(cb, predicatesList, from.<Date>get(Contract.EXPIRY_DATE_ATTR_NAME), dto.getExpiryDateFrom());
+        }
+        if(dto.getExpiryDateTo() != null){
+            addDateTo(cb, predicatesList, from.<Date>get(Contract.EXPIRY_DATE_ATTR_NAME), dto.getExpiryDateTo());
+        }
+
 
         Predicate[] predicatesTab = predicatesList.toArray(new Predicate[predicatesList.size()]);
 
