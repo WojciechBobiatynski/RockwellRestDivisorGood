@@ -240,7 +240,6 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     @Override
     public Long printReports(Long rmbsId) {
 
-        //TODO: tbilski podpiąć w odpowiednie miejsce scieżkę
         Ereimbursement ereimbursement = ereimbursementRepository.get(rmbsId);
         List<EreimbursementReport> ereimbursementReports = new ArrayList<>();
 
