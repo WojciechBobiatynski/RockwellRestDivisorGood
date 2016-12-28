@@ -226,13 +226,13 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         gryfPLSQLRepository.flush();
         FinanceNoteResult financeNoteResult = gryfPLSQLRepository.createCreditNoteForReimbursment(rmbsId);
 
-        EreimbursementInvoice ereimbursementInvoice = new EreimbursementInvoice();
-        ereimbursementInvoice.setEreimbursement(ereimbursement);
-        ereimbursementInvoice.setInvoiceId(financeNoteResult.getInvoiceId());
-        ereimbursementInvoice.setInvoiceNumber(financeNoteResult.getInvoiceNumber());
-        ereimbursementInvoice.setInvoiceType(financeNoteResult.getInvoiceType());
-        ereimbursementInvoice.setInvoiceDate(financeNoteResult.getInvoiceDate());
-        ereimbursementInvoiceRepository.save(ereimbursementInvoice);
+        //EreimbursementInvoice ereimbursementInvoice = new EreimbursementInvoice();
+        //ereimbursementInvoice.setEreimbursement(ereimbursement);
+        //ereimbursementInvoice.setInvoiceId(financeNoteResult.getInvoiceId());
+        //ereimbursementInvoice.setInvoiceNumber(financeNoteResult.getInvoiceNumber());
+        //ereimbursementInvoice.setInvoiceType(financeNoteResult.getInvoiceType());
+        //ereimbursementInvoice.setInvoiceDate(financeNoteResult.getInvoiceDate());
+        //ereimbursementInvoiceRepository.save(ereimbursementInvoice);
 
         return ereimbursement.getId();
     }
