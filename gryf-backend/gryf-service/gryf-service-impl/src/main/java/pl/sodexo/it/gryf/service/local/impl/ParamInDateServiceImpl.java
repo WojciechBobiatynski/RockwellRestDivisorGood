@@ -2,11 +2,13 @@ package pl.sodexo.it.gryf.service.local.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.grantprograms.GrantProgramLimitRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.grantprograms.GrantProgramParamRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.grantprograms.GrantProgramProductRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderFlowForGrantApplicationVersionRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderFlowForGrantProgramRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingCategoryParamRepository;
+import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgramLimit;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgramParam;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgramProduct;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowForGrantApplicationVersion;
@@ -37,6 +39,9 @@ public class ParamInDateServiceImpl implements ParamInDateService {
 
     @Autowired
     private GrantProgramParamRepository grantProgramParamRepository;
+
+    @Autowired
+    private GrantProgramLimitRepository grantProgramLimitRepository;
 
     //PUBLIC METHODS
 
@@ -139,6 +144,21 @@ public class ParamInDateServiceImpl implements ParamInDateService {
                     grantProgramId, paramTypeId));
         }
         return params.get(0);
+    }
+
+    @Override
+    public GrantProgramLimit findGrantProgramLimit(Long grantProgramId, String enterpriseSizeId, GrantProgramLimit.LimitType limitType, Date date, boolean mandatory){
+        List<GrantProgramLimit> GrantProgramLimits = grantProgramLimitRepository.findByGrantProgramEntSizeLimitTypeInDate(grantProgramId, enterpriseSizeId, limitType, date);
+        if(GrantProgramLimits.size() == 0){
+            if(!mandatory){
+                return null;
+            }
+            throw new RuntimeException(String.format("Błąd parmetryzacji w tabeli APP_PBE.GRANT_PROGRAM_LIMITS. Nie znaleziono żadnego limitu typu [%s] dla rozmiaru przedsiębiorstwa [%s] dla programu [%s] obowiązującego dnia [%s]",limitType, enterpriseSizeId, grantProgramId, date));
+        }
+        if(GrantProgramLimits.size() > 1){
+            throw new RuntimeException(String.format("Błąd parmetryzacji w tabeli APP_PBE.GRANT_PROGRAM_LIMITS. Dla danego programu [%s] znaleziono więcej niż jeden limit typu [%s] dla rozmiaru przedsiębiorstwa [%s] obowiązujący dnia [%s]", grantProgramId,limitType, enterpriseSizeId, date));
+        }
+        return GrantProgramLimits.get(0);
     }
 
 }

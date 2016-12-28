@@ -14,7 +14,7 @@ public class GrantProgramLimitRepositoryImpl extends GenericRepositoryImpl<Grant
 
     @Override
     public List<GrantProgramLimit> findByGrantProgramEntSizeLimitTypeInDate(Long grantProgramId, String enterpriseSizeId, GrantProgramLimit.LimitType limitType, Date date){
-        TypedQuery<GrantProgramLimit> query = entityManager.createNamedQuery(GrantProgramLimit.FIND_BY_GRANT_PROGRAM_ENT_SIE_LIM_TYPE_IN_DATE, GrantProgramLimit.class);
+        TypedQuery<GrantProgramLimit> query = entityManager.createNamedQuery("GrantProgramLimit.findByGrantProgramEntSizeLimitTypeInDate", GrantProgramLimit.class);
         query.setParameter("grantProgramId", grantProgramId);
         query.setParameter("enterpriseSizeId", enterpriseSizeId);
         query.setParameter("limitType", limitType);

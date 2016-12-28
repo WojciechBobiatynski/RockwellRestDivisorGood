@@ -4,15 +4,13 @@ Insert into APP_PBE.GRANT_PROGRAMS (ID,GRANT_OWNER_ID,PROGRAM_NAME,START_DATE,EN
 update APP_PBE.GRANT_PROGRAMS set PROGRAM_CODE = 'WUPKKK' where id = 100;
 
 Insert into APP_PBE.GRANT_PROGRAM_PARAM_TYPES (ID, NAME, DESCRIPRTION) values ('OWN_CONT_P','Procent wk³adu w³asnego','Procent wk³adu w³asnego jak¹ u¿ytkownik musi wp³aciæ przy realizacji danego programu dofinansownaia. Warto¹œæ parametru musi byæ liczba bez znaku procent np: 13, 30.33, 12.341');
-Insert into APP_PBE.GRANT_PROGRAM_PARAM_TYPES (ID, NAME, DESCRIPRTION) values ('M_ORD_CON','Max. iloœæ zamowieñ dla umowy', 'Maksymalna iloœæ zamowieñ dla jednej umowy np.2');
-Insert into APP_PBE.GRANT_PROGRAM_PARAM_TYPES (ID, NAME, DESCRIPRTION) values ('M_PRIN_CON','Max. iloœæ produktów dla umowy','Maksymalna iloœæ produktów dla jednej umowy np.180');
 Insert into APP_PBE.GRANT_PROGRAM_PARAM_TYPES (ID, NAME, DESCRIPRTION) values ('SXO_NRB_RF','Rachunek bankowy Sxo do wyp³at','Rachunek bankowy Sodexo, z którego wyp³acane s¹ œrodki w ramach programu');
 
 Insert into APP_PBE.GRANT_PROGRAM_PARAMS (ID, GRANT_PROGRAM_ID, PARAM_ID, VALUE, DATE_FROM, DATE_TO) values (1, 100, 'OWN_CONT_P', '13', null, null);
-Insert into APP_PBE.GRANT_PROGRAM_PARAMS (ID, GRANT_PROGRAM_ID, PARAM_ID, VALUE, DATE_FROM, DATE_TO) values (2, 100, 'M_ORD_CON', '2', null, null);
-Insert into APP_PBE.GRANT_PROGRAM_PARAMS (ID, GRANT_PROGRAM_ID, PARAM_ID, VALUE, DATE_FROM, DATE_TO) values (3, 100, 'M_PRIN_CON', '180', null, null);
 Insert into APP_PBE.GRANT_PROGRAM_PARAMS (ID, GRANT_PROGRAM_ID, PARAM_ID, VALUE, DATE_FROM, DATE_TO) values (4, 100, 'SXO_NRB_RF', '32160010710003011205015002', null, null);
 
+Insert into APP_PBE.GRANT_PROGRAM_LIMITS (ID, GRANT_PROGRAM_ID, ENTERPRISE_SIZE_ID, LIMIT_TYPE, LIMIT_VALUE, DATE_FROM, DATE_TO) values (8, 100, 'SELF', 'ORDVOULIM', 180, null, null);
+Insert into APP_PBE.GRANT_PROGRAM_LIMITS (ID, GRANT_PROGRAM_ID, ENTERPRISE_SIZE_ID, LIMIT_TYPE, LIMIT_VALUE, DATE_FROM, DATE_TO) values (9, 100, 'SELF', 'ORDNUMLIM', 2, null, null);
 
 Insert into APP_PBE.ORDER_FLOW_STATUSES (STATUS_ID,STATUS_NAME) values ('NEWKK', 'Nowe');
 Insert into APP_PBE.ORDER_FLOW_STATUSES (STATUS_ID,STATUS_NAME) values ('PAIDKK', 'Op³acone');

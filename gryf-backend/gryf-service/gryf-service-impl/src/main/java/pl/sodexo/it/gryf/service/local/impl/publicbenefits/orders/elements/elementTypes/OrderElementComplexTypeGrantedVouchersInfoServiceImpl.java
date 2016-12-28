@@ -12,6 +12,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgramLimit;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElementDTOBuilder;
+import pl.sodexo.it.gryf.service.local.api.ParamInDateService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.elements.elementTypes.OrderElementComplexTypeGrantedVouchersInfoService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.orderflows.OrderFlowElementService;
 import pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.elements.OrderElementBaseService;
@@ -68,11 +69,11 @@ public class OrderElementComplexTypeGrantedVouchersInfoServiceImpl extends Order
     private OrderElementRepository orderElementRepository;
 
     @Autowired
-    private GrantProgramLimitRepository grantProgramLimitRepository;
-    
-    @Autowired
     private OrderRepository orderRepository;
-    
+
+    @Autowired
+    private ParamInDateService paramInDateService;
+
     //PUBLIC METHODS
 
     @Override
@@ -191,22 +192,6 @@ public class OrderElementComplexTypeGrantedVouchersInfoServiceImpl extends Order
         simpleElement.setValueNumber(num);
     }
 
- /**
-     * Metoda wyszukuje obiekt GrantProgramLimit na podstawie id programu dofinansowania i innych właściwości limitu . Metoda sprawdza czy w bazie znajduje się dokałdnie
-     * jedna instancja obiektu GrantProgramLimit dla zadanych parametrów.
-     *  
-     */
-    private GrantProgramLimit findGrantProgramLimit(Long grantProgramId, String enterpriseSizeId, GrantProgramLimit.LimitType limitType, Date date){
-        List<GrantProgramLimit> GrantProgramLimits = grantProgramLimitRepository.findByGrantProgramEntSizeLimitTypeInDate(grantProgramId, enterpriseSizeId, limitType, date);
-        if(GrantProgramLimits.size() == 0){
-            throw new RuntimeException(String.format("Błąd parmetryzacji w tabeli APP_PBE.GRANT_PROGRAM_LIMITS. Nie znaleziono żadnego limitu typu [%s] dla rozmiaru przedsiębiorstwa [%s] dla programu [%s] obowiązującego dnia [%s]",limitType, enterpriseSizeId, grantProgramId, date));
-        }
-        if(GrantProgramLimits.size() > 1){
-            throw new RuntimeException(String.format("Błąd parmetryzacji w tabeli APP_PBE.GRANT_PROGRAM_LIMITS. Dla danego programu [%s] znaleziono więcej niż jeden limit typu [%s] dla rozmiaru przedsiębiorstwa [%s] obowiązujący dnia [%s]", grantProgramId,limitType, enterpriseSizeId, date));
-        }
-        return GrantProgramLimits.get(0);
-    }        
-
     /**
      * Funkcja zwraca przysługującą w danym momencie MŚP liczbę bonów biorąc pod uwagę wykorzystane limity oraz liczbę wnioskowaną bonów
      * @param order - obiekt zamówienia bonów
@@ -214,10 +199,10 @@ public class OrderElementComplexTypeGrantedVouchersInfoServiceImpl extends Order
      * @return przysługująca liczba bonów
      */
     private Long getEntitledVouchersNumber(Order order, GrantApplication application) {
-        GrantProgramLimit limit =  findGrantProgramLimit(application.getProgram().getId(),
+        GrantProgramLimit limit =  paramInDateService.findGrantProgramLimit(application.getProgram().getId(),
                                          application.getBasicData().getEnterpriseSize().getId(),
                                          GrantProgramLimit.LimitType.ORDVOULIM, 
-                                         order.getOrderDate());
+                                         order.getOrderDate(), true);
         Long grantedVoucherNumber = orderRepository.findGrantedVoucherNumberForEntAndProgram(application.getEnterprise().getId(),application.getProgram().getId());
         Long remainingLimit = limit.getLimitValue().intValue() - grantedVoucherNumber;
         if (remainingLimit<=0) {

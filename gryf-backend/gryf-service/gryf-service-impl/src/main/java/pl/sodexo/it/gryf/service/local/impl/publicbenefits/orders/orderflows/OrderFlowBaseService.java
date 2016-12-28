@@ -1,6 +1,5 @@
 package pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.orderflows;
 
-import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.CreateOrderDTO;
@@ -11,9 +10,11 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderRepo
 import pl.sodexo.it.gryf.model.dictionaries.ZipCode;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
 import pl.sodexo.it.gryf.model.publicbenefits.enterprises.Enterprise;
+import pl.sodexo.it.gryf.model.publicbenefits.enterprises.EnterpriseSize;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationBasicData;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
+import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgramLimit;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgramParam;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgramProduct;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
@@ -39,9 +40,6 @@ public abstract class OrderFlowBaseService implements OrderFlowService {
     @Autowired
     private OrderRepository orderRepository;
     
-    @Autowired
-    private GrantProgramProductRepository grantProgramProductRepository;
-
     @Autowired
     private GryfValidator gryfValidator;
 
@@ -178,11 +176,12 @@ public abstract class OrderFlowBaseService implements OrderFlowService {
     private void validateMaxOrderForContract(List<EntityConstraintViolation> violation, Contract contract){
 
         GrantProgram grantProgram = contract.getGrantProgram();
-        GrantProgramParam gpp = paramInDateService.findGrantProgramParam(grantProgram.getId(),
-                                            GrantProgramParam.MAX_ORDERS_FOR_CONTRACT, new Date(), false);
+        GrantProgramLimit limit =  paramInDateService.findGrantProgramLimit(grantProgram.getId(), EnterpriseSize.SELF_CODE,
+                                                                            GrantProgramLimit.LimitType.ORDNUMLIM,
+                                                                            new Date(), false);
 
-        if(gpp != null && !Strings.isNullOrEmpty(gpp.getValue())){
-            int maxOrders = Integer.valueOf(gpp.getValue());
+        if(limit != null && limit.getLimitValue() != null){
+            int maxOrders = limit.getLimitValue().intValue();
             int notCanceledOrderNum = orderRepository.countNotCanceledOrdersByContract(contract.getId());
             notCanceledOrderNum ++;
             if(maxOrders < notCanceledOrderNum){
@@ -194,11 +193,11 @@ public abstract class OrderFlowBaseService implements OrderFlowService {
     private void validateMaxProductInstanceForContract(List<EntityConstraintViolation> violation, Contract contract, CreateOrderDTO dto){
 
         GrantProgram grantProgram = contract.getGrantProgram();
-        GrantProgramParam gpp = paramInDateService.findGrantProgramParam(grantProgram.getId(),
-                                            GrantProgramParam.MAX_PRODUCT_INSTANCE_FOR_CONTRACT, new Date(), false);
-
-        if(gpp != null && !Strings.isNullOrEmpty(gpp.getValue())){
-            int maxProductNum = Integer.valueOf(gpp.getValue());
+        GrantProgramLimit limit =  paramInDateService.findGrantProgramLimit(grantProgram.getId(), EnterpriseSize.SELF_CODE,
+                                                                            GrantProgramLimit.LimitType.ORDVOULIM,
+                                                                            new Date(), false);
+        if(limit != null && limit.getLimitValue() != null){
+            int maxProductNum = limit.getLimitValue().intValue();
             int notCanceledOrderNum = orderRepository.sumProductInstanceNumInNotCanceledOrdersByContract(contract.getId());
             notCanceledOrderNum += dto.getProductInstanceNum();
             if(maxProductNum < notCanceledOrderNum){

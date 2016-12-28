@@ -17,7 +17,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "GRANT_PROGRAM_LIMITS", schema = "APP_PBE")
 @NamedQueries(
-        {@NamedQuery(name = GrantProgramLimit.FIND_BY_GRANT_PROGRAM_ENT_SIE_LIM_TYPE_IN_DATE, query="select gpl from GrantProgramLimit gpl " +
+        {@NamedQuery(name = "GrantProgramLimit.findByGrantProgramEntSizeLimitTypeInDate", query="select gpl from GrantProgramLimit gpl " +
                                                                             "where gpl.program.id = :grantProgramId " +
                                                                             "and gpl.enterpriseSize.id = :enterpriseSizeId " +
                                                                             "and gpl.limitType = :limitType " +
@@ -28,7 +28,8 @@ public class GrantProgramLimit extends GryfEntity {
         /**
          * Standardowy limit bonów dla zamówień
          */
-        ORDVOULIM("Standardowy limit bonów dla zamówień");
+        ORDVOULIM("Standardowy limit bonów dla zamówień"),
+        ORDNUMLIM("Standardowy limit ilości zamówień");
         //FIELDS
         private String label;
         //CONSTRUCTORS
@@ -41,8 +42,7 @@ public class GrantProgramLimit extends GryfEntity {
             return label;
         }
     }
-    public static final String FIND_BY_GRANT_PROGRAM_ENT_SIE_LIM_TYPE_IN_DATE = "GrantProgramLimit.findByGrantProgramEntSizeLimitTypeInDate";
-    
+
     @Id
     @Column(name = "ID")
     private Long id;

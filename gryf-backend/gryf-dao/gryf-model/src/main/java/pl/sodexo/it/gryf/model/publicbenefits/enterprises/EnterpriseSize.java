@@ -23,6 +23,8 @@ public class EnterpriseSize extends GryfEntity implements DictionaryEntity {
 
     public static final String SIZE_TO_ATTR_NAME = "sizeTo";
 
+    public static final String SELF_CODE = "SELF";
+
     //FIELDS
 
     @Id
