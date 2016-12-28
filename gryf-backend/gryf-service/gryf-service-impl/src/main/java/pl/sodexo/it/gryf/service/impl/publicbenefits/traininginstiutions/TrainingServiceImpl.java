@@ -83,8 +83,7 @@ public class TrainingServiceImpl implements TrainingService {
 
     @Override
     public void updateTraining(TrainingDTO trainingDto) {
-        Training training = trainingRepository.get(trainingDto.getTrainingId());
-        trainingDtoMapper.mapObjects(trainingDto, training);//TODO: tbilski może po poprawieniu daty nie bedzie potrzebne
+        Training training = trainingDtoMapper.convert(trainingDto);
         trainingValidator.validateTraining(training);
         trainingRepository.update(training, training.getId());
     }

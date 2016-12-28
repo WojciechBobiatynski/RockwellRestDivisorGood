@@ -81,7 +81,15 @@
             <div class="grid-100">
                 <div class="grid-30">
                     <strong class="label">Data ostatniego logowania</strong>
-                    <input type="text" ng-model="model.entity.lastLoginDate" disabled="disabled">
+                    <input type="text"
+                           ng-model="model.entity.lastLoginDate"
+                           datepicker-popup="yyyy-MM-dd HH:mm:ss"
+                           is-open="datepicker.opened"
+                           close-text="Zamknij"
+                           clear-text="Czyść"
+                           current-text="Dziś"
+                           ng-click="openDatepicker()"
+                           ng-disabled="true"/>
                 </div>
                 <div class="grid-40" style="float:right">
                     <ul>

@@ -13,9 +13,13 @@ import static pl.sodexo.it.gryf.common.utils.GryfConstants.DATE_FORMAT;
  */
 @Data
 public class ContractSearchQueryDTO extends SearchDto {
+
     private Long id;
+
     private String contractTypeDescription;
+
     private String pesel;
+
     private String vatRegNum;
 
     @DateTimeFormat(pattern = DATE_FORMAT)
@@ -23,6 +27,8 @@ public class ContractSearchQueryDTO extends SearchDto {
 
     @DateTimeFormat(pattern = DATE_FORMAT)
     private Date expiryDate;
+
     private String grantProgramName;
+
     private String grantProgramOwnerName;
 }

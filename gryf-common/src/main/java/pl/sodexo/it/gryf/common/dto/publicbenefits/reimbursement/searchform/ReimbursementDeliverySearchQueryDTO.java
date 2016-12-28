@@ -1,9 +1,12 @@
 package pl.sodexo.it.gryf.common.dto.publicbenefits.reimbursement.searchform;
 
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 import pl.sodexo.it.gryf.common.dto.api.SearchDto;
 
 import java.util.Date;
+
+import static pl.sodexo.it.gryf.common.utils.GryfConstants.DATE_FORMAT;
 
 /**
  * Created by tomasz.bilski.ext on 2015-09-02.
@@ -29,16 +32,22 @@ public class ReimbursementDeliverySearchQueryDTO extends SearchDto {
 
     private String deliveryCityName;
 
+    @DateTimeFormat(pattern = DATE_FORMAT)
     private Date plannedReceiptDateFrom;
 
+    @DateTimeFormat(pattern = DATE_FORMAT)
     private Date plannedReceiptDateTo;
 
+    @DateTimeFormat(pattern = DATE_FORMAT)
     private Date requestDateFrom;
 
+    @DateTimeFormat(pattern = DATE_FORMAT)
     private Date requestDateTo;
 
+    @DateTimeFormat(pattern = DATE_FORMAT)
     private Date deliveryDateFrom;
 
+    @DateTimeFormat(pattern = DATE_FORMAT)
     private Date deliveryDateTo;
 
     //GETTERS & SETTERS

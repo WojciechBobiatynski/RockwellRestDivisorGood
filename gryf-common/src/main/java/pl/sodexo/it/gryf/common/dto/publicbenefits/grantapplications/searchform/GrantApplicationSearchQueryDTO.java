@@ -1,9 +1,12 @@
 package pl.sodexo.it.gryf.common.dto.publicbenefits.grantapplications.searchform;
 
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 import pl.sodexo.it.gryf.common.dto.api.SearchDto;
 
 import java.util.Date;
+
+import static pl.sodexo.it.gryf.common.utils.GryfConstants.DATE_FORMAT;
 
 /**
  * Created by tomasz.bilski.ext on 2015-06-30.
@@ -29,12 +32,16 @@ public class GrantApplicationSearchQueryDTO extends SearchDto {
 
     private String zipCodeInvoiceCity;
 
+    @DateTimeFormat(pattern = DATE_FORMAT)
     private Date applyDateFrom;
 
+    @DateTimeFormat(pattern = DATE_FORMAT)
     private Date applyDateTo;
 
+    @DateTimeFormat(pattern = DATE_FORMAT)
     private Date considerationDateFrom;
 
+    @DateTimeFormat(pattern = DATE_FORMAT)
     private Date considerationDateTo;
 
     //GETTERS & SETTERS

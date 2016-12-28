@@ -15,10 +15,6 @@ public abstract class GenericMapper<Source, Destination> {
 
     protected abstract void map(Source source, Destination destination);
 
-    public void mapObjects(Source source, Destination destination){
-        map(source, destination);
-    }
-
     public Destination convert(Source source) {
         if (source == null)
             return null;

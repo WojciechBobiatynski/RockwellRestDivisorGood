@@ -546,7 +546,7 @@ angular.module('gryf.helpers').factory('GryfHelpers', [function() {
             var year = date.getFullYear();
             var month = date.getMonth() + 1;
             var day = date.getDate();
-            return year + separator + month + separator + day;
+            return year + separator + (month < 10 ? '0' + month : month) + separator + (day < 10 ? '0' + day : day);
         }
     };
 

@@ -150,9 +150,7 @@ angular.module('gryf.orders').factory("ModifyOrdersService",
                 var promise = $http.get(ORDER_URL + ($routeParams.id ? $routeParams.id : idFromResponse));
                 promise.then(function(response) {
                     GryfHelpers.copyPropertiesIfExist(entityObject, response.data);
-                    //zakomentowane, ponieważ przy wczytywaniu konwertuje daty na Date w obiektach AttrD
-                    //uniemożliwia to ponowne zapisanie formularza, gdy inputy są już disablowane
-                    //GryfHelpers.parseDateFromTimestamp(entityObject.elements);
+                    GryfHelpers.parseDateFromTimestamp(entityObject.elements);
                     var promisesArray = loadElementSpecificScripts();
                     $q.all(promisesArray).then(function() {
                         orderStatus.loaded = true;
@@ -302,9 +300,7 @@ angular.module('gryf.orders').factory("PreviewOrdersService",
                  var promise = $http.get(ORDER_URL + $routeParams.id);
                  promise.then(function(response) {
                      GryfHelpers.copyPropertiesIfExist(entityObject, response.data);
-                     //zakomentowane, ponieważ przy wczytywaniu konwertuje daty na Date w obiektach AttrD
-                     //uniemożliwia to ponowne zapisanie formularza, gdy inputy są już disablowane
-                     //GryfHelpers.parseDateFromTimestamp(entityObject.elements);
+                     GryfHelpers.parseDateFromTimestamp(entityObject.elements);
                      var promisesArray = loadElementSpecificScripts();
                      $q.all(promisesArray).then(function() {
                          orderStatus.loaded = true;
