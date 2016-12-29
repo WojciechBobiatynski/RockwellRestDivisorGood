@@ -1,6 +1,9 @@
 package pl.sodexo.it.gryf.dao.impl.crud.repository.other;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
+import pl.sodexo.it.gryf.common.logging.LoggingAspect;
 import pl.sodexo.it.gryf.dao.api.crud.repository.other.GryfPLSQLRepository;
 import pl.sodexo.it.gryf.model.api.FinanceNoteResult;
 import pl.sodexo.it.gryf.model.enums.DayType;
@@ -13,6 +16,8 @@ import java.util.Date;
  */
 @Repository
 public class GryfPLSQLRepositoryImpl implements GryfPLSQLRepository {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(GryfPLSQLRepositoryImpl.class);
 
     //FIELDS
 
@@ -65,13 +70,19 @@ public class GryfPLSQLRepositoryImpl implements GryfPLSQLRepository {
         query.registerStoredProcedureParameter("a_order_id", Double.class, ParameterMode.IN);
         query.setParameter("a_order_id", orderId);
 
+        LOGGER.debug(String.format("Zamówienie '%s': start wywołania procedury PK_GRF_UTILS.Create_Pb_Cus_Note", orderId));
         query.execute();
+        LOGGER.debug(String.format("Zamówienie '%s': stop wywołania procedury PK_GRF_UTILS.Create_Pb_Cus_Note", orderId));
 
         FinanceNoteResult result = new FinanceNoteResult();
         result.setInvoiceId(((Double) query.getOutputParameterValue("o_inv_id")).longValue());
         result.setInvoiceNumber((String) query.getOutputParameterValue("o_invoice_number"));
         result.setInvoiceType((String) query.getOutputParameterValue("o_invoice_type"));
         result.setInvoiceDate((Date) query.getOutputParameterValue("o_invoice_date"));
+
+        LOGGER.debug(String.format("Zamówienie '%s': rezultat wywołania procedury PK_GRF_UTILS.Create_Pb_Cus_Note"
+                + "(o_inv_id='%s', o_invoice_number='%s', o_invoice_type='%s', o_invoice_date='%s')", orderId,
+                result.getInvoiceId(), result.getInvoiceNumber(), result.getInvoiceType(), result.getInvoiceDate()));
         return result;
     }
 
@@ -85,13 +96,20 @@ public class GryfPLSQLRepositoryImpl implements GryfPLSQLRepository {
         query.registerStoredProcedureParameter("a_ermb_id", Double.class, ParameterMode.IN);
         query.setParameter("a_ermb_id", ereimbursmentId);
 
+        LOGGER.debug(String.format("Rozliczenie '%s': start wywołania procedury PK_GRF_UTILS.Create_Pb_Rmb_Note", ereimbursmentId));
         query.execute();
+        LOGGER.debug(String.format("Rozliczenie '%s': stop wywołania procedury PK_GRF_UTILS.Create_Pb_Rmb_Note", ereimbursmentId));
+
 
         FinanceNoteResult result = new FinanceNoteResult();
         result.setInvoiceId(((Double) query.getOutputParameterValue("o_inv_id")).longValue());
         result.setInvoiceNumber((String) query.getOutputParameterValue("o_invoice_number"));
         result.setInvoiceType((String) query.getOutputParameterValue("o_invoice_type"));
         result.setInvoiceDate((Date) query.getOutputParameterValue("o_invoice_date"));
+        LOGGER.debug(String.format("Rozliczenie '%s': rezultat wywołania procedury PK_GRF_UTILS.Create_Pb_Rmb_Note"
+                        + "(o_inv_id='%s', o_invoice_number='%s', o_invoice_type='%s', o_invoice_date='%s')", ereimbursmentId,
+                        result.getInvoiceId(), result.getInvoiceNumber(), result.getInvoiceType(), result.getInvoiceDate()));
+
         return result;
     }
 
