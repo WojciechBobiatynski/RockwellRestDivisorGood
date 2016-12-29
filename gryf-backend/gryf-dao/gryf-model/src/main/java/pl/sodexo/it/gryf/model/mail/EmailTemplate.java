@@ -50,6 +50,9 @@ public class EmailTemplate extends GryfEntity{
     @Column(name = "EMAIL_SUBJECT_TEMPLATE")
     private String emailSubjectTemplate;
 
+    @Column(name = "EMAIL_TYPE")
+    private String emailType;
+
     @Column(name = "DESCRIPTION")
     private String description;
 
@@ -77,6 +80,14 @@ public class EmailTemplate extends GryfEntity{
 
     public void setEmailSubjectTemplate(String emailSubjectTemplate) {
         this.emailSubjectTemplate = emailSubjectTemplate;
+    }
+
+    public String getEmailType() {
+        return emailType;
+    }
+
+    public void setEmailType(String emailType) {
+        this.emailType = emailType;
     }
 
     public String getDescription() {

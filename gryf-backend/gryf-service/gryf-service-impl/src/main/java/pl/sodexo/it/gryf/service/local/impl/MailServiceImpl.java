@@ -222,10 +222,11 @@ public class MailServiceImpl implements MailService {
             message.setSubject(mailDTO.getSubject(), "UTF-8");
 
             if(GryfUtils.isEmpty(mailDTO.getAttachments())){
-                message.setText(mailDTO.getBody(), "UTF-8");
+                message.setText(mailDTO.getBody(), "UTF-8", email.getEmailTemplate() != null ?
+                                            email.getEmailTemplate().getEmailType() : "text");
             }
             else{
-                addAttachments(message, mailDTO.getBody(), mailDTO.getAttachments());
+                addAttachments(message, email.getEmailTemplate(), mailDTO.getBody(), mailDTO.getAttachments());
             }
 
             Transport.send(message);
@@ -242,9 +243,9 @@ public class MailServiceImpl implements MailService {
 
     //METHODS - OTHER
 
-    private void addAttachments(Message message, String body, List<MailAttachmentDTO> attachments) throws MessagingException {
+    private void addAttachments(Message message, EmailTemplate emailTemplate, String body, List<MailAttachmentDTO> attachments) throws MessagingException {
         MimeBodyPart messageBodyPart = new MimeBodyPart();
-        messageBodyPart.setText(body, "UTF-8");
+        messageBodyPart.setText(body, "UTF-8", emailTemplate != null ? emailTemplate.getEmailType() : "text");
 
         Multipart multipart = new MimeMultipart();
         multipart.addBodyPart(messageBodyPart);
