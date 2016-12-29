@@ -291,4 +291,12 @@ angular.module('gryf.orders').controller("createform.OrdersController", ['$scope
         $scope.violations = CreateOrdersService.getNewViolations();
     }
 
+    $scope.openCorrZipCodesLov = function() {
+        if($scope.createOrderDto.data) {
+            CreateOrdersService.openZipCodesLov().result.then(function (chosedItem) {
+                $scope.createOrderDto.data.zipCodeCorr = chosedItem;
+            });
+        }
+    };
+
 }]);

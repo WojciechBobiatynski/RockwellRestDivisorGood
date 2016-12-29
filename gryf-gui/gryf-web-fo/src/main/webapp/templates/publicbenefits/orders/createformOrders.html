@@ -61,6 +61,7 @@
                 </div>
             </div>
         </div>
+
         <div class="width-100">
             <div class="grid-100">
                 <header>
@@ -68,24 +69,41 @@
                 </header>
             </div>
             <div class="grid-100">
-                <div class="grid-20">
-                    <strong class="label">Adres na fakturze</strong>
-                    <input type="text" ng-model="createOrderDto.data.addressInvoice">
+                <div class="grid-30">
+                    <strong class="label">Adres do faktury</strong>
+                    <input type="text" ng-model="createOrderDto.data.addressInvoice" readonly="readonly">
                 </div>
                 <div class="grid-20">
-                    <strong class="label">Kod pocztowy na fakturze</strong>
-                    <input type="text" ng-model="createOrderDto.data.zipCodeInvoice">
+                    <strong class="label">Kod do faktury</strong>
+                    <span class="grid-30">
+                        {{createOrderDto.data.zipCodeInvoice.zipCode}}
+                    </span>
+                    <span class="grid-70">
+                        {{createOrderDto.data.zipCodeInvoice.cityName}}
+                </span>
                 </div>
-                <div class="grid-20">
+            </div>
+            <div class="grid-100">
+                <div class="grid-30">
                     <strong class="label">Adres korespondencyjny</strong>
                     <input type="text" ng-model="createOrderDto.data.addressCorr">
                 </div>
                 <div class="grid-20">
-                    <strong class="label">Kod pocztowy korespondencyjny</strong>
-                    <input type="text" ng-model="createOrderDto.data.zipCodeCorr">
+                    <strong class="label">Kod korespondencyjny</strong>
+                    <span class="grid-30">
+                        {{createOrderDto.data.zipCodeCorr.zipCode}}
+                    </span>
+                    <span class="grid-70">
+                        {{createOrderDto.data.zipCodeCorr.cityName}}
+                    </span>
+                    <div>
+                        <a href="" ng-click="openCorrZipCodesLov()"  class="button button-new"
+                           ng-style="!createOrderDto.data && {'background-color': '#adadad'}">wybierz</a>
+                    </div>
                 </div>
             </div>
         </div>
+
         <div class="width-100">
             <div class="grid-100">
                 <header>

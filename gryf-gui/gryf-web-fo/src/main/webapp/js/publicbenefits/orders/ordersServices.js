@@ -342,9 +342,9 @@ angular.module('gryf.orders').factory("PreviewOrdersService",
 
      }]);
 
-angular.module('gryf.orders').factory("CreateOrdersService",
-    ['$http', 'GryfModals', 'GryfPopups', 'GryfExceptionHandler', 'GryfHelpers','BrowseContractsService',
-    function($http, GryfModals, GryfPopups, GryfExceptionHandler, GryfHelpers, BrowseContractsService) {
+angular.module("gryf.orders").factory("CreateOrdersService",
+    ["$http", "GryfModals", "GryfPopups", "GryfExceptionHandler", "GryfHelpers","BrowseContractsService", "ZipCodesModel",
+    function($http, GryfModals, GryfPopups, GryfExceptionHandler, GryfHelpers, BrowseContractsService, ZipCodesModel) {
 
         var GET_CREATE_ORDER_REST_URL = contextPath + "/rest/publicBenefits/order/";
 
@@ -354,6 +354,11 @@ angular.module('gryf.orders').factory("CreateOrdersService",
         var openContractLov = function () {
             var TEMPLATE_URL = GryfModals.MODALS_URL.LOV_CONTRACTS;
             return GryfModals.openLovModal(TEMPLATE_URL, BrowseContractsService, "lg");
+        };
+
+        var openZipCodesLov = function() {
+            var TEMPLATE_URL = GryfModals.MODALS_URL.LOV_ZIPCODES;
+            return GryfModals.openLovModal(TEMPLATE_URL, ZipCodesModel);
         };
 
         var loadCreateOrderDto = function(contractId) {
@@ -418,6 +423,7 @@ angular.module('gryf.orders').factory("CreateOrdersService",
             getViolations: getViolations,
             getNewViolations: getNewViolations,
             openContractLov: openContractLov,
+            openZipCodesLov: openZipCodesLov,
             saveOrder: saveOrder
         };
 }]);

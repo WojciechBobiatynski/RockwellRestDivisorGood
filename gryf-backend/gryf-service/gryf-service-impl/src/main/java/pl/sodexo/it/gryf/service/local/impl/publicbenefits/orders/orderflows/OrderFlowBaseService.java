@@ -23,6 +23,8 @@ import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlow;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
 import pl.sodexo.it.gryf.service.local.api.ParamInDateService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.orderflows.OrderFlowService;
+import pl.sodexo.it.gryf.service.mapping.dtotoentity.dictionaries.ZipCodeDtoMapper;
+import pl.sodexo.it.gryf.service.mapping.entitytodto.dictionaries.ZipCodeEntityMapper;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -45,7 +47,13 @@ public abstract class OrderFlowBaseService implements OrderFlowService {
 
     @Autowired
     private ParamInDateService paramInDateService;
-            
+
+    @Autowired
+    private ZipCodeEntityMapper zipCodeEntityMapper;
+
+    @Autowired
+    private ZipCodeDtoMapper zipCodeDtoMapper;
+
     //PUBLIC METHODS
 
     @Override
@@ -64,7 +72,7 @@ public abstract class OrderFlowBaseService implements OrderFlowService {
         order.setStatus(orderFlow.getInitialStatus());
         order.setOrderDate(grantApplication.getReceiptDate());
         order.setAddressCorr(basicData.getAddressCorr());
-        order.setZipCodeCorrId((basicData.getZipCodeCorr() != null) ? basicData.getZipCodeCorr().getId() : null);
+        order.setZipCodeCorr(basicData.getZipCodeCorr());
         order.setOperator(GryfUser.getLoggedUserLogin());
         order.setProduct(gpProduct.getProduct());
         
@@ -75,7 +83,6 @@ public abstract class OrderFlowBaseService implements OrderFlowService {
     public Order createOrder(Contract contract, OrderFlow orderFlow, CreateOrderDTO dto) {
         validateCreateOrder(dto, contract);
 
-        Individual individual = contract.getIndividual();
         GrantProgramProduct gpProduct = paramInDateService.findGrantProgramProduct(contract.getGrantProgram().getId(),
                                                                     GrantProgramProduct.Type.PBE_PRODUCT, new Date(), true);
         Order order = new Order();
@@ -86,8 +93,8 @@ public abstract class OrderFlowBaseService implements OrderFlowService {
         order.setStatus(orderFlow.getInitialStatus());
         order.setOrderDate(dto.getOrderDate() != null ? dto.getOrderDate() : new Date());
         order.setVouchersNumber(dto.getProductInstanceNum());
-        order.setAddressCorr(individual.getAddressCorr());
-        order.setZipCodeCorrId((individual.getZipCodeCorr() != null) ? individual.getZipCodeCorr().getId() : null);
+        order.setAddressCorr(dto.getAddressCorr());
+        order.setZipCodeCorr(zipCodeDtoMapper.convert(dto.getZipCodeCorr()));
         order.setOperator(GryfUser.getLoggedUserLogin());
         order.setContract(contract);
         order.setPbeProduct(gpProduct.getPbeProduct());
@@ -217,13 +224,13 @@ public abstract class OrderFlowBaseService implements OrderFlowService {
             dto.setAddressInvoice(addressInvoice);
         }
         if(zipCodeInvoice != null){
-            dto.setZipCodeInvoice(getZipCodeStr(zipCodeInvoice));
+            dto.setZipCodeInvoice(zipCodeEntityMapper.convert(zipCodeInvoice));
         }
         if(addressCorr != null){
             dto.setAddressCorr(addressCorr);
         }
         if(zipCodeCorr != null){
-            dto.setZipCodeCorr(getZipCodeStr(zipCodeCorr));
+            dto.setZipCodeCorr(zipCodeEntityMapper.convert(zipCodeCorr));
         }
     }
 

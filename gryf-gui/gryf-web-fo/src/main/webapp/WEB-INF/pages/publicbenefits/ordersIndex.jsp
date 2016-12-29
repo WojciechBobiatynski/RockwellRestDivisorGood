@@ -9,6 +9,7 @@
 <script src="${pageContext.request.contextPath}/js/publicbenefits/individuals/gryf-individuals.js"></script>
 <script src="${pageContext.request.contextPath}/js/publicbenefits/individuals/individualsServices.js"></script>
 <script src="${pageContext.request.contextPath}/js/dictionaries/gryf-dictionaries.js"></script>
+<script src="${pageContext.request.contextPath}/js/dictionaries/zipCodes/zipCodesModel.js"></script>
 
 <div ng-app="gryf.orders" keypress-events>
     <div class="mainContent" ng-view></div>

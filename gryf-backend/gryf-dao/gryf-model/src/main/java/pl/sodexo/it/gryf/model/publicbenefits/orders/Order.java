@@ -6,6 +6,7 @@ import lombok.ToString;
 import org.eclipse.persistence.annotations.OptimisticLocking;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.model.api.VersionableEntity;
+import pl.sodexo.it.gryf.model.dictionaries.ZipCode;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
 import pl.sodexo.it.gryf.model.publicbenefits.enterprises.Enterprise;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication;
@@ -137,8 +138,9 @@ public class Order extends VersionableEntity {
     @Column(name = "ADDRESS_CORR")
     private String addressCorr;
 
-    @Column(name = "ZIP_CODE_CORR_ID")
-    private Long zipCodeCorrId;
+    @JoinColumn(name = "ZIP_CODE_CORR_ID")
+    @ManyToOne
+    private ZipCode zipCodeCorr;
 
     @Size(max = 1000)
     @Column(name = "REMARKS")
@@ -261,12 +263,12 @@ public class Order extends VersionableEntity {
         this.addressCorr = addressCorr;
     }
 
-    public Long getZipCodeCorrId() {
-        return zipCodeCorrId;
+    public ZipCode getZipCodeCorr() {
+        return zipCodeCorr;
     }
 
-    public void setZipCodeCorrId(Long zipCodeCorrId) {
-        this.zipCodeCorrId = zipCodeCorrId;
+    public void setZipCodeCorr(ZipCode zipCodeCorr) {
+        this.zipCodeCorr = zipCodeCorr;
     }
 
     public String getRemarks() {

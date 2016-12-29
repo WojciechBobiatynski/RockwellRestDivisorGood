@@ -6,10 +6,6 @@ package pl.sodexo.it.gryf.model.publicbenefits.orders;
 public class OrderElementCons {
 
     //STATIC FIELDS
-    public static final String KK_ADDRESS_INVOICE_ELEM_ID = "ADRINV_KK";
-    public static final String KK_ADDRESS_CORRESPONDENCE_ELEM_ID = "ADRCOR_KK";
-    public static final String KK_POSTAL_CODE_INVOICE_ELEM_ID = "PCODINV_KK";
-    public static final String KK_POSTAL_CODE_CORRESPONDENCE_ELEM_ID = "PCODCOR_KK";
     public static final String KK_PRODUCT_INSTANCE_NUM_ELEM_ID = "PRDNUM_KK";
     public static final String KK_PRODUCT_INSTANCE_AMOUNT_ELEM_ID = "PRDAMO_KK";
     public static final String KK_OWN_CONTRIBUTION_PERCENT_ELEM_ID = "OWNCONP_KK";

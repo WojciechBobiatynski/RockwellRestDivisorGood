@@ -3,6 +3,7 @@ package pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import pl.sodexo.it.gryf.common.dto.zipcodes.detailsform.ZipCodeDto;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -62,7 +63,7 @@ public class CreateOrderDTO {
 
     @Getter
     @Setter
-    private String zipCodeInvoice;
+    private ZipCodeDto zipCodeInvoice;
 
     @Getter
     @Setter
@@ -70,7 +71,7 @@ public class CreateOrderDTO {
 
     @Getter
     @Setter
-    private String zipCodeCorr;
+    private ZipCodeDto zipCodeCorr;
 
     @Getter
     @Setter

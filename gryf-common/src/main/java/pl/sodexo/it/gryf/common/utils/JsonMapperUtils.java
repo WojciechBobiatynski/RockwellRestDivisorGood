@@ -3,6 +3,7 @@ package pl.sodexo.it.gryf.common.utils;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.deser.std.UntypedObjectDeserializer;
 import com.fasterxml.jackson.databind.jsontype.TypeDeserializer;
@@ -64,6 +65,7 @@ public final class JsonMapperUtils {
         ObjectMapper objectMapper = new ObjectMapper();
         SimpleModule mod = new SimpleModule();
         mod.addDeserializer(Object.class, createUntypedNumberDeserializer());
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         objectMapper.registerModule(mod);
         return objectMapper;
     }

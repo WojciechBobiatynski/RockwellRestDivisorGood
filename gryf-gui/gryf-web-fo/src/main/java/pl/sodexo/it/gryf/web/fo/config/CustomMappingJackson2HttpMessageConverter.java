@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.web.fo.config;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ public class CustomMappingJackson2HttpMessageConverter extends MappingJackson2Ht
     public CustomMappingJackson2HttpMessageConverter(ApplicationContext ctx) {
         super(Jackson2ObjectMapperBuilder.json().applicationContext(ctx).build());
         ObjectMapper objectMapper = getObjectMapper();
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         SimpleModule mod = new SimpleModule().addDeserializer(Object.class, JsonMapperUtils.createUntypedNumberDeserializer());
         objectMapper.registerModule(mod);
     }

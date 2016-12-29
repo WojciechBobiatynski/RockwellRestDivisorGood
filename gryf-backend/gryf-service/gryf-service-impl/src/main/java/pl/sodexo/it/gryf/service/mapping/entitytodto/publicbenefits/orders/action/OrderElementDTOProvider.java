@@ -5,8 +5,10 @@ import lombok.Setter;
 import pl.sodexo.it.gryf.common.dto.mail.MailDTO;
 import pl.sodexo.it.gryf.common.dto.other.DictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.*;
+import pl.sodexo.it.gryf.common.dto.zipcodes.detailsform.ZipCodeDto;
 import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
+import pl.sodexo.it.gryf.model.dictionaries.ZipCode;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationBasicData;
@@ -145,6 +147,17 @@ public final class OrderElementDTOProvider {
             }
         }
 
+        return dto;
+    }
+
+    public static OrderElementComplexTypeAddressInfoDTO createOrderElementComplexTypeAddressInfoDTO(OrderElementDTOBuilder builder,
+                                                                                    String addressInvoice, ZipCodeDto zipCodeInvoiceDTO,
+                                                                                    String addressCorr, ZipCodeDto zipCodeCorrDTO){
+        OrderElementComplexTypeAddressInfoDTO dto = (OrderElementComplexTypeAddressInfoDTO) createOrderElementDTO(builder, new OrderElementComplexTypeAddressInfoDTO());
+        dto.setAddressInvoice(addressInvoice);
+        dto.setZipCodeInvoice(zipCodeInvoiceDTO);
+        dto.setAddressCorr(addressCorr);
+        dto.setZipCodeCorr(zipCodeCorrDTO);
         return dto;
     }
 
