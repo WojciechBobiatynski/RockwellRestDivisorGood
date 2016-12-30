@@ -223,6 +223,7 @@ public class MailServiceImpl implements MailService {
 
             if(GryfUtils.isEmpty(mailDTO.getAttachments())){
                 String type = email.getEmailTemplate() != null ? email.getEmailTemplate().getEmailType() : "text";
+                LOGGER.debug("Ustawiany xxx=" + email.getEmailTemplate());
                 LOGGER.debug("Ustawiany typ=" + type);
                 message.setText(mailDTO.getBody(), "UTF-8", type);
             }
@@ -248,6 +249,8 @@ public class MailServiceImpl implements MailService {
         MimeBodyPart messageBodyPart = new MimeBodyPart();
 
         String type = emailTemplate != null ? emailTemplate.getEmailType() : "text";
+        LOGGER.debug("Ustawiany xxx=" + emailTemplate);
+        LOGGER.debug("Ustawiany typ=" + type);
         messageBodyPart.setText(body, "UTF-8", type);
 
         Multipart multipart = new MimeMultipart();
