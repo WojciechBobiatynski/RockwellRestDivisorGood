@@ -242,8 +242,8 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
         }
 
         //CZY JUZ PRZYPISANY
-        if(training != null && contract != null) {
-            int assignedTrainingInstances = trainingInstanceRepository.countByTrainingAndIndividualNotCaceled(training.getId(), contract.getIndividual().getId());
+        if(training != null && individual != null) {
+            int assignedTrainingInstances = trainingInstanceRepository.countByTrainingAndIndividualNotCaceled(training.getId(), individual.getId());
             if (assignedTrainingInstances > 0) {
                 violations.add(new EntityConstraintViolation("Rezerwacja dla użytkownika została już dokonana na dane szkolenie."));
             }
