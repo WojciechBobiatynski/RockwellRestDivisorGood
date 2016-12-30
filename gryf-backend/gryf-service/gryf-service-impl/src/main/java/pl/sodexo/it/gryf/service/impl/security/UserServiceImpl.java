@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.service.impl.security;
 
+import com.google.common.collect.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -114,11 +115,11 @@ public class UserServiceImpl implements UserService {
     private void authenticateIndUser(String pesel, String verificationCode) {
         //TODO pobierać póxniej przy pomocy spring data jpa dla zachowania spójności - nie będzie potrzeby decryptowania hasła
         GryfIndUserDto user = securitySearchDao.findIndUserByPesel(pesel);
-        user.setVerificationCode(AEScryptographer.decrypt(user.getVerificationCode()));
-
         if (user == null) {
             throw new GryfBadCredentialsException("Niepoprawny PESEL");
         }
+        user.setRoles(Sets.newHashSet(securitySearchDao.findRolesForIndividualUser(user.getInuId())));
+        user.setVerificationCode(AEScryptographer.decrypt(user.getVerificationCode()));
 
         unlockUser(user);
 

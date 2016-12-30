@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.service.mapping.dtotoentity.security.individuals;
 
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.sodexo.it.gryf.common.authentication.AEScryptographer;
@@ -7,6 +8,7 @@ import pl.sodexo.it.gryf.common.dto.security.individuals.GryfIndUserDto;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.individuals.IndividualRepository;
 import pl.sodexo.it.gryf.model.security.individuals.IndividualUser;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.VersionableDtoMapper;
+import pl.sodexo.it.gryf.service.mapping.dtotoentity.security.RoleDtoMapper;
 
 /**
  * Komponent mapujący Dto na encję
@@ -18,6 +20,9 @@ public class GryfIndUserDtoMapper extends VersionableDtoMapper<GryfIndUserDto, I
 
     @Autowired
     private IndividualRepository individualRepository;
+
+    @Autowired
+    private RoleDtoMapper roleDtoMapper;
 
     @Override
     protected IndividualUser initDestination() {
@@ -36,5 +41,6 @@ public class GryfIndUserDtoMapper extends VersionableDtoMapper<GryfIndUserDto, I
         entity.setLastLoginFailureDate(dto.getLastLoginFailureDate());
         entity.setLoginFailureAttempts(dto.getLoginFailureAttempts());
         entity.setResetFailureAttempts(dto.getResetFailureAttempts());
+        entity.setRoles(roleDtoMapper.convert(Lists.newArrayList(dto.getRoles())));
     }
 }

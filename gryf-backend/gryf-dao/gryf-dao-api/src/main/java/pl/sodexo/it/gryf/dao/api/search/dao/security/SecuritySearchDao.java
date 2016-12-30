@@ -40,6 +40,12 @@ public interface SecuritySearchDao {
      */
     List<RoleDto> findRolesForIndUser();
 
+
+    /**
+     * Metoda wyszukująca role dla zalogowanego użytkownika osoby fizycznej
+     * @return lista ról
+     */
+    List<RoleDto> findRolesForIndividualUser(Long individualUserId);
     /**
      * Metoda wyszukująca id instytucji szkoleniowej dla użytkownika instytucji szkoleniowej
      * @param tiUserLogin

@@ -45,6 +45,12 @@ public interface SecuritySearchMapper {
     List<RoleDto> findRolesForIndUser(@Param("criteria") UserCriteria criteria);
 
     /**
+     * Metoda wyszukująca role dla zalogowanego użytkownika osoby fizycznej
+     * @param individualUserId - kryteria użytkownika
+     * @return lista ról
+     */
+    List<RoleDto> findRolesForIndividualUser(@Param("individualUserId") Long individualUserId);
+    /**
      * Metoda wyszukująca id instytucji szkoleniowej dla użytkownika instytucji szkoleniowej
      * @param tiUserLogin
      * @return login instytucji szkoleniowej
