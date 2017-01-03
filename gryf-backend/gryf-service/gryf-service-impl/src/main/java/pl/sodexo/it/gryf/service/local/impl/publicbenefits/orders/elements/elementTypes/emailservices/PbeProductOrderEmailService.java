@@ -15,15 +15,14 @@ import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.IndividualContact;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElementDTOBuilder;
+import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderInvoice;
 import pl.sodexo.it.gryf.model.security.individuals.IndividualUser;
 import pl.sodexo.it.gryf.service.local.api.MailService;
-import pl.sodexo.it.gryf.service.local.api.publicbenefits.grantapplications.GrantApplicationEmailService;
-import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.OrderServiceLocal;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.elements.elementTypes.emailservices.EmailDTOService;
 
 import java.text.SimpleDateFormat;
+import java.util.List;
 
-import static pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElementCons.*;
 import static pl.sodexo.it.gryf.common.utils.GryfConstants.*;
 
 /**
@@ -48,24 +47,35 @@ public class PbeProductOrderEmailService implements EmailDTOService {
         Individual individual = contract.getIndividual();
         IndividualUser individualUser = individual.getIndividualUser();
         GrantProgram granProgram = contract.getGrantProgram();
+        OrderInvoice orderInvoice = getOrderInvoice(order);
 
         IndividualContact verEmailContact = individualContactRepository.findByIndividualAndContactType(individual.getId(), ContactType.TYPE_VER_EMAIL);
 
-        MailPlaceholders mailPlaceholders = mailService.createPlaceholders("individualName", individual.getFirstName());
-        mailPlaceholders.add("individualLastName", individual.getLastName());
-        mailPlaceholders.add("productInstanceNum", order.getVouchersNumber().toString());
-        mailPlaceholders.add("expiryDate", new SimpleDateFormat(DATE_FORMAT).format(contract.getExpiryDate()));
-        mailPlaceholders.add("indUserUrl", applicationParameters.getIndUserUrl());
-        mailPlaceholders.add("indLogin", individual.getPesel());
-        mailPlaceholders.add("indPassword", individualUser != null ? AEScryptographer.decrypt(individualUser.getVerificationCode()) : "");
+        MailPlaceholders mailPlaceholders = mailService.createPlaceholders("firstName", individual.getFirstName());
+        mailPlaceholders.add("lastName", individual.getLastName());
         mailPlaceholders.add("grantProgramName", granProgram.getProgramName());
+        mailPlaceholders.add("grantedVouchersNumber", order.getVouchersNumber().toString());
+        mailPlaceholders.add("IndividualWebAppURL", applicationParameters.getIndUserUrl());
+        mailPlaceholders.add("IndividualWebAppLogin", individual.getPesel());
+        mailPlaceholders.add("IndividualWebAppPass", individualUser != null ? AEScryptographer.decrypt(individualUser.getVerificationCode()) : "");
+        mailPlaceholders.add("noteNo", orderInvoice.getInvoiceNumber());
+        mailPlaceholders.add("expiryDate", new SimpleDateFormat(DATE_FORMAT).format(contract.getExpiryDate()));
         mailPlaceholders.add("signDate", new SimpleDateFormat(DATE_FORMAT).format(contract.getSignDate()));
-        mailPlaceholders.add("noteNumber", "TODO:5235235");//TODO: tbilski uzupenic note jak już bedzie
-
         MailDTO a = mailService.createMailDTO(GryfConstants.REALIZE_ORDER_TEMPLATE_CODE,
                 mailPlaceholders,
                 verEmailContact != null ? verEmailContact.getContactData() : null);
         return a;
+    }
+
+    private OrderInvoice getOrderInvoice(Order order){
+        List<OrderInvoice> orderInvoices = order.getOrderInvoices();
+        if(orderInvoices.size() == 0){
+            throw new RuntimeException(String.format("Błąd parmetryzacji. Zamówienie [%s] nie zawiera żadnej noty.", order.getId()));
+        }
+        if(orderInvoices.size() > 1){
+            throw new RuntimeException(String.format("Błąd parmetryzacji. Zamówienie [%s] zawiera wiecej niż jedną notę.", order.getId()));
+        }
+        return orderInvoices.get(0);
     }
 
 }

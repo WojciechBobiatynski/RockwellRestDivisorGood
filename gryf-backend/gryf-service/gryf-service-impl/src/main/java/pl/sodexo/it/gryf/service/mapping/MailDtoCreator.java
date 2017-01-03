@@ -71,12 +71,15 @@ public class MailDtoCreator {
 
         String pin = getDecryptedPin(ti.getReimbursmentPin());
         MailPlaceholders mailPlaceholders = mailService.createPlaceholders("individualName", ti.getIndividual().getFirstName())
-                .add("reimbursmentPin", pin)
+                .add("grantProgramName", ti.getGrantProgram().getProgramName())
+                .add("firstName", ti.getIndividual().getFirstName())
+                .add("lastName", ti.getIndividual().getLastName())
                 .add("trainingName", ti.getTraining().getName())
                 .add("trainingPlace", ti.getTraining().getPlace())
-                .add("assignedProductNum", String.valueOf(ti.getAssignedNum()))
+                .add("trainingInstitutionName", ti.getTraining().getTrainingInstitution().getName())
                 .add("trainingStartDate", String.valueOf(ti.getTraining().getStartDate()))
-                .add("trainingInstitutionName", ti.getTraining().getTrainingInstitution().getName());
+                .add("assignedProductNum", String.valueOf(ti.getAssignedNum()))
+                .add("reimbursmentPin", pin);
         EmailTemplate emailTemplate = emailTemplateRepository.get(SEND_TRAINING_REIMBURSMENT_PIN_TEMPLATE_CODE);
         return createAndFillMailDTO(emailTemplate, email, mailPlaceholders);
     }
@@ -88,7 +91,7 @@ public class MailDtoCreator {
                 .add("trainingName", ti.getTraining().getName())
                 .add("trainingPlace", ti.getTraining().getPlace())
                 .add("assignedProductNum", String.valueOf(ti.getAssignedNum()))
-                .add("trainingStartDate", String.valueOf(ti.getTraining().getStartDate()))
+                .add("trainingStartDate", new SimpleDateFormat(DATE_FORMAT).format(ti.getTraining().getStartDate()))
                 .add("trainingInstitutionName", ti.getTraining().getTrainingInstitution().getName());
         EmailTemplate emailTemplate = emailTemplateRepository.get(RESEND_TRAINING_REIMBURSMENT_PIN_TEMPLATE_CODE);
         return createAndFillMailDTO(emailTemplate, email, mailPlaceholders);

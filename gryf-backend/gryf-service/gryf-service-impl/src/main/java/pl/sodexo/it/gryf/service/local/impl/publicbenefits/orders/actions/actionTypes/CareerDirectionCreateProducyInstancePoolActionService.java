@@ -50,6 +50,7 @@ public class CareerDirectionCreateProducyInstancePoolActionService extends Actio
         orderInvoice.setInvoiceNumber(financeNoteResult.getInvoiceNumber());
         orderInvoice.setInvoiceType(financeNoteResult.getInvoiceType());
         orderInvoice.setInvoiceDate(financeNoteResult.getInvoiceDate());
+        order.addOrderInvoice(orderInvoice);
         orderInvoiceRepository.save(orderInvoice);
     }
 

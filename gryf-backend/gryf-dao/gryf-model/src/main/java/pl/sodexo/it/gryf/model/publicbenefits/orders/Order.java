@@ -154,6 +154,10 @@ public class Order extends VersionableEntity {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
     private List<OrderElement> orderElements;
 
+    @JsonManagedReference("orderInvoices")
+    @OneToMany(mappedBy = "order")
+    private List<OrderInvoice> orderInvoices;
+
     @Transient
     private Map<String, OrderElement> orderElementMap;
 
@@ -312,6 +316,28 @@ public class Order extends VersionableEntity {
     public void removeContact(OrderElement orderElement) {
         getInitializedOrderElements().remove(orderElement);
     }
+
+
+    private List<OrderInvoice> getInitializedOrderInvoices() {
+        if (orderInvoices == null)
+            orderInvoices = new ArrayList<>();
+        return orderInvoices;
+    }
+
+    public List<OrderInvoice> getOrderInvoices() {
+        return Collections.unmodifiableList(getInitializedOrderInvoices());
+    }
+
+    public void addOrderInvoice(OrderInvoice orderInvoice) {
+        if (orderInvoice.getOrder() != null && orderInvoice.getOrder() != this) {
+            orderInvoice.getOrder().getInitializedOrderElements().remove(orderInvoice);
+        }
+        if (orderInvoice.getId() == null || !getInitializedOrderInvoices().contains(orderInvoice)) {
+            getInitializedOrderInvoices().add(orderInvoice);
+        }
+        orderInvoice.setOrder(this);
+    }
+
 
     //PUBLIC METHODS
 

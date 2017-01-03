@@ -16,6 +16,7 @@ import pl.sodexo.it.gryf.common.utils.JsonMapperUtils;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgramParam;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
+import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderInvoice;
 import pl.sodexo.it.gryf.service.local.api.MailService;
 import pl.sodexo.it.gryf.service.local.api.ParamInDateService;
 import pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.actions.ActionBaseService;
@@ -78,16 +79,29 @@ public class CareerDirectionSendOrderActionService extends ActionBaseService {
         OrderElement oeDocumentOwnContribution = order.getElement(KK_DOCUMENT_OWN_CONTRIBUTION_ELEM_ID);
         OrderElement oeAttachment01 = order.getElement(KK_ATTACHMENT_01_ELEM_ID);
         MailAttachmentDTO attachmentDTO = new MailAttachmentDTO();
+        OrderInvoice orderInvoice = getOrderInvoice(order);
+
         if(!Strings.isNullOrEmpty(oeAttachment01.getValueVarchar())){
-            attachmentDTO.setName(String.format("%s.%s", GryfStringUtils.convertFileName(oeAttachment01.getOrderFlowElement().getElementName()),
+            attachmentDTO.setName(String.format("nota_%s.%s", GryfStringUtils.convertFileName(orderInvoice.getInvoiceNumber()),
                                                             GryfStringUtils.findFileExtension(oeAttachment01.getValueVarchar())));
             attachmentDTO.setPath(oeAttachment01.getValueVarchar());
         }else{
-            attachmentDTO.setName(String.format("%s.%s", GryfStringUtils.convertFileName(oeDocumentOwnContribution.getOrderFlowElement().getElementName()),
+            attachmentDTO.setName(String.format("nota_%s.%s", GryfStringUtils.convertFileName(orderInvoice.getInvoiceNumber()),
                                                          GryfStringUtils.findFileExtension(oeDocumentOwnContribution.getValueVarchar())));
             attachmentDTO.setPath(oeDocumentOwnContribution.getValueVarchar());
         }
         return attachmentDTO;
+    }
+
+    private OrderInvoice getOrderInvoice(Order order){
+        List<OrderInvoice> orderInvoices = order.getOrderInvoices();
+        if(orderInvoices.size() == 0){
+            throw new RuntimeException(String.format("Błąd parmetryzacji. Zamówienie [%s] nie zawiera żadnej noty.", order.getId()));
+        }
+        if(orderInvoices.size() > 1){
+            throw new RuntimeException(String.format("Błąd parmetryzacji. Zamówienie [%s] zawiera wiecej niż jedną notę.", order.getId()));
+        }
+        return orderInvoices.get(0);
     }
 
 }
