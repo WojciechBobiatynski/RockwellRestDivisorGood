@@ -209,6 +209,18 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
         mailService.scheduleMail(mailDtoCreator.createMailDTOForPinResend(trainingInstance, individualContact.getContactData()));
     }
 
+    @Override
+    public Long updateOpinionDone(String externalId, String pesel, boolean opinionDone){
+        validateUpdateOpinionDone(externalId, pesel);
+
+        List<TrainingInstance> trainnigInstances = trainingInstanceRepository.findByExternalIdAndPesel(externalId, pesel);
+        validateUpdateOpinionDone(trainnigInstances, externalId, pesel);
+
+        TrainingInstance ti = trainnigInstances.get(0);
+        ti.setOpinionDone(opinionDone);
+        return ti.getId();
+    }
+
     //PRIVATE METHODS
 
     private void validateTrainingReservation(TrainingReservationDto reservationDto){
@@ -324,4 +336,24 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
         }
     }
 
+    private void validateUpdateOpinionDone(String externalId, String pesel){
+        List<EntityConstraintViolation> violations = Lists.newArrayList();
+
+        if(Strings.isNullOrEmpty(externalId)){
+            violations.add(new EntityConstraintViolation("Identyfikator zewnętrzny nie moze być pusty"));
+        }
+        if(Strings.isNullOrEmpty(pesel)){
+            violations.add(new EntityConstraintViolation("Pesel nie moze być pusty"));
+        }
+
+        gryfValidator.validate(violations);
+    }
+
+    private void validateUpdateOpinionDone(List<TrainingInstance> trainnigInstances, String externalId, String pesel) {
+        if (trainnigInstances.size() > 1) {
+            throw new RuntimeException(String.format("Dla identyfikatora zewnetrznego [%s] oraz numeru pesel [%s] " + "znaleziono wiecej niż jeden rekord instancji szkolenia", externalId, pesel));
+        } else if (trainnigInstances.size() == 0) {
+            gryfValidator.validate(String.format("Dla identyfikatora zewnetrznego [%s] oraz numeru pesel [%s] " + "nie znaleziono rekord instancji szkolenia", externalId, pesel));
+        }
+    }
 }

@@ -26,6 +26,9 @@ import java.util.*;
         @NamedQuery(name = "TrainingInstance.isInUserIndividual", query = "select count(e) "
                 + "from TrainingInstance e join e.individual i "
                 + "where e.id = :trainingInstanceId and i.pesel = :indUserLogin"),
+        @NamedQuery(name = "TrainingInstance.findByExternalIdAndPesel", query = "select e "
+                + "from TrainingInstance e "
+                + "where e.training.externalId = :externalId and e.individual.pesel = :pesel ")
 })
 public class TrainingInstance extends VersionableEntity {
 

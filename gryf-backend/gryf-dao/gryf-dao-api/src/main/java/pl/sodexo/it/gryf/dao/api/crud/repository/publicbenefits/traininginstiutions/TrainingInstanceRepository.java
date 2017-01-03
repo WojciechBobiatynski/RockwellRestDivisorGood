@@ -3,6 +3,8 @@ package pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiut
 import pl.sodexo.it.gryf.dao.api.crud.repository.GenericRepository;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstance;
 
+import java.util.List;
+
 /**
  * Created by Isolution on 2016-11-07.
  */
@@ -14,4 +16,5 @@ public interface TrainingInstanceRepository extends GenericRepository<TrainingIn
 
     boolean isInUserIndividual(Long trainingInstanceId, String indUserLogin);
 
+    List<TrainingInstance> findByExternalIdAndPesel(String externalId, String pesel);
 }

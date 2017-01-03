@@ -21,6 +21,7 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.contracts.Contra
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.enterprises.EnterpriseRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.individuals.IndividualRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstanceRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstitutionRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingRepository;
 import pl.sodexo.it.gryf.model.dictionaries.ZipCode;
@@ -65,6 +66,9 @@ public abstract class ImportBaseDataServiceImpl implements ImportDataService{
     @Autowired
     private TrainingRepository trainingRepository;
 
+    @Autowired
+    private TrainingInstanceRepository trainingInstanceRepository;
+
     //PUBLIC METHODS
 
     @Override
@@ -91,6 +95,7 @@ public abstract class ImportBaseDataServiceImpl implements ImportDataService{
         rowInfo.setOrder(result.getOrderId() != null ? orderRepository.get(result.getOrderId()) : null);
         rowInfo.setTrainingInstitution(result.getTrainingInstitutionId() != null ? trainingInstitutionRepository.get(result.getTrainingInstitutionId()) : null);
         rowInfo.setTraining(result.getTrainingId() != null ? trainingRepository.get(result.getTrainingId()) : null);
+        rowInfo.setTrainingInstance(result.getTrainingInstanceId() != null ? trainingInstanceRepository.get(result.getTrainingInstanceId()) : null);
 
         importDataRowRepository.update(rowInfo, rowInfo.getId());
     }

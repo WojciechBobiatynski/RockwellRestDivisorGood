@@ -66,6 +66,15 @@ public interface TrainingInstanceService {
     void resendReimbursmentPin(Long trainingInstanceId);
 
     /**
+     * uaktualnai znacznik czy została dokonana ocena szkolenia
+     * @param externalId
+     * @param pesel
+     * @param opinionDone
+     * @return
+     */
+    Long updateOpinionDone(String externalId, String pesel, boolean opinionDone);
+
+    /**
      * Sprawdza czy dana instancja szkolenia jest w obrebie instytucji skolenia użytkownika zalogwanego.
      * @param trainingInstanceId instancja szkolenia
      * @return

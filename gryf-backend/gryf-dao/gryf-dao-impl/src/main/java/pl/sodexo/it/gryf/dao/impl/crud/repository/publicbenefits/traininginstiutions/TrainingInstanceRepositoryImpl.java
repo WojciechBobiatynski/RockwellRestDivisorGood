@@ -41,4 +41,12 @@ public class TrainingInstanceRepositoryImpl extends GenericRepositoryImpl<Traini
         query.setParameter("indUserLogin", indUserLogin);
         return query.getSingleResult() > 0;
     }
+
+    @Override
+    public List<TrainingInstance> findByExternalIdAndPesel(String externalId, String pesel){
+        TypedQuery<TrainingInstance> query = entityManager.createNamedQuery("TrainingInstance.findByExternalIdAndPesel", TrainingInstance.class);
+        query.setParameter("externalId", externalId);
+        query.setParameter("pesel", pesel);
+        return query.getResultList();
+    }
 }

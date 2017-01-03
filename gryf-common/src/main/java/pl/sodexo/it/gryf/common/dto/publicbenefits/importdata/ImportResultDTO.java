@@ -36,4 +36,8 @@ public class ImportResultDTO {
     @Setter
     private Long trainingId;
 
+    @Getter
+    @Setter
+    private Long trainingInstanceId;
+
 }

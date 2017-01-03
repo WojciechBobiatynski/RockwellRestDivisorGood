@@ -8,6 +8,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.enterprises.Enterprise;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.Training;
+import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstance;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstitution;
 
 import javax.persistence.*;
@@ -73,6 +74,11 @@ public class ImportDataRow extends VersionableEntity {
     @ManyToOne
     @JoinColumn(name = "TRAINING_ID")
     private Training training;
+
+    @ManyToOne
+    @JoinColumn(name = "TRAINING_INSTANCE_ID")
+    private TrainingInstance trainingInstance;
+
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "row")
     private List<ImportDataRowError> errors;
@@ -165,6 +171,14 @@ public class ImportDataRow extends VersionableEntity {
 
     public void setTraining(Training training) {
         this.training = training;
+    }
+
+    public TrainingInstance getTrainingInstance() {
+        return trainingInstance;
+    }
+
+    public void setTrainingInstance(TrainingInstance trainingInstance) {
+        this.trainingInstance = trainingInstance;
     }
 
     //LIST METHODS
