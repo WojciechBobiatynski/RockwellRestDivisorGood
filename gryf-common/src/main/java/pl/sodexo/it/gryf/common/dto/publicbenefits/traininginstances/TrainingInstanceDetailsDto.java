@@ -24,6 +24,10 @@ public class TrainingInstanceDetailsDto implements Serializable {
 
     @Getter
     @Setter
+    private boolean opinionDone;
+
+    @Getter
+    @Setter
     private Long trainingId;
 
     @Getter

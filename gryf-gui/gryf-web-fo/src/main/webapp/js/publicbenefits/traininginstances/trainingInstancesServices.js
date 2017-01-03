@@ -26,7 +26,8 @@ angular.module("gryf.trainingInstances").factory("TrainingInstanceSearchService"
                 startDateTo: null,
                 endDateFrom: null,
                 endDateTo: null,
-                trainingStatusId: null
+                trainingStatusId: null,
+                opinionDone: null
             };
         }
 
