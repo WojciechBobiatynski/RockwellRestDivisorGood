@@ -1,6 +1,7 @@
 package pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions;
 
 import lombok.ToString;
+import pl.sodexo.it.gryf.model.api.BooleanConverter;
 import pl.sodexo.it.gryf.model.api.VersionableEntity;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
@@ -58,6 +59,10 @@ public class TrainingInstance extends VersionableEntity {
 
     @Column(name = "REIMBURSMENT_PIN")
     private String reimbursmentPin;
+
+    @Convert(converter = BooleanConverter.class)
+    @Column(name = "OPINION_DONE")
+    private boolean opinionDone;
 
     @OneToMany(mappedBy = "trainingInstance")
     private List<PbeProductInstancePoolUse> pollUses;
@@ -126,6 +131,14 @@ public class TrainingInstance extends VersionableEntity {
 
     public void setReimbursmentPin(String reimbursmentPin) {
         this.reimbursmentPin = reimbursmentPin;
+    }
+
+    public boolean isOpinionDone() {
+        return opinionDone;
+    }
+
+    public void setOpinionDone(boolean opinionDone) {
+        this.opinionDone = opinionDone;
     }
 
     //LIST METHODS
