@@ -14,9 +14,9 @@
     </appender>
 
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${catalina.home}/logs/gryf.log</file>
+        <file>${catalina.base}/logs/gryf.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${catalina.home}/logs/gryf-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>${catalina.base}/logs/gryf-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>${MAX_FILE_SIZE}</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
@@ -30,9 +30,9 @@
     </appender>
 
     <appender name="FILE_SQL" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${catalina.home}/logs/gryf-sql.log</file>
+        <file>${catalina.base}/logs/gryf-sql.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${catalina.home}/logs/gryf-sql-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>${catalina.base}/logs/gryf-sql-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>${MAX_FILE_SIZE}</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
@@ -52,9 +52,9 @@
         </discriminator>
         <sift>
             <appender name="FILE_IP${user_role}" class="ch.qos.logback.core.rolling.RollingFileAppender">
-                <file>${catalina.home}/logs/${user_role}.log</file>
+                <file>${catalina.base}/logs/${user_role}.log</file>
                 <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-                    <fileNamePattern>${catalina.home}/logs/${user_role}-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+                    <fileNamePattern>${catalina.base}/logs/${user_role}-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
                     <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                         <maxFileSize>${MAX_FILE_SIZE}</maxFileSize>
                     </timeBasedFileNamingAndTriggeringPolicy>
