@@ -31,4 +31,10 @@ public interface SecurityService {
      */
     List<RoleDto> findRolesForIndUser();
 
+    /**
+     * Metoda wyszukująca role dla zalogowanego użytkownika osoby fizycznej
+     * @return lista ról
+     */
+    List<RoleDto> findRolesForIndividualUser(Long individualUserId);
+
 }

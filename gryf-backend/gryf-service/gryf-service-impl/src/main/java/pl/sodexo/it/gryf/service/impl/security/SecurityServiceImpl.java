@@ -36,4 +36,9 @@ public class SecurityServiceImpl implements SecurityService{
     public List<RoleDto> findRolesForIndUser() {
         return securitySearchDao.findRolesForIndUser();
     }
+
+    @Override
+    public List<RoleDto> findRolesForIndividualUser(Long individualUserId) {
+        return securitySearchDao.findRolesForIndividualUser(individualUserId);
+    }
 }
