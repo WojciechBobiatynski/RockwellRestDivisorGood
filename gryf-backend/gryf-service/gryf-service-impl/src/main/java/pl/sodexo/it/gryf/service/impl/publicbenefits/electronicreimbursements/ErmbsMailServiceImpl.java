@@ -21,7 +21,9 @@ import pl.sodexo.it.gryf.service.local.api.MailService;
 import pl.sodexo.it.gryf.service.mapping.MailDtoCreator;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.electronicreimbursements.ErmbsMailAttachmentDtoMapper;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -113,6 +115,11 @@ public class ErmbsMailServiceImpl implements ErmbsMailService {
         //TODO: AK - uporządkować
         MailDTO mail = mailDtoCreator.createMailDTOForEreimbMail(dto);
         fillMailDTOWithAttachmentsOfErmbsMail(mail, dto);
+        Date delayTimestamp = new Date();
+        if(ErmbsMailType.PAYMENT_CONFIRMATION.equals(dto.getEmailType())){
+            LocalDateTime.from(delayTimestamp.toInstant()).plusDays(1);
+        }
+        mail.setDelayTimestamp(delayTimestamp);
         mail = mailService.scheduleMail(mail);
         dto.setEmailInstanceId(mail.getEmailInstanceId());
         EreimbursementMail entity = ermbsMailAttachmentDtoMapper.convert(dto);
@@ -131,13 +138,13 @@ public class ErmbsMailServiceImpl implements ErmbsMailService {
     }
 
     private void addReportToConfirmPaymentMailsAsAttachments(ErmbsMailDto mail, List<ErmbsMailAttachmentDto> reportFiles){
-        ErmbsMailAttachmentDto att = reportFiles.stream().filter(dto -> ReportTemplateCode.GRANT_AID_CONFIRMATION.getTypeName().equals(dto.getName())).findFirst().get();
+        ErmbsMailAttachmentDto att = reportFiles.stream().filter(dto -> ReportTemplateCode.BANK_TRANSFER_CONFIRMATION.getTypeName().equals(dto.getName())).findFirst().get();
         att.setReportFile(true);
         mail.getAttachments().add(att);
     }
 
     private void addReportToConfirmReimbMailsAsAttachments(ErmbsMailDto mail, List<ErmbsMailAttachmentDto> reportFiles){
-        ErmbsMailAttachmentDto att = reportFiles.stream().filter(dto -> ReportTemplateCode.BANK_TRANSFER_CONFIRMATION.getTypeName().equals(dto.getName())).findFirst().get();
+        ErmbsMailAttachmentDto att = reportFiles.stream().filter(dto -> ReportTemplateCode.CREDIT_NOTE.getTypeName().equals(dto.getName())).findFirst().get();
         att.setReportFile(true);
         mail.getAttachments().add(att);
     }

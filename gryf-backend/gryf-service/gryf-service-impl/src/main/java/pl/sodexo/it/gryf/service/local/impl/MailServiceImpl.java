@@ -172,6 +172,7 @@ public class MailServiceImpl implements MailService {
                 em.addAttachment(a);
             }
         }
+        em.setDelayTimestamp(mailDTO.getDelayTimestamp());
         emailInstanceRepository.save(em);
         mailDTO.setEmailInstanceId(em.getId());
         return mailDTO;

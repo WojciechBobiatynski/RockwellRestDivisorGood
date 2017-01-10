@@ -3,6 +3,7 @@ package pl.sodexo.it.gryf.common.dto.mail;
 import lombok.ToString;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.MailAttachmentDTO;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,6 +35,8 @@ public class MailDTO {
     private List<MailAttachmentDTO> attachments;
 
     private Long emailInstanceId;
+
+    private Date delayTimestamp;
 
     //CONSTRUCTORS
 
@@ -152,5 +155,13 @@ public class MailDTO {
 
     public void setEmailInstanceId(Long emailInstanceId) {
         this.emailInstanceId = emailInstanceId;
+    }
+
+    public Date getDelayTimestamp() {
+        return delayTimestamp;
+    }
+
+    public void setDelayTimestamp(Date delayTimestamp) {
+        this.delayTimestamp = delayTimestamp;
     }
 }
