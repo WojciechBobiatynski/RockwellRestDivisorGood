@@ -138,11 +138,11 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
 
     @Override
     public ElctRmbsHeadDto createRmbsDtoByTrainingInstanceId(Long trainingInstanceId) {
-        ermbsValidator.validateBeforeCreateForTrainingInstance(trainingInstanceId);
         ElctRmbsHeadDto elctRmbsHeadDto = electronicReimbursementsDao.findEcltRmbsByTrainingInstanceId(trainingInstanceId);
         if (elctRmbsHeadDto != null) {
             return elctRmbsHeadDto;
         }
+        ermbsValidator.validateBeforeCreateForTrainingInstance(trainingInstanceId);
         elctRmbsHeadDto = new ElctRmbsHeadDto();
         elctRmbsHeadDto.setTrainingInstanceId(trainingInstanceId);
         elctRmbsHeadDto.setGrantProgramId(grantProgramSearchDao.findGrantProgramIdByTrainingInstanceId(trainingInstanceId));

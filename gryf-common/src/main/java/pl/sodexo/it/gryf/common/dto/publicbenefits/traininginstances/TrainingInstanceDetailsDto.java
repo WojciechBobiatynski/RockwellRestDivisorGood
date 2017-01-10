@@ -118,6 +118,10 @@ public class TrainingInstanceDetailsDto implements Serializable {
     @Setter
     private String grantProgramName;
 
+    @Getter
+    @Setter
+    private String reimbursmentConditions;
+
     public Integer getMaxProductsNumber() {
         Integer maxProductsNumber;
         if(maxProductInstance != null){

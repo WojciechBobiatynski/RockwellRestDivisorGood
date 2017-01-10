@@ -104,7 +104,7 @@
                         <strong>Powód korekty</strong>
                         <div class="redBackground">
                             <div style="padding-top:10px">
-                                {{rmbsModel.model.lastCorrectionDto.correctionReason}}
+                                {{rmbsModel.model.trainingInstance.lastCorrectionDto.correctionReason}}
                             </div>
                         </div>
                     </div>
@@ -112,8 +112,7 @@
                 <div class="multiSection">
                     <div class="grid-100">
                         <strong>Warunek rozliczenia</strong>
-                        <div>Rozliczenie szkolenia możliwe jest po zdaniu egzaminu i potwierdzeniu kwalifikacji odpowiednim certyfikatem. Uczestnik zobowiązany jest do przedłożenia Faktury, kopii
-                            zaświadczenia o ukończeniu szkolenia oraz kopii certyfikatu lub kopii potwierdzenia o niezndanym egzaminie
+                        <div>{{rmbsModel.trainingInstance.reimbursmentConditions}}
                         </div>
                     </div>
                 </div>

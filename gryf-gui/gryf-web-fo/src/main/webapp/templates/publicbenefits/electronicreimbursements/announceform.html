@@ -329,5 +329,7 @@
             <h2>Załączniki do rozliczenia</h2>
         </header>
     </div>
-    <attachments model="eReimbObject.entity" violations="violations" is-disabled="isDisabled()" save-url="getSaveAttUrl()"/>
+    <div data-ng-if="eReimbObject.entity.grantProgramId">
+        <attachments model="eReimbObject.entity" violations="violations" is-disabled="isDisabled()" save-url="getSaveAttUrl()"/>
+    </div>
 </section>
