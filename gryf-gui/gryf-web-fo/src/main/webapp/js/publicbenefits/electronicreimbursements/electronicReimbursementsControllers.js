@@ -104,8 +104,13 @@ angular.module('gryf.electronicreimbursements').controller("announce.electronicR
 
         $scope.sendToCorrect = AnnounceEReimbursementService.sendToCorrect;
         $scope.createDocuments = AnnounceEReimbursementService.createDocuments;
-        $scope.confirm = AnnounceEReimbursementService.confirm;
         $scope.cancel = AnnounceEReimbursementService.cancel;
+
+        $scope.confirm = function() {
+            AnnounceEReimbursementService.confirm().success(function(response) {
+                $scope.generateMailFromTemplatesOnInitIfNull();
+            });
+        };
 
         $scope.printReports = function () {
             AnnounceEReimbursementService.printReports();
