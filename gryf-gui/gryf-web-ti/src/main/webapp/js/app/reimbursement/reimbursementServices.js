@@ -162,6 +162,17 @@ angular.module("gryf.ti").factory("ReimbursementsServiceModify",
             var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING);
 
             var promise = $http.get(CREATE_RMBS_BY_ID + trainingInstanceId);
+
+            promise.success(function(data) {
+                rmbsModel.model = data;
+            });
+
+            promise.error(function (response) {
+                GryfModals.openModal(GryfModals.MODALS_URL.VALIDATION, {violations: response.violations}).result.then(function(result) {
+                    $state.go("reimbursements");
+                });
+            });
+
             promise.finally(function () {
                 GryfModals.closeModal(modalInstance);
             });

@@ -55,9 +55,7 @@ angular.module("gryf.ti").controller("ReimbursementModifyController", ["$scope",
 
         $scope.sendButtonText = "Wyślij do rozliczenia";
 
-        ReimbursementsServiceModify.createReimbursement($stateParams.trainingInstanceId).success(function(data) {
-            $scope.rmbsModel.model = data;
-        });
+        ReimbursementsServiceModify.createReimbursement($stateParams.trainingInstanceId);
 
         TrainingInstanceSearchService.findDetailsById($stateParams.trainingInstanceId).success(function(data) {
             $scope.rmbsModel.trainingInstance = data;

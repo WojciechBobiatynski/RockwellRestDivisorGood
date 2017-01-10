@@ -227,7 +227,13 @@ angular.module('gryf.exceptionHandler').factory('GryfExceptionHandler', ['GryfMo
                     });
                 break;
             case ERRORS.VALIDATION_ERROR:
-                GryfModals.openModal(GryfModals.MODALS_URL.VALIDATION, {violations: error.violations});
+                GryfModals.openModal(GryfModals.MODALS_URL.VALIDATION, {violations: error.violations})
+                    .result
+                    .then(function (result){
+                        if(conflictModalCallbacks){
+                            conflictModalCallbacks.makeAction();
+                        }
+                    });
                 error.violations.forEach(function(element) {
                     scopeViolationsObject[element.path] = element;
                 });
