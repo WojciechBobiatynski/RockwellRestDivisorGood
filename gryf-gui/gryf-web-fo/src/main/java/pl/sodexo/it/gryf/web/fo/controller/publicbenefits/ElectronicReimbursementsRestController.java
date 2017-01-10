@@ -8,6 +8,7 @@ import pl.sodexo.it.gryf.common.criteria.electronicreimbursements.ElctRmbsCriter
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.other.FileDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.*;
+import pl.sodexo.it.gryf.common.enums.ErmbsAttachmentStatus;
 import pl.sodexo.it.gryf.common.enums.Privileges;
 import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.common.utils.JsonMapperUtils;
@@ -202,6 +203,25 @@ public class ElectronicReimbursementsRestController {
             notReportAttachments.get(index).setFile(fileDtoList.get(index));
         };
         IntStream.range(0, notReportAttachments.size()).forEach(myConsumer);
+    }
+
+    @RequestMapping(value = PATH_ELECTRONIC_REIMBURSEMENTS_ATT_SAVE, method = RequestMethod.POST)
+    @ResponseBody
+    public List<ErmbsAttachmentDto> saveAttachments(MultipartHttpServletRequest request, @RequestParam("file") MultipartFile[] files) throws IOException {
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS_MOD);
+        ElctRmbsHeadDto dto = JsonMapperUtils.readValue(request.getParameter("data"), ElctRmbsHeadDto.class);
+        List<FileDTO> fileDtoList = WebUtils.createFileDtoList(files);
+        fillErmbsAttachmentWithFiles(dto, fileDtoList);
+        List<Long> attachemntsId = ermbsAttachmentService.manageErmbsAttachments(dto, ErmbsAttachmentStatus.SENDED);
+        return ermbsAttachmentService.findErmbsAttachmentsByIds(attachemntsId);
+    }
+
+    private void fillErmbsAttachmentWithFiles(ElctRmbsHeadDto dto, List<FileDTO> fileDtoList){
+        List<ErmbsAttachmentDto> changedAttachments = dto.getAttachments().stream().filter(ermbsAttachmentDto -> ermbsAttachmentDto.isChanged()).collect(Collectors.toList());
+        IntConsumer myConsumer = (index) -> {
+            changedAttachments.get(index).setFile(fileDtoList.get(index));
+        };
+        IntStream.range(0, changedAttachments.size()).forEach(myConsumer);
     }
 
 }

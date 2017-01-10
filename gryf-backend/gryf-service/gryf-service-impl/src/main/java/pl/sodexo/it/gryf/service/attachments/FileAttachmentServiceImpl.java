@@ -10,8 +10,6 @@ import pl.sodexo.it.gryf.common.dto.attachments.AttachmentFileDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CorrectionAttachmentDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsAttachmentDto;
-import pl.sodexo.it.gryf.common.dto.user.GryfTiUser;
-import pl.sodexo.it.gryf.common.dto.user.GryfUser;
 import pl.sodexo.it.gryf.common.enums.AttachmentParentType;
 import pl.sodexo.it.gryf.common.enums.ErmbsAttachmentStatus;
 import pl.sodexo.it.gryf.common.enums.FileStatus;
@@ -139,7 +137,7 @@ public class FileAttachmentServiceImpl implements FileAttachmentService {
         AttachmentFile attachmentFile = new AttachmentFile();
         attachmentFile.setFiletatus(FileStatus.SAVED);
         attachmentFileRepository.save(attachmentFile);
-        Long trainingInstitutionId = ((GryfTiUser) GryfUser.getLoggedUser()).getTrainingInstitutionId();
+        Long trainingInstitutionId = elctRmbsHeadDto.getTrainingInstitutionId();
         String fileName = String.format("%s_%s_%s_%s_%s", trainingInstitutionId, elctRmbsHeadDto.getErmbsId(), AttachmentParentType.EREIMB, attachmentFile.getId(), ermbsAttachmentDto.getCode());
         String newFileName = GryfStringUtils.convertFileName(fileName);
         String filePath = fileService.writeFile(FileType.E_REIMBURSEMENTS, newFileName, ermbsAttachmentDto.getFile(), attachmentFile);

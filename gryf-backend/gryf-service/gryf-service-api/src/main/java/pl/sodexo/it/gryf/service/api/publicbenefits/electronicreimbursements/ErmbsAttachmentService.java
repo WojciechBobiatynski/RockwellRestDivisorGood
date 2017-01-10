@@ -2,7 +2,10 @@ package pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements;
 
 import pl.sodexo.it.gryf.common.dto.other.FileDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsAttachmentDto;
 import pl.sodexo.it.gryf.common.enums.ErmbsAttachmentStatus;
+
+import java.util.List;
 
 /**
  * Serwis do operacji na załącznikach dla bonów elektronicznych
@@ -22,8 +25,10 @@ public interface ErmbsAttachmentService {
      * Zapisuje dane załączniki dla danego rozliczenia
      * @param elctRmbsHeadDto - dto rozliczenia
      * @param status - stauts załącznika
+     *
+     * @return lista id załączników
      */
-    void manageErmbsAttachments(ElctRmbsHeadDto elctRmbsHeadDto, ErmbsAttachmentStatus status);
+    List<Long> manageErmbsAttachments(ElctRmbsHeadDto elctRmbsHeadDto, ErmbsAttachmentStatus status);
 
     /**
      * Zapisuje dane załączniki dla danego rozliczenia
@@ -37,4 +42,12 @@ public interface ErmbsAttachmentService {
      * @return
      */
     boolean isEreimbursementAttachmentInLoggedUserInstitution(Long ereimbursementAttachmentId);
+
+    /**
+     * Zwraca Dto załączników rozliczenia na podstawie idków
+     * @param attachmentsIds - identyfikatory rozliczenia
+     * @return lista dto
+     */
+    List<ErmbsAttachmentDto> findErmbsAttachmentsByIds(List<Long> attachmentsIds);
+
 }

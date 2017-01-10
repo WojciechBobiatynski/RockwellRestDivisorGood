@@ -33,7 +33,7 @@
             <!-- załączniki do korekty -->
             cor_att.ID                      att_id,
             cor_att.CORR_ID                 att_corrId,
-            cor_E_RMBS_ATT_ID               att_ermbsAttId,
+            cor_att.E_RMBS_ATT_ID               att_ermbsAttId,
             cor_att.FILE_ID                 att_fileId,
             cor_att.OLD_DOCUMENT_NUMBER     att_oldDocumentNumber,
             cor_att.OLD_ADDITIONAL_DESC     att_oldAdditionalDesc,

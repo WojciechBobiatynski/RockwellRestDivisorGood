@@ -134,6 +134,10 @@ angular.module('gryf.electronicreimbursements').controller("announce.electronicR
             AnnounceEReimbursementService.sendMail(mail);
         };
 
+        $scope.getSaveAttUrl = function () {
+            return AnnounceEReimbursementService.getSaveAttUrl();
+        };
+
     }]);
 
 angular.module('gryf.electronicreimbursements').controller("unrsv.electronicReimbursementsController",

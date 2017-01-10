@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="pl.sodexo.it.gryf.dao.api.search.mapper.ErmbsAttachmentSearchMapper">
+
+    <select id="findErmbsAttachmentsByIds" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsAttachmentDto" parameterType="list">
+           SELECT
+              att.ID                                    id,
+              att.E_RMBS_ID                             ermbsId,
+              att.attach_type                           code,
+              files.ID                                  fileId,
+              att.DOCUMENT_NUMBER                       documentNumber,
+              att.ADDITIONAL_DESCRIPTION                additionalDescription,
+              att.STATUS                                status,
+              files.ORIGINAL_FILE_NAME                  originalFileName,
+              files.FILE_LOCATION                       fileLocation,
+              att_t.MAX_BYTES_PER_FILE                  maxFileSize,
+              att.VERSION                               version,
+              att.CREATED_USER                          createdUser,
+              att.CREATED_TIMESTAMP                     createdTimestamp,
+              att.MODIFIED_USER                         modifiedUser,
+              att.MODIFIED_TIMESTAMP                    modifiedTimestamp,
+              CASE
+                  WHEN att_req.ATTACH_TYPE is not NULL
+                    THEN 1
+                  ELSE
+                    0
+                END                                     required
+           FROM
+              APP_PBE.E_RMBS_ATTACHMENTS att
+              LEFT JOIN APP_PBE.E_REIMBURSEMENTS ermbs ON att.E_RMBS_ID = ermbs.ID
+              LEFT JOIN APP_PBE.TI_TRAINING_INSTANCES tr_in ON tr_in.ID = ermbs.TI_TR_INST_ID
+              LEFT JOIN APP_PBE.ATTACHMENT_FILES files ON files.ID = att.FILE_ID
+              LEFT JOIN APP_PBE.ATTACHMENT_TYPES att_t ON att_t.CODE = att.ATTACH_TYPE
+              LEFT JOIN APP_PBE.GRANT_PROGRAM_ATTACH_REQ att_req ON (
+                  att_req.ATTACH_TYPE = att_t.code
+                  AND att_req.GRANT_PROGRAM_ID = tr_in.GRANT_PROGRAM_ID
+                  AND att_req.DATE_FROM &lt;= SYSDATE
+                  AND NVL(att_req.DATE_TO, SYSDATE) &gt;= SYSDATE
+                )
+            WHERE
+              att.STATUS != 'DELETED'
+              AND att.ID in (-1
+                <foreach item="item" index="index" collection="attachmentsIds" open="," separator=",">
+                    #{item}
+                </foreach>
+              )
+    </select>
+
+</mapper>

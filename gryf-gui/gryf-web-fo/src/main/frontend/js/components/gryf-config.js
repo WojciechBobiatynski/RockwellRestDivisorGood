@@ -1,6 +1,6 @@
 var app = angular.module('gryf.config',
     ['ngRoute', 'ui.bootstrap', 'gryf.modals', 'ngAnimate', 'gryf.popups',
-     'gryf.privileges', 'gryf.tables', 'gryf.exceptionHandler', 'gryf.helpers']);
+     'gryf.privileges', 'gryf.tables', 'gryf.exceptionHandler', 'gryf.helpers', 'ngFileUpload']);
 
 angular.module('gryf.config').controller('ConfigController', function ($scope, exceptionsService) {
 

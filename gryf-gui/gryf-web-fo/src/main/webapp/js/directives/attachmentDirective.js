@@ -5,7 +5,8 @@ angular.module("gryf.config").directive("attachments", ['AttachmentService',
             scope: {
                 model: '=',
                 violations: '=',
-                isDisabled: '='
+                isDisabled: '=',
+                saveUrl: '='
             },
             templateUrl: contextPath + '/templates/directives/attachment.html',
             controller: function ($scope) {
@@ -39,6 +40,13 @@ angular.module("gryf.config").directive("attachments", ['AttachmentService',
 
                 $scope.hasNotPrivilege = function (privilege) {
                     return !privileges[privilege];
+                };
+
+                $scope.saveFiles = function () {
+                    var promise = AttachmentService.saveAttachments($scope.model, $scope.saveUrl);
+                    promise.success(function(response) {
+                        $scope.model.attachments = response;
+                    });
                 };
 
             },

@@ -23,7 +23,7 @@
         </div>
         <div class="grid-20">
             <a ng-href="{{getDownloadAttachmentLink(item)}}" ng-if="item.originalFileName && !item.changed">{{item.originalFileName}}</a>
-            <a ng-if="item.file.name">{{item.file.name}}</a>
+            <a ng-if="item.file[0].name">{{item.file[0].name}}</a>
         </div>
         <div class="grid-20" ng-hide="isDisabled">
             <!--TODO: dodać zmienną definiującą maksymalny rozmiar pliku, gdy nie został zdefiniowany per typ-->
@@ -33,7 +33,7 @@
                     ngf-max-size="{{item.maxFileSize ? item.maxFileSize : '2MB'}}"
                     ngf-model-invalid="item.errorFile" data-ng-click="onItemClick(item, $index)"
                     ngf-pattern=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.gif">
-                    {{(!item.file.name && !item.originalFileName) ? "Wgraj plik" : "Zmień plik"}}
+                    {{(!item.file[0].name && !item.originalFileName) ? "Wgraj plik" : "Zmień plik"}}
             </a>
             <span class="msg msg-error" ng-show="item.errorFile.$errorMessages.maxSize">Załącznik przekracza maksymalny rozmiar pliku: {{item.maxFileSize ? item.maxFileSize / 1024 / 1024 : '2'}}MB</span>
             <span class="msg msg-error" ng-show="item.errorFile.$errorMessages.pattern">Niepoprawne rozszerzenie pliku</span>
@@ -46,5 +46,7 @@
     <div class="grid-100">
         <a ng-hide="isDisabled" class="button" ng-click="addNew()"
                 gryf-privilege="GRF_PBE_E_REIMBURSEMENTS_MOD">Dodaj plik</a>
+        <<a ng-hide="isDisabled" class="button" ng-click="saveFiles()"
+            gryf-privilege="GRF_PBE_E_REIMBURSEMENTS_MOD">Zapisz pliki</a>
     </div>
 </div>

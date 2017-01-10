@@ -9,12 +9,16 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.Ermb
 import pl.sodexo.it.gryf.common.dto.user.GryfUser;
 import pl.sodexo.it.gryf.common.enums.ErmbsAttachmentStatus;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementAttachmentRepository;
+import pl.sodexo.it.gryf.dao.api.search.dao.ErmbsAttachmentSearchDao;
 import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.ErmbsAttachment;
 import pl.sodexo.it.gryf.service.api.attachments.FileAttachmentService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.ErmbsAttachmentService;
 import pl.sodexo.it.gryf.service.local.api.FileService;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.electronicreimbursements.EreimbursementDtoMapper;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.electronicreimbursements.ErmbsAttachmentDtoMapper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Serwis dla operacji na załącznikach rozliczenia bonów elektornicznych
@@ -35,6 +39,9 @@ public class ErmbsAttachmentServiceImpl implements ErmbsAttachmentService {
     private EreimbursementAttachmentRepository ereimbursementAttachmentRepository;
 
     @Autowired
+    private ErmbsAttachmentSearchDao ermbsAttachmentSearchDao;
+
+    @Autowired
     private EreimbursementDtoMapper ereimbursementDtoMapper;
 
     @Autowired
@@ -50,9 +57,9 @@ public class ErmbsAttachmentServiceImpl implements ErmbsAttachmentService {
     }
 
     @Override
-    public void manageErmbsAttachments(ElctRmbsHeadDto elctRmbsHeadDto, ErmbsAttachmentStatus status) {
+    public List<Long> manageErmbsAttachments(ElctRmbsHeadDto elctRmbsHeadDto, ErmbsAttachmentStatus status) {
         fileAttachmentService.manageAttachmentFiles(elctRmbsHeadDto);
-        manageErmbsAttachmentsEntity(elctRmbsHeadDto, status);
+        return manageErmbsAttachmentsEntity(elctRmbsHeadDto, status);
     }
 
     @Override
@@ -67,10 +74,17 @@ public class ErmbsAttachmentServiceImpl implements ErmbsAttachmentService {
                                                                             GryfUser.getLoggedUserLogin());
     }
 
-    private void manageErmbsAttachmentsEntity(ElctRmbsHeadDto elctRmbsHeadDto, ErmbsAttachmentStatus status) {
+    @Override
+    public List<ErmbsAttachmentDto> findErmbsAttachmentsByIds(List<Long> attachmentsIds) {
+        return ermbsAttachmentSearchDao.findErmbsAttachmentsByIds(attachmentsIds);
+    }
+
+    private List<Long> manageErmbsAttachmentsEntity(ElctRmbsHeadDto elctRmbsHeadDto, ErmbsAttachmentStatus status) {
+        List<Long> changedAttachmentsIds = new ArrayList<>();
         for (ErmbsAttachmentDto ermbsAttachment : elctRmbsHeadDto.getAttachments()) {
-            manageEntity(elctRmbsHeadDto, ermbsAttachment, status);
+            changedAttachmentsIds.add(manageEntity(elctRmbsHeadDto, ermbsAttachment, status));
         }
+        return changedAttachmentsIds;
     }
 
     private Long manageEntity(ElctRmbsHeadDto elctRmbsHeadDto, ErmbsAttachmentDto ermbsAttachment, ErmbsAttachmentStatus status) {

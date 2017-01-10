@@ -10,7 +10,7 @@ import com.fasterxml.jackson.databind.jsontype.TypeDeserializer;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
 import java.io.IOException;
-import java.util.Date;
+import java.util.List;
 
 /**
  * Util class responsible for converting DTO objects to a JSON format
@@ -34,6 +34,16 @@ public final class JsonMapperUtils {
         try {
             ObjectMapper objectMapper = createObjectMapper();
             return objectMapper.readValue(value, clazz);
+        } catch (IOException e) {
+            throw new RuntimeException("Nie udało się odczytać obiektu typu " + clazz.getSimpleName(), e);
+        }
+    }
+
+    public static <T> List<T> readValueAsList(String value, Class<T> clazz) {
+        try {
+            ObjectMapper objectMapper = createObjectMapper();
+            List<T> myObjects = objectMapper.readValue(value, objectMapper.getTypeFactory().constructCollectionType(List.class, clazz));
+            return myObjects;
         } catch (IOException e) {
             throw new RuntimeException("Nie udało się odczytać obiektu typu " + clazz.getSimpleName(), e);
         }

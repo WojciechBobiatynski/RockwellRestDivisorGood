@@ -130,6 +130,7 @@ angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementS
             var CANCEL_URL = contextPath + "/rest/publicBenefits/electronic/reimbursements/cancel/";
             var CREATE_EMAILS_FROM_TEMPLATE = contextPath + "/rest/publicBenefits/electronic/reimbursements/email/create/";
             var SEND_EMAILS = contextPath + "/rest/publicBenefits/electronic/reimbursements/email/send";
+            var SAVE_ATT = contextPath + "/rest/publicBenefits/electronic/reimbursements/att/save";
 
             var eReimbObject = new EReimbObject();
             var correctionObject = new CorrectionObject();
@@ -351,6 +352,10 @@ angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementS
                 return promise;
             };
 
+            var getSaveAttUrl = function () {
+                return SAVE_ATT;
+            };
+
             return {
                 getNewModel: getNewModel,
                 getViolation: getViolations,
@@ -365,7 +370,8 @@ angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementS
                 confirm: confirm,
                 cancel: cancel,
                 createEmailsFromTemplate: createEmailsFromTemplate,
-                sendMail: sendMail
+                sendMail: sendMail,
+                getSaveAttUrl: getSaveAttUrl
             };
         }]);
 
