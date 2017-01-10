@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Param;
 import pl.sodexo.it.gryf.common.criteria.UserCriteria;
 import pl.sodexo.it.gryf.common.criteria.traininginstance.TrainingInstanceCriteria;
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceDataToValidateDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceDetailsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceDto;
 
@@ -35,4 +36,12 @@ public interface TrainingInstanceSearchMapper {
      * @return - lista statusów
      */
     List<SimpleDictionaryDto>  findTiTrainingInstancesStatuses(@Param("criteria") UserCriteria criteria);
+
+    /**
+     * Zwraca parametry potrzbne do zwalidowania czy możemy wykonać rozliczenie dla danej instnacji szkolenia
+     * @param criteria kryteria użytkownika
+     * @param trainingInstanceId - identyfikator instancji szkolenia
+     * @return dto z parametrami
+     */
+    TrainingInstanceDataToValidateDto findTrainingInstanceDataToValidateReimbursementCreation(@Param("criteria") UserCriteria criteria, @Param("trainingInstanceId") Long trainingInstanceId);
 }

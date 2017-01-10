@@ -125,6 +125,11 @@
           ermbs.PRODUCT_INSTANCE_POOL_ID            poolId,
           ermbs.STATUS_ID                           statusCode,
           tr_in.GRANT_PROGRAM_ID                    grantProgramId,
+          CASE tr_in.OPINION_DONE
+            WHEN 'Y'
+              THEN 1
+            ELSE 0
+          END                                       opinionDone,
           tr.TRAINING_INSTITUTION_ID                trainingInstitutionId,
           ermbs.SXO_TI_AMOUNT_DUE_TOTAL             sxoTiAmountDueTotal,
           ermbs.SXO_IND_AMOUNT_DUE_TOTAL            sxoIndAmountDueTotal,

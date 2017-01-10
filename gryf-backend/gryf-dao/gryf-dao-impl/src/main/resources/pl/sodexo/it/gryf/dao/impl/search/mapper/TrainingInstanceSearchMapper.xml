@@ -139,4 +139,19 @@
             dic.ordinal
     </select>
 
+    <select id="findTrainingInstanceDataToValidateReimbursementCreation" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceDataToValidateDto">
+        SELECT
+          CASE tr_in.OPINION_DONE
+            WHEN 'Y'
+              THEN 1
+            ELSE 0
+          END                                       opinionDone,
+          tr.TRAINING_INSTITUTION_ID                trainingInstitutionId
+        FROM
+          APP_PBE.TI_TRAINING_INSTANCES tr_in
+          JOIN APP_PBE.TI_TRAININGS tr ON tr.ID = tr_in.TRAINING_ID
+        WHERE
+          tr_in.ID = #{trainingInstanceId}
+    </select>
+
 </mapper>

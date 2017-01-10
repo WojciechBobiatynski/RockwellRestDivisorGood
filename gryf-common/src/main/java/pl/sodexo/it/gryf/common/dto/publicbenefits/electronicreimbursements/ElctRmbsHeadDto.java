@@ -102,6 +102,10 @@ public class ElctRmbsHeadDto extends VersionableDto implements Serializable {
     @Setter
     private List <ErmbsMailDto> emails;
 
+    @Getter
+    @Setter
+    private boolean opinionDone;
+
     public void calculateChargers(CalculationChargesParamsDto params) {
         calculateSxoTiAmount(params);
         calculateIndTiAmount(params);

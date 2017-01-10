@@ -2,6 +2,7 @@ package pl.sodexo.it.gryf.dao.api.search.dao;
 
 import pl.sodexo.it.gryf.common.criteria.traininginstance.TrainingInstanceCriteria;
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceDataToValidateDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceDetailsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceDto;
 
@@ -31,4 +32,11 @@ public interface TrainingInstanceSearchDao {
      * @return - lista statusów
      */
     List<SimpleDictionaryDto>  findTiTrainingInstancesStatuses();
+
+    /**
+     * Zwraca parametry potrzbne do zwalidowania czy możemy wykonać rozliczenie dla danej instnacji szkolenia
+     * @param trainingInstanceId - identyfikator instancji szkolenia
+     * @return dto z parametrami
+     */
+    TrainingInstanceDataToValidateDto findTrainingInstanceDataToValidateReimbursementCreation(Long trainingInstanceId);
 }

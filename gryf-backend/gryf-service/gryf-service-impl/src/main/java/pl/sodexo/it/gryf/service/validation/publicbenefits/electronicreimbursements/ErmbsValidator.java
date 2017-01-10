@@ -7,8 +7,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceDataToValidateDto;
+import pl.sodexo.it.gryf.common.dto.user.GryfTiUser;
+import pl.sodexo.it.gryf.common.dto.user.GryfUser;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
+import pl.sodexo.it.gryf.dao.api.search.dao.TrainingInstanceSearchDao;
 import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.Ereimbursement;
 import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.EreimbursementStatus;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
@@ -29,6 +33,9 @@ public class ErmbsValidator {
     private static final Logger LOGGER = LoggerFactory.getLogger(ErmbsValidator.class);
 
     @Autowired
+    private TrainingInstanceSearchDao trainingInstanceSearchDao;
+
+    @Autowired
     private GryfValidator gryfValidator;
 
     public void validateRmbs(ElctRmbsHeadDto elctRmbsHeadDto) {
@@ -46,6 +53,23 @@ public class ErmbsValidator {
         if(ereimbursement.getEreimbursementStatus().getId().equals(EreimbursementStatus.TO_CORRECT)) {
             violations.add(new EntityConstraintViolation(null, "Prośba o korektę została już wysłana wcześniej"));
         }
+
+        gryfValidator.validate(violations);
+    }
+
+    public void validateBeforeCreateForTrainingInstance(Long trainingInstanceId){
+        List<EntityConstraintViolation> violations = new ArrayList<EntityConstraintViolation>();
+        TrainingInstanceDataToValidateDto trainingInstanceDataToValidateReimbursementCreation = trainingInstanceSearchDao.findTrainingInstanceDataToValidateReimbursementCreation(trainingInstanceId);
+
+        GryfUser user = GryfUser.getLoggedUser();
+        if(GryfUser.getLoggedUser() instanceof GryfTiUser){
+            if(!trainingInstanceDataToValidateReimbursementCreation.getTrainingInstitutionId().equals(((GryfTiUser) user).getTrainingInstitutionId())){
+                violations.add(new EntityConstraintViolation(null, "Zarezerwowane szkolenie, które próbujesz rozliczyć nie jest z Twojej Instytucji Szkoleniowej"));
+            }
+        }
+
+        if(!trainingInstanceDataToValidateReimbursementCreation.isOpinionDone())
+            violations.add(new EntityConstraintViolation(null, "Szkolenie nie zostało ocenione. Nie można utworzyć rozliczenia"));
 
         gryfValidator.validate(violations);
     }
