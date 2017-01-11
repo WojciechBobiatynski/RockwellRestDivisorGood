@@ -1,9 +1,8 @@
 <div class="grid-100">
     <strong>Załączniki do rozliczenia</strong>
 </div>
-<!--TODO: maksymalny rozmiar plików-->
 <div class="grid-100 redLabel" ng-hide="isDisabled">
-    Maksymalny rozmiar załączonych plików to X MB. W systemie można załączać jedynie dokumenty z następującymi rozszerzeniami: PDF,DOC,DOCX,XLS,XLSX,PNG,JPG,GIF.
+    Maksymalny rozmiar załączonych plików to {{getMaxAttachmentSizeInMB()}} MB. W systemie można załączać jedynie dokumenty z następującymi rozszerzeniami: PDF,DOC,DOCX,XLS,XLSX,PNG,JPG,GIF.
 </div>
 <div style="padding-left:20px">
     <table>
