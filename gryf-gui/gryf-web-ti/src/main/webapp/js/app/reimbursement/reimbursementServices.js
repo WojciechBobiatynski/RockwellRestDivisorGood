@@ -169,7 +169,7 @@ angular.module("gryf.ti").factory("ReimbursementsServiceModify",
 
             promise.error(function (response) {
                 GryfModals.openModal(GryfModals.MODALS_URL.VALIDATION, {violations: response.violations}).result.then(function(result) {
-                    $state.go("reimbursements");
+                    $state.go("trainingToReimburse");
                 });
             });
 

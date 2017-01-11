@@ -10,9 +10,9 @@ angular.module("gryf.ti").config(["$stateProvider", function($stateProvider) {
         templateUrl: contextPath + "/templates/trainingtoreimburse/reimburse.html",
         controller: "ReimbursementModifyController"
     }).state("reimburseDetails", {
-        url: "/reimburseDetails/:trainingInstanceId",
+        url: "/reimburseDetails/:reimbursementId",
         templateUrl: contextPath + "/templates/trainingtoreimburse/reimburse.html",
-        controller: "ReimbursementModifyController",
+        controller: "ReimburseDetailsController",
         params : {isDisabled: true}
     }),
     $stateProvider.state("trainingToReimburse.trainingInstanceDetails", {

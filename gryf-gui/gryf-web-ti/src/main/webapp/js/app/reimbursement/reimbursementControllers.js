@@ -83,12 +83,34 @@ angular.module("gryf.ti").controller("ReimbursementModifyController", ["$scope",
 
 }]);
 
-var test;
+angular.module("gryf.ti").controller("ReimburseDetailsController", ["$scope", "ReimbursementsServiceModify", "$state" ,"$stateParams","TrainingInstanceSearchService",
+    function ($scope, ReimbursementsServiceModify, $state, $stateParams, TrainingInstanceSearchService) {
+        $scope.rmbsModel = ReimbursementsServiceModify.getRmbsModel();
+        $scope.violations = ReimbursementsServiceModify.getNewViolations();
+
+        ReimbursementsServiceModify.findById($stateParams.reimbursementId).success(function(data) {
+            $scope.rmbsModel.model = data;
+            TrainingInstanceSearchService.findDetailsById($scope.rmbsModel.model.trainingInstanceId).success(function(data) {
+                $scope.rmbsModel.trainingInstance = data;
+            });
+        });
+
+        $scope.correctionVisible = function(){
+            return !!$scope.rmbsModel.model
+                && !!$scope.rmbsModel.model.lastCorrectionDto
+                && !$scope.rmbsModel.model.lastCorrectionDto.complementDate;
+        };
+
+        $scope.isDisabled = function(){
+            return $state.params.isDisabled;
+        };
+
+    }]);
+
 angular.module("gryf.ti").controller("CorrectionController", ["$scope", "ReimbursementsServiceModify", "DictionaryService","$stateParams","TrainingInstanceSearchService",
     function ($scope, ReimbursementsServiceModify, DictionaryService, $stateParams, TrainingInstanceSearchService) {
         $scope.rmbsModel = ReimbursementsServiceModify.getRmbsModel();
         $scope.violations = ReimbursementsServiceModify.getNewViolations();
-        test = $scope;
 
         $scope.sendButtonText = "Wyślij korektę";
 

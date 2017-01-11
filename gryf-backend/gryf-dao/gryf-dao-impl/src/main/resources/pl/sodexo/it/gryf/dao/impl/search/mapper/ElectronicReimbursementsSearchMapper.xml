@@ -263,6 +263,7 @@
         <include refid="baseForReimbursement"/>
         WHERE
         tr_in.ID = #{trainingInstanceId}
+        AND ermbs.STATUS_ID != 'CNCL'
         <if test="criteria.gryfUser.userType == 'TRAINING_INSTITUTION'">
             AND tr.TRAINING_INSTITUTION_ID = #{criteria.gryfUser.trainingInstitutionId}
         </if>
