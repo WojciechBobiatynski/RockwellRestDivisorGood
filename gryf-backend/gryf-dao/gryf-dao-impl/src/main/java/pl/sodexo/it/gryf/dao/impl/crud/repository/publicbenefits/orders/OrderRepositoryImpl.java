@@ -1,6 +1,5 @@
 package pl.sodexo.it.gryf.dao.impl.crud.repository.publicbenefits.orders;
 
-import com.google.common.collect.Lists;
 import org.springframework.stereotype.Repository;
 import pl.sodexo.it.gryf.common.dto.api.SearchDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.searchform.OrderSearchQueryDTO;
@@ -39,7 +38,9 @@ public class OrderRepositoryImpl extends GenericRepositoryImpl<Order, Long> impl
         Join<Order, OrderElement> joinOrderElements = from.join(Order.ORDER_ELEMENTS_ATTR_NAME, JoinType.LEFT);
         Join<Order, GrantApplication> joinGrantApplications = from.join(Order.APPLICATION_ATTR_NAME, JoinType.LEFT);//ABY DZIALALO SORTOWANIE
         Join<Order, Enterprise> joinEnterprises = from.join(Order.ENTERPRISE_ATTR_NAME, JoinType.LEFT);//ABY DZIALALO SORTOWANIE
-        Join<Order, Contract> joinIndividuals = from.join(Order.CONTRACT_ATTR_NAME, JoinType.LEFT);//ABY DZIALALO SORTOWANIE
+        Join<Order, GrantProgram> joinGrantProgram = from.join(Order.GRANT_PROGRAM_ATTR_NAME, JoinType.LEFT);//ABY DZIALALO SORTOWANIE
+        Join<Order, Contract> joinContract = from.join(Order.CONTRACT_ATTR_NAME, JoinType.LEFT);//ABY DZIALALO SORTOWANIE
+        Join<Contract, Individual> joinIndividual = joinContract.join(Contract.INDIVIDUAL_ATTR_NAME, JoinType.LEFT);//ABY DZIALALO SORTOWANIE
 
         //PREDICATE
         List<Predicate> predicates = new ArrayList<>();
@@ -90,7 +91,7 @@ public class OrderRepositoryImpl extends GenericRepositoryImpl<Order, Long> impl
 
         //SELECT
         cq.multiselect(from, cb.least(joinOrderElements.<Date>get(OrderElement.REQUIRED_DATE_ATTR_NAME))).
-                where(predicatesTab).groupBy(from, joinGrantApplications, joinEnterprises, joinIndividuals);
+                where(predicatesTab).groupBy(from, joinGrantApplications, joinEnterprises, joinContract, joinIndividual);
 
         //HAVING
         if(dto.getMinRequiredDateFrom() != null || dto.getMinRequiredDateTo() != null){
@@ -106,7 +107,7 @@ public class OrderRepositoryImpl extends GenericRepositoryImpl<Order, Long> impl
         }
 
         //SORT
-        sortOrders(dto, cb, cq, from, joinOrderElements);
+        sortOrders(dto, cb, cq, from, joinGrantProgram, joinIndividual, joinOrderElements);
 
         //QUERY
         TypedQuery<Object[]> query = entityManager.createQuery(cq);
@@ -129,7 +130,10 @@ public class OrderRepositoryImpl extends GenericRepositoryImpl<Order, Long> impl
      * @param joinOrderElements obiekt reprezentujacy klasule join
      * @return criteri query użyte do budowy zapytania
      */
-    protected CriteriaQuery sortOrders(SearchDto searchDTO, CriteriaBuilder cb, CriteriaQuery cq, Root<Order> fromOrder, Join<Order, OrderElement> joinOrderElements) {
+    protected CriteriaQuery sortOrders(SearchDto searchDTO, CriteriaBuilder cb, CriteriaQuery cq, Root<Order> fromOrder,
+                                        Join<Order, GrantProgram> joinGrantProgram,
+                                        Join<Contract, Individual> joinIndividual,
+                                        Join<Order, OrderElement> joinOrderElements) {
         if(searchDTO.getSortColumns() != null && searchDTO.getSortTypes() != null) {
             int length = searchDTO.getSortColumns().size();
             String[] sortColumnsTab = searchDTO.getSortColumns().toArray(new String[length]);
@@ -138,8 +142,17 @@ public class OrderRepositoryImpl extends GenericRepositoryImpl<Order, Long> impl
             for (int i = 0; i < sortColumnsTab.length; i++) {
 
                 //NIESTANDARDOWE SORTOWANIE
-                if (OrderSearchQueryDTO.MIN_REQUIRED_DATE_ATTR_NAME.equals(sortColumnsTab[i])){
+                if (OrderSearchQueryDTO.MIN_REQUIRED_DATE_ATTR_NAME.equals(sortColumnsTab[i])) {
                     Expression<Date> path = cb.least(joinOrderElements.<Date>get(OrderElement.REQUIRED_DATE_ATTR_NAME));
+                    orderTab[i] = getOrder(sortTypeTab[i], cb, path);
+
+                } else if(getPathStr(Order.CONTRACT_ATTR_NAME, Contract.INDIVIDUAL_ATTR_NAME,
+                                    Individual.PESEL_ATTR_NAME).equals(sortColumnsTab[i])) {
+                    Expression<String> path = cb.least(joinIndividual.<String>get(Individual.PESEL_ATTR_NAME));
+                    orderTab[i] = getOrder(sortTypeTab[i], cb, path);
+
+                } else if(getPathStr(Order.GRANT_PROGRAM_ATTR_NAME, GrantProgram.PROGRAM_NAME_ATTR_NAME).equals(sortColumnsTab[i])) {
+                    Expression<String> path = cb.least(joinGrantProgram.<String>get(GrantProgram.PROGRAM_NAME_ATTR_NAME));
                     orderTab[i] = getOrder(sortTypeTab[i], cb, path);
 
                 //STANDARDOWE SORTOWANIE

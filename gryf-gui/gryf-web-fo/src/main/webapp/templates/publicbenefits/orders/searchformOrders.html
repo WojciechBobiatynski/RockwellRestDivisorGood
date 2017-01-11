@@ -18,8 +18,8 @@
                                focus-on-f7
                                search-on-enter >
                     </th>
-                    <th class="sortable" ng-class="getSortingTypeClass('grantProgramName')">
-                        <div ng-click="getSortedBy('grantProgramName')">Program dofinansowania</div>
+                    <th class="sortable" ng-class="getSortingTypeClass('grantProgram.programName')">
+                        <div ng-click="getSortedBy('grantProgram.programName')">Program dofinansowania</div>
                         <select
                                 ng-options="v.id as v.name for v in grantPrograms"
                                 ng-model="searchDTO.entity.grantProgramId"
@@ -80,8 +80,8 @@
                                ng-model="searchDTO.entity.vatRegNum"
                                search-on-enter>
                     </th>
-                    <th class="sortable" ng-class="getSortingTypeClass('individual.pesel')">
-                        <div ng-click="getSortedBy('individual.pesel')">PESEL</div>
+                    <th class="sortable" ng-class="getSortingTypeClass('contract.individual.pesel')">
+                        <div ng-click="getSortedBy('contract.individual.pesel')">PESEL</div>
                         <input placeholder="PESEL" type="text"
                                ng-model="searchDTO.entity.pesel"
                                search-on-enter>

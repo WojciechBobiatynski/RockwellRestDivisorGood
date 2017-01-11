@@ -137,6 +137,17 @@ public class GenericRepositoryImpl<E, K extends Serializable> implements Generic
         return path;
     }
 
+    protected String getPathStr(String ... fields){
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < fields.length; i++) {
+            sb.append(fields[i]);
+            if(i < fields.length - 1){
+                sb.append(".");
+            }
+        }
+        return sb.toString();
+    }
+
     protected void addDateFrom(CriteriaBuilder cb,  List<Predicate> predicatesList, Expression<Date> path, Date dateFrom){
         Date dateStartDay = GryfUtils.getStartDay(dateFrom);
         predicatesList.add(cb.greaterThanOrEqualTo(path, dateStartDay));
