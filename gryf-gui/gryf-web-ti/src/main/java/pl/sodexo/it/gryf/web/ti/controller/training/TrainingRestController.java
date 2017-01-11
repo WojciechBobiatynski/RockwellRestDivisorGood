@@ -59,11 +59,11 @@ public class TrainingRestController {
     //PRIVATE METHODS
 
     private Date getStartDateFromToReservation(TrainingSearchQueryDTO dto){
-        Date now = GryfUtils.getStartDay(new Date());
+        Date nextDay = GryfUtils.getStartDay(GryfUtils.addDays(new Date(), 1));
         if(dto.getStartDateFrom() == null){
-            return now;
-        }else if(dto.getStartDateFrom().before(new Date())){
-            return now;
+            return nextDay;
+        }else if(dto.getStartDateFrom().before(nextDay)){
+            return nextDay;
         }
         return dto.getStartDateFrom();
     }
