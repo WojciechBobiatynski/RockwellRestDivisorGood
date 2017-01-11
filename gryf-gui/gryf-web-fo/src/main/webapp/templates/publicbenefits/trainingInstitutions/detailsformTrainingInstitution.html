@@ -140,6 +140,7 @@
                     </td>
                     <td>
                         <button class="button button-reset" data-ng-click="sendResetLink(user)" data-ng-disabled="!isModType(user)">Wyślij link resetu hasła</button>
+                        <button class="button button-delete" data-ng-click="removeUser(user)" data-ng-disabled="isModType(user)">Usuń</button>
                     </td>
                 </tr>
             </table>

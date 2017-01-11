@@ -140,6 +140,11 @@ angular.module("gryf.trainingInstitutions").controller("detailsform.TrainingInsC
 
             $scope.removeContact = function (contact) {
                 ModifyTrainingInsService.removeContact(contact);
-            }
+            };
+
+            $scope.removeUser = function (user) {
+                var index = $scope.model.entity.users.indexOf(user);
+                $scope.model.entity.users.splice(index, 1);
+            };
 
         }]);
