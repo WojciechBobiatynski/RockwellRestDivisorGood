@@ -12,6 +12,7 @@ angular.module("gryf.ti").directive("attachments", ['AttachmentService',
                 $scope.modelTypes = {};
                 $scope.defaultType = {};
                 $scope.maxAttachmentSize = 0;
+                $scope.defaultMaxAttachmentSizeInMB = 2;
 
                 $scope.addNew = function () {
                     var newAttachment = {};
@@ -39,6 +40,9 @@ angular.module("gryf.ti").directive("attachments", ['AttachmentService',
                 };
 
                 $scope.getMaxAttachmentSizeInMB = function() {
+                    if($scope.maxAttachmentSize == 0 || $scope.maxAttachmentSize === NaN){
+                        return $scope.defaultMaxAttachmentSizeInMB;
+                    }
                     return $scope.maxAttachmentSize / 1024 / 1024;
                 };
 
