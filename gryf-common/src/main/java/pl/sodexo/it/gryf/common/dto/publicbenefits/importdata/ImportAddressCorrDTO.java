@@ -12,8 +12,17 @@ public class ImportAddressCorrDTO {
 
     @Getter
     @Setter
-    @NotEmpty(message = "Adres korespondencyjny nie może być pusty")
-    private String address;
+    @NotEmpty(message = "Ulica adresu korespondencyjnego nie może być pusta")
+    private String street;
+
+    @Getter
+    @Setter
+    @NotEmpty(message = "Numer domu adresu korespondencyjnego nie może być pusty")
+    private String homeNumber;
+
+    @Getter
+    @Setter
+    private String flatNumber;
 
     @Getter
     @Setter
@@ -25,8 +34,18 @@ public class ImportAddressCorrDTO {
     @NotEmpty(message = "Miasto adresu korespondencyjnego nie może być puste")
     private String city;
 
+    //EXTRA GETTERS
+
+    public String getAddress(){
+        if(Strings.isNullOrEmpty(flatNumber)){
+            return String.format("%s, %s", street, homeNumber);
+        }
+        return String.format("%s, %s m.%s", street, homeNumber, flatNumber);
+    }
+
     public boolean isEmpty(){
-        return Strings.isNullOrEmpty(address) &&
+        return Strings.isNullOrEmpty(street) &&
+                Strings.isNullOrEmpty(homeNumber) &&
                 Strings.isNullOrEmpty(zipCode) &&
                 Strings.isNullOrEmpty(city);
     }

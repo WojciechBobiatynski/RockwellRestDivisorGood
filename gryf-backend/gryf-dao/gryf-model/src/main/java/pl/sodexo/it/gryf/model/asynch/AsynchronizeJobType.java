@@ -15,7 +15,7 @@ public enum AsynchronizeJobType implements DictionaryEntity {
     IMPORT_ORD(100l, "Import zamówień", "asynchJobImportService", "importOrderService"),
     IMPORT_TRA_INS(100l, "Import instytucji szkoleniowych", "asynchJobImportService", "importTrainingInstitutionService"),
     IMPORT_TRA(100l, "Import szkoleń", "asynchJobImportService", "importTrainingService"),
-    //IMPORT_OPI(100l, "Import ocen", "asynchJobImportService", "importOpinionDoneService"),
+    IMPORT_OPI(100l, "Import ocen", "asynchJobImportService", "importOpinionDoneService"),
     ORDER_TRANS(100l, "Zmiana statusu zamówienia", "asynchJobOrderTransitionService", null);
 
     private Long grantProgramId;

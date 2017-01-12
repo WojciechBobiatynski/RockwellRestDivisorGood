@@ -16,8 +16,17 @@ public class ImportAddressInvoiceDTO {
 
     @Getter
     @Setter
-    @NotEmpty(message = "Adres do faktury nie może być pusty")
-    private String address;
+    @NotEmpty(message = "Ulica adresu do faktury nie może być pusta")
+    private String street;
+
+    @Getter
+    @Setter
+    @NotEmpty(message = "Numer domu adresu do faktury nie może być pustau")
+    private String homeNumber;
+
+    @Getter
+    @Setter
+    private String flatNumber;
 
     @Getter
     @Setter
@@ -29,8 +38,18 @@ public class ImportAddressInvoiceDTO {
     @NotEmpty(message = "Miasto adresu do faktury nie może być puste")
     private String city;
 
+    //EXTRA GETTERS
+
+    public String getAddress(){
+        if(Strings.isNullOrEmpty(flatNumber)){
+            return String.format("%s, %s", street, homeNumber);
+        }
+        return String.format("%s, %s m.%s", street, homeNumber, flatNumber);
+    }
+
     public boolean isEmpty(){
-        return Strings.isNullOrEmpty(address) &&
+        return Strings.isNullOrEmpty(street) &&
+                Strings.isNullOrEmpty(homeNumber) &&
                 Strings.isNullOrEmpty(zipCode) &&
                 Strings.isNullOrEmpty(city);
     }

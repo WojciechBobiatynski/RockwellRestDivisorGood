@@ -16,12 +16,14 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.importdata.*;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.detailsForm.IndividualContactDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.detailsForm.IndividualDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.searchform.IndividualSearchResultDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.CreateOrderDTO;
 import pl.sodexo.it.gryf.common.dto.security.RoleDto;
 import pl.sodexo.it.gryf.common.enums.Privileges;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.common.utils.PeselUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.dictionaries.ZipCodeRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.contracts.ContractRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.contracts.ContractTypeRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.individuals.IndividualRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingCategoryRepository;
@@ -29,13 +31,16 @@ import pl.sodexo.it.gryf.model.accounts.AccountContractPair;
 import pl.sodexo.it.gryf.model.dictionaries.ZipCode;
 import pl.sodexo.it.gryf.model.enums.Sex;
 import pl.sodexo.it.gryf.model.publicbenefits.api.ContactType;
+import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.ContractType;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingCategory;
 import pl.sodexo.it.gryf.service.api.publicbenefits.contracts.ContractService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.enterprises.EnterpriseService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.individuals.IndividualService;
+import pl.sodexo.it.gryf.service.api.publicbenefits.orders.OrderService;
 import pl.sodexo.it.gryf.service.local.api.AccountContractPairService;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
+import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.OrderServiceLocal;
 
 import java.util.Iterator;
 import java.util.List;
@@ -76,6 +81,15 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
     @Autowired
     private ZipCodeRepository zipCodeRepository;
 
+    @Autowired
+    private OrderServiceLocal orderServiceLocal;
+
+    @Autowired
+    private ContractRepository contractRepository;
+
+    @Autowired
+    private OrderService orderService;
+
     //OVERRIDE
 
     @Override
@@ -92,25 +106,21 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
         List<TrainingCategory> trainingCategories = trainingCategoryRepository.findByIdList(importDTO.getContract().getContractTrainingCategoryList());
 
         ZipCode zipCodeIndividualInvoice = zipCodeRepository.findActiveByCode(importDTO.getIndividual().getAddressInvoice().getZipCode());
-        ZipCode zipCodeIndividualCorr = zipCodeRepository.findActiveByCode(importDTO.getIndividual().getAddressCorr().getZipCode());
         ZipCode zipCodeEnterpriseInvoice = importDTO.checkContractType(ContractType.TYPE_ENT) ?
                                             zipCodeRepository.findActiveByCode(importDTO.getEnterprise().getAddressInvoice().getZipCode()) : null;
-        ZipCode zipCodeEnterpriseCorr = importDTO.checkContractType(ContractType.TYPE_ENT) ?
-                                            zipCodeRepository.findActiveByCode(importDTO.getEnterprise().getAddressCorr().getZipCode()) : null;
 
         validateConnectedData(importDTO, contractType, trainingCategories,
-                                zipCodeIndividualInvoice, zipCodeIndividualCorr,
-                                zipCodeEnterpriseInvoice, zipCodeEnterpriseCorr);
+                                zipCodeIndividualInvoice, zipCodeEnterpriseInvoice);
 
 
         ImportResultDTO importResult = saveContractData(importDTO, paramsDTO,
                                                         contractType, trainingCategories,
-                                                        zipCodeIndividualInvoice, zipCodeIndividualCorr,
-                                                        zipCodeEnterpriseInvoice, zipCodeEnterpriseCorr);
-        importResult.setDescrption(String.format("Poprawno utworzono dane: umowa (%s) użytkownik (%s), MŚP (%s)",
+                                                        zipCodeIndividualInvoice, zipCodeEnterpriseInvoice);
+        importResult.setDescrption(String.format("Poprawno utworzono dane: umowa (%s) użytkownik (%s), MŚP (%s), zamówienie (%s)",
                                     getIdToDescription(importResult.getContractId()),
                                     getIdToDescription(importResult.getIndividualId()),
-                                    getIdToDescription(importResult.getEnterpriseId())));
+                                    getIdToDescription(importResult.getEnterpriseId()),
+                                    getIdToDescription(importResult.getOrderId())));
         return importResult;
     }
 
@@ -141,8 +151,7 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
     }
 
     private void validateConnectedData(ImportComplexContractDTO importDTO, ContractType contractType, List<TrainingCategory> trainingCategories,
-                                        ZipCode zipCodeIndividualInvoice, ZipCode zipCodeIndividualCorr,
-                                        ZipCode zipCodeEnterpriseInvoice, ZipCode zipCodeEnterpriseCorr){
+                                        ZipCode zipCodeIndividualInvoice, ZipCode zipCodeEnterpriseInvoice){
         List<EntityConstraintViolation> violations = Lists.newArrayList();
 
         if(contractType == null){
@@ -170,18 +179,10 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
             violations.add(new EntityConstraintViolation(String.format("Nie znaleziono kodu pocztowego dla adresu użytkownika do faktury "
                     + "o wartości (%s)", importDTO.getIndividual().getAddressInvoice().getZipCode())));
         }
-        if(zipCodeIndividualCorr == null){
-            violations.add(new EntityConstraintViolation(String.format("Nie znaleziono kodu pocztowego dla adresu korespondencyjnego użytkownika "
-                    + "o wartości (%s)", importDTO.getIndividual().getAddressCorr().getZipCode())));
-        }
         if(importDTO.checkContractType(ContractType.TYPE_ENT)){
             if(zipCodeEnterpriseInvoice == null){
                 violations.add(new EntityConstraintViolation(String.format("Nie znaleziono kodu pocztowego dla MŚP do faktury "
                         + "o wartości (%s)", importDTO.getEnterprise().getAddressInvoice().getZipCode())));
-            }
-            if(zipCodeEnterpriseCorr == null){
-                violations.add(new EntityConstraintViolation(String.format("Nie znaleziono kodu pocztowego dla adresu korespondencyjnego MŚP "
-                        + "o wartości (%s)", importDTO.getEnterprise().getAddressCorr().getZipCode())));
             }
         }
 
@@ -191,34 +192,40 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
 
     private ImportResultDTO saveContractData(ImportComplexContractDTO importDTO, ImportParamsDTO paramsDTO,
                                             ContractType contractType, List<TrainingCategory> trainingCategories,
-                                            ZipCode zipCodeIndividualInvoice, ZipCode zipCodeIndividualCorr,
-                                            ZipCode zipCodeEnterpriseInvoice, ZipCode zipCodeEnterpriseCorr){
+                                            ZipCode zipCodeIndividualInvoice, ZipCode zipCodeEnterpriseInvoice){
 
         Long contractId = importDTO.getContract().getId();
         Long enterpriseId = null;
         Long individualId = null;
+        Long orderId = null;
 
         if(ContractType.TYPE_ENT.equals(importDTO.getContract().getContractType())){
-            EnterpriseDto enterpriseDTO = createEnterpriseDTO(importDTO.getEnterprise(), zipCodeEnterpriseInvoice, zipCodeEnterpriseCorr);
+            EnterpriseDto enterpriseDTO = createEnterpriseDTO(importDTO.getEnterprise(), zipCodeEnterpriseInvoice);
             enterpriseId = enterpriseService.saveEnterpriseDto(enterpriseDTO, false, false);
         }
 
 
         IndividualDto individualDTO = createIndividualDTO(importDTO.getIndividual(),
-                                                            zipCodeIndividualInvoice, zipCodeIndividualCorr,
+                                                            zipCodeIndividualInvoice,
                                                             contractId, enterpriseId);
         individualId = individualService.saveIndividual(individualDTO, true, false);
         individualRepository.get(individualId);
 
-        ContractDTO contract = createContractDTO(importDTO.getContract(), paramsDTO,
+        ContractDTO contractDTO = createContractDTO(importDTO.getContract(), paramsDTO,
                                                 contractType, trainingCategories,
                                                 individualId, enterpriseId);
-        contractService.saveContract(contract);
+        contractService.saveContract(contractDTO);
+
+        Contract contract = contractRepository.get(contractId);
+        CreateOrderDTO orderDTO = createCreateOrderDTO(importDTO.getContract(), contract);
+        orderId = orderService.createOrder(orderDTO);
 
         ImportResultDTO result = new ImportResultDTO();
         result.setContractId(contractId);
         result.setEnterpriseId(enterpriseId);
         result.setIndividualId(individualId);
+        result.setOrderId(orderId);
+
         return result;
     }
 
@@ -233,16 +240,16 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
 
             switch (cell.getColumnIndex()) {
                 case 0:
-                    c.getContract().setId(getLongCellValue(cell));
+                    c.getContract().setExternalOrderId(getStringCellValue(cell));
                     break;
                 case 1:
-                    c.getContract().setGrantProgramId(getLongCellValue(cell));
-                    break;
-                case 2:
                     c.getContract().setContractType(getStringCellValue(cell));
                     break;
-                case 3:
+                case 2:
                     c.getContract().setSignDate(getDateCellValue(cell));
+                    break;
+                case 3:
+                    c.getContract().setProductInstanceNum(getIntegerCellValue(cell));
                     break;
                 case 4:
                     c.getContract().setExpiryDate(getDateCellValue(cell));
@@ -260,51 +267,45 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
                     c.getIndividual().setPesel(getStringCellValue(cell));
                     break;
                 case 9:
-                    c.getIndividual().getAddressInvoice().setAddress(getStringCellValue(cell));
+                    c.getIndividual().getAddressInvoice().setStreet(getStringCellValue(cell));
                     break;
                 case 10:
-                    c.getIndividual().getAddressInvoice().setZipCode(getStringCellValue(cell));
+                    c.getIndividual().getAddressInvoice().setHomeNumber(getStringCellValue(cell));
                     break;
                 case 11:
-                    c.getIndividual().getAddressInvoice().setCity(getStringCellValue(cell));
+                    c.getIndividual().getAddressInvoice().setFlatNumber(getStringCellValue(cell));
                     break;
                 case 12:
-                    c.getIndividual().getAddressCorr().setAddress(getStringCellValue(cell));
+                    c.getIndividual().getAddressInvoice().setZipCode(getStringCellValue(cell));
                     break;
                 case 13:
-                    c.getIndividual().getAddressCorr().setZipCode(getStringCellValue(cell));
+                    c.getIndividual().getAddressInvoice().setCity(getStringCellValue(cell));
                     break;
                 case 14:
-                    c.getIndividual().getAddressCorr().setCity(getStringCellValue(cell));
-                    break;
-                case 15:
                     c.getIndividual().setEmail(getStringCellValue(cell));
                     break;
-                case 16:
+                case 15:
                     c.getEnterprise().setName(getStringCellValue(cell));
                     break;
-                case 17:
+                case 16:
                     c.getEnterprise().setVatRegNum(getStringCellValue(cell));
                     break;
+                case 17:
+                    c.getEnterprise().getAddressInvoice().setStreet(getStringCellValue(cell));
+                    break;
                 case 18:
-                    c.getEnterprise().getAddressInvoice().setAddress(getStringCellValue(cell));
+                    c.getEnterprise().getAddressInvoice().setHomeNumber(getStringCellValue(cell));
                     break;
                 case 19:
-                    c.getEnterprise().getAddressInvoice().setZipCode(getStringCellValue(cell));
+                    c.getEnterprise().getAddressInvoice().setFlatNumber(getStringCellValue(cell));
                     break;
                 case 20:
-                    c.getEnterprise().getAddressInvoice().setCity(getStringCellValue(cell));
+                    c.getEnterprise().getAddressInvoice().setZipCode(getStringCellValue(cell));
                     break;
                 case 21:
-                    c.getEnterprise().getAddressCorr().setAddress(getStringCellValue(cell));
+                    c.getEnterprise().getAddressInvoice().setCity(getStringCellValue(cell));
                     break;
                 case 22:
-                    c.getEnterprise().getAddressCorr().setZipCode(getStringCellValue(cell));
-                    break;
-                case 23:
-                    c.getEnterprise().getAddressCorr().setCity(getStringCellValue(cell));
-                    break;
-                case 24:
                     c.getEnterprise().setEmail(getStringCellValue(cell));
                     break;
             }
@@ -314,7 +315,7 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
 
     //PRIVATE METHODS - CREATE BUSSINESS DTO
 
-    private EnterpriseDto createEnterpriseDTO(ImportEnterpriseDTO importDTO, ZipCode zipCodeEnterpriseInvoice, ZipCode zipCodeEnterpriseCorr){
+    private EnterpriseDto createEnterpriseDTO(ImportEnterpriseDTO importDTO, ZipCode zipCodeEnterpriseInvoice){
         EnterpriseDto dto = new EnterpriseDto();
 
         dto.setCode(null);
@@ -327,11 +328,8 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
             ImportAddressInvoiceDTO address = importDTO.getAddressInvoice();
             dto.setAddressInvoice(address.getAddress());
             dto.setZipCodeInvoice(createZipCodeDTO(zipCodeEnterpriseInvoice));
-        }
-        if(!importDTO.getAddressCorr().isEmpty()) {
-            ImportAddressCorrDTO address = importDTO.getAddressCorr();
             dto.setAddressCorr(address.getAddress());
-            dto.setZipCodeCorr(createZipCodeDTO(zipCodeEnterpriseCorr));
+            dto.setZipCodeCorr(createZipCodeDTO(zipCodeEnterpriseInvoice));
         }
 
         EnterpriseContactDto contactDTO = new EnterpriseContactDto();
@@ -344,7 +342,7 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
     }
 
     private IndividualDto createIndividualDTO(ImportIndividualDTO importDTO,
-                                            ZipCode zipCodeIndividualInvoice, ZipCode zipCodeIndividualCorr,
+                                            ZipCode zipCodeIndividualInvoice,
                                             Long contractId, Long enterpriseId){
         IndividualDto dto = new IndividualDto();
 
@@ -363,11 +361,8 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
             ImportAddressInvoiceDTO address = importDTO.getAddressInvoice();
             dto.setAddressInvoice(address.getAddress());
             dto.setZipCodeInvoice(createZipCodeDTO(zipCodeIndividualInvoice));
-        }
-        if(!importDTO.getAddressCorr().isEmpty()) {
-            ImportAddressInvoiceDTO address = importDTO.getAddressInvoice();
             dto.setAddressCorr(address.getAddress());
-            dto.setZipCodeCorr(createZipCodeDTO(zipCodeIndividualCorr));
+            dto.setZipCodeCorr(createZipCodeDTO(zipCodeIndividualInvoice));
         }
         dto.setRemarks(null);
         dto.setVerificationCode(null);
@@ -418,6 +413,14 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
             dto.setEnterprise(enterprise);
         }
 
+        return dto;
+    }
+
+    private CreateOrderDTO createCreateOrderDTO(ImportContractDTO importDTO, Contract contract){
+        CreateOrderDTO dto = orderServiceLocal.createCreateOrderDTO(contract);
+        dto.setExternalOrderId(importDTO.getExternalOrderId());
+        dto.setOrderDate(importDTO.getSignDate());
+        dto.setProductInstanceNum(importDTO.getProductInstanceNum());
         return dto;
     }
 

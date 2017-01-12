@@ -99,15 +99,12 @@ public class ImportOrderServiceImpl extends ImportBaseDataServiceImpl {
 
             switch (cell.getColumnIndex()) {
                 case 0:
-                    o.setContractId(getLongCellValue(cell));
-                    break;
-                case 1:
                     o.setExternalOrderId(getStringCellValue(cell));
                     break;
-                case 2:
+                case 1:
                     o.setOrderDate(getDateCellValue(cell));
                     break;
-                case 3:
+                case 2:
                     o.setProductInstanceNum(getIntegerCellValue(cell));
                     break;
             }

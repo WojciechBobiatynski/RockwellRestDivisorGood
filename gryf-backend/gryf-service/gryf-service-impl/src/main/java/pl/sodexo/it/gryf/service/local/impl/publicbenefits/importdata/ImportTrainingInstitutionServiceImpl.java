@@ -148,24 +148,36 @@ public class ImportTrainingInstitutionServiceImpl extends ImportBaseDataServiceI
                     ti.setName(getStringCellValue(cell));
                     break;
                 case 3:
-                    ti.getAddressInvoice().setAddress(getStringCellValue(cell));
+                    ti.getAddressInvoice().setStreet(getStringCellValue(cell));
                     break;
                 case 4:
-                    ti.getAddressInvoice().setZipCode(getStringCellValue(cell));
+                    ti.getAddressInvoice().setHomeNumber(getStringCellValue(cell));
                     break;
                 case 5:
-                    ti.getAddressInvoice().setCity(getStringCellValue(cell));
+                    ti.getAddressInvoice().setFlatNumber(getStringCellValue(cell));
                     break;
                 case 6:
-                    ti.getAddressCorr().setAddress(getStringCellValue(cell));
+                    ti.getAddressInvoice().setZipCode(getStringCellValue(cell));
                     break;
                 case 7:
-                    ti.getAddressCorr().setZipCode(getStringCellValue(cell));
+                    ti.getAddressInvoice().setCity(getStringCellValue(cell));
                     break;
                 case 8:
-                    ti.getAddressCorr().setCity(getStringCellValue(cell));
+                    ti.getAddressCorr().setStreet(getStringCellValue(cell));
                     break;
                 case 9:
+                    ti.getAddressCorr().setHomeNumber(getStringCellValue(cell));
+                    break;
+                case 10:
+                    ti.getAddressCorr().setFlatNumber(getStringCellValue(cell));
+                    break;
+                case 11:
+                    ti.getAddressCorr().setZipCode(getStringCellValue(cell));
+                    break;
+                case 12:
+                    ti.getAddressCorr().setCity(getStringCellValue(cell));
+                    break;
+                case 13:
                     ti.setEmail(getStringCellValue(cell));
                     break;
             }

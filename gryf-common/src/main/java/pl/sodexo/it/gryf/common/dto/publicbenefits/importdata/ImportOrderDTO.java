@@ -1,5 +1,7 @@
 package pl.sodexo.it.gryf.common.dto.publicbenefits.importdata;
 
+import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -8,17 +10,13 @@ import org.hibernate.validator.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Isolution on 2016-12-02.
  */
 @ToString
 public class ImportOrderDTO {
-
-    @Getter
-    @Setter
-    @NotNull(message = "Id umowy nie może być puste")
-    private Long contractId;
 
     @Getter
     @Setter
@@ -35,4 +33,18 @@ public class ImportOrderDTO {
     @Setter
     @NotNull(message = "Liczba bonów nie może być pusta")
     private Integer productInstanceNum;
+
+    //EXTRA FIELDS
+
+    private Long id;
+
+    //EXTRA GETETRS
+
+    public Long getContractId(){
+        if(id == null) {
+            String[] tab = externalOrderId.split("/");
+            id = Long.valueOf(tab[1]);
+        }
+        return id;
+    }
 }

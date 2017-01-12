@@ -33,12 +33,6 @@ public class ImportEnterpriseDTO {
 
     @Getter
     @Setter
-    @Valid
-    @NotNull(message = "Pola adresu MŚP korespondencyjnego nie mogą być puste")
-    private ImportAddressCorrDTO addressCorr = new ImportAddressCorrDTO();
-
-    @Getter
-    @Setter
     @NotEmpty(message = "Email dla MŚP nie może być pusty")
     private String email;
 
@@ -48,7 +42,6 @@ public class ImportEnterpriseDTO {
         return Strings.isNullOrEmpty(name) &&
                 Strings.isNullOrEmpty(vatRegNum) &&
                 addressInvoice.isEmpty() &&
-                addressCorr.isEmpty() &&
                 Strings.isNullOrEmpty(email);
     }
 }

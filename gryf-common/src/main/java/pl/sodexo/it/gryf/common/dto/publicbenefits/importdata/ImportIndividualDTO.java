@@ -37,12 +37,6 @@ public class ImportIndividualDTO {
 
     @Getter
     @Setter
-    @Valid
-    @NotNull(message = "Pola adresu użytkownika korespondencyjnego nie mogą być puste")
-    private ImportAddressCorrDTO addressCorr = new ImportAddressCorrDTO();
-
-    @Getter
-    @Setter
     @NotEmpty(message = "Email nie może być pusty")
     private String email;
 
