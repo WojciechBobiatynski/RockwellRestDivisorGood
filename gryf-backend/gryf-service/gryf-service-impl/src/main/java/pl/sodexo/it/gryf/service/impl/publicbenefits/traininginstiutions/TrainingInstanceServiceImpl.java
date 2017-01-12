@@ -318,7 +318,7 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
                 }
             });
             if(!isInTable){
-                violations.add(new EntityConstraintViolation("Operacja nie jest dozwolna dla danego rekordu"));
+                violations.add(new EntityConstraintViolation("Operacja nie jest dozwolona dla danego rekordu"));
             }
         }
         gryfValidator.validate(violations);
