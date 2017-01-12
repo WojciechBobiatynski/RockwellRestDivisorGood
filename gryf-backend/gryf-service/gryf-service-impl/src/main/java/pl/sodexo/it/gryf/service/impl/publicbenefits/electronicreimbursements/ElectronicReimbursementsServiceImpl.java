@@ -375,7 +375,7 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
             //TODO: pobrać procent wkładu własnego z parametrów
             BigDecimal ownContributionPercentage = new BigDecimal("0.13");
             ereimbursement.setSxoIndAmountDueTotal(
-                    new BigDecimal(pbeProductInstancePool.getAvailableNum()).multiply(pbeProductInstancePool.getProductValue()).multiply(ownContributionPercentage).setScale(2, RoundingMode.HALF_UP));
+                    BigDecimal.valueOf(pbeProductInstancePool.getAvailableNum()).multiply(pbeProductInstancePool.getProductValue()).multiply(ownContributionPercentage).setScale(2, RoundingMode.HALF_UP));
             ereimbursementRepository.save(ereimbursement);
         };
         expiredPoolInstances.stream().forEach(pInsPoolCons);

@@ -90,7 +90,7 @@ public class OrderElementComplexTypePbeProductInfoServiceImpl extends OrderEleme
         GrantProgram grantProgram = contract.getGrantProgram();
         GrantProgramParam ocpParam = paramInDateService.findGrantProgramParam(grantProgram.getId(), GrantProgramParam.OWN_CONTRIBUTION_PERCENT, new Date(), true);
 
-        BigDecimal productInstanceNum = new BigDecimal(dto.getProductInstanceNum());
+        BigDecimal productInstanceNum = BigDecimal.valueOf(dto.getProductInstanceNum());
         BigDecimal  productInstanceAmount = product.getValue();
         BigDecimal ownContributionPercent = new BigDecimal(ocpParam.getValue());
 
@@ -100,7 +100,7 @@ public class OrderElementComplexTypePbeProductInfoServiceImpl extends OrderEleme
 
 
         BigDecimal ownContributionAmont = productInstanceNum.multiply(productInstanceAmount).
-                multiply(ownContributionPercent).divide(new BigDecimal(100));
+                multiply(ownContributionPercent).divide(new BigDecimal("100"));
         BigDecimal grantAmount = productInstanceNum.multiply(productInstanceAmount).subtract(ownContributionAmont);
         BigDecimal orderAmount = grantAmount.add(ownContributionAmont);
 

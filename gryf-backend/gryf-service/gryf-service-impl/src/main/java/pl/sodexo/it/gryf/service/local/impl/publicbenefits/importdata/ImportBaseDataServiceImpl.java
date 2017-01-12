@@ -1,8 +1,6 @@
 package pl.sodexo.it.gryf.service.local.impl.publicbenefits.importdata;
 
 import com.google.common.collect.Lists;
-import lombok.Getter;
-import lombok.Setter;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
@@ -28,7 +26,7 @@ import pl.sodexo.it.gryf.model.dictionaries.ZipCode;
 import pl.sodexo.it.gryf.model.importdata.ImportDataRow;
 import pl.sodexo.it.gryf.model.importdata.ImportDataRowError;
 import pl.sodexo.it.gryf.model.importdata.ImportDataRowStatus;
-import pl.sodexo.it.gryf.service.local.api.publicbenefits.importdata.*;
+import pl.sodexo.it.gryf.service.local.api.publicbenefits.importdata.ImportDataService;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -268,7 +266,7 @@ public abstract class ImportBaseDataServiceImpl implements ImportDataService{
                 String valueStr = cell.getStringCellValue().trim();
                 return new BigDecimal(valueStr);
             }
-            return new BigDecimal(cell.getNumericCellValue());
+            return BigDecimal.valueOf(cell.getNumericCellValue());
 
         }catch(RuntimeException e){
             throw new RuntimeException(String.format("Błąd przy pobraniu wartości "

@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementComplexTypeGrantedVouchersInfoDTO;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
-import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.grantprograms.GrantProgramLimitRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderElementRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderRepository;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication;
@@ -100,7 +99,7 @@ public class OrderElementComplexTypeGrantedVouchersInfoServiceImpl extends Order
         Map<String, OrderElement> elementMap = orderElementRepository.findByOrderAndElements(order.getId(), LIST_ELEM_ID);
 
         updateElement(order, elementMap, ENTITLED_VOUCHERS_NUMBER_ELEM_ID, (dto.getEntitledVouchersNumber() != null) ?
-                                                                new BigDecimal(dto.getEntitledVouchersNumber()) : null);
+                BigDecimal.valueOf(dto.getEntitledVouchersNumber()) : null);
         updateElement(order, elementMap, ENTITLED_PLN_AMOUNT_ELEM_ID, dto.getEntitledPlnAmount());
         updateElement(order, elementMap, LIMIT_EUR_AMOUNT_ELEM_ID, dto.getLimitEurAmount());
         updateElement(order, elementMap, EXCHANGE_ELEM_ID, dto.getExchange());
@@ -116,8 +115,8 @@ public class OrderElementComplexTypeGrantedVouchersInfoServiceImpl extends Order
         /* wyznacz przysługującą ilość bonów dla przedsiębiorstwa */
         Long entitledVouchNumber = getEntitledVouchersNumber(order, application);
 
-        orderFlowElementService.addElementNumberValue(order, ENTITLED_VOUCHERS_NUMBER_ELEM_ID, new BigDecimal(entitledVouchNumber));
-        orderFlowElementService.addElementNumberValue(order, ENTITLED_PLN_AMOUNT_ELEM_ID,  order.getProduct().getPbeAidValue().multiply(new BigDecimal(entitledVouchNumber)));
+        orderFlowElementService.addElementNumberValue(order, ENTITLED_VOUCHERS_NUMBER_ELEM_ID, BigDecimal.valueOf(entitledVouchNumber));
+        orderFlowElementService.addElementNumberValue(order, ENTITLED_PLN_AMOUNT_ELEM_ID,  order.getProduct().getPbeAidValue().multiply(BigDecimal.valueOf(entitledVouchNumber)));
         orderFlowElementService.addElementNumberValue(order, LIMIT_EUR_AMOUNT_ELEM_ID, null);
         orderFlowElementService.addElementNumberValue(order, EXCHANGE_ELEM_ID, null);
     }

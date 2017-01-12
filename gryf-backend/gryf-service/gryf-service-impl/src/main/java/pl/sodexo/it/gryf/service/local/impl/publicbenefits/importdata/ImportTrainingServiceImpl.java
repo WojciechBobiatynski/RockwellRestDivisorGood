@@ -147,7 +147,7 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
                 violations.add(new EntityConstraintViolation("Cena 1h szkolenia nie może być pusta"));
             }
             if (importDTO.getHourPrice() != null && importDTO.getHoursNumber() != null && importDTO.getPrice() != null) {
-                BigDecimal calcHourPrice = importDTO.getHourPrice().multiply(new BigDecimal(importDTO.getHoursNumber()));
+                BigDecimal calcHourPrice = importDTO.getHourPrice().multiply(BigDecimal.valueOf(importDTO.getHoursNumber()));
                 if (calcHourPrice.compareTo(importDTO.getPrice()) != 0) {
                     violations.add(new EntityConstraintViolation(
                             String.format("Cena szkolenia (%sPLN) nie zgadza się z iloscią godzin (%s) " + "oraz cena za 1h szkolenia (%sPLN). Otrzymany wynik: %sPLN", importDTO.getPrice(), importDTO.getHoursNumber(),

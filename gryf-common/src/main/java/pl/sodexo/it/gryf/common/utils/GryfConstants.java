@@ -67,4 +67,7 @@ public final class GryfConstants {
 
     public static final String ATT_CORR_SUFFIX = "_CORR";
     public static final String FILE_EXTENSION_DELIMITER = ".";
+
+    public static final Integer BIG_DECIMAL_MONEY_SCALE = 2;
+    public static final Integer BIG_DECIMAL_INTEGER_SCALE = 0;
 }

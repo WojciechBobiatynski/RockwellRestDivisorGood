@@ -111,7 +111,7 @@ public class OrderServiceLocalImpl implements OrderServiceLocal {
         if (order == null)
             return null;
         try {
-            return order.getProduct().getPbeTotalValue().subtract(order.getProduct().getPbeAidValue()).multiply(new BigDecimal(order.getVouchersNumber()));
+            return order.getProduct().getPbeTotalValue().subtract(order.getProduct().getPbeAidValue()).multiply(BigDecimal.valueOf(order.getVouchersNumber()));
         } catch (Exception e) {
             throw new RuntimeException("Nie udało się wyznaczyć kwoty płatności dla przedsiębiorstwa, prawdopodobnie brakujące dane na zamówieniu/produkcie lub niewłaściwa parametryzacja.");
         }

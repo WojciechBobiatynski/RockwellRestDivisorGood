@@ -9,6 +9,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Date;
 
+import static pl.sodexo.it.gryf.common.utils.GryfConstants.BIG_DECIMAL_INTEGER_SCALE;
+
 @ToString
 public class TrainingInstanceDetailsDto implements Serializable {
 
@@ -126,7 +128,7 @@ public class TrainingInstanceDetailsDto implements Serializable {
         Integer maxProductsNumber;
         if(maxProductInstance != null){
             if(isTrainingPriceLowerThanMaxProgramLimit()){
-                BigDecimal result = trainingPrice.divide(prdValue, 0, RoundingMode.UP);
+                BigDecimal result = trainingPrice.divide(prdValue, BIG_DECIMAL_INTEGER_SCALE, RoundingMode.UP);
                 maxProductsNumber = result.intValue();
             } else {
                 maxProductsNumber = maxProductInstance;
@@ -138,6 +140,6 @@ public class TrainingInstanceDetailsDto implements Serializable {
     }
 
     private boolean isTrainingPriceLowerThanMaxProgramLimit() {
-        return trainingPrice.compareTo(prdValue.multiply(new BigDecimal(maxProductInstance))) < 0;
+        return trainingPrice.compareTo(prdValue.multiply(BigDecimal.valueOf(maxProductInstance))) < 0;
     }
 }

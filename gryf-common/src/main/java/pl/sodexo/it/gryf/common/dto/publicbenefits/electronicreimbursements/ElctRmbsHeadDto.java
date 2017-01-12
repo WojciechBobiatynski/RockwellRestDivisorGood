@@ -12,6 +12,8 @@ import java.math.RoundingMode;
 import java.util.Date;
 import java.util.List;
 
+import static pl.sodexo.it.gryf.common.utils.GryfConstants.BIG_DECIMAL_MONEY_SCALE;
+
 /**
  * Podstawowe dto dla listy rozliczeń elektronicznych
  *
@@ -115,7 +117,7 @@ public class ElctRmbsHeadDto extends VersionableDto implements Serializable {
     }
 
     private void calculateSxoTiAmount(CalculationChargesParamsDto params) {
-        if (reimburseIsTraining(params)) {
+        if (isReimbursementForTraining(params)) {
             calculateSxoTiAmountForTrainings(params);
         } else {
             calculateSxoTiAmountForExam(params);
@@ -124,7 +126,7 @@ public class ElctRmbsHeadDto extends VersionableDto implements Serializable {
     }
 
     private void calculateIndTiAmount(CalculationChargesParamsDto params) {
-        if (reimburseIsTraining(params)) {
+        if (isReimbursementForTraining(params)) {
             calculateIndTiAmountForTraining(params);
         } else {
             calculateIndTiAmountForExam(params);
@@ -132,7 +134,7 @@ public class ElctRmbsHeadDto extends VersionableDto implements Serializable {
     }
 
     private void calculateSxoIndAmount(CalculationChargesParamsDto params) {
-        if (reimburseIsTraining(params)) {
+        if (isReimbursementForTraining(params)) {
             calculateSxoIndAmountForTraining(params);
         } else {
             calculateSxoIndAmountForExam(params);
@@ -141,58 +143,65 @@ public class ElctRmbsHeadDto extends VersionableDto implements Serializable {
 
     private void calculateSxoIndAmountForTraining(CalculationChargesParamsDto params) {
         if (isTrainingHourPriceLowerThanProductValue(params)) {
-            setSxoIndAmountDueTotal(params.getProductValue().multiply(new BigDecimal(params.getUsedProductsNumber()))
-                    .subtract(new BigDecimal(params.getUsedProductsNumber() / params.getProductInstanceForHour()).multiply(params.getTrainingHourPrice())));
+            setSxoIndAmountDueTotal(params.getProductValue().multiply(BigDecimal.valueOf(params.getUsedProductsNumber()))
+                    .subtract(BigDecimal.valueOf(params.getUsedProductsNumber() / params.getProductInstanceForHour()).multiply(params.getTrainingHourPrice())));
         } else {
             setSxoIndAmountDueTotal(BigDecimal.ZERO);
         }
     }
 
     private void calculateSxoIndAmountForExam(CalculationChargesParamsDto params) {
-        BigDecimal trainingProductCost = params.getTrainingPrice().divide(new BigDecimal(params.getUsedProductsNumber()));
-        Integer totalTrainingProductCost = trainingProductCost.setScale(0, RoundingMode.UP).intValue();
-        if (!isTrainingProductCostInteger(trainingProductCost) && params.getUsedProductsNumber().equals(totalTrainingProductCost)) {
-            //TODO wyciągnąć procentowy wkład własny ze zmiennych
-            BigDecimal ownContributionPercentage = new BigDecimal("0.13");
-            setSxoIndAmountDueTotal((params.getProductValue().multiply(new BigDecimal(totalTrainingProductCost))).subtract(params.getTrainingPrice()).multiply(ownContributionPercentage)
-                    .setScale(2, RoundingMode.HALF_UP));
+        if(isExamCheaperThanLimit(params)) {
+            calculateSxoIndAmountForTrainingIfCheaperThanLimit(params);
+        } else {
+            setSxoIndAmountDueTotal(BigDecimal.ZERO);
         }
-        setSxoIndAmountDueTotal(BigDecimal.ZERO);
     }
 
-    private boolean isTrainingProductCostInteger(BigDecimal trainingProductCost) {
-        return trainingProductCost.scale() <= 0;
+    private void calculateSxoIndAmountForTrainingIfCheaperThanLimit(CalculationChargesParamsDto params) {
+        BigDecimal usedProductForExamCost = BigDecimal.valueOf(params.getUsedProductsNumber()).multiply(params.getProductValue());
+        if(usedProductForExamCost.compareTo(params.getTrainingPrice()) > 0){
+            //TODO wyciągnąć procentowy wkład własny ze zmiennych
+            BigDecimal ownContributionPercentage = new BigDecimal("0.13");
+            setSxoIndAmountDueTotal(usedProductForExamCost.subtract(params.getTrainingPrice()).multiply(ownContributionPercentage).setScale(BIG_DECIMAL_MONEY_SCALE, RoundingMode.HALF_UP));
+        } else {
+            setSxoIndAmountDueTotal(BigDecimal.ZERO);
+        }
+    }
+
+    private boolean isExamCheaperThanLimit(CalculationChargesParamsDto params) {
+        return params.getTrainingPrice().compareTo(BigDecimal.valueOf(params.getMaxProductInstance()).multiply(params.getProductValue())) < 0;
     }
 
     private boolean isTrainingHourPriceLowerThanProductValue(CalculationChargesParamsDto params) {
-        return params.getTrainingHourPrice().compareTo(params.getProductValue().multiply(new BigDecimal(params.getProductInstanceForHour()))) < 0;
+        return params.getTrainingHourPrice().compareTo(params.getProductValue().multiply(BigDecimal.valueOf(params.getProductInstanceForHour()))) < 0;
     }
 
     private void calculateIndOwnContributionUsed(CalculationChargesParamsDto params) {
         //TODO wyciągnąć procentowy wkład własny ze zmiennych
         BigDecimal ownContributionPercentage = new BigDecimal("0.13");
-        setIndOwnContributionUsed(ownContributionPercentage.multiply(getSxoTiAmountDueTotal()).setScale(2, RoundingMode.HALF_UP));
+        setIndOwnContributionUsed(ownContributionPercentage.multiply(getSxoTiAmountDueTotal()).setScale(BIG_DECIMAL_MONEY_SCALE, RoundingMode.HALF_UP));
     }
 
     private void calculateIndSubsidyValue(CalculationChargesParamsDto params) {
         //TODO wyciągnąć procentową wartość dofinansowania
         BigDecimal indSubsidyPercentage = new BigDecimal("0.87");
-        setIndSubsidyValue(indSubsidyPercentage.multiply(getSxoTiAmountDueTotal()).setScale(2, RoundingMode.HALF_UP));
+        setIndSubsidyValue(indSubsidyPercentage.multiply(getSxoTiAmountDueTotal()).setScale(BIG_DECIMAL_MONEY_SCALE, RoundingMode.HALF_UP));
     }
 
-    private boolean reimburseIsTraining(CalculationChargesParamsDto params) {
+    private boolean isReimbursementForTraining(CalculationChargesParamsDto params) {
         return params.getMaxProductInstance() == null;
     }
 
     private void calculateSxoTiAmountForTrainings(CalculationChargesParamsDto params) {
-        BigDecimal normalizeHourPrice = new BigDecimal(params.getProductInstanceForHour()).multiply(params.getProductValue());
+        BigDecimal normalizeHourPrice = BigDecimal.valueOf(params.getProductInstanceForHour()).multiply(params.getProductValue());
         BigDecimal realHourPrice = params.getTrainingHourPrice().compareTo(normalizeHourPrice) < 0 ? params.getTrainingHourPrice() : normalizeHourPrice;
-        BigDecimal sxoAmount = new BigDecimal(params.getUsedProductsNumber()).multiply(realHourPrice).divide(new BigDecimal(params.getProductInstanceForHour()));
+        BigDecimal sxoAmount = BigDecimal.valueOf(params.getUsedProductsNumber()).multiply(realHourPrice).divide(BigDecimal.valueOf(params.getProductInstanceForHour()));
         setSxoTiAmountDueTotal(sxoAmount);
     }
 
     private void calculateSxoTiAmountForExam(CalculationChargesParamsDto params) {
-        BigDecimal usedProductsAmount = new BigDecimal(params.getUsedProductsNumber()).multiply(params.getProductValue());
+        BigDecimal usedProductsAmount = BigDecimal.valueOf(params.getUsedProductsNumber()).multiply(params.getProductValue());
         if (usedProductsAmount.compareTo(params.getTrainingPrice()) > 0) {
             setSxoTiAmountDueTotal(params.getTrainingPrice());
         } else {
@@ -202,14 +211,14 @@ public class ElctRmbsHeadDto extends VersionableDto implements Serializable {
     }
 
     private void calculateIndTiAmountForTraining(CalculationChargesParamsDto params) {
-        BigDecimal normalizedProductHourPrice = new BigDecimal(params.getProductInstanceForHour()).multiply(params.getProductValue());
+        BigDecimal normalizedProductHourPrice = BigDecimal.valueOf(params.getProductInstanceForHour()).multiply(params.getProductValue());
         BigDecimal trainingHourDifferenceCost = BigDecimal.ZERO;
         Integer hoursPaidWithCash = params.getTrainingHoursNumber() - params.getUsedProductsNumber() / params.getProductInstanceForHour();
         if (params.getTrainingHourPrice().compareTo(normalizedProductHourPrice) > 0) {
-            trainingHourDifferenceCost = new BigDecimal(params.getUsedProductsNumber() / params.getProductInstanceForHour())
+            trainingHourDifferenceCost = BigDecimal.valueOf(params.getUsedProductsNumber() / params.getProductInstanceForHour())
                     .multiply(params.getTrainingHourPrice().subtract(normalizedProductHourPrice));
         }
-        BigDecimal hoursPaidWithCashCost = new BigDecimal(hoursPaidWithCash).multiply(params.getTrainingHourPrice());
+        BigDecimal hoursPaidWithCashCost = BigDecimal.valueOf(hoursPaidWithCash).multiply(params.getTrainingHourPrice());
         setIndTiAmountDueTotal(trainingHourDifferenceCost.add(hoursPaidWithCashCost));
     }
 

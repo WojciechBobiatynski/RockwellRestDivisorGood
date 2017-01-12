@@ -9,6 +9,8 @@ import pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.elements.eleme
 import java.math.BigDecimal;
 import java.util.List;
 
+import static pl.sodexo.it.gryf.common.utils.GryfConstants.BIG_DECIMAL_INTEGER_SCALE;
+
 /**
  *
  * @author Marcel.GOLUNSKI
@@ -41,25 +43,25 @@ public class VerifyOrderHelper {
         if (limitEurAmount.multiply(exchange).compareTo(entitledPlnAmount) >= 0) {
             given = entitledVouchersNumber;
         } else {
-            given = limitEurAmount.multiply(exchange).divide(voucherAidValue, 0, BigDecimal.ROUND_FLOOR);
+            given = limitEurAmount.multiply(exchange).divide(voucherAidValue, BIG_DECIMAL_INTEGER_SCALE, BigDecimal.ROUND_FLOOR);
         }
 
         //PRZYZNANA LICZBA BONÓW - DOBRZE OBLICOZNA
-        if(!given.equals(new BigDecimal(order.getVouchersNumber()))){
+        if(!given.equals(BigDecimal.valueOf(order.getVouchersNumber()))){
             violations.add(new EntityConstraintViolation("givenVouchersNumberBadCalculation", String.format("Przyznana liczba %s bonów nie zgadza się z limitem pomocy %s i kursem EUR %s",
                                                                             order.getVouchersNumber(), limitEurAmount, exchange)));
         }
 
         //PRZYZNANA LICZBA BONÓW > PRZYSŁUGUJĄCA LICZBA BONÓW
-        if(entitledVouchersNumber.compareTo(new BigDecimal(order.getVouchersNumber())) < 0){
+        if(entitledVouchersNumber.compareTo(BigDecimal.valueOf(order.getVouchersNumber())) < 0){
             violations.add(new EntityConstraintViolation("givenVouchersNumberMoreEntitledVouchersNumber", String.format("Przyznana liczba %s bonów jest większa niż przysługująca " +
                             "liczba %s bonów w programie dofinansowania '%s'", order.getVouchersNumber(), entitledVouchersNumber,
                             order.getApplication().getProgram().getProgramName())));
         }
 
         //PRZYZNANA LICZBA BONÓW = MIN(WNIOSKOWANA LICZBA BONÓW, PRZYSŁUGUJĄCA LICZBA BONÓW)
-        BigDecimal fmin = new BigDecimal(order.getApplication().getBasicData().getVouchersNumber()).min(entitledVouchersNumber);
-        if(!new BigDecimal(order.getVouchersNumber()).equals(fmin)){
+        BigDecimal fmin = BigDecimal.valueOf(order.getApplication().getBasicData().getVouchersNumber()).min(entitledVouchersNumber);
+        if(!BigDecimal.valueOf(order.getVouchersNumber()).equals(fmin)){
             violations.add(new EntityConstraintViolation("givenVouchersNumberMin", String.format("Przyznana liczba %s bonów nie jest zgodna " +
                                                                         "z przysługującą wnioskowaną liczbą %s bonów",  order.getVouchersNumber(), fmin)));
         }

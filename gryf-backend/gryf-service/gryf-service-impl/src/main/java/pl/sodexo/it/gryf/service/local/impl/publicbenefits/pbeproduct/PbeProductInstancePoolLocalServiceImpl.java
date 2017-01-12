@@ -32,6 +32,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import static pl.sodexo.it.gryf.common.utils.GryfConstants.BIG_DECIMAL_INTEGER_SCALE;
+
 /**
  * Created by Isolution on 2016-12-21.
  */
@@ -377,7 +379,7 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
                 else {
                     PbeProduct product = pools.get(0).getProduct();
                     BigDecimal productValue = product.getValue();
-                    Integer maxProductInstanceCalculate = training.getPrice().divide(productValue, 0, BigDecimal.ROUND_UP).intValue();
+                    Integer maxProductInstanceCalculate = training.getPrice().divide(productValue, BIG_DECIMAL_INTEGER_SCALE, BigDecimal.ROUND_UP).intValue();
                     if (maxProductInstanceCalculate < toReservedNum) {
                         violations.add(new EntityConstraintViolation(
                                 String.format(" Wskazana ilość bonów (%s) przekracza maksymalną ilość bonów (%s) " + "na rezerwację wybranego szkolenia.", toReservedNum, maxProductInstanceCalculate)));
