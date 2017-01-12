@@ -8,6 +8,9 @@ import pl.sodexo.it.gryf.common.dto.security.individuals.GryfIndUserDto;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.IndividualContact;
 import pl.sodexo.it.gryf.model.security.individuals.IndividualUser;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.VersionableEntityMapper;
+import pl.sodexo.it.gryf.service.mapping.entitytodto.security.RoleEntityMapper;
+
+import java.util.HashSet;
 
 /**
  * Komponent mapujący encję osoby fizycznej na dto
@@ -19,6 +22,9 @@ public class IndividualUserEntityMapper extends VersionableEntityMapper<Individu
 
     @Autowired
     private ApplicationParameters applicationParameters;
+
+    @Autowired
+    private RoleEntityMapper roleEntityMapper;
 
     @Override
     protected GryfIndUserDto initDestination() {
@@ -45,5 +51,7 @@ public class IndividualUserEntityMapper extends VersionableEntityMapper<Individu
                 dto.setVerificationEmail(ind.getContactData());
             }
         }
+
+        dto.setRoles(entity.getRoles() != null ? new HashSet<>(roleEntityMapper.convert(entity.getRoles())) : null);
     }
 }
