@@ -27,11 +27,11 @@
                 </div>
                 <div class="grid-20">
                     <strong class="label">Data podpisania umowy</strong>
-                    <input type="text" ng-model="createOrderDto.data.contractSignDate" readonly="readonly">
+                    <input type="text" ng-model="createOrderDto.data.contractSignDate | date:'yyyy-MM-dd'" readonly="readonly">
                 </div>
                 <div class="grid-20">
                     <strong class="label">Data wygaśnięcia umowy</strong>
-                    <input type="text" ng-model="createOrderDto.data.contractExpiryDate" readonly="readonly">
+                    <input type="text" ng-model="createOrderDto.data.contractExpiryDate | date:'yyyy-MM-dd'" readonly="readonly">
                 </div>
                 <div class="grid-20">
                     <strong class="label">Program dofinansowania</strong>

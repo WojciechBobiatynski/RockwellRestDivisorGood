@@ -78,7 +78,7 @@
             </div>
             <div class="grid-15">
                 <strong class="label">Data utworzenia</strong>
-                <input type="text" ng-model="importJobModel.entity.createdTimestamp" disabled="isDisabled">
+                <input type="text" ng-model="importJobModel.entity.createdTimestamp | date:'yyyy-MM-dd hh:mm:ss'" disabled="isDisabled">
             </div>
             <div class="grid-15">
                 <strong class="label">Czas trwania</strong>
