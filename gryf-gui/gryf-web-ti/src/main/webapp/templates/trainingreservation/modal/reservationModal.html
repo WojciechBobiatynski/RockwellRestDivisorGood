@@ -2,14 +2,15 @@
     <div class="modal-title">Rezerwacja szkolenia</div>
     <button class="close"ng-click="close(true)">&times;</button>
 </div>
-<div class="modal-body">
+<form name="reservationForm" class="modal-body">
     <span class="alert-text">W celu rezerwacji szkolenia prosimy o wpisanie liczby rezerwowanych bonów i potwierdzenie operacji</span>
     <div class="row-30"></div>
     <div class="grid-100">
         <div class="grid-40 centered">
             <strong class="label">Liczba rezerwowanych bonów (minimum 1)</strong>
-            <input type="number" min="0" ng-model="toReservedNum">
+            <input name="toReservedNumInput" type="number" min="0" ng-model="toReservedNum" ng-pattern="patternNumberOnly">
             <gryf-validation-msg path="toReservedNum"></gryf-validation-msg>
+            <span class="alert-text" ng-hide="reservationForm.toReservedNumInput.$valid">Liczba musi być całkowita</span>
         </div>
     </div>
     <div class="row-30"></div>
@@ -39,6 +40,7 @@
     </table>
     <div class="row-30"></div>
     <div class="grid-100 text-center">
-        <button class="row-10 standardButton" ng-click="reserveTraining()">Rezerwuję szkolenie</button>
+        <button ng-disabled="!reservationForm.toReservedNumInput.$valid || !toReservedNum"
+                class="row-10 standardButton" ng-click="reserveTraining()">Rezerwuję szkolenie</button>
     </div>
-</div>
+</form>

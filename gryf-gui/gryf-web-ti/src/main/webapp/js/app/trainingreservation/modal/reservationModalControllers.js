@@ -1,6 +1,7 @@
 angular.module("gryf.ti").controller("ReservationModalController", ["$scope", "$stateParams", "TrainingSearchService", "TrainingReservationService",
     function($scope, $stateParams, TrainingSearchService, TrainingReservationService) {
     $scope.close = $scope.$close;
+    $scope.patternNumberOnly = /^\d+$/;
     $scope.training = {data: null};
     $scope.toReservedNum = null;
     $scope.userTrainingReservationData = TrainingReservationService.getUserTrainingReservationData();

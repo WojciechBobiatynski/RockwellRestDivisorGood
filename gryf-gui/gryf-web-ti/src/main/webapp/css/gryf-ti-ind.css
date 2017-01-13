@@ -202,6 +202,10 @@ ul {
     cursor: pointer;
 }
 
+.standardButton[disabled] {
+    background-color: #a7c2a1;
+}
+
 .cancelButton {
     background-color: grey;
     color: white;
