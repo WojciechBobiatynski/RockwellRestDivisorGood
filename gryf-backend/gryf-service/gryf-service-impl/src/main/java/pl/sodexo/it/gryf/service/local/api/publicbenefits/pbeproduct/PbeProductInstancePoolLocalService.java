@@ -16,6 +16,8 @@ public interface PbeProductInstancePoolLocalService {
 
     void reservePools(TrainingInstance trainingInstance);
 
+    void lowerReservationPools(TrainingInstance instance, int newReservationNum);
+
     void usePools(TrainingInstance instance);
 
     void returnPools(TrainingInstance trainingInstance);

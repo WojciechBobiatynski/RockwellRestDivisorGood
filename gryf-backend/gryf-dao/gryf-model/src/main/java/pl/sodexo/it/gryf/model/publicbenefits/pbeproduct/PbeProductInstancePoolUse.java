@@ -35,6 +35,7 @@ public class PbeProductInstancePoolUse extends VersionableEntity {
     @JoinColumn(name = "PRODUCT_INSTANCE_POOL_ID", referencedColumnName = "ID")
     private PbeProductInstancePool productInstancePool;
 
+    @OrderBy("id.number")
     @OneToMany(mappedBy = "productInstancePoolUse")
     private List<PbeProductInstance> productInstances;
 

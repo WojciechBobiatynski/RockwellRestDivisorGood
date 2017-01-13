@@ -74,11 +74,11 @@ angular.module("gryf.ti").factory("TrainingReservationService", function($http, 
         });
     };
 
-    var confirmPin = function(trainingInstanceId, pinCode, trainingInstanceVersion) {
+    var confirmPin = function(trainingInstanceId, pinCode, newReservationNum, trainingInstanceVersion) {
         var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING, {label: "Zapisuję"});
 
         return $http.put(TRAINING_RESERVATION_URL + "/confirmPin",
-            {id: trainingInstanceId, pin: pinCode, version: trainingInstanceVersion}
+            {id: trainingInstanceId, pin: pinCode, newReservationNum: newReservationNum, version: trainingInstanceVersion}
         ).success(function(data) {
             GryfPopups.setPopup("success", "Sukces", "Potwierdzono uczestnictwo w szkoleniu");
             GryfPopups.showPopup();

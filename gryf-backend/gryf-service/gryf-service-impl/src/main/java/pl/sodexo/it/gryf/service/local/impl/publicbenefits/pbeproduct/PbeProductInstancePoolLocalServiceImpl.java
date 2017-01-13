@@ -9,7 +9,6 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.products.PrintNumberDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.products.PrintNumberResultDto;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.pbeproducts.*;
-import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstanceStatusRepository;
 import pl.sodexo.it.gryf.dao.api.search.dao.ProductInstancePoolSearchDao;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
 import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.Ereimbursement;
@@ -20,7 +19,6 @@ import pl.sodexo.it.gryf.model.publicbenefits.pbeproduct.*;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.Training;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingCategoryParam;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstance;
-import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstanceStatus;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
 import pl.sodexo.it.gryf.service.local.api.ParamInDateService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.pbeproduct.PbeProductInstancePoolLocalService;
@@ -29,6 +27,8 @@ import pl.sodexo.it.gryf.service.local.impl.publicbenefits.products.PbeProductIn
 import pl.sodexo.it.gryf.service.local.impl.publicbenefits.products.PrintNumberGenerator;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -47,9 +47,6 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
     private PbeProductInstancePoolRepository productInstancePoolRepository;
 
     @Autowired
-    private PbeProductInstancePoolEventRepository productInstancePoolEventRepository;
-
-    @Autowired
     private PbeProductInstanceRepository productInstanceRepository;
 
     @Autowired
@@ -57,9 +54,6 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
 
     @Autowired
     private PbeProductInstanceEventTypeRepository productInstanceEventTypeRepository;
-
-    @Autowired
-    private PbeProductInstanceEventRepository pbeProductInstanceEventRepository;
 
     @Autowired
     private PbeProductInstancePoolUseRepository productInstancePoolUseRepository;
@@ -81,9 +75,6 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
 
     @Autowired
     private PbeProductInstancePoolEventTypeRepository productInstancePoolEventTypeRepository;
-
-    @Autowired
-    private TrainingInstanceStatusRepository trainingInstanceStatusRepository;
 
     @Autowired
     private ProductInstancePoolSearchDao productInstancePoolSearchDao;
@@ -122,21 +113,74 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
         GrantProgram grantProgram = trainingInstance.getGrantProgram();
         int toReservedNum = trainingInstance.getAssignedNum();
 
-        trainingInstance.setTraining(training);
-        trainingInstance.setIndividual(individual);
-        trainingInstance.setGrantProgram(grantProgram);
-        trainingInstance.setStatus(trainingInstanceStatusRepository.get(TrainingInstanceStatus.RES_CODE));
-        trainingInstance.setAssignedNum(toReservedNum);
-
         //POBRANIE PULI BONÓW KTÓRE MOŻNA WYKORZYSTAC
         List<PbeProductInstancePool> pools = productInstancePoolRepository.findAvaiableForUse(individual.getId(),
                 grantProgram.getId(), training.getStartDate(), training.getEndDate());
 
         //VALIDACJA
-        validatePoolReservation(training, grantProgram, toReservedNum, pools);
+        validatePoolReservation(toReservedNum, pools);
+        if(!pools.isEmpty()){
+            validatePoolReservationNum(training, grantProgram, toReservedNum, pools.get(0).getProduct());
+        }
 
         //UTWORZENIE WYKORZYSTANIA
         createProductInstancePoolUses(trainingInstance, pools, toReservedNum);
+    }
+
+    @Override
+    public void lowerReservationPools(TrainingInstance instance, int newReservationNum){
+
+        //VALIDACJA
+        if(!instance.getPollUses().isEmpty()) {
+            PbeProductInstancePool firstPool = instance.getPollUses().get(0).getProductInstancePool();
+            validatePoolReservationNum(instance.getTraining(), instance.getGrantProgram(), newReservationNum, firstPool.getProduct());
+        }
+
+        //POBRANIE STATUSOW
+        PbeProductInstanceStatus productInstStatAssigned = productInstanceStatusRepository.get(PbeProductInstanceStatus.ASSIGNED_CODE);
+        PbeProductInstanceEventType lowerReservationEventType = productInstanceEventTypeRepository.get(PbeProductInstanceEventType.LWRSRVATON_CODE);
+        PbeProductInstancePoolEventType lowerReservationPoolEventType = productInstancePoolEventTypeRepository.get(PbeProductInstancePoolEventType.LWRSRVATON_CODE);
+
+        //ILE TRZEBA ZMIENIC
+        int trainingInstanceToChangeNum = instance.getAssignedNum() - newReservationNum;
+
+        //ITERACJA PO INSTANCJACH
+        List<PbeProductInstancePoolUse> poolUses = instance.getPollUses();
+        poolUses = orderByExpiryDateDesc(poolUses);
+        for(PbeProductInstancePoolUse poolUse : poolUses){
+
+            //CZY NADAL ZMIENIAMY
+            if(trainingInstanceToChangeNum <= 0){
+                break;
+            }
+
+            //ILE ZMIENIAMY W RAMACH UZYCIA PULI
+            int poolUseToChangeNum = Math.min(poolUse.getAssignedNum(), trainingInstanceToChangeNum);
+
+            //POOL EVENT
+            productInstancePoolEventBuilder.saveEvent(poolUse.getProductInstancePool(),
+                                        lowerReservationPoolEventType, instance.getId(), poolUseToChangeNum);
+
+            //UAKTUALNINIE PULI
+            PbeProductInstancePool pool = poolUse.getProductInstancePool();
+            pool.setReservedNum(pool.getReservedNum() - poolUseToChangeNum);
+            pool.setAvailableNum(pool.getAvailableNum() + poolUseToChangeNum);
+
+            //ITERACJA PO INSTANCJACH PRODUKTU
+            List<PbeProductInstance> instances = poolUse.getPollUses();
+            List<PbeProductInstance> instancesToChange = new ArrayList<>(instances.subList(instances.size() - poolUseToChangeNum, instances.size()));
+            for(PbeProductInstance i : instancesToChange){
+                i.setStatus(productInstStatAssigned);
+                poolUse.removePollUse(i);
+
+                //EVENTY DO INSTANCJI PRODUKTOW
+                productInstanceEventBuilder.saveEvent(i, lowerReservationEventType, instance.getId());
+            }
+
+            //UAKTUALNINIE
+            poolUse.setAssignedNum(poolUse.getAssignedNum() - poolUseToChangeNum);
+            trainingInstanceToChangeNum -= poolUseToChangeNum;
+        }
     }
 
     @Override
@@ -322,7 +366,7 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
         }
     }
 
-    private void validatePoolReservation(Training training, GrantProgram grantProgram, Integer toReservedNum, List<PbeProductInstancePool> pools){
+    private void validatePoolReservation(Integer toReservedNum, List<PbeProductInstancePool> pools){
         List<EntityConstraintViolation> violations = Lists.newArrayList();
 
         //NIE ZNALEZLISMY ZADNYCH PULI BONOW DO ROZLICZENIA
@@ -336,54 +380,58 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
             if (avaiableNum < toReservedNum) {
                 violations.add(new EntityConstraintViolation("Użytkownik nie posiada odpowiedniej liczby " + "ważnych bonów do rezerwacji wybranego szkolenia."));
             }
+        }
+        gryfValidator.validate(violations);
+    }
 
-            TrainingCategoryParam tccParam = paramInDateService.findTrainingCategoryParam(training.getCategory().getId(),
-                    grantProgram.getId(), new Date(), true);
+    private void validatePoolReservationNum(Training training, GrantProgram grantProgram, Integer toReservedNum, PbeProduct product){
+        List<EntityConstraintViolation> violations = Lists.newArrayList();
 
-            //WALIDACJE PO GODZINACH SZKOLENIA (TYPOWE SZKOLENIE)
-            if (tccParam.getProductInstanceForHour() != null) {
-                int productInstanceForHour = tccParam.getProductInstanceForHour();
+        TrainingCategoryParam tccParam = paramInDateService.findTrainingCategoryParam(training.getCategory().getId(),
+                grantProgram.getId(), new Date(), true);
 
-                if (training.getHoursNumber() != null) {
+        //WALIDACJE PO GODZINACH SZKOLENIA (TYPOWE SZKOLENIE)
+        if (tccParam.getProductInstanceForHour() != null) {
+            int productInstanceForHour = tccParam.getProductInstanceForHour();
 
-                    //ILOSC BONÓW KTÓRĄ CHCEMY PRZEZNACZY PRZEKRACZA ILOSC BOBNÓW JAKA JEST POTRZEBNA NA WSZYSTKIE GODZINY SZKOLENIA
-                    //NA PRZYKLAD szkolenie IT: 1h = 2bony, szkolenie ma 10h, maksymlanie możemy przeznaczyć 20 bonów, przeznaczamy 21
-                    int maxToReimbursmentNum = training.getHoursNumber() * productInstanceForHour;
-                    if (maxToReimbursmentNum < toReservedNum) {
-                        violations.add(new EntityConstraintViolation(
-                                String.format(" Wskazana ilość bonów (%s) przekracza maksymalną ilość bonów (%s) " + "na rezerwację wybranego szkolenia.", toReservedNum, maxToReimbursmentNum)));
-                    }
+            if (training.getHoursNumber() != null) {
 
-                    //ROZLICZAMY GODZINY CZESCIA BONOW A NIE CALOSCIA
-                    //NA PRZYKLAD: szklenie IT: 1h = 2bony, 2h - 4bony, 3h - 6bonów, itd
-                    int modToReservedNum = toReservedNum % productInstanceForHour;
-                    if (modToReservedNum != 0) {
-                        violations.add(new EntityConstraintViolation(
-                                String.format("Wybrana ilość bonów nie jest zgodna z wybraną kategorią szkolenia. " + "Ilość bonów musi stanowić wielokrotność %s.", productInstanceForHour)));
-                    }
+                //ILOSC BONÓW KTÓRĄ CHCEMY PRZEZNACZY PRZEKRACZA ILOSC BOBNÓW JAKA JEST POTRZEBNA NA WSZYSTKIE GODZINY SZKOLENIA
+                //NA PRZYKLAD szkolenie IT: 1h = 2bony, szkolenie ma 10h, maksymlanie możemy przeznaczyć 20 bonów, przeznaczamy 21
+                int maxToReimbursmentNum = training.getHoursNumber() * productInstanceForHour;
+                if (maxToReimbursmentNum < toReservedNum) {
+                    violations.add(new EntityConstraintViolation(
+                            String.format(" Wskazana ilość bonów (%s) przekracza maksymalną ilość bonów (%s) " + "na rezerwację wybranego szkolenia.", toReservedNum, maxToReimbursmentNum)));
+                }
+
+                //ROZLICZAMY GODZINY CZESCIA BONOW A NIE CALOSCIA
+                //NA PRZYKLAD: szklenie IT: 1h = 2bony, 2h - 4bony, 3h - 6bonów, itd
+                int modToReservedNum = toReservedNum % productInstanceForHour;
+                if (modToReservedNum != 0) {
+                    violations.add(new EntityConstraintViolation(
+                            String.format("Wybrana ilość bonów nie jest zgodna z wybraną kategorią szkolenia. " + "Ilość bonów musi stanowić wielokrotność %s.", productInstanceForHour)));
                 }
             }
+        }
 
-            //WALIDACJE PO CALKOWITEJ WARTOSCI (EGZAMIN)
-            if (tccParam.getMaxProductInstance() != null) {
-                int maxProductInstance = tccParam.getMaxProductInstance();
+        //WALIDACJE PO CALKOWITEJ WARTOSCI (EGZAMIN)
+        if (tccParam.getMaxProductInstance() != null) {
+            int maxProductInstance = tccParam.getMaxProductInstance();
 
-                //PRZEKROCZYLISMY MAKSYMALNA ILOSC BONOW DO ROZLICZENIA EGZAMINU
-                //NA PRZYKLAD: maksymalnie 40 bonów, cena bonu 15PLN, maksymalnie możemy dać 600PLN
-                if (maxProductInstance < toReservedNum) {
+            //PRZEKROCZYLISMY MAKSYMALNA ILOSC BONOW DO ROZLICZENIA EGZAMINU
+            //NA PRZYKLAD: maksymalnie 40 bonów, cena bonu 15PLN, maksymalnie możemy dać 600PLN
+            if (maxProductInstance < toReservedNum) {
+                violations.add(new EntityConstraintViolation(
+                        String.format(" Wskazana ilość bonów (%s) przekracza maksymalną ilość bonów (%s) " + "na rezerwację wybranego szkolenia.", toReservedNum, maxProductInstance)));
+            }
+            //REZERWUJEMY WIECEJ BONÓW NIŻ POTRZEBA:
+            //NA PRZYKLAD: koszt egaminu 150PLN, cena bonu 15PLN, potrzeba 15bonów, rezerwujemy 16
+            else {
+                BigDecimal productValue = product.getValue();
+                Integer maxProductInstanceCalculate = training.getPrice().divide(productValue, BIG_DECIMAL_INTEGER_SCALE, BigDecimal.ROUND_UP).intValue();
+                if (maxProductInstanceCalculate < toReservedNum) {
                     violations.add(new EntityConstraintViolation(
-                            String.format(" Wskazana ilość bonów (%s) przekracza maksymalną ilość bonów (%s) " + "na rezerwację wybranego szkolenia.", toReservedNum, maxProductInstance)));
-                }
-                //REZERWUJEMY WIECEJ BONÓW NIŻ POTRZEBA:
-                //NA PRZYKLAD: koszt egaminu 150PLN, cena bonu 15PLN, potrzeba 15bonów, rezerwujemy 16
-                else {
-                    PbeProduct product = pools.get(0).getProduct();
-                    BigDecimal productValue = product.getValue();
-                    Integer maxProductInstanceCalculate = training.getPrice().divide(productValue, BIG_DECIMAL_INTEGER_SCALE, BigDecimal.ROUND_UP).intValue();
-                    if (maxProductInstanceCalculate < toReservedNum) {
-                        violations.add(new EntityConstraintViolation(
-                                String.format(" Wskazana ilość bonów (%s) przekracza maksymalną ilość bonów (%s) " + "na rezerwację wybranego szkolenia.", toReservedNum, maxProductInstanceCalculate)));
-                    }
+                            String.format(" Wskazana ilość bonów (%s) przekracza maksymalną ilość bonów (%s) " + "na rezerwację wybranego szkolenia.", toReservedNum, maxProductInstanceCalculate)));
                 }
             }
         }
@@ -461,4 +509,14 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
         return sum;
     }
 
+    private List<PbeProductInstancePoolUse> orderByExpiryDateDesc(List<PbeProductInstancePoolUse> poolUses){
+        List<PbeProductInstancePoolUse> result = new ArrayList<>(poolUses);
+        result.sort(new Comparator<PbeProductInstancePoolUse>() {
+            @Override
+            public int compare(PbeProductInstancePoolUse o1, PbeProductInstancePoolUse o2) {
+                return (-1) * o1.getProductInstancePool().getExpiryDate().compareTo(o2.getProductInstancePool().getExpiryDate());
+            }
+        });
+        return result;
+    }
 }

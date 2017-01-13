@@ -166,6 +166,12 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
         validateUseTrainingInstance(trainingInstance, useDto);
         trainingInstance.setStatus(trainingInstStatUse);
 
+        //LOWER RESERVATION POOLS
+        if(useDto.getNewReservationNum() < trainingInstance.getAssignedNum()){
+            pbeProductInstancePoolLocalService.lowerReservationPools(trainingInstance, useDto.getNewReservationNum());
+            trainingInstance.setAssignedNum(useDto.getNewReservationNum());
+        }
+
         //USE POOLS
         pbeProductInstancePoolLocalService.usePools(trainingInstance);
     }
@@ -270,18 +276,7 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
     }
 
     private void validateUseTrainingInstance(TrainingInstanceUseDto useDto){
-        List<EntityConstraintViolation> violations = Lists.newArrayList();
-
-        if(useDto.getId() == null){
-            violations.add(new EntityConstraintViolation("Identyfikator instancji szkolenia nie może być pusty"));
-        }
-        if(Strings.isNullOrEmpty(useDto.getPin())){
-            violations.add(new EntityConstraintViolation("Pin do potwierdzenie instancji szkolenia nie może być pusty"));
-        }
-        if(useDto.getVersion() == null){
-            violations.add(new EntityConstraintViolation("Wersja instancji szkolenia nie może być pusty"));
-        }
-        gryfValidator.validate(violations);
+        gryfValidator.validate(useDto);
     }
 
     private void validateUseTrainingInstance(TrainingInstance trainingInstance, TrainingInstanceUseDto useDto) {
@@ -291,6 +286,9 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
             String trainingPin = AEScryptographer.decrypt(trainingInstance.getReimbursmentPin());
             if (!trainingPin.equals(useDto.getPin())) {
                 violations.add(new EntityConstraintViolation("Pin nie jest zgodny z pinem ze szkolenia"));
+            }
+            if(trainingInstance.getAssignedNum() < useDto.getNewReservationNum()){
+                violations.add(new EntityConstraintViolation("Nie można zwiększyć ilości zarezerwowanych bonów (możliwe jest tylko zmniejszenie)."));
             }
         }
         gryfValidator.validate(violations);
