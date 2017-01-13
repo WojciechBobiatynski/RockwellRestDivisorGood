@@ -9,7 +9,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import pl.sodexo.it.gryf.common.annotation.LoggingDisabled;
 import pl.sodexo.it.gryf.common.dto.asynchjobs.AsynchronizeJobInfoDTO;
 import pl.sodexo.it.gryf.common.dto.asynchjobs.AsynchronizeJobResultInfoDTO;
 import pl.sodexo.it.gryf.common.dto.asynchjobs.detailsform.AsynchJobDetailsDTO;
@@ -99,7 +98,6 @@ public class AsynchJobSchedulerServiceImpl implements AsynchJobSchedulerService 
     @Override
     @Scheduled(initialDelay = 15 * 1000, fixedDelay= 5 * 1000)
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
-    @LoggingDisabled
     public void processAsynchronizeJob(){
         Long jobId;
         do{
@@ -131,7 +129,6 @@ public class AsynchJobSchedulerServiceImpl implements AsynchJobSchedulerService 
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    @LoggingDisabled
     public Long reserveAsynchronizeJob(){
         AsynchronizeJob job = asynchronizeJobRepository.findFirstAsynchronizeJobToWork();
         if(job != null) {

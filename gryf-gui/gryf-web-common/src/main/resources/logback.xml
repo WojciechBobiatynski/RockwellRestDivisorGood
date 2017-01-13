@@ -52,9 +52,9 @@
         </discriminator>
         <sift>
             <appender name="FILE_IP${user_role}" class="ch.qos.logback.core.rolling.RollingFileAppender">
-                <file>${catalina.base}/logs/${user_role}.log</file>
+                <file>${catalina.base}/logs/${user_role}-ip.log</file>
                 <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-                    <fileNamePattern>${catalina.base}/logs/${user_role}-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+                    <fileNamePattern>${catalina.base}/logs/${user_role}-ip-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
                     <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                         <maxFileSize>${MAX_FILE_SIZE}</maxFileSize>
                     </timeBasedFileNamingAndTriggeringPolicy>
@@ -74,7 +74,7 @@
     <logger name="org.mybatis" level="WARN"/>
     <logger name="org.hibernate.validator" level="INFO"/>
 
-    <logger name="pl.sodexo.it.gryf.common.logging.eclipselink" level="DEBUG" additivity="false">
+    <logger name="pl.sodexo.it.gryf.model.logging" level="DEBUG" additivity="false">
         <if condition='property("devMode").equalsIgnoreCase("true")'>
             <then>
                 <appender-ref ref="STDOUT"/>
