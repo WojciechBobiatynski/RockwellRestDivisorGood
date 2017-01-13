@@ -9,6 +9,7 @@ angular.module('gryf.electronicreimbursements').factory("electronicReimbursement
         var elctRmbsCriteria = new ElctRmbsCriteria();
         var searchResultOptions = new SearchResultOptions();
         var elctRmbsModel = new ElctRmbsModel();
+        var dictionaries = {rmbsStatuses: null, rmbsTypes: null};
 
         function ElctRmbsCriteria() {
             this.rmbsNumber =  null,
@@ -42,13 +43,14 @@ angular.module('gryf.electronicreimbursements').factory("electronicReimbursement
             return elctRmbsCriteria;
         };
 
+        var getNewElctRmbsModel = function() {
+            elctRmbsModel = new ElctRmbsCriteria();
+            return elctRmbsModel;
+        };
+
         var getNewElctRmbsCriteria = function() {
             elctRmbsCriteria = new ElctRmbsCriteria();
             return elctRmbsCriteria;
-        };
-
-        var getSearchResultOptions = function() {
-            return searchResultOptions;
         };
 
         var getNewSearchResultOptions = function() {
@@ -56,8 +58,18 @@ angular.module('gryf.electronicreimbursements').factory("electronicReimbursement
             return searchResultOptions;
         };
 
+        var getSearchResultOptions = function() {
+            return searchResultOptions;
+        };
+
         var getElctRmbsModel = function () {
             return elctRmbsModel;
+        };
+
+        var getDictionaries = function() {
+            loadReimbursementsStatuses();
+            loadReimbursementsTypes();
+            return dictionaries;
         };
 
         var find = function(findUrl) {
@@ -90,7 +102,7 @@ angular.module('gryf.electronicreimbursements').factory("electronicReimbursement
         var loadReimbursementsStatuses = function() {
             var promise = $http.get(FIND_RMBS_STATUSES_LIST_URL);
             promise.then(function (response) {
-                elctRmbsModel.rmbsStatuses = response.data;
+                dictionaries.rmbsStatuses = response.data;
             });
             return promise;
         };
@@ -98,20 +110,31 @@ angular.module('gryf.electronicreimbursements').factory("electronicReimbursement
         var loadReimbursementsTypes = function() {
             var promise = $http.get(FIND_RMBS_TYPES_LIST_URL);
             promise.then(function (response) {
-                elctRmbsModel.rmbsTypes = response.data;
+                dictionaries.rmbsTypes = response.data;
             });
             return promise;
         };
 
+        var findSortedBy = function(sortColumnName) {
+            GryfTables.sortByColumn(elctRmbsCriteria, sortColumnName);
+            return find();
+        };
+
+        var getSortingTypeClass = function(entity, columnName) {
+            return GryfTables.getSortingTypeClass(entity, columnName);
+        };
+
         return {
+            getNewElctRmbsModel: getNewElctRmbsModel,
             getNewCriteria: getNewElctRmbsCriteria,
-            getSearchResultOptions: getSearchResultOptions,
             getNewSearchResultOptions: getNewSearchResultOptions,
+            getSearchResultOptions: getSearchResultOptions,
             getElctRmbsModel: getElctRmbsModel,
+            getDictionaries: getDictionaries,
             find: find,
             loadMore: loadMore,
-            loadReimbursementsStatuses: loadReimbursementsStatuses,
-            loadReimbursementsTypes: loadReimbursementsTypes
+            findSortedBy: findSortedBy,
+            getSortingTypeClass: getSortingTypeClass
         };
     }]);
 

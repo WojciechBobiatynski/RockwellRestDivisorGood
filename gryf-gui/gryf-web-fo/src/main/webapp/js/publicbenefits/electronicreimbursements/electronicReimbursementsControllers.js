@@ -5,8 +5,7 @@ angular.module('gryf.electronicreimbursements').controller("searchform.electroni
         $scope.elctRmbsCriteria = electronicReimbursementSearchService.getNewCriteria();
         $scope.searchResultOptions = electronicReimbursementSearchService.getSearchResultOptions();
         $scope.elctRmbsModel = electronicReimbursementSearchService.getElctRmbsModel();
-        electronicReimbursementSearchService.loadReimbursementsStatuses();
-        electronicReimbursementSearchService.loadReimbursementsTypes();
+        $scope.dictionaries = electronicReimbursementSearchService.getDictionaries();
 
         gryfSessionStorage.setUrlToSessionStorage();
 
@@ -22,6 +21,21 @@ angular.module('gryf.electronicreimbursements').controller("searchform.electroni
         $scope.clear = function() {
             $scope.elctRmbsCriteria = electronicReimbursementSearchService.getNewCriteria();
             $scope.searchResultOptions = electronicReimbursementSearchService.getNewSearchResultOptions();
+            $scope.elctRmbsModel = electronicReimbursementSearchService.getNewElctRmbsModel();
+        };
+
+
+        $scope.getSortedBy = function(sortColumnName) {
+            $scope.searchResultOptions.badQuery = false;
+            electronicReimbursementSearchService.findSortedBy(sortColumnName);
+        };
+
+        $scope.getSortingTypeClass = function(columnName) {
+            return electronicReimbursementSearchService.getSortingTypeClass($scope.elctRmbsCriteria, columnName);
+        };
+
+        $scope.loadMore = function() {
+            electronicReimbursementSearchService.loadMore();
         };
 
         $scope.openDatepicker = function (fieldName) {
