@@ -31,10 +31,11 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Created by Isolution on 2016-12-02.
+ * Created by Isolution on 2017-01-12.
  */
-@Service(value = "importTrainingInstitutionService")
-public class ImportTrainingInstitutionServiceImpl extends ImportBaseDataServiceImpl {
+@Deprecated()
+@Service(value = "importTrainingInstitutionV1Service")
+public class ImportTrainingInstitutionV1ServiceImpl extends ImportBaseDataServiceImpl {
 
     //PRIVATE FIELDS
 
@@ -63,7 +64,7 @@ public class ImportTrainingInstitutionServiceImpl extends ImportBaseDataServiceI
 
     @Override
     protected ImportResultDTO saveInternalNormalData(ImportParamsDTO paramsDTO, Row row){
-        ImportTrainingInstitutionDTO importDTO = createImportDTO(row);
+        ImportTrainingInstitutionV1DTO importDTO = createImportDTO(row);
         validateImport(importDTO);
 
 
@@ -94,13 +95,13 @@ public class ImportTrainingInstitutionServiceImpl extends ImportBaseDataServiceI
 
     //PRIVATE METHODS - VALIDATE & SAVE
 
-    private void validateImport(ImportTrainingInstitutionDTO importDTO){
+    private void validateImport(ImportTrainingInstitutionV1DTO importDTO){
         List<EntityConstraintViolation> violations = gryfValidator.generateViolation(importDTO);
         gryfValidator.validate(violations);
     }
 
-    private void validateConnectedData(ImportTrainingInstitutionDTO importDTO, TrainingInstitution trainingInstitution,
-                                        ZipCode zipCodeInvoice, ZipCode zipCodeCorr, TrainingInstitutionUser tiUser){
+    private void validateConnectedData(ImportTrainingInstitutionV1DTO importDTO, TrainingInstitution trainingInstitution,
+                                    ZipCode zipCodeInvoice, ZipCode zipCodeCorr, TrainingInstitutionUser tiUser){
         List<EntityConstraintViolation> violations = Lists.newArrayList();
 
         if(zipCodeInvoice == null){
@@ -130,8 +131,8 @@ public class ImportTrainingInstitutionServiceImpl extends ImportBaseDataServiceI
 
     //PRIVATE METHODS - CREATE IMPORT DTO
 
-    private ImportTrainingInstitutionDTO createImportDTO(Row row){
-        ImportTrainingInstitutionDTO ti = new ImportTrainingInstitutionDTO();
+    private ImportTrainingInstitutionV1DTO createImportDTO(Row row){
+        ImportTrainingInstitutionV1DTO ti = new ImportTrainingInstitutionV1DTO();
 
         Iterator<Cell> cellIterator = row.cellIterator();
         while (cellIterator.hasNext()) {
@@ -148,24 +149,36 @@ public class ImportTrainingInstitutionServiceImpl extends ImportBaseDataServiceI
                     ti.setName(getStringCellValue(cell));
                     break;
                 case 3:
-                    ti.getAddressInvoice().setAddress(getStringCellValue(cell));
+                    ti.getAddressInvoice().setStreet(getStringCellValue(cell));
                     break;
                 case 4:
-                    ti.getAddressInvoice().setZipCode(getStringCellValue(cell));
+                    ti.getAddressInvoice().setHomeNumber(getStringCellValue(cell));
                     break;
                 case 5:
-                    ti.getAddressInvoice().setCity(getStringCellValue(cell));
+                    ti.getAddressInvoice().setFlatNumber(getStringCellValue(cell));
                     break;
                 case 6:
-                    ti.getAddressCorr().setAddress(getStringCellValue(cell));
+                    ti.getAddressInvoice().setZipCode(getStringCellValue(cell));
                     break;
                 case 7:
-                    ti.getAddressCorr().setZipCode(getStringCellValue(cell));
+                    ti.getAddressInvoice().setCity(getStringCellValue(cell));
                     break;
                 case 8:
-                    ti.getAddressCorr().setCity(getStringCellValue(cell));
+                    ti.getAddressCorr().setStreet(getStringCellValue(cell));
                     break;
                 case 9:
+                    ti.getAddressCorr().setHomeNumber(getStringCellValue(cell));
+                    break;
+                case 10:
+                    ti.getAddressCorr().setFlatNumber(getStringCellValue(cell));
+                    break;
+                case 11:
+                    ti.getAddressCorr().setZipCode(getStringCellValue(cell));
+                    break;
+                case 12:
+                    ti.getAddressCorr().setCity(getStringCellValue(cell));
+                    break;
+                case 13:
                     ti.setEmail(getStringCellValue(cell));
                     break;
             }
@@ -175,8 +188,8 @@ public class ImportTrainingInstitutionServiceImpl extends ImportBaseDataServiceI
 
     //PRIVATE METHODS - CREATE BUSSINESS DTO
 
-    private TrainingInstitutionDto createTrainingInstitutionDTO(TrainingInstitution trainingInstitution, final ImportTrainingInstitutionDTO importDTO,
-                                                                ZipCode zipCodeInvoice, ZipCode zipCodeCorr){
+    private TrainingInstitutionDto createTrainingInstitutionDTO(TrainingInstitution trainingInstitution, final ImportTrainingInstitutionV1DTO importDTO,
+            ZipCode zipCodeInvoice, ZipCode zipCodeCorr){
         TrainingInstitutionDto dto = new TrainingInstitutionDto();
         dto.setId(trainingInstitution != null ? trainingInstitution.getId() : null);
         dto.setExternalId(importDTO.getExternalId());
@@ -185,12 +198,12 @@ public class ImportTrainingInstitutionServiceImpl extends ImportBaseDataServiceI
         dto.setVatRegNum(importDTO.getVatRegNum());
 
         if(importDTO.getAddressInvoice() != null) {
-            ImportAddressInvoiceConcatDTO address = importDTO.getAddressInvoice();
+            ImportAddressInvoiceSplitDTO address = importDTO.getAddressInvoice();
             dto.setAddressInvoice(address.getAddress());
             dto.setZipCodeInvoice(createZipCodeDTO(zipCodeInvoice));
         }
         if(importDTO.getAddressCorr() != null) {
-            ImportAddressCorrConcatDTO address = importDTO.getAddressCorr();
+            ImportAddressCorrSplitDTO address = importDTO.getAddressCorr();
             dto.setAddressCorr(address.getAddress());
             dto.setZipCodeCorr(createZipCodeDTO(zipCodeCorr));
         }
@@ -235,7 +248,7 @@ public class ImportTrainingInstitutionServiceImpl extends ImportBaseDataServiceI
         return dto;
     }
 
-    private GryfTiUserDto createGryfTiUserDto(ImportTrainingInstitutionDTO importDTO){
+    private GryfTiUserDto createGryfTiUserDto(ImportTrainingInstitutionV1DTO importDTO){
         GryfTiUserDto user = new GryfTiUserDto();
         user.setLogin(importDTO.getEmail());
         user.setEmail(importDTO.getEmail());
@@ -245,7 +258,7 @@ public class ImportTrainingInstitutionServiceImpl extends ImportBaseDataServiceI
         return user;
     }
 
-    private TrainingInstitutionContactDto createTrainingInstitutionContactDto(ImportTrainingInstitutionDTO importDTO){
+    private TrainingInstitutionContactDto createTrainingInstitutionContactDto(ImportTrainingInstitutionV1DTO importDTO){
         TrainingInstitutionContactDto contactDTO = new TrainingInstitutionContactDto();
         contactDTO.setContactType(new ContactTypeDto());
         contactDTO.getContactType().setType(ContactType.TYPE_EMAIL);

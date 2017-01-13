@@ -29,7 +29,7 @@ public class ImportEnterpriseDTO {
     @Setter
     @Valid
     @NotNull(message = "Pola adresu MŚP do faktury nie mogą być puste")
-    private ImportAddressInvoiceDTO addressInvoice = new ImportAddressInvoiceDTO();
+    private ImportAddressInvoiceSplitDTO addressInvoice = new ImportAddressInvoiceSplitDTO();
 
     @Getter
     @Setter

@@ -6,27 +6,16 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.validation.constraints.NotNull;
-
 /**
  * Created by Isolution on 2016-11-30.
  */
 @ToString
-public class ImportAddressInvoiceDTO {
+public class ImportAddressInvoiceConcatDTO {
 
     @Getter
     @Setter
-    @NotEmpty(message = "Ulica adresu do faktury nie może być pusta")
-    private String street;
-
-    @Getter
-    @Setter
-    @NotEmpty(message = "Numer domu adresu do faktury nie może być pustau")
-    private String homeNumber;
-
-    @Getter
-    @Setter
-    private String flatNumber;
+    @NotEmpty(message = "Adresu do faktury nie może być pusty")
+    private String address;
 
     @Getter
     @Setter
@@ -40,16 +29,8 @@ public class ImportAddressInvoiceDTO {
 
     //EXTRA GETTERS
 
-    public String getAddress(){
-        if(Strings.isNullOrEmpty(flatNumber)){
-            return String.format("%s, %s", street, homeNumber);
-        }
-        return String.format("%s, %s m.%s", street, homeNumber, flatNumber);
-    }
-
     public boolean isEmpty(){
-        return Strings.isNullOrEmpty(street) &&
-                Strings.isNullOrEmpty(homeNumber) &&
+        return Strings.isNullOrEmpty(address) &&
                 Strings.isNullOrEmpty(zipCode) &&
                 Strings.isNullOrEmpty(city);
     }

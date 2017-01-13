@@ -43,7 +43,7 @@
                 </select>
                 <gryf-validation-msg path="grantProgramId"></gryf-validation-msg>
             </div>
-            <div class="grid-15">
+            <div class="grid-30">
                 <strong class="label">Typ zadania</strong>
                 <select ng-options="key as val for (key, val) in dictionaries.jobTypes" ng-model="importJobModel.entity.type" ng-disabled="isDisabled">
                     <option value="">{{isDictionaryEmpty(dictionaries.jobTypes) ? "-brak-" : "-wybierz-"}}</option>

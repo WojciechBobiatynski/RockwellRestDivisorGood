@@ -325,7 +325,7 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
         dto.setVatRegNum(importDTO.getVatRegNum());
 
         if(!importDTO.getAddressInvoice().isEmpty()) {
-            ImportAddressInvoiceDTO address = importDTO.getAddressInvoice();
+            ImportAddressInvoiceSplitDTO address = importDTO.getAddressInvoice();
             dto.setAddressInvoice(address.getAddress());
             dto.setZipCodeInvoice(createZipCodeDTO(zipCodeEnterpriseInvoice));
             dto.setAddressCorr(address.getAddress());
@@ -358,7 +358,7 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
         dto.setDocumentType(null);
         dto.setDocumentNumber(null);
         if(!importDTO.getAddressInvoice().isEmpty()) {
-            ImportAddressInvoiceDTO address = importDTO.getAddressInvoice();
+            ImportAddressInvoiceSplitDTO address = importDTO.getAddressInvoice();
             dto.setAddressInvoice(address.getAddress());
             dto.setZipCodeInvoice(createZipCodeDTO(zipCodeIndividualInvoice));
             dto.setAddressCorr(address.getAddress());

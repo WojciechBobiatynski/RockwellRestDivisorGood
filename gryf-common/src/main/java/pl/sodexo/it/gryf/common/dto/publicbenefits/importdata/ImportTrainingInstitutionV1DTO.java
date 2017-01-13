@@ -12,7 +12,8 @@ import javax.validation.constraints.NotNull;
  * Created by Isolution on 2016-12-02.
  */
 @ToString
-public class ImportTrainingInstitutionDTO {
+@Deprecated()
+public class ImportTrainingInstitutionV1DTO {
 
     @Getter
     @Setter
@@ -33,13 +34,13 @@ public class ImportTrainingInstitutionDTO {
     @Setter
     @Valid
     @NotNull(message = "Pola adresu do faktury nie mogą być puste")
-    private ImportAddressInvoiceConcatDTO addressInvoice = new ImportAddressInvoiceConcatDTO();
+    private ImportAddressInvoiceSplitDTO addressInvoice = new ImportAddressInvoiceSplitDTO();
 
     @Getter
     @Setter
     @Valid
     @NotNull(message = "Pola adresu korespondencyjnego nie mogą być puste")
-    private ImportAddressCorrConcatDTO addressCorr = new ImportAddressCorrConcatDTO();
+    private ImportAddressCorrSplitDTO addressCorr = new ImportAddressCorrSplitDTO();
 
     @Getter
     @Setter

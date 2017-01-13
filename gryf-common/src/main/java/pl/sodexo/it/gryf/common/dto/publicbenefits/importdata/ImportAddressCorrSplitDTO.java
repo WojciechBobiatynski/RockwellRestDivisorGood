@@ -8,7 +8,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 /**
  * Created by Isolution on 2016-12-12.
  */
-public class ImportAddressCorrDTO {
+public class ImportAddressCorrSplitDTO {
 
     @Getter
     @Setter
