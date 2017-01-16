@@ -53,10 +53,11 @@ angular.module("gryf.ti").directive("attachments", ['AttachmentService',
                     this.code = code,
                         this.maxFileSize = maxFileSize,
                         this.required = required
-                };
+                }
 
-                $scope.$watch('model.grantProgramId', function (newData) {
+                var unregisterCallback = $scope.$watch('model.grantProgramId', function (newData) {
                     if (newData) {
+                        unregisterCallback();
                         AttachmentService.loadAttachmentsTypes($scope.model.grantProgramId).then(function (response) {
                             $scope.modelTypes.types = response.data;
                             $scope.modelTypes.types.sort(function(a,b){

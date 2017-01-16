@@ -131,7 +131,8 @@ angular.module("gryf.ti").factory("ReimbursementsServiceModify",
             this.trainingInstance = null
         };
 
-        var getRmbsModel = function () {
+        var getNewRmbsModel = function () {
+            rmbsModel = new RmbsModel();
             return rmbsModel;
         };
 
@@ -287,7 +288,7 @@ angular.module("gryf.ti").factory("ReimbursementsServiceModify",
         };
 
         return {
-            getRmbsModel: getRmbsModel,
+            getNewRmbsModel: getNewRmbsModel,
             findById: findById,
             createReimbursement: createReimbursement,
             saveReimburse: saveReimburse,

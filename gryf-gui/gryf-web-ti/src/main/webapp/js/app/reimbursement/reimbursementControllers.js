@@ -50,7 +50,7 @@ angular.module("gryf.ti").controller("ReimbursementsController", ["$scope", "Rei
 
 angular.module("gryf.ti").controller("ReimbursementModifyController", ["$scope", "$state", "ReimbursementsServiceModify", "DictionaryService","$stateParams","TrainingInstanceSearchService",
     function ($scope, $state, ReimbursementsServiceModify, DictionaryService, $stateParams, TrainingInstanceSearchService) {
-        $scope.rmbsModel = ReimbursementsServiceModify.getRmbsModel();
+        $scope.rmbsModel = ReimbursementsServiceModify.getNewRmbsModel();
         $scope.violations = ReimbursementsServiceModify.getNewViolations();
 
         $scope.sendButtonText = "Wyślij do rozliczenia";
