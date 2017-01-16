@@ -21,8 +21,8 @@ W za³¹czeniu przesy³amy dokument potwierdzaj¹cy dokonanie wp³aty wk³adu w³asnego
 Z powa¿aniem
 Zespó³ ds. obs³ugi klienta' EMAIL_BODY_TEMPLATE,
 
-'{$grantProgramName} – przyznanie bonów szkoleniowych' EMAIL_SUBJECT_TEMPLATE,
-'Email do Uczestnika o przydzieleniu bonów –systemowy/automatyczny' DESCRIPTION from dual)
+                                                     '{$grantProgramName} – przyznanie bonów szkoleniowych' EMAIL_SUBJECT_TEMPLATE,
+                                                     'Email do Uczestnika o przydzieleniu bonów –systemowy/automatyczny' DESCRIPTION from dual)
                                              ins ON (msg.ID = ins.ID)
 WHEN MATCHED THEN
 UPDATE SET msg.EMAIL_BODY_TEMPLATE = ins.EMAIL_BODY_TEMPLATE,
@@ -47,8 +47,8 @@ W zwi¹zku z tym, i¿ wartoœæ wp³aconego wk³adu w³asnego jest wy¿sza ni¿ wartoœæ w
 Z powa¿aniem
 Zespó³ ds. obs³ugi klienta' EMAIL_BODY_TEMPLATE,
 
-'{$grantProgramName}– zwrot nadp³aconego wk³adu w³asnego z tytu³u rozliczenia us³ugi' EMAIL_SUBJECT_TEMPLATE,
-'Email do Uczestnika o rozliczeniu us³ugi - systemowy/automatyczny' DESCRIPTION
+                                                     '{$grantProgramName}– zwrot nadp³aconego wk³adu w³asnego z tytu³u rozliczenia us³ugi' EMAIL_SUBJECT_TEMPLATE,
+                                                     'Email do Uczestnika o rozliczeniu us³ugi - systemowy/automatyczny' DESCRIPTION
                                               from dual) ins ON (msg.ID = ins.ID)
 WHEN MATCHED THEN
 UPDATE SET msg.EMAIL_BODY_TEMPLATE = ins.EMAIL_BODY_TEMPLATE,
@@ -73,8 +73,8 @@ W za³¹czniku znajdzie Pan/Pani potwierdzenie zap³aty nale¿noœci za us³ugê.
 Z powa¿aniem
 Zespó³ ds. obs³ugi klienta' EMAIL_BODY_TEMPLATE,
 
-'{$grantProgramName}– potwierdzenie zap³aty nale¿noœci z tytu³u rozliczenia us³ugi' EMAIL_SUBJECT_TEMPLATE,
-'Email do Uczestnika z potwierdzeniem zap³aty nale¿noœci za us³ugê - systemowy/automatyczny' DESCRIPTION
+                                                     '{$grantProgramName}– potwierdzenie zap³aty nale¿noœci z tytu³u rozliczenia us³ugi' EMAIL_SUBJECT_TEMPLATE,
+                                                     'Email do Uczestnika z potwierdzeniem zap³aty nale¿noœci za us³ugê - systemowy/automatyczny' DESCRIPTION
                                               from dual) ins ON (msg.ID = ins.ID)
 WHEN MATCHED THEN
 UPDATE SET msg.EMAIL_BODY_TEMPLATE = ins.EMAIL_BODY_TEMPLATE,
@@ -97,10 +97,10 @@ Uprzejmie informujemy, ¿e rozliczono bony w ramach projektu {$grantProgramName} 
 W za³¹czniku znajdzie Pan/Pani potwierdzenie rozliczenia us³ugi, tj. dokument pn. Potwierdzenie realizacji dofinansowania.
 
 Z powa¿aniem
-Zespó³ ds. obs³ugi klienta'EMAIL_BODY_TEMPLATE,
+Zespó³ ds. obs³ugi klienta' EMAIL_BODY_TEMPLATE,
 
-'{$grantProgramName}– potwierdzenie rozliczenia us³ugi' EMAIL_SUBJECT_TEMPLATE,
-'Email do Uczestnika (MŒP) z potwierdzeniem rozliczenia us³ugi - systemowy/automatyczny' DESCRIPTION
+                                                     '{$grantProgramName}– potwierdzenie rozliczenia us³ugi' EMAIL_SUBJECT_TEMPLATE,
+                                                     'Email do Uczestnika (MŒP) z potwierdzeniem rozliczenia us³ugi - systemowy/automatyczny' DESCRIPTION
                                               from dual) ins ON (msg.ID = ins.ID)
 WHEN MATCHED THEN
 UPDATE SET msg.EMAIL_BODY_TEMPLATE = ins.EMAIL_BODY_TEMPLATE,
@@ -109,7 +109,6 @@ UPDATE SET msg.EMAIL_BODY_TEMPLATE = ins.EMAIL_BODY_TEMPLATE,
 WHEN NOT MATCHED
 THEN INSERT (ID, EMAIL_BODY_TEMPLATE, EMAIL_SUBJECT_TEMPLATE, DESCRIPTION) VALUES
 (ins.ID, ins.EMAIL_BODY_TEMPLATE,ins.EMAIL_SUBJECT_TEMPLATE, ins.DESCRIPTION);
-
 
 --------------------------------------------------------------------------------------------------------------------
 -----------------------------------CORR_NOTIF-----------------------------------------------------------------------
@@ -126,8 +125,8 @@ Prosimy o korektê dokumentów rozliczeniowych w terminie 5 dni roboczych od otrzy
 Z powa¿aniem
 Zespó³ ds. obs³ugi klienta' EMAIL_BODY_TEMPLATE,
 
-'{$grantProgramName}– koniecznoœæ dokonania korekty w rozliczeniu us³ugi' EMAIL_SUBJECT_TEMPLATE,
-'Email do Us³ugodawcy z informacj¹ o koniecznoœci korekty rozliczenia szkolenia - systemowy/automatyczny' DESCRIPTION from dual)
+                                                     '{$grantProgramName}– koniecznoœæ dokonania korekty w rozliczeniu us³ugi' EMAIL_SUBJECT_TEMPLATE,
+                                                     'Email do Us³ugodawcy z informacj¹ o koniecznoœci korekty rozliczenia szkolenia - systemowy/automatyczny' DESCRIPTION from dual)
                                              ins ON (msg.ID = ins.ID)
 WHEN MATCHED THEN
 UPDATE SET msg.EMAIL_BODY_TEMPLATE = ins.EMAIL_BODY_TEMPLATE,
@@ -155,8 +154,8 @@ PIN: {$reimbursmentPin}
 Z powa¿aniem
 Zespó³ ds. obs³ugi klienta' EMAIL_BODY_TEMPLATE,
 
-'{$grantProgramName} – kod PIN do rozliczenia us³ugi' EMAIL_SUBJECT_TEMPLATE,
-'Email do uczestnika z numerem PIN do us³ugi po jej rezerwacji - systemowy/automatyczny' DESCRIPTION from dual)
+                                                     '{$grantProgramName} – kod PIN do rozliczenia us³ugi' EMAIL_SUBJECT_TEMPLATE,
+                                                     'Email do uczestnika z numerem PIN do us³ugi po jej rezerwacji - systemowy/automatyczny' DESCRIPTION from dual)
                                              ins ON (msg.ID = ins.ID)
 WHEN MATCHED THEN
 UPDATE SET msg.EMAIL_BODY_TEMPLATE = ins.EMAIL_BODY_TEMPLATE,
@@ -183,8 +182,8 @@ PIN: {$reimbursmentPin}
 Z powa¿aniem
 Zespó³ ds. obs³ugi klienta' EMAIL_BODY_TEMPLATE,
 
-'{$grantProgramName} – kod PIN do rozliczenia us³ugi' EMAIL_SUBJECT_TEMPLATE,
-'Email do uczestnika z numerem PIN do us³ugi ( ponowna wysy³ka) - systemowy/automatyczny' DESCRIPTION from dual)
+                                                     '{$grantProgramName} – kod PIN do rozliczenia us³ugi' EMAIL_SUBJECT_TEMPLATE,
+                                                     'Email do uczestnika z numerem PIN do us³ugi ( ponowna wysy³ka) - systemowy/automatyczny' DESCRIPTION from dual)
                                              ins ON (msg.ID = ins.ID)
 WHEN MATCHED THEN
 UPDATE SET msg.EMAIL_BODY_TEMPLATE = ins.EMAIL_BODY_TEMPLATE,
@@ -210,8 +209,8 @@ MERGE INTO APP_PBE.EMAIL_TEMPLATES msg USING (SELECT 'RESET_LINK' ID ,'Poni¿ej z
 Z powa¿aniem
 Zespó³ ds. obs³ugi klienta' EMAIL_BODY_TEMPLATE,
 
-'{$grantProgramName} – reset has³a' EMAIL_SUBJECT_TEMPLATE,
-'Email do Us³ugodawcy z linkiem do resetu has³a do logowania - systemowy/automatyczny' DESCRIPTION from dual)
+                                                     '{$grantProgramName} – reset has³a' EMAIL_SUBJECT_TEMPLATE,
+                                                     'Email do Us³ugodawcy z linkiem do resetu has³a do logowania - systemowy/automatyczny' DESCRIPTION from dual)
                                              ins ON (msg.ID = ins.ID)
 WHEN MATCHED THEN
 UPDATE SET msg.EMAIL_BODY_TEMPLATE = ins.EMAIL_BODY_TEMPLATE,
@@ -235,8 +234,8 @@ Przypominamy, ¿e termin wa¿noœci Bonów Szkoleniowych przydzielonych w ramach pro
 Z powa¿aniem
 Zespó³ ds. obs³ugi klienta' EMAIL_BODY_TEMPLATE,
 
-'{$grantProgramName} – przypomnienie o up³ywaj¹cym terminie wa¿noœci bonów' EMAIL_SUBJECT_TEMPLATE,
-'Email do uczestnika, informuj¹cy o up³ywaj¹cym terminie wa¿noœci bonów - systemowy/automatyczny' DESCRIPTION from dual)
+                                                     '{$grantProgramName} – przypomnienie o up³ywaj¹cym terminie wa¿noœci bonów' EMAIL_SUBJECT_TEMPLATE,
+                                                     'Email do uczestnika, informuj¹cy o up³ywaj¹cym terminie wa¿noœci bonów - systemowy/automatyczny' DESCRIPTION from dual)
                                              ins ON (msg.ID = ins.ID)
 WHEN MATCHED THEN
 UPDATE SET msg.EMAIL_BODY_TEMPLATE = ins.EMAIL_BODY_TEMPLATE,
@@ -263,8 +262,8 @@ W za³¹czeniu przesy³amy dokument potwierdzaj¹cy rozliczenie wp³aconego wk³adu w³
 Z powa¿aniem
 Zespó³ ds. obs³ugi klienta' EMAIL_BODY_TEMPLATE,
 
-'{$grantProgramName}– zwrot wk³adu w³asnego z tytu³u up³yniêcia utraty terminu wa¿noœci bonów' EMAIL_SUBJECT_TEMPLATE,
-'Email do Uczestnika o rozliczeniu bonów po terminie wa¿noœci systemowy/automatyczny' DESCRIPTION from dual)
+                                                     '{$grantProgramName}– zwrot wk³adu w³asnego z tytu³u up³yniêcia utraty terminu wa¿noœci bonów' EMAIL_SUBJECT_TEMPLATE,
+                                                     'Email do Uczestnika o rozliczeniu bonów po terminie wa¿noœci systemowy/automatyczny' DESCRIPTION from dual)
                                              ins ON (msg.ID = ins.ID)
 WHEN MATCHED THEN
 UPDATE SET msg.EMAIL_BODY_TEMPLATE = ins.EMAIL_BODY_TEMPLATE,
@@ -296,8 +295,8 @@ Szczegó³owe informacje dotycz¹ce systemu bonów szkoleniowych oraz jego obs³ugi d
 Z powa¿aniem
 Zespó³ ds. obs³ugi klienta' EMAIL_BODY_TEMPLATE,
 
-'{$grantProgramName} – dostêp do serwisu www' EMAIL_SUBJECT_TEMPLATE,
-'Email do Us³ugodawcy o przydzieleniu dostêpu do serwisu www - systemowy/automatyczny' DESCRIPTION from dual)
+                                                     '{$grantProgramName} – dostêp do serwisu www' EMAIL_SUBJECT_TEMPLATE,
+                                                     'Email do Us³ugodawcy o przydzieleniu dostêpu do serwisu www - systemowy/automatyczny' DESCRIPTION from dual)
                                              ins ON (msg.ID = ins.ID)
 WHEN MATCHED THEN
 UPDATE SET msg.EMAIL_BODY_TEMPLATE = ins.EMAIL_BODY_TEMPLATE,
@@ -323,8 +322,8 @@ W za³¹czeniu przesy³amy dokument potwierdzaj¹cy rozliczenie wp³aconego wk³adu w³
 Z powa¿aniem
 Zespó³ ds. obs³ugi klienta' EMAIL_BODY_TEMPLATE,
 
-'{$grantProgramName}– zwrot wk³adu w³asnego z tytu³u zwrotu bonów ' EMAIL_SUBJECT_TEMPLATE,
-'Email do Uczestnika o rozliczeniu zwrotu bonów - systemowy/automatyczny' DESCRIPTION from dual)
+                                                     '{$grantProgramName}– zwrot wk³adu w³asnego z tytu³u zwrotu bonów ' EMAIL_SUBJECT_TEMPLATE,
+                                                     'Email do Uczestnika o rozliczeniu zwrotu bonów - systemowy/automatyczny' DESCRIPTION from dual)
                                              ins ON (msg.ID = ins.ID)
 WHEN MATCHED THEN
 UPDATE SET msg.EMAIL_BODY_TEMPLATE = ins.EMAIL_BODY_TEMPLATE,
@@ -352,9 +351,9 @@ Has³o: {$verificationCode}
 Z powa¿aniem
 Zespó³ ds. obs³ugi klienta' EMAIL_BODY_TEMPLATE,
 
-'Dane do logowania' EMAIL_SUBJECT_TEMPLATE,
-'Dane do logowania dla osoby fizycznej' DESCRIPTION from dual)
-ins ON (msg.ID = ins.ID)
+                                                     'Dane do logowania' EMAIL_SUBJECT_TEMPLATE,
+                                                     'Dane do logowania dla osoby fizycznej' DESCRIPTION from dual)
+                                             ins ON (msg.ID = ins.ID)
 WHEN MATCHED THEN
 UPDATE SET msg.EMAIL_BODY_TEMPLATE = ins.EMAIL_BODY_TEMPLATE,
   msg.EMAIL_SUBJECT_TEMPLATE = ins.EMAIL_SUBJECT_TEMPLATE,
@@ -362,6 +361,7 @@ UPDATE SET msg.EMAIL_BODY_TEMPLATE = ins.EMAIL_BODY_TEMPLATE,
 WHEN NOT MATCHED
 THEN INSERT (ID, EMAIL_BODY_TEMPLATE, EMAIL_SUBJECT_TEMPLATE, DESCRIPTION) VALUES
 (ins.ID, ins.EMAIL_BODY_TEMPLATE,ins.EMAIL_SUBJECT_TEMPLATE, ins.DESCRIPTION);
+
 
 
 
