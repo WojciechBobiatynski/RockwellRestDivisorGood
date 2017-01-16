@@ -21,6 +21,7 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.mail.EmailTemplateRepository;
 import pl.sodexo.it.gryf.model.mail.EmailInstance;
 import pl.sodexo.it.gryf.model.mail.EmailInstanceAttachment;
 import pl.sodexo.it.gryf.model.mail.EmailTemplate;
+import pl.sodexo.it.gryf.model.mail.EmailType;
 import pl.sodexo.it.gryf.service.config.MailTemplateConfiguration;
 import pl.sodexo.it.gryf.service.local.api.MailService;
 
@@ -221,8 +222,8 @@ public class MailServiceImpl implements MailService {
             message.setSubject(mailDTO.getSubject(), "UTF-8");
 
             if(GryfUtils.isEmpty(mailDTO.getAttachments())){
-                String type = email.getEmailTemplate() != null ? email.getEmailTemplate().getEmailType() : "text";
-                LOGGER.debug("Ustawiany xxx=" + email.getEmailTemplate());
+                String type = getContentType(email.getEmailTemplate());
+                LOGGER.debug("Ustawiany eamila template=" + email.getEmailTemplate());
                 LOGGER.debug("Ustawiany typ=" + type);
                 message.setText(mailDTO.getBody(), "UTF-8", type);
             }
@@ -247,7 +248,7 @@ public class MailServiceImpl implements MailService {
     private void addAttachments(Message message, EmailTemplate emailTemplate, String body, List<MailAttachmentDTO> attachments) throws MessagingException {
         MimeBodyPart messageBodyPart = new MimeBodyPart();
 
-        String type = emailTemplate != null ? emailTemplate.getEmailType() : "text";
+        String type = getContentType(emailTemplate);
         LOGGER.debug("Ustawiany xxx=" + emailTemplate);
         LOGGER.debug("Ustawiany typ=" + type);
         messageBodyPart.setText(body, "UTF-8", type);
@@ -290,6 +291,11 @@ public class MailServiceImpl implements MailService {
             email.setMailSessionProperties(GryfStringUtils.substring(mailSession.getProperties().toString(), 0,
                     EmailInstance.MAIL_SESSION_PROPERTIES_MAX_SIZE));
         }
+    }
+
+    private String getContentType(EmailTemplate emailTemplate){
+        return (emailTemplate != null && emailTemplate.getEmailType() != null) ?
+                emailTemplate.getEmailType().getContentType() : EmailType.DEFAULT_TYPE.getContentType();
     }
 
     //CLASSES

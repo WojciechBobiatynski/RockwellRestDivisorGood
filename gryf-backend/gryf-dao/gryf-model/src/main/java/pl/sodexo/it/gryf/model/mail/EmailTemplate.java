@@ -3,10 +3,7 @@ package pl.sodexo.it.gryf.model.mail;
 import lombok.ToString;
 import pl.sodexo.it.gryf.model.api.GryfEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Objects;
 
 /**
@@ -50,8 +47,9 @@ public class EmailTemplate extends GryfEntity{
     @Column(name = "EMAIL_SUBJECT_TEMPLATE")
     private String emailSubjectTemplate;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "EMAIL_TYPE")
-    private String emailType;
+    private EmailType emailType;
 
     @Column(name = "DESCRIPTION")
     private String description;
@@ -82,11 +80,11 @@ public class EmailTemplate extends GryfEntity{
         this.emailSubjectTemplate = emailSubjectTemplate;
     }
 
-    public String getEmailType() {
+    public EmailType getEmailType() {
         return emailType;
     }
 
-    public void setEmailType(String emailType) {
+    public void setEmailType(EmailType emailType) {
         this.emailType = emailType;
     }
 
