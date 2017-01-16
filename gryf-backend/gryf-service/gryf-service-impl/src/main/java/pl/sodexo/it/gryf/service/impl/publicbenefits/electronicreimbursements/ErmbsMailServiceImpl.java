@@ -22,6 +22,7 @@ import pl.sodexo.it.gryf.service.mapping.MailDtoCreator;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.electronicreimbursements.ErmbsMailAttachmentDtoMapper;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -35,6 +36,7 @@ import java.util.List;
 @Transactional
 public class ErmbsMailServiceImpl implements ErmbsMailService {
 
+    private static final int DAYS_OF_PAYMENT_CONFIRMATION_EMAIL_SENDING_DELAY = 1;
     private static final int MAILS_FROM_TEMPLATE_NUM = 2;
 
     @Autowired
@@ -117,7 +119,8 @@ public class ErmbsMailServiceImpl implements ErmbsMailService {
         fillMailDTOWithAttachmentsOfErmbsMail(mail, dto);
         Date delayTimestamp = new Date();
         if(ErmbsMailType.PAYMENT_CONFIRMATION.equals(dto.getEmailType())){
-            LocalDateTime.from(delayTimestamp.toInstant()).plusDays(1);
+            LocalDateTime localDateTime = delayTimestamp.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+            delayTimestamp = Date.from(localDateTime.plusDays(DAYS_OF_PAYMENT_CONFIRMATION_EMAIL_SENDING_DELAY).atZone(ZoneId.systemDefault()).toInstant());
         }
         mail.setDelayTimestamp(delayTimestamp);
         mail = mailService.scheduleMail(mail);
