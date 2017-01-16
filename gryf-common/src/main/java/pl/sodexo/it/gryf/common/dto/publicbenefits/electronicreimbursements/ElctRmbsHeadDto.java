@@ -161,9 +161,7 @@ public class ElctRmbsHeadDto extends VersionableDto implements Serializable {
     private void calculateSxoIndAmountForTrainingIfCheaperThanLimit(CalculationChargesParamsDto params) {
         BigDecimal usedProductForExamCost = BigDecimal.valueOf(params.getUsedProductsNumber()).multiply(params.getProductValue());
         if(usedProductForExamCost.compareTo(params.getTrainingPrice()) > 0){
-            //TODO wyciągnąć procentowy wkład własny ze zmiennych
-            BigDecimal ownContributionPercentage = new BigDecimal("0.13");
-            setSxoIndAmountDueTotal(usedProductForExamCost.subtract(params.getTrainingPrice()).multiply(ownContributionPercentage).setScale(BIG_DECIMAL_MONEY_SCALE, RoundingMode.HALF_UP));
+            setSxoIndAmountDueTotal(usedProductForExamCost.subtract(params.getTrainingPrice()).multiply(params.getOwnContributionPercentage()).setScale(BIG_DECIMAL_MONEY_SCALE, RoundingMode.HALF_UP));
         } else {
             setSxoIndAmountDueTotal(BigDecimal.ZERO);
         }
@@ -178,15 +176,11 @@ public class ElctRmbsHeadDto extends VersionableDto implements Serializable {
     }
 
     private void calculateIndOwnContributionUsed(CalculationChargesParamsDto params) {
-        //TODO wyciągnąć procentowy wkład własny ze zmiennych
-        BigDecimal ownContributionPercentage = new BigDecimal("0.13");
-        setIndOwnContributionUsed(ownContributionPercentage.multiply(getSxoTiAmountDueTotal()).setScale(BIG_DECIMAL_MONEY_SCALE, RoundingMode.HALF_UP));
+        setIndOwnContributionUsed(params.getOwnContributionPercentage().multiply(getSxoTiAmountDueTotal()).setScale(BIG_DECIMAL_MONEY_SCALE, RoundingMode.HALF_UP));
     }
 
     private void calculateIndSubsidyValue(CalculationChargesParamsDto params) {
-        //TODO wyciągnąć procentową wartość dofinansowania
-        BigDecimal indSubsidyPercentage = new BigDecimal("0.87");
-        setIndSubsidyValue(indSubsidyPercentage.multiply(getSxoTiAmountDueTotal()).setScale(BIG_DECIMAL_MONEY_SCALE, RoundingMode.HALF_UP));
+        setIndSubsidyValue(params.getIndSubsidyPercentage().multiply(getSxoTiAmountDueTotal()).setScale(BIG_DECIMAL_MONEY_SCALE, RoundingMode.HALF_UP));
     }
 
     private boolean isReimbursementForTraining(CalculationChargesParamsDto params) {
