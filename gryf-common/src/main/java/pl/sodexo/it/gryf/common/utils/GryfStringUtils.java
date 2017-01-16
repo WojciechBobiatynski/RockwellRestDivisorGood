@@ -1,7 +1,11 @@
 package pl.sodexo.it.gryf.common.utils;
 
+import com.google.common.io.Files;
+
 import java.util.HashMap;
 import java.util.Map;
+
+import static pl.sodexo.it.gryf.common.utils.GryfConstants.FILE_EXTENSION_DELIMITER;
 
 /**
  * Klasa zbierajaca ogólne funkcjionalności w całej aplikacji.
@@ -127,6 +131,21 @@ public final class GryfStringUtils {
                         .replaceAll("[^A-Za-z0-9 _]", "")
                         .replaceAll(" ", "_")
                         .toLowerCase();
+    }
+
+    /**
+     * Metoda dla formatuje daną nazwę dla pliku z rozszerzeniem na nazwę pliku. Zwracana nazwa pliku ma
+     * zanaki tylko alfanumeryczne, spacje zamieniona na '_', itp.
+     * @param fileNameWithExtension nazwa pliku do sformatowania wraz z rozszerzeniem
+     * @return sformatowana nazwa pliku
+     */
+    public static String convertFileNameWithExtension(String fileNameWithExtension){
+        String extension = Files.getFileExtension(fileNameWithExtension);
+        String nameWithoutExtension = Files.getNameWithoutExtension(fileNameWithExtension);
+        return GryfStringUtils.replacePolishCharacters(nameWithoutExtension)
+                .replaceAll("[^A-Za-z0-9 _]", "")
+                .replaceAll(" ", "_")
+                .toLowerCase() + FILE_EXTENSION_DELIMITER + extension;
     }
 
 }

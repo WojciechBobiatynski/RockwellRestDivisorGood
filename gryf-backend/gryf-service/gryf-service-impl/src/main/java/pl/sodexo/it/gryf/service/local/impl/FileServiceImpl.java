@@ -59,7 +59,7 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public String writeFile(FileDTO fileDTO, String newFileRoot) {
-        String newFileName = GryfStringUtils.convertFileName(fileDTO.getOriginalFilename());
+        String newFileName = GryfStringUtils.convertFileNameWithExtension(fileDTO.getOriginalFilename());
         Path newFilePath = Paths.get(newFileRoot, newFileName);
         try {
             Files.copy(fileDTO.getInputStream(), newFilePath);
@@ -132,7 +132,7 @@ public class FileServiceImpl implements FileService {
     public String copyFile(String sourceFilePath, String newFileRoot) {
         Path oldSourcePath = Paths.get(sourceFilePath);
         Path oldFileName = oldSourcePath.getFileName();
-        String newFileName = GryfStringUtils.convertFileName(oldFileName.toString());
+        String newFileName = GryfStringUtils.convertFileNameWithExtension(oldFileName.toString());
         Path newFilePath = Paths.get(newFileRoot, newFileName);
         try (OutputStream os = new FileOutputStream(newFilePath.toFile())) {
             Files.copy(oldSourcePath, os);
