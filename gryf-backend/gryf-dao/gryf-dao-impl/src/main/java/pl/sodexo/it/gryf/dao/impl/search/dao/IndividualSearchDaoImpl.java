@@ -35,8 +35,9 @@ public class IndividualSearchDaoImpl implements IndividualSearchDao {
     public UserTrainingReservationDataDto findDataForTrainingReservation(String pesel) {
         UserTrainingReservationDataDto reservationDataDto = individualSearchMapper.findDataForTrainingReservation(pesel);
 
-        //TODO: w przyszłości użytkownik TI będzie miał możliwość wybrania grant programu powiązanego z umową osoby fizycznej
+        //w przyszłości użytkownik TI będzie miał możliwość wybrania grant programu powiązanego z umową osoby fizycznej
         //w tej chwili pobieramy tylko pierwszą umowę, bo jest tylko jeden grant program
+        //(umowy posortowane po expiry_date desc wiec weźmiemy tą najbardziej aktualną)
         Optional<ContractSearchResultDTO> firstContract = reservationDataDto.getContracts().stream().findFirst();
         if(firstContract.isPresent()) {
             reservationDataDto.getContracts().clear();

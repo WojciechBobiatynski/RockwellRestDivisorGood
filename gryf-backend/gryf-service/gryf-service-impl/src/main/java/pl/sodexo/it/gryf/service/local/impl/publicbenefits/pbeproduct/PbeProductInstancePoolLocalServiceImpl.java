@@ -11,6 +11,7 @@ import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.pbeproducts.*;
 import pl.sodexo.it.gryf.dao.api.search.dao.ProductInstancePoolSearchDao;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
+import pl.sodexo.it.gryf.model.publicbenefits.contracts.ContractType;
 import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.Ereimbursement;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
@@ -27,10 +28,7 @@ import pl.sodexo.it.gryf.service.local.impl.publicbenefits.products.PbeProductIn
 import pl.sodexo.it.gryf.service.local.impl.publicbenefits.products.PrintNumberGenerator;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static pl.sodexo.it.gryf.common.utils.GryfConstants.BIG_DECIMAL_INTEGER_SCALE;
 
@@ -374,6 +372,20 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
             violations.add(new EntityConstraintViolation("Użytkownik nie posiada żadnej puli bonów, "
                     + "które można użyć do rezerwacji wybranego szkolenia."));
         }else {
+
+            //SPRAWDZENIE ABY UMOWY MIALY TEN SAM TYP (TO SAMO MSP)
+            Contract firsContract = pools.get(0).getOrder().getContract();
+            for(PbeProductInstancePool pool : pools){
+                Contract contract = pool.getOrder().getContract();
+                if(!Objects.equals(firsContract.getContractType(), contract.getContractType())){
+                    violations.add(new EntityConstraintViolation("Użytkownik posiada różne typy umów."));
+                }
+                else if(ContractType.TYPE_ENT.equals(contract.getContractType().getId())){
+                    if(!Objects.equals(firsContract.getEnterprise(), contract.getEnterprise())){
+                        violations.add(new EntityConstraintViolation("Użytkownik posiada umowy podpisane na różne MŚP."));
+                    }
+                }
+            }
 
             //ILOSC JAKA CHCEMY ZAREZERWOWAC PRZEKRACZA ILOSC DOSTEPNYCH BONOW W ZNALEZIONYCH PULACH
             int avaiableNum = sumAvaiableNum(pools);

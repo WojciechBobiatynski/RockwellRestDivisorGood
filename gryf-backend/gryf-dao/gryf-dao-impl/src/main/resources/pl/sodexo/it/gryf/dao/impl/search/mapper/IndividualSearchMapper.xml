@@ -115,6 +115,7 @@
             LEFT JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOLS pip ON pip.INDIVIDUAL_ID = ind.ID
         WHERE
             ind.PESEL = #{pesel}
+        ORDER BY pip.EXPIRY_DATE DESC
     </select>
 
     <resultMap id="userTrainingReservationData" type="pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.UserTrainingReservationDataDto" autoMapping="true">
