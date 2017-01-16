@@ -158,6 +158,7 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
 
     @Override
     public Long saveErmbs(ElctRmbsHeadDto elctRmbsHeadDto) {
+        ermbsValidator.isCorrectStatusTransition(elctRmbsHeadDto.getErmbsId(), EreimbursementStatus.NEW_ERMBS);
         //wyliczanie składek zawsze przed zapisem na wypadek manipulowania danymi z frontu
         calculateCharges(elctRmbsHeadDto);
         //musimy zapisać rmbs, żeby mieć ID potrzebne do nadania odpowiedniej nazwy załącznikom
@@ -171,6 +172,7 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     @Override
     public Long sendToReimburse(ElctRmbsHeadDto elctRmbsHeadDto) {
         ermbsValidator.validateRmbs(elctRmbsHeadDto);
+        ermbsValidator.isCorrectStatusTransition(elctRmbsHeadDto.getErmbsId(), EreimbursementStatus.TO_ERMBS);
         //wyliczanie składek zawsze przed zapisem na wypadek manipulowania danymi z frontu
         calculateCharges(elctRmbsHeadDto);
         //musimy zapisać rmbs, żeby mieć ID potrzebne do nadania odpowiedniej nazwy załącznikom
@@ -183,6 +185,7 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
 
     @Override
     public Long saveErmbsWithCorr(ElctRmbsHeadDto elctRmbsHeadDto) {
+        ermbsValidator.isCorrectStatusTransition(elctRmbsHeadDto.getErmbsId(), EreimbursementStatus.TO_CORRECT);
         Ereimbursement ereimbursement = saveErmbsData(elctRmbsHeadDto);
         List<CorrectionAttachmentDto> correctionAttachmentDtoList = correctionAttachmentService.createCorrAttIfNotExistsForErmbsAttBeingChanged(elctRmbsHeadDto);
         ermbsAttachmentService.manageErmbsAttachmentsForCorrection(elctRmbsHeadDto, ErmbsAttachmentStatus.TEMP);
@@ -193,6 +196,7 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     @Override
     public Long sendToReimburseWithCorr(ElctRmbsHeadDto elctRmbsHeadDto) {
         ermbsValidator.validateRmbs(elctRmbsHeadDto);
+        ermbsValidator.isCorrectStatusTransition(elctRmbsHeadDto.getErmbsId(), EreimbursementStatus.TO_ERMBS);
         calculateCharges(elctRmbsHeadDto);
         Ereimbursement ereimbursement = saveErmbsData(elctRmbsHeadDto);
         ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.TO_ERMBS));
@@ -207,6 +211,7 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
 
     @Override
     public Long sendToCorrect(CorrectionDto correctionDto) {
+        ermbsValidator.isCorrectStatusTransition(correctionDto.getErmbsId(), EreimbursementStatus.TO_CORRECT);
         Ereimbursement ereimbursement = ereimbursementRepository.get(correctionDto.getErmbsId());
         ermbsValidator.validateToCorrection(ereimbursement);
         correctionValidator.validateCorrection(correctionDto);
@@ -219,7 +224,7 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
 
     @Override
     public Long createDocuments(Long rmbsId) {
-
+        ermbsValidator.isCorrectStatusTransition(rmbsId, EreimbursementStatus.GENERATED_DOCUMENTS);
         Ereimbursement ereimbursement = ereimbursementRepository.get(rmbsId);
         ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.GENERATED_DOCUMENTS));
         ereimbursementRepository.update(ereimbursement, ereimbursement.getId());
@@ -240,7 +245,7 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
 
     @Override
     public Long printReports(Long rmbsId) {
-
+        ermbsValidator.isCorrectStatusTransition(rmbsId, EreimbursementStatus.TO_VERIFY);
         Ereimbursement ereimbursement = ereimbursementRepository.get(rmbsId);
         List<EreimbursementReport> ereimbursementReports = new ArrayList<>();
 
@@ -283,6 +288,7 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
 
     @Override
     public Long cancel(Long rmbsId) {
+        ermbsValidator.isCorrectStatusTransition(rmbsId, EreimbursementStatus.CANCELED);
         Ereimbursement ereimbursement = ereimbursementRepository.get(rmbsId);
         ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.CANCELED));
         setDoneReimburseStatusForTiInstance(ereimbursement);
@@ -292,6 +298,7 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
 
     @Override
     public Long confirm(Long rmbsId) {
+        ermbsValidator.isCorrectStatusTransition(rmbsId, EreimbursementStatus.SETTLED);
         Ereimbursement ereimbursement = ereimbursementRepository.get(rmbsId);
         ereimbursement.setReconDate(new Date());
         ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.SETTLED));

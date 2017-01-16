@@ -48,7 +48,7 @@ public class UnreservedPoolReimbursementsRestController {
         return electronicReimbursementsService.findUnrsvPoolRmbsById(id);
     }
 
-    @RequestMapping(value = PATH_UNRESERVED_POOL__EXPIRE + "{rmbsId}", method = RequestMethod.POST)
+    @RequestMapping(value = PATH_UNRESERVED_POOL_EXPIRE + "{rmbsId}", method = RequestMethod.POST)
     @ResponseBody
     public UnrsvPoolRmbsDto expire(@PathVariable("rmbsId") Long rmbsId) {
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS_MOD);

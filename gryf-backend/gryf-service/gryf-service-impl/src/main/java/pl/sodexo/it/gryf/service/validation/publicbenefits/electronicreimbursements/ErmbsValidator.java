@@ -12,12 +12,15 @@ import pl.sodexo.it.gryf.common.dto.user.GryfTiUser;
 import pl.sodexo.it.gryf.common.dto.user.GryfUser;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementRepository;
 import pl.sodexo.it.gryf.dao.api.search.dao.TrainingInstanceSearchDao;
 import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.Ereimbursement;
 import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.EreimbursementStatus;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.function.IntConsumer;
 import java.util.stream.IntStream;
@@ -31,6 +34,9 @@ import java.util.stream.IntStream;
 public class ErmbsValidator {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ErmbsValidator.class);
+
+    @Autowired
+    private EreimbursementRepository ereimbursementRepository;
 
     @Autowired
     private TrainingInstanceSearchDao trainingInstanceSearchDao;
@@ -74,6 +80,39 @@ public class ErmbsValidator {
         gryfValidator.validate(violations);
     }
 
+    public void isCorrectStatusTransition(Long ermbsId, String nextStatus){
+        List<EntityConstraintViolation> violations = new ArrayList<EntityConstraintViolation>();
+
+        if(isNewErmbs(ermbsId)){
+            validateStatusTransitionForNewErmbs(nextStatus, violations);
+            gryfValidator.validate(violations);
+            return;
+        }
+        validateStatusTransition(ermbsId, nextStatus, violations);
+
+        gryfValidator.validate(violations);
+
+    }
+
+    private void validateStatusTransition(Long ermbsId, String nextStatus, List<EntityConstraintViolation> violations) {
+        Ereimbursement savedEreimbursement = ereimbursementRepository.get(ermbsId);
+        Collection<String> availableTransitiveStatuses = ErmbsStatusesFlowConfig.getAvailableTransitiveStatuses(savedEreimbursement.getEreimbursementStatus().getId());
+        if(!availableTransitiveStatuses.contains(nextStatus)){
+            violations.add(new EntityConstraintViolation(null, "Nie można zapisać rozliczenia. Niepoprawny status."));
+        }
+    }
+
+    private void validateStatusTransitionForNewErmbs(String nextStatus, List<EntityConstraintViolation> violations) {
+        List<String> availableStatusesForNewErmbs  = Arrays.asList(EreimbursementStatus.NEW_ERMBS, EreimbursementStatus.TO_ERMBS);
+        if(!availableStatusesForNewErmbs.contains(nextStatus)){
+            violations.add(new EntityConstraintViolation(null, "Nie można zapisać rozliczenia. Niepoprawny status."));
+        }
+    }
+
+    private boolean isNewErmbs(Long ermbsId) {
+        return ermbsId == null;
+    }
+
     private void validateTiReimbAccountNumber(List<EntityConstraintViolation> violations, ElctRmbsHeadDto elctRmbsHeadDto){
         if (GryfStringUtils.isEmpty(elctRmbsHeadDto.getTiReimbAccountNumber())) {
             violations.add(new EntityConstraintViolation("tiReimbAccountNumber", "Konto do zwrotu środków nie może być puste", elctRmbsHeadDto.getTiReimbAccountNumber()));
@@ -106,4 +145,43 @@ public class ErmbsValidator {
     private boolean wasFileAddedBefore(ElctRmbsHeadDto elctRmbsHeadDto, int index) {
         return elctRmbsHeadDto.getAttachments().get(index).getOriginalFileName() != null && !StringUtils.isEmpty(elctRmbsHeadDto.getAttachments().get(index).getOriginalFileName());
     }
+
+    private static class ErmbsStatusesFlowConfig {
+
+        public static Collection<String> getAvailableTransitiveStatuses(String currentStatus){
+            List<String> availableTransitiveStatuses = new ArrayList<>();
+
+            if(EreimbursementStatus.NEW_ERMBS.equals(currentStatus)){
+                availableTransitiveStatuses.add(EreimbursementStatus.CANCELED);
+                availableTransitiveStatuses.add(EreimbursementStatus.NEW_ERMBS);
+                availableTransitiveStatuses.add(EreimbursementStatus.TO_ERMBS);
+            }
+
+            if(EreimbursementStatus.TO_ERMBS.equals(currentStatus)){
+                availableTransitiveStatuses.add(EreimbursementStatus.CANCELED);
+                availableTransitiveStatuses.add(EreimbursementStatus.TO_ERMBS);
+                availableTransitiveStatuses.add(EreimbursementStatus.TO_CORRECT);
+                availableTransitiveStatuses.add(EreimbursementStatus.GENERATED_DOCUMENTS);
+            }
+
+            if(EreimbursementStatus.TO_CORRECT.equals(currentStatus)){
+                availableTransitiveStatuses.add(EreimbursementStatus.CANCELED);
+                availableTransitiveStatuses.add(EreimbursementStatus.TO_CORRECT);
+                availableTransitiveStatuses.add(EreimbursementStatus.TO_ERMBS);
+            }
+
+            if(EreimbursementStatus.GENERATED_DOCUMENTS.equals(currentStatus)){
+                availableTransitiveStatuses.add(EreimbursementStatus.TO_VERIFY);
+            }
+
+            if(EreimbursementStatus.TO_VERIFY.equals(currentStatus)){
+                availableTransitiveStatuses.add(EreimbursementStatus.SETTLED);
+            }
+
+            return availableTransitiveStatuses;
+
+        }
+
+    }
+
 }
