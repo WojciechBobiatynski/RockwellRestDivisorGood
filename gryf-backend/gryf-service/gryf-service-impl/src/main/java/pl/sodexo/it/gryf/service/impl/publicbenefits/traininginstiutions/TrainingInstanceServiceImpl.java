@@ -129,10 +129,12 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
         Individual individual = individualRepository.get(reservationDto.getIndividualId());
         Contract contract = contractRepository.get(reservationDto.getContractId());
         int toReservedNum = reservationDto.getToReservedNum();
+        String verificationCode = reservationDto.getVerificationCode();
 
         //VALIDACJA
         validateTrainingVersion(training, reservationDto.getVersion());
-        validateTrainingReservation(training, individual, contract);
+        validateTrainingReservation(individual, verificationCode);
+        validateTrainingReservation(training, individual, contract, verificationCode);
 
         //UTWORZENIE INSTANCJI SZKOLENIA
         TrainingInstance trainingInstance = new TrainingInstance();
@@ -233,7 +235,7 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
         trainingReservationValidator.validateTrainingReservation(reservationDto);
     }
 
-    private void validateTrainingReservation(Training training, Individual individual, Contract contract) {
+    private void validateTrainingReservation(Training training, Individual individual, Contract contract, String verificationCode) {
         List<EntityConstraintViolation> violations = Lists.newArrayList();
 
         //CZY DANE W BAZIE
@@ -273,6 +275,12 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
         }
 
         gryfValidator.validate(violations);
+    }
+
+    private void validateTrainingReservation(Individual individual, String verificationCode) {
+        if(individual != null) {
+            trainingReservationValidator.validateAuthorizationData(individual, verificationCode);
+        }
     }
 
     private void validateUseTrainingInstance(TrainingInstanceUseDto useDto){
