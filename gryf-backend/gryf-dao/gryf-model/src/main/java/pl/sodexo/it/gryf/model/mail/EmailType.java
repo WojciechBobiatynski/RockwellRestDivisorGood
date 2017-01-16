@@ -5,7 +5,7 @@ package pl.sodexo.it.gryf.model.mail;
  */
 public enum EmailType {
 
-    text("text/plain"), html("text/html");
+    text("plain"), html("html");
 
     public static final EmailType DEFAULT_TYPE = text;
 
