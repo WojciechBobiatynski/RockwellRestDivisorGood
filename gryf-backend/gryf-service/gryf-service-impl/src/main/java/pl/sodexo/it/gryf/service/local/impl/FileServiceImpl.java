@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.common.dto.other.FileDTO;
 import pl.sodexo.it.gryf.common.enums.FileType;
+import pl.sodexo.it.gryf.common.exception.GryfFileException;
 import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.model.api.AuditableEntity;
@@ -51,9 +52,21 @@ public class FileServiceImpl implements FileService {
                 entity.setModifiedTimestamp(new Date());
             }
         } catch (IOException e) {
-            throw new RuntimeException(String.format("Nie udało się zapisać pliku [%s]", filePath), e);
+            throw new GryfFileException(String.format("Nie udało się zapisać pliku [%s]", filePath), e);
         }
         return filePath;
+    }
+
+    @Override
+    public String writeFile(FileDTO fileDTO, String newFileRoot) {
+        String newFileName = GryfStringUtils.convertFileName(fileDTO.getOriginalFilename());
+        Path newFilePath = Paths.get(newFileRoot, newFileName);
+        try {
+            Files.copy(fileDTO.getInputStream(), newFilePath);
+        } catch (IOException e) {
+            throw new RuntimeException(String.format("Nie udało się zapisać pliku [%s]", newFilePath), e);
+        }
+        return newFilePath.toString();
     }
 
     @Override
@@ -116,14 +129,17 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public String changeFileName(String filePath, String newFileName) {
-        Path source = Paths.get(filePath);
-        try {
-            Files.move(source, source.resolveSibling(newFileName));
-        } catch (IOException e) {
-            throw new RuntimeException(String.format("Nie udało się zmienić nazwy pliku"));
+    public String copyFile(String sourceFilePath, String newFileRoot) {
+        Path oldSourcePath = Paths.get(sourceFilePath);
+        Path oldFileName = oldSourcePath.getFileName();
+        String newFileName = GryfStringUtils.convertFileName(oldFileName.toString());
+        Path newFilePath = Paths.get(newFileRoot, newFileName);
+        try (OutputStream os = new FileOutputStream(newFilePath.toFile())) {
+            Files.copy(oldSourcePath, os);
+        } catch (IOException ex) {
+            throw new GryfFileException(String.format("Nie udało się zapisać pliku"), ex);
         }
-        return source.toAbsolutePath().toString();
+        return newFilePath.toString();
     }
 
     //PRIVATE METHODS

@@ -26,6 +26,14 @@ public interface FileService {
     String writeFile(FileType fileType, String fileName, FileDTO fileDTO, AuditableEntity entity);
 
     /**
+     * Zapisuje plik do podanego roota
+     * @param fileDTO - obiekt transferowy pliku
+     * @param newFileRoot - root
+     * @return nowa ścieżka do pliku
+     */
+    String writeFile(FileDTO fileDTO, String newFileRoot);
+
+    /**
      * Usuwa plik
      * @param fileName pełna ścieżka do pliku
      */
@@ -60,10 +68,10 @@ public interface FileService {
     String findPath(FileType fileType);
 
     /**
-     * Zmienia nazwę pliku dla podanej ścieżki
-     * @param filePath - ścieżka do pliku
-     * @param newFileName - nowa nazwa
-     * @return - nowa ścieżka do pliku
+     * Kopiuje plik ze ścieżki źródłowej do podanego roota
+     * @param sourceFilePath - oryginalna ścieżka
+     * @param newFileRoot - root
+     * @return nowa ścieżka do pliku
      */
-    String changeFileName(String filePath, String newFileName);
+    String copyFile(String sourceFilePath, String newFileRoot);
 }

@@ -100,4 +100,6 @@ public interface ApplicationParameters {
     Integer getBusinessDaysNumberForReimbursement();
 
     Integer getBusinessDaysNumberForCorrection();
+
+    String getErmbsEmailAttachmentDirectory();
 }

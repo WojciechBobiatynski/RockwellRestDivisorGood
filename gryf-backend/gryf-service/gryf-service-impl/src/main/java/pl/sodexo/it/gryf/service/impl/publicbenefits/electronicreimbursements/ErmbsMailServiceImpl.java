@@ -3,15 +3,14 @@ package pl.sodexo.it.gryf.service.impl.publicbenefits.electronicreimbursements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.common.dto.mail.MailDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.MailAttachmentDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsMailAttachmentDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsMailDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsMailParamsDto;
 import pl.sodexo.it.gryf.common.enums.ErmbsMailType;
-import pl.sodexo.it.gryf.common.enums.FileType;
 import pl.sodexo.it.gryf.common.enums.ReportTemplateCode;
-import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementMailRepository;
 import pl.sodexo.it.gryf.dao.api.search.dao.ElectronicReimbursementsDao;
 import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.EreimbursementMail;
@@ -21,6 +20,7 @@ import pl.sodexo.it.gryf.service.local.api.MailService;
 import pl.sodexo.it.gryf.service.mapping.MailDtoCreator;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.electronicreimbursements.ErmbsMailAttachmentDtoMapper;
 
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -38,6 +38,7 @@ public class ErmbsMailServiceImpl implements ErmbsMailService {
 
     private static final int DAYS_OF_PAYMENT_CONFIRMATION_EMAIL_SENDING_DELAY = 1;
     private static final int MAILS_FROM_TEMPLATE_NUM = 2;
+    private static final String PATH_FOR_ERMBS_EMAILS = "mail_attachments";
 
     @Autowired
     private ElectronicReimbursementsDao electronicReimbursementsDao;
@@ -56,6 +57,9 @@ public class ErmbsMailServiceImpl implements ErmbsMailService {
 
     @Autowired
     private FileService fileService;
+
+    @Autowired
+    private ApplicationParameters applicationParameters;
 
     @Override
     public List<ErmbsMailDto> createMailFromTemplates(Long ermbsId) {
@@ -156,19 +160,23 @@ public class ErmbsMailServiceImpl implements ErmbsMailService {
         List<MailAttachmentDTO> mailAttachments = new ArrayList<>();
         dto.getAttachments().stream().forEach(ermbsMailAttachmentDto -> {
             MailAttachmentDTO att = new MailAttachmentDTO();
+            String newFileRoot = getErmbsEmailAttachmentDirectory();
             if(ermbsMailAttachmentDto.isReportFile()){
-                //TODO: AK - skopiować plik do nowej ścieżki i dopiero załączyć do maila
-                att.setPath(ermbsMailAttachmentDto.getFileLocation());
-                att.setName(ermbsMailAttachmentDto.getName());
+                String newFilePath = fileService.copyFile(ermbsMailAttachmentDto.getFileLocation(), newFileRoot);
+                att.setPath(newFilePath);
+                att.setName(Paths.get(newFilePath).getFileName().toString());
             } else {
-                String newFileName = GryfStringUtils.convertFileName(ermbsMailAttachmentDto.getOriginalFilename());
-                String path = fileService.writeFile(FileType.E_REIMBURSEMENTS, newFileName, ermbsMailAttachmentDto.getFile(), null);
-                att.setPath(path);
-                att.setName(ermbsMailAttachmentDto.getName());
+                String newFilePath = fileService.writeFile(ermbsMailAttachmentDto.getFile(), newFileRoot);
+                att.setPath(newFilePath);
+                att.setName(Paths.get(newFilePath).getFileName().toString());
             }
             mailAttachments.add(att);
         });
         mail.setAttachments(mailAttachments);
         return mail;
+    }
+
+    private String getErmbsEmailAttachmentDirectory() {
+        return applicationParameters.getPathAttachments() + applicationParameters.getPathEreimbursements() + applicationParameters.getErmbsEmailAttachmentDirectory();
     }
 }

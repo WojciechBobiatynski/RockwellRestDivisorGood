@@ -65,6 +65,7 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     private String indUserUrl = "http://localhost:8080/gryf-ind/";
     private Integer businessDaysNumberForReimbursement = 5;
     private Integer businessDaysNumberForCorrection = 5;
+    private String ermbsEmailAttachmentDirectory = "mail_attachments";
 
     //LIFECYCLE METHODS
 
@@ -258,6 +259,11 @@ public class ApplicationParametersImpl implements ApplicationParameters {
         if (dbBusinessDaysNumberForCorrection != null) {
             businessDaysNumberForCorrection = dbBusinessDaysNumberForCorrection;
         }
+        String dbErmbsEmailAttachmentDirectory = (String) findParameter("GRYF_ERMBS_EMAIL_ATTACHMENT_DIRECTORY");
+        if (dbErmbsEmailAttachmentDirectory != null) {
+            ermbsEmailAttachmentDirectory = dbErmbsEmailAttachmentDirectory;
+        }
+
     }
 
     //PUBLIC METHODS
@@ -499,6 +505,11 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     @Override
     public Integer getBusinessDaysNumberForCorrection() {
         return businessDaysNumberForCorrection;
+    }
+
+    @Override
+    public String getErmbsEmailAttachmentDirectory() {
+        return ermbsEmailAttachmentDirectory;
     }
 
     //PRIVATE METHODS
