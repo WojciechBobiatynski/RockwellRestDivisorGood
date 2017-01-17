@@ -13,6 +13,10 @@ update APP_PBE.GRANT_PROGRAM_LIMITS
 set LIMIT_VALUE = 20
 where GRANT_PROGRAM_ID = 100 and LIMIT_TYPE = 'ORDNUMLIM';
 
+delete
+from APP_FIN.INVOICE_LINES
+where INV_ID = 814 and (POS_NUM <> 1 or POS_TYPE <> 'S');
+
 
 update APP_PBE.TI_TRAININGS
 set ACTIVE = 'Y',
