@@ -7,6 +7,7 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.ContactDataValidationDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingInstitutionDto;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.common.exception.publicbenefits.VatRegNumTrainingInstitutionExistException;
+import pl.sodexo.it.gryf.dao.api.crud.dao.traininginstitutions.TrainingInstitutionUserDao;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstitutionRepository;
 import pl.sodexo.it.gryf.model.publicbenefits.enterprises.Enterprise;
 import pl.sodexo.it.gryf.model.publicbenefits.enterprises.EnterpriseContact;
@@ -39,6 +40,9 @@ public class TrainingInstitutionValidator {
 
     @Autowired
     private TrainingInstitutionEntityMapper trainingInstitutionEntityMapper;
+
+    @Autowired
+    private TrainingInstitutionUserDao trainingInstitutionUserDao;
 
     public void validateTrainingInstitution(TrainingInstitution trainingInstitution, boolean checkVatRegNumDup) {
 
@@ -74,6 +78,10 @@ public class TrainingInstitutionValidator {
             if (!EmailValidator.getInstance().isValid(trainingInstitution.getTrainingInstitutionUsers().get(index).getEmail())) {
                 String path = String.format("%s[%s].%s", "users", index, "email");
                 violations.add(new EntityConstraintViolation(path, "Niepoprawny adres email"));
+            }
+            if(trainingInstitutionUserDao.findByLogin(trainingInstitution.getTrainingInstitutionUsers().get(index).getLogin()) != null){
+                String path = String.format("%s[%s].%s", "users", index, "email");
+                violations.add(new EntityConstraintViolation(path, "Użytkownik o podanym adresie email/loginie już istnieje. Nie można zapisać użytkownika"));
             }
         };
 
