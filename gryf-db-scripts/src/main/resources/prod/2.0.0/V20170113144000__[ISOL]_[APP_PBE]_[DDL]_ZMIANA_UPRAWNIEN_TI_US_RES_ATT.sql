@@ -4,3 +4,11 @@ BEGIN
   dbms_output.put_line(SYS.PK_ADMIN.F_GRANT_TO_EAGLE('APP_PBE', 'SRV_EE_TI', 'TI_USER_RESET_ATTEMPTS', 'UPDATE'));
 END;
 /
+
+
+-- uprawnienia
+BEGIN
+  dbms_output.put_line(SYS.PK_ADMIN.F_GRANT_TO_EAGLE('APP_PBE', 'SRV_EE_IND', 'ENTERPRISES', 'SELECT'));
+  dbms_output.put_line(SYS.PK_ADMIN.F_GRANT_TO_EAGLE('APP_PBE', 'SRV_EE_IND', 'ENTERPRISE_CONTACTS', 'SELECT'));
+END;
+/
