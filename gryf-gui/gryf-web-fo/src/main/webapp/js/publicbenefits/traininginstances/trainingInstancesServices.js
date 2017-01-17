@@ -184,16 +184,11 @@ function ($http, GryfModals, GryfPopups, GryfExceptionHandler, GryfHelpers, Gryf
         });
     };
 
-    var confirmPin = function(trainingInstanceId, pinCode, trainingInstanceVersion) {
-        GryfModals.openModal(GryfModals.MODALS_URL.CONFIRM).result.then(function(result) {
-            if (!result) {
-                return;
-            }
-
+    var confirmPin = function(trainingInstanceId, pinCode, trainingInstanceVersion, newReservationNum) {
             var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING, {label: "Zapisuję"});
 
             return $http.put(TRAINING_RESERVATION_URL + "confirmPin",
-                {id: trainingInstanceId, pin: pinCode, version: trainingInstanceVersion}
+                {id: trainingInstanceId, pin: pinCode, version: trainingInstanceVersion, newReservationNum: newReservationNum}
             ).success(function() {
                 GryfPopups.setPopup("success", "Sukces", "Potwierdzono uczestnictwo w szkoleniu");
                 GryfPopups.showPopup();
@@ -207,8 +202,6 @@ function ($http, GryfModals, GryfPopups, GryfExceptionHandler, GryfHelpers, Gryf
             }).finally(function() {
                 GryfModals.closeModal(modalInstance);
             });
-
-        });
 
     };
 

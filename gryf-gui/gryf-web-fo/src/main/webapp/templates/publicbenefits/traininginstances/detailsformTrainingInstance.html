@@ -5,7 +5,7 @@
         <h1>Szczegóły rezerwacji szkolenia</h1>
         <ul ng-if="isInStatus('RES')">
             <li>
-                <a ng-click="confirmReservationPIN()" class="button button-save"
+                <a ng-click="openConfirmModal()" class="button button-save"
                    gryf-privilege="GRF_PBE_TI_TRAINING_INSTANCES_MOD">Zatwierdź obecność</a>
             </li>
             <li>

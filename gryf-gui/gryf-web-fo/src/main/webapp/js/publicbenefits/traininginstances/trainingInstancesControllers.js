@@ -66,8 +66,8 @@ angular.module("gryf.trainingInstances").controller("TrainingInstancesSearchCont
 }]);
 
 angular.module("gryf.trainingInstances").controller("TrainingInstanceModifyController", ["$scope", "$routeParams",
-    "GryfModals", "GryfModulesUrlProvider", "BrowseTrainingInsService", "BrowseTrainingService", "TrainingInstanceSearchService", "TrainingInstanceModifyService",
-function ($scope, $routeParams, GryfModals, GryfModulesUrlProvider, BrowseTrainingInsService, BrowseTrainingService, TrainingInstanceSearchService, TrainingInstanceModifyService) {
+    "GryfModals", "GryfModulesUrlProvider", "BrowseTrainingInsService", "BrowseTrainingService", "TrainingInstanceSearchService", "TrainingInstanceModifyService", "$modal",
+function ($scope, $routeParams, GryfModals, GryfModulesUrlProvider, BrowseTrainingInsService, BrowseTrainingService, TrainingInstanceSearchService, TrainingInstanceModifyService, $modal) {
 
     $scope.trainingInstanceModel = TrainingInstanceSearchService.getTrainingInstanceModel();
     $scope.pinCode = null;
@@ -97,8 +97,33 @@ function ($scope, $routeParams, GryfModals, GryfModulesUrlProvider, BrowseTraini
     };
 
     $scope.confirmReservationPIN = function() {
-        TrainingInstanceModifyService.confirmPin($scope.trainingInstanceModel.entity.trainingInstanceId, $scope.trainingInstanceModel.entity.pinCode,
-                                                    $scope.trainingInstanceModel.entity.trainingInstanceVersion);
+        var messageText = {
+            message: "Ilość bonów została zmieniona. Czy jesteś pewny, że chcesz zmienić ilość bonów?"
+        };
+        if($scope.trainingInstanceModel.entity.newReservationNum != $scope.trainingInstanceModel.entity.productAssignedNum) {
+            GryfModals.openModal(GryfModals.MODALS_URL.CONFIRM, messageText).result.then(function (result) {
+                if (!result) {
+                    return;
+                }
+                TrainingInstanceModifyService.confirmPin($scope.trainingInstanceModel.entity.trainingInstanceId, $scope.trainingInstanceModel.entity.pinCode,
+                    $scope.trainingInstanceModel.entity.trainingInstanceVersion, $scope.trainingInstanceModel.entity.newReservationNum);
+            });
+        }else{
+            TrainingInstanceModifyService.confirmPin($scope.trainingInstanceModel.entity.trainingInstanceId, $scope.trainingInstanceModel.entity.pinCode,
+                $scope.trainingInstanceModel.entity.trainingInstanceVersion, $scope.trainingInstanceModel.entity.newReservationNum);
+        }
+    };
+
+    $scope.openConfirmModal = function(){
+        var modalInstance = $modal.open({
+            templateUrl: contextPath + "/templates/modals/modal-confirmPin.html",
+            controller: "TrainingInstanceModifyController",
+            resolve: {
+                data: function () {
+                    return $scope.trainingInstanceModel;
+                }
+            }
+        });
     };
 
 }]);
