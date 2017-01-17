@@ -625,6 +625,25 @@ angular.module('gryf.helpers').directive('focusOnF7', [function() {
     }
 }]);
 
+angular.module('gryf.helpers').directive("forceDigits", function() {
+    return {
+        require: 'ngModel',
+        link: function(scope, element, attrs, controller) {
+            controller.$parsers.push(function(value) {
+                if (typeof value === 'string') {
+                    value = parseInt(value);
+                    if(!value) {
+                        value = null;
+                    }
+                    controller.$setViewValue(value);
+                    controller.$render();
+                }
+                return value;
+            });
+        }
+    };
+});
+
 angular.module('gryf.helpers').directive('searchOnEnter', ['$rootScope', function($rootScope) {
     return {
         restrict: 'A',

@@ -10,129 +10,116 @@
 
     <div class="one-column">
 
-                <section class="overflow-x-auto">
-                    <table class="table table-condensed">
-                        <thead>
-                        <tr>
-                            <th class="sortable" ng-class="getSortingTypeClass('id')">
-                                <div ng-click="getSortedIndividuals('id')"> Id</div>
-                                <input placeholder="ID" type="text"
-                                       ng-model="searchObjModel.entity.id">
-                            </th>
-                            <th class="sortable" ng-class="getSortingTypeClass('firstName')">
-                                <div ng-click="getSortedIndividuals('firstName')"> Imię</div>
-                                <input placeholder="Imię"
-                                       ng-model="searchObjModel.entity.firstName"></th>
-                            <th class="sortable" ng-class="getSortingTypeClass('lastName')">
-                                <div ng-click="getSortedIndividuals('lastName')"> Nazwisko</div>
-                                <input placeholder="Nazwisko"
-                                       ng-model="searchObjModel.entity.lastName"></th>
-                            <th class="sortable" ng-class="getSortingTypeClass('pesel')">
-                                <div ng-click="getSortedIndividuals('pesel')"> PESEL</div>
-                                <input placeholder="PESEL"
-                                       ng-model="searchObjModel.entity.pesel">
-                            </th>
-                            <th class="sortable" ng-class="getSortingTypeClass('documentNumber')">
-                                <div ng-click="getSortedIndividuals('documentNumber')"> Nr dok. tożsamości</div>
-                                <input placeholder="Numer dok. tożsamości"
-                                       ng-model="searchObjModel.entity.documentNumber">
-                            </th>
-                            <th class="sortable" ng-class="getSortingTypeClass('documentType')">
-                                <div ng-click="getSortedIndividuals('documentType')"> Rodzaj dok. tożsamości</div>
-                                <input placeholder="Rodzaj dok. tożsamości"
-                                       ng-model="searchObjModel.entity.documentType">
-                            </th>
-                            <th class="sortable" ng-class="getSortingTypeClass('addressInvoice')">
-                                <div ng-click="getSortedIndividuals('addressInvoice')"> Adres do
-                                    faktury
-                                </div>
-                                <input placeholder="Adres do faktury"
-                                       ng-model="searchObjModel.entity.addressInvoice">
-                            </th>
-                            <th class="sortable"
-                                ng-class="getSortingTypeClass('zipCodeInvoice.zipCode')">
-                                <div ng-click="getSortedIndividuals('zipCodeInvoice.zipCode')">
-                                    Kod do faktury
-                                </div>
-                                <input placeholder="Kod do faktury"
-                                       ng-model="searchObjModel.entity.zipCodeInvoiceCode">
-                            </th>
-                            <th class="sortable"
-                                ng-class="getSortingTypeClass('zipCodeInvoice.cityName')">
-                                <div ng-click="getSortedIndividuals('zipCodeInvoice.cityName')">
-                                    Miasto do faktury
-                                </div>
-                                <input placeholder="Miasto do faktury"
-                                       ng-model="searchObjModel.entity.zipCodeInvoiceCity">
-                            </th>
-                            <th class="sortable" ng-class="getSortingTypeClass('addressCorr')">
-                                <div ng-click="getSortedIndividuals('addressCorr')">
-                                    Adres korespondencyjny
-                                </div>
-                                <input placeholder="Adres korespondencyjny"
-                                       ng-model="searchObjModel.entity.addressCorr">
-                            </th>
-                            <th class="sortable"
-                                ng-class="getSortingTypeClass('zipCodeCorr.zipCode')">
-                                <div ng-click="getSortedIndividuals('zipCodeCorr.zipCode')">
-                                    Kod korespondencyjny
-                                </div>
-                                <input placeholder="Kod korespondencyjny"
-                                       ng-model="searchObjModel.entity.zipCodeCorrCode">
-                            </th>
-                            <th class="sortable"
-                                ng-class="getSortingTypeClass('zipCodeCorr.cityName')">
-                                <div ng-click="getSortedIndividuals('zipCodeCorr.cityName')">
-                                    Miasto do korespondencji
-                                </div>
-                                <input placeholder="Miasto do korespondencji"
-                                       ng-model="searchObjModel.entity.zipCodeCorrCity"></th>
-                            <th>
-                                <a ng-click="findIndividuals()"
-                                   class="button button-search">szukaj</a>
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr
-                                ng-repeat="item in searchObjModel.searchResultList | limitTo: searchResultOptions.displayLimit">
-                            <td>{{::item.id}}</td>
-                            <td>{{::item.firstName}}</td>
-                            <td>{{::item.lastName}}</td>
-                            <td>{{::item.pesel}}</td>
-                            <td>{{::item.documentNumber}}</td>
-                            <td>{{::item.documentType}}</td>
-                            <td>{{::item.addressInvoice}}</td>
-                            <td>{{::item.zipCodeInvoice.zipCode}}</td>
-                            <td>{{::item.zipCodeInvoice.cityName}}</td>
-                            <td>{{::item.addressCorr}}</td>
-                            <td>{{::item.zipCodeCorr.zipCode}}</td>
-                            <td>{{::item.zipCodeCorr.cityName}}</td>
-                            <td>
-                                <ul class="buttons">
-                                    <li><a ng-href="#/modify/{{item.id}}"
-                                           class="button button-go">szczegóły</a>
-
-                                    </li>
-                                </ul>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <div ng-show="searchResultOptions.overflow" class="centered-ul">
-                        <ul>
-                            <li><a href="#/" ng-click="loadMore()"
-                                   class="button button-infinity">wczytaj więcej wyników</a></li>
+        <section class="overflow-x-auto">
+            <table class="table table-condensed">
+                <thead>
+                <tr>
+                    <th class="sortable grid-10" ng-class="getSortingTypeClass('id')">
+                        <div ng-click="getSortedIndividuals('id')"> Id</div>
+                        <input placeholder="ID" force-digits type="text" ng-model="searchObjModel.entity.id">
+                    </th>
+                    <th class="sortable grid-10" ng-class="getSortingTypeClass('firstName')">
+                        <div ng-click="getSortedIndividuals('firstName')"> Imię</div>
+                        <input placeholder="Imię" ng-model="searchObjModel.entity.firstName">
+                    </th>
+                    <th class="sortable grid-10" ng-class="getSortingTypeClass('lastName')">
+                        <div ng-click="getSortedIndividuals('lastName')"> Nazwisko</div>
+                        <input placeholder="Nazwisko" ng-model="searchObjModel.entity.lastName">
+                    </th>
+                    <th class="sortable grid-10" ng-class="getSortingTypeClass('pesel')">
+                        <div ng-click="getSortedIndividuals('pesel')"> PESEL</div>
+                        <input placeholder="PESEL" ng-model="searchObjModel.entity.pesel">
+                    </th>
+                    <th class="sortable grid-10" ng-class="getSortingTypeClass('documentNumber')">
+                        <div ng-click="getSortedIndividuals('documentNumber')"> Nr dok. tożsamości</div>
+                        <input placeholder="Numer dok. tożsamości" ng-model="searchObjModel.entity.documentNumber">
+                    </th>
+                    <th class="sortable grid-10" ng-class="getSortingTypeClass('documentType')">
+                        <div ng-click="getSortedIndividuals('documentType')"> Rodzaj dok. tożsamości</div>
+                        <input placeholder="Rodzaj dok. tożsamości" ng-model="searchObjModel.entity.documentType">
+                    </th>
+                    <th class="sortable grid-10" ng-class="getSortingTypeClass('addressInvoice')">
+                        <div ng-click="getSortedIndividuals('addressInvoice')">
+                            Adres do faktury
+                        </div>
+                        <input placeholder="Adres do faktury" ng-model="searchObjModel.entity.addressInvoice">
+                    </th>
+                    <th class="sortable grid-5" ng-class="getSortingTypeClass('zipCodeInvoice.zipCode')">
+                        <div ng-click="getSortedIndividuals('zipCodeInvoice.zipCode')">
+                            Kod do faktury
+                        </div>
+                        <input placeholder="Kod do faktury" ng-model="searchObjModel.entity.zipCodeInvoiceCode">
+                    </th>
+                    <th class="sortable grid-10"
+                        ng-class="getSortingTypeClass('zipCodeInvoice.cityName')">
+                        <div ng-click="getSortedIndividuals('zipCodeInvoice.cityName')">
+                            Miasto do faktury
+                        </div>
+                        <input placeholder="Miasto do faktury" ng-model="searchObjModel.entity.zipCodeInvoiceCity">
+                    </th>
+                    <th class="sortable grid-10" ng-class="getSortingTypeClass('addressCorr')">
+                        <div ng-click="getSortedIndividuals('addressCorr')">
+                            Adres korespondencyjny
+                        </div>
+                        <input placeholder="Adres korespondencyjny" ng-model="searchObjModel.entity.addressCorr">
+                    </th>
+                    <th class="sortable grid-10"
+                        ng-class="getSortingTypeClass('zipCodeCorr.zipCode')">
+                        <div ng-click="getSortedIndividuals('zipCodeCorr.zipCode')">
+                            Kod korespondencyjny
+                        </div>
+                        <input placeholder="Kod korespondencyjny" ng-model="searchObjModel.entity.zipCodeCorrCode">
+                    </th>
+                    <th class="sortable grid-10"
+                        ng-class="getSortingTypeClass('zipCodeCorr.cityName')">
+                        <div ng-click="getSortedIndividuals('zipCodeCorr.cityName')">
+                            Miasto do korespondencji
+                        </div>
+                        <input placeholder="Miasto do korespondencji"
+                               ng-model="searchObjModel.entity.zipCodeCorrCity"></th>
+                    <th>
+                        <a ng-click="findIndividuals()" class="button button-search">szukaj</a>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in searchObjModel.searchResultList | limitTo: searchResultOptions.displayLimit">
+                    <td>{{::item.id}}</td>
+                    <td>{{::item.firstName}}</td>
+                    <td>{{::item.lastName}}</td>
+                    <td>{{::item.pesel}}</td>
+                    <td>{{::item.documentNumber}}</td>
+                    <td>{{::item.documentType}}</td>
+                    <td>{{::item.addressInvoice}}</td>
+                    <td>{{::item.zipCodeInvoice.zipCode}}</td>
+                    <td>{{::item.zipCodeInvoice.cityName}}</td>
+                    <td>{{::item.addressCorr}}</td>
+                    <td>{{::item.zipCodeCorr.zipCode}}</td>
+                    <td>{{::item.zipCodeCorr.cityName}}</td>
+                    <td>
+                        <ul class="buttons">
+                            <li><a ng-href="#/modify/{{item.id}}" class="button button-go">szczegóły</a></li>
                         </ul>
-                    </div>
-                    <div class="" ng-show="model.zipCodesArray.length===0">
-                        Brak wyników
-                    </div>
-                    <div class="msg msg-error" ng-show="searchResultOptions.badQuery">
-                        <p>Błąd kryteriów zapytania - niepoprawny format</p>
-                    </div>
-                </section>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
 
+            <div ng-show="searchResultOptions.overflow" class="centered-ul">
+                <ul>
+                    <li><a href="#/" ng-click="loadMore()"
+                           class="button button-infinity">wczytaj więcej wyników</a></li>
+                </ul>
+            </div>
+
+            <div class="" ng-show="model.zipCodesArray.length===0">
+                Brak wyników
+            </div>
+
+            <div class="msg msg-error" ng-show="searchResultOptions.badQuery">
+                <p>Błąd kryteriów zapytania - niepoprawny format</p>
+            </div>
+        </section>
     </div>
 </div>
 

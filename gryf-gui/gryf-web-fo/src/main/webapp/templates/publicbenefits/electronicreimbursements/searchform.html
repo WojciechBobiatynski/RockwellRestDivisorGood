@@ -13,7 +13,8 @@
                     <div ng-click="getSortedBy('rmbsNumber')">
                         Numer rozliczenia
                     </div>
-                    <input placeholder="Numer rozliczenia" type="text" ng-model="elctRmbsCriteria.rmbsNumber">
+                    <input placeholder="Numer rozliczenia" type="text"
+                           force-digits ng-model="elctRmbsCriteria.rmbsNumber">
                 </th>
                 <th class="sortable grid-10" ng-class="getSortingTypeClass('rmbsType')">
                     <div ng-click="getSortedBy('rmbsType')">

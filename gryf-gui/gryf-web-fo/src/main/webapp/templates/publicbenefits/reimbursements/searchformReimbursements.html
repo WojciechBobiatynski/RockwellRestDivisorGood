@@ -14,10 +14,10 @@
                     <th class="sortable"
                         ng-class="getSortingTypeClass('id')">
                         <div ng-click="getSortedBy('id')">
-                            Nr rozliczenia
+                            Id rozliczenia
                         </div>
                         <input placeholder="Nr rozliczenia" type="text"
-                               ng-model="searchDTO.entity.id">
+                               force-digits ng-model="searchDTO.entity.id">
                     </th>
                     <th class="sortable"
                         ng-class="getSortingTypeClass('invoiceNumber')">
@@ -56,7 +56,7 @@
                         <div ng-click="getSortedBy('reimbursementDelivery.id')">
                             Id dostawy
                         </div>
-                        <input placeholder="Id dostawy" type="text"
+                        <input placeholder="Id dostawy" type="text" force-digits
                                ng-model="searchDTO.entity.reimbursementDeliveryId">
                     </th>
                     <th class="sortable"

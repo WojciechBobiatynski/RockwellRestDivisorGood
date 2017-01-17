@@ -14,7 +14,7 @@
                     <th class="sortable" ng-class="getSortingTypeClass('id')">
                         <div ng-click="getSortedBy('id')">ID dostawy</div>
                         <input placeholder="ID dostawy" type="text"
-                               ng-model="searchDTO.entity.id"
+                               ng-model="searchDTO.entity.id" force-digits
                                focus-on-f7
                                search-on-enter>
                     </th>
@@ -34,7 +34,7 @@
                         </div>
                         <input placeholder="ID Instytucji Szkoleniowej" type="text"
                                ng-model="searchDTO.entity.trainingInstitutionId"
-                               search-on-enter>
+                               force-digits search-on-enter>
                     </th>
                     <th class="sortable"
                         ng-class="getSortingTypeClass('trainingInstitution.name')">

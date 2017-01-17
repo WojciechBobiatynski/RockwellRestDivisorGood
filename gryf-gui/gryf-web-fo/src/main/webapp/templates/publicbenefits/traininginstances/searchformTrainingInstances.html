@@ -14,7 +14,7 @@
                 <tr class="grid-100">
                     <th class="sortable grid-5" ng-class="getSortingTypeClass('trainingInstanceId')">
                         <div ng-click="getSortedBy('trainingInstanceId')">ID<br/>rezerwacji</div>
-                        <input placeholder="ID" type="number" ng-model="searchDTO.trainingInstanceId">
+                        <input placeholder="ID" type="text" force-digits ng-model="searchDTO.trainingInstanceId">
                     </th>
                     <th class="sortable grid-5" ng-class="getSortingTypeClass('trainingInstitutionVatRegNum')">
                         <div ng-click="getSortedBy('trainingInstitutionVatRegNum')">NIP instytucji</div>
@@ -28,7 +28,7 @@
                     <th class="sortable grid-5" ng-class="getSortingTypeClass('trainingId')">
                         <div ng-click="getSortedBy('trainingId')">ID szkolenia</div>
                         <a ng-click="openTrainingLov()" class="button button-save">Wybierz</a>
-                        <input placeholder="ID" type="number" ng-model="searchDTO.trainingId">
+                        <input placeholder="ID" type="text" force-digits ng-model="searchDTO.trainingId">
                     </th>
                     <th class="sortable grid-15" ng-class="getSortingTypeClass('trainingName')">
                         <div ng-click="getSortedBy('trainingName')">Nazwa szkolenia</div>

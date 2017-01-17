@@ -16,11 +16,13 @@
                 <tr class="grid-100">
                     <th class="sortable grid-10" ng-class="getSortingTypeClass('id')">
                         <div ng-click="getSortedBy('id')">ID zadania</div>
-                        <input placeholder="ID zadania" type="number" ng-model="searchObjModel.entity.id">
+                        <input placeholder="ID zadania" type="text"
+                               force-digits ng-model="searchObjModel.entity.id">
                     </th>
                     <th class="sortable grid-10" ng-class="getSortingTypeClass('orderId')">
                         <div ng-click="getSortedBy('orderId')">ID zamówienia</div>
-                        <input placeholder="ID zamówienia" type="number" ng-model="searchObjModel.entity.orderId">
+                        <input placeholder="ID zamówienia" type="text"
+                               force-digits ng-model="searchObjModel.entity.orderId">
                     </th>
                     <th class="sortable grid-15" ng-class="getSortingTypeClass('type')">
                         <div ng-click="getSortedBy('type')">Typ zadania</div>
