@@ -8,6 +8,8 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
     <title>Sodexo Gryf</title>
 
+    <deployed/>
+
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/angular-toastr.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/gryf-ti-ind.css">
     <link rel="shortcut icon" href="${cdnUrl}favicon.ico">
@@ -26,14 +28,14 @@
         var sessionTimeoutInMs = ${sessionTimeout};
     </script>
 
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-animate.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.12.1/ui-bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.12.1/ui-bootstrap-tpls.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.2/angular-ui-router.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-resource.js"></script>
+    <script src="${pageContext.request.contextPath}/js/vendor/angular/angular.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/vendor/angular/angular-animate.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/vendor/bootstrap/ui-bootstrap.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/vendor/bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/vendor/angular/angular-ui-router.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/vendor/angular/angular-resource.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/vendor/angular/angular-toastr.tpls.min.js"></script>
 
-    <script src="${pageContext.request.contextPath}/assets/libraries/angular-toastr.tpls.min.js"></script>
     <script src="${pageContext.request.contextPath}/js/components/gryf/gryf-config.js"></script>
     <script src="${pageContext.request.contextPath}/js/components/gryf/gryf-components.js"></script>
     <script src="${pageContext.request.contextPath}/js/components/gryf/gryf-menu.js"></script>

@@ -15,6 +15,8 @@
     </parent>
 
     <properties>
+        <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <excludedSources>js/**,public/script.js,public/vendor.js</excludedSources>
     </properties>
 

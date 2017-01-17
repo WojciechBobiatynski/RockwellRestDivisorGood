@@ -21,4 +21,4 @@ angular.module("gryf.ind").config(["$stateProvider", "$urlRouterProvider", funct
             });
         }]
     });
-}])
+}]);
