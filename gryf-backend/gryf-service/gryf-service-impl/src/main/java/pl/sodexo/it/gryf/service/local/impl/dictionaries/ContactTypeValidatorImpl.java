@@ -23,7 +23,7 @@ public class ContactTypeValidatorImpl implements ContactTypeValidator {
     public ContactDataValidationDTO validateContractData(ContactType contactType, String value) {
         ContactDataValidationDTO result = new ContactDataValidationDTO();
 
-        if (contactType != null && !GryfStringUtils.isEmpty(contactType.getValidationClass())) {
+        if (contactType != null && !GryfStringUtils.isEmpty(contactType.getValidationClass()) && !GryfStringUtils.isEmpty(value)) {
             ContactDataValidator validator = createValidator(contactType.getValidationClass());
             if (!validator.validate(value)) {
                 result.setValid(false);
