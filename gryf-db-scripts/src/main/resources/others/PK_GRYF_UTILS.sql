@@ -32,7 +32,7 @@ create or replace PACKAGE       PK_GRF_UTILS AS
 
 
   -- utwórz notê obci¹¿eniowo-ksiêgow¹ dla Uczestnika (beneficjenta)
-  PROCEDURE Create_Pb_Cus_Note( o_inv_id OUT NUMBER, o_invoice_number OUT VARCHAR2, o_invoice_type OUT VARCHAR2, o_invoice_date OUT DATE, a_order_id IN NUMBER );
+  PROCEDURE Create_Pb_Cus_Note( o_inv_id OUT NUMBER, o_invoice_number OUT VARCHAR2, o_invoice_type OUT VARCHAR2, o_invoice_date OUT DATE, o_87_invoice_number OUT VARCHAR2, a_order_id IN NUMBER );
 
   -- utwórz notê uznaniow¹ dla uczestnika
   PROCEDURE Create_Pb_Rmb_Note( o_inv_id OUT NUMBER, o_invoice_number OUT VARCHAR2, o_invoice_type OUT VARCHAR2, o_invoice_date OUT DATE, a_ermb_id IN NUMBER, a_type in VARCHAR2 default 'CUS' );

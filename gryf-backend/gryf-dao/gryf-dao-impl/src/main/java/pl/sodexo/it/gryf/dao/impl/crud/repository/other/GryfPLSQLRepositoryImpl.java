@@ -67,6 +67,7 @@ public class GryfPLSQLRepositoryImpl implements GryfPLSQLRepository {
         query.registerStoredProcedureParameter("o_invoice_number", String.class, ParameterMode.OUT);
         query.registerStoredProcedureParameter("o_invoice_type", String.class, ParameterMode.OUT);
         query.registerStoredProcedureParameter("o_invoice_date", Date.class, ParameterMode.OUT);
+        query.registerStoredProcedureParameter("o_87_invoice_number", String.class, ParameterMode.OUT);
         query.registerStoredProcedureParameter("a_order_id", Double.class, ParameterMode.IN);
         query.setParameter("a_order_id", orderId);
 
@@ -79,7 +80,7 @@ public class GryfPLSQLRepositoryImpl implements GryfPLSQLRepository {
         result.setInvoiceNumber((String) query.getOutputParameterValue("o_invoice_number"));
         result.setInvoiceType((String) query.getOutputParameterValue("o_invoice_type"));
         result.setInvoiceDate((Date) query.getOutputParameterValue("o_invoice_date"));
-        result.setWupDebtDocumentNumber("WWWW");//TODO: tbilski podpiąc pod procedure
+        result.setWupDebtDocumentNumber((String) query.getOutputParameterValue("o_87_invoice_number"));
 
         LOGGER.debug(String.format("Zamówienie '%s': rezultat wywołania procedury PK_GRF_UTILS.Create_Pb_Cus_Note"
                 + "(o_inv_id='%s', o_invoice_number='%s', o_invoice_type='%s', o_invoice_date='%s')", orderId,
