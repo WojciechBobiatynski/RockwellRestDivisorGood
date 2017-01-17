@@ -140,21 +140,11 @@ public class OrderActionServiceImpl implements OrderActionService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void executeOneAction(Long orderId, String nextStatusId){
-
+    public boolean isActionAutomatic(Long orderId, String nextStatusId) {
         Order order = orderRepository.get(orderId);
         OrderFlowStatusTransition st = findOrderFlowStatusTransitionByNextStatus(order, nextStatusId);
-        if(st == null) {
-            throw new RuntimeException(String.format("Status [%s] nie jest "
-                    + "dozwolonym statusem dla zamówienia [%s].", nextStatusId, orderId));
-        }
-
-        List<OrderElementDTOBuilder> orderElementDTOBuilders = orderElementRepository.findDtoFactoryByOrderToModify(orderId);
-        List<OrderElementDTO> elementDtoList = orderServiceLocal.createOrderElementDtolist(orderElementDTOBuilders);
-        executeOneAction(order, st, elementDtoList, Lists.newArrayList());
+        return st.getAutomatic();
     }
-
     //PRIVATE METHODS
 
     private void executeOneAction(Order order, OrderFlowStatusTransition statusTransition,

@@ -27,6 +27,6 @@ public interface OrderActionService {
 
     boolean executeAutomaticActions(Long orderId);
 
-    void executeOneAction(Long orderId, String nextStatusId);
+    boolean isActionAutomatic(Long orderId, String nextStatusId);
 
 }

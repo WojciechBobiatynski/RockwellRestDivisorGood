@@ -26,6 +26,11 @@ public class AsynchronizeJobResultInfoDTO {
         this.id = id;
     }
 
+    public AsynchronizeJobResultInfoDTO(Long id, String description) {
+        this.id = id;
+        this.description = description;
+    }
+
     public AsynchronizeJobResultInfoDTO(Long id, String status, String description) {
         this.id = id;
         this.status = status;
