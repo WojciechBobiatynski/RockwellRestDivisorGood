@@ -15,8 +15,7 @@
     </parent>
 
     <properties>
-        <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <excludedSources>js/**,public/script.js,public/vendor.js</excludedSources>
     </properties>
 
     <build>
@@ -49,6 +48,73 @@
             </plugin>
 
             <plugin>
+                <groupId>com.samaxes.maven</groupId>
+                <artifactId>minify-maven-plugin</artifactId>
+                <version>1.7.4</version>
+                <executions>
+                    <execution>
+                        <id>default-minify</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>minify</goal>
+                        </goals>
+                        <configuration>
+                            <charset>utf-8</charset>
+                            <verbose>true</verbose>
+                            <closureLanguage>ECMASCRIPT5</closureLanguage>
+                            <closureAngularPass>true</closureAngularPass>
+                            <jsEngine>CLOSURE</jsEngine>
+
+                            <jsTargetDir>public</jsTargetDir>
+                            <jsSourceDir>js</jsSourceDir>
+                            <jsSourceIncludes>
+                                <jsSourceInclude>**/*.js</jsSourceInclude>
+                            </jsSourceIncludes>
+                            <jsSourceExcludes>
+                                <jsSourceExclude>vendor/**/*.min.js</jsSourceExclude>
+                            </jsSourceExcludes>
+
+                            <webappTargetDir>${project.build.directory}/${project.build.finalName}</webappTargetDir>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>merge-minifed-vendor</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>minify</goal>
+                        </goals>
+                        <configuration>
+                            <charset>utf-8</charset>
+                            <verbose>true</verbose>
+                            <closureLanguage>ECMASCRIPT5</closureLanguage>
+                            <closureCompilationLevel>WHITESPACE_ONLY</closureCompilationLevel>
+                            <jsEngine>CLOSURE</jsEngine>
+                            <skipMinify>true</skipMinify>
+
+                            <jsTargetDir>public</jsTargetDir>
+                            <jsFinalFile>vendor.min.js</jsFinalFile>
+                            <jsSourceDir>js/vendor</jsSourceDir>
+                            <jsSourceFiles>
+                                <jsSourceFile>angular/angular.min.js</jsSourceFile>
+                                <jsSourceFile>angular/angular-animate.min.js</jsSourceFile>
+                                <jsSourceFile>angular/angular-route.min.js</jsSourceFile>
+                                <jsSourceFile>bootstrap/ui-bootstrap-tpls.min.js</jsSourceFile>
+                                <jsSourceFile>angular/angular-ui-router.min.js</jsSourceFile>
+                                <jsSourceFile>angular/angular-resource.min.js</jsSourceFile>
+                                <jsSourceFile>angular/angular-load.min.js</jsSourceFile>
+                                <jsSourceFile>angular/angular-input-masks-standalone.min.js</jsSourceFile>
+                                <jsSourceFile>angular/angular-toastr.tpls.min.js</jsSourceFile>
+                                <jsSourceFile>angular/ng-file-upload.min.js</jsSourceFile>
+                                <jsSourceFile>angular/mask.min.js</jsSourceFile>
+                            </jsSourceFiles>
+
+                            <webappTargetDir>${project.build.directory}/${project.build.finalName}</webappTargetDir>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>2.2</version>
@@ -67,6 +133,7 @@
                             <goal>war</goal>
                         </goals>
                         <configuration>
+                            <packagingExcludes>${excludedSources}</packagingExcludes>
                             <webXml>src/main/webapp/WEB-INF/web.xml</webXml>
                             <warSourceDirectory>
                                 ${project.build.directory}/${project.build.finalName}
@@ -86,25 +153,89 @@
                         <goals>
                             <goal>replace</goal>
                         </goals>
+                        <configuration>
+                            <regex>false</regex>
+                            <ignoreMissingFile>false</ignoreMissingFile>
+                            <includes>
+                                <include>${project.build.directory}/${project.build.finalName}/WEB-INF/page/*.jsp</include>
+                                <include>${project.build.directory}/${project.build.finalName}/WEB-INF/page/**/*.jsp</include>
+                            </includes>
+                            <replacements>
+                                <replacement>
+                                    <token>##BUILD_NUMBER</token>
+                                    <value>v ${gryf.version}, rev.${svn.revision} ${timestamp}</value>
+                                </replacement>
+                            </replacements>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>source-replace</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>replace</goal>
+                        </goals>
+                        <configuration>
+                            <regex>true</regex>
+                            <ignoreMissingFile>false</ignoreMissingFile>
+                            <includes>
+                                <include>${project.build.directory}/${project.build.finalName}/WEB-INF/page/index.jsp</include>
+                            </includes>
+                            <replacements>
+                                <replacement>
+                                    <token>&lt;script src.*&gt;\n</token>
+                                    <value></value>
+                                </replacement>
+                                <replacement>
+                                    <token>&lt;deployed/&gt;\n</token>
+                                    <value>&lt;script src="\${pageContext.request.contextPath}/public/vendor.min.js"/&gt;&lt;/script&gt;
+                                        &lt;script src="\${pageContext.request.contextPath}/public/script.min.js"/&gt;&lt;/script&gt;</value>
+                                </replacement>
+                            </replacements>
+                        </configuration>
                     </execution>
                 </executions>
-                <configuration>
-                    <regex>false</regex>
-                    <ignoreMissingFile>false</ignoreMissingFile>
-                    <includes>
-                        <include>${project.build.directory}/${project.build.finalName}/WEB-INF/page/*.jsp</include>
-                        <include>${project.build.directory}/${project.build.finalName}/WEB-INF/page/**/*.jsp</include>
-                    </includes>
-                    <replacements>
-                        <replacement>
-                            <token>##BUILD_NUMBER</token>
-                            <value>v ${gryf.version}, rev.${svn.revision} ${timestamp}</value>
-                        </replacement>
-                    </replacements>
-                </configuration>
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>gui-dev</id>
+            <properties>
+                <excludedSources></excludedSources>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.samaxes.maven</groupId>
+                        <artifactId>minify-maven-plugin</artifactId>
+                        <version>1.7.4</version>
+                        <executions>
+                            <execution>
+                                <id>default-minify</id>
+                                <phase>none</phase>
+                            </execution>
+                            <execution>
+                                <id>merge-minifed-vendor</id>
+                                <phase>none</phase>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>com.google.code.maven-replacer-plugin</groupId>
+                        <artifactId>replacer</artifactId>
+                        <version>1.5.3</version>
+                        <executions>
+                            <execution>
+                                <id>source-replace</id>
+                                <phase>none</phase>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
     <dependencies>
         <!--PROJECT -->

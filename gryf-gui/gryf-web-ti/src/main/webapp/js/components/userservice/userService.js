@@ -1,4 +1,4 @@
-angular.module("gryf.ti").factory("UserService", function($http) {
+angular.module("gryf.ti").factory("UserService", ["$http" ,function($http) {
 
     var USER_INFO_URL = contextPath + "/rest/userinfo/";
     var individualUser = {data: {pesel: null, verificationCode: null}};
@@ -36,4 +36,4 @@ angular.module("gryf.ti").factory("UserService", function($http) {
         getIndividualUserSearchInfo: getIndividualUserSearchInfo,
         resetIndividualUser: resetIndividualUser
     }
-});
+}]);

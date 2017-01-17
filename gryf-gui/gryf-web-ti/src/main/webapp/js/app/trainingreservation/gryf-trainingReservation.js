@@ -32,4 +32,4 @@ angular.module("gryf.ti").config(["$stateProvider", function($stateProvider) {
             });
         }]
     });
-}])
+}]);

@@ -58,6 +58,7 @@ angular.module("gryf.ti").controller("ReimbursementModifyController", ["$scope",
         ReimbursementsServiceModify.createReimbursement($stateParams.trainingInstanceId);
 
         TrainingInstanceSearchService.findDetailsById($stateParams.trainingInstanceId).success(function(data) {
+            console.log('abcd');
             $scope.rmbsModel.trainingInstance = data;
         });
 

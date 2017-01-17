@@ -1,4 +1,4 @@
-angular.module("gryf.ti").factory("DictionaryService", function ($cacheFactory, $http, $q) {
+angular.module("gryf.ti").factory("DictionaryService", [ "$cacheFactory", "$http", "$q" ,function ($cacheFactory, $http, $q) {
     var REST_URL = contextPath + "/rest/";
 
     var DICTIONARY = {
@@ -44,5 +44,5 @@ angular.module("gryf.ti").factory("DictionaryService", function ($cacheFactory, 
         loadDictionary: loadDictionary,
         getRecordById: getRecordById
     }
-});
+}]);
 

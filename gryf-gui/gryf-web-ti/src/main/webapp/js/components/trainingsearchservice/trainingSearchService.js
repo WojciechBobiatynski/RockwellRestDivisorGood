@@ -1,4 +1,4 @@
-angular.module("gryf.ti").factory("TrainingSearchService", function($http, GryfModals, GryfTables, GryfHelpers, GryfPopups) {
+angular.module("gryf.ti").factory("TrainingSearchService", [ "$http", "GryfModals", "GryfTables", "GryfHelpers", "GryfPopups" ,function($http, GryfModals, GryfTables, GryfHelpers, GryfPopups) {
     var FIND_TRAINING_URL = contextPath + "/rest/training/list";
     var FIND_TRAINING_TO_RESERVE_URL = contextPath + "/rest/training/listToReserve";
     var FIND_SINGLE_TRAINING_URL = contextPath + "/rest/training/";
@@ -148,4 +148,4 @@ angular.module("gryf.ti").factory("TrainingSearchService", function($http, GryfM
         getSortingTypeClass: getSortingTypeClass,
         loadMore: loadMore
     };
-});
+}]);

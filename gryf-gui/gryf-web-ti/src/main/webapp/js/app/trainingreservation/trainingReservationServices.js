@@ -1,4 +1,4 @@
-angular.module("gryf.ti").factory("TrainingReservationService", function($http, GryfModals, GryfPopups, GryfExceptionHandler) {
+angular.module("gryf.ti").factory("TrainingReservationService", [ "$http", "GryfModals", "GryfPopups", "GryfExceptionHandler" ,function($http, GryfModals, GryfPopups, GryfExceptionHandler) {
 
     var TRAINING_RESERVATION_URL = contextPath + "/rest/trainingreservation";
     var userTrainingReservationData = {data: null};
@@ -104,4 +104,4 @@ angular.module("gryf.ti").factory("TrainingReservationService", function($http, 
         cancelTrainingReservation: cancelTrainingReservation,
         confirmPin: confirmPin
     }
-});
+}]);

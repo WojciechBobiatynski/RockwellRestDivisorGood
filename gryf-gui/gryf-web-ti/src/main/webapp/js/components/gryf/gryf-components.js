@@ -50,7 +50,7 @@ angular.module('gryf.modals').factory('GryfModals', ['$rootScope', '$modal', fun
             templateUrl: modalUrls.templateUrl,
             keyboard: false,
             size: size,
-            controller: function($scope) {
+            controller: ['$scope', function($scope) {
                 $scope.find();
                 $scope.$on('keydown:27', function(onEvent, keypressEvent) {
                     $scope.$dismiss();
@@ -61,7 +61,7 @@ angular.module('gryf.modals').factory('GryfModals', ['$rootScope', '$modal', fun
                 //HandlerService.getDeliveryStatuses().then(function(response) {
                 //    $scope.deliveryStatuses = response.data;
                 //})
-            },
+            }],
             scope: angular.extend($rootScope.$new(), {
                 list: [],
                 //TODO MGU jw.
@@ -91,14 +91,14 @@ angular.module('gryf.modals').factory('GryfModals', ['$rootScope', '$modal', fun
         return $modal.open({
             templateUrl: templateUrl,
             keyboard: false,
-            controller: function($scope) {
+            controller: ['$scope', function($scope) {
                 $scope.$on('keydown:13', function(onEvent, keypressEvent) {
                     $scope.$close(true);
                 });
                 $scope.$on('keydown:27', function(onEvent, keypressEvent) {
                     $scope.$dismiss();
                 });
-            },
+            }],
             scope: angular.extend($rootScope.$new(), {
                 workingReason: additionalTextData.label,
                 violations: additionalTextData.violations,

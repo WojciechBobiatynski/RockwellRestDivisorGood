@@ -8,7 +8,7 @@ angular.module("gryf.ti").directive("attachments", ['AttachmentService',
                 isDisabled: '='
             },
             templateUrl: contextPath + '/templates/directives/attachment.html',
-            controller: function ($scope) {
+            controller: ['$scope' ,function ($scope) {
                 $scope.modelTypes = {};
                 $scope.defaultType = {};
                 $scope.maxAttachmentSize = 0;
@@ -46,7 +46,7 @@ angular.module("gryf.ti").directive("attachments", ['AttachmentService',
                     return $scope.maxAttachmentSize / 1024 / 1024;
                 };
 
-            },
+            }],
             link: function ($scope) {
 
                 function Attachment(code, maxFileSize, required) {

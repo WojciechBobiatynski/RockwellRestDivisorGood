@@ -2,7 +2,7 @@ var app = angular.module('gryf.config',
     ['ngRoute', 'ui.router', 'ui.bootstrap', 'gryf.modals', 'ngAnimate', 'gryf.popups',
      'gryf.privileges', 'gryf.tables', 'gryf.exceptionHandler', 'gryf.helpers']);
 
-angular.module('gryf.config').controller('ConfigController', function ($scope, exceptionsService) {
+angular.module('gryf.config').controller('ConfigController', [ '$scope', 'exceptionsService' ,function ($scope, exceptionsService) {
 
     $scope.isShowExceptionStackTrace = false;
     $scope.setShowExceptionStackTrace = function () {
@@ -18,7 +18,7 @@ angular.module('gryf.config').controller('ConfigController', function ($scope, e
     $scope.setLastExceptionStackTrace = function (stacktrace) {
         exceptionsService.setLastExceptionStackTrace(stacktrace);
     }
-});
+}]);
 
 angular.module('gryf.config').service('exceptionsService', function () {
     this.exceptionStackTrace = {};

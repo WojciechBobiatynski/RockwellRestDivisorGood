@@ -1,3 +1,3 @@
-angular.module("gryf.ti").factory("DashboardService", function($http, GryfModals) {
+angular.module("gryf.ti").factory("DashboardService", ["$http", "GryfModals" ,function($http, GryfModals) {
     return {}
-});
+}]);

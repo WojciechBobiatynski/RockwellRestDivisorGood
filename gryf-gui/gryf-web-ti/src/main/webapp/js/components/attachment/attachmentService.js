@@ -1,4 +1,4 @@
-angular.module("gryf.ti").factory("AttachmentService", function ($http) {
+angular.module("gryf.ti").factory("AttachmentService", ["$http" ,function ($http) {
     var PATH_REST_ATTACHMENTS = '/rest/attachments';
     var PATH_ATT_TYPES = contextPath + PATH_REST_ATTACHMENTS + "/types/";
 
@@ -9,5 +9,5 @@ angular.module("gryf.ti").factory("AttachmentService", function ($http) {
     return {
         loadAttachmentsTypes: loadAttachmentsTypes
     }
-});
+}]);
 
