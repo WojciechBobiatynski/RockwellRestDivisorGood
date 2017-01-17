@@ -3,7 +3,7 @@
 -----------------------------------KK_ORDER-------------------------------------------
 ---------1.6	Email do Uczestnika o przydzieleniu bonów – systemowy/automatyczny-------
 ----------------------3.2	Email do OsFiz/MŒP o przydzieleniu bonów--------------------
---------------------------------------------------------------------------------------
+--------------------------------------OK-----------------------------------------------
 
 MERGE INTO APP_PBE.EMAIL_TEMPLATES msg USING (SELECT 'KK_ORDER' ID ,'Sz. P. {$firstName} {$lastName},
 
@@ -19,7 +19,15 @@ Szczegó³owe informacje dotycz¹ce systemu bonów szkoleniowych dostêpne s¹ w zak³a
 W za³¹czeniu przesy³amy dokument potwierdzaj¹cy dokonanie wp³aty wk³adu w³asnego tj. notê obci¹¿eniowo-ksiêgow¹ o nr: {$noteNo}.
 
 Z powa¿aniem
-Zespó³ ds. obs³ugi klienta' EMAIL_BODY_TEMPLATE,
+Zespó³ ds. obs³ugi klienta
+
+Operator Finansowy projektu Kierunek Kariera
+Telefoniczne Biuro Obs³ugi Klienta
+Tel. 22/346-75-05; e-mail: tbok.kk@sodexo.com
+
+Sodexo Benefits and Rewards Services Polska
+ul. K³obucka 25; 02-699 Warszawa
+Sodexo. World Leader in Quality of Life Services.' EMAIL_BODY_TEMPLATE,
 
                                                      '{$grantProgramName} – przyznanie bonów szkoleniowych' EMAIL_SUBJECT_TEMPLATE,
                                                      'Email do Uczestnika o przydzieleniu bonów –systemowy/automatyczny' DESCRIPTION from dual)
@@ -40,14 +48,22 @@ THEN INSERT (ID, EMAIL_BODY_TEMPLATE, EMAIL_SUBJECT_TEMPLATE, DESCRIPTION) VALUE
 --------------------------------------------------------------------------------------------
 
 MERGE INTO APP_PBE.EMAIL_TEMPLATES msg USING (SELECT 'E_REIMB' ID ,'Sz. P. {$firstName} {$lastName},
-Uprzejmie informujemy, ¿e rozliczono bony w ramach projektu {$grantProgramName} dotycz¹ce us³ugi {nazwa szkolenia}.
+Uprzejmie informujemy, ¿e rozliczono bony w ramach projektu {$grantProgramName} dotycz¹ce us³ugi {$trainingName}.
 
 W zwi¹zku z tym, i¿ wartoœæ wp³aconego wk³adu w³asnego jest wy¿sza ni¿ wartoœæ wynikaj¹ca z rozliczenia nadp³acone œrodki zosta³y zwrócone na rachunek bankowy, z którego wp³ynê³y. W za³¹czeniu przesy³amy dokument potwierdzaj¹cy zwrot œrodków tj. notê uznaniow¹ o nr{$noteNo}.
 
 Z powa¿aniem
-Zespó³ ds. obs³ugi klienta' EMAIL_BODY_TEMPLATE,
+Zespó³ ds. obs³ugi klienta
 
-                                                     '{$grantProgramName}– zwrot nadp³aconego wk³adu w³asnego z tytu³u rozliczenia us³ugi' EMAIL_SUBJECT_TEMPLATE,
+Operator Finansowy projektu Kierunek Kariera
+Telefoniczne Biuro Obs³ugi Klienta
+Tel. 22/346-75-05; e-mail: tbok.kk@sodexo.com
+
+Sodexo Benefits and Rewards Services Polska
+ul. K³obucka 25; 02-699 Warszawa
+Sodexo. World Leader in Quality of Life Services.' EMAIL_BODY_TEMPLATE,
+
+                                                     '{$grantProgramName} – zwrot nadp³aconego wk³adu w³asnego z tytu³u rozliczenia us³ugi' EMAIL_SUBJECT_TEMPLATE,
                                                      'Email do Uczestnika o rozliczeniu us³ugi - systemowy/automatyczny' DESCRIPTION
                                               from dual) ins ON (msg.ID = ins.ID)
 WHEN MATCHED THEN
@@ -66,14 +82,22 @@ THEN INSERT (ID, EMAIL_BODY_TEMPLATE, EMAIL_SUBJECT_TEMPLATE, DESCRIPTION) VALUE
 ---------------------------------------------------------------------------------------------------------------
 
 MERGE INTO APP_PBE.EMAIL_TEMPLATES msg USING (SELECT 'CNF_PYMT' ID ,'Sz. P. {$firstName} {$lastName},
-Uprzejmie informujemy, ¿e rozliczono bony w ramach projektu {$grantProgramName} dotycz¹ce szkolenia {$nazwa szkolenia}.
+Uprzejmie informujemy, ¿e rozliczono bony w ramach projektu {$grantProgramName} dotycz¹ce szkolenia {$trainingName}.
 
 W za³¹czniku znajdzie Pan/Pani potwierdzenie zap³aty nale¿noœci za us³ugê.
 
 Z powa¿aniem
-Zespó³ ds. obs³ugi klienta' EMAIL_BODY_TEMPLATE,
+Zespó³ ds. obs³ugi klienta
 
-                                                     '{$grantProgramName}– potwierdzenie zap³aty nale¿noœci z tytu³u rozliczenia us³ugi' EMAIL_SUBJECT_TEMPLATE,
+Operator Finansowy projektu Kierunek Kariera
+Telefoniczne Biuro Obs³ugi Klienta
+Tel. 22/346-75-05; e-mail: tbok.kk@sodexo.com
+
+Sodexo Benefits and Rewards Services Polska
+ul. K³obucka 25; 02-699 Warszawa
+Sodexo. World Leader in Quality of Life Services.' EMAIL_BODY_TEMPLATE,
+
+                                                     '{$grantProgramName} – potwierdzenie zap³aty nale¿noœci z tytu³u rozliczenia us³ugi' EMAIL_SUBJECT_TEMPLATE,
                                                      'Email do Uczestnika z potwierdzeniem zap³aty nale¿noœci za us³ugê - systemowy/automatyczny' DESCRIPTION
                                               from dual) ins ON (msg.ID = ins.ID)
 WHEN MATCHED THEN
@@ -97,9 +121,17 @@ Uprzejmie informujemy, ¿e rozliczono bony w ramach projektu {$grantProgramName} 
 W za³¹czniku znajdzie Pan/Pani potwierdzenie rozliczenia us³ugi, tj. dokument pn. Potwierdzenie realizacji dofinansowania.
 
 Z powa¿aniem
-Zespó³ ds. obs³ugi klienta' EMAIL_BODY_TEMPLATE,
+Zespó³ ds. obs³ugi klienta
 
-                                                     '{$grantProgramName}– potwierdzenie rozliczenia us³ugi' EMAIL_SUBJECT_TEMPLATE,
+Operator Finansowy projektu Kierunek Kariera
+Telefoniczne Biuro Obs³ugi Klienta
+Tel. 22/346-75-05; e-mail: tbok.kk@sodexo.com
+
+Sodexo Benefits and Rewards Services Polska
+ul. K³obucka 25; 02-699 Warszawa
+Sodexo. World Leader in Quality of Life Services.' EMAIL_BODY_TEMPLATE,
+
+                                                     '{$grantProgramName} – potwierdzenie rozliczenia us³ugi' EMAIL_SUBJECT_TEMPLATE,
                                                      'Email do Uczestnika (MŒP) z potwierdzeniem rozliczenia us³ugi - systemowy/automatyczny' DESCRIPTION
                                               from dual) ins ON (msg.ID = ins.ID)
 WHEN MATCHED THEN
@@ -114,7 +146,7 @@ THEN INSERT (ID, EMAIL_BODY_TEMPLATE, EMAIL_SUBJECT_TEMPLATE, DESCRIPTION) VALUE
 -----------------------------------CORR_NOTIF-----------------------------------------------------------------------
 ----1.10	Email do Us³ugodawcy z informacj¹ o koniecznoœci korekty rozliczenia szkolenia - systemowy/automatyczny---
 -----------------------------3.6	Korekta rozliczenia---------------------------------------------------------------
---------------------------------------------------------------------------------------------------------------------
+---------------------------------------OK---------------------------------------------------------------------------
 
 MERGE INTO APP_PBE.EMAIL_TEMPLATES msg USING (SELECT 'CORR_NOTIF' ID ,'Szanowni Pañstwo,
 
@@ -123,9 +155,17 @@ Po weryfikacji dokumentów do rozliczenia otrzymanych w dniu {$arrivalDate}, nume
 Prosimy o korektê dokumentów rozliczeniowych w terminie 5 dni roboczych od otrzymania niniejszej  informacji.
 
 Z powa¿aniem
-Zespó³ ds. obs³ugi klienta' EMAIL_BODY_TEMPLATE,
+Zespó³ ds. obs³ugi klienta
 
-                                                     '{$grantProgramName}– koniecznoœæ dokonania korekty w rozliczeniu us³ugi' EMAIL_SUBJECT_TEMPLATE,
+Operator Finansowy projektu Kierunek Kariera
+Telefoniczne Biuro Obs³ugi Klienta
+Tel. 22/346-75-05; e-mail: tbok.kk@sodexo.com
+
+Sodexo Benefits and Rewards Services Polska
+ul. K³obucka 25; 02-699 Warszawa
+Sodexo. World Leader in Quality of Life Services.' EMAIL_BODY_TEMPLATE,
+
+                                                     '{$grantProgramName} – koniecznoœæ dokonania korekty w rozliczeniu us³ugi' EMAIL_SUBJECT_TEMPLATE,
                                                      'Email do Us³ugodawcy z informacj¹ o koniecznoœci korekty rozliczenia szkolenia - systemowy/automatyczny' DESCRIPTION from dual)
                                              ins ON (msg.ID = ins.ID)
 WHEN MATCHED THEN
@@ -141,18 +181,26 @@ THEN INSERT (ID, EMAIL_BODY_TEMPLATE, EMAIL_SUBJECT_TEMPLATE, DESCRIPTION) VALUE
 -----------------------------------PIN_SEND-----------------------------------------------------------
 ---1.13 Email do uczestnika z numerem PIN do us³ugi  po jej rezerwacji - systemowy/automatyczny-------
 -----------------3.7	Email do uczestnika z numerem PIN do szkolenia----------------------------------
-------------------------------------------------------------------------------------------------------
+---------------------------------------OK-------------------------------------------------------------
 
 MERGE INTO APP_PBE.EMAIL_TEMPLATES msg USING (SELECT 'PIN_SEND' ID ,'Sz. P. {$firstName} {$lastName},
 
-Uprzejmie informujemy, i¿ zarezerwowano  us³ugê:{$trainingName}, {$trainingPlace}, {$trainingInstitutionName}, {$trainingStartDate}, liczba zarezerwowanych bonów: {$assignedProductNum}.
+Uprzejmie informujemy, i¿ zarezerwowano  us³ugê: {$trainingName}, {$trainingPlace}, {$trainingInstitutionName}, {$trainingStartDate}, liczba zarezerwowanych bonów: {$assignedProductNum}.
 
 Poni¿ej znajduje siê kod PIN, s³u¿¹cy do rozliczenia us³ugi, który nale¿y przekazaæ us³ugodawcy w dniu zakoñczenia us³ugi. Przekazanie kodu PIN jest równoznaczne z potwierdzeniem uczestnictwa w us³udze.
 
 PIN: {$reimbursmentPin}
 
 Z powa¿aniem
-Zespó³ ds. obs³ugi klienta' EMAIL_BODY_TEMPLATE,
+Zespó³ ds. obs³ugi klienta
+
+Operator Finansowy projektu Kierunek Kariera
+Telefoniczne Biuro Obs³ugi Klienta
+Tel. 22/346-75-05; e-mail: tbok.kk@sodexo.com
+
+Sodexo Benefits and Rewards Services Polska
+ul. K³obucka 25; 02-699 Warszawa
+Sodexo. World Leader in Quality of Life Services.' EMAIL_BODY_TEMPLATE,
 
                                                      '{$grantProgramName} – kod PIN do rozliczenia us³ugi' EMAIL_SUBJECT_TEMPLATE,
                                                      'Email do uczestnika z numerem PIN do us³ugi po jej rezerwacji - systemowy/automatyczny' DESCRIPTION from dual)
@@ -170,7 +218,7 @@ THEN INSERT (ID, EMAIL_BODY_TEMPLATE, EMAIL_SUBJECT_TEMPLATE, DESCRIPTION) VALUE
 -----------------------------------PIN_RESEND---------------------------------------------------------
 ----1.15	Email do uczestnika z numerem PIN do us³ugi ( ponowna wysy³ka) - systemowy/automatyczny-----
 ----------------------------Przes³anie pinu do szkolenia----------------------------------------------
-------------------------------------------------------------------------------------------------------
+---------------------------------------OK-------------------------------------------------------------
 
 MERGE INTO APP_PBE.EMAIL_TEMPLATES msg USING (SELECT 'PIN_RESEND' ID ,'Poni¿ej znajduje siê kod PIN, s³u¿¹cy do rozliczenia us³ugi:
 
@@ -180,7 +228,15 @@ który nale¿y przekazaæ us³ugodawcy w dniu zakoñczenia us³ugi. Przekazanie kodu P
 PIN: {$reimbursmentPin}
 
 Z powa¿aniem
-Zespó³ ds. obs³ugi klienta' EMAIL_BODY_TEMPLATE,
+Zespó³ ds. obs³ugi klienta
+
+Operator Finansowy projektu Kierunek Kariera
+Telefoniczne Biuro Obs³ugi Klienta
+Tel. 22/346-75-05; e-mail: tbok.kk@sodexo.com
+
+Sodexo Benefits and Rewards Services Polska
+ul. K³obucka 25; 02-699 Warszawa
+Sodexo. World Leader in Quality of Life Services.' EMAIL_BODY_TEMPLATE,
 
                                                      '{$grantProgramName} – kod PIN do rozliczenia us³ugi' EMAIL_SUBJECT_TEMPLATE,
                                                      'Email do uczestnika z numerem PIN do us³ugi ( ponowna wysy³ka) - systemowy/automatyczny' DESCRIPTION from dual)
@@ -200,16 +256,24 @@ THEN INSERT (ID, EMAIL_BODY_TEMPLATE, EMAIL_SUBJECT_TEMPLATE, DESCRIPTION) VALUE
 -----------------------------------RESET_LINK-----------------------------------------------------
 ----1.16	 Email do Us³ugodawcy z linkiem do resetu has³a do logowania - systemowy/automatyczny---
 --------------------Powiadomienie o wygenerowaniu linku resetuj¹cego has³o------------------------
---------------------------------------------------------------------------------------------------
+---------------------------------------OK-----------------------------------------------------------
 
 MERGE INTO APP_PBE.EMAIL_TEMPLATES msg USING (SELECT 'RESET_LINK' ID ,'Poni¿ej znajduje siê link do resetu has³a do serwisu www
 
 {$resetLink}
 
 Z powa¿aniem
-Zespó³ ds. obs³ugi klienta' EMAIL_BODY_TEMPLATE,
+Zespó³ ds. obs³ugi klienta
 
-                                                     '{$grantProgramName} – reset has³a' EMAIL_SUBJECT_TEMPLATE,
+Operator Finansowy projektu Kierunek Kariera
+Telefoniczne Biuro Obs³ugi Klienta
+Tel. 22/346-75-05; e-mail: tbok.kk@sodexo.com
+
+Sodexo Benefits and Rewards Services Polska
+ul. K³obucka 25; 02-699 Warszawa
+Sodexo. World Leader in Quality of Life Services.' EMAIL_BODY_TEMPLATE,
+
+                                                     'Reset has³a' EMAIL_SUBJECT_TEMPLATE,
                                                      'Email do Us³ugodawcy z linkiem do resetu has³a do logowania - systemowy/automatyczny' DESCRIPTION from dual)
                                              ins ON (msg.ID = ins.ID)
 WHEN MATCHED THEN
@@ -224,7 +288,7 @@ THEN INSERT (ID, EMAIL_BODY_TEMPLATE, EMAIL_SUBJECT_TEMPLATE, DESCRIPTION) VALUE
 --------------------------------------------------------------------------------------------------------------
 -----------------------------------EXPI_PROD------------------------------------------------------------------
 ----1.17 Email do uczestnika , informuj¹cy o up³ywaj¹cym terminie wa¿noœci bonów. - systemowy/automatyczny----
---------------------------------------------------------------------------------------------------------------
+--------------------------------------DO PODPIECIA------------------------------------------------------------
 --------------------------------------------------------------------------------------------------------------
 
 MERGE INTO APP_PBE.EMAIL_TEMPLATES msg USING (SELECT 'EXPI_PROD' ID ,'Sz. P. {$firstName} {$lastName},
@@ -232,7 +296,15 @@ MERGE INTO APP_PBE.EMAIL_TEMPLATES msg USING (SELECT 'EXPI_PROD' ID ,'Sz. P. {$f
 Przypominamy, ¿e termin wa¿noœci Bonów Szkoleniowych przydzielonych w ramach projektu pn. „Kierunek Kariera” up³ywa dnia {$contractExpiryDate}.
 
 Z powa¿aniem
-Zespó³ ds. obs³ugi klienta' EMAIL_BODY_TEMPLATE,
+Zespó³ ds. obs³ugi klienta
+
+Operator Finansowy projektu Kierunek Kariera
+Telefoniczne Biuro Obs³ugi Klienta
+Tel. 22/346-75-05; e-mail: tbok.kk@sodexo.com
+
+Sodexo Benefits and Rewards Services Polska
+ul. K³obucka 25; 02-699 Warszawa
+Sodexo. World Leader in Quality of Life Services.' EMAIL_BODY_TEMPLATE,
 
                                                      '{$grantProgramName} – przypomnienie o up³ywaj¹cym terminie wa¿noœci bonów' EMAIL_SUBJECT_TEMPLATE,
                                                      'Email do uczestnika, informuj¹cy o up³ywaj¹cym terminie wa¿noœci bonów - systemowy/automatyczny' DESCRIPTION from dual)
@@ -250,7 +322,7 @@ THEN INSERT (ID, EMAIL_BODY_TEMPLATE, EMAIL_SUBJECT_TEMPLATE, DESCRIPTION) VALUE
 --------------------------------------------------------------------------------------------------------------
 -----------------------------------EXPI_REIMB-----------------------------------------------------------------
 ----1.18 Email do Uczestnika o rozliczeniu bonów po terminie wa¿noœci systemowy/automatyczny------------------
---------------------------------------------------------------------------------------------------------------
+--------------------------------------DO PODPIECIA------------------------------------------------------------
 --------------------------------------------------------------------------------------------------------------
 
 MERGE INTO APP_PBE.EMAIL_TEMPLATES msg USING (SELECT 'EXPI_REIMB' ID ,'Sz. P. {$firstName} {$lastName},
@@ -260,9 +332,17 @@ Uprzejmie informujemy, ¿e rozliczono bony w ramach projektu {$grantProgramName},
 W za³¹czeniu przesy³amy dokument potwierdzaj¹cy rozliczenie wp³aconego wk³adu w³asnego tj. notê uznaniow¹ nr{$noteNo}.
 
 Z powa¿aniem
-Zespó³ ds. obs³ugi klienta' EMAIL_BODY_TEMPLATE,
+Zespó³ ds. obs³ugi klienta
 
-                                                     '{$grantProgramName}– zwrot wk³adu w³asnego z tytu³u up³yniêcia utraty terminu wa¿noœci bonów' EMAIL_SUBJECT_TEMPLATE,
+Operator Finansowy projektu Kierunek Kariera
+Telefoniczne Biuro Obs³ugi Klienta
+Tel. 22/346-75-05; e-mail: tbok.kk@sodexo.com
+
+Sodexo Benefits and Rewards Services Polska
+ul. K³obucka 25; 02-699 Warszawa
+Sodexo. World Leader in Quality of Life Services.' EMAIL_BODY_TEMPLATE,
+
+                                                     '{$grantProgramName} – zwrot wk³adu w³asnego z tytu³u up³yniêcia utraty terminu wa¿noœci bonów' EMAIL_SUBJECT_TEMPLATE,
                                                      'Email do Uczestnika o rozliczeniu bonów po terminie wa¿noœci systemowy/automatyczny' DESCRIPTION from dual)
                                              ins ON (msg.ID = ins.ID)
 WHEN MATCHED THEN
@@ -278,7 +358,7 @@ THEN INSERT (ID, EMAIL_BODY_TEMPLATE, EMAIL_SUBJECT_TEMPLATE, DESCRIPTION) VALUE
 --------------------------------------------------------------------------------------------------------------
 -----------------------------------TI_ACCESS------------------------------------------------------------------
 ----1.19 Email do Us³ugodawcy o przydzieleniu dostêpu do serwisu www - systemowy/automatyczny-----------------
---------------------------------------------------------------------------------------------------------------
+--------------------------------------DO PODPIECIA------------------------------------------------------------
 --------------------------------------------------------------------------------------------------------------
 
 MERGE INTO APP_PBE.EMAIL_TEMPLATES msg USING (SELECT 'TI_ACCESS' ID ,'Szanowni Pañstwo,
@@ -293,7 +373,15 @@ Has³o: {$password}
 Szczegó³owe informacje dotycz¹ce systemu bonów szkoleniowych oraz jego obs³ugi dostêpne s¹ w zak³adce FAQ.
 
 Z powa¿aniem
-Zespó³ ds. obs³ugi klienta' EMAIL_BODY_TEMPLATE,
+Zespó³ ds. obs³ugi klienta
+
+Operator Finansowy projektu Kierunek Kariera
+Telefoniczne Biuro Obs³ugi Klienta
+Tel. 22/346-75-05; e-mail: tbok.kk@sodexo.com
+
+Sodexo Benefits and Rewards Services Polska
+ul. K³obucka 25; 02-699 Warszawa
+Sodexo. World Leader in Quality of Life Services.' EMAIL_BODY_TEMPLATE,
 
                                                      '{$grantProgramName} – dostêp do serwisu www' EMAIL_SUBJECT_TEMPLATE,
                                                      'Email do Us³ugodawcy o przydzieleniu dostêpu do serwisu www - systemowy/automatyczny' DESCRIPTION from dual)
@@ -310,7 +398,7 @@ THEN INSERT (ID, EMAIL_BODY_TEMPLATE, EMAIL_SUBJECT_TEMPLATE, DESCRIPTION) VALUE
 --------------------------------------------------------------------------------------------------------------
 -----------------------------------TI_ACCESS------------------------------------------------------------------
 ----1.20	Email do Uczestnika o rozliczeniu zwrotu bonów - systemowy/automatyczny-----------------------------
---------------------------------------------------------------------------------------------------------------
+--------------------------------------DO PODPIECIA------------------------------------------------------------
 --------------------------------------------------------------------------------------------------------------
 
 MERGE INTO APP_PBE.EMAIL_TEMPLATES msg USING (SELECT 'RET_REIMB' ID ,'Sz. P. {$firstName} {$lastName},
@@ -320,9 +408,17 @@ Uprzejmie informujemy, ¿e rozliczono zwrot bonów w ramach projektu {$grantProgra
 W za³¹czeniu przesy³amy dokument potwierdzaj¹cy rozliczenie wp³aconego wk³adu w³asnego tj. notê uznaniow¹ nr{$noteNo}.
 
 Z powa¿aniem
-Zespó³ ds. obs³ugi klienta' EMAIL_BODY_TEMPLATE,
+Zespó³ ds. obs³ugi klienta
 
-                                                     '{$grantProgramName}– zwrot wk³adu w³asnego z tytu³u zwrotu bonów ' EMAIL_SUBJECT_TEMPLATE,
+Operator Finansowy projektu Kierunek Kariera
+Telefoniczne Biuro Obs³ugi Klienta
+Tel. 22/346-75-05; e-mail: tbok.kk@sodexo.com
+
+Sodexo Benefits and Rewards Services Polska
+ul. K³obucka 25; 02-699 Warszawa
+Sodexo. World Leader in Quality of Life Services.' EMAIL_BODY_TEMPLATE,
+
+                                                     '{$grantProgramName} – zwrot wk³adu w³asnego z tytu³u zwrotu bonów ' EMAIL_SUBJECT_TEMPLATE,
                                                      'Email do Uczestnika o rozliczeniu zwrotu bonów - systemowy/automatyczny' DESCRIPTION from dual)
                                              ins ON (msg.ID = ins.ID)
 WHEN MATCHED THEN
@@ -336,23 +432,33 @@ THEN INSERT (ID, EMAIL_BODY_TEMPLATE, EMAIL_SUBJECT_TEMPLATE, DESCRIPTION) VALUE
 
 
 
---------------------------------------------------------------------------------------
------------------------------------VC_SEND--------------------------------------------
------------------------Dane do logowania dla osoby fizycznej--------------------------
---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------
+-----------------------------------VC_SEND---------------------------------------------------------
+---------1.21	Email do Uczestnika – ponowna wysy³ka kodu weryfikacyjnego –systemowy/automatyczny---
+-----------------------Dane do logowania dla osoby fizycznej---------------------------------------
+---------------------------------------OK----------------------------------------------------------
 
-MERGE INTO APP_PBE.EMAIL_TEMPLATES msg USING (SELECT 'VC_SEND' ID ,'Szanowny Panie/Szanowna Pani
-Poni¿ej znajduj¹ siê dane logowania do naszego serwisu
+MERGE INTO APP_PBE.EMAIL_TEMPLATES msg USING (SELECT 'VC_SEND' ID ,'Sz. P. {$firstName} {$lastName},
+Witamy w Systemie bonów szkoleniowych.
 
-Adres: {$url}
 Login: {$login}
-Has³o: {$verificationCode}
+Kod weryfikacyjny: {$verificationCode}
+
+Stan przydzielonej puli bonów oraz ich rezerwacjê na us³ugi mo¿na œledziæ pod adresem: {$url}.
 
 Z powa¿aniem
-Zespó³ ds. obs³ugi klienta' EMAIL_BODY_TEMPLATE,
+Zespó³ ds. obs³ugi klienta
 
-                                                     'Dane do logowania' EMAIL_SUBJECT_TEMPLATE,
-                                                     'Dane do logowania dla osoby fizycznej' DESCRIPTION from dual)
+Operator Finansowy projektu Kierunek Kariera
+Telefoniczne Biuro Obs³ugi Klienta
+Tel. 22/346-75-05; e-mail: tbok.kk@sodexo.com
+
+Sodexo Benefits and Rewards Services Polska
+ul. K³obucka 25; 02-699 Warszawa
+Sodexo. World Leader in Quality of Life Services.' EMAIL_BODY_TEMPLATE,
+
+                                                     'Przypomnienie kodu weryfikacyjnego' EMAIL_SUBJECT_TEMPLATE,
+                                                     'Email do Uczestnika – ponowna wysy³ka kodu weryfikacyjnego –systemowy/automatyczny' DESCRIPTION from dual)
                                              ins ON (msg.ID = ins.ID)
 WHEN MATCHED THEN
 UPDATE SET msg.EMAIL_BODY_TEMPLATE = ins.EMAIL_BODY_TEMPLATE,

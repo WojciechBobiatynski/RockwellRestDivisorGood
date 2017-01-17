@@ -13,6 +13,7 @@ import pl.sodexo.it.gryf.common.enums.FileType;
 import pl.sodexo.it.gryf.common.enums.ReportParameter;
 import pl.sodexo.it.gryf.common.enums.ReportSourceType;
 import pl.sodexo.it.gryf.common.enums.ReportTemplateCode;
+import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.common.utils.JsonMapperUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.report.ReportInstanceRepository;
 import pl.sodexo.it.gryf.model.reports.ReportInstance;
@@ -107,7 +108,7 @@ public class ReportServiceImpl implements ReportService {
     //PUBLIC METHODS FOR DOCUMENTS
 
     @Override
-    public String generateDebitNoteForOrder(Long orderId){
+    public String generateDebitNoteForOrder(Long orderId, String invoiceNumber){
         Map<String, Object> parameters = new HashMap<>();
         parameters.put(ReportParameter.ORDER_ID.getParam(), orderId);
         parameters.put("companyName", applicationParameters.getSodexoName());
@@ -116,14 +117,13 @@ public class ReportServiceImpl implements ReportService {
         parameters.put("companyVatRegNum", applicationParameters.getSodexoVatRegNum());
         parameters.put("companyBankName", applicationParameters.getSodexoBankName());
 
-        //TODO: tbilski nazwa pliku
-        String reportFileName = String.format("%s_nota_obciazeniowo_ksiegowa.pdf", orderId);
-        return generateReport(ReportTemplateCode.DEBIT_NOTE, reportFileName, FileType.ORDERS, parameters,
+        String reportFileName = String.format("%s_nota_obciazeniowa.pdf", GryfStringUtils.convertFileName(invoiceNumber));
+        return generateReport(ReportTemplateCode.DEBIT_NOTE, reportFileName, FileType.ACCOUNTING_DOCUMENT, parameters,
                                 ReportSourceType.ORDER, orderId);
     }
 
     @Override
-    public String generateCreditNoteForReimbursment(Long reimbursmentId) {
+    public String generateCreditNoteForReimbursment(Long reimbursmentId, String invoiceNumber) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("rmbsId", reimbursmentId);
         parameters.put("companyName", applicationParameters.getSodexoName());
@@ -132,9 +132,8 @@ public class ReportServiceImpl implements ReportService {
         parameters.put("companyVatRegNum", applicationParameters.getSodexoVatRegNum());
         parameters.put("companyBankName", applicationParameters.getSodexoBankName());
 
-        //TODO: tbilski nazwa pliku
-        String reportFileName = String.format("%s_nota_uznaniowa.pdf", reimbursmentId);
-        return generateReport(ReportTemplateCode.CREDIT_NOTE, reportFileName, FileType.E_REIMBURSEMENTS,
+        String reportFileName = String.format("%s_nota_uznaniowa.pdf", GryfStringUtils.convertFileName(invoiceNumber));
+        return generateReport(ReportTemplateCode.CREDIT_NOTE, reportFileName, FileType.ACCOUNTING_DOCUMENT,
                               parameters, ReportSourceType.EREIMBURSMENT, reimbursmentId);
     }
 
@@ -148,8 +147,7 @@ public class ReportServiceImpl implements ReportService {
         parameters.put("companyVatRegNum", applicationParameters.getSodexoVatRegNum());
         parameters.put("companyBankName", applicationParameters.getSodexoBankName());
 
-        //TODO: tbilski nazwa pliku
-        String reportFileName = String.format("%s_potwierdzenie_wyplaty_naleznosci.pdf", reimbursmentId);
+        String reportFileName = String.format("%s_potwierdzenie_wyplaty.pdf", reimbursmentId);
         return generateReport(ReportTemplateCode.BANK_TRANSFER_CONFIRMATION, reportFileName, FileType.E_REIMBURSEMENTS,
                                 parameters, ReportSourceType.EREIMBURSMENT, reimbursmentId);
     }
@@ -165,8 +163,7 @@ public class ReportServiceImpl implements ReportService {
         parameters.put("companyBankName", applicationParameters.getSodexoBankName());
         parameters.put("place", applicationParameters.getDocumentGeneratePlace());
 
-        //TODO: tbilski nazwa pliku
-        String reportFileName = String.format("%s_potwierdzenie_realizacji_dofinansowania.pdf", reimbursmentId);
+        String reportFileName = String.format("%s_potwierdzenie_dofinansowania.pdf", reimbursmentId);
         return generateReport(ReportTemplateCode.GRANT_AID_CONFIRMATION, reportFileName, FileType.E_REIMBURSEMENTS,
                 parameters, ReportSourceType.EREIMBURSMENT, reimbursmentId);
     }

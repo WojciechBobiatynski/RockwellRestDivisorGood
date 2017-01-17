@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
+import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderInvoice;
 import pl.sodexo.it.gryf.service.api.reports.ReportService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.elements.elementTypes.OrderElementAttachmentService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.orderflows.OrderFlowElementService;
@@ -35,19 +36,31 @@ public class CareerDirectionGenerateDocumentsActionService extends ActionBaseSer
     @Autowired
     private OrderFlowElementService orderFlowElementService;
 
-    @Autowired
-    private ApplicationParameters applicationParameters;
     //PUBLIC METHODS
 
     public void execute(Order order, List<String> acceptedPathViolations) {
         LOGGER.debug("Utworzenie dokumentów księgowych dla zamówienia [{}]", order.getId());
 
         //GENEROWANIE RAPORTU
-        String reportLocation = reportService.generateDebitNoteForOrder(order.getId());
+        OrderInvoice orderInvoice = getOrderInvoice(order);
+        String reportLocation = reportService.generateDebitNoteForOrder(order.getId(), orderInvoice.getInvoiceNumber());
 
         //DTO DLA DANEGO ELEMENT
         orderFlowElementService.addElementEmpty(order, KK_DOCUMENT_OWN_CONTRIBUTION_ELEM_ID);
         OrderElement orderElement = order.getElement(KK_DOCUMENT_OWN_CONTRIBUTION_ELEM_ID);
         orderElementAttachmentService.updateValue(orderElement, reportLocation);
+    }
+
+    //PRIVATE METHODS
+
+    private OrderInvoice getOrderInvoice(Order order){
+        List<OrderInvoice> orderInvoices = order.getOrderInvoices();
+        if(orderInvoices.size() == 0){
+            throw new RuntimeException(String.format("Błąd parmetryzacji. Zamówienie [%s] nie zawiera żadnej noty.", order.getId()));
+        }
+        if(orderInvoices.size() > 1){
+            throw new RuntimeException(String.format("Błąd parmetryzacji. Zamówienie [%s] zawiera wiecej niż jedną notę.", order.getId()));
+        }
+        return orderInvoices.get(0);
     }
 }

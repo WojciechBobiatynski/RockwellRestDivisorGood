@@ -128,8 +128,9 @@ public final class GryfStringUtils {
      */
     public static String convertFileName(String name){
         return GryfStringUtils.replacePolishCharacters(name)
-                        .replaceAll("[^A-Za-z0-9 _]", "")
+                        .replaceAll("[^A-Za-z0-9 _/]", "")
                         .replaceAll(" ", "_")
+                        .replaceAll("/", "-")
                         .toLowerCase();
     }
 

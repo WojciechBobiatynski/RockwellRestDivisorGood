@@ -132,4 +132,9 @@ public class Ereimbursement extends VersionableEntity {
     @Setter
     private List<EreimbursementMail> ereimbursementMails;
 
+    @OneToMany(mappedBy = "ereimbursement")
+    @Getter
+    @Setter
+    private List<EreimbursementInvoice> ereimbursementInvoices;
+
 }

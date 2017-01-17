@@ -239,6 +239,7 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         ereimbursementInvoice.setInvoiceType(financeNoteResult.getInvoiceType());
         ereimbursementInvoice.setInvoiceDate(financeNoteResult.getInvoiceDate());
         ereimbursementInvoiceRepository.save(ereimbursementInvoice);
+        ereimbursement.getEreimbursementInvoices().add(ereimbursementInvoice);
 
         return ereimbursement.getId();
     }
@@ -278,7 +279,8 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     }
 
     private void createCreditNote(Ereimbursement ereimbursement, List<EreimbursementReport> ereimbursementReports) {
-        String creditNoteLocation = reportService.generateCreditNoteForReimbursment(ereimbursement.getId());
+        EreimbursementInvoice ereimbursementInvoice = getEreimbursementInvoice(ereimbursement);
+        String creditNoteLocation = reportService.generateCreditNoteForReimbursment(ereimbursement.getId(), ereimbursementInvoice.getInvoiceNumber());
         EreimbursementReport report = new EreimbursementReport();
         report.setEreimbursement(ereimbursement);
         report.setFileLocation(creditNoteLocation);
@@ -368,6 +370,17 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
             throw new NoCalculationParamsException();
         }
         return params;
+    }
+
+    private EreimbursementInvoice getEreimbursementInvoice(Ereimbursement ereimbursement){
+        List<EreimbursementInvoice> ereimbursementInvoices = ereimbursement.getEreimbursementInvoices();
+        if(ereimbursementInvoices.size() == 0){
+            throw new RuntimeException(String.format("Błąd parmetryzacji. Rozliczenie [%s] nie zawiera żadnej noty.", ereimbursement.getId()));
+        }
+        if(ereimbursementInvoices.size() > 1){
+            throw new RuntimeException(String.format("Błąd parmetryzacji. Rozliczenie [%s] zawiera wiecej niż jedną notę.", ereimbursement.getId()));
+        }
+        return ereimbursementInvoices.get(0);
     }
 
     @Override

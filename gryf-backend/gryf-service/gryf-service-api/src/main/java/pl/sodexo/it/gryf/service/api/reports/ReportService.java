@@ -18,16 +18,18 @@ public interface ReportService {
     /**
      * Nota obciążeniowo-ksiegowa
      * @param orderId
+     * @param invoiceNumber
      * @return
      */
-    String generateDebitNoteForOrder(Long orderId);
+    String generateDebitNoteForOrder(Long orderId, String invoiceNumber);
 
     /**
      * Nota uznaniowa
      * @param reimbursmentId
+     * @param invoiceNumber
      * @return
      */
-    String generateCreditNoteForReimbursment(Long reimbursmentId);
+    String generateCreditNoteForReimbursment(Long reimbursmentId, String invoiceNumber);
 
     /**
      * Potwierdzenie wpłaty należnosci

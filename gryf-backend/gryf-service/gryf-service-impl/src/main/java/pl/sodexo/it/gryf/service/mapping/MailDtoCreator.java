@@ -52,9 +52,11 @@ public class MailDtoCreator {
         return mailDTO;
     }
 
-    public MailDTO createMailDTOForVerificationCode(Verifiable verifiable) {
+    public MailDTO createMailDTOForVerificationCode(Verifiable verifiable, String firstName, String lastName) {
         MailDTO mailDTO = new MailDTO();
-        MailPlaceholders mailPlaceholders = mailService.createPlaceholders(EMAIL_BODY_VER_CODE_PLACEHOLDER, verifiable.getVerificationCode())
+        MailPlaceholders mailPlaceholders = mailService.createPlaceholders(FIRST_NAME_PLACEHOLDER, firstName)
+                .add(LAST_NAME_PLACEHOLDER, lastName)
+                .add(EMAIL_BODY_VER_CODE_PLACEHOLDER, verifiable.getVerificationCode())
                 .add(EMAIL_BODY_LOGIN_PLACEHOLDER, verifiable.getLogin())
                 .add(EMAIL_BODY_URL_PLACEHOLDER, applicationParameters.getIndUserUrl());
         EmailTemplate emailTemplate = emailTemplateRepository.get(VERIFICATION_CODE_EMAIL_TEMPLATE_CODE);
@@ -77,7 +79,7 @@ public class MailDtoCreator {
                 .add("trainingName", ti.getTraining().getName())
                 .add("trainingPlace", ti.getTraining().getPlace())
                 .add("trainingInstitutionName", ti.getTraining().getTrainingInstitution().getName())
-                .add("trainingStartDate", String.valueOf(ti.getTraining().getStartDate()))
+                .add("trainingStartDate", new SimpleDateFormat(DATE_FORMAT).format(ti.getTraining().getStartDate()))
                 .add("assignedProductNum", String.valueOf(ti.getAssignedNum()))
                 .add("reimbursmentPin", pin);
         EmailTemplate emailTemplate = emailTemplateRepository.get(SEND_TRAINING_REIMBURSMENT_PIN_TEMPLATE_CODE);
@@ -86,7 +88,8 @@ public class MailDtoCreator {
 
     public MailDTO createMailDTOForPinResend(TrainingInstance ti, String email) {
         String pin = getDecryptedPin(ti.getReimbursmentPin());
-        MailPlaceholders mailPlaceholders = mailService.createPlaceholders("individualName", ti.getIndividual().getFirstName())
+        MailPlaceholders mailPlaceholders = mailService.createPlaceholders("grantProgramName", ti.getGrantProgram().getProgramName())
+                .add("individualName", ti.getIndividual().getFirstName())
                 .add("reimbursmentPin", pin)
                 .add("trainingName", ti.getTraining().getName())
                 .add("trainingPlace", ti.getTraining().getPlace())

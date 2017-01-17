@@ -143,7 +143,7 @@ public class IndividualServiceImpl implements IndividualService {
 
     @Override
     public void sendEmailNotification(IndividualDto individualDto) {
-        mailService.scheduleMail(mailDtoCreator.createMailDTOForVerificationCode(individualDto));
+        mailService.scheduleMail(mailDtoCreator.createMailDTOForVerificationCode(individualDto, individualDto.getFirstName(), individualDto.getLastName()));
     }
 
     @Override

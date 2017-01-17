@@ -15,6 +15,8 @@ import pl.sodexo.it.gryf.common.exception.authentication.GryfUserNotActiveExcept
 import pl.sodexo.it.gryf.common.exception.verification.GryfVerificationException;
 import pl.sodexo.it.gryf.common.utils.GryfConstants;
 import pl.sodexo.it.gryf.common.utils.PeselUtils;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.individuals.IndividualRepository;
+import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
 import pl.sodexo.it.gryf.service.api.security.VerificationService;
 import pl.sodexo.it.gryf.service.api.security.individuals.IndividualUserService;
 import pl.sodexo.it.gryf.service.api.security.trainingInstitutions.TiUserResetAttemptService;
@@ -55,10 +57,14 @@ public class VerificationServiceImpl implements VerificationService {
     @Autowired
     private MailDtoCreator mailDtoCreator;
 
+    @Autowired
+    private IndividualRepository individualRepository;
+
     @Override
     public void resendVerificationCode(VerificationDto verificationDto) throws GryfVerificationException {
         GryfIndUserDto user = validateVerificationData(verificationDto);
-        mailService.scheduleMail(mailDtoCreator.createMailDTOForVerificationCode(user));
+        Individual individual = individualRepository.get(user.getIndId());
+        mailService.scheduleMail(mailDtoCreator.createMailDTOForVerificationCode(user, individual.getFirstName(), individual.getLastName()));
     }
 
     private GryfIndUserDto validateVerificationData(VerificationDto verificationDto) throws GryfVerificationException {

@@ -82,11 +82,11 @@ public class CareerDirectionSendOrderActionService extends ActionBaseService {
         OrderInvoice orderInvoice = getOrderInvoice(order);
 
         if(!Strings.isNullOrEmpty(oeAttachment01.getValueVarchar())){
-            attachmentDTO.setName(String.format("nota_%s.%s", GryfStringUtils.convertFileName(orderInvoice.getInvoiceNumber()),
+            attachmentDTO.setName(String.format("%s_nota_obciazeniowa.%s", GryfStringUtils.convertFileName(orderInvoice.getInvoiceNumber()),
                                                             GryfStringUtils.findFileExtension(oeAttachment01.getValueVarchar())));
             attachmentDTO.setPath(oeAttachment01.getValueVarchar());
         }else{
-            attachmentDTO.setName(String.format("nota_%s.%s", GryfStringUtils.convertFileName(orderInvoice.getInvoiceNumber()),
+            attachmentDTO.setName(String.format("%s_nota_obciazeniowa.%s", GryfStringUtils.convertFileName(orderInvoice.getInvoiceNumber()),
                                                          GryfStringUtils.findFileExtension(oeDocumentOwnContribution.getValueVarchar())));
             attachmentDTO.setPath(oeDocumentOwnContribution.getValueVarchar());
         }
