@@ -36,6 +36,11 @@ public class TrainingInstanceSearchDaoImpl implements TrainingInstanceSearchDao 
     }
 
     @Override
+    public TrainingInstanceDetailsDto findTrainingInstanceDetailsWithPinCode(Long trainingInstanceId) {
+        return trainingInstanceSearchMapper.findTrainingInstanceDetailsWithPinCode(new UserCriteria(), trainingInstanceId);
+    }
+
+    @Override
     public List<SimpleDictionaryDto> findTiTrainingInstancesStatuses() {
         return trainingInstanceSearchMapper.findTiTrainingInstancesStatuses(new UserCriteria());
     }

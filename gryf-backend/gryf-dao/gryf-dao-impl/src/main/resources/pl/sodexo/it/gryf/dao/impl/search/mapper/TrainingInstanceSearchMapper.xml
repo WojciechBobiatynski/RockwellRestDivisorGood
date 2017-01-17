@@ -129,6 +129,56 @@
         </where>
     </select>
 
+    <select id="findTrainingInstanceDetailsWithPinCode" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceDetailsDto">
+        SELECT
+        tin.ID                                            trainingInstanceId,
+        tin.STATUS_ID                                     trainingInstanceStatusId,
+        tin.ASSIGNED_NUM                                  productAssignedNum,
+        tin.VERSION                                       trainingInstanceVersion,
+        CASE tin.OPINION_DONE WHEN 'Y' THEN 1 ELSE 0 END  opinionDone,
+        tra.ID                                            trainingId,
+        tra.NAME                                          trainingName,
+        cat.NAME                                          trainingCategory,
+        tra.PLACE                                         trainingPlace,
+        tra.PRICE                                         trainingPrice,
+        tra.HOURS_NUMBER                                  trainingHoursNumber,
+        tra.HOUR_PRICE                                    trainingHourPrice,
+        trin.ID                                           trainingInstitutionId,
+        trin.NAME                                         trainingInstitutionName,
+        trin.VAT_REG_NUM                                  trainingInstitutionVatRegNum,
+        tra.START_DATE                                    startDate,
+        tra.END_DATE                                      endDate,
+        ind.ID                                            participantId,
+        ind.PESEL                                         participantPesel,
+        ind.FIRST_NAME                                    participantName,
+        ind.LAST_NAME                                     participantSurname,
+        tr_cat_par.PRODUCT_INSTANCE_FOR_HOUR              productInstanceForHour,
+        tr_cat_par.MAX_PRODUCT_INSTANCE                   maxProductInstance,
+        prd.VALUE                                         prdValue,
+        tin.GRANT_PROGRAM_ID                              grantProgramId,
+        gr_pr.PROGRAM_NAME                                grantProgramName,
+        tra.REIMBURSMENT_CONDITIONS                       reimbursmentConditions,
+        tin.REIMBURSMENT_PIN                              pinCode
+        FROM APP_PBE.TI_TRAINING_INSTANCES tin
+        JOIN APP_PBE.TI_TRAININGS tra ON tra.ID = tin.TRAINING_ID
+        JOIN APP_PBE.TI_TRAINING_CATEGORIES cat ON cat.ID = tra.TRAINING_CATEGORY_ID
+        JOIN APP_PBE.TI_TRAINING_CATEGORY_PARAMS tr_cat_par ON (cat.ID = tr_cat_par.CATEGORY_ID AND tin.GRANT_PROGRAM_ID = tr_cat_par.GRANT_PROGRAM_ID)
+        JOIN APP_PBE.INDIVIDUALS ind ON ind.ID = tin.INDIVIDUAL_ID
+        JOIN APP_PBE.GRANT_PROGRAMS gr_pr ON gr_pr.ID = tin.GRANT_PROGRAM_ID
+        JOIN APP_PBE.GRANT_OWNERS gr_own ON gr_own.ID = gr_pr.GRANT_OWNER_ID
+        JOIN APP_PBE.PBE_PRODUCTS prd ON prd.GRANT_OWNER_ID = gr_own.ID
+        JOIN APP_PBE.TRAINING_INSTITUTIONS trin on trin.ID = tra.TRAINING_INSTITUTION_ID
+        <where>
+            <if test="trainingInstanceId != null">
+                tin.ID = #{trainingInstanceId}
+            </if>
+            <if test="criteria.gryfUser.userType == 'TRAINING_INSTITUTION'">
+                AND tra.TRAINING_INSTITUTION_ID = #{criteria.gryfUser.trainingInstitutionId}
+            </if>
+        </where>
+    </select>
+
+
     <select id="findTiTrainingInstancesStatuses" resultType="pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto" parameterType="list">
         SELECT
             dic.ID          id,

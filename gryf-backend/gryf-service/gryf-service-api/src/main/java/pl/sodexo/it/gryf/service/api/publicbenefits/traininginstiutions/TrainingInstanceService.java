@@ -29,6 +29,13 @@ public interface TrainingInstanceService {
     TrainingInstanceDetailsDto findTrainingInstanceDetails(Long trainingInstanceId);
 
     /**
+     * Metoda która znajduje szczegółowe dane na temat instancji szkolenia wraz z pinem (na potrzeby FO)
+     * @param trainingInstanceId - identyfikator instancji szkolenia
+     * @return szczegółowe dane na temat instancji szkolenia
+     */
+    TrainingInstanceDetailsDto findTrainingInstanceDetailsWithPinCode(Long trainingInstanceId);
+
+    /**
      * Metoda zwracająca listę statusów instancji szkoleń
      * @return - lista statusów
      */

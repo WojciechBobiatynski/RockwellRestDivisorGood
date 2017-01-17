@@ -160,8 +160,8 @@ angular.module("gryf.trainingInstances").factory("TrainingInstanceSearchService"
     }]);
 
 
-angular.module("gryf.trainingInstances").factory("TrainingInstanceModifyService", ['$http', 'GryfModals', 'GryfPopups', 'GryfExceptionHandler', 'GryfHelpers', "GryfTables",
-function ($http, GryfModals, GryfPopups, GryfExceptionHandler, GryfHelpers, GryfTables) {
+angular.module("gryf.trainingInstances").factory("TrainingInstanceModifyService", ['$http', 'GryfModals', 'GryfPopups', 'GryfExceptionHandler', 'GryfHelpers', "GryfTables","TrainingInstanceSearchService",
+function ($http, GryfModals, GryfPopups, GryfExceptionHandler, GryfHelpers, GryfTables,TrainingInstanceSearchService) {
 
     var TRAINING_RESERVATION_URL = contextPath + "/trainingInstance/";
     var violations = {};
@@ -185,22 +185,31 @@ function ($http, GryfModals, GryfPopups, GryfExceptionHandler, GryfHelpers, Gryf
     };
 
     var confirmPin = function(trainingInstanceId, pinCode, trainingInstanceVersion) {
-        var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING, {label: "Zapisuję"});
+        GryfModals.openModal(GryfModals.MODALS_URL.CONFIRM).result.then(function(result) {
+            if (!result) {
+                return;
+            }
 
-        return $http.put(TRAINING_RESERVATION_URL + "confirmPin",
-            {id: trainingInstanceId, pin: pinCode, version: trainingInstanceVersion}
-        ).success(function() {
-            GryfPopups.setPopup("success", "Sukces", "Potwierdzono uczestnictwo w szkoleniu");
-            GryfPopups.showPopup();
-        }).error(function(error) {
-            GryfPopups.setPopup("error", "Błąd", "Nie udało się potwierdzić uczestnictwa w szkoleniu");
-            GryfPopups.showPopup();
+            var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING, {label: "Zapisuję"});
 
-            GryfExceptionHandler.handleSavingError(error, violations, null);
+            return $http.put(TRAINING_RESERVATION_URL + "confirmPin",
+                {id: trainingInstanceId, pin: pinCode, version: trainingInstanceVersion}
+            ).success(function() {
+                GryfPopups.setPopup("success", "Sukces", "Potwierdzono uczestnictwo w szkoleniu");
+                GryfPopups.showPopup();
+                TrainingInstanceSearchService.findDetailsById(TrainingInstanceSearchService.getTrainingInstanceModel().entity.trainingInstanceId);
+            }).error(function(error) {
+                GryfPopups.setPopup("error", "Błąd", "Nie udało się potwierdzić uczestnictwa w szkoleniu");
+                GryfPopups.showPopup();
 
-        }).finally(function() {
-            GryfModals.closeModal(modalInstance);
+                GryfExceptionHandler.handleSavingError(error, violations, null);
+
+            }).finally(function() {
+                GryfModals.closeModal(modalInstance);
+            });
+
         });
+
     };
 
     var getViolations = function() {

@@ -97,11 +97,8 @@ function ($scope, $routeParams, GryfModals, GryfModulesUrlProvider, BrowseTraini
     };
 
     $scope.confirmReservationPIN = function() {
-        TrainingInstanceModifyService.confirmPin($scope.trainingInstanceModel.entity.trainingInstanceId, $scope.pinCode,
-                                                    $scope.trainingInstanceModel.entity.trainingInstanceVersion)
-            .then(function() {
-                TrainingInstanceSearchService.findDetailsById($routeParams.id);
-            });
+        TrainingInstanceModifyService.confirmPin($scope.trainingInstanceModel.entity.trainingInstanceId, $scope.trainingInstanceModel.entity.pinCode,
+                                                    $scope.trainingInstanceModel.entity.trainingInstanceVersion);
     };
 
 }]);

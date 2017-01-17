@@ -16,7 +16,6 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.trainingreservation.TrainingR
 import pl.sodexo.it.gryf.common.dto.user.GryfUser;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.common.exception.GryfOptimisticLockRuntimeException;
-import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.contracts.ContractRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.individuals.IndividualContactRepository;
@@ -100,6 +99,14 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
     public TrainingInstanceDetailsDto findTrainingInstanceDetails(Long trainingInstanceId) {
         validateTrainingInstance(trainingInstanceId);
         return trainingInstanceSearchDao.findTrainingInstanceDetails(trainingInstanceId);
+    }
+
+    @Override
+    public TrainingInstanceDetailsDto findTrainingInstanceDetailsWithPinCode(Long trainingInstanceId) {
+        validateTrainingInstance(trainingInstanceId);
+        TrainingInstanceDetailsDto foundedTrainingInstanceDetailsDto = trainingInstanceSearchDao.findTrainingInstanceDetailsWithPinCode(trainingInstanceId);
+        foundedTrainingInstanceDetailsDto.setPinCode(AEScryptographer.decrypt(foundedTrainingInstanceDetailsDto.getPinCode()));
+        return foundedTrainingInstanceDetailsDto;
     }
 
     @Override

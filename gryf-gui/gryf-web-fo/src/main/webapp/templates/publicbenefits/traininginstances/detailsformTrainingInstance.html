@@ -44,11 +44,9 @@
                 <select ng-options="v.id as v.name for v in statusesDictionary | orderBy:'ordinal'"
                         ng-model="trainingInstanceModel.entity.trainingInstanceStatusId" disabled="disabled"></select>
             </div>
-        </div>
-        <div class="grid-100" ng-show="isInStatus('RES')">
             <div class="grid-20">
                 <strong class="label">PIN do zatwierdzenia obecności</strong>
-                <input type="text" ng-model="pinCode" gryf-privilege="GRF_PBE_TI_TRAINING_INSTANCES_MOD">
+                <input type="text" ng-model="trainingInstanceModel.entity.pinCode" disabled="disabled">
             </div>
         </div>
     </section>
@@ -130,11 +128,11 @@
         <div class="grid-100">
             <div class="grid-15">
                 <strong class="label">Data rozpoczęcia</strong>
-                <input type="text" ng-model="trainingInstanceModel.entity.startDate | date:'yyyy-MM-dd'" disabled="disabled">
+                <input type="text" value="{{trainingInstanceModel.entity.startDate | date:'yyyy-MM-dd'}}" disabled="disabled">
             </div>
             <div class="grid-15">
                 <strong class="label">Data zakończenia</strong>
-                <input type="text" ng-model="trainingInstanceModel.entity.endDate | date:'yyyy-MM-dd'" disabled="disabled">
+                <input type="text" value="{{trainingInstanceModel.entity.endDate | date:'yyyy-MM-dd'}}" disabled="disabled">
             </div>
             <div class="grid-15">
                 <strong class="label">Maks. liczba bonów</strong>

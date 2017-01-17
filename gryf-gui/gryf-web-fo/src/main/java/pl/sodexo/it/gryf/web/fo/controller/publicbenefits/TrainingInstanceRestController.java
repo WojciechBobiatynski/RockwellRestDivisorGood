@@ -49,7 +49,7 @@ public class TrainingInstanceRestController {
     @ResponseBody
     public TrainingInstanceDetailsDto findTrainingDetails(@PathVariable Long trainingInstanceId){
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_TI_TRAINING_INSTANCES);
-        return trainingInstanceService.findTrainingInstanceDetails(trainingInstanceId);
+        return trainingInstanceService.findTrainingInstanceDetailsWithPinCode(trainingInstanceId);
     }
 
     @RequestMapping(value = "/cancelTrainingReservation/{id}/{version}", method = RequestMethod.PUT)

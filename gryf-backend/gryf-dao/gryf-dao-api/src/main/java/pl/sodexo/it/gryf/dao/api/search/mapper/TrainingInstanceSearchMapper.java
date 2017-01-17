@@ -31,6 +31,14 @@ public interface TrainingInstanceSearchMapper {
     TrainingInstanceDetailsDto findTrainingInstanceDetails(@Param("criteria") UserCriteria criteria, @Param("trainingInstanceId") Long trainingInstanceId);
 
     /**
+     * Metoda która znajduje szczegółowe dane na temat instancji szkolenia wraz z pinem (na potrzeby FO)
+     * @param criteria - kryteria użytkownika
+     * @param trainingInstanceId - identyfikator instancji szkolenia
+     * @return szczegółowe dane na temat instancji szkolenia
+     */
+    TrainingInstanceDetailsDto findTrainingInstanceDetailsWithPinCode(@Param("criteria") UserCriteria criteria, @Param("trainingInstanceId") Long trainingInstanceId);
+
+    /**
      * Metoda zwracająca listę statusów instancji szkoleń
      * @param criteria kryteria użytkownika
      * @return - lista statusów
