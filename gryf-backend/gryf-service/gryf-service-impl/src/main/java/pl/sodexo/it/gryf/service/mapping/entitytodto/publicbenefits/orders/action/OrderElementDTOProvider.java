@@ -140,10 +140,12 @@ public final class OrderElementDTOProvider {
                 dto.setIndividualFirstName(contract.getIndividual().getFirstName());
                 dto.setIndividualLastName(contract.getIndividual().getLastName());
                 dto.setIndividualPesel(contract.getIndividual().getPesel());
+                dto.setAccountPayment(contract.getIndividual().getAccountPayment());
             }
             if(contract.getEnterprise() != null){
                 dto.setEnterpriseName(contract.getEnterprise().getName());
                 dto.setEnterpriseVatRegNum(contract.getEnterprise().getVatRegNum());
+                dto.setAccountPayment(contract.getEnterprise().getAccountPayment());
             }
         }
 

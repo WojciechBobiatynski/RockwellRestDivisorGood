@@ -28,4 +28,8 @@ public class FinanceNoteResult {
     @Setter
     private Date invoiceDate;
 
+    @Getter
+    @Setter
+    private String wupDebtDocumentNumber;
+
 }

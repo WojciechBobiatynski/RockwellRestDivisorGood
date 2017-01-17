@@ -2,6 +2,8 @@ package pl.sodexo.it.gryf.model.publicbenefits.orders;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import pl.sodexo.it.gryf.model.api.VersionableEntity;
+import pl.sodexo.it.gryf.model.publicbenefits.enterprises.Enterprise;
+import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -25,6 +27,14 @@ public class OrderInvoice extends VersionableEntity{
     @ManyToOne
     private Order order;
 
+    @JoinColumn(name = "INDIVIDUAL_ID", referencedColumnName = "ID")
+    @ManyToOne
+    private Individual individual;
+
+    @JoinColumn(name = "ENTERPRISE_ID", referencedColumnName = "ID")
+    @ManyToOne
+    private Enterprise enterprise;
+
     @Column(name = "INVOICE_ID")
     private Long invoiceId;
 
@@ -37,6 +47,9 @@ public class OrderInvoice extends VersionableEntity{
     @Column(name = "INVOICE_DATE")
     @Temporal(TemporalType.DATE)
     private Date invoiceDate;
+
+    @Column(name = "WUP_DEBT_DOC_NO")
+    private String wupDebtDocumentNumber;
 
     //GETTERS & SETTERS
 
@@ -54,6 +67,22 @@ public class OrderInvoice extends VersionableEntity{
 
     public void setOrder(Order order) {
         this.order = order;
+    }
+
+    public Individual getIndividual() {
+        return individual;
+    }
+
+    public void setIndividual(Individual individual) {
+        this.individual = individual;
+    }
+
+    public Enterprise getEnterprise() {
+        return enterprise;
+    }
+
+    public void setEnterprise(Enterprise enterprise) {
+        this.enterprise = enterprise;
     }
 
     public Long getInvoiceId() {
@@ -86,6 +115,14 @@ public class OrderInvoice extends VersionableEntity{
 
     public void setInvoiceDate(Date invoiceDate) {
         this.invoiceDate = invoiceDate;
+    }
+
+    public String getWupDebtDocumentNumber() {
+        return wupDebtDocumentNumber;
+    }
+
+    public void setWupDebtDocumentNumber(String wupDebtDocumentNumber) {
+        this.wupDebtDocumentNumber = wupDebtDocumentNumber;
     }
 
     //EQUALS & HASH CODE

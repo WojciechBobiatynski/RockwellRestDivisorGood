@@ -52,4 +52,7 @@ public class OrderElementComplexTypeBasicContractInfoDTO extends OrderElementDTO
     @Setter
     private String enterpriseVatRegNum;
 
+    @Getter
+    @Setter
+    private String accountPayment;
 }

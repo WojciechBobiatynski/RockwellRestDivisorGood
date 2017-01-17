@@ -8,8 +8,11 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.other.GryfPLSQLRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderInvoiceRepository;
 import pl.sodexo.it.gryf.model.api.FinanceNoteResult;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
+import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
+import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElementCons;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderInvoice;
 import pl.sodexo.it.gryf.service.api.publicbenefits.pbeproductinstancepool.PbeProductInstancePoolService;
+import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.orderflows.OrderFlowElementService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.pbeproduct.PbeProductInstancePoolLocalService;
 import pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.actions.ActionBaseService;
 
@@ -32,6 +35,9 @@ public class CareerDirectionCreateProducyInstancePoolActionService extends Actio
     @Autowired
     private OrderInvoiceRepository orderInvoiceRepository;
 
+    @Autowired
+    private OrderFlowElementService orderFlowElementService;
+
     //PUBLIC METHODS
 
     public void execute(Order order, List<String> acceptedPathViolations) {
@@ -44,12 +50,18 @@ public class CareerDirectionCreateProducyInstancePoolActionService extends Actio
         gryfPLSQLRepository.flush();
         FinanceNoteResult financeNoteResult = gryfPLSQLRepository.createDebitNoteForOrder(order.getId());
 
+        orderFlowElementService.addElementVarcharValue(order, OrderElementCons.KK_WUP_DEBT_DOCUMENT_NUMBER_ELEM_ID,
+                                                                financeNoteResult.getWupDebtDocumentNumber());
+
         OrderInvoice orderInvoice = new OrderInvoice();
         orderInvoice.setOrder(order);
+        orderInvoice.setIndividual(order.getContract() != null ? order.getContract().getIndividual() : null);
+        orderInvoice.setEnterprise(order.getContract() != null ? order.getContract().getEnterprise() : null);
         orderInvoice.setInvoiceId(financeNoteResult.getInvoiceId());
         orderInvoice.setInvoiceNumber(financeNoteResult.getInvoiceNumber());
         orderInvoice.setInvoiceType(financeNoteResult.getInvoiceType());
         orderInvoice.setInvoiceDate(financeNoteResult.getInvoiceDate());
+        orderInvoice.setWupDebtDocumentNumber(financeNoteResult.getWupDebtDocumentNumber());
         order.addOrderInvoice(orderInvoice);
         orderInvoiceRepository.save(orderInvoice);
     }

@@ -47,5 +47,9 @@
             <strong class="label">NIP firmy</strong>
             <input type="text" ng-model="item.enterpriseVatRegNum" readonly="readonly">
         </div>
+        <div class="grid-20" ng-if="item.accountPayment">
+            <strong class="label">Konto do wpłaty za bony</strong>
+            <input type="text" ng-model="item.accountPayment" readonly="readonly">
+        </div>
     </div>
 </div>
