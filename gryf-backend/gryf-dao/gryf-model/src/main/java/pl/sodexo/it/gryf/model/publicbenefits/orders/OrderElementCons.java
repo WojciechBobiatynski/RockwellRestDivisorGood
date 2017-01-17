@@ -22,7 +22,7 @@ public class OrderElementCons {
     public static final String KK_PAY_DATE_ELEM_ID = "PAYD_KK";
 
     public static final String KK_WUP_DEBT_DOCUMENT_NUMBER_ELEM_ID = "WDEPNUM_KK";
-
+    public static final String KK_WUP_DEBT_DOCUMENT_EXPORTED_ELEM_ID = "WDEPEXP_KK";
 
 
 }

@@ -74,6 +74,11 @@ public class OrderFlowElementServiceImpl implements OrderFlowElementService {
     }
 
     @Override
+    public void addElementCheckboxValue(Order order, final String elementId, boolean valueBoolean){
+        addElementWithValue(order, elementId, null, Boolean.toString(valueBoolean), null);
+    }
+
+    @Override
     public void addElementNumberValue(Order order, final String elementId, BigDecimal valueNumber) {
         addElementWithValue(order, elementId, valueNumber, null, null);
     }

@@ -42,6 +42,8 @@ public interface OrderFlowElementService {
      */
     void addElementNumberValue(Order order, final String elementId, BigDecimal valueNumber);
 
+    void addElementCheckboxValue(Order order, final String elementId, boolean valueBoolean);
+
     /**
      * Dodaje pusty element
      * @param order zamówienie

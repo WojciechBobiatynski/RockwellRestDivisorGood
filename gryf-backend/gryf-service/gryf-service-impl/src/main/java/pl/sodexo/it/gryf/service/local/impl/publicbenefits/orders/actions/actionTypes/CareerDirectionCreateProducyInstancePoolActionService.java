@@ -50,6 +50,7 @@ public class CareerDirectionCreateProducyInstancePoolActionService extends Actio
         gryfPLSQLRepository.flush();
         FinanceNoteResult financeNoteResult = gryfPLSQLRepository.createDebitNoteForOrder(order.getId());
 
+        orderFlowElementService.addElementCheckboxValue(order, OrderElementCons.KK_WUP_DEBT_DOCUMENT_EXPORTED_ELEM_ID, false);
         orderFlowElementService.addElementVarcharValue(order, OrderElementCons.KK_WUP_DEBT_DOCUMENT_NUMBER_ELEM_ID,
                                                                 financeNoteResult.getWupDebtDocumentNumber());
 
