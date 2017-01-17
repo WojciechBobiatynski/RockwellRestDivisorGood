@@ -2,7 +2,7 @@
     <property name="PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] [%user:%role] - %thread - %logger | %msg%n"/>
     <property name="PATTERN_IP" value="%d{yyyy-MM-dd HH:mm:ss.SSS} | %msg%n"/>
     <property name="MAX_FILE_SIZE" value="50MB"/>
-    <property name="CHARSET" value="UTF-8"/>
+    <property name="CHARSET" value="windows-1250"/>
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
