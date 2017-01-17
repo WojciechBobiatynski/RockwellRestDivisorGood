@@ -84,8 +84,10 @@ body > .grid {
 
 .submenu {
     margin-right: 10px;
+    width: 130px;
     position: relative;
     z-index: 2;
+    text-align: center;
 }
 
 .submenu a {

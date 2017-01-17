@@ -92,13 +92,13 @@
     <li ng-class="{'active': isActive('trainingReservation')}"><a ui-sref="trainingReservation">Rezerwuj szkolenie</a></li>
     <li ng-class="{'active': isActive('confirmPin')}"><a ui-sref="confirmPin">Zatwierdź PIN Uczestnika</a></li>
     <li class="submenu" ng-class="{'active': (isActive('trainingToReimburse') || isActive('reimbursements'))}">
-        <a ui-sref="reimbursements">Rozliczenia i korekty</a>
+        <a ui-sref="reimbursements">Rozliczenia</a>
         <ul>
             <li ng-class="{'active': isActive('trainingToReimburse')}">
                 <a ui-sref="trainingToReimburse">Szkolenia do rozliczenia</a>
             </li>
             <li ng-class="{'active': isActive('reimbursements')}">
-                <a ui-sref="reimbursements">Rozliczenia</a>
+                <a ui-sref="reimbursements">Rozliczenia i korekty</a>
             </li>
         </ul>
     </li>
