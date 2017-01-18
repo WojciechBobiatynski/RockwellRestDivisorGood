@@ -1,40 +1,19 @@
-<section>
-    <strong class="label">Dane z umowy</strong>
-    <div class="block borderTop blue">
-        <div class="multiSection">
-            <div class="block grid-15">
-                <strong class="label">Imię i nazwisko</strong>
-                <div class="grid-100">{{model.entity.firstName + ' ' + model.entity.lastName}}</div>
+<section class="grid-30 section-promoted section-user-info">
+    <h2>{{model.entity.firstName + ' ' + model.entity.lastName}}</h2>
+    <h3>{{model.entity.pesel}}</h3>
+</section>
 
-                <strong class="label">PESEL</strong>
-                <div class="grid-100">{{model.entity.pesel}}</div>
-            </div>
-            <div class="block grid-85">
-                <table>
-                    <thead class="text-left">
-                    <th class="grid-10">
-                        <strong class="label">Moje umowy</strong>
-                    </th>
-                    <th class="grid-15">
-                        <strong class="label">Data podpisania umowy</strong>
-                    </th>
-                    <th class="grid-50">
-                        <strong class="label">Kategorie szkoleń</strong>
-                    </th>
-                    </thead>
-                    <tbody class="tableData">
-                        <tr ng-repeat="agr in model.entity.agreements" ng-class="{'row-even': $even, 'row-odd': $odd}">
-                            <td>{{::agr.id}}</td>
-                            <td>{{::agr.signingDate  | date:'yyyy-MM-dd'}}</td>
-                            <td><span ng-repeat = "category in agr.trainingCategoriesNames">{{category}}{{$last ? '' : ', '}}</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+<section class="grid-70 section-important section-contact-info">
+    <div class="fl">
+        <h2>Telefoniczne Biuro Obsługi Klienta</h2>
+        <h3 class="phone">+48 00 000 00 00</h3>
+    </div>
+    <div class="fr">
+        <a class="mail" href="mailto:szkolenia@wup-krakow.pl" title="szkolenia@wup-krakow.pl">szkolenia@wup-krakow.pl</a>
+        <p class="description">Wszystkie informacje o projekcie pn. „Kierunek Kariera” dostępne są na stronie<br><a href="http://www.pociagdokariery.pl" rel="external" title="Pociąg do Kariery">www.pociagdokariery.pl</a></p>
     </div>
 </section>
-<div class="row-20"></div>
+
 <section>
     <strong class="label">Liczba bonów</strong>
     <div class="block borderTop blue">
@@ -78,7 +57,8 @@
         </div>
     </div>
 </section>
-<div class="row-20"></div>
+
+
 <section>
     <strong class="label">Szkolenia</strong>
     <div class="block borderTop blue">
@@ -121,9 +101,7 @@
                     <td>{{tra.trainingStatus}}</td>
                     <td>
                         <ul class="text-center no-margin-padding">
-                            <li ng-if="tra.trainingStatusId == 'RES'"
-                                ui-sref="sendPinModal({trainingInstanceId: tra.id})"
-                                class="textButton blue">WYŚLIJ PIN</li>
+                            <li ng-if="tra.trainingStatusId == 'RES'"><a ui-sref="sendPinModal({trainingInstanceId: tra.id})" class="textButton">WYŚLIJ PIN</a></li>
                         </ul>
                     </td>
                 </tr>

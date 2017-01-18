@@ -145,9 +145,6 @@
 
     <ul>
         <li>&copy; <span itemprop="copyrightYear">2017</span>&nbsp;<a title="Sodexo Benefits and Rewards Services Polska Sp. z o.o." rel="external" itemprop="copyrightHolder" href="http://www.sodexo.pl/">Sodexo Benefits and Rewards Services Polska Sp.&nbsp;z&nbsp;o.o.</a></li>
-        <li><a href="#" title="Regulamin">Regulamin</a></li>
-        <li><a href="#" title="Polityka prywatności">Polityka prywatności</a></li>
-        <li><a href="#" title="Kontakt">Kontakt</a></li>
     </ul>
 
     <ol>
