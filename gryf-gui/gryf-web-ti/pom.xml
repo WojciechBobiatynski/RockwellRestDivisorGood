@@ -99,7 +99,6 @@
                             <jsSourceFiles>
                                 <jsSourceFile>angular/angular.min.js</jsSourceFile>
                                 <jsSourceFile>angular/angular-animate.min.js</jsSourceFile>
-                                <jsSourceFile>angular/angular-route.min.js</jsSourceFile>
                                 <jsSourceFile>bootstrap/ui-bootstrap-tpls.min.js</jsSourceFile>
                                 <jsSourceFile>angular/angular-ui-router.min.js</jsSourceFile>
                                 <jsSourceFile>angular/angular-resource.min.js</jsSourceFile>
