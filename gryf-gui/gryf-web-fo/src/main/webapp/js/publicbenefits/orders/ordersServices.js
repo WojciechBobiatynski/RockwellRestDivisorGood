@@ -13,17 +13,17 @@ angular.module('gryf.orders').factory("BrowseOrdersService",
         ////////////////////////////////
         //MODEL INSTANCES
         ////////////////////////////////
-        var searchDTO = new SearchDTO();
+        var searchDTO = new SearchDTO(100);//100 - tymczasowe rozwiazanie powinno być z parametru aplikacji
         var searchResultOptions = new SearchResultOptions();
 
         ////////////////////////////////
         //MODEL
         ////////////////////////////////
-        function SearchDTO() {
+        function SearchDTO(defaultGrantProgramId) {
             this.searchResultList = [];
             this.entity = {
                 id: null,
-                grantProgramId: null,
+                grantProgramId: defaultGrantProgramId,
                 statusId: null,
                 enterpriseId: null,
                 enterpriseName: null,
@@ -75,7 +75,7 @@ angular.module('gryf.orders').factory("BrowseOrdersService",
         };
 
         var getNewSearchDTO = function() {
-            searchDTO = new SearchDTO();
+            searchDTO = new SearchDTO(null);
             return searchDTO;
         };
 
