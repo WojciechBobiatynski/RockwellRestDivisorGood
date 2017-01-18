@@ -18,7 +18,7 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     @PersistenceContext
     private EntityManager em;
 
-    private String cdnUrl = "//cdn.sodexo.pl/"; //default
+    private String cdnUrl = "//cdn.sodexo.pl/gryf"; //default
     private String resourcesUrl = "/resources/"; //default
     private int sessionTimeout = 30;
     private String jsUrl = "/js/";
