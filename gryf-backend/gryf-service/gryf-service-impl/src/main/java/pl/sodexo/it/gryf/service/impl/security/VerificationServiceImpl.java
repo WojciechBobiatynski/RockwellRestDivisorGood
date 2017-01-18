@@ -17,6 +17,7 @@ import pl.sodexo.it.gryf.common.utils.GryfConstants;
 import pl.sodexo.it.gryf.common.utils.PeselUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.individuals.IndividualRepository;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
+import pl.sodexo.it.gryf.service.api.security.UserService;
 import pl.sodexo.it.gryf.service.api.security.VerificationService;
 import pl.sodexo.it.gryf.service.api.security.individuals.IndividualUserService;
 import pl.sodexo.it.gryf.service.api.security.trainingInstitutions.TiUserResetAttemptService;
@@ -59,6 +60,9 @@ public class VerificationServiceImpl implements VerificationService {
 
     @Autowired
     private IndividualRepository individualRepository;
+
+    @Autowired
+    private UserService userService;
 
     @Override
     public void resendVerificationCode(VerificationDto verificationDto) throws GryfVerificationException {
@@ -149,8 +153,10 @@ public class VerificationServiceImpl implements VerificationService {
     private GryfTiUserDto findActiveTiUserDto(String email) {
         GryfTiUserDto user = trainingInstitutionUserService.findTiUserByEmail(email);
 
-        if (user.getLogin() == null)
+        if (user == null)
             throw new GryfVerificationException("Nie znaleziono użytkownika o podanym adresie email");
+
+        userService.unlockUser(user);
 
         if (!user.isActive())
             throw new GryfUserNotActiveException("Twoje konto jest nieaktywne. Zgłoś sie do administratora");

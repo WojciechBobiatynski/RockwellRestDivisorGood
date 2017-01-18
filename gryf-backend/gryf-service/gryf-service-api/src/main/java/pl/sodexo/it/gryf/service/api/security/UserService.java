@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.service.api.security;
 
+import pl.sodexo.it.gryf.common.dto.security.GryfBlockableUserDto;
 import pl.sodexo.it.gryf.common.dto.user.GryfTiUser;
 
 import java.util.List;
@@ -51,4 +52,11 @@ public interface UserService {
      * @return login instytucji szkoleniowej
      */
     Long findTrainingInstitutionIdForTiUser(String tiUserLogin);
+
+    /**
+     * Metoda odblokowująca użytkownika po spełnieniu odpowiednich warunków
+     * @param user - dto użytkownika do odblokowania
+     * @return - dto zaktualizowanego użytkownika
+     */
+    GryfBlockableUserDto unlockUser(GryfBlockableUserDto user);
 }

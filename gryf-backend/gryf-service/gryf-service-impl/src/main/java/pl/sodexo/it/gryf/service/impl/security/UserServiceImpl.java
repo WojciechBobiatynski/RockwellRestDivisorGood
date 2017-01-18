@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
             throw new GryfBadCredentialsException("Niepoprawny login");
         }
 
-        unlockUser(user);
+        unlockUserInNewTransaction(user);
 
         if (!user.isActive()) {
             throw new GryfUserNotActiveException("Twoje konto jest nieaktywne. Zgłoś sie do administratora");
@@ -121,7 +121,7 @@ public class UserServiceImpl implements UserService {
         user.setRoles(Sets.newHashSet(securitySearchDao.findRolesForIndividualUser(user.getInuId())));
         user.setVerificationCode(AEScryptographer.decrypt(user.getVerificationCode()));
 
-        unlockUser(user);
+        unlockUserInNewTransaction(user);
 
         if (!user.isActive()) {
             throw new GryfUserNotActiveException("Twoje konto jest nieaktywne. Zgłoś sie do administratora");
@@ -133,7 +133,32 @@ public class UserServiceImpl implements UserService {
 
     }
 
-    private GryfBlockableUserDto unlockUser(GryfBlockableUserDto user) {
+    @Override
+    public GryfBlockableUserDto unlockUser(GryfBlockableUserDto user) {
+        return user.accept(new GryfBlockableUserVisitor<GryfBlockableUserDto>() {
+
+            @Override
+            public GryfBlockableUserDto visitInd(GryfIndUserDto gryfIndUserDto) {
+                unlockIndUser(gryfIndUserDto);
+                return individualUserService.saveIndUser(gryfIndUserDto);
+            }
+
+            @Override
+            public GryfBlockableUserDto visitTi(GryfTiUserDto gryfTiUserDto) {
+                if (gryfTiUserDto.getLastLoginFailureDate() == null) {
+                    return gryfTiUserDto;
+                }
+                if (isBlockByLoginFailureNotActive(gryfTiUserDto) && gryfTiUserDto.getLoginFailureAttempts() >= applicationParameters.getMaxLoginFailureAttempts()) {
+                    gryfTiUserDto.setLoginFailureAttempts(GryfConstants.DEFAULT_LOGIN_FAILURE_ATTEMPTS_NUMBER);
+                    gryfTiUserDto.setActive(true);
+                    return trainingInstitutionUserService.saveTiUser(gryfTiUserDto);
+                }
+                return gryfTiUserDto;
+            }
+        });
+    }
+
+    private GryfBlockableUserDto unlockUserInNewTransaction(GryfBlockableUserDto user) {
         return user.accept(new GryfBlockableUserVisitor<GryfBlockableUserDto>() {
 
             @Override
