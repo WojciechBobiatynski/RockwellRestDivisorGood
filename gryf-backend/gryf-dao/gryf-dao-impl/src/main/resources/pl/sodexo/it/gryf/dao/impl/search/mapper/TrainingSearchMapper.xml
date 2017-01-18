@@ -95,27 +95,46 @@
     </select>
 
     <select id="findTrainingCategories" resultType="pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto" parameterType="list">
-        SELECT id, ordinal, name FROM APP_PBE.TI_TRAINING_CATEGORIES
+        SELECT id, ordinal, name
+        FROM APP_PBE.TI_TRAINING_CATEGORIES
     </select>
 
     <select id="findTraining" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingDTO">
-        SELECT t.ID as trainingId, t.EXTERNAL_ID as externalTrainingId, t.TRAINING_INSTITUTION_ID as trainingInstitution, i.NAME as institutionName, t.NAME, t.PRICE, t.START_DATE as startDate, t.END_DATE as endDate, t.PLACE,
-        t.HOURS_NUMBER as hoursNumber, t.HOUR_PRICE as hourPrice, t.TRAINING_CATEGORY_ID as category, t.REIMBURSMENT_CONDITIONS AS  reimbursmentConditions, t.VERSION, t.CREATED_USER as createdUser, c.CATALOG_ID as trainingCategoryCatalogId,
-        t.CREATED_TIMESTAMP as createdTimestamp,t.MODIFIED_USER as modifiedUser, t.MODIFIED_TIMESTAMP as modifiedTimestamp,
-        CASE t.ACTIVE WHEN 'Y' THEN 1 ELSE 0 END as active,
-        t.DEACTIVATE_USER as deactivateUser, t.DEACTIVATE_DATE as deactivateDate, t.DEACTIVATE_JOB_ID as deactivateJobId
+        SELECT
+        t.ID                                            trainingId,
+        t.EXTERNAL_ID                                   externalTrainingId,
+        t.TRAINING_INSTITUTION_ID                       trainingInstitution,
+        i.NAME                                          institutionName,
+        t.NAME                                          name,
+        t.PRICE                                         price,
+        t.START_DATE                                    startDate,
+        t.END_DATE                                      endDate,
+        t.PLACE                                         place,
+        t.HOURS_NUMBER                                  hoursNumber,
+        t.HOUR_PRICE                                    hourPrice,
+        t.TRAINING_CATEGORY_ID                          category,
+        t.REIMBURSMENT_CONDITIONS                       reimbursmentConditions,
+        t.VERSION                                       version,
+        t.CREATED_USER                                  createdUser,
+        c.CATALOG_ID                                    trainingCategoryCatalogId,
+        t.CREATED_TIMESTAMP                             createdTimestamp,
+        t.MODIFIED_USER                                 modifiedUser,
+        t.MODIFIED_TIMESTAMP                            modifiedTimestamp,
+        CASE t.ACTIVE WHEN 'Y' THEN 1 ELSE 0 END        active,
+        t.DEACTIVATE_USER                               deactivateUser,
+        t.DEACTIVATE_DATE                               deactivateDate,
+        t.DEACTIVATE_JOB_ID                             deactivateJobId
         FROM APP_PBE.TI_TRAININGS t
-        JOIN APP_PBE.TRAINING_INSTITUTIONS i on i.ID = t.TRAINING_INSTITUTION_ID
-        JOIN APP_PBE.TI_TRAINING_CATEGORIES c on c.id = t.TRAINING_CATEGORY_ID
+            JOIN APP_PBE.TRAINING_INSTITUTIONS i on i.ID = t.TRAINING_INSTITUTION_ID
+            JOIN APP_PBE.TI_TRAINING_CATEGORIES c on c.id = t.TRAINING_CATEGORY_ID
         WHERE t.ID = #{trainingId}
     </select>
 
-    <select id="findTrainingOfInstitutionById" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchResultDTO">
-        SELECT t.ID as trainingId, t.TRAINING_INSTITUTION_ID as trainingInstitution, i.NAME as institutionName, 0 as productCount, t.NAME, t.PRICE, t.START_DATE as startDate, t.END_DATE as endDate, t.PLACE,
-        t.HOURS_NUMBER as hoursNumber, t.HOUR_PRICE as hourPrice, t.TRAINING_CATEGORY_ID as category, t.VERSION, t.CREATED_USER as createdUser, t.CREATED_TIMESTAMP as createdTimestamp,
-        t.MODIFIED_USER as modifiedUser, t.MODIFIED_TIMESTAMP as modifiedTimestamp
+    <select id="findTrainingDetails" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchResultDTO">
+        SELECT
+        <include refid="trainingDetailsData"/>
         FROM APP_PBE.TI_TRAININGS t
-        JOIN APP_PBE.TRAINING_INSTITUTIONS i on i.ID = t.TRAINING_INSTITUTION_ID
+          JOIN APP_PBE.TRAINING_INSTITUTIONS i ON i.ID = t.TRAINING_INSTITUTION_ID
         <where>
             <if test="trainingId != null">
                 t.ID = #{trainingId}
@@ -125,5 +144,46 @@
             </if>
         </where>
     </select>
+
+    <select id="findTrainingPrecalculatedDetails" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingPrecalculatedDetailsDto">
+        SELECT
+        <include refid="trainingDetailsData"/>,
+        cat.PRODUCT_INSTANCE_FOR_HOUR	  productInstanceForHour,
+        cat.MAX_PRODUCT_INSTANCE          maxProductInstance,
+        prd.VALUE                         prdValue
+        FROM APP_PBE.TI_TRAININGS t
+        JOIN APP_PBE.TRAINING_INSTITUTIONS i on i.ID = t.TRAINING_INSTITUTION_ID
+        JOIN APP_PBE.TI_TRAINING_CATEGORY_PARAMS cat ON (t.TRAINING_CATEGORY_ID = cat.CATEGORY_ID AND cat.GRANT_PROGRAM_ID = #{grantProgramId})
+        JOIN APP_PBE.GRANT_PROGRAMS gr_pr ON gr_pr.ID = #{grantProgramId}
+        JOIN APP_PBE.GRANT_OWNERS gr_own ON gr_own.ID = gr_pr.GRANT_OWNER_ID
+        JOIN APP_PBE.PBE_PRODUCTS prd ON prd.GRANT_OWNER_ID = gr_own.ID
+        <where>
+            <if test="trainingId != null">
+                t.ID = #{trainingId}
+            </if>
+            <if test="criteria.gryfUser.userType == 'TRAINING_INSTITUTION'">
+                AND i.ID = #{criteria.gryfUser.trainingInstitutionId}
+            </if>
+        </where>
+    </select>
+
+    <sql id="trainingDetailsData">
+        t.ID	                          trainingId,
+        t.TRAINING_INSTITUTION_ID	      trainingInstitution,
+        i.NAME	                          institutionName,
+        t.NAME                            name,
+        t.PRICE                           price,
+        t.START_DATE	                  startDate,
+        t.END_DATE	                      endDate,
+        t.PLACE                           place,
+        t.HOURS_NUMBER	                  hoursNumber,
+        t.HOUR_PRICE	                  hourPrice,
+        t.TRAINING_CATEGORY_ID	          category,
+        t.VERSION                         version,
+        t.CREATED_USER	                  createdUser,
+        t.CREATED_TIMESTAMP	              createdTimestamp,
+        t.MODIFIED_USER	                  modifiedUser,
+        t.MODIFIED_TIMESTAMP	          modifiedTimestamp
+    </sql>
 
 </mapper>

@@ -2,6 +2,7 @@ package pl.sodexo.it.gryf.dao.api.search.dao;
 
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingPrecalculatedDetailsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchResultDTO;
 
@@ -18,5 +19,7 @@ public interface TrainingSearchDao {
 
     TrainingDTO findTraining(Long trainingId);
 
-    TrainingSearchResultDTO findTrainingOfInstitutionById(Long trainingId);
+    TrainingSearchResultDTO findTrainingDetails(Long trainingId);
+
+    TrainingPrecalculatedDetailsDto findTrainingPrecalculatedDetails(Long trainingId, Long grantProgramId);
 }

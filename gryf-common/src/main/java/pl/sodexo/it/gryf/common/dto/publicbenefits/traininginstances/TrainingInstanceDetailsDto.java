@@ -3,16 +3,14 @@ package pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ProductCalculationsDto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.Date;
 
-import static pl.sodexo.it.gryf.common.utils.GryfConstants.BIG_DECIMAL_INTEGER_SCALE;
-
 @ToString
-public class TrainingInstanceDetailsDto implements Serializable {
+public class TrainingInstanceDetailsDto extends ProductCalculationsDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -102,18 +100,6 @@ public class TrainingInstanceDetailsDto implements Serializable {
 
     @Getter
     @Setter
-    private Integer productInstanceForHour;
-
-    @Getter
-    @Setter
-    private Integer maxProductInstance;
-
-    @Getter
-    @Setter
-    private BigDecimal prdValue;
-
-    @Getter
-    @Setter
     private Long grantProgramId;
 
     @Getter
@@ -129,21 +115,6 @@ public class TrainingInstanceDetailsDto implements Serializable {
     private String pinCode;
 
     public Integer getMaxProductsNumber() {
-        Integer maxProductsNumber;
-        if(maxProductInstance != null){
-            if(isTrainingPriceLowerThanMaxProgramLimit()){
-                BigDecimal result = trainingPrice.divide(prdValue, BIG_DECIMAL_INTEGER_SCALE, RoundingMode.UP);
-                maxProductsNumber = result.intValue();
-            } else {
-                maxProductsNumber = maxProductInstance;
-            }
-        } else {
-            maxProductsNumber = productInstanceForHour * trainingHoursNumber;
-        }
-        return maxProductsNumber;
-    }
-
-    private boolean isTrainingPriceLowerThanMaxProgramLimit() {
-        return trainingPrice.compareTo(prdValue.multiply(BigDecimal.valueOf(maxProductInstance))) < 0;
+        return super.getMaxProductsNumber(this.trainingPrice, this.trainingHoursNumber);
     }
 }

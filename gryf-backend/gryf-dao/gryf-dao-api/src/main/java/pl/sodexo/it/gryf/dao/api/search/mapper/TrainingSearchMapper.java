@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Param;
 import pl.sodexo.it.gryf.common.criteria.UserCriteria;
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingPrecalculatedDetailsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchResultDTO;
 
@@ -20,11 +21,16 @@ public interface TrainingSearchMapper {
 
     TrainingDTO findTraining(@Param("trainingId") Long trainingId);
 
+    TrainingSearchResultDTO findTrainingDetails(@Param("criteria") UserCriteria criteria,
+                                                @Param("trainingId") Long trainingId);
+
     /**
      * Metoda zwracająca dto szkolenie na podstawie jego id oraz kryteriów użytkownika
      * @param criteria kryteria użytkownika
      * @param trainingId id szkolenia
      * @return dto szkolenia
      */
-    TrainingSearchResultDTO findTrainingOfInstitutionById(@Param("criteria") UserCriteria criteria, @Param("trainingId") Long trainingId);
+    TrainingPrecalculatedDetailsDto findTrainingPrecalculatedDetails(@Param("criteria") UserCriteria criteria,
+                                                                     @Param("trainingId") Long trainingId,
+                                                                     @Param("grantProgramId") Long grantProgramId);
 }

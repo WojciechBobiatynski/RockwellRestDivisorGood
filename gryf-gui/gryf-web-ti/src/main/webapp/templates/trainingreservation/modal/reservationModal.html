@@ -5,12 +5,44 @@
 <form name="reservationForm" class="modal-body">
     <span class="alert-text">W celu rezerwacji szkolenia prosimy o wpisanie liczby rezerwowanych bonów i potwierdzenie operacji</span>
     <div class="row-30"></div>
-    <div class="grid-100">
-        <div class="grid-40 centered">
-            <strong class="label">Liczba rezerwowanych bonów (minimum 1)</strong>
-            <input name="toReservedNumInput" type="number" min="0" ng-model="toReservedNum" ng-pattern="patternNumberOnly">
-            <gryf-validation-msg path="toReservedNum"></gryf-validation-msg>
-            <span class="alert-text" ng-hide="reservationForm.toReservedNumInput.$valid">Liczba musi być całkowita</span>
+    <div class="block">
+        <div class="multiSection">
+            <div class="grid-15">
+                <strong class="label">Imię i nazwisko</strong>
+                <div>{{userTrainingReservationData.data.firstName + " " + userTrainingReservationData.data.lastName}}</div>
+            </div>
+            <div class="grid-15">
+                <strong class="label">PESEL</strong>
+                <div>{{userTrainingReservationData.data.pesel}}</div>
+            </div>
+            <div class="grid-30">
+                <table>
+                    <thead class="text-left" style="vertical-align: top;">
+                    <th class="grid-10">
+                        <strong class="label">Liczba bonów</strong>
+                    </th>
+                    <th class="grid-10">
+                        <strong class="label">Data ważności</strong>
+                    </th>
+                    </thead>
+                    <tbody class="tableData">
+                    <tr ng-repeat="pool in userTrainingReservationData.data.productInstancePools" ng-class="{'row-even': $even, 'row-odd': $odd}">
+                        <td>{{::pool.availableNum}}</td>
+                        <td>{{::pool.expiryDate  | date:'yyyy-MM-dd'}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="grid-20">
+                <strong class="label">Program dofinansowania</strong>
+                <div ng-repeat="contract in userTrainingReservationData.data.contracts">{{contract.grantProgram.name}}</div>
+            </div>
+            <div class="grid-20 centered">
+                <strong class="label">Liczba rezerwowanych bonów (minimum 1)</strong>
+                <input name="toReservedNumInput" type="number" min="0" ng-model="toReservedNum" ng-pattern="patternNumberOnly">
+                <gryf-validation-msg path="toReservedNum"></gryf-validation-msg>
+                <span class="alert-text" ng-hide="reservationForm.toReservedNumInput.$valid">Liczba musi być całkowita</span>
+            </div>
         </div>
     </div>
     <div class="row-30"></div>
@@ -18,23 +50,21 @@
         <thead>
         <tr class="grid-100 tableHeader-names">
             <th class="grid-20">Nazwa szkolenia</th>
-            <th class="grid-10">PESEL</th>
-            <th class="grid-10">Imię</th>
-            <th class="grid-10">Nazwisko</th>
-            <th class="grid-10">Liczba bonów</th>
+            <th class="grid-10">Kategoria szkolenia</th>
             <th class="grid-15">Data rozpoczęcia</th>
             <th class="grid-15">Data zakończenia</th>
+            <th class="grid-10">Maks. liczba bonów do zarezerwowania</th>
+            <th class="grid-10">Mnożnik bonów dla kategorii</th>
         </tr>
         </thead>
         <tbody class="tableData">
         <tr>
             <td>{{training.data.name}}</td>
-            <td>{{userTrainingReservationData.data.pesel}}</td>
-            <td>{{userTrainingReservationData.data.firstName}}</td>
-            <td>{{userTrainingReservationData.data.lastName}}</td>
-            <td>{{training.data.productCount}}</td>
+            <td>{{training.data.category}}</td>
             <td>{{training.data.startDate  | date:'yyyy-MM-dd'}}</td>
             <td>{{training.data.endDate  | date:'yyyy-MM-dd'}}</td>
+            <td>{{training.data.maxProductsNumber}}</td>
+            <td>x{{training.data.productInstanceForHour}}</td>
         </tr>
         </tbody>
     </table>

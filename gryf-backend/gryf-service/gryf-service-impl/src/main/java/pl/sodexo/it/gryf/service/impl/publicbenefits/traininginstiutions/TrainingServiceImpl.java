@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingPrecalculatedDetailsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchResultDTO;
 import pl.sodexo.it.gryf.common.dto.user.GryfUser;
@@ -94,8 +95,13 @@ public class TrainingServiceImpl implements TrainingService {
     }
 
     @Override
-    public TrainingSearchResultDTO findTrainingOfInstitutionById(Long id) {
-        return trainingSearchDao.findTrainingOfInstitutionById(id);
+    public TrainingSearchResultDTO findTrainingDetails(Long id) {
+        return trainingSearchDao.findTrainingDetails(id);
+    }
+
+    @Override
+    public TrainingPrecalculatedDetailsDto findTrainingPrecalculatedDetails(Long id, Long grantProgramId) {
+        return trainingSearchDao.findTrainingPrecalculatedDetails(id, grantProgramId);
     }
 
     @Override

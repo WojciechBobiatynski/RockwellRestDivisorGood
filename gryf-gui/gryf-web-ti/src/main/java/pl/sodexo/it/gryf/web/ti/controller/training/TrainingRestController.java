@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingPrecalculatedDetailsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchResultDTO;
-import pl.sodexo.it.gryf.common.dto.user.GryfUser;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.TrainingService;
 import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
@@ -44,9 +44,16 @@ public class TrainingRestController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public TrainingSearchResultDTO findTrainingById(@PathVariable("id") Long trainingId) {
+    public TrainingSearchResultDTO findTrainingDetails(@PathVariable("id") Long trainingId) {
         securityChecker.assertTiUserAccessTraining(trainingId);
-        return trainingService.findTrainingOfInstitutionById(trainingId);
+        return trainingService.findTrainingDetails(trainingId);
+    }
+
+    @RequestMapping(value = "/precalculated/{id}/{grantProgramId}", method = RequestMethod.GET)
+    public TrainingPrecalculatedDetailsDto findTrainingPrecalculatedDetails(@PathVariable("id") Long trainingId,
+                                                               @PathVariable("grantProgramId") Long grantProgramId) {
+        securityChecker.assertTiUserAccessTraining(trainingId);
+        return trainingService.findTrainingPrecalculatedDetails(trainingId, grantProgramId);
     }
 
     //PUBLIC METHODS - OTHERS

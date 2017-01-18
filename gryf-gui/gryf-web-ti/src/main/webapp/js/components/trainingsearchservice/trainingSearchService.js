@@ -1,7 +1,8 @@
 angular.module("gryf.ti").factory("TrainingSearchService", [ "$http", "GryfModals", "GryfTables", "GryfHelpers", "GryfPopups" ,function($http, GryfModals, GryfTables, GryfHelpers, GryfPopups) {
     var FIND_TRAINING_URL = contextPath + "/rest/training/list";
     var FIND_TRAINING_TO_RESERVE_URL = contextPath + "/rest/training/listToReserve";
-    var FIND_SINGLE_TRAINING_URL = contextPath + "/rest/training/";
+    var FIND_TRAINING_DETAILS_URL = contextPath + "/rest/training/";
+    var FIND_PRECALCULATED_TRAINING_DETAILS_URL = contextPath + "/rest/training/precalculated/";
 
     var searchDTO = new SearchObjModel();
     var searchResultOptions = new SearchResultOptions();
@@ -110,11 +111,18 @@ angular.module("gryf.ti").factory("TrainingSearchService", [ "$http", "GryfModal
     };
 
     var findDetailsById = function(trainingId) {
-        return $http.get(FIND_SINGLE_TRAINING_URL + trainingId).error(function() {
+        return $http.get(FIND_TRAINING_DETAILS_URL + trainingId).error(function() {
             GryfPopups.setPopup("error", "Błąd", "Nie można pobrać szkolenia o wskazanym id");
             GryfPopups.showPopup();
         });
-    }
+    };
+
+    var findPrecalculatedDetailsById = function(trainingId, grantProgramId) {
+        return $http.get(FIND_PRECALCULATED_TRAINING_DETAILS_URL + trainingId + "/" + grantProgramId).error(function() {
+            GryfPopups.setPopup("error", "Błąd", "Nie można pobrać szkolenia o wskazanym id");
+            GryfPopups.showPopup();
+        });
+    };
 
     var findSortedBy = function(sortColumnName) {
         GryfTables.sortByColumn(searchDTO.entity, sortColumnName);
@@ -145,6 +153,7 @@ angular.module("gryf.ti").factory("TrainingSearchService", [ "$http", "GryfModal
         findToReserve: findToReserve,
         findSortedBy: findSortedBy,
         findDetailsById: findDetailsById,
+        findPrecalculatedDetailsById: findPrecalculatedDetailsById,
         getSortingTypeClass: getSortingTypeClass,
         loadMore: loadMore
     };

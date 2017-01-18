@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.criteria.UserCriteria;
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingPrecalculatedDetailsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchResultDTO;
 import pl.sodexo.it.gryf.dao.api.search.dao.TrainingSearchDao;
@@ -40,9 +41,13 @@ public class TrainingSearchDaoImpl implements TrainingSearchDao {
         return trainingSearchMapper.findTraining(trainingId);
     }
 
+    @Override
+    public TrainingSearchResultDTO findTrainingDetails(Long trainingId) {
+        return trainingSearchMapper.findTrainingDetails(new UserCriteria(), trainingId);
+    }
 
     @Override
-    public TrainingSearchResultDTO findTrainingOfInstitutionById(Long trainingId) {
-        return trainingSearchMapper.findTrainingOfInstitutionById(new UserCriteria(), trainingId);
+    public TrainingPrecalculatedDetailsDto findTrainingPrecalculatedDetails(Long trainingId, Long grantProgramId) {
+        return trainingSearchMapper.findTrainingPrecalculatedDetails(new UserCriteria(), trainingId, grantProgramId);
     }
 }

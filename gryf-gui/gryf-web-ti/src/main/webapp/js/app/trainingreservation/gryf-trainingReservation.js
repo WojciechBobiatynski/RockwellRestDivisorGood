@@ -8,7 +8,7 @@ angular.module("gryf.ti").config(["$stateProvider", function($stateProvider) {
     }),
     $stateProvider.state('reservationModal', {
         parent: 'trainingReservation',
-        url: '/reservationModal/{trainingId}',
+        url: '/reservationModal/{trainingId}/{grantProgramId}',
         onEnter: ['$state', '$modal', function($state, $modal) {
             $modal.open({
                 templateUrl: contextPath + "/templates/trainingreservation/modal/reservationModal.html",

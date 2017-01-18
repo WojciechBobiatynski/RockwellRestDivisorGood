@@ -1,6 +1,6 @@
 angular.module("gryf.ti").controller("ReservationModalController", ["$scope", "$stateParams", "GryfModals",
-    "TrainingSearchService", "TrainingReservationService", "UserService",
-    function($scope, $stateParams, GryfModals, TrainingSearchService, TrainingReservationService, UserService) {
+    "TrainingSearchService", "TrainingReservationService", "UserService", "DictionaryService",
+    function($scope, $stateParams, GryfModals, TrainingSearchService, TrainingReservationService, UserService, DictionaryService) {
     $scope.close = $scope.$close;
     $scope.patternNumberOnly = /^\d+$/;
     $scope.training = {data: null};
@@ -9,8 +9,11 @@ angular.module("gryf.ti").controller("ReservationModalController", ["$scope", "$
     $scope.violations = TrainingReservationService.getNewViolations();
     $scope.individualUser = UserService.getIndividualUser();
 
-    TrainingSearchService.findDetailsById($stateParams.trainingId).success(function(data) {
+    TrainingSearchService.findPrecalculatedDetailsById($stateParams.trainingId, $stateParams.grantProgramId).success(function(data) {
         $scope.training.data = data;
+        DictionaryService.getRecordById(DictionaryService.DICTIONARY.TRAINING_CATEGORIES, data.category).then(function(record) {
+            $scope.training.data.category = record.name;
+        });
     });
 
     $scope.reserveTraining = function() {

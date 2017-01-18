@@ -2,6 +2,7 @@ package pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions;
 
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingPrecalculatedDetailsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchResultDTO;
 
@@ -31,7 +32,15 @@ public interface TrainingService {
      * @param id identyfikator szkolenia
      * @return dto szkolenia
      */
-    TrainingSearchResultDTO findTrainingOfInstitutionById(Long id);
+    TrainingSearchResultDTO findTrainingDetails(Long id);
+
+    /**
+     * Zwraca szkolenie wraz z wyliczeniami maksymalnej liczby bonów
+     * na podstawie id oraz kontekstu zalogowanego użytkownika
+     * @param id identyfikator szkolenia
+     * @return dto szkolenia
+     */
+    TrainingPrecalculatedDetailsDto findTrainingPrecalculatedDetails(Long id, Long grantProgramId);
 
     /**
      * Zwraca listę z kategoriami szkoleń dla programu dofinansowania
