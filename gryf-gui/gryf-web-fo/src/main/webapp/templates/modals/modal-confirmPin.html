@@ -6,36 +6,36 @@
         <p>Zamierzasz potwierdzić obecność Uczestnika na wskazanym poniżej szkoleniu - czy potwierdzasz operację?</p>
     </div>
     <div class="grid-100">
-        <div class="grid-40 centered">
+        <section class="grid-30">
             <strong class="label">Nowa ilość bonów</strong>
-            <input type="text" ng-model="trainingInstanceModel.entity.newReservationNum">
+            <input type="text" force-digits ng-model="trainingInstanceModel.entity.newReservationNum">
             <gryf-validation-msg path="newReservationNum"></gryf-validation-msg>
-        </div>
+        </section>
+        <table class="table table-condensed">
+            <thead>
+            <tr>
+                <th>Nazwa szkolenia</th>
+                <th>PESEL</th>
+                <th>Imię</th>
+                <th>Nazwisko</th>
+                <th>Liczba potwierdzonych bonów</th>
+                <th>Data rozpoczęcia</th>
+                <th>Data zakończenia</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{{trainingInstanceModel.entity.trainingName}}</td>
+                <td>{{trainingInstanceModel.entity.participantPesel}}</td>
+                <td>{{trainingInstanceModel.entity.participantName}}</td>
+                <td>{{trainingInstanceModel.entity.participantSurname}}</td>
+                <td>{{trainingInstanceModel.entity.productAssignedNum}}</td>
+                <td>{{trainingInstanceModel.entity.startDate  | date:'yyyy-MM-dd'}}</td>
+                <td>{{trainingInstanceModel.entity.endDate  | date:'yyyy-MM-dd'}}</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
-    <table>
-        <thead>
-        <tr class="grid-100 tableHeader-names">
-            <th class="grid-20">Nazwa szkolenia</th>
-            <th class="grid-10">PESEL</th>
-            <th class="grid-10">Imię</th>
-            <th class="grid-10">Nazwisko</th>
-            <th class="grid-10">Liczba potwierdzonych bonów</th>
-            <th class="grid-15">Data rozpoczęcia</th>
-            <th class="grid-15">Data zakończenia</th>
-        </tr>
-        </thead>
-        <tbody class="tableData">
-        <tr>
-            <td>{{trainingInstanceModel.entity.trainingName}}</td>
-            <td>{{trainingInstanceModel.entity.participantPesel}}</td>
-            <td>{{trainingInstanceModel.entity.participantName}}</td>
-            <td>{{trainingInstanceModel.entity.participantSurname}}</td>
-            <td>{{trainingInstanceModel.entity.productAssignedNum}}</td>
-            <td>{{trainingInstanceModel.entity.startDate  | date:'yyyy-MM-dd'}}</td>
-            <td>{{trainingInstanceModel.entity.endDate  | date:'yyyy-MM-dd'}}</td>
-        </tr>
-        </tbody>
-    </table>
     <div class="modalscop-footer">
         <div class="centered-ul">
             <ul>
