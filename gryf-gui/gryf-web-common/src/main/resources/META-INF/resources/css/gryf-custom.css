@@ -23,6 +23,14 @@
     position: absolute;
 }
 
+.button[disabled] {
+    background-color: #9c9c9c;
+}
+
+ul li button {
+    margin-right: 10px;
+}
+
 .static {
     position: static;
 }
