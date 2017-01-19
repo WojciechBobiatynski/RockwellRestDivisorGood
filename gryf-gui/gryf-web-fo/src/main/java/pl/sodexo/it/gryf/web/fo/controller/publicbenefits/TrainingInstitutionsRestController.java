@@ -73,9 +73,8 @@ public class TrainingInstitutionsRestController {
     }
 
     @RequestMapping(value = SEND_RESET_PASSWORD_LINK, method = RequestMethod.POST)
-    public void sendResetPasswordLink(@RequestBody GryfTiUserDto gryfTiUserDto, HttpServletRequest request) {
-        //TODO przywileje
+    public void sendResetPasswordLink(@RequestBody GryfTiUserDto gryfTiUserDto) {
         securityChecker.assertServicePrivilege(Privileges.GRF_TRAINING_INSTITUTIONS);
-        verificationService.resetTiUserPassword(gryfTiUserDto.getEmail(), getURLWithContextPath(request));
+        verificationService.resetTiUserPassword(gryfTiUserDto.getEmail());
     }
 }

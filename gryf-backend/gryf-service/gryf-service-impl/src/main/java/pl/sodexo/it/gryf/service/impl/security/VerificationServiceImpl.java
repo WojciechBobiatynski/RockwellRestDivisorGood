@@ -142,12 +142,12 @@ public class VerificationServiceImpl implements VerificationService {
     }
 
     @Override
-    public void resetTiUserPassword(String email, String contextPath) {
+    public void resetTiUserPassword(String email) {
         GryfTiUserDto user = findActiveTiUserDto(email);
         tiUserResetAttemptService.disableActiveAttemptOfTiUser(user.getId());
         TiUserResetAttemptDto attemptDto = createNewAttemptForTiUser(user.getId());
         tiUserResetAttemptService.saveTiUserResetAttempt(attemptDto);
-        mailService.scheduleMail(mailDtoCreator.createMailDTOForResetLink(email, attemptDto.getTurId(), contextPath));
+        mailService.scheduleMail(mailDtoCreator.createMailDTOForResetLink(email, attemptDto.getTurId()));
     }
 
     private GryfTiUserDto findActiveTiUserDto(String email) {

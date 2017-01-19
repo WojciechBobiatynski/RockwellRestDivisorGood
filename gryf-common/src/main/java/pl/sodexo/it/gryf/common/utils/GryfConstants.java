@@ -42,7 +42,7 @@ public final class GryfConstants {
     public static final String EMAIL_SUBJECT_PLACEHOLDER = "emailSubject";
 
     public static final String DEFAULT_FAILURE_LOGIN_URL = "/login?error";
-    public static final String RESET_LINK_URL_PREFIX = "/reset/";
+    public static final String RESET_LINK_URL_PREFIX = "reset/";
 
     public static final int DEFAULT_LOGIN_FAILURE_ATTEMPTS_NUMBER = 0;
     public static final int DEFAULT_RESET_FAILURE_ATTEMPTS_NUMBER = 0;

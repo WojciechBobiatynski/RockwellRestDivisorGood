@@ -64,6 +64,7 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     private String indUserContext = "IND";
     private String tiUserContext = "TI";
     private String indUserUrl = "http://localhost:8080/gryf-ind/";
+    private String tiUserUrl = "http://localhost:8080/gryf-ti/";
     private Integer businessDaysNumberForReimbursement = 5;
     private Integer businessDaysNumberForCorrection = 5;
     private String ermbsEmailAttachmentDirectory = "mail_attachments";
@@ -255,6 +256,10 @@ public class ApplicationParametersImpl implements ApplicationParameters {
         String dbIndUserUrl = (String) findParameter("GRYF_IND_USER_URL");
         if(dbIndUserUrl != null){
             indUserUrl = dbIndUserUrl;
+        }
+        String dbTiUserUrl = (String) findParameter("GRYF_TI_USER_URL");
+        if(dbTiUserUrl != null){
+            tiUserUrl = dbTiUserUrl;
         }
         Integer dbBusinessDaysNumberForReimbursement = (Integer) findParameter("GRYF_BUSINESS_DAYS_NUMBER_FOR_REIMBURSEMENT");
         if (dbBusinessDaysNumberForReimbursement != null) {
@@ -505,6 +510,11 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     @Override
     public String getIndUserUrl(){
         return indUserUrl;
+    }
+
+    @Override
+    public String getTiUserUrl(){
+        return tiUserUrl;
     }
 
     @Override

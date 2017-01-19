@@ -39,9 +39,9 @@ public class MailDtoCreator {
     @Autowired
     private ApplicationParameters applicationParameters;
 
-    public MailDTO createMailDTOForResetLink(String email, String newLink, String contextPath) {
+    public MailDTO createMailDTOForResetLink(String email, String newLink) {
         MailDTO mailDTO = new MailDTO();
-        MailPlaceholders mailPlaceholders = mailService.createPlaceholders(EMAIL_BODY_RESET_LINK_PLACEHOLDER, contextPath + RESET_LINK_URL_PREFIX + newLink);
+        MailPlaceholders mailPlaceholders = mailService.createPlaceholders(EMAIL_BODY_RESET_LINK_PLACEHOLDER, applicationParameters.getTiUserUrl() + RESET_LINK_URL_PREFIX + newLink);
         EmailTemplate emailTemplate = emailTemplateRepository.get(RESET_LINK_EMAIL_TEMPLATE_CODE);
         mailDTO.setTemplateId(emailTemplate.getId());
         mailDTO.setSubject(emailTemplate.getEmailSubjectTemplate());

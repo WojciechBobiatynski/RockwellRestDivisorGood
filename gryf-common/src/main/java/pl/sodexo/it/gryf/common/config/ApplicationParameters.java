@@ -99,6 +99,8 @@ public interface ApplicationParameters {
 
     String getIndUserUrl();
 
+    String getTiUserUrl();
+
     Integer getBusinessDaysNumberForReimbursement();
 
     Integer getBusinessDaysNumberForCorrection();

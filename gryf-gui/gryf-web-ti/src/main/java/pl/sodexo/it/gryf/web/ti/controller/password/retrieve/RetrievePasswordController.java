@@ -58,13 +58,13 @@ public class RetrievePasswordController {
             uiModel.addAttribute(JSP_SITE_KEY_PLACEHOLDER, applicationParameters.getPublicCaptchaKey());
             return PAGE_RETRIEVE_PASSWORD;
         };
-        return resetAndGetComeBackUrl(uiModel, email, request);
+        return resetAndGetComeBackUrl(uiModel, email);
     }
 
-    private String resetAndGetComeBackUrl(Model uiModel, String email, HttpServletRequest request) {
+    private String resetAndGetComeBackUrl(Model uiModel, String email) {
         String comebackPage;
         try {
-            verificationService.resetTiUserPassword(email, getURLWithContextPath(request));
+            verificationService.resetTiUserPassword(email);
             uiModel.addAttribute(JSP_EMAIL_PLACEHOLDER, email);
             comebackPage = PAGE_RETRIEVE_RESET_PASSWORD_SUCCESS;
         } catch (GryfRuntimeException e){
