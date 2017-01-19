@@ -187,7 +187,7 @@
                                     <value></value>
                                 </replacement>
                                 <replacement>
-                                    <token>&lt;deployed/&gt;\n</token>
+                                    <token>&lt;!--deployed--&gt;\n</token>
                                     <value>&lt;script src="\${pageContext.request.contextPath}/public/vendor.min.js"/&gt;&lt;/script&gt;
                                         &lt;script src="\${pageContext.request.contextPath}/public/script.min.js"/&gt;&lt;/script&gt;</value>
                                 </replacement>

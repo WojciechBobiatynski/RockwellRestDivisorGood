@@ -9,6 +9,8 @@
 
     <title>System bonów szkoleniowych - Kierunek Kariera - Wojewódzki Urząd Pracy w Krakowie</title>
 
+    <!--deployed-->
+
     <link rel="stylesheet" href="${cdnUrl}css/gryf.css">
 
     <link href="//fonts.googleapis.com/css?family=Roboto:300,400,700&amp;subset=latin-ext" rel="stylesheet">
