@@ -82,4 +82,11 @@ public interface ElectronicReimbursementsDao {
      */
     UnrsvPoolRmbsDto findUnrsvPoolRmbsById(Long ermbsId);
 
+    /**
+     * Sprawdza czy podane rozliczenie jest dla MSP
+     * @param ermbsId - id rozliczenia
+     * @return true/false
+     */
+    Boolean isErmbsForEnterprise(Long ermbsId);
+
 }

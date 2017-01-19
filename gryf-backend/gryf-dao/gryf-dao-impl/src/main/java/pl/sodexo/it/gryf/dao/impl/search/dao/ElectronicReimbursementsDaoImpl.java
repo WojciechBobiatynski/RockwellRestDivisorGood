@@ -75,4 +75,9 @@ public class ElectronicReimbursementsDaoImpl implements ElectronicReimbursements
         return electronicReimbursementsSearchMapper.findUnrsvPoolRmbsById(new UserCriteria(), ermbsId);
     }
 
+    @Override
+    public Boolean isErmbsForEnterprise(Long ermbsId) {
+        return electronicReimbursementsSearchMapper.isErmbsForEnterprise(new UserCriteria(), ermbsId);
+    }
+
 }

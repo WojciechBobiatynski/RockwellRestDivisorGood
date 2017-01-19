@@ -28,6 +28,7 @@ public final class GryfConstants {
     public static final String GRANT_PROGRAM_PLACEHOLDER = "grantProgramName";
     public static final String ARRIVAL_DATE_PLACEHOLDER = "arrivalDate";
     public static final String RMBS_NUMBER_PLACEHOLDER = "rmbsNumber";
+    public static final String NOTE_NOT_PLACEHOLDER = "noteNo";
 
     public static final String FIRST_NAME_PLACEHOLDER = "firstName";
     public static final String LAST_NAME_PLACEHOLDER = "lastName";

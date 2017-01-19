@@ -144,7 +144,8 @@ public class MailDtoCreator {
         MailPlaceholders mailPlaceholders = mailService.createPlaceholders(GRANT_PROGRAM_PLACEHOLDER, paramsDto.getGrantProgramName())
                 .add(FIRST_NAME_PLACEHOLDER, paramsDto.getFirstName())
                 .add(LAST_NAME_PLACEHOLDER, paramsDto.getLastName())
-                .add(TRAINING_NAME_PLACEHOLDER, paramsDto.getTrainingName());
+                .add(TRAINING_NAME_PLACEHOLDER, paramsDto.getTrainingName())
+                .add(NOTE_NOT_PLACEHOLDER, paramsDto.getNoteNo());
         EmailTemplate emailTemplate = emailTemplateRepository.get(E_REIMB_CONFIRMATION_EMAIL_TEMPLATE_CODE);
         return createAndFillMailDTO(emailTemplate, paramsDto.getEmail(), mailPlaceholders);
     }

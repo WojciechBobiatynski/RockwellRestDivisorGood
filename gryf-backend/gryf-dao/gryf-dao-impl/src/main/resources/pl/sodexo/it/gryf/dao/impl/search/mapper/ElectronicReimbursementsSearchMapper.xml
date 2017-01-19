@@ -289,12 +289,7 @@
           ind.LAST_NAME              lastName,
           tr.NAME                    trainingName,
           contact.CONTACT_DATA       email,
-          CASE
-            WHEN CONTRACT_TYPE_ID = 'IND'
-              THEN 0
-            ELSE
-              1
-          END                        msp
+          invoice.INVOICE_NUMBER     noteNo
         FROM
           APP_PBE.E_REIMBURSEMENTS ermbs
           JOIN APP_PBE.TI_TRAINING_INSTANCES ti ON ti.ID = ermbs.TI_TR_INST_ID
@@ -307,6 +302,7 @@
           JOIN APP_PBE.INDIVIDUALS ind on ind.ID = cnt.INDIVIDUAL_ID
           JOIN APP_PBE.GRANT_PROGRAMS gr_pr ON gr_pr.ID = ti.GRANT_PROGRAM_ID
           JOIN APP_PBE.INDIVIDUAL_CONTACTS contact ON contact.IND_ID = ind.ID
+          LEFT JOIN APP_PBE.E_REIMBURSEMENT_INVOICES invoice ON invoice.E_REIMBURSEMENT_ID = ermbs.ID
         WHERE
           ermbs.ID = #{ermbsId}
           AND contact.CONTACT_TYPE = 'VER_EMAIL'
@@ -404,6 +400,26 @@
         WHERE
           ermbs.ID = #{ermbsId}
           and rownum &lt;= 1
+    </select>
+
+    <select id="isErmbsForEnterprise" resultType="java.lang.Boolean">
+        SELECT
+          CASE
+            WHEN CONTRACT_TYPE_ID = 'IND'
+              THEN 0
+            ELSE
+              1
+          END
+        FROM
+          APP_PBE.E_REIMBURSEMENTS ermbs
+          JOIN APP_PBE.TI_TRAINING_INSTANCES ti ON ti.ID = ermbs.TI_TR_INST_ID
+          JOIN APP_PBE.TI_TRAININGS tr ON tr.ID = ti.TRAINING_ID
+          JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOL_USES pipu on ti.ID = pipu.TRAINING_INSTANCE_ID
+          JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOLS pip on pipu.PRODUCT_INSTANCE_POOL_ID = pip.ID
+          JOIN APP_PBE.ORDERS ord on pip.ORDER_ID = ord.ID
+          JOIN APP_PBE.CONTRACTS cnt on ord.CONTRACT_ID = cnt.ID
+        WHERE
+          ermbs.ID = #{ermbsId}
     </select>
 
 </mapper>

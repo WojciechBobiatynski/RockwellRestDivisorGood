@@ -14,6 +14,7 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.pbeproductinstancepool.PbePro
 import pl.sodexo.it.gryf.common.dto.user.GryfUser;
 import pl.sodexo.it.gryf.common.enums.ErmbsAttachmentStatus;
 import pl.sodexo.it.gryf.common.enums.ReportTemplateCode;
+import pl.sodexo.it.gryf.common.exception.NoAppropriateData;
 import pl.sodexo.it.gryf.common.exception.NoCalculationParamsException;
 import pl.sodexo.it.gryf.common.utils.GryfConstants;
 import pl.sodexo.it.gryf.dao.api.crud.repository.other.GryfPLSQLRepository;
@@ -261,12 +262,18 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     }
 
     private void createGrantAidConfirmation(Ereimbursement ereimbursement, List<EreimbursementReport> ereimbursementReports) {
-        String grantAidConfirmationLocation = reportService.generateGrantAidConfirmationForReimbursment(ereimbursement.getId());
-        EreimbursementReport report = new EreimbursementReport();
-        report.setEreimbursement(ereimbursement);
-        report.setFileLocation(grantAidConfirmationLocation);
-        report.setTypeName(ReportTemplateCode.GRANT_AID_CONFIRMATION.getTypeName());
-        ereimbursementReports.add(report);
+        Boolean isMsp = electronicReimbursementsDao.isErmbsForEnterprise(ereimbursement.getId());
+        if(isMsp == null){
+            throw new NoAppropriateData("Brak odpowiednich danych. Nie można stwierdzić czy MSP czy IND");
+        }
+        if(isMsp) {
+            String grantAidConfirmationLocation = reportService.generateGrantAidConfirmationForReimbursment(ereimbursement.getId());
+            EreimbursementReport report = new EreimbursementReport();
+            report.setEreimbursement(ereimbursement);
+            report.setFileLocation(grantAidConfirmationLocation);
+            report.setTypeName(ReportTemplateCode.GRANT_AID_CONFIRMATION.getTypeName());
+            ereimbursementReports.add(report);
+        }
     }
 
     private void createBankTransferConfirmation(Ereimbursement ereimbursement, List<EreimbursementReport> ereimbursementReports) {

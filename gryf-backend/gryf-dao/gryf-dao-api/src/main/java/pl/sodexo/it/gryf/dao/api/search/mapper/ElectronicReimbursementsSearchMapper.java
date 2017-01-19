@@ -96,4 +96,12 @@ public interface ElectronicReimbursementsSearchMapper {
      */
     UnrsvPoolRmbsDto findUnrsvPoolRmbsById(@Param("criteria") UserCriteria criteria, @Param("ermbsId") Long ermbsId);
 
+    /**
+     * Sprawdza czy podane rozliczenie jest dla MSP
+     * @param criteria - kryteria użytkownika
+     * @param ermbsId - id rozliczenia
+     * @return true/false
+     */
+    Boolean isErmbsForEnterprise(@Param("criteria") UserCriteria criteria, @Param("ermbsId") Long ermbsId);
+
 }
