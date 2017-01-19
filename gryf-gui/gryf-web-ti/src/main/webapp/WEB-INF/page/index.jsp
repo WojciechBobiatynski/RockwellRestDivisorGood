@@ -12,7 +12,7 @@
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/angular-toastr.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/gryf-ti-ind.css">
-    <link rel="shortcut icon" href="${cdnUrl}/favicon.ico">
+    <link rel="shortcut icon" href="${cdnUrl}favicon.ico">
 
     <script>
         var contextPath = "${pageContext.request.contextPath}";
