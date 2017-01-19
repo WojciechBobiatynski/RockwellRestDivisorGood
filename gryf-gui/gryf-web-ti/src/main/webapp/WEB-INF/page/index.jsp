@@ -1,18 +1,17 @@
-<%@page pageEncoding="UTF-8" %>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
-<html prefix="og: http://ogp.me/ns#" lang="pl">
+<html prefix="og: http://ogp.me/ns#" lang="pl" itemtype="http://schema.org/WebPage" itemscope>
+
 <head>
+    <meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
-    <title>Sodexo Gryf</title>
+    <title>System bonów szkoleniowych - Kierunek Kariera - Wojewódzki Urząd Pracy w Krakowie</title>
 
-    <deployed/>
+    <link rel="stylesheet" href="${cdnUrl}css/gryf.css">
 
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/angular-toastr.min.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/gryf-ti-ind.css">
-    <link rel="shortcut icon" href="${cdnUrl}favicon.ico">
+    <link href="//fonts.googleapis.com/css?family=Roboto:300,400,700&amp;subset=latin-ext" rel="stylesheet">
 
     <script>
         var contextPath = "${pageContext.request.contextPath}";
@@ -81,65 +80,73 @@
 <body ng-app="gryf.ti" ng-strict-di>
 <div class="container">
 
-<div class="header">
-    <div class="grid">
-        <image class="left" src="${pageContext.request.contextPath}/images/header_01.jpg" />
-        <image class="right" src="${pageContext.request.contextPath}/images/header_02.jpg" />
-    </div>
-</div>
+<body id="ak" ng-app="gryf.ti">
 
-<ul id="menu" class="navbar grid" ng-controller="MenuController">
-    <li ng-class="{'active': isActive('dashboard')}"><a ui-sref="dashboard">Pulpit</a></li>
-    <li ng-class="{'active': isActive('trainingReservation')}"><a ui-sref="trainingReservation">Rezerwuj szkolenie</a></li>
-    <li ng-class="{'active': isActive('confirmPin')}"><a ui-sref="confirmPin">Zatwierdź PIN Uczestnika</a></li>
-    <li class="submenu" ng-class="{'active': (isActive('trainingToReimburse') || isActive('reimbursements'))}">
-        <a ui-sref="reimbursements">Rozliczenia</a>
-        <ul>
-            <li ng-class="{'active': isActive('trainingToReimburse')}">
-                <a ui-sref="trainingToReimburse">Szkolenia do rozliczenia</a>
-            </li>
-            <li ng-class="{'active': isActive('reimbursements')}">
-                <a ui-sref="reimbursements">Rozliczenia i korekty</a>
-            </li>
-        </ul>
-    </li>
-    <li ng-class="{'active': isActive('cancelReservation')}"><a ui-sref="cancelReservation">Anuluj rezerwację</a></li>
-    <li ng-class="{'active': isActive('ourTrainings')}"><a ui-sref="ourTrainings">Nasze szkolenia</a></li>
-    <li class="green"><a ng-href="${pageContext.request.contextPath}/logout">Wyloguj</a></li>
-</ul>
-<hr class="grid navbar-separator green"/>
+    <div id="accessbility"><div class="grid">
+        <ol class="font">
+            <li><a href="#font-normal" title="ustaw małą czcionkę" class="current normal">A</a></li>
+            <li><a href="#font-medium" title="ustaw średnią czcionkę" class="medium">A</a></li>
+            <li><a href="#font-big" title="ustaw dużą czcionkę" class="big">A</a></li>
+            <li><a href="#high-contrast" title="zmień kontrast" class="high-contrast">zmień kontrast</a></li>
+        </ol>
+    </div></div>
 
-<div class="content grid" ui-view></div>
-
-<div class="footer">
-    <div class="grid">
-        <hr class="footer-separator"/>
-        <span class="footer-elem">
-            <image class="left" src="${pageContext.request.contextPath}/images/logo_01.jpg" />
-        </span>
-        <span class="footer-elem">
-            <image src="${pageContext.request.contextPath}/images/logo_02.jpg" />
-        </span>
-        <span class="footer-elem">
-            <image class="right" src="${pageContext.request.contextPath}/images/logo_03.jpg" />
-        </span>
-    </div>
-    <div class="grid">
-        <div class="copyright">
-            <p>
-                &copy;
-                <span itemprop="copyrightYear">2015</span>
-                &nbsp;
-                <a class="footer-link" title="Sodexo Benefits and Rewards Services Polska Sp. z o.o." rel="external"
-                   itemprop="copyrightHolder" href="http://www.sodexo.pl/">
-                    Sodexo Benefits and Rewards Services Polska Sp.&nbsp;z&nbsp;o.o.
-                </a>
-                <br/>##BUILD_NUMBER
-            </p>
+    <header><div class="grid">
+        <div>
+            <span class="description">System bonów szkoleniowych realizowany jest na zlecenie</span>
+            <h1 class="ci ci-wup">
+                <a title="Instytucja Województwa Małopolskiego, Wojewódzki Urząd Pracy w Krakowie" rel="home" href="${pageContext.request.contextPath}" itemprop="name">Kierunek Kariera - Wojewódzki Urząd Pracy w Krakowie</a>
+            </h1>
         </div>
-    </div>
-</div>
+        <ol>
+            <li class="ci ci-malopolska-v"><a href="http://www.malopolska.pl/" rel="external" title="Małopolska">Małopolska</a></li>
+            <li class="ci ci-ue"><a href="http://europa.eu/european-union/index_pl" rel="external" title="Unia Europejska">Unia Europejska</a></li>
+        </ol>
+    </div></header>
 
-</div>
+    <nav><div class="grid">
+        <ul id="menu" ng-controller="MenuController">
+            <li ng-class="{'current': isActive('dashboard')}"><a ui-sref="dashboard">Pulpit</a></li>
+            <li ng-class="{'current': isActive('trainingReservation')}"><a ui-sref="trainingReservation">Rezerwuj szkolenie</a></li>
+            <li ng-class="{'current': isActive('confirmPin')}"><a ui-sref="confirmPin">Zatwierdź PIN Uczestnika</a></li>
+            <li class="submenu" ng-class="{'current': (isActive('trainingToReimburse') || isActive('reimbursements'))}">
+                <a ui-sref="reimbursements">Rozliczenia</a>
+                <ul>
+                    <li ng-class="{'current': isActive('trainingToReimburse')}">
+                        <a ui-sref="trainingToReimburse">Szkolenia do rozliczenia</a>
+                    </li>
+                    <li ng-class="{'current': isActive('reimbursements')}">
+                        <a ui-sref="reimbursements">Rozliczenia i korekty</a>
+                    </li>
+                </ul>
+            </li>
+            <li ng-class="{'current': isActive('cancelReservation')}"><a ui-sref="cancelReservation">Anuluj rezerwację</a></li>
+            <li ng-class="{'current': isActive('ourTrainings')}"><a ui-sref="ourTrainings">Nasze szkolenia</a></li>
+            <li><a ng-href="${pageContext.request.contextPath}/logout">Wyloguj</a></li>
+        </ul>
+    </div></nav>
+
+    <div id="content" class="content grid" ui-view></div>
+
+    <div id="logobar"><div class="grid">
+        <ul>
+            <li class="ci ci-fepr"><a href="http://www.funduszeeuropejskie.gov.pl/" rel="external" title="Fundusze Europejskie - Program Regionalny">Fundusze Europejskie - Program Regionalny</a></li>
+            <li class="ci ci-malopolska-h"><a href="http://www.malopolska.pl/" rel="external" title="Małopolska">Małopolska</a></li>
+            <li class="ci ci-ueefs"><a href="http://www.funduszeeuropejskie.gov.pl/efs/" rel="external" title="Unia Europejska - Europejski Fundusz Społeczny">Unia Europejska - Europejski Fundusz Społeczny</a></li>
+        </ul>
+    </div></div>
+
+    <footer><div class="grid">
+
+        <ul>
+            <li>&copy; <span itemprop="copyrightYear">2017</span>&nbsp;<a title="Sodexo Benefits and Rewards Services Polska Sp. z o.o." rel="external" itemprop="copyrightHolder" href="http://www.sodexo.pl/">Sodexo Benefits and Rewards Services Polska Sp.&nbsp;z&nbsp;o.o.</a></li>
+        </ul>
+
+        <ol>
+            <li><span>Operator Finansowy: </span><a title="Sodexo Benefits and Rewards Services Polska Sp. z o.o." rel="external" href="http://www.sodexo.pl/">Sodexo</a></li>
+        </ol>
+
+    </div></footer>
+
 </body>
 </html>

@@ -1,66 +1,63 @@
-<div class="multiSection">
+<section class="grid-100 section-promoted section-gryf-web-ti-main">
 
-    <section class="grid-30">
-        <strong class="label">Metryka Instytucji Szkoleniowej</strong>
-        <div class="block borderTop green">
-            <strong class="label">Nazwa</strong>
-            <div class="grid-100">{{loggedUserInfo.data.name}}</div>
+    <div class="left">
+        <h2>Instytucja szkoleniowa</h2>
+        <h3>{{loggedUserInfo.data.name}}</h3>
+        <span>{{loggedUserInfo.data.login}}</span>
+    </div>
 
-            <strong class="label">Adres do FV</strong>
-            <div class="grid-100">{{loggedUserInfo.data.addressInvoice}}</div>
-
-            <strong class="label">Adres korespondencyjny</strong>
-            <div class="grid-100">{{loggedUserInfo.data.addressCorr}}</div>
-
-            <strong class="label">Login użytkownika</strong>
-            <div class="grid-100">{{loggedUserInfo.data.login}}</div>
+    <div class="right">
+        <div class="left">
+            <span>Adres do FV</span>
+            <h2>{{loggedUserInfo.data.addressInvoice}}</h2>
         </div>
-    </section>
+        <div class="right">
+            <span>Adres korespondencyjny</span>
+            <h2>{{loggedUserInfo.data.addressCorr}}</h2>
+        </div>
+    </div>
+</section>
 
-    <section class="grid-70">
-        <strong class="label">Szybkie akcje na szkoleniach Uczestnika</strong>
-        <div class="block borderTop green">
-            <strong class="label">
-                Korzystając z poniższej wyszukiwarki w szybki sposób rozpoczniecie Państwo procesowanie sprawy dla Uczestnika.
-                Prosimy podać PESEL oraz kod weryfikacyjny w celu rezerwacji szkolenia dla uczestnika.
-            </strong>
-            <div class="multiSection">
-                <div class="grid-50">
-                    <strong class="label">PESEL Uczestnika</strong>
-                    <input type="text" ng-model="individualUser.data.pesel" name="pesel">
-                </div>
-                <div class="grid-50">
-                    <strong class="label">Kod weryfikacyjny</strong>
-                    <input type="text" ng-model="individualUser.data.verificationCode">
-                </div>
+<section class="grid-100 section-gryf-web-ti-fast">
+    <strong class="label">Szybkie akcje na szkoleniach Uczestnika</strong>
+    <div class="block borderTop green">
+        <strong class="label">
+            Korzystając z poniższej wyszukiwarki w szybki sposób rozpoczniecie Państwo procesowanie sprawy dla Uczestnika.
+            Prosimy podać PESEL oraz kod weryfikacyjny w celu rezerwacji szkolenia dla uczestnika.
+        </strong>
+        <div class="multiSection">
+            <div class="grid-40">
+                <strong class="label">PESEL Uczestnika</strong>
+                <input type="text" ng-model="individualUser.data.pesel" name="pesel">
             </div>
-
-            <div class="grid-100 text-right">
+            <div class="grid-40">
+                <strong class="label">Kod weryfikacyjny</strong>
+                <input type="text" ng-model="individualUser.data.verificationCode">
+            </div>
+            <div class="grid-20">
                 <button class="standardButton" data-ng-click="loadUserTrainingReservationData(individualUser.data)" ui-sref="trainingReservation">Rezerwuj nowe szkolenie</button>
             </div>
+        </div>
 
-            <br/>
-
-            <div class="multiSection">
-                <div class="grid-33">
-                    <strong class="label">PESEL Uczestnika</strong>
-                    <input type="text" ng-model="indUserSearchInfo.data.pesel" name="pesel">
-                </div>
-                <div class="grid-33">
-                    <strong class="label">Imię Uczestnika</strong>
-                    <input type="text" ng-model="indUserSearchInfo.data.firstName" name="firstName">
-                </div>
-                <div class="grid-33">
-                    <strong class="label">Nazwisko Uczestnika</strong>
-                    <input type="text" ng-model="indUserSearchInfo.data.lastName" name="lastName">
-                </div>
+        <div class="multiSection">
+            <div class="grid-33">
+                <strong class="label">PESEL Uczestnika</strong>
+                <input type="text" ng-model="indUserSearchInfo.data.pesel" name="pesel">
             </div>
-
-            <div class="grid-100 text-right">
-                <button class="standardButton" ui-sref="cancelReservation">Anuluj rezerwację</button>
-                <button class="standardButton" ui-sref="confirmPin">Zatwierdź PIN</button>
-                <button class="standardButton" ui-sref="trainingToReimburse">Rozlicz szkolenie</button>
+            <div class="grid-33">
+                <strong class="label">Imię Uczestnika</strong>
+                <input type="text" ng-model="indUserSearchInfo.data.firstName" name="firstName">
+            </div>
+            <div class="grid-33">
+                <strong class="label">Nazwisko Uczestnika</strong>
+                <input type="text" ng-model="indUserSearchInfo.data.lastName" name="lastName">
             </div>
         </div>
-    </section>
-</div>
+
+        <div class="grid-100 text-right">
+            <button class="standardButton" ui-sref="cancelReservation">Anuluj rezerwację</button>
+            <button class="standardButton" ui-sref="confirmPin">Zatwierdź PIN</button>
+            <button class="standardButton" ui-sref="trainingToReimburse">Rozlicz szkolenie</button>
+        </div>
+    </div>
+</section>

@@ -10,13 +10,9 @@
 
     <title>System bonów szkoleniowych - Kierunek Kariera - Wojewódzki Urząd Pracy w Krakowie</title>
 
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/cdn/css/reset.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/cdn/css/participant.css">
-    <%-- odkomentować i podmienić, gdy zasoby powyżej będą na cdn --%>
-    <%-- <link rel="stylesheet" href="${cdnUrl}gryf-ti/css/reset.css"> --%>
-    <%-- <link rel="stylesheet" href="${cdnUrl}gryf-ti/css/participant.css"> --%>
+    <link rel="stylesheet" href="${cdnUrl}css/gryf.css">
 
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700&amp;subset=latin-ext" rel="stylesheet">
+    <link href="//fonts.googleapis.com/css?family=Roboto:300,400,700&amp;subset=latin-ext" rel="stylesheet">
 
     <meta property="og:url" content="http://">
     <meta name="description" content="Kierunek Kariera - Wojewódzki Urząd Pracy w Krakowie">
@@ -27,27 +23,14 @@
     <meta property="og:site_name" content="System bonów szkoleniowych - Kierunek Kariera - Wojewódzki Urząd Pracy w Krakowie">
     <meta property="og:type" content="website">
     <meta name="author" content="Sodexo Benefits and Rewards Services Polska Sp. z o.o.">
-    <meta name="google-site-verification" content="xvv6tmxUr6b1d7NFHHy2uB4FrrdWoRtNRm2LYtxBMyE">
-    <meta property="og:image" content="${pageContext.request.contextPath}/assets/cdn/img/favicon.png">
-    <%-- odkomentować i podmienić, gdy zasoby powyżej będą na cdn --%>
-    <%-- <meta property="og:image" content="${cdnUrl}gryf-ti/img/favicon.png"> --%>
-
-    <link rel="apple-touch-icon" sizes="180x180" href="${pageContext.request.contextPath}/assets/cdn/img/apple-touch-icon.png">
-    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/assets/cdn/img/favicon-32x32.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/assets/cdn/img/favicon-16x16.png" sizes="16x16">
-    <link rel="manifest" href="${pageContext.request.contextPath}/assets/cdn/img/manifest.json">
-    <link rel="mask-icon" href="${pageContext.request.contextPath}/assets/cdn/img/safari-pinned-tab.svg" color="#5bbad5">
-    <link rel="shortcut icon" href="${pageContext.request.contextPath}/assets/cdn/img/favicon.ico">
-    <meta name="msapplication-config" content="${pageContext.request.contextPath}/assets/cdn/img/browserconfig.xml">
-    <%-- odkomentować i podmienić, gdy zasoby powyżej będą na cdn --%>
-    <%-- <link rel="apple-touch-icon" sizes="180x180" href="${cdnUrl}gryf-ti/img/apple-touch-icon.png"> --%>
-    <%-- <link rel="icon" type="image/png" href="${cdnUrl}gryf-ti/img/favicon-32x32.png" sizes="32x32"> --%>
-    <%-- <link rel="icon" type="image/png" href="${cdnUrl}gryf-ti/img/favicon-16x16.png" sizes="16x16"> --%>
-    <%-- <link rel="manifest" href="${cdnUrl}gryf-ti/img/manifest.json"> --%>
-    <%-- <link rel="mask-icon" href="${cdnUrl}gryf-ti/img/safari-pinned-tab.svg" color="#5bbad5"> --%>
-    <%-- <link rel="shortcut icon" href="${cdnUrl}gryf-ti/img/favicon.ico"> --%>
-    <%-- <meta name="msapplication-config" content="${cdnUrl}gryf-ti/img/browserconfig.xml"> --%>
-
+    <meta property="og:image" content="${cdnUrl}img/favicon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="${cdnUrl}img/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="${cdnUrl}img/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="${cdnUrl}img/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="${cdnUrl}img/manifest.json">
+    <link rel="mask-icon" href="${cdnUrl}img/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="${cdnUrl}img/favicon.ico">
+    <meta name="msapplication-config" content="${cdnUrl}img/browserconfig.xml">
     <meta name="theme-color" content="#ffffff">
 
 </head>
@@ -68,7 +51,7 @@
     <div>
         <span class="description">System bonów szkoleniowych realizowany jest na zlecenie</span>
         <h1 class="ci ci-wup">
-            <a title="Instytucja Województwa Małopolskiego, Wojewódzki Urząd Pracy w Krakowie" rel="home" href="/" itemprop="name">Kierunek Kariera - Wojewódzki Urząd Pracy w Krakowie</a>
+            <a title="Instytucja Województwa Małopolskiego, Wojewódzki Urząd Pracy w Krakowie" rel="home" href="${pageContext.request.contextPath}" itemprop="name">Kierunek Kariera - Wojewódzki Urząd Pracy w Krakowie</a>
         </h1>
     </div>
     <ol>
@@ -80,7 +63,6 @@
 <nav><div class="grid">
     <ul>
         <li><a href="#" class="current" title="Panel Logowania">Panel Logowania</a></li>
-        <li><a href="#" title="Kontakt">Kontakt</a></li>
     </ul>
 </div></nav>
 
