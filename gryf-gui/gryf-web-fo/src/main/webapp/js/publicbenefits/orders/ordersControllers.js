@@ -53,6 +53,8 @@ angular.module('gryf.orders').controller("searchform.OrdersController",
                $scope.orderStatuses = response.data;
            });
          }
+         $scope.loadOrderStatuses(100);//100 - tymczasowe rozwiazanie powinno być z parametru aplikacji, jeszcze w OrderService trzeba zminic
+
 
          $scope.grantProgramChanged = function () {
              var grantProgramId = $scope.searchDTO.entity.grantProgramId;

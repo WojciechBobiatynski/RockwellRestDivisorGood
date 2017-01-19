@@ -13,7 +13,7 @@ angular.module('gryf.orders').factory("BrowseOrdersService",
         ////////////////////////////////
         //MODEL INSTANCES
         ////////////////////////////////
-        var searchDTO = new SearchDTO(100);//100 - tymczasowe rozwiazanie powinno być z parametru aplikacji
+        var searchDTO = new SearchDTO(100);//100 - tymczasowe rozwiazanie powinno być z parametru aplikacji, jeszcze w OrderController trzeba zminic
         var searchResultOptions = new SearchResultOptions();
 
         ////////////////////////////////
