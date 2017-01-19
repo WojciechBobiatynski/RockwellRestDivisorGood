@@ -395,7 +395,7 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
         ContractDTO dto = new ContractDTO();
         dto.setId(importDTO.getId());
         dto.setSignDate(importDTO.getSignDate());
-        dto.setExpiryDate(importDTO.getSignDate());
+        dto.setExpiryDate(importDTO.getExpiryDate());
         dto.setTrainingCategory(importDTO.getContractTrainingCategoryList());
         dto.setContractType(new DictionaryDTO(importDTO.getContractType()));
 
