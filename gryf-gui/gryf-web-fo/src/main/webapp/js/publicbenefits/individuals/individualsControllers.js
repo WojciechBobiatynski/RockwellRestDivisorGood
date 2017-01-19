@@ -39,32 +39,25 @@ angular.module("gryf.individuals").controller("searchform.IndividualController",
 
 var scopeModifyController;
 angular.module("gryf.individuals").controller("detailsform.IndividualController",
-    ["$scope", "ModifyIndividualsService", 'GryfModals', 'GryfPopups',
-        function ($scope, ModifyIndividualsService, GryfModals, GryfPopups) {
+    ["$scope", "ModifyIndividualsService", 'GryfModals', 'GryfPopups', "GryfModulesUrlProvider",
+        function ($scope, ModifyIndividualsService, GryfModals, GryfPopups, GryfModulesUrlProvider) {
             scopeModifyController = $scope;
             $scope.model = ModifyIndividualsService.getNewModel();
             $scope.violations = ModifyIndividualsService.getNewViolations();
-            gryfSessionStorage.setUrlToSessionStorage();
             GryfPopups.showPopup();
 
-            var NEW_INDIVIDUAL_URL = contextPath + "/publicBenefits/individuals/#modify";
-
-
-            $scope.newIndividual = function () {
-                var messageText = {
-                    message: "Wywołując tę akcję stracisz niezapisane dane "
+            $scope.goBack = function() {
+                var callback = function() {
+                    window.location = GryfModulesUrlProvider.getBackUrl(GryfModulesUrlProvider.MODULES.Individual);
                 };
-
-                GryfModals.openModal(GryfModals.MODALS_URL.CONFIRM, messageText).result.then(function (result) {
-                    if (!result) {
-                        return;
-                    }
-                    window.location = NEW_INDIVIDUAL_URL;
-                });
+                $scope.showAcceptModal("Wywołując tę akcję stracisz niezapisane dane", callback);
             };
 
-            $scope.getPrevUrl = function () {
-                return gryfSessionStorage.getUrlFromSessionStorage();
+            $scope.newIndividual = function() {
+                var callback = function() {
+                    window.location = GryfModulesUrlProvider.LINKS.Individual;
+                };
+                $scope.showAcceptModal("Wywołując tę akcję stracisz niezapisane dane", callback)
             };
 
             $scope.openEnterpriseLov = function () {
@@ -103,30 +96,34 @@ angular.module("gryf.individuals").controller("detailsform.IndividualController"
             };
 
             $scope.saveAndAdd = function () {
-                $scope.save(NEW_INDIVIDUAL_URL);
+                var saveCallback = function () {
+                    $scope.violations = ModifyIndividualsService.getNewViolations();
+                    ModifyIndividualsService.save().success(function () {
+                        window.location = GryfModulesUrlProvider.LINKS.Individual;
+                    });
+                };
+                $scope.showAcceptModal("Ta akcja zapisuje zmiany w Osobie fizycznej", saveCallback);
             };
 
-            $scope.save = function (redirectUrl) {
-                var messageText = {
-                    message: "Ta akcja zapisuje zmiany Osoby fizycznej"
+            $scope.save = function () {
+                var saveCallback = function () {
+                    $scope.violations = ModifyIndividualsService.getNewViolations();
+                    ModifyIndividualsService.save().success(function (id) {
+                        window.location = GryfModulesUrlProvider.getUrlFor(GryfModulesUrlProvider.MODULES.Individual, id);
+                        window.location.reload();
+                    });
                 };
+                $scope.showAcceptModal("Ta akcja zapisuje zmiany w Osobie fizycznej", saveCallback);
+            };
 
-                GryfModals.openModal(GryfModals.MODALS_URL.CONFIRM, messageText).result.then(function (result) {
+            $scope.showAcceptModal = function(messageText, callback) {
+                var message = {message: messageText};
+                GryfModals.openModal(GryfModals.MODALS_URL.CONFIRM, message).result.then(function(result) {
                     if (!result) {
                         return;
                     }
-                    executeSave();
+                    callback();
                 });
-
-                var executeSave = function () {
-                    $scope.violations = ModifyIndividualsService.getNewViolations();
-                    ModifyIndividualsService.save().then(function () {
-                        if (!redirectUrl) {
-                            redirectUrl = $scope.getPrevUrl();
-                        }
-                        window.location = redirectUrl;
-                    });
-                };
             };
 
             $scope.addContact = function () {

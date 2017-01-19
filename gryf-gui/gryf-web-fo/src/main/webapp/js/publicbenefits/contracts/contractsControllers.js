@@ -49,17 +49,14 @@ angular.module('gryf.contracts').controller("searchform.ContractsController",
 
 var scopeModifyController;
 angular.module('gryf.contracts').controller("detailsform.ContractsController",
-    ["$scope", '$routeParams', "ModifyContractService", "GryfModals", "GryfPopups", function ($scope, $routeParams, ModifyContractService, GryfModals, GryfPopups) {
-
-        var NEW_CONTRACT_URL =  contextPath + "/publicbenefits/contracts/#modify";
-
+    ["$scope", '$routeParams', "ModifyContractService", "GryfModals", "GryfPopups", "GryfModulesUrlProvider",
+    function ($scope, $routeParams, ModifyContractService, GryfModals, GryfPopups, GryfModulesUrlProvider) {
         scopeModifyController = $scope;
         $scope.grantProgram = ModifyContractService.getNewGrantPrograms();
         $scope.contractType = ModifyContractService.getNewContractTypes();
         $scope.model = ModifyContractService.getNewContract();
         $scope.trainingCategory = ModifyContractService.getNewTrainingCategory();
         $scope.violations = ModifyContractService.getNewViolations();
-        gryfSessionStorage.setUrlToSessionStorage();
         GryfPopups.showPopup();
 
         $scope.datepicker = {
@@ -72,7 +69,7 @@ angular.module('gryf.contracts').controller("detailsform.ContractsController",
             if($routeParams.id != null) {
                 $scope.isDisabled = true;
             }
-        }
+        };
 
         $scope.openDatepicker = function(value) {
             $scope.datepicker[value] = true;
@@ -80,18 +77,18 @@ angular.module('gryf.contracts').controller("detailsform.ContractsController",
 
         $scope.loadContract = function () {
             ModifyContractService.loadContract();
-        }
+        };
 
         $scope.grantProgramChanged = function () {
             var grantProgramId = $scope.model.entity.grantProgram.id;
             if(grantProgramId) {
                 $scope.loadTrainingCategories(grantProgramId);
             }
-        }
+        };
 
         $scope.loadTrainingCategories = function (grantProgramId) {
             ModifyContractService.getTrainingCategoriesDict(grantProgramId);
-        }
+        };
 
         $scope.loadContract();
         $scope.canEdit();
@@ -118,31 +115,52 @@ angular.module('gryf.contracts').controller("detailsform.ContractsController",
             }
         };
 
-        $scope.saveAndAdd = function() {
-            $scope.save(NEW_CONTRACT_URL);
+        $scope.newContract = function() {
+            var callback = function() {
+                $scope.model = ModifyContractService.getNewContract();
+                $scope.violations = ModifyContractService.getNewViolations();
+                $scope.trainingCategory = ModifyContractService.getNewTrainingCategory();
+                window.location = GryfModulesUrlProvider.LINKS.Contract;
+            };
+            $scope.showAcceptModal("Wywołując tę akcję stracisz niezapisane dane", callback)
         };
 
-        $scope.save = function(redirectUrl) {
-            var messageText = {
-                message: "Ta akcja zapisuje nową umowę"
+        $scope.goBack = function() {
+            var callback = function() {
+                window.location = GryfModulesUrlProvider.getBackUrl(GryfModulesUrlProvider.MODULES.Contract);
             };
+            $scope.showAcceptModal("Wywołując tę akcję stracisz niezapisane dane", callback);
+        };
 
-            GryfModals.openModal(GryfModals.MODALS_URL.CONFIRM, messageText).result.then(function(result) {
+        $scope.saveAndAdd = function () {
+            var saveCallback = function () {
+                $scope.violations = ModifyContractService.getNewViolations();
+                ModifyContractService.save().success(function () {
+                    window.location = GryfModulesUrlProvider.LINKS.Contract;
+                });
+            };
+            $scope.showAcceptModal("Ta akcja zapisuje zmiany w Osobie fizycznej", saveCallback);
+        };
+
+        $scope.save = function () {
+            var saveCallback = function () {
+                $scope.violations = ModifyContractService.getNewViolations();
+                ModifyContractService.save().success(function (id) {
+                    window.location = GryfModulesUrlProvider.getUrlFor(GryfModulesUrlProvider.MODULES.Contract, id);
+                    ModifyContractService.loadContract();
+                });
+            };
+            $scope.showAcceptModal("Ta akcja zapisuje zmiany w Umowie", saveCallback);
+        };
+
+        $scope.showAcceptModal = function(messageText, callback) {
+            var message = {message: messageText};
+            GryfModals.openModal(GryfModals.MODALS_URL.CONFIRM, message).result.then(function(result) {
                 if (!result) {
                     return;
                 }
-                executeSave(redirectUrl);
+                callback();
             });
-
-            var executeSave = function() {
-                $scope.violations = ModifyContractService.getNewViolations();
-                ModifyContractService.save().then(function () {
-                    if (!redirectUrl) {
-                        redirectUrl = $scope.getPrevUrl();
-                    }
-                    window.location = redirectUrl;
-                });
-            };
         };
 
         $scope.hasNotPrivilege = function (privilege) {

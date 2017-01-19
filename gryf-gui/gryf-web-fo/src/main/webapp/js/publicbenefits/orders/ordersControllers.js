@@ -67,11 +67,13 @@ angular.module('gryf.orders').controller("searchform.OrdersController",
 
 var scopeModifyOrdersController;
 angular.module('gryf.orders').controller("detailsform.OrdersController",
-    ['$scope', 'ModifyOrdersService', 'GryfHelpers', 'GryfPopups', function($scope, ModifyOrdersService, GryfHelpers, GryfPopups) {
+    ['$scope', 'ModifyOrdersService', 'GryfHelpers', 'GryfPopups', "GryfModals",
+    function($scope, ModifyOrdersService, GryfHelpers, GryfPopups, GryfModals) {
         scopeModifyOrdersController = $scope;
         gryfSessionStorage.setUrlToSessionStorage();
         GryfPopups.showPopup();
 
+        var ELEMENTS_URL = contextPath + "/templates/publicbenefits/orders/elements/";
         var ELEMENTS_URL = contextPath + "/templates/publicbenefits/orders/elements/";
 
         $scope.entityObject = ModifyOrdersService.getEntityObject();
@@ -93,9 +95,22 @@ angular.module('gryf.orders').controller("detailsform.OrdersController",
         };
 
         $scope.executeAction = function(actionId) {
-            $scope.violations = ModifyOrdersService.getNewViolations();
-            var orderId = $scope.entityObject.id;
-            ModifyOrdersService.executeAction(actionId, orderId);
+            var callback = function() {
+                $scope.violations = ModifyOrdersService.getNewViolations();
+                var orderId = $scope.entityObject.id;
+                ModifyOrdersService.executeAction(actionId, orderId);
+            };
+            $scope.showAcceptModal("", callback);
+        };
+
+        $scope.showAcceptModal = function(messageText, callback) {
+            var message = {message: messageText};
+            GryfModals.openModal(GryfModals.MODALS_URL.CONFIRM, message).result.then(function(result) {
+                if (!result) {
+                    return;
+                }
+                callback();
+            });
         };
 
         $scope.loadOrder = function() {

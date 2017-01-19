@@ -56,12 +56,31 @@ angular.module('gryf.electronicreimbursements').controller("searchform.electroni
     }]);
 
 angular.module('gryf.electronicreimbursements').controller("announce.electronicReimbursementsController",
-    ['$scope', "$routeParams", "GryfModulesUrlProvider", "BrowseTrainingInsService", "TrainingInstanceSearchService", "AnnounceEReimbursementService",
-    function ($scope, $routeParams, GryfModulesUrlProvider, BrowseTrainingInsService, TrainingInstanceSearchService, AnnounceEReimbursementService) {
+    ['$scope', "$routeParams", "GryfModulesUrlProvider", "BrowseTrainingInsService",
+        "TrainingInstanceSearchService", "AnnounceEReimbursementService", "GryfModals",
+    function ($scope, $routeParams, GryfModulesUrlProvider, BrowseTrainingInsService,
+          TrainingInstanceSearchService, AnnounceEReimbursementService, GryfModals) {
         $scope.MODULES = GryfModulesUrlProvider.MODULES;
         $scope.correctionObject = AnnounceEReimbursementService.getCorrectionObject();
         $scope.eReimbObject = AnnounceEReimbursementService.getNewModel();
         $scope.violations = AnnounceEReimbursementService.getNewViolations();
+
+        $scope.goBack = function() {
+            var callback = function() {
+                window.location = GryfModulesUrlProvider.getBackUrl(GryfModulesUrlProvider.MODULES.ElectronicReimbursement);
+            };
+            $scope.showAcceptModal("Wywołując tę akcję stracisz niezapisane dane", callback);
+        };
+
+        $scope.showAcceptModal = function(messageText, callback) {
+            var message = {message: messageText};
+            GryfModals.openModal(GryfModals.MODALS_URL.CONFIRM, message).result.then(function(result) {
+                if (!result) {
+                    return;
+                }
+                callback();
+            });
+        };
 
         if($routeParams.id) {
             AnnounceEReimbursementService.findById($routeParams.id).then(function() {
@@ -112,22 +131,29 @@ angular.module('gryf.electronicreimbursements').controller("announce.electronicR
             return $scope.eReimbObject.entity != null && ($scope.eReimbObject.entity.statusCode === 'NEW' || $scope.eReimbObject.entity.statusCode === 'T_RMS' || $scope.eReimbObject.entity.statusCode === 'T_CRR');
         };
 
-        $scope.settle = function(){
-
+        $scope.sendToCorrect = function() {
+            $scope.showAcceptModal("Rozliczenie zostanie wysłane do korekty.", AnnounceEReimbursementService.sendToCorrect);
         };
 
-        $scope.sendToCorrect = AnnounceEReimbursementService.sendToCorrect;
-        $scope.createDocuments = AnnounceEReimbursementService.createDocuments;
-        $scope.cancel = AnnounceEReimbursementService.cancel;
+        $scope.createDocuments = function() {
+            $scope.showAcceptModal("Zostaną wygenerowane dokumenty rozliczenia.", AnnounceEReimbursementService.createDocuments);
+        };
+
+        $scope.cancel = function() {
+            $scope.showAcceptModal("Rozliczenie zostanie anulowane.", AnnounceEReimbursementService.cancel);
+        };
+
+        $scope.printReports = function() {
+            $scope.showAcceptModal("Wydrukowane zostaną raporty.", AnnounceEReimbursementService.printReports);
+        };
 
         $scope.confirm = function() {
-            AnnounceEReimbursementService.confirm().success(function(response) {
-                $scope.generateMailFromTemplatesOnInitIfNull();
-            });
-        };
-
-        $scope.printReports = function () {
-            AnnounceEReimbursementService.printReports();
+            var callback = function() {
+                AnnounceEReimbursementService.confirm().success(function(response) {
+                    $scope.generateMailFromTemplatesOnInitIfNull();
+                });
+            };
+            $scope.showAcceptModal("Rozliczenie zostanie zatwierdzone.", callback);
         };
 
         $scope.generateMailFromTemplatesOnInitIfNull = function () {
