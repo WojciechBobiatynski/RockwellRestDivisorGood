@@ -58,7 +58,7 @@ angular.module('gryf.modals').factory('GryfModals', ['$rootScope', '$modal', fun
             templateUrl: modalUrls.templateUrl,
             keyboard: false,
             size: size,
-            controller: function($scope) {
+            controller: ["$scope", function($scope) {
                 $scope.find();
                 $scope.$on('keydown:27', function(onEvent, keypressEvent) {
                     $scope.$dismiss();
@@ -69,7 +69,7 @@ angular.module('gryf.modals').factory('GryfModals', ['$rootScope', '$modal', fun
                 //HandlerService.getDeliveryStatuses().then(function(response) {
                 //    $scope.deliveryStatuses = response.data;
                 //})
-            },
+            }],
             scope: angular.extend($rootScope.$new(), {
                 list: [],
                 //TODO MGU jw.
@@ -99,14 +99,14 @@ angular.module('gryf.modals').factory('GryfModals', ['$rootScope', '$modal', fun
         return $modal.open({
             templateUrl: templateUrl,
             keyboard: false,
-            controller: function($scope) {
+            controller: ["$scope", function($scope) {
                 $scope.$on('keydown:13', function(onEvent, keypressEvent) {
                     $scope.$close(true);
                 });
                 $scope.$on('keydown:27', function(onEvent, keypressEvent) {
                     $scope.$dismiss();
                 });
-            },
+            }],
             scope: angular.extend($rootScope.$new(), {
                 workingReason: additionalTextData.label,
                 violations: additionalTextData.violations,
@@ -272,7 +272,7 @@ angular.module('gryf.exceptionHandler').factory('GryfExceptionHandler', ['GryfMo
     }
 }]);
 
-angular.module('gryf.exceptionHandler').directive('gryfValidationMsg', function() {
+angular.module('gryf.exceptionHandler').directive('gryfValidationMsg', [function() {
     return {
         restrict: 'E',
         replace: true,
@@ -282,10 +282,10 @@ angular.module('gryf.exceptionHandler').directive('gryfValidationMsg', function(
             scope.path = attrs['path'];
         }
     }
-});
+}]);
 
 angular.module('gryf.privileges', []);
-angular.module('gryf.privileges').directive('gryfPrivilege', function() {
+angular.module('gryf.privileges').directive('gryfPrivilege', [function() {
     return {
         restrict: 'A',
         priority: -1,
@@ -306,9 +306,9 @@ angular.module('gryf.privileges').directive('gryfPrivilege', function() {
             }
         }
     };
-});
+}]);
 
-angular.module('gryf.privileges').directive('gryfLinkPrivilege', function() {
+angular.module('gryf.privileges').directive('gryfLinkPrivilege', [function() {
     return {
         restrict: 'A',
         priority: -1,
@@ -342,9 +342,9 @@ angular.module('gryf.privileges').directive('gryfLinkPrivilege', function() {
             }
         }
     };
-});
+}]);
 
-angular.module("gryf.privileges").directive('gryfDisabledForm', function() {
+angular.module("gryf.privileges").directive('gryfDisabledForm', [function() {
     return {
         restrict: 'A',
         link: function(scope, elem, attr) {
@@ -353,9 +353,9 @@ angular.module("gryf.privileges").directive('gryfDisabledForm', function() {
             elem.find('a').remove();
         }
     }
-});
+}]);
 
-angular.module("gryf.privileges").directive("gryfDataModificationFlags", function() {
+angular.module("gryf.privileges").directive("gryfDataModificationFlags", [function() {
     return {
         restrict: 'A',
         require: '?ngModel',
@@ -412,9 +412,9 @@ angular.module("gryf.privileges").directive("gryfDataModificationFlags", functio
             }
         }
     };
-});
+}]);
 
-angular.module("gryf.privileges").directive("gryfMandatoryFlag", function() {
+angular.module("gryf.privileges").directive("gryfMandatoryFlag", [function() {
     return {
         restrict: 'A',
         scope: {
@@ -428,11 +428,11 @@ angular.module("gryf.privileges").directive("gryfMandatoryFlag", function() {
             }
         }
     }
-});
+}]);
 
 
 angular.module('gryf.tables', []);
-angular.module('gryf.tables').factory('GryfTables', function() {
+angular.module('gryf.tables').factory('GryfTables', [function() {
     var SORTING_TYPE = {
         ASCENDING: "ASC",
         DESCENDING: "DESC"
@@ -469,7 +469,7 @@ angular.module('gryf.tables').factory('GryfTables', function() {
         sortByColumn: sortByColumn,
         getSortingTypeClass: getSortingTypeClass
     }
-});
+}]);
 
 angular.module('gryf.popups', ['ngAnimate', 'toastr']);
 angular.module('gryf.popups').factory('GryfPopups', ['toastr', function(toastr) {
@@ -625,7 +625,7 @@ angular.module('gryf.helpers').directive('focusOnF7', [function() {
     }
 }]);
 
-angular.module('gryf.helpers').directive("forceDigits", function() {
+angular.module('gryf.helpers').directive("forceDigits", [function() {
     return {
         require: 'ngModel',
         link: function(scope, element, attrs, controller) {
@@ -642,7 +642,7 @@ angular.module('gryf.helpers').directive("forceDigits", function() {
             });
         }
     };
-});
+}]);
 
 angular.module('gryf.helpers').directive('searchOnEnter', ['$rootScope', function($rootScope) {
     return {
@@ -683,8 +683,9 @@ angular.module('gryf.helpers').factory('GryfModulesUrlProvider', [function() {
         return LINKS[module] + objectId;
     };
     
-    return {getUrlFor : getUrlFor,
-            MODULES   : MODULES};
+    return {getUrlFor: getUrlFor,
+            MODULES: MODULES,
+            LINKS: LINKS};
 }]);
 
 angular.module('gryf.helpers').factory('AltShortcutHandler', ['$document', '$rootScope', function($document, $rootScope) {

@@ -9,7 +9,7 @@ angular.module("gryf.config").directive("attachments", ['AttachmentService',
                 saveUrl: '='
             },
             templateUrl: contextPath + '/templates/directives/attachment.html',
-            controller: function ($scope) {
+            controller: ["$scope", function ($scope) {
                 $scope.modelTypes = {};
                 $scope.defaultType = {};
 
@@ -49,7 +49,7 @@ angular.module("gryf.config").directive("attachments", ['AttachmentService',
                     });
                 };
 
-            },
+            }],
             link: function ($scope) {
 
                 function Attachment(code, maxFileSize, required) {
