@@ -78,7 +78,7 @@
     <script src="${pageContext.request.contextPath}/js/app/confirmpin/confirmPinService.js"></script>
     <script src="${pageContext.request.contextPath}/js/app/confirmpin/modal/confirmPinModalController.js"></script>
 </head>
-<body ng-app="gryf.ti">
+<body ng-app="gryf.ti" ng-strict-di>
 <div class="container">
 
 <div class="header">

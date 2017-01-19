@@ -18,6 +18,6 @@
 <script src="${pageContext.request.contextPath}/js/directives/attachmentService.js"></script>
 <script src="${pageContext.request.contextPath}/js/directives/attachmentDirective.js"></script>
 
-<div ng-app="gryf.electronicreimbursements" keypress-events>
+<div ng-app="gryf.electronicreimbursements" keypress-events ng-strict-di>
     <div class="mainContent" ng-view></div>
 </div>

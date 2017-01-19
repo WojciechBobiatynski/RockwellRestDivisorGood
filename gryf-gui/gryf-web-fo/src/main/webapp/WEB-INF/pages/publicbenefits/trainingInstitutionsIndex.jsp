@@ -5,6 +5,6 @@
 <script src="${pageContext.request.contextPath}/js/publicbenefits/trainingInstitutions/trainingInstitutionsServices.js"></script>
 <script src="${pageContext.request.contextPath}/js/publicbenefits/trainingInstitutions/trainingInstitutionsControllers.js"></script>
 
-<div ng-app="gryf.trainingInstitutions" keypress-events>
+<div ng-app="gryf.trainingInstitutions" keypress-events ng-strict-di>
     <div class="mainContent" ng-view></div>
 </div>

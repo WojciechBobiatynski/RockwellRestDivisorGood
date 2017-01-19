@@ -4,7 +4,7 @@
 
 <script src="${pageContext.request.contextPath}/js/components/gryf-config.js"></script>
 
-<div ng-app="gryf.config" ng-controller="ConfigController">
+<div ng-app="gryf.config" ng-controller="ConfigController" ng-strict-di>
     <header id="header">
         <h1>Nieznany błąd!</h1>
         <h1>Żądanie spowodowało wewnętrzny błąd systemu!</h1>

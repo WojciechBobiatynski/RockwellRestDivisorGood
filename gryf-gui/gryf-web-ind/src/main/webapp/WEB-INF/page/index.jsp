@@ -69,7 +69,7 @@
 
     <meta name="theme-color" content="#ffffff">
 
-<body id="ak" ng-app="gryf.ind">
+<body id="ak" ng-app="gryf.ind" ng-strict-di>
 
 
     <div id="accessbility"><div class="grid">

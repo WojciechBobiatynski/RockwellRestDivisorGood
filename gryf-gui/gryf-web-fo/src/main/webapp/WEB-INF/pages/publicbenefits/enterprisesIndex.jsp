@@ -6,6 +6,6 @@
 <script src="${pageContext.request.contextPath}/js/publicbenefits/enterprises/enterprisesControllers.js"></script>
 
 
-<div ng-app="gryf.enterprises" keypress-events>
+<div ng-app="gryf.enterprises" keypress-events ng-strict-di>
     <div class="mainContent" ng-view></div>
 </div>

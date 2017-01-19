@@ -4,6 +4,6 @@
 <script src="${pageContext.request.contextPath}/js/administration/asynchjobs/asynchJobsControllers.js"></script>
 <script src="${pageContext.request.contextPath}/js/administration/asynchjobs/asynchJobsServices.js"></script>
 
-<div ng-app="gryf.asynchjobs" keypress-events>
+<div ng-app="gryf.asynchjobs" keypress-events ng-strict-di>
     <div class="mainContent" ng-view></div>
 </div>
