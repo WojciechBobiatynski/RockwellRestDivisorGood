@@ -155,7 +155,11 @@ public class MailDtoCreator {
                 .add(FIRST_NAME_PLACEHOLDER, paramsDto.getFirstName())
                 .add(LAST_NAME_PLACEHOLDER, paramsDto.getLastName())
                 .add(TRAINING_NAME_PLACEHOLDER, paramsDto.getTrainingName());
-        EmailTemplate emailTemplate = emailTemplateRepository.get(CONFIRMATION_PAYMENT_EMAIL_TEMPLATE_CODE);
+        String emailTemplateCode = CONFIRMATION_PAYMENT_EMAIL_TEMPLATE_CODE;
+        if(paramsDto.isContractForEnterprise()){
+            emailTemplateCode = CONFIRMATION_PAYMENT_EMAIL_TEMPLATE_CODE_FOR_ENTERPRISE;
+        }
+        EmailTemplate emailTemplate = emailTemplateRepository.get(emailTemplateCode);
         return createAndFillMailDTO(emailTemplate, paramsDto.getEmail(), mailPlaceholders);
     }
 

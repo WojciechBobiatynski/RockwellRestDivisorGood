@@ -230,19 +230,25 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.GENERATED_DOCUMENTS));
         ereimbursementRepository.update(ereimbursement, ereimbursement.getId());
 
-        gryfPLSQLRepository.flush();
-        FinanceNoteResult financeNoteResult = gryfPLSQLRepository.createCreditNoteForReimbursment(rmbsId);
+        if(shouldBeCreditNoteCreated(ereimbursement)){
+            gryfPLSQLRepository.flush();
+            FinanceNoteResult financeNoteResult = gryfPLSQLRepository.createCreditNoteForReimbursment(rmbsId);
 
-        EreimbursementInvoice ereimbursementInvoice = new EreimbursementInvoice();
-        ereimbursementInvoice.setEreimbursement(ereimbursement);
-        ereimbursementInvoice.setInvoiceId(financeNoteResult.getInvoiceId());
-        ereimbursementInvoice.setInvoiceNumber(financeNoteResult.getInvoiceNumber());
-        ereimbursementInvoice.setInvoiceType(financeNoteResult.getInvoiceType());
-        ereimbursementInvoice.setInvoiceDate(financeNoteResult.getInvoiceDate());
-        ereimbursementInvoiceRepository.save(ereimbursementInvoice);
-        ereimbursement.getEreimbursementInvoices().add(ereimbursementInvoice);
+            EreimbursementInvoice ereimbursementInvoice = new EreimbursementInvoice();
+            ereimbursementInvoice.setEreimbursement(ereimbursement);
+            ereimbursementInvoice.setInvoiceId(financeNoteResult.getInvoiceId());
+            ereimbursementInvoice.setInvoiceNumber(financeNoteResult.getInvoiceNumber());
+            ereimbursementInvoice.setInvoiceType(financeNoteResult.getInvoiceType());
+            ereimbursementInvoice.setInvoiceDate(financeNoteResult.getInvoiceDate());
+            ereimbursementInvoiceRepository.save(ereimbursementInvoice);
+            ereimbursement.getEreimbursementInvoices().add(ereimbursementInvoice);
+        }
 
         return ereimbursement.getId();
+    }
+
+    private boolean shouldBeCreditNoteCreated(Ereimbursement ereimbursement) {
+        return ereimbursement.getSxoIndAmountDueTotal().compareTo(BigDecimal.ZERO)>0;
     }
 
     @Override
@@ -286,13 +292,15 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     }
 
     private void createCreditNote(Ereimbursement ereimbursement, List<EreimbursementReport> ereimbursementReports) {
-        EreimbursementInvoice ereimbursementInvoice = getEreimbursementInvoice(ereimbursement);
-        String creditNoteLocation = reportService.generateCreditNoteForReimbursment(ereimbursement.getId(), ereimbursementInvoice.getInvoiceNumber());
-        EreimbursementReport report = new EreimbursementReport();
-        report.setEreimbursement(ereimbursement);
-        report.setFileLocation(creditNoteLocation);
-        report.setTypeName(ReportTemplateCode.CREDIT_NOTE.getTypeName());
-        ereimbursementReports.add(report);
+        if(shouldBeCreditNoteCreated(ereimbursement)){
+            EreimbursementInvoice ereimbursementInvoice = getEreimbursementInvoice(ereimbursement);
+            String creditNoteLocation = reportService.generateCreditNoteForReimbursment(ereimbursement.getId(), ereimbursementInvoice.getInvoiceNumber());
+            EreimbursementReport report = new EreimbursementReport();
+            report.setEreimbursement(ereimbursement);
+            report.setFileLocation(creditNoteLocation);
+            report.setTypeName(ReportTemplateCode.CREDIT_NOTE.getTypeName());
+            ereimbursementReports.add(report);
+        }
     }
 
     @Override

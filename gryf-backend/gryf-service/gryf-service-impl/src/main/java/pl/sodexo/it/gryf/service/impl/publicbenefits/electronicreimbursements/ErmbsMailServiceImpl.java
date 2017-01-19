@@ -37,8 +37,7 @@ import java.util.List;
 public class ErmbsMailServiceImpl implements ErmbsMailService {
 
     private static final int DAYS_OF_PAYMENT_CONFIRMATION_EMAIL_SENDING_DELAY = 1;
-    private static final int MAILS_FROM_TEMPLATE_NUM = 2;
-    private static final String PATH_FOR_ERMBS_EMAILS = "mail_attachments";
+    private static final int DEFAULT_MAILS_FROM_TEMPLATE_NUM = 1;
 
     @Autowired
     private ElectronicReimbursementsDao electronicReimbursementsDao;
@@ -64,56 +63,47 @@ public class ErmbsMailServiceImpl implements ErmbsMailService {
     @Override
     public List<ErmbsMailDto> createMailFromTemplates(Long ermbsId) {
         List<ErmbsMailDto> existedMail = electronicReimbursementsDao.findMailsByErmbsId(ermbsId);
-        if(existedMail.isEmpty()){
-            return createAllMailFromTemplates(ermbsId);
-        } else if(existedMail.size() == MAILS_FROM_TEMPLATE_NUM) {
+        if(existedMail.size() == getMailsFromTemplateNumForErmbs(ermbsId)){
             return null;
         } else {
-            List<ErmbsMailDto> mails = new ArrayList<>();
-            addReimbConfMailIfNotExist(ermbsId, existedMail, mails);
-            addPayConfirmMailIfNotExist(ermbsId, existedMail, mails);
-            return mails;
+            return createMailsFromTemplates(ermbsId, existedMail);
         }
     }
 
-    private void addPayConfirmMailIfNotExist(Long ermbsId, List<ErmbsMailDto> existedMail, List<ErmbsMailDto> mails) {
-        if(existedMail.stream().noneMatch(ermbsMailDto -> ErmbsMailType.PAYMENT_CONFIRMATION.equals(ermbsMailDto.getEmailType()))){
-            ErmbsMailParamsDto paramsDto = electronicReimbursementsDao.findMailParams(ermbsId);
-            List<ErmbsMailAttachmentDto> reportFiles = electronicReimbursementsDao.findReportsByErmbsId(ermbsId);
-            ErmbsMailDto confirmPaymentMail = createErmbsMailFromMailDTO(mailDtoCreator.createConfirmPaymentMailDto(paramsDto), ermbsId);
-            confirmPaymentMail.setEmailType(ErmbsMailType.PAYMENT_CONFIRMATION);
-            addReportToConfirmPaymentMailsAsAttachments(confirmPaymentMail, reportFiles);
-            mails.add(confirmPaymentMail);
+    private int getMailsFromTemplateNumForErmbs(Long ermbsId){
+        int mailsFromTemplate = DEFAULT_MAILS_FROM_TEMPLATE_NUM;
+        if(electronicReimbursementsDao.shouldBeCreditNoteCreated(ermbsId)) {
+            mailsFromTemplate++;
         }
+        return mailsFromTemplate;
     }
 
-    private void addReimbConfMailIfNotExist(Long ermbsId, List<ErmbsMailDto> existedMail, List<ErmbsMailDto> mails) {
-        if(existedMail.stream().noneMatch(ermbsMailDto -> ErmbsMailType.E_REIMBURSEMENT_CONFIRMATION.equals(ermbsMailDto.getEmailType()))){
-            ErmbsMailParamsDto paramsDto = electronicReimbursementsDao.findMailParams(ermbsId);
-            List<ErmbsMailAttachmentDto> reportFiles = electronicReimbursementsDao.findReportsByErmbsId(ermbsId);
-            ErmbsMailDto confirmReimbMail = createErmbsMailFromMailDTO(mailDtoCreator.createConfirmReimbMailDto(paramsDto), ermbsId);
-            confirmReimbMail.setEmailType(ErmbsMailType.E_REIMBURSEMENT_CONFIRMATION);
-            addReportToConfirmReimbMailsAsAttachments(confirmReimbMail, reportFiles);
-            mails.add(confirmReimbMail);
-        }
-    }
-
-    private List<ErmbsMailDto> createAllMailFromTemplates(Long ermbsId) {
-        List<ErmbsMailDto> mails = new ArrayList<>();
+    private List<ErmbsMailDto> createMailsFromTemplates(Long ermbsId, List<ErmbsMailDto> existedMail) {
         ErmbsMailParamsDto paramsDto = electronicReimbursementsDao.findMailParams(ermbsId);
         List<ErmbsMailAttachmentDto> reportFiles = electronicReimbursementsDao.findReportsByErmbsId(ermbsId);
 
-        ErmbsMailDto confirmPaymentMail = createErmbsMailFromMailDTO(mailDtoCreator.createConfirmPaymentMailDto(paramsDto), ermbsId);
-        confirmPaymentMail.setEmailType(ErmbsMailType.PAYMENT_CONFIRMATION);
-        addReportToConfirmPaymentMailsAsAttachments(confirmPaymentMail, reportFiles);
-        mails.add(confirmPaymentMail);
+        addPayConfirmMailIfNotExist(ermbsId, existedMail, paramsDto, reportFiles);
+        addCreditNoteMailIfNotExist(ermbsId, existedMail, paramsDto, reportFiles);
 
-        ErmbsMailDto confirmReimbMail = createErmbsMailFromMailDTO(mailDtoCreator.createConfirmReimbMailDto(paramsDto), ermbsId);
-        confirmReimbMail.setEmailType(ErmbsMailType.E_REIMBURSEMENT_CONFIRMATION);
-        addReportToConfirmReimbMailsAsAttachments(confirmReimbMail, reportFiles);
-        mails.add(confirmReimbMail);
+        return existedMail;
+    }
 
-        return mails;
+    private void addPayConfirmMailIfNotExist(Long ermbsId, List<ErmbsMailDto> existedMail, ErmbsMailParamsDto paramsDto, List<ErmbsMailAttachmentDto> reportFiles) {
+        if(existedMail.stream().noneMatch(ermbsMailDto -> ErmbsMailType.PAYMENT_CONFIRMATION.equals(ermbsMailDto.getEmailType()))){
+            ErmbsMailDto confirmPaymentMail = createErmbsMailFromMailDTO(mailDtoCreator.createConfirmPaymentMailDto(paramsDto), ermbsId);
+            confirmPaymentMail.setEmailType(ErmbsMailType.PAYMENT_CONFIRMATION);
+            addReportToConfirmPaymentMailsAsAttachments(confirmPaymentMail, reportFiles, paramsDto);
+            existedMail.add(confirmPaymentMail);
+        }
+    }
+
+    private void addCreditNoteMailIfNotExist(Long ermbsId, List<ErmbsMailDto> existedMail, ErmbsMailParamsDto paramsDto, List<ErmbsMailAttachmentDto> reportFiles) {
+        if(existedMail.stream().noneMatch(ermbsMailDto -> ErmbsMailType.CREDIT_NOTE.equals(ermbsMailDto.getEmailType())) && electronicReimbursementsDao.shouldBeCreditNoteCreated(ermbsId)){
+            ErmbsMailDto confirmReimbMail = createErmbsMailFromMailDTO(mailDtoCreator.createConfirmReimbMailDto(paramsDto), ermbsId);
+            confirmReimbMail.setEmailType(ErmbsMailType.CREDIT_NOTE);
+            addReportToCreditNoteMailAsAttachments(confirmReimbMail, reportFiles);
+            existedMail.add(confirmReimbMail);
+        }
     }
 
     @Override
@@ -144,13 +134,18 @@ public class ErmbsMailServiceImpl implements ErmbsMailService {
         return ermbsMailDto;
     }
 
-    private void addReportToConfirmPaymentMailsAsAttachments(ErmbsMailDto mail, List<ErmbsMailAttachmentDto> reportFiles){
-        ErmbsMailAttachmentDto att = reportFiles.stream().filter(dto -> ReportTemplateCode.BANK_TRANSFER_CONFIRMATION.getTypeName().equals(dto.getName())).findFirst().get();
-        att.setReportFile(true);
-        mail.getAttachments().add(att);
+    private void addReportToConfirmPaymentMailsAsAttachments(ErmbsMailDto mail, List<ErmbsMailAttachmentDto> reportFiles, ErmbsMailParamsDto paramsDto){
+        ErmbsMailAttachmentDto bankTransferConfirmationAtt = reportFiles.stream().filter(dto -> ReportTemplateCode.BANK_TRANSFER_CONFIRMATION.getTypeName().equals(dto.getName())).findFirst().get();
+        bankTransferConfirmationAtt.setReportFile(true);
+        mail.getAttachments().add(bankTransferConfirmationAtt);
+        if(paramsDto.isContractForEnterprise()){
+            ErmbsMailAttachmentDto grantAidConfirmationAtt = reportFiles.stream().filter(dto -> ReportTemplateCode.GRANT_AID_CONFIRMATION.getTypeName().equals(dto.getName())).findFirst().get();
+            grantAidConfirmationAtt.setReportFile(true);
+            mail.getAttachments().add(grantAidConfirmationAtt);
+        }
     }
 
-    private void addReportToConfirmReimbMailsAsAttachments(ErmbsMailDto mail, List<ErmbsMailAttachmentDto> reportFiles){
+    private void addReportToCreditNoteMailAsAttachments(ErmbsMailDto mail, List<ErmbsMailAttachmentDto> reportFiles){
         ErmbsMailAttachmentDto att = reportFiles.stream().filter(dto -> ReportTemplateCode.CREDIT_NOTE.getTypeName().equals(dto.getName())).findFirst().get();
         att.setReportFile(true);
         mail.getAttachments().add(att);

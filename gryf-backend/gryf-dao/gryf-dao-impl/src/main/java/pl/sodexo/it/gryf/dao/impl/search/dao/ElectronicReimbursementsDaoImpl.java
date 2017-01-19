@@ -80,4 +80,9 @@ public class ElectronicReimbursementsDaoImpl implements ElectronicReimbursements
         return electronicReimbursementsSearchMapper.isErmbsForEnterprise(new UserCriteria(), ermbsId);
     }
 
+    @Override
+    public boolean shouldBeCreditNoteCreated(Long ermbsId) {
+        return electronicReimbursementsSearchMapper.shouldBeCreditNoteCreated(new UserCriteria(), ermbsId);
+    }
+
 }

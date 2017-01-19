@@ -5,5 +5,5 @@ package pl.sodexo.it.gryf.common.enums;
  */
 public enum ErmbsMailType {
 
-    PAYMENT_CONFIRMATION, E_REIMBURSEMENT_CONFIRMATION
+    PAYMENT_CONFIRMATION, CREDIT_NOTE
 }

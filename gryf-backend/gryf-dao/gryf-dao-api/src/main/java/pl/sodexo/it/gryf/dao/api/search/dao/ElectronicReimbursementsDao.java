@@ -89,4 +89,11 @@ public interface ElectronicReimbursementsDao {
      */
     Boolean isErmbsForEnterprise(Long ermbsId);
 
+    /**
+     * Sprawdza czy powinniśmy tworzyć notę uznanionową dla danego rozliczenia
+     * @param ermbsId - id rozliczenia
+     * @return true/false
+     */
+    boolean shouldBeCreditNoteCreated(Long ermbsId);
+
 }

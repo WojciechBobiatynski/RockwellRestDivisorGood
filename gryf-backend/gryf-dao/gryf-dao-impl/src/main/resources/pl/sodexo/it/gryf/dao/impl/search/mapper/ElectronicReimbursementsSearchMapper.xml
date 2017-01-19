@@ -289,7 +289,13 @@
           ind.LAST_NAME              lastName,
           tr.NAME                    trainingName,
           contact.CONTACT_DATA       email,
-          invoice.INVOICE_NUMBER     noteNo
+          invoice.INVOICE_NUMBER     noteNo,
+          CASE
+            WHEN CONTRACT_TYPE_ID = 'IND'
+              THEN 0
+            ELSE
+              1
+          END                        contractForEnterprise
         FROM
           APP_PBE.E_REIMBURSEMENTS ermbs
           JOIN APP_PBE.TI_TRAINING_INSTANCES ti ON ti.ID = ermbs.TI_TR_INST_ID
@@ -418,6 +424,20 @@
           JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOLS pip on pipu.PRODUCT_INSTANCE_POOL_ID = pip.ID
           JOIN APP_PBE.ORDERS ord on pip.ORDER_ID = ord.ID
           JOIN APP_PBE.CONTRACTS cnt on ord.CONTRACT_ID = cnt.ID
+        WHERE
+          ermbs.ID = #{ermbsId}
+    </select>
+
+    <select id="shouldBeCreditNoteCreated" resultType="java.lang.Boolean">
+    SELECT
+          CASE
+            WHEN ermbs.SXO_IND_AMOUNT_DUE_TOTAL &gt; 0
+              THEN 1
+            ELSE
+              0
+          END
+        FROM
+          APP_PBE.E_REIMBURSEMENTS ermbs
         WHERE
           ermbs.ID = #{ermbsId}
     </select>

@@ -131,9 +131,17 @@ angular.module('gryf.electronicreimbursements').controller("announce.electronicR
         };
 
         $scope.generateMailFromTemplatesOnInitIfNull = function () {
-            if($scope.eReimbObject.entity.emails == null || $scope.eReimbObject.entity.emails === undefined || $scope.eReimbObject.entity.emails.length < 2){
+            if($scope.eReimbObject.entity.emails == null || $scope.eReimbObject.entity.emails === undefined || $scope.eReimbObject.entity.emails.length < $scope.getEmailsFromTemplateNum()){
                 AnnounceEReimbursementService.createEmailsFromTemplate();
             }
+        };
+
+        $scope.getEmailsFromTemplateNum = function(){
+            var mailsFromTemplate = 1;
+            if($scope.eReimbObject.entity.sxoIndAmountDueTotal > 0){
+                mailsFromTemplate++
+            }
+            return mailsFromTemplate;
         };
 
         $scope.generatedReportsAndEmailsSectionVisible = function () {
