@@ -79,7 +79,7 @@ public class TrainingInstitutionValidator {
                 String path = String.format("%s[%s].%s", "users", index, "email");
                 violations.add(new EntityConstraintViolation(path, "Niepoprawny adres email"));
             }
-            if(trainingInstitutionUserDao.findByLogin(trainingInstitution.getTrainingInstitutionUsers().get(index).getLogin()) != null){
+            if(trainingInstitutionUserDao.findByLoginIgnoreCase(trainingInstitution.getTrainingInstitutionUsers().get(index).getLogin()) != null){
                 String path = String.format("%s[%s].%s", "users", index, "email");
                 violations.add(new EntityConstraintViolation(path, "Użytkownik o podanym adresie email/loginie już istnieje. Nie można zapisać użytkownika"));
             }

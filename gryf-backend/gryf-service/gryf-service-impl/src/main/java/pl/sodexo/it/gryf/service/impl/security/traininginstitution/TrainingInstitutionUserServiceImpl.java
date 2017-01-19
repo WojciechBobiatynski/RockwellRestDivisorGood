@@ -56,12 +56,12 @@ public class TrainingInstitutionUserServiceImpl implements TrainingInstitutionUs
 
     @Override
     public GryfTiUserDto findTiUserByLogin(String login) {
-        return trainingInstitutionUserEntityMapper.convert(trainingInstitutionUserDao.findByLogin(login));
+        return trainingInstitutionUserEntityMapper.convert(trainingInstitutionUserDao.findByLoginIgnoreCase(login));
     }
 
     @Override
     public GryfTiUserDto findTiUserByEmail(String email) {
-        return trainingInstitutionUserEntityMapper.convert(trainingInstitutionUserDao.findByEmail(email));
+        return trainingInstitutionUserEntityMapper.convert(trainingInstitutionUserDao.findByEmailIgnoreCase(email));
     }
 
     @Override

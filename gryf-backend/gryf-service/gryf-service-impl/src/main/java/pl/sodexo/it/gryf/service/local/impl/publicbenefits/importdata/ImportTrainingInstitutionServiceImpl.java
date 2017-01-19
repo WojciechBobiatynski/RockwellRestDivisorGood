@@ -68,7 +68,7 @@ public class ImportTrainingInstitutionServiceImpl extends ImportBaseDataServiceI
 
 
         TrainingInstitution trainingInstitution = trainingInstitutionRepository.findByExternalId(importDTO.getExternalId());
-        TrainingInstitutionUser tiUser = trainingInstitutionUserDao.findByLogin(importDTO.getEmail());
+        TrainingInstitutionUser tiUser = trainingInstitutionUserDao.findByLoginIgnoreCase(importDTO.getEmail());
         ZipCode zipCodeInvoice = zipCodeRepository.findActiveByCode(importDTO.getAddressInvoice().getZipCode());
         ZipCode zipCodeCorr = zipCodeRepository.findActiveByCode(importDTO.getAddressCorr().getZipCode());
         validateConnectedData(importDTO, trainingInstitution, zipCodeInvoice, zipCodeCorr, tiUser);

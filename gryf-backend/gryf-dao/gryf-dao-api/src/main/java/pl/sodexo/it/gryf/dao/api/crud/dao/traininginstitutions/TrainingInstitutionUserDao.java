@@ -13,7 +13,7 @@ import pl.sodexo.it.gryf.model.security.trainingInstitutions.TrainingInstitution
 @Transactional(propagation = Propagation.MANDATORY)
 public interface TrainingInstitutionUserDao extends JpaRepository<TrainingInstitutionUser, Long>{
 
-    TrainingInstitutionUser findByLogin(String login);
+    TrainingInstitutionUser findByLoginIgnoreCase(String login);
 
-    TrainingInstitutionUser findByEmail(String email);
+    TrainingInstitutionUser findByEmailIgnoreCase(String email);
 }

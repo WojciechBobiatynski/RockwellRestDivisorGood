@@ -101,7 +101,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateTiAfterSuccessLogin(GryfTiUser gryfTiUser) {
-        TrainingInstitutionUser tiUser = trainingInstitutionUserDao.findByLogin(gryfTiUser.getUsername());
+        TrainingInstitutionUser tiUser = trainingInstitutionUserDao.findByLoginIgnoreCase(gryfTiUser.getUsername());
         tiUser.setLastLoginSuccessDate(new Date());
         tiUser.setLoginFailureAttempts(GryfConstants.DEFAULT_LOGIN_FAILURE_ATTEMPTS_NUMBER);
         trainingInstitutionUserDao.save(tiUser);
