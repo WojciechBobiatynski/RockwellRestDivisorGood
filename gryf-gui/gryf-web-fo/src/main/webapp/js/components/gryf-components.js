@@ -668,6 +668,17 @@ angular.module('gryf.helpers').factory('GryfModulesUrlProvider', [function() {
         Training : contextPath + "/publicBenefits/training/#/modify/",
         Contract : contextPath + "/publicBenefits/contracts/#/modify/"
     };
+
+    var LINKS_SEARCH_FORM = {
+        GrantApplication : contextPath + "/publicBenefits/grantApplications/",
+        Order : contextPath + "/publicBenefits/orders/",
+        Enterprise : contextPath + "/publicBenefits/enterprises/",
+        Individual : contextPath + "/publicBenefits/individuals/",
+        TrainingInstitution : contextPath + "/publicBenefits/trainingInstitutions/",
+        ElectronicReimbursement : contextPath + "/publicBenefits/electronic/reimbursements/#/search/",
+        Training : contextPath + "/publicBenefits/training/",
+        Contract : contextPath + "/publicBenefits/contracts/"
+    };
     
     var MODULES = {
         GrantApplication : 'GrantApplication',
@@ -675,6 +686,7 @@ angular.module('gryf.helpers').factory('GryfModulesUrlProvider', [function() {
         Enterprise : 'Enterprise',
         Individual : 'Individual',
         TrainingInstitution : 'TrainingInstitution',
+        ElectronicReimbursement: 'ElectronicReimbursement',
         Training : 'Training',
         Contract : 'Contract'
     };
@@ -682,8 +694,13 @@ angular.module('gryf.helpers').factory('GryfModulesUrlProvider', [function() {
     var getUrlFor = function(module, objectId){
         return LINKS[module] + objectId;
     };
+
+    var getBackUrl = function(module){
+        return LINKS_SEARCH_FORM[module];
+    };
     
     return {getUrlFor: getUrlFor,
+            getBackUrl: getBackUrl,
             MODULES: MODULES,
             LINKS: LINKS};
 }]);

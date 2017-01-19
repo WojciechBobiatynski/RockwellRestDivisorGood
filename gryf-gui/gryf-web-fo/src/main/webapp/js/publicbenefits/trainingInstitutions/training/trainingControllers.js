@@ -58,49 +58,55 @@ angular.module("gryf.training").controller("searchform.TrainingController",
     }]);
 
 angular.module("gryf.training").controller("detailsform.TrainingController",
-    ["$scope", "ModifyTrainingService", 'GryfModals', 'GryfPopups', '$routeParams',
-     function($scope, ModifyTrainingService, GryfModals, GryfPopups, $routeParams) {
-         gryfSessionStorage.setUrlToSessionStorage();
-
+    ["$scope", "ModifyTrainingService", 'GryfModals', 'GryfPopups', '$routeParams', "GryfModulesUrlProvider",
+     function($scope, ModifyTrainingService, GryfModals, GryfPopups, $routeParams, GryfModulesUrlProvider) {
          $scope.model = ModifyTrainingService.getNewModel();
          $scope.violations = ModifyTrainingService.getNewViolations();
          $scope.trainingCategory = ModifyTrainingService.getNewTrainingCategory();
          $scope.categoryCatalogs = ModifyTrainingService.getNewCategoryCatalogs();
 
-         var NEW_TRAINING_URL = contextPath + "/publicBenefits/training/#/modify";
-
-         $scope.save = function(redirectUrl) {
-             GryfModals.openModal(GryfModals.MODALS_URL.CONFIRM).result.then(function(result) {
-                 if (!result) {
-                     return;
-                 }
-                 executeSave();
-             });
-             var executeSave = function() {
-                 $scope.violations = ModifyTrainingService.getNewViolations();
-                 ModifyTrainingService.save().then(function() {
-                     if (!redirectUrl) {
-                         redirectUrl = $scope.getPrevUrl();
-                     }
-                     window.location = redirectUrl;
-                 });
+         $scope.goBack = function() {
+             var callback = function() {
+                 window.location = GryfModulesUrlProvider.getBackUrl(GryfModulesUrlProvider.MODULES.Training);
              };
-         };
-
-         $scope.saveAndAdd = function() {
-             $scope.save(NEW_TRAINING_URL);
+             $scope.showAcceptModal("Wywołując tę akcję stracisz niezapisane dane", callback);
          };
 
          $scope.newTraining = function() {
-             var messageText = {
-                 message: "Wywołując tę akcję stracisz niezapisane dane "
+             var callback = function() {
+                 window.location = GryfModulesUrlProvider.LINKS.Training;
              };
+             $scope.showAcceptModal("Wywołując tę akcję stracisz niezapisane dane", callback);
+         };
 
-             GryfModals.openModal(GryfModals.MODALS_URL.CONFIRM, messageText).result.then(function(result) {
+         $scope.saveAndAdd = function () {
+             var saveCallback = function () {
+                 $scope.violations = ModifyTrainingService.getNewViolations();
+                 ModifyTrainingService.save().success(function () {
+                     window.location = GryfModulesUrlProvider.LINKS.Training;
+                 });
+             };
+             $scope.showAcceptModal("Ta akcja zapisuje zmiany w szkoleniu", saveCallback);
+         };
+
+         $scope.save = function () {
+             var saveCallback = function () {
+                 $scope.violations = ModifyTrainingService.getNewViolations();
+                 ModifyTrainingService.save().success(function (id) {
+                     window.location = GryfModulesUrlProvider.getUrlFor(GryfModulesUrlProvider.MODULES.Training, id);
+                     ModifyTrainingService.findById($routeParams.id);
+                 });
+             };
+             $scope.showAcceptModal("Ta akcja zapisuje zmiany w szkoleniu", saveCallback);
+         };
+
+         $scope.showAcceptModal = function(messageText, callback) {
+             var message = {message: messageText};
+             GryfModals.openModal(GryfModals.MODALS_URL.CONFIRM, message).result.then(function(result) {
                  if (!result) {
                      return;
                  }
-                 window.location = NEW_TRAINING_URL;
+                 callback();
              });
          };
 

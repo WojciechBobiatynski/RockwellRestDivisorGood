@@ -3,7 +3,9 @@
 var scopeBrowseController;
 
 angular.module("gryf.enterprises").controller("searchform.EnterpriseController",
-    ["$scope", "BrowseEnterprisesService", "GryfPopups", function($scope, BrowseEnterprisesService, GryfPopups) {
+    ["$scope", "BrowseEnterprisesService", "GryfPopups",
+    function($scope, BrowseEnterprisesService, GryfPopups) {
+
         scopeBrowseController = $scope;
         $scope.searchObjModel = BrowseEnterprisesService.getSearchDTO();
         $scope.searchResultOptions = BrowseEnterprisesService.getSearchResultOptions();
@@ -39,40 +41,31 @@ angular.module("gryf.enterprises").controller("searchform.EnterpriseController",
 
 var scopeModifyController;
 angular.module("gryf.enterprises").controller("detailsform.EnterpriseController",
-    ["$scope", "ModifyEnterprisesService", 'GryfModals', 'GryfPopups',
-     function($scope, ModifyEnterprisesService, GryfModals, GryfPopups) {
+    ["$scope", "ModifyEnterprisesService", 'GryfModals', 'GryfPopups', "GryfModulesUrlProvider",
+     function($scope, ModifyEnterprisesService, GryfModals, GryfPopups, GryfModulesUrlProvider) {
          scopeModifyController = $scope;
          $scope.model = ModifyEnterprisesService.getNewModel();
          $scope.violations = ModifyEnterprisesService.getNewViolations();
-         gryfSessionStorage.setUrlToSessionStorage();
          GryfPopups.showPopup();
 
-         var NEW_ENTERPRISE_URL =  contextPath + "/publicBenefits/enterprises/#modify";
-
+         $scope.goBack = function() {
+             var callback = function() {
+                 window.location = GryfModulesUrlProvider.getBackUrl(GryfModulesUrlProvider.MODULES.Enterprise);
+             };
+             $scope.showAcceptModal("Wywołując tę akcję stracisz niezapisane dane", callback);
+         };
 
          $scope.newEnterprise = function() {
-             var messageText = {
-                 message: "Wywołując tę akcję stracisz niezapisane dane "
+             var callback = function() {
+                 window.location = GryfModulesUrlProvider.LINKS.Enterprise;
              };
-
-             GryfModals.openModal(GryfModals.MODALS_URL.CONFIRM, messageText).result.then(function(result) {
-                 if (!result) {
-                     return;
-                 }
-                 window.location = NEW_ENTERPRISE_URL;
-             });
+              $scope.showAcceptModal("Wywołując tę akcję stracisz niezapisane dane", callback);
          };
-
-         $scope.getPrevUrl = function() {
-             return gryfSessionStorage.getUrlFromSessionStorage();
-         };
-
 
          $scope.loadEnterprise = function(id) {
              ModifyEnterprisesService.loadEnterprises(id);
          };
          $scope.loadEnterprise();
-
 
          $scope.loadContactTypes = function() {
              ModifyEnterprisesService.loadContactTypes();
@@ -84,30 +77,34 @@ angular.module("gryf.enterprises").controller("detailsform.EnterpriseController"
          };
 
          $scope.saveAndAdd = function() {
-             $scope.save(NEW_ENTERPRISE_URL);
+             var saveCallback = function() {
+                 ModifyEnterprisesService.save().success(function() {
+                     window.location = GryfModulesUrlProvider.LINKS.Enterprise;
+                     $scope.model = ModifyEnterprisesService.getNewModel();
+                     $scope.violations = ModifyEnterprisesService.getNewViolations();
+                 });
+             };
+             $scope.showAcceptModal("Ta akcja zapisuje zmiany w MŚP", saveCallback);
          };
 
-         $scope.save = function(redirectUrl) {
-             var messageText = {
-                 message: "Ta akcja zapisuje zmiany MŚP"
+         $scope.save = function() {
+             var saveCallback = function() {
+                 ModifyEnterprisesService.save().success(function(id) {
+                     window.location = GryfModulesUrlProvider.getUrlFor(GryfModulesUrlProvider.MODULES.Enterprise, id);
+                     ModifyEnterprisesService.loadEnterprises();
+                 });
              };
+             $scope.showAcceptModal("Ta akcja zapisuje zmiany w MŚP", saveCallback);
+         };
 
-             GryfModals.openModal(GryfModals.MODALS_URL.CONFIRM, messageText).result.then(function(result) {
+         $scope.showAcceptModal = function(messageText, callback) {
+             var message = {message: messageText};
+             GryfModals.openModal(GryfModals.MODALS_URL.CONFIRM, message).result.then(function(result) {
                  if (!result) {
                      return;
                  }
-                 executeSave();
+                 callback();
              });
-
-             var executeSave = function() {
-                 $scope.violations = ModifyEnterprisesService.getNewViolations();
-                 ModifyEnterprisesService.save().then(function() {
-                     if (!redirectUrl){
-                         redirectUrl = $scope.getPrevUrl();
-                     }
-                     window.location = redirectUrl;
-                 });
-             }
          };
 
          $scope.addContact = function() {

@@ -173,6 +173,7 @@ angular.module("gryf.trainingInstitutions").factory("ModifyTrainingInsService",
 
             promise.then(function() {
                 GryfPopups.setPopup("success", "Sukces", "IS poprawnie zapisane");
+                GryfPopups.showPopup();
             });
 
             promise.error(function(error) {

@@ -49,13 +49,12 @@ angular.module('gryf.grantApplications').controller('searchform.GrantApplication
 var scopeModifyController;
 angular.module('gryf.grantApplications').controller('detailsform.GrantApplicationsController',
     ['$scope', 'ModifyGrantApplicationService', 'GrantProgramService', 'Dictionaries', "GryfModals", 'GryfPopups','GryfModulesUrlProvider',
-     function($scope, ModifyGrantApplicationService, GrantProgramService, Dictionaries, GryfModals, GryfPopups,GryfModulesUrlProvider) {
+     function($scope, ModifyGrantApplicationService, GrantProgramService, Dictionaries, GryfModals, GryfPopups, GryfModulesUrlProvider) {
          scopeModifyController = $scope;
          $scope.grantProgram = GrantProgramService.getGrantProgram();
          $scope.entityObject = ModifyGrantApplicationService.getEntityObject();
          $scope.dictionaries = ModifyGrantApplicationService.getDictionaries();
          $scope.violations = ModifyGrantApplicationService.getViolations();
-         gryfSessionStorage.setUrlToSessionStorage();
          GryfPopups.showPopup();
 
          $scope.getOrderLinkFor = function(orderId) {
@@ -71,22 +70,28 @@ angular.module('gryf.grantApplications').controller('detailsform.GrantApplicatio
          };
 
 
-         $scope.getPrevUrl = function() {
-             return gryfSessionStorage.getUrlFromSessionStorage();
+         $scope.goBack = function() {
+             var callback = function() {
+                 window.location = GryfModulesUrlProvider.getBackUrl(GryfModulesUrlProvider.MODULES.GrantApplication);
+             };
+             $scope.showAcceptModal("Wywołując tę akcję stracisz niezapisane dane", callback);
          };
 
-         $scope.newApplication = function() {
-             var messageText = {
-                 message: "Wywołując tę akcję stracisz niezapisane dane "
-             };
-
-             GryfModals.openModal(GryfModals.MODALS_URL.CONFIRM, messageText).result.then(function(result) {
+         $scope.showAcceptModal = function(messageText, callback) {
+             var message = {message: messageText};
+             GryfModals.openModal(GryfModals.MODALS_URL.CONFIRM, message).result.then(function(result) {
                  if (!result) {
                      return;
                  }
-                 $scope.violations = ModifyGrantApplicationService.getNewViolations();
-                 window.location = contextPath + '/publicBenefits/grantApplications/#modify';
+                 callback();
              });
+         };
+
+         $scope.newApplication = function() {
+             var callback = function() {
+                 window.location = GryfModulesUrlProvider.LINKS.GrantApplication;
+             };
+             $scope.showAcceptModal("Wywołując tę akcję stracisz niezapisane dane", callback)
          };
 
          GrantProgramService.getGrantPrograms();

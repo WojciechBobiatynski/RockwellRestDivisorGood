@@ -39,33 +39,25 @@ angular.module("gryf.trainingInstitutions").controller("searchform.TrainingInsCo
 
 var scopeModifyController;
 angular.module("gryf.trainingInstitutions").controller("detailsform.TrainingInsController",
-    ["$scope", "ModifyTrainingInsService", 'GryfModals', 'GryfPopups', '$route',
-        function ($scope, ModifyTrainingInsService, GryfModals, GryfPopups, $route) {
+    ["$scope", "ModifyTrainingInsService", 'GryfModals', 'GryfPopups', "GryfModulesUrlProvider",
+        function ($scope, ModifyTrainingInsService, GryfModals, GryfPopups, GryfModulesUrlProvider) {
             scopeModifyController = $scope;
             $scope.model = ModifyTrainingInsService.getNewModel();
             $scope.violations = ModifyTrainingInsService.getNewViolations();
-            gryfSessionStorage.setUrlToSessionStorage();
             GryfPopups.showPopup();
 
-            var NEW_TI_URL = contextPath + "/publicBenefits/trainingInstitutions/#modify";
-
-
-            $scope.newTrainingInstitution = function () {
-                var messageText = {
-                    message: "Wywołując tę akcję stracisz niezapisane dane "
+            $scope.goBack = function() {
+                var callback = function() {
+                    window.location = GryfModulesUrlProvider.getBackUrl(GryfModulesUrlProvider.MODULES.TrainingInstitution);
                 };
-
-                GryfModals.openModal(GryfModals.MODALS_URL.CONFIRM, messageText).result.then(function (result) {
-                    if (!result) {
-                        return;
-                    }
-                    window.location = NEW_TI_URL;
-                });
-
+                $scope.showAcceptModal("Wywołując tę akcję stracisz niezapisane dane", callback);
             };
 
-            $scope.getPrevUrl = function () {
-                return gryfSessionStorage.getUrlFromSessionStorage();
+            $scope.newTrainingInstitution = function() {
+                var callback = function() {
+                    window.location = GryfModulesUrlProvider.LINKS.TrainingInstitution;
+                };
+                $scope.showAcceptModal("Wywołując tę akcję stracisz niezapisane dane", callback);
             };
 
             $scope.loadTI = function (id) {
@@ -79,26 +71,34 @@ angular.module("gryf.trainingInstitutions").controller("detailsform.TrainingInsC
             $scope.loadContactTypes();
 
             $scope.saveAndAdd = function () {
-                $scope.save(NEW_TI_URL);
+                var saveCallback = function () {
+                    $scope.violations = ModifyTrainingInsService.getNewViolations();
+                    ModifyTrainingInsService.save().success(function () {
+                        window.location = GryfModulesUrlProvider.LINKS.TrainingInstitution;
+                    });
+                };
+                $scope.showAcceptModal("Ta akcja zapisuje zmiany w IS", saveCallback);
             };
 
-            $scope.save = function (redirectUrl) {
+            $scope.save = function () {
+                var saveCallback = function () {
+                    $scope.violations = ModifyTrainingInsService.getNewViolations();
+                    ModifyTrainingInsService.save().success(function (id) {
+                        window.location = GryfModulesUrlProvider.getUrlFor(GryfModulesUrlProvider.MODULES.TrainingInstitution, id);
+                        ModifyTrainingInsService.load(id);
+                    });
+                };
+                $scope.showAcceptModal("Ta akcja zapisuje zmiany w IS", saveCallback);
+            };
 
-                GryfModals.openModal(GryfModals.MODALS_URL.CONFIRM).result.then(function (result) {
+            $scope.showAcceptModal = function(messageText, callback) {
+                var message = {message: messageText};
+                GryfModals.openModal(GryfModals.MODALS_URL.CONFIRM, message).result.then(function(result) {
                     if (!result) {
                         return;
                     }
-                    executeSave();
+                    callback();
                 });
-                var executeSave = function () {
-                    $scope.violations = ModifyTrainingInsService.getNewViolations();
-                    ModifyTrainingInsService.save().then(function () {
-                        if (!redirectUrl) {
-                            redirectUrl = $scope.getPrevUrl();
-                        }
-                        window.location = redirectUrl;
-                    });
-                };
             };
 
             $scope.addContact = function () {

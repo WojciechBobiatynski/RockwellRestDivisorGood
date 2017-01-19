@@ -17,13 +17,13 @@
         </ul>
         <ol>
             <li>
-                <a ng-href="{{getPrevUrl()}}" class="button"
+                <a data-ng-click="goBack()" class="button"
                    target="_self">Anuluj </a>
             </li>
         </ol>
         <ol>
             <li>
-                <a ng-href="#modify" class="button button-new"
+                <a data-ng-click="newContract()" class="button button-new"
                    gryf-privilege="GRF_PBE_CONTRACTS_MOD"
                    target="_self">Nowa umowa</a>
             </li>

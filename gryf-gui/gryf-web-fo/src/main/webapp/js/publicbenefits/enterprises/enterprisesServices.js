@@ -169,6 +169,7 @@ angular.module("gryf.enterprises").factory("ModifyEnterprisesService",
 
             promise.then(function() {
                 GryfPopups.setPopup("success", "Sukces", "MŚP poprawnie zapisane");
+                GryfPopups.showPopup();
             });
 
             promise.error(function(error) {
