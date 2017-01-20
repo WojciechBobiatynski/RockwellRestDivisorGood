@@ -96,12 +96,16 @@
             <input type="text" ng-model="searchDTO.entity.name">
          </th>
          <th class="grid-10">
-            <input type="number" placeholder="Min" ng-model="searchDTO.entity.priceFrom"/>
-            <input type="number" placeholder="Max" ng-model="searchDTO.entity.priceTo"/>
+            <input type="text" placeholder="Min" ng-model="searchDTO.entity.priceFrom"
+                   force-digits pattern-type="float" maxlength="10"/>
+            <input type="text" placeholder="Max" ng-model="searchDTO.entity.priceTo"
+                   force-digits pattern-type="float" maxlength="10"/>
          </th>
          <th class="grid-10">
-            <input type="number" placeholder="Min" ng-model="searchDTO.entity.hoursNumberFrom">
-            <input type="number" placeholder="Max" ng-model="searchDTO.entity.hoursNumberTo">
+            <input type="text" placeholder="Min" ng-model="searchDTO.entity.hoursNumberFrom"
+                   force-digits pattern-type="float" maxlength="10">
+            <input type="text" placeholder="Max" ng-model="searchDTO.entity.hoursNumberTo"
+                   force-digits pattern-type="float" maxlength="10">
          </th>
          <th class="grid-10">
             <input type="text" ng-model="searchDTO.entity.startDateFrom"
