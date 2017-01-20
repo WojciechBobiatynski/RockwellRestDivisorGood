@@ -109,7 +109,7 @@
             <li ng-class="{'current': isActive('trainingReservation')}"><a ui-sref="trainingReservation">Rezerwuj szkolenie</a></li>
             <li ng-class="{'current': isActive('confirmPin')}"><a ui-sref="confirmPin">Zatwierdź PIN Uczestnika</a></li>
             <li class="submenu" ng-class="{'current': (isActive('trainingToReimburse') || isActive('reimbursements'))}">
-                <a ui-sref="reimbursements">Rozliczenia</a>
+                <a href="#">Rozliczenia</a>
                 <ul>
                     <li ng-class="{'current': isActive('trainingToReimburse')}">
                         <a ui-sref="trainingToReimburse">Szkolenia do rozliczenia</a>
