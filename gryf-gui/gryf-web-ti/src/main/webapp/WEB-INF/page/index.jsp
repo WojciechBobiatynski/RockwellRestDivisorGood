@@ -79,10 +79,7 @@
     <script src="${pageContext.request.contextPath}/js/app/confirmpin/confirmPinService.js"></script>
     <script src="${pageContext.request.contextPath}/js/app/confirmpin/modal/confirmPinModalController.js"></script>
 </head>
-<body ng-app="gryf.ti" ng-strict-di>
-<div class="container">
-
-<body id="ak" ng-app="gryf.ti">
+<body id="ak" ng-app="gryf.ti" ng-strict-di>
 
     <div id="accessbility"><div class="grid">
         <ol class="font">

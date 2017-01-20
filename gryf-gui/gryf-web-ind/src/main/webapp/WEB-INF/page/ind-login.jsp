@@ -103,6 +103,10 @@
                     <button type="submit" class="button" tabindex="3" data-test="__login__submit">Zaloguj się</button>
                 </div>
 
+                <div class="msg">
+                    <a href="${pageContext.request.contextPath}/verification" title="Prześlij ponownie kod weryfikacyjny">Prześlij ponownie kod weryfikacyjny</a>
+                </div>
+
             </form>
         </div>
     </section>
