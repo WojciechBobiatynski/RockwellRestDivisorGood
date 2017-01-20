@@ -39,9 +39,10 @@ public interface GryfPLSQLRepository {
     /**
      * Generuje notę obciążeniowo-księgowa dla zamówienia.
      * @param orderId identyfikator zamówienia
+     * @param userLogin
      * @return resultat wywolania
      */
-    FinanceNoteResult createDebitNoteForOrder(Long orderId);
+    FinanceNoteResult createDebitNoteForOrder(Long orderId, String userLogin);
 
     /**
      * Generuje notę uznaniową dla rozliczenia.

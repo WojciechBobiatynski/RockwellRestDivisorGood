@@ -4,14 +4,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.sodexo.it.gryf.common.dto.user.GryfUser;
 import pl.sodexo.it.gryf.dao.api.crud.repository.other.GryfPLSQLRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderInvoiceRepository;
 import pl.sodexo.it.gryf.model.api.FinanceNoteResult;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
-import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElementCons;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderInvoice;
-import pl.sodexo.it.gryf.service.api.publicbenefits.pbeproductinstancepool.PbeProductInstancePoolService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.orderflows.OrderFlowElementService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.pbeproduct.PbeProductInstancePoolLocalService;
 import pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.actions.ActionBaseService;
@@ -48,7 +47,7 @@ public class CareerDirectionCreateProducyInstancePoolActionService extends Actio
 
     private void saveOrderInvoice(Order order){
         gryfPLSQLRepository.flush();
-        FinanceNoteResult financeNoteResult = gryfPLSQLRepository.createDebitNoteForOrder(order.getId());
+        FinanceNoteResult financeNoteResult = gryfPLSQLRepository.createDebitNoteForOrder(order.getId(), GryfUser.getLoggedUserLogin());
 
         orderFlowElementService.addElementCheckboxValue(order, OrderElementCons.KK_WUP_DEBT_DOCUMENT_EXPORTED_ELEM_ID, false);
         orderFlowElementService.addElementVarcharValue(order, OrderElementCons.KK_WUP_DEBT_DOCUMENT_NUMBER_ELEM_ID,

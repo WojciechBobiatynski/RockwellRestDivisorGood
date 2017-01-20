@@ -61,7 +61,7 @@ public class GryfPLSQLRepositoryImpl implements GryfPLSQLRepository {
     }
 
     @Override
-    public FinanceNoteResult createDebitNoteForOrder(Long orderId){
+    public FinanceNoteResult createDebitNoteForOrder(Long orderId, String userLogin){
         StoredProcedureQuery query = entityManager.createStoredProcedureQuery("PK_GRF_UTILS.Create_Pb_Cus_Note");
         query.registerStoredProcedureParameter("o_inv_id", Double.class, ParameterMode.OUT);
         query.registerStoredProcedureParameter("o_invoice_number", String.class, ParameterMode.OUT);
@@ -69,11 +69,13 @@ public class GryfPLSQLRepositoryImpl implements GryfPLSQLRepository {
         query.registerStoredProcedureParameter("o_invoice_date", Date.class, ParameterMode.OUT);
         query.registerStoredProcedureParameter("o_87_invoice_number", String.class, ParameterMode.OUT);
         query.registerStoredProcedureParameter("a_order_id", Double.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter("a_sign_user", String.class, ParameterMode.IN);
         query.setParameter("a_order_id", orderId);
+        query.setParameter("a_sign_user", userLogin);
 
-        LOGGER.debug(String.format("Zamówienie '%s': start wywołania procedury PK_GRF_UTILS.Create_Pb_Cus_Note", orderId));
+        LOGGER.debug(String.format("Zamówienie '%s', użytkownik: %s: start wywołania procedury PK_GRF_UTILS.Create_Pb_Cus_Note", orderId, userLogin));
         query.execute();
-        LOGGER.debug(String.format("Zamówienie '%s': stop wywołania procedury PK_GRF_UTILS.Create_Pb_Cus_Note", orderId));
+        LOGGER.debug(String.format("Zamówienie '%s', użytkownik: %s: stop wywołania procedury PK_GRF_UTILS.Create_Pb_Cus_Note", orderId, userLogin));
 
         FinanceNoteResult result = new FinanceNoteResult();
         result.setInvoiceId(((Double) query.getOutputParameterValue("o_inv_id")).longValue());
