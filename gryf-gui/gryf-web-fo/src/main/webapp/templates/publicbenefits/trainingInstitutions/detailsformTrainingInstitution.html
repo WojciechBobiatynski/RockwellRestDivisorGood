@@ -127,7 +127,7 @@
                 </thead>
                 <tr ng-repeat="user in model.entity.users">
                     <td>
-                        <input type="email" maxlength="150" ng-model="user.email" data-ng-change="user.login=user.email" data-ng-disabled="isModType(user)"/>
+                        <input type="email" maxlength="100" ng-model="user.email" data-ng-change="user.login=user.email" data-ng-disabled="isModType(user)"/>
                         <gryf-validation-msg
                                 path="users[{{$index}}].email"></gryf-validation-msg>
                     </td>
