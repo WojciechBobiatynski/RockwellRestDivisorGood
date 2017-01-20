@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="pl.sodexo.it.gryf.dao.api.search.mapper.ProductInstancePoolSearchMapper">
-    <!--TODO: AK - poprzenosić zmienne do configów-->
+    <!--TODO: AK - poprzenosić stałe do configów-->
     <select id="findExpiredPoolInstances" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.pbeproductinstancepool.PbeProductInstancePoolDto" parameterType="list">
         SELECT
           pool.ID                                 id,
@@ -21,12 +21,19 @@
           JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOLS pool ON pool.ORDER_ID = ord.ID
           JOIN APP_PBE.GRANT_OWNERS gr_own ON gr_own.ID = pr.GRANT_OWNER_ID
           JOIN APP_PBE.PBE_PRODUCTS prd ON prd.GRANT_OWNER_ID = gr_own.ID
-          LEFT JOIN APP_PBE.E_REIMBURSEMENTS ermb ON ermb.PRODUCT_INSTANCE_POOL_ID = pool.ID
         WHERE
           TRUNC(pool.EXPIRY_DATE) &lt;= TRUNC(SYSDATE + NVL(prm.VALUE, 10))
-          AND (ermb.ID is NULL OR ermb.RECON_DATE is not null) -- albo nie ma jeszcze rozliczenia dla puli niewykorzystanych bonów, albo już istnieje ale zostay rozliczone inne bony (bo np. przed chwilą coś zostalo anulowane)
           AND pool.AVAILABLE_NUM &gt; 0
           AND pr.ID = 100 -- kierunek kariera
+          AND NOT EXISTS (
+            SELECT ermb.ID
+            FROM
+              APP_PBE.E_REIMBURSEMENTS ermb
+            WHERE
+              ermb.PRODUCT_INSTANCE_POOL_ID = pool.ID
+              AND ermb.STATUS_ID != 'REIMB'
+              AND ermb.TYPE_ID = 'URSVD_POOL'
+          )
     </select>
 
 </mapper>

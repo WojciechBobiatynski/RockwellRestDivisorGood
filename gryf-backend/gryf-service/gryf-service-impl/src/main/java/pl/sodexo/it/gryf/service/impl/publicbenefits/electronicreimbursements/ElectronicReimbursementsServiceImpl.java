@@ -257,14 +257,22 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         Ereimbursement ereimbursement = ereimbursementRepository.get(rmbsId);
         List<EreimbursementReport> ereimbursementReports = new ArrayList<>();
 
-        createCreditNote(ereimbursement, ereimbursementReports);
-        createBankTransferConfirmation(ereimbursement, ereimbursementReports);
-        createGrantAidConfirmation(ereimbursement, ereimbursementReports);
+        if(isEreimbursementOfUnreservedPools(ereimbursement)){
+            createCreditNote(ereimbursement, ereimbursementReports);
+        } else {
+            createCreditNote(ereimbursement, ereimbursementReports);
+            createBankTransferConfirmation(ereimbursement, ereimbursementReports);
+            createGrantAidConfirmation(ereimbursement, ereimbursementReports);
+        }
 
         ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.TO_VERIFY));
         ereimbursement.setEreimbursementReports(ereimbursementReports);
         ereimbursementRepository.update(ereimbursement, ereimbursement.getId());
         return ereimbursement.getId();
+    }
+
+    private boolean isEreimbursementOfUnreservedPools(Ereimbursement ereimbursement) {
+        return EreimbursementType.URSVD_POOL.equals(ereimbursement.getEreimbursementType().getCode());
     }
 
     private void createGrantAidConfirmation(Ereimbursement ereimbursement, List<EreimbursementReport> ereimbursementReports) {
