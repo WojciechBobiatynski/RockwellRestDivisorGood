@@ -86,8 +86,6 @@
                         <div class="msg msg-error"><p><c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/></p></div>
                     </c:if>
 
-
-                    </div>
                     <div class="field field-string">
                         <div class="label">
                             <label for="username">Wprowadź login/email</label>
