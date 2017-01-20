@@ -140,7 +140,16 @@ public class MailDtoCreator {
         return result;
     }
 
-    public MailDTO createConfirmReimbMailDto(ErmbsMailParamsDto paramsDto) {
+    public MailDTO createCreditNoteForUnreservedPoolMailDto(ErmbsMailParamsDto paramsDto) {
+        MailPlaceholders mailPlaceholders = mailService.createPlaceholders(GRANT_PROGRAM_PLACEHOLDER, paramsDto.getGrantProgramName())
+                .add(FIRST_NAME_PLACEHOLDER, paramsDto.getFirstName())
+                .add(LAST_NAME_PLACEHOLDER, paramsDto.getLastName())
+                .add(NOTE_NOT_PLACEHOLDER, paramsDto.getNoteNo());
+        EmailTemplate emailTemplate = emailTemplateRepository.get(E_REIMB_CONFIRMATION_EMAIL_TEMPLATE_CODE_FOR_UNRSV_POOL);
+        return createAndFillMailDTO(emailTemplate, paramsDto.getEmail(), mailPlaceholders);
+    }
+
+    public MailDTO createCreditNoteMailDto(ErmbsMailParamsDto paramsDto) {
         MailPlaceholders mailPlaceholders = mailService.createPlaceholders(GRANT_PROGRAM_PLACEHOLDER, paramsDto.getGrantProgramName())
                 .add(FIRST_NAME_PLACEHOLDER, paramsDto.getFirstName())
                 .add(LAST_NAME_PLACEHOLDER, paramsDto.getLastName())

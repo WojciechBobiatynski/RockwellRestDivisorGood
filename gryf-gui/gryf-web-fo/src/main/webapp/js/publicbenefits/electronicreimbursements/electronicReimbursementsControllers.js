@@ -193,12 +193,13 @@ angular.module('gryf.electronicreimbursements').controller("announce.electronicR
 
     }]);
 
+var test;
 angular.module('gryf.electronicreimbursements').controller("unrsv.electronicReimbursementsController",
     ['$scope', "$routeParams", "GryfModulesUrlProvider", "UnreservedPoolService",
         function ($scope, $routeParams, GryfModulesUrlProvider, UnreservedPoolService) {
             $scope.MODULES = GryfModulesUrlProvider.MODULES;
             $scope.unReimbObject = UnreservedPoolService.getNewModel();
-
+test = $scope;
             if($routeParams.id) {
                 UnreservedPoolService.findById($routeParams.id);
             }
@@ -222,6 +223,20 @@ angular.module('gryf.electronicreimbursements').controller("unrsv.electronicReim
 
             $scope.confirmButtonVisible = function(){
                 return $scope.unReimbObject.entity != null && $scope.unReimbObject.entity.statusCode === 'T_VRF';
+            };
+
+            $scope.generatedReportsAndEmailsSectionVisible = function () {
+                return $scope.unReimbObject.entity != null && ($scope.unReimbObject.entity.statusCode === 'T_VRF' || $scope.unReimbObject.entity.statusCode === 'REIMB');
+            };
+
+            $scope.getReportFile = function(attachment) {
+                return attachment.id != null ? contextPath + "/rest/publicBenefits/electronic/reimbursements/downloadReportFile?id=" + attachment.id : '';
+            };
+
+            $scope.generateMailFromTemplatesOnInitIfNull = function () {
+                if($scope.unReimbObject.entity.emails == null || $scope.unReimbObject.entity.emails === undefined || $scope.unReimbObject.entity.emails.length < 1){
+                    UnreservedPoolService.createEmailsFromTemplate();
+                }
             };
 
             $scope.createDocuments = UnreservedPoolService.createDocuments;

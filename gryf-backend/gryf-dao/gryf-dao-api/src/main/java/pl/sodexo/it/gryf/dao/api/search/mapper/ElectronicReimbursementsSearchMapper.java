@@ -73,6 +73,14 @@ public interface ElectronicReimbursementsSearchMapper {
     ErmbsMailParamsDto findMailParams(@Param("criteria") UserCriteria criteria, @Param("ermbsId") Long ermbsId);
 
     /**
+     * Znajduje parametry potrzbene do wypełnienia maila z rozliczeń dla niewykorzystanej puli bonów
+     * @param criteria - krytertia użytkownika
+     * @param ermbsId - id rozliczenia
+     * @return parametry pootrzebne do wypełnienia maila
+     */
+    ErmbsMailParamsDto findMailParamsForUnreservedPool(@Param("criteria") UserCriteria criteria, @Param("ermbsId") Long ermbsId);
+
+    /**
      * Pobiera raporty wygenerowane dla rozliczenia jako dto plików
      * @param criteria - krytertia użytkownika
      * @param ermbsId - id rozliczenia

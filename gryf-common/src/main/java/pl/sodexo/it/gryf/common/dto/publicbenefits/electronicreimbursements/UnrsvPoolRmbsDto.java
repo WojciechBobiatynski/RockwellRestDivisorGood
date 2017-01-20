@@ -75,7 +75,7 @@ public class UnrsvPoolRmbsDto extends VersionableDto implements Serializable {
 
     @Getter
     @Setter
-    private ErmbsMailDto email;
+    private List<ErmbsMailDto> emails;
 
     @Getter
     @Setter

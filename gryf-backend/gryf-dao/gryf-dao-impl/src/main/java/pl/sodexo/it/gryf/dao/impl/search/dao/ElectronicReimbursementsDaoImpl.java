@@ -61,6 +61,11 @@ public class ElectronicReimbursementsDaoImpl implements ElectronicReimbursements
     }
 
     @Override
+    public ErmbsMailParamsDto findMailParamsForUnreservedPool(Long ermbsId) {
+        return electronicReimbursementsSearchMapper.findMailParamsForUnreservedPool(new UserCriteria(), ermbsId);
+    }
+
+    @Override
     public List<ErmbsMailAttachmentDto> findReportsByErmbsId(Long ermbsId) {
         return electronicReimbursementsSearchMapper.findReportsByErmbsId(new UserCriteria(), ermbsId);
     }

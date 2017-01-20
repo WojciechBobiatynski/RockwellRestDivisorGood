@@ -53,6 +53,7 @@ public final class UrlConstants {
     public static final String PATH_UNRESERVED_POOL_CREATE_DOCUMENTS = "/createDocuments/";
     public static final String PATH_UNRESERVED_POOL_PRINT_REPORTS = "/printReports/";
     public static final String PATH_UNRESERVED_POOL_EXPIRE = "/expire/";
+    public static final String PATH_UNRESERVED_POOL__CREATE_EMAIL_FROM_TEMPLATE= "/email/create/";
 
     public static final String PATH_TRAINING_INSTANCE = "/trainingInstance";
     public static final String PATH_TRAINING_INSTANCE_LIST =  "/list";

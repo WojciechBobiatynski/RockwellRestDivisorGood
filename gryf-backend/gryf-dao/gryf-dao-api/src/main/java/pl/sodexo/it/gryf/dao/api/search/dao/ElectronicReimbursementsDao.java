@@ -62,6 +62,13 @@ public interface ElectronicReimbursementsDao {
     ErmbsMailParamsDto findMailParams(Long ermbsId);
 
     /**
+     * Znajduje parametry potrzbene do wypełnienia maila z rozliczeń
+     * @param ermbsId - id rozliczenia
+     * @return parametry pootrzebne do wypełnienia maila
+     */
+    ErmbsMailParamsDto findMailParamsForUnreservedPool(Long ermbsId);
+
+    /**
      * Pobiera raporty wygenerowane dla rozliczenia jako dto plików
      * @param ermbsId - id rozliczenia
      * @return lista plików raportów

@@ -70,6 +70,34 @@ public class ErmbsMailServiceImpl implements ErmbsMailService {
         }
     }
 
+    @Override
+    public List<ErmbsMailDto> createMailFromTemplatesForUnreservedPool(Long ermbsId) {
+        List<ErmbsMailDto> existedMail = electronicReimbursementsDao.findMailsByErmbsId(ermbsId);
+        if(existedMail.size() == DEFAULT_MAILS_FROM_TEMPLATE_NUM){
+            return null;
+        } else {
+            return createMailsFromTemplatesForUnreservedPool(ermbsId, existedMail);
+        }
+    }
+
+    private List<ErmbsMailDto> createMailsFromTemplatesForUnreservedPool(Long ermbsId, List<ErmbsMailDto> existedMail) {
+        ErmbsMailParamsDto paramsDto = electronicReimbursementsDao.findMailParamsForUnreservedPool(ermbsId);
+        List<ErmbsMailAttachmentDto> reportFiles = electronicReimbursementsDao.findReportsByErmbsId(ermbsId);
+
+        addCreditNoteMailIfNotExistForUnreservedPool(ermbsId, existedMail, paramsDto, reportFiles);
+
+        return existedMail;
+    }
+
+    private void addCreditNoteMailIfNotExistForUnreservedPool(Long ermbsId, List<ErmbsMailDto> existedMail, ErmbsMailParamsDto paramsDto, List<ErmbsMailAttachmentDto> reportFiles) {
+        if(existedMail.stream().noneMatch(ermbsMailDto -> ErmbsMailType.CREDIT_NOTE.equals(ermbsMailDto.getEmailType())) && electronicReimbursementsDao.shouldBeCreditNoteCreated(ermbsId)){
+            ErmbsMailDto confirmReimbMail = createErmbsMailFromMailDTO(mailDtoCreator.createCreditNoteForUnreservedPoolMailDto(paramsDto), ermbsId);
+            confirmReimbMail.setEmailType(ErmbsMailType.CREDIT_NOTE);
+            addReportToCreditNoteMailAsAttachments(confirmReimbMail, reportFiles);
+            existedMail.add(confirmReimbMail);
+        }
+    }
+
     private int getMailsFromTemplateNumForErmbs(Long ermbsId){
         int mailsFromTemplate = DEFAULT_MAILS_FROM_TEMPLATE_NUM;
         if(electronicReimbursementsDao.shouldBeCreditNoteCreated(ermbsId)) {
@@ -99,7 +127,7 @@ public class ErmbsMailServiceImpl implements ErmbsMailService {
 
     private void addCreditNoteMailIfNotExist(Long ermbsId, List<ErmbsMailDto> existedMail, ErmbsMailParamsDto paramsDto, List<ErmbsMailAttachmentDto> reportFiles) {
         if(existedMail.stream().noneMatch(ermbsMailDto -> ErmbsMailType.CREDIT_NOTE.equals(ermbsMailDto.getEmailType())) && electronicReimbursementsDao.shouldBeCreditNoteCreated(ermbsId)){
-            ErmbsMailDto confirmReimbMail = createErmbsMailFromMailDTO(mailDtoCreator.createConfirmReimbMailDto(paramsDto), ermbsId);
+            ErmbsMailDto confirmReimbMail = createErmbsMailFromMailDTO(mailDtoCreator.createCreditNoteMailDto(paramsDto), ermbsId);
             confirmReimbMail.setEmailType(ErmbsMailType.CREDIT_NOTE);
             addReportToCreditNoteMailAsAttachments(confirmReimbMail, reportFiles);
             existedMail.add(confirmReimbMail);

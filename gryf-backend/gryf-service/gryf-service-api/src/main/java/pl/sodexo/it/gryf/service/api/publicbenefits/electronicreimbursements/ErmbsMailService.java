@@ -19,6 +19,13 @@ public interface ErmbsMailService {
     List<ErmbsMailDto> createMailFromTemplates(Long ermbsId);
 
     /**
+     * Tworzy maile zgodne z szablonami w momencie gdy jeszcze żaden mail nie został wysłany dla niewykorzystanej puli bonów
+     * @param ermbsId - id rozliczenia
+     * @return lista maili z szablonu
+     */
+    List<ErmbsMailDto> createMailFromTemplatesForUnreservedPool(Long ermbsId);
+
+    /**
      * Wysyła maile z rozliczeń bonów elektronicznych
      * @param dto - dto maila rozliczeń
      * @return nowe dto

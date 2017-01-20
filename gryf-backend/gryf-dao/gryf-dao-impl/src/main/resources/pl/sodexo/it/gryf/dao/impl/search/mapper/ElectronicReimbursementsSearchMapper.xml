@@ -291,7 +291,7 @@
           contact.CONTACT_DATA       email,
           invoice.INVOICE_NUMBER     noteNo,
           CASE
-            WHEN CONTRACT_TYPE_ID = 'IND'
+            WHEN cnt.CONTRACT_TYPE_ID = 'IND'
               THEN 0
             ELSE
               1
@@ -307,6 +307,34 @@
           JOIN APP_PBE.CONTRACTS cnt on ord.CONTRACT_ID = cnt.ID
           JOIN APP_PBE.INDIVIDUALS ind on ind.ID = cnt.INDIVIDUAL_ID
           JOIN APP_PBE.GRANT_PROGRAMS gr_pr ON gr_pr.ID = ti.GRANT_PROGRAM_ID
+          JOIN APP_PBE.INDIVIDUAL_CONTACTS contact ON contact.IND_ID = ind.ID
+          LEFT JOIN APP_PBE.E_REIMBURSEMENT_INVOICES invoice ON invoice.E_REIMBURSEMENT_ID = ermbs.ID
+        WHERE
+          ermbs.ID = #{ermbsId}
+          AND contact.CONTACT_TYPE = 'VER_EMAIL'
+          AND rownum &lt;= 1
+    </select>
+
+    <select id="findMailParamsForUnreservedPool" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsMailParamsDto">
+        SELECT
+          gr_pr.PROGRAM_NAME         grantProgramName,
+          ind.FIRST_NAME             firstName,
+          ind.LAST_NAME              lastName,
+          contact.CONTACT_DATA       email,
+          invoice.INVOICE_NUMBER     noteNo,
+          CASE
+            WHEN cnt.CONTRACT_TYPE_ID = 'IND'
+              THEN 0
+            ELSE
+              1
+          END                        contractForEnterprise
+        FROM
+          APP_PBE.E_REIMBURSEMENTS ermbs
+          JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOLS pip on ermbs.PRODUCT_INSTANCE_POOL_ID = pip.ID
+          JOIN APP_PBE.ORDERS ord on pip.ORDER_ID = ord.ID
+          JOIN APP_PBE.CONTRACTS cnt on ord.CONTRACT_ID = cnt.ID
+          JOIN APP_PBE.INDIVIDUALS ind on ind.ID = cnt.INDIVIDUAL_ID
+          JOIN APP_PBE.GRANT_PROGRAMS gr_pr ON gr_pr.ID = cnt.GRANT_PROGRAM_ID
           JOIN APP_PBE.INDIVIDUAL_CONTACTS contact ON contact.IND_ID = ind.ID
           LEFT JOIN APP_PBE.E_REIMBURSEMENT_INVOICES invoice ON invoice.E_REIMBURSEMENT_ID = ermbs.ID
         WHERE
@@ -344,12 +372,12 @@
     <resultMap id="unsrvPoolRmbsMap" type="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.UnrsvPoolRmbsDto" autoMapping="true" >
         <id column="ermbsId" property="ermbsId"/>
         <association property="pool" columnPrefix="pll_" autoMapping="true" javaType="pl.sodexo.it.gryf.common.dto.publicbenefits.pbeproductinstancepool.PbeProductInstancePoolDto"/>
-        <association property="email" columnPrefix="mail_" javaType="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsMailDto" autoMapping="true">
-            <id column="id" property="id"/>
-            <collection property="attachments" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsMailAttachmentDto" autoMapping="true" columnPrefix="ett_"/>
-        </association>
         <association property="individual" columnPrefix="ind_" autoMapping="true" javaType="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.RmbsIndDto"/>
         <collection property="reports" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsReportDto" autoMapping="true" columnPrefix="rep_"/>
+        <collection property="emails" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsMailDto" autoMapping="true" columnPrefix="mail_">
+            <id column="id" property="id"/>
+            <collection property="attachments" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsMailAttachmentDto" autoMapping="true" columnPrefix="ett_"/>
+        </collection>
     </resultMap>
     <select id="findUnrsvPoolRmbsById" resultMap="unsrvPoolRmbsMap">
         SELECT

@@ -405,6 +405,7 @@ angular.module("gryf.electronicreimbursements").factory("UnreservedPoolService",
             var CREATE_DOCUMENTS_URL = contextPath + "/rest/publicBenefits/unrsv/reimbursements/createDocuments/";
             var PRINT_REPORTS_URL = contextPath + "/rest/publicBenefits/unrsv/reimbursements/printReports/";
             var EXPIRE_URL = contextPath + "/rest/publicBenefits/unrsv/reimbursements/expire/";
+            var CREATE_EMAILS_FROM_TEMPLATE = contextPath + "/rest/publicBenefits/unrsv/reimbursements/email/create/";
 
             var unReimbObject = new UnReimbObject();
 
@@ -423,7 +424,7 @@ angular.module("gryf.electronicreimbursements").factory("UnreservedPoolService",
                     statusCode: null,
                     reimbursementDate: null,
                     reports: [],
-                    email: null,
+                    emails: [],
                     individual: null
                 }
             }
@@ -494,11 +495,24 @@ angular.module("gryf.electronicreimbursements").factory("UnreservedPoolService",
                 return promise;
             };
 
+            var createEmailsFromTemplate = function() {
+                var rmbsId =  $routeParams.id;
+                var promise = $http.post(CREATE_EMAILS_FROM_TEMPLATE + rmbsId);
+                promise.success(function(response) {
+                    angular.forEach(response, function (mail) {
+                        unReimbObject.entity.emails.push(mail);
+                    });
+                });
+                return promise;
+            };
+
+
             return {
                 getNewModel: getNewModel,
                 findById: findById,
                 createDocuments: createDocuments,
                 printReports: printReports,
-                expire: expire
+                expire: expire,
+                createEmailsFromTemplate: createEmailsFromTemplate
             };
         }]);

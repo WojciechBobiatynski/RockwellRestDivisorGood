@@ -22,6 +22,7 @@ public final class GryfConstants {
     public static final String REALIZE_ORDER_TEMPLATE_CODE = "KK_ORDER";
     public static final String CORR_NOTIF_EMAIL_TEMPLATE_CODE = "CORR_NOTIF";
     public static final String E_REIMB_CONFIRMATION_EMAIL_TEMPLATE_CODE = "E_REIMB";
+    public static final String E_REIMB_CONFIRMATION_EMAIL_TEMPLATE_CODE_FOR_UNRSV_POOL = "RET_REIMB";
     public static final String CONFIRMATION_PAYMENT_EMAIL_TEMPLATE_CODE = "CNF_PYMT";
     public static final String CONFIRMATION_PAYMENT_EMAIL_TEMPLATE_CODE_FOR_ENTERPRISE = "E_CONF_GRA";
     public static final String DEFAULT_EMAIL_TEMPLATE_CODE = "STD_EMAIL";
