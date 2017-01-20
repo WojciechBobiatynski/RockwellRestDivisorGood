@@ -291,27 +291,23 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
         PbeProductInstanceEventType expireEventType = productInstanceEventTypeRepository.get(PbeProductInstanceEventType.EXPIRATION_CODE);
         PbeProductInstancePoolEventType expireEventPoolType = productInstancePoolEventTypeRepository.get(PbeProductInstancePoolEventType.EXPIRATION_CODE);
 
-        //ITERACJA PO UZYCIACH PULI
-        List<PbeProductInstancePoolUse> poolUses = ereimbursement.getTrainingInstance().getPollUses();
-        for(PbeProductInstancePoolUse poolUse : poolUses){
+        //UAKTUALNINIE PULI
+        PbeProductInstancePool pool = ereimbursement.getProductInstancePool();
+        Integer num = pool.getAvailableNum();
+        pool.setAvailableNum(pool.getAvailableNum() - num);
+        pool.setExpiredNum(pool.getExpiredNum() + num);
 
-            //UAKTUALNINIE PULI
-            PbeProductInstancePool pool = poolUse.getProductInstancePool();
-            pool.setUsedNum(pool.getUsedNum() - poolUse.getAssignedNum());
-            pool.setExpiredNum(pool.getExpiredNum() + poolUse.getAssignedNum());
+        productInstancePoolEventBuilder.saveEvent(pool, expireEventPoolType,
+                                                        ereimbursement.getId(), num);
 
-            productInstancePoolEventBuilder.saveEvent(pool, expireEventPoolType,
-                                                            ereimbursement.getId(), poolUse.getAssignedNum());
+        //ITERACJA PO INSTANCJACH PRODUKTU
+        List<PbeProductInstance> instances = findInstancesToExpired(pool, num);
+        for(PbeProductInstance i : instances){
+            i.setStatus(expireInstStat);
+            i.setEreimbursmentId(ereimbursement.getId());
 
-            //ITERACJA PO INSTANCJACH PRODUKTU
-            List<PbeProductInstance> instances = poolUse.getPollUses();
-            for(PbeProductInstance i : instances){
-                i.setStatus(expireInstStat);
-                i.setEreimbursmentId(ereimbursement.getId());
-
-                //EVENT
-                productInstanceEventBuilder.saveEvent(i, expireEventType, ereimbursement.getId());
-            }
+            //EVENT
+            productInstanceEventBuilder.saveEvent(i, expireEventType, ereimbursement.getId());
         }
     }
 
@@ -530,5 +526,14 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
             }
         });
         return result;
+    }
+
+    private List<PbeProductInstance> findInstancesToExpired(PbeProductInstancePool pool, Integer num){
+        List<PbeProductInstance> instances = productInstanceRepository.findByPoolAndStatus(pool.getId(), PbeProductInstanceStatus.ASSIGNED_CODE);
+        if(instances.size() != num) {
+            throw new RuntimeException("Dane są niespójne: ilosć bonów w statusie 'Przypisane (Wolne)' jest różna od ilość bonów 'Dostepnych' na puli.");
+        }
+        return instances;
+
     }
 }

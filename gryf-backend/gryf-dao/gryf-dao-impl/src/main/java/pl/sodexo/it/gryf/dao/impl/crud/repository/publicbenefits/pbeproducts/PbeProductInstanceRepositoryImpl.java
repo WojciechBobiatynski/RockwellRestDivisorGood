@@ -32,4 +32,11 @@ public class PbeProductInstanceRepositoryImpl extends GenericRepositoryImpl<PbeP
         return query.getResultList();
     }
 
+    public List<PbeProductInstance> findByPoolAndStatus(Long poolId, String status){
+        TypedQuery<PbeProductInstance> query = entityManager.createNamedQuery("PbeProductInstance.findByPoolAndStatus", PbeProductInstance.class);
+        query.setParameter("poolId", poolId);
+        query.setParameter("statusId", PbeProductInstanceStatus.ASSIGNED_CODE);
+        return query.getResultList();
+    }
+
 }

@@ -17,6 +17,8 @@ import java.util.Objects;
         @NamedQuery(name = "PbeProductInstance.findAvaiableByProduct", query = "select pi from PbeProductInstance pi " +
                                     "where pi.productEmission.product.id = :productId  and pi.status.id = :statusId order by pi.productEmission.emissionDate, pi.id.number"),
         @NamedQuery(name = "PbeProductInstance.findAssignedByPool", query = "select pi from PbeProductInstance pi " +
+                "where pi.productInstancePool.id = :poolId and pi.status.id = :statusId order by pi.id.number"),
+        @NamedQuery(name = "PbeProductInstance.findByPoolAndStatus", query = "select pi from PbeProductInstance pi " +
                 "where pi.productInstancePool.id = :poolId and pi.status.id = :statusId order by pi.id.number")})
 
 public class PbeProductInstance extends VersionableEntity {

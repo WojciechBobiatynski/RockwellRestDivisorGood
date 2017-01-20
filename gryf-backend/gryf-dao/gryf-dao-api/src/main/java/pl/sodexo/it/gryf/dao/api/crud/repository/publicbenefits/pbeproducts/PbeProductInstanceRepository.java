@@ -14,4 +14,6 @@ public interface PbeProductInstanceRepository extends GenericRepository<PbeProdu
     List<PbeProductInstance> findAvaiableByProduct(String productId, Integer productInstanceNum);
 
     List<PbeProductInstance> findAssignedByPool(Long poolId, Integer productInstanceNum);
+
+    List<PbeProductInstance> findByPoolAndStatus(Long poolId, String status);
 }
