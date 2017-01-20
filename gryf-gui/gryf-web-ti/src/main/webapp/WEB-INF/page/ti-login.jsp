@@ -86,21 +86,23 @@
                         <div class="msg msg-error"><p><c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/></p></div>
                     </c:if>
 
+
+                    </div>
                     <div class="field field-string">
                         <div class="label">
                             <label for="username">Wprowadź login/email</label>
                         </div>
                         <div class="control">
-                            <input type="text" id="username" name="username" tabindex="1" maxlength="100" data-test="__login__pesel">
+                            <input type="text" id="username" name="username" tabindex="1" data-test="__login__username">
                         </div>
                     </div>
 
                     <div class="field field-string">
                         <div class="label">
-                            <label for="password">oraz KOD</label>
+                            <label for="password">Hasło</label>
                         </div>
                         <div class="control">
-                            <input type="password" id="password" name="password" tabindex="2" maxlength="60" data-test="__login__code">
+                            <input type="password" id="password" name="password" tabindex="2" maxlength="60" data-test="__login__password">
                         </div>
                     </div>
 
