@@ -58,6 +58,10 @@ public class EmailInstance extends CreationAuditedEntity{
     @Column(name = "STATUS")
     private String status;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "EMAIL_TYPE")
+    private EmailType emailType;
+
     @Column(name = "ERROR_MESSAGE")
     private String errorMessage;
 
@@ -131,6 +135,14 @@ public class EmailInstance extends CreationAuditedEntity{
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public EmailType getEmailType() {
+        return emailType;
+    }
+
+    public void setEmailType(EmailType emailType) {
+        this.emailType = emailType;
     }
 
     public String getErrorMessage() {

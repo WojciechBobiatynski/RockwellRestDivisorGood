@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.service.local.impl;
 
+import com.google.common.base.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -147,6 +148,7 @@ public class MailServiceImpl implements MailService {
 
     @Override
     public MailDTO scheduleMail(MailDTO mailDTO){
+        EmailTemplate emailTemplate = (mailDTO.getTemplateId() != null) ? emailTemplateRepository.get(mailDTO.getTemplateId()) : null;
 
         if(GryfStringUtils.isEmpty(mailDTO.getAddressesFrom())){
             mailDTO.setAddressesFrom(applicationParameters.getGryfPbeAdmEmailFrom());
@@ -156,11 +158,21 @@ public class MailServiceImpl implements MailService {
         }
 
         EmailInstance em = new EmailInstance();
-        em.setEmailTemplate((mailDTO.getTemplateId() != null) ? emailTemplateRepository.get(mailDTO.getTemplateId()) : null);
-        em.setEmailData(JsonMapperUtils.writeValueAsString(mailDTO));
+        em.setEmailTemplate(emailTemplate);
+
         em.setEmailSubject(GryfStringUtils.substring(mailDTO.getSubject(), 0, EmailInstance.EMAIL_SUBJECT_MAX_SIZE));
         em.setEmailsTo(GryfStringUtils.substring(mailDTO.getAddressesTo(), 0, EmailInstance.EMAILS_TO_MAX_SIZE));
         em.setStatus(EmailInstance.STATUS_PENDING);
+        em.setEmailType((emailTemplate != null) ? emailTemplate.getEmailType() : EmailType.DEFAULT_TYPE);
+        if(em.getEmailType() == EmailType.html){
+            if(emailTemplate != null && !Strings.isNullOrEmpty(emailTemplate.getEmailBodyHtmlTemplate())){
+                MailPlaceholders mailPlaceholders =
+                        createPlaceholders("emailPlainBodyTemplates", mailDTO.getBody().replaceAll("(\r\n|\n)", "<br />"))
+                        .add("emailPlainSubjectTemplates", mailDTO.getSubject());
+                mailDTO.setBody(mailPlaceholders.replace(emailTemplate.getEmailBodyHtmlTemplate()));
+            }
+        }
+        em.setEmailData(JsonMapperUtils.writeValueAsString(mailDTO));
         em.setErrorMessage(null);
         em.setSourceType(mailDTO.getSourceType());
         em.setSourceId(mailDTO.getSourceId());
@@ -223,8 +235,6 @@ public class MailServiceImpl implements MailService {
 
             if(GryfUtils.isEmpty(mailDTO.getAttachments())){
                 String type = getContentType(email.getEmailTemplate());
-                LOGGER.debug("Ustawiany eamila template=" + email.getEmailTemplate());
-                LOGGER.debug("Ustawiany typ=" + type);
                 message.setText(mailDTO.getBody(), "UTF-8", type);
             }
             else{
@@ -297,7 +307,5 @@ public class MailServiceImpl implements MailService {
         return (emailTemplate != null && emailTemplate.getEmailType() != null) ?
                 emailTemplate.getEmailType().getContentType() : EmailType.DEFAULT_TYPE.getContentType();
     }
-
-    //CLASSES
 
 }

@@ -44,6 +44,9 @@ public class EmailTemplate extends GryfEntity{
     @Column(name = "EMAIL_BODY_TEMPLATE")
     private String emailBodyTemplate;
 
+    @Column(name = "EMAIL_BODY_HTML_TEMPLATE")
+    private String emailBodyHtmlTemplate;
+
     @Column(name = "EMAIL_SUBJECT_TEMPLATE")
     private String emailSubjectTemplate;
 
@@ -70,6 +73,14 @@ public class EmailTemplate extends GryfEntity{
 
     public void setEmailBodyTemplate(String emailBodyTemplate) {
         this.emailBodyTemplate = emailBodyTemplate;
+    }
+
+    public String getEmailBodyHtmlTemplate() {
+        return emailBodyHtmlTemplate;
+    }
+
+    public void setEmailBodyHtmlTemplate(String emailBodyHtmlTemplate) {
+        this.emailBodyHtmlTemplate = emailBodyHtmlTemplate;
     }
 
     public String getEmailSubjectTemplate() {

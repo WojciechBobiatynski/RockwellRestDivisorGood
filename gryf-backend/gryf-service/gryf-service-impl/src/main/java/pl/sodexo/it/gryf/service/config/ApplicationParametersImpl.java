@@ -40,10 +40,10 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     private int gryfTrainingInstitutionCodeZeroCount = 7;
     private String gryfPbeDefaultSmtpHost = "plsrv-5e.sodexhopass.polska";
     private String gryfPbeDefaultSmtpPort = "25";
-    private String gryfPbeAdmEmailFrom = "gryf@sodexo.com.pl";
-    private String gryfPbeAdmEmailReplyTo = "es@sodexomotivation.pl";
-    private String gryfPbeDefPubEmailFrom = "tbok.pfk@sodexo.com.pl";
-    private String gryfPbeDefPubEmailReplyTo = "tbok.pfk@sodexo.com";
+    private String gryfPbeAdmEmailFrom = "system.bonow.szkoleniowych@bony.sodexo.pl";
+    private String gryfPbeAdmEmailReplyTo = "tbok.kk@sodexo.com";
+    private String gryfPbeDefPubEmailFrom = "system.bonow.szkoleniowych@bony.sodexo.pl";
+    private String gryfPbeDefPubEmailReplyTo = "tbok.kk@sodexo.com";
     private String sodexoName = "Sodexo Benefits and Rewards Services Polska Sp. z o.o.";
     private String sodexoAddress1 = "ul. Kłobucka 25";
     private String sodexoAddress2 = "02-699 Warszawa";

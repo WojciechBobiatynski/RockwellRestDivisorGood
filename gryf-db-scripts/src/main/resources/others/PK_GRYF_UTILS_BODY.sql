@@ -355,7 +355,7 @@ END Create_Debit_Note;*/
 
 
   -- utwórz notê obci¹¿eniowo-ksiêgow¹
-  PROCEDURE Create_Pb_Cus_Note( o_inv_id OUT NUMBER, o_invoice_number OUT VARCHAR2, o_invoice_type OUT VARCHAR2, o_invoice_date OUT DATE, o_87_invoice_number OUT VARCHAR2, a_order_id IN NUMBER )
+  PROCEDURE Create_Pb_Cus_Note( o_inv_id OUT NUMBER, o_invoice_number OUT VARCHAR2, o_invoice_type OUT VARCHAR2, o_invoice_date OUT DATE, o_87_invoice_number OUT VARCHAR2, a_order_id IN NUMBER, a_sign_user IN VARCHAR2 DEFAULT 'PONICHTERA BART£OMIEJ' )
   is
     begin
       --Create_Debit_Note( o_inv_id, o_invoice_number, o_invoice_type, o_invoice_date, a_order_id );
@@ -370,7 +370,7 @@ END Create_Debit_Note;*/
 
 
   -- utwórz notê uznaniow¹ dla Uczestnika
-  PROCEDURE Create_Pb_Rmb_Note( o_inv_id OUT NUMBER, o_invoice_number OUT VARCHAR2, o_invoice_type OUT VARCHAR2, o_invoice_date OUT DATE, a_ermb_id IN NUMBER, a_type in VARCHAR2 default 'CUS' )
+  PROCEDURE Create_Pb_Rmb_Note( o_inv_id OUT NUMBER, o_invoice_number OUT VARCHAR2, o_invoice_type OUT VARCHAR2, o_invoice_date OUT DATE, a_ermb_id IN NUMBER, a_sign_user IN VARCHAR2 DEFAULT 'PONICHTERA BART£OMIEJ', a_type in VARCHAR2 default 'CUS' )
   IS
     BEGIN
       o_inv_id := 814;
