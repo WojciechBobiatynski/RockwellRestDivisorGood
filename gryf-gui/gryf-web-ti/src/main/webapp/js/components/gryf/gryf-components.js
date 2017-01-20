@@ -619,6 +619,44 @@ angular.module('gryf.helpers').directive('focusOnF7', [function() {
     }
 }]);
 
+angular.module('gryf.helpers').directive("forceDigits", [function() {
+    return {
+        restrict: "A",
+        require: "ngModel",
+        scope: {
+            patternType: "@"
+        },
+        link: function(scope, element, attrs, controller) {
+            var pattern = null;
+            switch(scope.patternType) {
+                case "float":
+                    pattern = /([0-9]+[.,])?[0-9]*/;
+                    break;
+                case "integer":
+                    pattern = /[0-9]+/;
+                    break;
+                default:
+                    pattern = /[0-9]+/;
+                    break;
+            }
+            controller.$parsers.push(function(value) {
+                    if (value) {
+                        var arrayOfMatched = value.match(pattern);
+                        if(arrayOfMatched && arrayOfMatched.length > 0) {
+                            value = arrayOfMatched[0];
+                            value = value.replace(/,/g,'.');
+                        } else {
+                            value = "";
+                        }
+                    }
+                    controller.$setViewValue(value);
+                    controller.$render();
+                return value;
+            });
+        }
+    };
+}]);
+
 angular.module('gryf.helpers').directive('searchOnEnter', ['$rootScope', function($rootScope) {
     return {
         restrict: 'A',

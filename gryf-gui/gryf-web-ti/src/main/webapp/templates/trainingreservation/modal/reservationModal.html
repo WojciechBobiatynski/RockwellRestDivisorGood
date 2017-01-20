@@ -39,9 +39,9 @@
             </div>
             <div class="grid-20 centered">
                 <strong class="label">Liczba rezerwowanych bonów (minimum 1)</strong>
-                <input name="toReservedNumInput" type="number" min="0" ng-model="toReservedNum" ng-pattern="patternNumberOnly">
+                <input name="toReservedNumInput" type="text" maxlength="5"
+                       force-digits pattern-type="integer" ng-model="toReservedNum">
                 <gryf-validation-msg path="toReservedNum"></gryf-validation-msg>
-                <span class="alert-text" ng-hide="reservationForm.toReservedNumInput.$valid">Liczba musi być całkowita</span>
             </div>
         </div>
     </div>
@@ -70,7 +70,7 @@
     </table>
     <div class="row-30"></div>
     <div class="grid-100 text-center">
-        <button ng-disabled="!reservationForm.toReservedNumInput.$valid || !toReservedNum"
+        <button ng-disabled="!toReservedNum || toReservedNum == 0"
                 class="row-10 standardButton" ng-click="reserveTraining()">Rezerwuję szkolenie</button>
     </div>
 </form>

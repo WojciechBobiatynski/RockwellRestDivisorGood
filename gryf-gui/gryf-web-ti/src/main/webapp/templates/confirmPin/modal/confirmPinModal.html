@@ -15,8 +15,11 @@
         </div>
         <div class="grid-40 centered">
             <strong class="label">Nowa ilość bonów</strong>
-            <input type="text" ng-model="newReservationNum">
+            <input type="text" ng-model="newReservationNum" force-digits pattern-type="integer" maxlength="5">
             <gryf-validation-msg path="newReservationNum"></gryf-validation-msg>
+            <div class="alert-text" ng-show="newReservationNum && newReservationNum == 0">
+                Jeśli chcesz anulować szkolenie przejdź do zakładki "Anuluj Rezerwację"
+            </div>
         </div>
     </div>
     <div class="row-30"></div>
@@ -39,13 +42,14 @@
             <td>{{trainingInstance.data.participantName}}</td>
             <td>{{trainingInstance.data.participantSurname}}</td>
             <td>{{trainingInstance.data.productAssignedNum}}</td>
-            <td>{{trainingInstance.data.startDate  | date:'yyyy-MM-dd'}}</td>
-            <td>{{trainingInstance.data.endDate  | date:'yyyy-MM-dd'}}</td>
+            <td>{{trainingInstance.data.startDate | date:'yyyy-MM-dd'}}</td>
+            <td>{{trainingInstance.data.endDate | date:'yyyy-MM-dd'}}</td>
         </tr>
         </tbody>
     </table>
     <div class="row-30"></div>
     <div class="grid-100 text-center">
-        <button class="row-10 standardButton" ng-click="confirmPin()">Zatwierdź PINem</button>
+        <button ng-disabled="!newReservationNum || newReservationNum == 0 || !pinCode"
+                class="row-10 standardButton" ng-click="confirmPin()">Zatwierdź PINem</button>
     </div>
 </div>
