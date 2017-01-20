@@ -88,10 +88,10 @@
 
                     <div class="field field-string">
                         <div class="label">
-                            <label for="username">Wprowadź PESEL</label>
+                            <label for="username">Wprowadź login/email</label>
                         </div>
                         <div class="control">
-                            <input type="text" id="username" name="username" tabindex="1" maxlength="11" data-test="__login__pesel">
+                            <input type="text" id="username" name="username" tabindex="1" maxlength="100" data-test="__login__pesel">
                         </div>
                     </div>
 
@@ -100,7 +100,7 @@
                             <label for="password">oraz KOD</label>
                         </div>
                         <div class="control">
-                            <input type="password" id="password" name="password" tabindex="2" maxlength="11" data-test="__login__code">
+                            <input type="password" id="password" name="password" tabindex="2" maxlength="60" data-test="__login__code">
                         </div>
                     </div>
 
