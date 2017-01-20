@@ -8,6 +8,7 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.pbeproductinstancepool.PbePro
 import pl.sodexo.it.gryf.common.dto.publicbenefits.products.PrintNumberDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.products.PrintNumberResultDto;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.pbeproducts.*;
 import pl.sodexo.it.gryf.dao.api.search.dao.ProductInstancePoolSearchDao;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
@@ -76,6 +77,9 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
 
     @Autowired
     private ProductInstancePoolSearchDao productInstancePoolSearchDao;
+
+    @Autowired
+    private EreimbursementRepository ereimbursementRepository;
 
     //PUBLIC METHODS
 
@@ -284,7 +288,8 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
     }
 
     @Override
-    public void expirePools(Ereimbursement ereimbursement){
+    public void expirePools(Long ermbsId){
+        Ereimbursement ereimbursement = ereimbursementRepository.get(ermbsId);
 
         //POBRANIE STATUSOW
         PbeProductInstanceStatus expireInstStat = productInstanceStatusRepository.get(PbeProductInstanceStatus.EXPIRED_CODE);

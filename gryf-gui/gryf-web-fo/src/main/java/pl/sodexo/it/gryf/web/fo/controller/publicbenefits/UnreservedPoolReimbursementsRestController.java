@@ -7,6 +7,7 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.Unrs
 import pl.sodexo.it.gryf.common.enums.Privileges;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.ElectronicReimbursementsService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.ErmbsMailService;
+import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.UnreservedPoolReimbursementService;
 import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
 import pl.sodexo.it.gryf.web.fo.utils.UrlConstants;
 
@@ -30,13 +31,16 @@ public class UnreservedPoolReimbursementsRestController {
     private ElectronicReimbursementsService electronicReimbursementsService;
 
     @Autowired
+    private UnreservedPoolReimbursementService unreservedPoolReimbursementService;
+
+    @Autowired
     private ErmbsMailService ermbsMailService;
 
     @RequestMapping(value = PATH_UNRESERVED_POOL_REIMBURSEMENTS_FIND + "{ermbsId}", method = RequestMethod.GET)
     @ResponseBody
     public UnrsvPoolRmbsDto findElctRmbsById(@PathVariable Long ermbsId){
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS);
-        return electronicReimbursementsService.findUnrsvPoolRmbsById(ermbsId);
+        return unreservedPoolReimbursementService.findUnrsvPoolRmbsById(ermbsId);
     }
 
     @RequestMapping(value = PATH_UNRESERVED_POOL_CREATE_DOCUMENTS + "{rmbsId}", method = RequestMethod.POST)
@@ -44,7 +48,7 @@ public class UnreservedPoolReimbursementsRestController {
     public UnrsvPoolRmbsDto createDocuments(@PathVariable("rmbsId") Long rmbsId) {
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS_MOD);
         Long id = electronicReimbursementsService.createDocuments(rmbsId);
-        return electronicReimbursementsService.findUnrsvPoolRmbsById(id);
+        return unreservedPoolReimbursementService.findUnrsvPoolRmbsById(id);
     }
 
     @RequestMapping(value = PATH_UNRESERVED_POOL_PRINT_REPORTS + "{rmbsId}", method = RequestMethod.POST)
@@ -52,7 +56,7 @@ public class UnreservedPoolReimbursementsRestController {
     public UnrsvPoolRmbsDto printReports(@PathVariable("rmbsId") Long rmbsId) {
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS_MOD);
         Long id = electronicReimbursementsService.printReports(rmbsId);
-        return electronicReimbursementsService.findUnrsvPoolRmbsById(id);
+        return unreservedPoolReimbursementService.findUnrsvPoolRmbsById(id);
     }
 
     @RequestMapping(value = PATH_UNRESERVED_POOL_CREATE_EMAIL_FROM_TEMPLATE + "{rmbsId}", method = RequestMethod.POST)
@@ -68,7 +72,7 @@ public class UnreservedPoolReimbursementsRestController {
     public UnrsvPoolRmbsDto expire(@PathVariable("rmbsId") Long rmbsId) {
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS_MOD);
         Long id = electronicReimbursementsService.expire(rmbsId);
-        return electronicReimbursementsService.findUnrsvPoolRmbsById(id);
+        return unreservedPoolReimbursementService.findUnrsvPoolRmbsById(id);
     }
 
 }

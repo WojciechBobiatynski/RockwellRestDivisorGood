@@ -108,6 +108,10 @@ public class ElctRmbsHeadDto extends VersionableDto implements Serializable {
     @Setter
     private boolean opinionDone;
 
+    @Getter
+    @Setter
+    private Integer expiredProductsNum;
+
     public void calculateChargers(CalculationChargesParamsDto params) {
         calculateSxoTiAmount(params);
         calculateIndTiAmount(params);

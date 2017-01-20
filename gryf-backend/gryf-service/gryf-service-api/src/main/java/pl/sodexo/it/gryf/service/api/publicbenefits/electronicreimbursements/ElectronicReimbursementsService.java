@@ -5,7 +5,7 @@ import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CorrectionDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.UnrsvPoolRmbsDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.pbeproductinstancepool.PbeProductInstancePoolDto;
 
 import java.util.List;
 
@@ -120,22 +120,17 @@ public interface ElectronicReimbursementsService {
     Long expire(Long rmbsId);
 
     /**
-     * Job, uruchamiany codziennie o północy, który sprawdza, czy jest jakaś przeterminowana pula bonów i jeśli tak to tworzy dla niej rozliczenie
-     */
-    void createReimbursementForExpiredInstancesPool();
-
-    /**
-     * Pobiera rozliczenie dla niewykorzystanej puli bonów
-     * @param ermbsId - id rozliczenia
-     * @return dto rozliczenia
-     */
-    UnrsvPoolRmbsDto findUnrsvPoolRmbsById(Long ermbsId);
-
-    /**
      * Sprawdza czy rozlicznei jest w ramach instytucji szkoleniowej zalogowanego zalogowanego użytkownika
      * @param ereimbursementId
      * @return
      */
     boolean isEreimbursementInLoggedUserInstitution(Long ereimbursementId);
+
+    /**
+     * Tworzy rozliczenie dla niwykorzytsanej puli bonów
+     * @param pbeProductInstancePool - dto instancji puli bonó
+     * @return - id rozliczenia
+     */
+    Long createEreimbursementForUnrsvPool(PbeProductInstancePoolDto pbeProductInstancePool);
 
 }

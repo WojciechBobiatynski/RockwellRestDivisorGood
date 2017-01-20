@@ -404,7 +404,7 @@
 --        pula
           pip.ID                                    pll_id,
           pip.ORDER_ID                              pll_orderId,
-          pip.AVAILABLE_NUM                         pll_availableNum,
+          ermbs.EXPIRED_PRODUCTS_NUM                pll_availableNum,
           pip.EXPIRY_DATE                           pll_expiryDate,
 --        raporty
           report.ID                                 rep_id,

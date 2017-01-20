@@ -24,16 +24,7 @@
         WHERE
           TRUNC(pool.EXPIRY_DATE) &lt;= TRUNC(SYSDATE + NVL(prm.VALUE, 10))
           AND pool.AVAILABLE_NUM &gt; 0
-          AND pr.ID = 100 -- kierunek kariera
-          AND NOT EXISTS (
-            SELECT ermb.ID
-            FROM
-              APP_PBE.E_REIMBURSEMENTS ermb
-            WHERE
-              ermb.PRODUCT_INSTANCE_POOL_ID = pool.ID
-              AND ermb.STATUS_ID != 'REIMB'
-              AND ermb.TYPE_ID = 'URSVD_POOL'
-          )
+          AND pr.ID = 100
     </select>
 
 </mapper>

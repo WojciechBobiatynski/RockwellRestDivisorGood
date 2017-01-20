@@ -117,6 +117,11 @@ public class Ereimbursement extends VersionableEntity {
     @Setter
     private Date requiredCorrectionDate;
 
+    @Column(name = "EXPIRED_PRODUCTS_NUM")
+    @Getter
+    @Setter
+    private Integer expiredProductsNum;
+
     @OneToMany(mappedBy = "ereimbursement")
     @Getter
     @Setter
