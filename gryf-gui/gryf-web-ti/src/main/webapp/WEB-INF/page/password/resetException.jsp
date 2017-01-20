@@ -79,8 +79,8 @@
 
 <div id="bottombar"><div class="grid">
     <h2>Telefoniczne Biuro Obsługi Klienta</h2>
-    <h3 class="phone">+48 00 000 00 00</h3>
-    <a class="mail" href="mailto:szkolenia@wup-krakow.pl" title="szkolenia@wup-krakow.pl">szkolenia@wup-krakow.pl</a>
+    <h3 class="phone">+48 22 346 75 05</h3>
+    <a class="mail" href="mailto:tbok.kk@sodexo.com" title="tbok.kk@sodexo.com">tbok.kk@sodexo.com</a>
     <p class="description">Wszystkie informacje o projekcie pn. „Kierunek Kariera” dostępne są na stronie<br><a href="http://www.pociagdokariery.pl" rel="external" title="Pociąg do Kariery">www.pociagdokariery.pl</a></p>
 </div></div>
 
