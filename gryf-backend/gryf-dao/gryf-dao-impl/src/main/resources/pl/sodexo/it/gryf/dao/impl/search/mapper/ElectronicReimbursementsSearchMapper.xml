@@ -5,62 +5,92 @@
 
     <select id="findEcltRmbsListByCriteria" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsDto" parameterType="list">
         SELECT * FROM
-        (SELECT
-            ermbs.ID                  rmbsNumber,
-            ti_in.ID                  trainingInstanceId,
-            ti.NAME                   trainingName,
-            ind.PESEL                 pesel,
-            ind.FIRST_NAME            participantName,
-            ind.LAST_NAME             participantSurname,
-            ermbs.REIMBURSEMENT_DATE  rmbsDate,
-            status.NAME               rmbsStatus,
-            status.ID                 rmbsStatusId,
-            tp.NAME                   rmbsType,
-            tp.CODE                   rmbsTypeCode
-        FROM
-            APP_PBE.E_REIMBURSEMENTS ermbs
-            LEFT JOIN APP_PBE.TI_TRAINING_INSTANCES ti_in ON ti_in.ID = ermbs.TI_TR_INST_ID
-            LEFT JOIN APP_PBE.TI_TRAININGS ti ON ti.ID = ti_in.TRAINING_ID
-            LEFT JOIN APP_PBE.INDIVIDUALS ind ON ind.ID = ti_in.INDIVIDUAL_ID
-            LEFT JOIN APP_PBE.E_REIMBURSEMENT_STATUSES status ON status.ID = ermbs.STATUS_ID
-            LEFT JOIN APP_PBE.E_REIMBURSEMENT_TYPES tp ON tp.CODE = ermbs.TYPE_ID
+        (
+          SELECT * FROM
+            (
+                SELECT
+                    ermbs.ID                  rmbsNumber,
+                    ti_in.ID                  trainingInstanceId,
+                    ti.NAME                   trainingName,
+                    ind.PESEL                 pesel,
+                    ind.FIRST_NAME            participantName,
+                    ind.LAST_NAME             participantSurname,
+                    ermbs.REIMBURSEMENT_DATE  rmbsDate,
+                    status.NAME               rmbsStatus,
+                    status.ID                 rmbsStatusId,
+                    tp.NAME                   rmbsType,
+                    tp.CODE                   rmbsTypeCode
+                FROM
+                    APP_PBE.E_REIMBURSEMENTS ermbs
+                    LEFT JOIN APP_PBE.TI_TRAINING_INSTANCES ti_in ON ti_in.ID = ermbs.TI_TR_INST_ID
+                    LEFT JOIN APP_PBE.TI_TRAININGS ti ON ti.ID = ti_in.TRAINING_ID
+                    LEFT JOIN APP_PBE.INDIVIDUALS ind ON ind.ID = ti_in.INDIVIDUAL_ID
+                    LEFT JOIN APP_PBE.E_REIMBURSEMENT_STATUSES status ON status.ID = ermbs.STATUS_ID
+                    LEFT JOIN APP_PBE.E_REIMBURSEMENT_TYPES tp ON tp.CODE = ermbs.TYPE_ID
+                WHERE
+                    ermbs.TYPE_ID = 'TI_INST'
+                UNION
+                SELECT
+                    ermbs.ID                  rmbsNumber,
+                    null                      trainingInstanceId,
+                    null                      trainingName,
+                    ind.PESEL                 pesel,
+                    ind.FIRST_NAME            participantName,
+                    ind.LAST_NAME             participantSurname,
+                    ermbs.REIMBURSEMENT_DATE  rmbsDate,
+                    status.NAME               rmbsStatus,
+                    status.ID                 rmbsStatusId,
+                    tp.NAME                   rmbsType,
+                    tp.CODE                   rmbsTypeCode
+                FROM
+                    APP_PBE.E_REIMBURSEMENTS ermbs
+                    LEFT JOIN APP_PBE.E_REIMBURSEMENT_STATUSES status ON status.ID = ermbs.STATUS_ID
+                    LEFT JOIN APP_PBE.E_REIMBURSEMENT_TYPES tp ON tp.CODE = ermbs.TYPE_ID
+                    LEFT JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOLS pip on ermbs.PRODUCT_INSTANCE_POOL_ID = pip.ID
+                    LEFT JOIN APP_PBE.ORDERS ord on pip.ORDER_ID = ord.ID
+                    LEFT JOIN APP_PBE.CONTRACTS cnt on ord.CONTRACT_ID = cnt.ID
+                    LEFT JOIN APP_PBE.INDIVIDUALS ind on ind.ID = cnt.INDIVIDUAL_ID
+                WHERE
+                    ermbs.TYPE_ID = 'URSVD_POOL'
+            )
         <where>
             <if test="criteria.rmbsNumber != null and criteria.rmbsNumber != ''">
-                ermbs.ID = #{criteria.rmbsNumber}
+                rmbsNumber = #{criteria.rmbsNumber}
             </if>
             <if test="criteria.trainingName != null and criteria.trainingName != ''">
-                AND LOWER(ti.NAME) like '%' || LOWER(#{criteria.trainingName}) || '%'
+                AND LOWER(trainingName) like '%' || LOWER(#{criteria.trainingName}) || '%'
             </if>
             <if test="criteria.pesel != null and criteria.pesel != ''">
-                AND ind.PESEL like '%' || #{criteria.pesel} || '%'
+                AND pesel like '%' || #{criteria.pesel} || '%'
             </if>
             <if test="criteria.participantName != null and criteria.participantName != ''">
-                AND LOWER(ind.FIRST_NAME) like '%' || LOWER(#{criteria.participantName}) || '%'
+                AND LOWER(participantName) like '%' || LOWER(#{criteria.participantName}) || '%'
             </if>
             <if test="criteria.participantSurname != null and criteria.participantSurname != ''">
-                AND LOWER(ind.LAST_NAME) like '%' || LOWER(#{criteria.participantSurname}) || '%'
+                AND LOWER(participantSurname) like '%' || LOWER(#{criteria.participantSurname}) || '%'
             </if>
             <if test="criteria.rmbsDateFrom != null">
-                AND TRIM(ermbs.REIMBURSEMENT_DATE) &gt;= TRIM(#{criteria.rmbsDateFrom})
+                AND TRIM(rmbsDate) &gt;= TRIM(#{criteria.rmbsDateFrom})
             </if>
             <if test="criteria.rmbsDateTo != null">
-                AND TRIM(ermbs.REIMBURSEMENT_DATE) &lt;= TRIM(#{criteria.rmbsDateTo})
+                AND TRIM(rmbsDate) &lt;= TRIM(#{criteria.rmbsDateTo})
             </if>
             <if test="criteria.rmbsStatus != null and criteria.rmbsStatus != ''">
-                AND status.NAME = #{criteria.rmbsStatus}
+                AND rmbsStatus = #{criteria.rmbsStatus}
             </if>
             <if test="criteria.rmbsType != null and criteria.rmbsType != ''">
-                AND tp.NAME = #{criteria.rmbsType}
+                AND rmbsType = #{criteria.rmbsType}
             </if>
             <if test="criteria.gryfUser.userType == 'TRAINING_INSTITUTION'">
-                AND ti.TRAINING_INSTITUTION_ID = #{criteria.gryfUser.trainingInstitutionId}
+                AND trainingInstitutionId = #{criteria.gryfUser.trainingInstitutionId}
             </if>
         </where>
         <if test="criteria.sortColumns != null">
             <foreach item="columnName" index="index" collection="criteria.sortColumns" open="ORDER BY " separator="," close="">
                 ${columnName} ${criteria.sortTypes[index]}
             </foreach>
-        </if>)
+        </if>
+        )
         <where>
             <if test="criteria.limit != null">
                 ROWNUM &lt;= #{criteria.limit} + 1
