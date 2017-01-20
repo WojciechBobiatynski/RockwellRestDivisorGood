@@ -14,7 +14,10 @@ angular.module('gryf.config').factory('generalExceptionHandlerInterceptor', ['$q
                     }]);                    
                 } else { // GENERAL_EXCEPTION
                     $injector.invoke(['GryfModals', function(GryfModals) {
-                        var additionalInfo = {message: rejection.data.message};
+                        var additionalInfo = {
+                            message: rejection.data.stacktrace.substring(0, 1600),
+                            feedbackInfo: {email: "test@sodexo.pl", subject: "[Gryf] Błąd"}
+                        };
                         GryfModals.openModal(GryfModals.MODALS_URL.ERROR_INFO, additionalInfo);
                     }]);
                 }

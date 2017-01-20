@@ -104,7 +104,8 @@ angular.module('gryf.modals').factory('GryfModals', ['$rootScope', '$modal', fun
                 violations: additionalTextData.violations,
                 staleData: additionalTextData.staleData,
                 conflictedObjects: additionalTextData.conflictedObjects,
-                message: additionalTextData.message
+                message: additionalTextData.message,
+                feedbackInfo: additionalTextData.feedbackInfo
             })
         });
     };
