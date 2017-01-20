@@ -55,7 +55,7 @@ public class UnreservedPoolReimbursementsRestController {
         return electronicReimbursementsService.findUnrsvPoolRmbsById(id);
     }
 
-    @RequestMapping(value = PATH_UNRESERVED_POOL__CREATE_EMAIL_FROM_TEMPLATE + "{rmbsId}", method = RequestMethod.POST)
+    @RequestMapping(value = PATH_UNRESERVED_POOL_CREATE_EMAIL_FROM_TEMPLATE + "{rmbsId}", method = RequestMethod.POST)
     @ResponseBody
     public List<ErmbsMailDto> createEmailsFromTemplate(@PathVariable("rmbsId") Long rmbsId) {
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS_MOD);

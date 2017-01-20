@@ -239,6 +239,19 @@ test = $scope;
                 }
             };
 
+            $scope.addNewAttToMail = function(mail) {
+                mail.attachments.push({});
+            };
+
+            $scope.deleteMailAtt = function(parent, child) {
+                var index = parent.attachments.indexOf(child);
+                parent.attachments.splice(index, 1);
+            };
+
+            $scope.sendMail = function (mail) {
+                UnreservedPoolService.sendMail(mail);
+            };
+
             $scope.createDocuments = UnreservedPoolService.createDocuments;
             $scope.printReports = UnreservedPoolService.printReports;
             $scope.expire = UnreservedPoolService.expire;

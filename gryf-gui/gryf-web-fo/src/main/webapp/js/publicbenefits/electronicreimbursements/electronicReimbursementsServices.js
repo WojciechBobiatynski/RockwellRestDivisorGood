@@ -406,6 +406,7 @@ angular.module("gryf.electronicreimbursements").factory("UnreservedPoolService",
             var PRINT_REPORTS_URL = contextPath + "/rest/publicBenefits/unrsv/reimbursements/printReports/";
             var EXPIRE_URL = contextPath + "/rest/publicBenefits/unrsv/reimbursements/expire/";
             var CREATE_EMAILS_FROM_TEMPLATE = contextPath + "/rest/publicBenefits/unrsv/reimbursements/email/create/";
+            var SEND_EMAILS = contextPath + "/rest/publicBenefits/electronic/reimbursements/email/send";
 
             var unReimbObject = new UnReimbObject();
 
@@ -506,6 +507,42 @@ angular.module("gryf.electronicreimbursements").factory("UnreservedPoolService",
                 return promise;
             };
 
+            function findAllFileAttachments(mail) {
+                var resultArray = [];
+                for (var i = 0; i < mail.attachments.length; i++) {
+                    var attachmentFileField = mail.attachments[i].file;
+                    if (attachmentFileField) {
+                        if (attachmentFileField.length) {
+                            resultArray.push(mail.attachments[i].file[0]);
+                            mail.attachments[i].fileIncluded = true;
+                            mail.attachments[i].originalFilename=mail.attachments[i].file[0].name;
+                        }
+                    }
+                }
+                return resultArray;
+            }
+
+            var sendMail = function(mail) {
+                var files = findAllFileAttachments(mail);
+                var promise = Upload.upload({
+                    url: SEND_EMAILS,
+                    data: angular.toJson(mail),
+                    file: files
+                });
+                promise.success(function(response) {
+                    GryfPopups.setPopup("success", "Sukces", "Mail został wysłany");
+                    var index = unReimbObject.entity.emails.indexOf(mail);
+                    unReimbObject.entity.emails[index] = response;
+                })
+                    .error(function() {
+                        GryfPopups.setPopup("error", "Błąd", "Nie udało się wysłać maila");
+                    })
+                    .finally(function() {
+                        GryfPopups.showPopup();
+                    });
+                return promise;
+            };
+
 
             return {
                 getNewModel: getNewModel,
@@ -513,6 +550,7 @@ angular.module("gryf.electronicreimbursements").factory("UnreservedPoolService",
                 createDocuments: createDocuments,
                 printReports: printReports,
                 expire: expire,
-                createEmailsFromTemplate: createEmailsFromTemplate
+                createEmailsFromTemplate: createEmailsFromTemplate,
+                sendMail: sendMail
             };
         }]);
