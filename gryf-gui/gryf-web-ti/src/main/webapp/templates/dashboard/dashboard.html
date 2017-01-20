@@ -10,10 +10,12 @@
         <div class="left">
             <span>Adres do FV</span>
             <h2>{{loggedUserInfo.data.addressInvoice}}</h2>
+            <h2>{{loggedUserInfo.data.zipCodeInvoice.zipCode + " " + loggedUserInfo.data.zipCodeInvoice.cityName}}</h2>
         </div>
         <div class="right">
             <span>Adres korespondencyjny</span>
             <h2>{{loggedUserInfo.data.addressCorr}}</h2>
+            <h2>{{loggedUserInfo.data.zipCodeCorr.zipCode + " " + loggedUserInfo.data.zipCodeCorr.cityName}}</h2>
         </div>
     </div>
 </section>
