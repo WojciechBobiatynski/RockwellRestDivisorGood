@@ -18,8 +18,8 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     @PersistenceContext
     private EntityManager em;
 
-    private String cdnUrl = "//cdn.sodexo.pl/gryf"; //default
-    private String resourcesUrl = "/resources/"; //default
+    private String cdnUrl = "//cdn.sodexo.pl/gryf";
+    private String resourcesUrl = "/resources/";
     private int sessionTimeout = 30;
     private String jsUrl = "/js/";
     private String templatesUrl = "/templates/";
@@ -133,11 +133,11 @@ public class ApplicationParametersImpl implements ApplicationParameters {
         if (dbGryfIndividualCodeZeroCount != null) {
             gryfIndividualCodeZeroCount = Integer.valueOf(dbGryfIndividualCodeZeroCount);
         }
-        String dbGryfTrainingInstitutionCodePrefix = (String) findParameter("GRYF_TRAINING_INSTITUTION_CODE_PREFIX");
+        String dbGryfTrainingInstitutionCodePrefix = (String) findParameter("GRYF_TR_INSTITUTION_CODE_PREFIX");
         if (dbGryfTrainingInstitutionCodePrefix != null) {
             gryfTrainingInstitutionCodePrefix = dbGryfTrainingInstitutionCodePrefix;
         }
-        String dbGryfTrainingInstitutionCodeZeroCount = (String) findParameter("GRYF_TRAINING_INSTITUTION_CODE_ZERO_COUNT");
+        String dbGryfTrainingInstitutionCodeZeroCount = (String) findParameter("GRYF_TR_INSTITUTION_CODE_ZERO_COUNT");
         if (dbGryfTrainingInstitutionCodeZeroCount != null) {
             gryfTrainingInstitutionCodeZeroCount = Integer.valueOf(dbGryfTrainingInstitutionCodeZeroCount);
         }
@@ -165,27 +165,27 @@ public class ApplicationParametersImpl implements ApplicationParameters {
         if (dbGryfPbeDefPubEmailReplyTo != null) {
             gryfPbeDefPubEmailReplyTo = dbGryfPbeDefPubEmailReplyTo;
         }
-        String dbSodexoName = null;//TODO: pobrac z bazy
+        String dbSodexoName = (String) findParameter("GRYF_DOCUMENT_GENERATE_PLACE");
         if (dbSodexoName != null) {
             sodexoName = dbSodexoName;
         }
-        String dbSodexoAddress1 = null;//TODO: pobrac z bazy
+        String dbSodexoAddress1 = (String) findParameter("GRYF_SODEXO_ADDRESS_1");
         if (dbSodexoAddress1 != null) {
             sodexoAddress1 = dbSodexoAddress1;
         }
-        String dbSodexoAddress2 = null;//TODO: pobrac z bazy
+        String dbSodexoAddress2 = (String) findParameter("GRYF_SODEXO_ADDRESS_2");
         if (dbSodexoAddress2 != null) {
             sodexoAddress2 = dbSodexoAddress2;
         }
-        String dbSodexoVatRegNum = null;//TODO: pobrac z bazy
+        String dbSodexoVatRegNum = (String) findParameter("GRYF_SODEXO_VAT_REG_NUM");
         if (dbSodexoVatRegNum != null) {
             sodexoVatRegNum = dbSodexoVatRegNum;
         }
-        String dbSodexoBankName = null;//TODO: pobrac z bazy
+        String dbSodexoBankName = (String) findParameter("GRYF_SODEXO_BANK_NAME");
         if (dbSodexoBankName != null) {
             sodexoBankName = dbSodexoBankName;
         }
-        String dbDocumentGeneratePlace = null;//TODO: pobrac z bazy
+        String dbDocumentGeneratePlace = (String) findParameter("GRYF_DOCUMENT_GENERATE_PLACE");
         if (dbDocumentGeneratePlace != null) {
             documentGeneratePlace = dbDocumentGeneratePlace;
         }
@@ -261,11 +261,11 @@ public class ApplicationParametersImpl implements ApplicationParameters {
         if(dbTiUserUrl != null){
             tiUserUrl = dbTiUserUrl;
         }
-        Integer dbBusinessDaysNumberForReimbursement = (Integer) findParameter("GRYF_BUSINESS_DAYS_NUMBER_FOR_REIMBURSEMENT");
+        Integer dbBusinessDaysNumberForReimbursement = (Integer) findParameter("GRYF_BUSINESS_DAYS_NUM_FOR_REIMB");
         if (dbBusinessDaysNumberForReimbursement != null) {
             businessDaysNumberForReimbursement = dbBusinessDaysNumberForReimbursement;
         }
-        Integer dbBusinessDaysNumberForCorrection = (Integer) findParameter("GRYF_BUSINESS_DAYS_NUMBER_FOR_CORRECTION");
+        Integer dbBusinessDaysNumberForCorrection = (Integer) findParameter("GRYF_BUSINESS_DAYS_NUM_FOR_CORR");
         if (dbBusinessDaysNumberForCorrection != null) {
             businessDaysNumberForCorrection = dbBusinessDaysNumberForCorrection;
         }
