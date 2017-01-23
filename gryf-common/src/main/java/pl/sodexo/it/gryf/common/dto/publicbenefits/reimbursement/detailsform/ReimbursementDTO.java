@@ -61,7 +61,7 @@ public class ReimbursementDTO extends VersionableDto {
     @Pattern(message = "Numer rachunku bankowego musi zawierać 26 cyfr", regexp = "^[0-9]{26}$")
     private String trainingInstitutionReimbursementAccountNumber;
 
-    @NotNull(message = "Instytucja szkoleniowa nie może być pusta", groups = ValidationGroupReimbursementSettleAndVerify.class)
+    @NotNull(message = "Pole 'Usługodawca' nie może być puste", groups = ValidationGroupReimbursementSettleAndVerify.class)
     private EnterpriseSearchResultDTO enterprise;
 
     private String createdUser;

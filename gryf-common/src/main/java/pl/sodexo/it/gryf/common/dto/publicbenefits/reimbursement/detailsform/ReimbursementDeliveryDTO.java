@@ -35,8 +35,8 @@ public class ReimbursementDeliveryDTO extends VersionableDto{
     @NotNull(message = "Wzorzec rozliczeń nie może być pusty", groups = {ValidationGroupRegisterReimbursementDelivery.class, ValidationGroupDeliverReimbursementDelivery.class})
     private DictionaryDTO reimbursementPattern;
 
-    @InsertablePrivilege(message = "Nie posiadasz uprawnień do edycji pola 'Instytucja szkoleniowa'", privileges = {Privileges.GRF_PBE_DELIVERIES_ACCEPT, Privileges.GRF_PBE_DELIVERIES_REG})
-    @NotNull(message = "Instytucja szkoleniowa nie może być pusta", groups = {ValidationGroupRegisterReimbursementDelivery.class, ValidationGroupDeliverReimbursementDelivery.class})
+    @InsertablePrivilege(message = "Nie posiadasz uprawnień do edycji pola 'Usługodawca'", privileges = {Privileges.GRF_PBE_DELIVERIES_ACCEPT, Privileges.GRF_PBE_DELIVERIES_REG})
+    @NotNull(message = "Pole 'Usługodawca' nie może być puste", groups = {ValidationGroupRegisterReimbursementDelivery.class, ValidationGroupDeliverReimbursementDelivery.class})
     private TrainingInstitutionSearchResultDTO trainingInstitution;
 
     @InsertablePrivilege(message = "Nie posiadasz uprawnień do edycji pola 'Adres odbioru dostawy'", privileges = Privileges.GRF_PBE_DELIVERIES_REG)
