@@ -478,16 +478,18 @@ angular.module("gryf.electronicreimbursements").factory("UnreservedPoolService",
             var createDocuments = function() {
                 var rmbsId =  + ($routeParams.id ? $routeParams.id : rmbsId);
                 return $http.post(CREATE_DOCUMENTS_URL + rmbsId)
-                    .success(function(response) {
-                        GryfPopups.setPopup("success", "Sukces", "Wystawiono dokumenty");
-                        unReimbObject.entity = response;
-                    })
-                    .error(function() {
-                        GryfPopups.setPopup("error", "Błąd", "Nie udało się wystawić dokumentów");
-                    })
-                    .finally(function() {
-                        GryfPopups.showPopup();
-                    });
+                .success(function(response) {
+                    GryfPopups.setPopup("success", "Sukces", "Wystawiono dokumenty");
+                    unReimbObject.entity = response;
+                })
+                .error(function(error) {
+                    GryfPopups.setPopup("error", "Błąd", "Nie udało się wystawić dokumentów");
+                    var conflictCallbacksObject;
+                    GryfExceptionHandler.handleSavingError(error, violations, conflictCallbacksObject);
+                })
+                .finally(function() {
+                    GryfPopups.showPopup();
+                });
             };
 
             var printReports = function() {
@@ -497,12 +499,14 @@ angular.module("gryf.electronicreimbursements").factory("UnreservedPoolService",
                     GryfPopups.setPopup("success", "Sukces", "Wydrukowano dokumenty");
                     unReimbObject.entity = response;
                 })
-                    .error(function() {
-                        GryfPopups.setPopup("error", "Błąd", "Nie udało się wydrukować dokumentów");
-                    })
-                    .finally(function() {
-                        GryfPopups.showPopup();
-                    });
+                .error(function(error) {
+                    GryfPopups.setPopup("error", "Błąd", "Nie udało się wydrukować dokumentów");
+                    var conflictCallbacksObject;
+                    GryfExceptionHandler.handleSavingError(error, violations, conflictCallbacksObject);
+                })
+                .finally(function() {
+                    GryfPopups.showPopup();
+                });
                 return promise;
             };
 
@@ -513,8 +517,10 @@ angular.module("gryf.electronicreimbursements").factory("UnreservedPoolService",
                     GryfPopups.setPopup("success", "Sukces", "Rozliczenie zostało zatwierdzone");
                     unReimbObject.entity = response;
                 })
-                .error(function() {
+                .error(function(error) {
                     GryfPopups.setPopup("error", "Błąd", "Nie udało się zatwierdzić rozliczenia");
+                    var conflictCallbacksObject;
+                    GryfExceptionHandler.handleSavingError(error, violations, conflictCallbacksObject);
                 })
                 .finally(function() {
                     GryfPopups.showPopup();
@@ -560,12 +566,14 @@ angular.module("gryf.electronicreimbursements").factory("UnreservedPoolService",
                     var index = unReimbObject.entity.emails.indexOf(mail);
                     unReimbObject.entity.emails[index] = response;
                 })
-                    .error(function() {
-                        GryfPopups.setPopup("error", "Błąd", "Nie udało się wysłać maila");
-                    })
-                    .finally(function() {
-                        GryfPopups.showPopup();
-                    });
+                .error(function(error) {
+                    GryfPopups.setPopup("error", "Błąd", "Nie udało się wysłać maila");
+                    var conflictCallbacksObject;
+                    GryfExceptionHandler.handleSavingError(error, violations, conflictCallbacksObject);
+                })
+                .finally(function() {
+                    GryfPopups.showPopup();
+                });
                 return promise;
             };
 

@@ -219,13 +219,23 @@ angular.module('gryf.electronicreimbursements').controller("announce.electronicR
     }]);
 
 angular.module('gryf.electronicreimbursements').controller("unrsv.electronicReimbursementsController",
-    ['$scope', "$routeParams", "GryfModulesUrlProvider", "UnreservedPoolService",
-        function ($scope, $routeParams, GryfModulesUrlProvider, UnreservedPoolService) {
+    ['$scope', "$routeParams", "GryfModulesUrlProvider", "UnreservedPoolService", "GryfModals",
+        function ($scope, $routeParams, GryfModulesUrlProvider, UnreservedPoolService, GryfModals) {
             $scope.MODULES = GryfModulesUrlProvider.MODULES;
             $scope.unReimbObject = UnreservedPoolService.getNewModel();
             if($routeParams.id) {
                 UnreservedPoolService.findById($routeParams.id);
             }
+
+            $scope.showAcceptModal = function(messageText, callback) {
+                var message = {message: messageText};
+                GryfModals.openModal(GryfModals.MODALS_URL.CONFIRM, message).result.then(function(result) {
+                    if (!result) {
+                        return;
+                    }
+                    callback();
+                });
+            };
 
             //TODO: ujednolicić, tak jak cały ekran dla rozliczeń niewykorzystanej puli bonów
             $scope.reimburseButtonVisible = function(){
@@ -275,8 +285,21 @@ angular.module('gryf.electronicreimbursements').controller("unrsv.electronicReim
                 UnreservedPoolService.sendMail(mail);
             };
 
-            $scope.createDocuments = UnreservedPoolService.createDocuments;
-            $scope.printReports = UnreservedPoolService.printReports;
-            $scope.expire = UnreservedPoolService.expire;
+            $scope.createDocuments = function(){
+                $scope.showAcceptModal("Zostaną wygenerowane dokumenty rozliczneia", UnreservedPoolService.createDocuments);
+            };
+
+            $scope.printReports = function() {
+                $scope.showAcceptModal("Wydrukowane zostaną raporty.", UnreservedPoolService.printReports);
+            };
+
+            $scope.expire = function() {
+                var callback = function() {
+                    UnreservedPoolService.expire().success(function(response) {
+                        $scope.generateMailFromTemplatesOnInitIfNull();
+                    });
+                };
+                $scope.showAcceptModal("Rozliczenie zostanie zatwierdzone.", callback);
+            }
 
     }]);
