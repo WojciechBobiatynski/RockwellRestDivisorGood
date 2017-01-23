@@ -39,6 +39,7 @@ import pl.sodexo.it.gryf.service.mapping.MailDtoCreator;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.electronicreimbursements.EreimbursementDtoMapper;
 import pl.sodexo.it.gryf.service.validation.publicbenefits.electronicreimbursements.CorrectionValidator;
 import pl.sodexo.it.gryf.service.validation.publicbenefits.electronicreimbursements.ErmbsValidator;
+import pl.sodexo.it.gryf.service.validation.publicbenefits.electronicreimbursements.RejectionValidator;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -51,6 +52,7 @@ import java.util.List;
  *
  * Created by akmiecinski on 14.11.2016.
  */
+//TODO klasa łamię zasadę pojedynczje odpowiedzialności, dodatkowo ma mnóstwo zalezności, można zrobić z niej np. fasadę
 @Service
 @Transactional
 public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursementsService {
@@ -117,6 +119,9 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
 
     @Autowired
     private PbeProductInstancePoolRepository productInstancePoolRepository;
+
+    @Autowired
+    private RejectionValidator rejectionValidator;
 
     @Override
     public List<ElctRmbsDto> findEcltRmbsListByCriteria(ElctRmbsCriteria criteria) {
@@ -422,4 +427,26 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         ereimbursement.setReimbursementDate(gryfPLSQLRepository.getNthBusinessDay(new Date(), applicationParameters.getBusinessDaysNumberForReimbursement()));
         return ereimbursementRepository.save(ereimbursement).getId();
     }
+
+    @Override
+    public Long reject(RejectionDto rejectionDto) {
+        ermbsValidator.isCorrectStatusTransition(rejectionDto.getErmbsId(), EreimbursementStatus.REJECTED);
+        rejectionValidator.validateRejection(rejectionDto);
+        Ereimbursement ereimbursement = ereimbursementRepository.get(rejectionDto.getErmbsId());
+        ereimbursement.setRejectionDate(new Date());
+        ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.REJECTED));
+        ereimbursement.setRejectionReasonId(rejectionDto.getRejectionReasonId());
+        ereimbursement.setRejectionDetails(rejectionDto.getRejectionDetails());
+        setNotReimbReimburseStatusForTiInstance(ereimbursement);
+        //TODO:tbilski 6.	Pula bonów wraca jako pula dostępna,
+        //Ad 7. eventy do dodania w tym procesie:
+        //' REJECTRMB, 'Odrzucenie rozliczenia – zwolnienie bonów'
+        ereimbursementRepository.update(ereimbursement, ereimbursement.getId());
+        return ereimbursement.getId();
+    }
+
+    private void setNotReimbReimburseStatusForTiInstance(Ereimbursement ereimbursement) {
+        ereimbursement.getTrainingInstance().setStatus(trainingInstanceStatusRepository.get(GryfConstants.NOT_REIMBURSED_TRAINING_INSTANCE_STATUS_CODE));
+    }
+
 }

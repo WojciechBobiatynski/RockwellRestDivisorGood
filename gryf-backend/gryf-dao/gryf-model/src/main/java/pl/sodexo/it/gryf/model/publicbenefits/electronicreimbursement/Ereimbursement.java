@@ -122,6 +122,22 @@ public class Ereimbursement extends VersionableEntity {
     @Setter
     private Integer expiredProductsNum;
 
+    @Column(name = "REJECTION_REASON_ID")
+    @Getter
+    @Setter
+    private Long rejectionReasonId;
+
+    @Column(name = "REJECTION_DETAILS")
+    @Getter
+    @Setter
+    private String rejectionDetails;
+
+    @Column(name = "REJECTION_DATE")
+    @Temporal(TemporalType.DATE)
+    @Getter
+    @Setter
+    private Date rejectionDate;
+
     @OneToMany(mappedBy = "ereimbursement")
     @Getter
     @Setter

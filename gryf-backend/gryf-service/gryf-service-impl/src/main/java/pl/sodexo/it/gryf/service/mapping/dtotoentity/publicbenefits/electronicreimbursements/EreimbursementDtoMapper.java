@@ -52,6 +52,8 @@ public class EreimbursementDtoMapper extends VersionableDtoMapper<ElctRmbsHeadDt
         entity.setRequiredCorrectionDate(dto.getRequiredCorrectionDate());
         entity.setReimbursementDate(dto.getReimbursementDate());
         entity.setExpiredProductsNum(dto.getExpiredProductsNum());
+        entity.setRejectionReasonId(dto.getRejectionReasonId());
+        entity.setRejectionDetails(dto.getRejectionDetails());
     }
 
 }

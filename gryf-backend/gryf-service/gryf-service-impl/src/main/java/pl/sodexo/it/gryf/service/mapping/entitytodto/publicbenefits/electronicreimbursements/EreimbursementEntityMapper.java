@@ -39,6 +39,8 @@ public class EreimbursementEntityMapper extends VersionableEntityMapper<Ereimbur
         dto.setRequiredCorrectionDate(entity.getRequiredCorrectionDate());
         dto.setReimbursementDate(entity.getReimbursementDate());
         dto.setExpiredProductsNum(entity.getExpiredProductsNum());
+        dto.setRejectionReasonId(entity.getRejectionReasonId());
+        dto.setRejectionDetails(entity.getRejectionDetails());
         if (entity.getErmbsAttachmentList() != null && !entity.getErmbsAttachmentList().isEmpty()) {
             dto.setAttachments(ermbsAttachmentEntityMapper.convert(entity.getErmbsAttachmentList()));
         }

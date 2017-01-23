@@ -154,6 +154,7 @@ angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementS
             var CREATE_EMAILS_FROM_TEMPLATE = contextPath + "/rest/publicBenefits/electronic/reimbursements/email/create/";
             var SEND_EMAILS = contextPath + "/rest/publicBenefits/electronic/reimbursements/email/send";
             var SAVE_ATT = contextPath + "/rest/publicBenefits/electronic/reimbursements/att/save";
+            var REJECT_URL = contextPath + "/rest/publicBenefits/electronic/reimbursements/reject/";
 
             var eReimbObject = new EReimbObject();
             var correctionObject = new CorrectionObject();
@@ -379,6 +380,30 @@ angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementS
                 return SAVE_ATT;
             };
 
+            var reject = function() {
+                var rejectionDto = new RejectionDto();
+                var promise = $http.post(REJECT_URL, rejectionDto);
+                promise.success(function(response) {
+                    eReimbObject.setPopup("success", "Sukces", "Rozliczenie zostało odrzucone");
+                    eReimbObject.entity = response;
+                })
+                    .error(function(error) {
+                        GryfPopups.setPopup("error", "Błąd", "Nie udało się odrzucić rozliczenia");
+                        var conflictCallbacksObject;
+                        GryfExceptionHandler.handleSavingError(error, violations, conflictCallbacksObject);
+                    })
+                    .finally(function() {
+                        GryfPopups.showPopup();
+                    });
+                return promise;
+            };
+
+            function RejectionDto() {
+                this.ermbsId = eReimbObject.entity.ermbsId;
+                this.rejectionReasonId = eReimbObject.entity.rejectionReasonId;
+                this.rejectionDetails = eReimbObject.entity.rejectionDetails;
+            };
+
             return {
                 getNewModel: getNewModel,
                 getViolation: getViolations,
@@ -394,7 +419,8 @@ angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementS
                 cancel: cancel,
                 createEmailsFromTemplate: createEmailsFromTemplate,
                 sendMail: sendMail,
-                getSaveAttUrl: getSaveAttUrl
+                getSaveAttUrl: getSaveAttUrl,
+                reject: reject
             };
         }]);
 
@@ -542,7 +568,6 @@ angular.module("gryf.electronicreimbursements").factory("UnreservedPoolService",
                     });
                 return promise;
             };
-
 
             return {
                 getNewModel: getNewModel,

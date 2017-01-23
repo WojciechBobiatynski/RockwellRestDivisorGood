@@ -179,6 +179,8 @@
             ELSE
               0
           END                                       terminated,
+          ermbs.REJECTION_REASON_ID                 rejectionReasonId,
+          ermbs.REJECTION_DETAILS                   rejectionDetails,
           ermbs.VERSION                             version,
           ermbs.CREATED_USER                        createdUser,
           ermbs.CREATED_TIMESTAMP                   createdTimestamp,

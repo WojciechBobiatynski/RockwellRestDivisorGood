@@ -162,6 +162,7 @@ public class ErmbsValidator {
                 availableTransitiveStatuses.add(EreimbursementStatus.TO_ERMBS);
                 availableTransitiveStatuses.add(EreimbursementStatus.TO_CORRECT);
                 availableTransitiveStatuses.add(EreimbursementStatus.GENERATED_DOCUMENTS);
+                availableTransitiveStatuses.add(EreimbursementStatus.REJECTED);
             }
 
             if(EreimbursementStatus.TO_CORRECT.equals(currentStatus)){

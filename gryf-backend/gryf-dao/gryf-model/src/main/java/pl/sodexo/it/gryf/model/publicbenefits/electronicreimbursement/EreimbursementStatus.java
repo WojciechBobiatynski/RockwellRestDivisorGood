@@ -26,6 +26,7 @@ public class EreimbursementStatus {
     public static final String SETTLED = "REIMB";
     public static final String GENERATED_DOCUMENTS = "G_DOC";
     public static final String CANCELED = "CNCL";
+    public static final String REJECTED = "RJCT";
 
     @Id
     @Column(name = "ID")

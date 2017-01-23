@@ -1,5 +1,5 @@
 "use strict";
-
+//TODO: wydzielić kontroler, po którym podziedziczy reszta z metodami wpsólnymi dla wszystkich kontrolerów
 angular.module('gryf.electronicreimbursements').controller("searchform.electronicReimbursementsController",
     ['$scope', 'electronicReimbursementSearchService', function ($scope, electronicReimbursementSearchService) {
         $scope.elctRmbsCriteria = electronicReimbursementSearchService.getNewCriteria();
@@ -60,6 +60,23 @@ angular.module('gryf.electronicreimbursements').controller("announce.electronicR
         "TrainingInstanceSearchService", "AnnounceEReimbursementService", "GryfModals",
     function ($scope, $routeParams, GryfModulesUrlProvider, BrowseTrainingInsService,
           TrainingInstanceSearchService, AnnounceEReimbursementService, GryfModals) {
+
+        //TODO: przenieść później wartości do bazy
+        $scope.rejectionReasons = [
+            {
+                id: 1,
+                name: "Przekroczono termin rozliczenia"
+            },
+            {
+                id: 2,
+                name: "Niespełnione wymogi formalne"
+            },
+            {
+                id: 3,
+                name: "Inne"
+            }
+        ];
+
         $scope.MODULES = GryfModulesUrlProvider.MODULES;
         $scope.correctionObject = AnnounceEReimbursementService.getCorrectionObject();
         $scope.eReimbObject = AnnounceEReimbursementService.getNewModel();
@@ -105,6 +122,10 @@ angular.module('gryf.electronicreimbursements').controller("announce.electronicR
 
         $scope.getReportFile = function(attachment) {
             return attachment.id != null ? contextPath + "/rest/publicBenefits/electronic/reimbursements/downloadReportFile?id=" + attachment.id : '';
+        };
+
+        $scope.rejectButtonVisible = function(){
+            return $scope.eReimbObject.entity != null && $scope.eReimbObject.entity.statusCode === 'T_RMS';
         };
 
         $scope.reimburseButtonVisible = function(){
@@ -156,6 +177,10 @@ angular.module('gryf.electronicreimbursements').controller("announce.electronicR
             $scope.showAcceptModal("Rozliczenie zostanie zatwierdzone.", callback);
         };
 
+        $scope.reject = function() {
+            $scope.showAcceptModal("Rozliczenie zostanie odrzucone", AnnounceEReimbursementService.reject);
+        };
+
         $scope.generateMailFromTemplatesOnInitIfNull = function () {
             if($scope.eReimbObject.entity.emails == null || $scope.eReimbObject.entity.emails === undefined || $scope.eReimbObject.entity.emails.length < $scope.getEmailsFromTemplateNum()){
                 AnnounceEReimbursementService.createEmailsFromTemplate();
@@ -193,13 +218,11 @@ angular.module('gryf.electronicreimbursements').controller("announce.electronicR
 
     }]);
 
-var test;
 angular.module('gryf.electronicreimbursements').controller("unrsv.electronicReimbursementsController",
     ['$scope', "$routeParams", "GryfModulesUrlProvider", "UnreservedPoolService",
         function ($scope, $routeParams, GryfModulesUrlProvider, UnreservedPoolService) {
             $scope.MODULES = GryfModulesUrlProvider.MODULES;
             $scope.unReimbObject = UnreservedPoolService.getNewModel();
-test = $scope;
             if($routeParams.id) {
                 UnreservedPoolService.findById($routeParams.id);
             }

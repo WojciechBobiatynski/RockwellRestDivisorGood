@@ -116,6 +116,14 @@ public class ElctRmbsHeadDto extends VersionableDto implements Serializable {
     @Setter
     private boolean terminated;
 
+    @Getter
+    @Setter
+    private Long rejectionReasonId;
+
+    @Getter
+    @Setter
+    private String rejectionDetails;
+
     public void calculateChargers(CalculationChargesParamsDto params) {
         calculateSxoTiAmount(params);
         calculateIndTiAmount(params);

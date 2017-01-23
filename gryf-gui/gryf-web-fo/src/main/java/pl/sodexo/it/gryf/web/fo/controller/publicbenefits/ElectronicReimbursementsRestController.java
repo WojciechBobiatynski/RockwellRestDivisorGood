@@ -224,4 +224,12 @@ public class ElectronicReimbursementsRestController {
         IntStream.range(0, changedAttachments.size()).forEach(myConsumer);
     }
 
+    @RequestMapping(value = PATH_ELECTRONIC_REIMBURSEMENTS_REJECT, method = RequestMethod.POST)
+    @ResponseBody
+    public ElctRmbsHeadDto reject(@RequestBody RejectionDto rejectionDto) {
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS_MOD);
+        Long id = electronicReimbursementsService.reject(rejectionDto);
+        return electronicReimbursementsService.findEcltRmbsById(id);
+    }
+
 }

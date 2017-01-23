@@ -5,6 +5,7 @@ import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CorrectionDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.RejectionDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.pbeproductinstancepool.PbeProductInstancePoolDto;
 
 import java.util.List;
@@ -132,5 +133,12 @@ public interface ElectronicReimbursementsService {
      * @return - id rozliczenia
      */
     Long createEreimbursementForUnrsvPool(PbeProductInstancePoolDto pbeProductInstancePool);
+
+    /**
+     * Odrzuca rozliczenie
+     * @param rejectionDto - dto odrzucenia
+     * @return id rozliczenia zaktualizowanego
+     */
+    Long reject(RejectionDto rejectionDto);
 
 }
