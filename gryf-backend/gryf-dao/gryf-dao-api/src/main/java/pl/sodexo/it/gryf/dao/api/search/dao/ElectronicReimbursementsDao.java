@@ -103,4 +103,11 @@ public interface ElectronicReimbursementsDao {
      */
     boolean shouldBeCreditNoteCreated(Long ermbsId);
 
+    /**
+     * Sprawdza czy tworzone szkolenie jest tworzone po terminie
+     * @param trainingInstanceId - id instancji szkolenia
+     * @return true/false
+     */
+    boolean checkIBeingCreatedErmbsIsTerminatedByTrainingInstanceId(Long trainingInstanceId);
+
 }

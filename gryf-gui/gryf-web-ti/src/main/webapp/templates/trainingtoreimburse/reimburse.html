@@ -1,5 +1,10 @@
 <section>
     <fieldset ng-disabled="isDisabled()" style="border:none">
+        <div id="terminatedWarning" class="redBackground" data-ng-if="terminatedVisible()">
+            <div style="padding-top:10px">
+                Przekroczono termin rozliczenia
+            </div>
+        </div>
         <strong class="label">Rozliczenie szkolenia</strong>
         <div class="block">
             <strong class="blackLabel">Dane szkolenia</strong>

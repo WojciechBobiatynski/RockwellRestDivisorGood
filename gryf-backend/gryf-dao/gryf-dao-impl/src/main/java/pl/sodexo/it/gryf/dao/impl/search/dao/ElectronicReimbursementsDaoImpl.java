@@ -90,4 +90,9 @@ public class ElectronicReimbursementsDaoImpl implements ElectronicReimbursements
         return electronicReimbursementsSearchMapper.shouldBeCreditNoteCreated(new UserCriteria(), ermbsId);
     }
 
+    @Override
+    public boolean checkIBeingCreatedErmbsIsTerminatedByTrainingInstanceId(Long trainingInstanceId) {
+        return electronicReimbursementsSearchMapper.checkIBeingCreatedErmbsIsTerminatedByTrainingInstanceId(new UserCriteria(), trainingInstanceId);
+    }
+
 }

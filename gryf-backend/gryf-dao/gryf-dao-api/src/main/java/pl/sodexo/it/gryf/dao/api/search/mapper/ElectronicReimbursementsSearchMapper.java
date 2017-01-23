@@ -119,4 +119,12 @@ public interface ElectronicReimbursementsSearchMapper {
      */
     boolean shouldBeCreditNoteCreated(@Param("criteria") UserCriteria criteria, @Param("ermbsId")Long ermbsId);
 
+    /**
+     * Sprawdza czy tworzone szkolenie jest tworzone po terminie
+     * @param criteria - kryteria użytkownika
+     * @param trainingInstanceId - id instancji szkolenia
+     * @return true/false
+     */
+    boolean checkIBeingCreatedErmbsIsTerminatedByTrainingInstanceId(@Param("criteria") UserCriteria criteria, @Param("trainingInstanceId") Long trainingInstanceId);
+
 }

@@ -147,6 +147,7 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         elctRmbsHeadDto.setGrantProgramId(grantProgramSearchDao.findGrantProgramIdByTrainingInstanceId(trainingInstanceId));
         calculateCharges(elctRmbsHeadDto);
         elctRmbsHeadDto.setProducts(productSearchDao.findProductsByTrainingInstanceId(trainingInstanceId));
+        elctRmbsHeadDto.setTerminated(electronicReimbursementsDao.checkIBeingCreatedErmbsIsTerminatedByTrainingInstanceId(trainingInstanceId));
         return elctRmbsHeadDto;
     }
 

@@ -81,6 +81,12 @@ angular.module("gryf.ti").controller("ReimbursementModifyController", ["$scope",
                 && !$scope.rmbsModel.model.lastCorrectionDto.complementDate;
         };
 
+        $scope.terminatedVisible = function () {
+            return !!$scope.rmbsModel.model
+                && ($scope.rmbsModel.model.statusCode === null || $scope.rmbsModel.model.statusCode === 'T_RMS' || $scope.rmbsModel.model.statusCode === 'T_CRR')
+                && ($scope.rmbsModel.model.terminated);
+        };
+
 }]);
 
 angular.module("gryf.ti").controller("ReimburseDetailsController", ["$scope", "ReimbursementsServiceModify", "$state" ,"$stateParams","TrainingInstanceSearchService",
@@ -104,6 +110,12 @@ angular.module("gryf.ti").controller("ReimburseDetailsController", ["$scope", "R
         $scope.isDisabled = function(){
             return $state.params.isDisabled;
         };
+        $scope.terminatedVisible = function () {
+            return !!$scope.rmbsModel.model
+                && ($scope.rmbsModel.model.statusCode === null || $scope.rmbsModel.model.statusCode === 'T_RMS' || $scope.rmbsModel.model.statusCode === 'T_CRR')
+                && ($scope.rmbsModel.model.terminated);
+        };
+
 
     }]);
 
@@ -135,6 +147,12 @@ angular.module("gryf.ti").controller("CorrectionController", ["$scope", "Reimbur
             return !!$scope.rmbsModel.model
                 && !!$scope.rmbsModel.model.lastCorrectionDto
                 && !$scope.rmbsModel.model.lastCorrectionDto.complementDate;
+        };
+
+        $scope.terminatedVisible = function () {
+            return !!$scope.rmbsModel.model
+                && ($scope.rmbsModel.model.statusCode === null || $scope.rmbsModel.model.statusCode === 'T_RMS' || $scope.rmbsModel.model.statusCode === 'T_CRR')
+                && ($scope.rmbsModel.model.terminated);
         };
 
     }]);
