@@ -418,6 +418,8 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         ereimbursement.setSxoIndAmountDueTotal(
                 BigDecimal.valueOf(pbeProductInstancePool.getAvailableNum()).multiply(pbeProductInstancePool.getProductValue()).multiply(ownContributionPercentage).setScale(2, RoundingMode.HALF_UP));
         ereimbursement.setExpiredProductsNum(pbeProductInstancePool.getAvailableNum());
+        ereimbursement.setArrivalDate(new Date());
+        ereimbursement.setReimbursementDate(gryfPLSQLRepository.getNthBusinessDay(new Date(), applicationParameters.getBusinessDaysNumberForReimbursement()));
         return ereimbursementRepository.save(ereimbursement).getId();
     }
 }
