@@ -1,6 +1,7 @@
 package pl.sodexo.it.gryf.model.publicbenefits.pbeproduct;
 
 import lombok.ToString;
+import pl.sodexo.it.gryf.model.api.CreationAuditedEntity;
 import pl.sodexo.it.gryf.model.api.VersionableEntity;
 
 import javax.persistence.*;
@@ -12,7 +13,7 @@ import java.util.Objects;
 @Entity
 @ToString(exclude = {"productInstance"})
 @Table(name = "PBE_PRODUCT_INSTANCE_E", schema = "APP_PBE")
-public class PbeProductInstanceEvent extends VersionableEntity {
+public class PbeProductInstanceEvent extends CreationAuditedEntity {
 
     @Id
     @Column(name = "ID")

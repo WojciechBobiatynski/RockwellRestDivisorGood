@@ -20,12 +20,12 @@ public class PbeProductInstanceStatus extends GryfEntity implements DictionaryEn
 
     //STATIC FEILDS - STATUSES CODE
 
-    public static final String EMITTED_CODE = "EMITTED";
-    public static final String ASSIGNED_CODE = "ASSIGNED";
-    public static final String RESERVED_CODE = "RESERVED";
-    public static final String USED_CODE = "USED";
-    public static final String REIMBD_CODE = "REIMBD";
-    public static final String EXPIRED_CODE = "EXPIRED";
+    public static final String EMITTED_CODE = "EMI";
+    public static final String ASSIGNED_CODE = "ASS";
+    public static final String RESERVED_CODE = "RES";
+    public static final String USED_CODE = "USE";
+    public static final String REIMBD_CODE = "RMB";
+    public static final String EXPIRED_CODE = "EXP";
 
     //FIELDS
 

@@ -17,7 +17,7 @@ public class PbeProductEmission extends GryfEntity {
 
     @Id
     @Column(name = "ID")
-    private String id;
+    private Long id;
 
     @JoinColumn(name = "PRD_ID", referencedColumnName = "PRD_ID")
     @ManyToOne
@@ -42,11 +42,11 @@ public class PbeProductEmission extends GryfEntity {
 
     //GETTERS & SETTERS
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
