@@ -22,7 +22,7 @@ import java.util.*;
 @NamedQuery(name = "TrainingInstance.isInUserInstitution", query = "select count(e) "
                 + "from TrainingInstance e join e.training t join t.trainingInstitution ti "
                 + "join ti.trainingInstitutionUsers tiu "
-                + "where e.id = :trainingInstanceId and tiu.login = :tiUserLogin"),
+                + "where e.id = :trainingInstanceId and lower(tiu.login) = lower(:tiUserLogin)"),
         @NamedQuery(name = "TrainingInstance.isInUserIndividual", query = "select count(e) "
                 + "from TrainingInstance e join e.individual i "
                 + "where e.id = :trainingInstanceId and i.pesel = :indUserLogin"),

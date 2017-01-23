@@ -1,7 +1,5 @@
 package pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions;
 
-import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
 import pl.sodexo.it.gryf.model.api.BooleanConverter;
@@ -9,8 +7,8 @@ import pl.sodexo.it.gryf.model.api.VersionableEntity;
 import pl.sodexo.it.gryf.model.asynch.AsynchronizeJob;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
@@ -32,7 +30,7 @@ import java.util.Objects;
         @NamedQuery(name = "Training.isInUserInstitution", query = "select count(e) "
                 + "from Training e join e.trainingInstitution ti "
                 + "join ti.trainingInstitutionUsers tiu "
-                + "where e.id = :trainingId and tiu.login = :tiUserLogin"),
+                + "where e.id = :trainingId and lower(tiu.login) = lower(:tiUserLogin)"),
 
 })
 @ToString

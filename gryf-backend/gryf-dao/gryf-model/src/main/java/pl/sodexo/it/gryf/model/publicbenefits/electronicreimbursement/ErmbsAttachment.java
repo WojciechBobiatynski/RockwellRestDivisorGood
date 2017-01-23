@@ -23,7 +23,7 @@ import javax.validation.constraints.NotNull;
         @NamedQuery(name = "ErmbsAttachment.isInUserInstitution", query = "select count(e) "
                 + "from ErmbsAttachment e join e.ereimbursement er join er.trainingInstance tins join tins.training t join t.trainingInstitution ti "
                 + "join ti.trainingInstitutionUsers tiu "
-                + "where e.id = :ereimbursementAttachmentId and tiu.login = :tiUserLogin")})
+                + "where e.id = :ereimbursementAttachmentId and lower(tiu.login) = lower(:tiUserLogin)")})
 @SequenceGenerator(name = "ermbs_attach_seq", schema = "eagle", sequenceName = "ermbs_attach_seq", allocationSize = 1)
 public class ErmbsAttachment extends VersionableEntity {
 
