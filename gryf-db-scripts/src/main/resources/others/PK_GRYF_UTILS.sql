@@ -30,7 +30,7 @@ CREATE OR REPLACE PACKAGE EAGLE.PK_GRF_UTILS AS
     PROCEDURE Create_Pb_Cus_Note( o_inv_id OUT NUMBER, o_invoice_number OUT VARCHAR2, o_invoice_type OUT VARCHAR2, o_invoice_date OUT DATE, o_87_invoice_number OUT VARCHAR2, a_order_id IN NUMBER, a_sign_user IN VARCHAR2 DEFAULT USER);
 
   -- utwórz notê uznaniow¹ dla uczestnika
-    PROCEDURE Create_Pb_Rmb_Note( o_inv_id OUT NUMBER, o_invoice_number OUT VARCHAR2, o_invoice_type OUT VARCHAR2, o_invoice_date OUT DATE, a_ermb_id IN NUMBER, a_sign_user IN VARCHAR2 DEFAULT '', a_type in VARCHAR2 default 'CUS' );
+    PROCEDURE Create_Pb_Rmb_Note( o_inv_id OUT NUMBER, o_invoice_number OUT VARCHAR2, o_invoice_type OUT VARCHAR2, o_invoice_date OUT DATE, a_ermb_id IN NUMBER, a_sign_user IN VARCHAR2 DEFAULT USER, a_type in VARCHAR2 default 'CUS' );
 
 
 

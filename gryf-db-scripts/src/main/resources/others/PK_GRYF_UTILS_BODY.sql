@@ -349,7 +349,7 @@ create or replace PACKAGE BODY             eagle.PK_GRF_UTILS AS
 
 
   -- utwórz notê obci¹¿eniowo-ksiêgow¹
-    PROCEDURE Create_Pb_Cus_Note( o_inv_id OUT NUMBER, o_invoice_number OUT VARCHAR2, o_invoice_type OUT VARCHAR2, o_invoice_date OUT DATE, o_87_invoice_number OUT VARCHAR2, a_order_id IN NUMBER, a_sign_user IN VARCHAR2)
+    PROCEDURE Create_Pb_Cus_Note( o_inv_id OUT NUMBER, o_invoice_number OUT VARCHAR2, o_invoice_type OUT VARCHAR2, o_invoice_date OUT DATE, o_87_invoice_number OUT VARCHAR2, a_order_id IN NUMBER, a_sign_user IN VARCHAR2 DEFAULT USER)
   is
         v_suffix VARCHAR2(255); 
     begin
@@ -510,7 +510,7 @@ create or replace PACKAGE BODY             eagle.PK_GRF_UTILS AS
 
 
     -- utwórz notê uznaniow¹ dla Uczestnika
-    PROCEDURE Create_Pb_Rmb_Note( o_inv_id OUT NUMBER, o_invoice_number OUT VARCHAR2, o_invoice_type OUT VARCHAR2, o_invoice_date OUT DATE, a_ermb_id IN NUMBER, a_sign_user IN VARCHAR2 DEFAULT 'PONICHTERA BART£OMIEJ', a_type in VARCHAR2 default 'CUS' )    
+    PROCEDURE Create_Pb_Rmb_Note( o_inv_id OUT NUMBER, o_invoice_number OUT VARCHAR2, o_invoice_type OUT VARCHAR2, o_invoice_date OUT DATE, a_ermb_id IN NUMBER, a_sign_user IN VARCHAR2 DEFAULT USER, a_type in VARCHAR2 default 'CUS' )
     IS
     BEGIN
         PK_AUDIT.AUDIT_MODULE('PK_GRF_UTILS', 'Create_Pb_Rmb_Note', ivar('A_E_RMB_ID',a_ermb_id)||';'||var('A_TYPE', a_type )||var('; USER',USER ) );
