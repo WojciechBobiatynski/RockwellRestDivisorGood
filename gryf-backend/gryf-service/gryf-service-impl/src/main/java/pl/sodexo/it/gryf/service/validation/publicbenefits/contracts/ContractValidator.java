@@ -6,10 +6,12 @@ import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.dao.api.crud.repository.accounts.AccountContractPairRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.contracts.ContractRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.employments.EmploymentRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.enterprises.EnterpriseRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.individuals.IndividualRepository;
 import pl.sodexo.it.gryf.model.accounts.AccountContractPair;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
 import pl.sodexo.it.gryf.model.publicbenefits.employment.Employment;
+import pl.sodexo.it.gryf.model.publicbenefits.enterprises.Enterprise;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
 
@@ -33,6 +35,9 @@ public class ContractValidator {
 
     @Autowired
     private IndividualRepository individualRepository;
+
+    @Autowired
+    private EnterpriseRepository enterpriseRepository;
 
     @Autowired
     private EmploymentRepository employmentRepository;
@@ -102,16 +107,30 @@ public class ContractValidator {
                 return;
             }
 
-            Individual individual = individualRepository.findById(contract.getIndividual().getId());
-            if (individual.getAccountPayment().isEmpty()) {
-                message = "Wybrany uczestnik nie ma przypisanego numeru subkonta";
-                violations.add(new EntityConstraintViolation(Contract.ID_ATTR_NAME, message, null));
-                return;
-            }
-            if (!accountContractPair.getAccountPayment().equals(individual.getAccountPayment())) {
-                message = "Numer subkonta przypisany do umowy jest inny niż posiadany przez uczestnika";
-                violations.add(new EntityConstraintViolation(Contract.ID_ATTR_NAME, message, null));
-                return;
+            if(isIndividualContractType(contract)) {
+                Individual individual = contract.getIndividual();
+                if (individual.getAccountPayment().isEmpty()) {
+                    message = "Wybrany uczestnik nie ma przypisanego numeru subkonta";
+                    violations.add(new EntityConstraintViolation(Contract.ID_ATTR_NAME, message, null));
+                    return;
+                }
+                if (!accountContractPair.getAccountPayment().equals(individual.getAccountPayment())) {
+                    message = "Numer subkonta przypisany do umowy jest inny niż posiadany przez uczestnika";
+                    violations.add(new EntityConstraintViolation(Contract.ID_ATTR_NAME, message, null));
+                    return;
+                }
+            }else if(isEnterpriseContainIndividual(contract)) {
+                Enterprise enterprise = contract.getEnterprise();
+                if (enterprise.getAccountPayment().isEmpty()) {
+                    message = "Wybrane MŚP nie ma przypisanego numeru subkonta";
+                    violations.add(new EntityConstraintViolation(Contract.ID_ATTR_NAME, message, null));
+                    return;
+                }
+                if (!accountContractPair.getAccountPayment().equals(enterprise.getAccountPayment())) {
+                    message = "Numer subkonta przypisany do umowy jest inny niż posiadany przez MŚP";
+                    violations.add(new EntityConstraintViolation(Contract.ID_ATTR_NAME, message, null));
+                    return;
+                }
             }
 
         }
