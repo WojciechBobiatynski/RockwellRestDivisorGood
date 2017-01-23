@@ -9,17 +9,18 @@
           SELECT * FROM
             (
                 SELECT
-                    ermbs.ID                  rmbsNumber,
-                    ti_in.ID                  trainingInstanceId,
-                    ti.NAME                   trainingName,
-                    ind.PESEL                 pesel,
-                    ind.FIRST_NAME            participantName,
-                    ind.LAST_NAME             participantSurname,
-                    ermbs.REIMBURSEMENT_DATE  rmbsDate,
-                    status.NAME               rmbsStatus,
-                    status.ID                 rmbsStatusId,
-                    tp.NAME                   rmbsType,
-                    tp.CODE                   rmbsTypeCode
+                    ermbs.ID                    rmbsNumber,
+                    ti_in.ID                    trainingInstanceId,
+                    ti.NAME                     trainingName,
+                    ind.PESEL                   pesel,
+                    ind.FIRST_NAME              participantName,
+                    ind.LAST_NAME               participantSurname,
+                    ermbs.REIMBURSEMENT_DATE    rmbsDate,
+                    status.NAME                 rmbsStatus,
+                    status.ID                   rmbsStatusId,
+                    tp.NAME                     rmbsType,
+                    tp.CODE                     rmbsTypeCode,
+                    ti.TRAINING_INSTITUTION_ID  trainingInstitutionId
                 FROM
                     APP_PBE.E_REIMBURSEMENTS ermbs
                     LEFT JOIN APP_PBE.TI_TRAINING_INSTANCES ti_in ON ti_in.ID = ermbs.TI_TR_INST_ID
@@ -41,7 +42,8 @@
                     status.NAME               rmbsStatus,
                     status.ID                 rmbsStatusId,
                     tp.NAME                   rmbsType,
-                    tp.CODE                   rmbsTypeCode
+                    tp.CODE                   rmbsTypeCode,
+                    null                      trainingInstitutionId
                 FROM
                     APP_PBE.E_REIMBURSEMENTS ermbs
                     LEFT JOIN APP_PBE.E_REIMBURSEMENT_STATUSES status ON status.ID = ermbs.STATUS_ID
