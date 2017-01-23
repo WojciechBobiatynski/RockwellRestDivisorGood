@@ -256,6 +256,57 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
     }
 
     @Override
+    public void returnUsedPools(Ereimbursement ereimbursement){
+        TrainingInstance instance = ereimbursement.getTrainingInstance();
+
+        //POBRANIE STATUSOW
+        PbeProductInstanceStatus productInstStatAssigned = productInstanceStatusRepository.get(PbeProductInstanceStatus.ASSIGNED_CODE);
+        PbeProductInstanceEventType rejectReimbursmentEventType = productInstanceEventTypeRepository.get(PbeProductInstanceEventType.REJECTRMB_CODE);
+        PbeProductInstancePoolEventType rejectReimbursmentPoolEventType = productInstancePoolEventTypeRepository.get(PbeProductInstancePoolEventType.REJECTRMB_CODE);
+
+        //ILE TRZEBA ZMIENIC
+        int trainingInstanceToChangeNum =  instance.getAssignedNum();
+
+        //ITERACJA PO INSTANCJACH
+        List<PbeProductInstancePoolUse> poolUses = instance.getPollUses();
+        poolUses = orderByExpiryDateDesc(poolUses);
+        for(PbeProductInstancePoolUse poolUse : poolUses){
+
+            //CZY NADAL ZMIENIAMY
+            if(trainingInstanceToChangeNum <= 0){
+                break;
+            }
+
+            //ILE ZMIENIAMY W RAMACH UZYCIA PULI
+            int poolUseToChangeNum = Math.min(poolUse.getAssignedNum(), trainingInstanceToChangeNum);
+
+            //POOL EVENT
+            productInstancePoolEventBuilder.saveEvent(poolUse.getProductInstancePool(),
+                    rejectReimbursmentPoolEventType, ereimbursement.getId(), poolUseToChangeNum);
+
+            //UAKTUALNINIE PULI
+            PbeProductInstancePool pool = poolUse.getProductInstancePool();
+            pool.setUsedNum(pool.getUsedNum() - poolUseToChangeNum);
+            pool.setAvailableNum(pool.getAvailableNum() + poolUseToChangeNum);
+
+            //ITERACJA PO INSTANCJACH PRODUKTU
+            List<PbeProductInstance> instances = poolUse.getPollUses();
+            List<PbeProductInstance> instancesToChange = new ArrayList<>(instances.subList(instances.size() - poolUseToChangeNum, instances.size()));
+            for(PbeProductInstance i : instancesToChange){
+                i.setStatus(productInstStatAssigned);
+                poolUse.removePollUse(i);
+
+                //EVENTY DO INSTANCJI PRODUKTOW
+                productInstanceEventBuilder.saveEvent(i, rejectReimbursmentEventType, ereimbursement.getId());
+            }
+
+            //UAKTUALNINIE
+            poolUse.setAssignedNum(poolUse.getAssignedNum() - poolUseToChangeNum);
+            trainingInstanceToChangeNum -= poolUseToChangeNum;
+        }
+    }
+
+    @Override
     public void reimbursPools(Ereimbursement ereimbursement){
 
         //POBRANIE STATUSOW

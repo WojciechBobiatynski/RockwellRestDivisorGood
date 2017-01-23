@@ -22,6 +22,8 @@ public interface PbeProductInstancePoolLocalService {
 
     void usePools(TrainingInstance instance);
 
+    void returnUsedPools(Ereimbursement ereimbursement);
+
     void reimbursPools(Ereimbursement ereimbursement);
 
     void expirePools(Long ermbsId);
