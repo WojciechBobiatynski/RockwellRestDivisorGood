@@ -118,6 +118,19 @@ public class GryfPLSQLRepositoryImpl implements GryfPLSQLRepository {
     }
 
     @Override
+    public void generateInstancesPrintNumber(String productId, Long numberFrom, Long numberTo){
+        StoredProcedureQuery query = entityManager.createStoredProcedureQuery("PK_GRF_UTILS.Gen_Instances");
+        query.registerStoredProcedureParameter("a_pbe_prd_id", String.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter("a_first", Long.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter("a_last", Long.class, ParameterMode.IN);
+        query.setParameter("a_pbe_prd_id", productId);
+        query.setParameter("a_first", numberFrom);
+        query.setParameter("a_last", numberTo);
+
+        query.execute();
+    }
+
+    @Override
     public void flush(){
         entityManager.flush();
     }

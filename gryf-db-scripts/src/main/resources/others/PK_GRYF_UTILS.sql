@@ -37,6 +37,6 @@ create or replace PACKAGE       PK_GRF_UTILS AS
   -- utwórz notê uznaniow¹ dla uczestnika
   PROCEDURE Create_Pb_Rmb_Note( o_inv_id OUT NUMBER, o_invoice_number OUT VARCHAR2, o_invoice_type OUT VARCHAR2, o_invoice_date OUT DATE, a_ermb_id IN NUMBER, a_sign_user IN VARCHAR2 DEFAULT 'PONICHTERA BART£OMIEJ', a_type in VARCHAR2 default 'CUS' );
 
-
+  PROCEDURE Gen_Instances ( a_pbe_prd_id IN VARCHAR2, a_first IN NUMBER, a_last IN NUMBER );
 
 END PK_GRF_UTILS;

@@ -51,6 +51,8 @@ public interface GryfPLSQLRepository {
      */
     FinanceNoteResult createCreditNoteForReimbursment(Long reimbursmentId);
 
+    void generateInstancesPrintNumber(String productId, Long numberFrom, Long numberTo);
+
     /**
      * Metoda robi flush do bazy danych
      */

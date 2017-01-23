@@ -8,6 +8,7 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.pbeproductinstancepool.PbePro
 import pl.sodexo.it.gryf.common.dto.publicbenefits.products.PrintNumberDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.products.PrintNumberResultDto;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
+import pl.sodexo.it.gryf.dao.api.crud.repository.other.GryfPLSQLRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.pbeproducts.*;
 import pl.sodexo.it.gryf.dao.api.search.dao.ProductInstancePoolSearchDao;
@@ -81,6 +82,9 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
     @Autowired
     private EreimbursementRepository ereimbursementRepository;
 
+    @Autowired
+    private GryfPLSQLRepository gryfPLSQLRepository;
+
     //PUBLIC METHODS
 
     @Override
@@ -88,9 +92,10 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
         Contract contract = order.getContract();
         Individual individual = contract.getIndividual();
         Integer productInstanceNum = order.getVouchersNumber();
+        PbeProduct pbeProduct = order.getPbeProduct();
 
         //STWORZENIE PULI BONÓW
-        PbeProductInstancePool pool = createProductInstancePool(order, contract, individual, order.getPbeProduct(), productInstanceNum);
+        PbeProductInstancePool pool = createProductInstancePool(order, contract, individual, pbeProduct, productInstanceNum);
         pool = productInstancePoolRepository.save(pool);
 
         //STWORZENIE EVENTU DO PULI BONÓW
@@ -98,13 +103,18 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
                                                                             order.getId(), productInstanceNum);
 
         //POBRANIE INSTANCJI PRODUKTOW
-        List<PbeProductInstance> productInstances = findAvaiableProductInstanceByGrantProgram(order.getPbeProduct(), productInstanceNum);
+        List<PbeProductInstance> productInstances = findAvaiableProductInstanceByGrantProgram(pbeProduct, productInstanceNum);
         for(PbeProductInstance instance : productInstances){
 
             //ZMIANY NA INSTANCJACH PRODUKTOW
             assignProductInstance(instance, pool, contract);
             productInstanceRepository.update(instance, instance.getId());
         }
+
+        //PbeProductInstance instanceFirst = productInstances.get(0);
+        //PbeProductInstance instanceLast = productInstances.get(productInstances.size() - 1);
+        //gryfPLSQLRepository.flush();
+        //gryfPLSQLRepository.generateInstancesPrintNumber(pbeProduct.getId(), instanceFirst.getId().getNumber(), instanceLast.getId().getNumber());
     }
 
     @Override

@@ -485,6 +485,55 @@ END Create_Debit_Note;*/
       v_o$invoice := null;
     end Create_Credit_Note_Worker;
 
+  PROCEDURE Gen_Instances ( a_pbe_prd_id IN VARCHAR2, a_first IN NUMBER, a_last IN NUMBER )
+  IS
+    type rowidRec    is table of rowid index by binary_integer;
+    type prdIdRec    is table of APP_PBE.PBE_PRODUCT_INSTANCES.PRD_ID%TYPE index by binary_integer;
+    type printNumRec is table of APP_PBE.PBE_PRODUCT_INSTANCES.PRINT_NUM%TYPE index by binary_integer;
+    type instanceRec is record (
+      prd_id       prdIdRec,
+      prd_num      DBMS_SQL.NUMBER_TABLE,
+      expiry_date  DBMS_SQL.DATE_TABLE,
+      print_num    printNumRec,
+      rowids       rowidRec
+    );
 
+    v_instance instanceRec;
+
+    cursor get_data ( p_pbe_prd_id VARCHAR2, p_first number, p_last number )
+    is
+      select prd_id,
+        num,
+        expiry_date,
+        print_num,
+        ROWIDTOCHAR(rowid) rowid#
+      from APP_PBE.PBE_PRODUCT_INSTANCES pi
+      where PI.PRD_ID = p_pbe_prd_id
+            and pi.num between p_first and p_last
+            and pi.print_num is null;
+
+    BEGIN
+      PK_AUDIT.AUDIT_MODULE('PK_GRF_UTILS', 'Gen_Instances', var('A_PBE_PRD_ID',a_pbe_prd_id)||ivar('; A_FIRST', a_first )||ivar('; A_LAST', a_last )||var('; USER',USER ) );
+      open get_data( a_pbe_prd_id, a_first, a_last);
+      fetch get_data bulk collect into v_instance.prd_id, v_instance.prd_num, v_instance.expiry_date, v_instance.print_num, v_instance.rowids;
+      close get_data;
+      dbms_output.put_line('Wczytane ' || v_instance.prd_id.count || ' rekordów.' );
+
+
+      for i in 1 .. v_instance.prd_id.count
+      loop
+        v_instance.print_num(i) := v_instance.prd_num(i)||to_char(v_instance.expiry_date(i),'YYYYMMDD');
+      end loop;
+
+      forall i in 1 .. v_instance.prd_id.count
+      update APP_PBE.PBE_PRODUCT_INSTANCES pi
+      set print_num = v_instance.print_num(i)
+      where rowid = chartorowid(v_instance.rowids(i));
+
+      EXCEPTION
+      WHEN others THEN
+      pk_error.WRITE_ERROR;
+      RAISE;
+    END Gen_Instances;
 
 END PK_GRF_UTILS;
