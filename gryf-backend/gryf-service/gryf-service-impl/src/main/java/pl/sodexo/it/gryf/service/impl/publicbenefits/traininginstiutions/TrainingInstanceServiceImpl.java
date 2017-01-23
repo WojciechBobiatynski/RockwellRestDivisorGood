@@ -199,7 +199,7 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
         trainingInstance.setStatus(trainingInstStatCancel);
 
         //ZWROCENIE PULI
-        pbeProductInstancePoolLocalService.returnPools(trainingInstance);
+        pbeProductInstancePoolLocalService.returnReservedPools(trainingInstance);
     }
 
     @Override

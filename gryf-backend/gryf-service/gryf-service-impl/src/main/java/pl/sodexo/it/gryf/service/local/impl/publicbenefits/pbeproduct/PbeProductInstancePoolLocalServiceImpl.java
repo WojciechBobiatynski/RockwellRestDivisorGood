@@ -186,6 +186,44 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
     }
 
     @Override
+    public void returnReservedPools(TrainingInstance trainingInstance){
+
+        //POBRANIE STATUSOW
+        PbeProductInstanceStatus productInstStatAssign = productInstanceStatusRepository.get(PbeProductInstanceStatus.ASSIGNED_CODE);
+        PbeProductInstanceEventType unrsrvatonEventType = productInstanceEventTypeRepository.get(PbeProductInstanceEventType.UNRSRVATON_CODE);
+        PbeProductInstancePoolEventType unrsrvatonEventPoolType = productInstancePoolEventTypeRepository.get(PbeProductInstancePoolEventType.UNRSRVATON_CODE);
+
+        //ITERACJA PO UZYCIACH PULI
+        List<PbeProductInstancePoolUse> poolUses = trainingInstance.getPollUses();
+        for(PbeProductInstancePoolUse poolUse : poolUses){
+
+            //UAKTUALNINIE PULI
+            PbeProductInstancePool pool = poolUse.getProductInstancePool();
+            pool.setReservedNum(pool.getReservedNum() - poolUse.getAssignedNum());
+            pool.setAvailableNum(pool.getAvailableNum() + poolUse.getAssignedNum());
+
+            productInstancePoolEventBuilder.saveEvent(pool, unrsrvatonEventPoolType,
+                    trainingInstance.getId(), poolUse.getAssignedNum());
+
+            //ITERACJA PO INSTANCJACH PRODUKTU
+            List<PbeProductInstance> instances = poolUse.getPollUses();
+            for(int i = instances.size() - 1; i >= 0; i--){
+
+                PbeProductInstance ins = instances.get(i);
+
+                //ZMIANA W INSTANCJACH
+                ins.setStatus(productInstStatAssign);
+                ins.setOrderId(null);
+                poolUse.removePollUse(ins);
+                ins.setEreimbursmentId(null);
+
+                //EVENTY DO INSTANCJI PRODUKTOW
+                productInstanceEventBuilder.saveEvent(ins, unrsrvatonEventType, trainingInstance.getId());
+            }
+        }
+    }
+
+    @Override
     public void usePools(TrainingInstance instance){
 
         //POBRANIE STATUSOW
@@ -213,44 +251,6 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
 
                 //EVENTY DO INSTANCJI PRODUKTOW
                 productInstanceEventBuilder.saveEvent(i, useEventType, instance.getId());
-            }
-        }
-    }
-
-    @Override
-    public void returnPools(TrainingInstance trainingInstance){
-
-        //POBRANIE STATUSOW
-        PbeProductInstanceStatus productInstStatAssign = productInstanceStatusRepository.get(PbeProductInstanceStatus.ASSIGNED_CODE);
-        PbeProductInstanceEventType unrsrvatonEventType = productInstanceEventTypeRepository.get(PbeProductInstanceEventType.UNRSRVATON_CODE);
-        PbeProductInstancePoolEventType unrsrvatonEventPoolType = productInstancePoolEventTypeRepository.get(PbeProductInstancePoolEventType.UNRSRVATON_CODE);
-
-        //ITERACJA PO UZYCIACH PULI
-        List<PbeProductInstancePoolUse> poolUses = trainingInstance.getPollUses();
-        for(PbeProductInstancePoolUse poolUse : poolUses){
-
-            //UAKTUALNINIE PULI
-            PbeProductInstancePool pool = poolUse.getProductInstancePool();
-            pool.setReservedNum(pool.getReservedNum() - poolUse.getAssignedNum());
-            pool.setAvailableNum(pool.getAvailableNum() + poolUse.getAssignedNum());
-
-            productInstancePoolEventBuilder.saveEvent(pool, unrsrvatonEventPoolType,
-                                                                        trainingInstance.getId(), poolUse.getAssignedNum());
-
-            //ITERACJA PO INSTANCJACH PRODUKTU
-            List<PbeProductInstance> instances = poolUse.getPollUses();
-            for(int i = instances.size() - 1; i >= 0; i--){
-
-                PbeProductInstance ins = instances.get(i);
-
-                //ZMIANA W INSTANCJACH
-                ins.setStatus(productInstStatAssign);
-                ins.setOrderId(null);
-                poolUse.removePollUse(ins);
-                ins.setEreimbursmentId(null);
-
-                //EVENTY DO INSTANCJI PRODUKTOW
-                productInstanceEventBuilder.saveEvent(ins, unrsrvatonEventType, trainingInstance.getId());
             }
         }
     }
