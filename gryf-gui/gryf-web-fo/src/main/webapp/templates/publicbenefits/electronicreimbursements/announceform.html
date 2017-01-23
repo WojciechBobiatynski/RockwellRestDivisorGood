@@ -11,6 +11,11 @@
     <ol>
         <li><a class="button" data-ng-click="goBack()">Wróć</a></li>
     </ol>
+    <div id="terminatedWarning" class="grid-100" style="background-color: #ff001c !important; min-height: 50px; margin-top: 5px;" data-ng-if="eReimbObject.entity.terminated">
+        <div style="padding-top:10px">
+            Przekroczono termin rozliczenia
+        </div>
+    </div>
 </header>
 <!--------------------------------------DANE_INSTYTUCJI_SZKOLENIOWEJ---------------------------------------------->
 <section>
