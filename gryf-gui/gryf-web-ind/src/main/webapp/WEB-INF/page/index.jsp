@@ -111,5 +111,6 @@
 
     </div></footer>
 
-</body>
-</html>
+    <script src="${cdnUrl}js/gryf.js"></script>
+
+</body></html>

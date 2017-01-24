@@ -145,6 +145,8 @@
 
     </div></footer>
 
+    <script src="${cdnUrl}js/gryf.js"></script>
+
     <script>
         document.loginForm.username.focus();
         var hashFragment = window.location.hash;
