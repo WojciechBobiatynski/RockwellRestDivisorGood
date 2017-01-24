@@ -13,12 +13,15 @@ import pl.sodexo.it.gryf.model.publicbenefits.enterprises.Enterprise;
 import pl.sodexo.it.gryf.model.publicbenefits.enterprises.EnterpriseContact;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstitution;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstitutionContact;
+import pl.sodexo.it.gryf.model.security.trainingInstitutions.TrainingInstitutionUser;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
 import pl.sodexo.it.gryf.service.local.api.dictionaries.ContactTypeValidator;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.traininginstiutions.TrainingInstitutionEntityMapper;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.function.IntConsumer;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
@@ -71,23 +74,31 @@ public class TrainingInstitutionValidator {
                 String path = String.format("%s[%s].%s", "users", index, "role");
                 violations.add(new EntityConstraintViolation(path, "Brak ról dla użytkownika"));
             }
+
             if(trainingInstitution.getTrainingInstitutionUsers().get(index).getEmail() == null){
                 String path = String.format("%s[%s].%s", "users", index, "email");
                 violations.add(new EntityConstraintViolation(path, "Brak adresu email/loginu"));
             }
+
             if (!EmailValidator.getInstance().isValid(trainingInstitution.getTrainingInstitutionUsers().get(index).getEmail())) {
                 String path = String.format("%s[%s].%s", "users", index, "email");
                 violations.add(new EntityConstraintViolation(path, "Niepoprawny adres email"));
             }
-            if(trainingInstitutionUserDao.findByLoginIgnoreCase(trainingInstitution.getTrainingInstitutionUsers().get(index).getLogin()) != null){
+
+            TrainingInstitutionUser institutionUser = trainingInstitutionUserDao.findByLoginIgnoreCase(trainingInstitution.getTrainingInstitutionUsers().get(index).getLogin());
+            if(institutionUser != null && !institutionUser.getTrainingInstitution().getId().equals(trainingInstitution.getId())){
                 String path = String.format("%s[%s].%s", "users", index, "email");
                 violations.add(new EntityConstraintViolation(path, "Użytkownik o podanym adresie email/loginie już istnieje. Nie można zapisać użytkownika"));
             }
+
         };
 
         if (trainingInstitution.getTrainingInstitutionUsers() != null) {
             IntStream.range(0, trainingInstitution.getTrainingInstitutionUsers().size()).forEach(myConsumer);
+            trainingInstitution.getTrainingInstitutionUsers().stream().filter(trainingInstitutionUser -> Collections.frequency(trainingInstitution.getTrainingInstitutionUsers().stream().map(user -> user.getEmail()).collect(
+                    Collectors.toList()), trainingInstitutionUser.getEmail()) > 1).findAny().ifPresent(trainingInstitutionUser -> violations.add(new EntityConstraintViolation(null, "Nie można dodać użytkowników o takich samych mailach")));
         }
+
     }
 
     //PROTECTED METHODS
