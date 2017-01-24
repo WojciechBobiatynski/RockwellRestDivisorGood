@@ -16,6 +16,10 @@ public class MailPlaceholders {
 
     //CONSTRUCTORS
 
+    public MailPlaceholders() {
+        this.mailPlaceholders = new HashMap();
+    }
+
     public MailPlaceholders(String name, String value) {
         this.mailPlaceholders = new HashMap();
         add(name, value);

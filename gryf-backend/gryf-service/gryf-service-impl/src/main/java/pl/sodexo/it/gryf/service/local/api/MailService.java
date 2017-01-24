@@ -13,12 +13,8 @@ import java.util.List;
  */
 public interface MailService {
 
-    /**
-     * Tworzy strukturę z placeholderami zasiloną pierwszym placeholderem
-     * @param name  nazwa placeholdera
-     * @param value wartość placeholdera
-     * @return obiekt przechowujący placeholdery
-     */
+    MailPlaceholders createPlaceholders();
+
     MailPlaceholders createPlaceholders(String name, String value);
 
     MailDTO createMailDTO(String emailTemplateId, MailPlaceholders mailPlaceholders, String addressesTo);

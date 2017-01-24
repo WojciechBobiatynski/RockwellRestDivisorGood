@@ -41,38 +41,28 @@ public class MailDtoCreator {
     private ApplicationParameters applicationParameters;
 
     public MailDTO createMailDTOForResetLink(String email, String newLink) {
-        MailDTO mailDTO = new MailDTO();
-        MailPlaceholders mailPlaceholders = mailService.createPlaceholders(EMAIL_BODY_RESET_LINK_PLACEHOLDER, applicationParameters.getTiUserUrl() + RESET_LINK_URL_PREFIX + newLink);
+        MailPlaceholders mailPlaceholders = mailService.createPlaceholders()
+                .add(EMAIL_BODY_RESET_LINK_PLACEHOLDER, applicationParameters.getTiUserUrl() + RESET_LINK_URL_PREFIX + newLink);
+
         EmailTemplate emailTemplate = emailTemplateRepository.get(RESET_LINK_EMAIL_TEMPLATE_CODE);
-        mailDTO.setTemplateId(emailTemplate.getId());
-        mailDTO.setSubject(emailTemplate.getEmailSubjectTemplate());
-        mailDTO.setAddressesFrom(applicationParameters.getGryfPbeAdmEmailFrom());
-        mailDTO.setAddressesTo(email);
-        mailDTO.setBody(mailPlaceholders.replace(emailTemplate.getEmailBodyTemplate()));
-        mailDTO.setAttachments(Collections.emptyList());
-        return mailDTO;
+        return createAndFillMailDTO(emailTemplate, email, mailPlaceholders);
     }
 
     public MailDTO createMailDTOForVerificationCode(Verifiable verifiable, String firstName, String lastName) {
-        MailDTO mailDTO = new MailDTO();
-        MailPlaceholders mailPlaceholders = mailService.createPlaceholders(FIRST_NAME_PLACEHOLDER, firstName)
+        MailPlaceholders mailPlaceholders = mailService.createPlaceholders()
+                .add(FIRST_NAME_PLACEHOLDER, firstName)
                 .add(LAST_NAME_PLACEHOLDER, lastName)
                 .add(EMAIL_BODY_VER_CODE_PLACEHOLDER, verifiable.getVerificationCode())
                 .add(EMAIL_BODY_LOGIN_PLACEHOLDER, verifiable.getLogin())
                 .add(EMAIL_BODY_URL_PLACEHOLDER, applicationParameters.getIndUserUrl());
+
         EmailTemplate emailTemplate = emailTemplateRepository.get(VERIFICATION_CODE_EMAIL_TEMPLATE_CODE);
-        mailDTO.setTemplateId(emailTemplate.getId());
-        mailDTO.setSubject(emailTemplate.getEmailSubjectTemplate());
-        mailDTO.setAddressesFrom(applicationParameters.getGryfPbeAdmEmailFrom());
-        mailDTO.setAddressesTo(verifiable.getVerificationEmail());
-        mailDTO.setBody(mailPlaceholders.replace(emailTemplate.getEmailBodyTemplate()));
-        mailDTO.setAttachments(Collections.emptyList());
-        return mailDTO;
+        return createAndFillMailDTO(emailTemplate, verifiable.getVerificationEmail(), mailPlaceholders);
     }
 
     public MailDTO createMailDTOForPinSend(TrainingInstance ti, String email) {
-        String pin = getDecrypt(ti.getReimbursmentPin());
-        MailPlaceholders mailPlaceholders = mailService.createPlaceholders("individualName", ti.getIndividual().getFirstName())
+        MailPlaceholders mailPlaceholders = mailService.createPlaceholders()
+                .add("individualName", ti.getIndividual().getFirstName())
                 .add("grantProgramName", ti.getGrantProgram().getProgramName())
                 .add("firstName", ti.getIndividual().getFirstName())
                 .add("lastName", ti.getIndividual().getLastName())
@@ -81,27 +71,31 @@ public class MailDtoCreator {
                 .add("trainingInstitutionName", ti.getTraining().getTrainingInstitution().getName())
                 .add("trainingStartDate", new SimpleDateFormat(DATE_FORMAT).format(ti.getTraining().getStartDate()))
                 .add("assignedProductNum", String.valueOf(ti.getAssignedNum()))
-                .add("reimbursmentPin", pin);
+                .add("reimbursmentPin", getDecrypt(ti.getReimbursmentPin()));
+
         EmailTemplate emailTemplate = emailTemplateRepository.get(SEND_TRAINING_REIMBURSMENT_PIN_TEMPLATE_CODE);
         return createAndFillMailDTO(emailTemplate, email, mailPlaceholders);
     }
 
     public MailDTO createMailDTOForPinResend(TrainingInstance ti, String email) {
-        String pin = getDecrypt(ti.getReimbursmentPin());
-        MailPlaceholders mailPlaceholders = mailService.createPlaceholders("grantProgramName", ti.getGrantProgram().getProgramName())
+        MailPlaceholders mailPlaceholders = mailService.createPlaceholders()
+                .add("grantProgramName", ti.getGrantProgram().getProgramName())
                 .add("individualName", ti.getIndividual().getFirstName())
-                .add("reimbursmentPin", pin)
+                .add("reimbursmentPin", getDecrypt(ti.getReimbursmentPin()))
                 .add("trainingName", ti.getTraining().getName())
                 .add("trainingPlace", ti.getTraining().getPlace())
                 .add("assignedProductNum", String.valueOf(ti.getAssignedNum()))
                 .add("trainingStartDate", new SimpleDateFormat(DATE_FORMAT).format(ti.getTraining().getStartDate()))
                 .add("trainingInstitutionName", ti.getTraining().getTrainingInstitution().getName());
+
         EmailTemplate emailTemplate = emailTemplateRepository.get(RESEND_TRAINING_REIMBURSMENT_PIN_TEMPLATE_CODE);
         return createAndFillMailDTO(emailTemplate, email, mailPlaceholders);
     }
 
     public MailDTO createMailDTOForTiAccess(String grantProgramName, GryfTiUserDto user, String newLink) {
-        MailPlaceholders mailPlaceholders = mailService.createPlaceholders("grantProgramName", grantProgramName)
+
+        MailPlaceholders mailPlaceholders = mailService.createPlaceholders()
+                .add("grantProgramName", grantProgramName)
                 .add("IndividualWebAppURL",  applicationParameters.getTiUserUrl())
                 .add("login", user.getLogin())
                 .add("resetLink", applicationParameters.getTiUserUrl() + RESET_LINK_URL_PREFIX + newLink);
@@ -109,21 +103,49 @@ public class MailDtoCreator {
         return createAndFillMailDTO(emailTemplate, user.getEmail(), mailPlaceholders);
     }
 
-    private String getDecrypt(String val) {
-        return (val != null) ? AEScryptographer.decrypt(val) : "";
+    public MailDTO createCreditNoteForUnreservedPoolMailDto(ErmbsMailParamsDto paramsDto) {
+        MailPlaceholders mailPlaceholders = mailService.createPlaceholders()
+                .add(GRANT_PROGRAM_PLACEHOLDER, paramsDto.getGrantProgramName())
+                .add(FIRST_NAME_PLACEHOLDER, paramsDto.getFirstName())
+                .add(LAST_NAME_PLACEHOLDER, paramsDto.getLastName())
+                .add(NOTE_NOT_PLACEHOLDER, paramsDto.getNoteNo());
+
+        EmailTemplate emailTemplate = emailTemplateRepository.get(E_REIMB_CONFIRMATION_EMAIL_TEMPLATE_CODE_FOR_UNRSV_POOL);
+        return createAndFillMailDTO(emailTemplate, paramsDto.getEmail(), mailPlaceholders);
     }
 
-    private MailDTO createAndFillMailDTO(EmailTemplate emailTemplate, String email, MailPlaceholders mailPlaceholders) {
-        MailDTO mailDTO = new MailDTO();
-        mailDTO.setTemplateId(emailTemplate.getId());
-        mailDTO.setSubject(mailPlaceholders.replace(emailTemplate.getEmailSubjectTemplate()));
-        mailDTO.setAddressesFrom(applicationParameters.getGryfPbeDefPubEmailFrom());
-        mailDTO.setAddressesReplyTo(applicationParameters.getGryfPbeDefPubEmailReplyTo());
-        mailDTO.setAddressesTo(email);
-        mailDTO.setBody(mailPlaceholders.replace(emailTemplate.getEmailBodyTemplate()));
-        mailDTO.setAttachments(Collections.emptyList());
+    public MailDTO createCreditNoteMailDto(ErmbsMailParamsDto paramsDto) {
+        MailPlaceholders mailPlaceholders = mailService.createPlaceholders()
+                .add(GRANT_PROGRAM_PLACEHOLDER, paramsDto.getGrantProgramName())
+                .add(FIRST_NAME_PLACEHOLDER, paramsDto.getFirstName())
+                .add(LAST_NAME_PLACEHOLDER, paramsDto.getLastName())
+                .add(TRAINING_NAME_PLACEHOLDER, paramsDto.getTrainingName())
+                .add(NOTE_NOT_PLACEHOLDER, paramsDto.getNoteNo());
 
-        return mailDTO;
+        EmailTemplate emailTemplate = emailTemplateRepository.get(E_REIMB_CONFIRMATION_EMAIL_TEMPLATE_CODE);
+        return createAndFillMailDTO(emailTemplate, paramsDto.getEmail(), mailPlaceholders);
+    }
+
+    public MailDTO createConfirmPaymentMailDto(ErmbsMailParamsDto paramsDto) {
+        MailPlaceholders mailPlaceholders = mailService.createPlaceholders()
+                .add(GRANT_PROGRAM_PLACEHOLDER, paramsDto.getGrantProgramName())
+                .add(FIRST_NAME_PLACEHOLDER, paramsDto.getFirstName())
+                .add(LAST_NAME_PLACEHOLDER, paramsDto.getLastName())
+                .add(TRAINING_NAME_PLACEHOLDER, paramsDto.getTrainingName());
+
+        EmailTemplate emailTemplate = emailTemplateRepository.get(paramsDto.isContractForEnterprise() ?
+                                                            CONFIRMATION_PAYMENT_EMAIL_TEMPLATE_CODE_FOR_ENTERPRISE :
+                                                            CONFIRMATION_PAYMENT_EMAIL_TEMPLATE_CODE);
+        return createAndFillMailDTO(emailTemplate, paramsDto.getEmail(), mailPlaceholders);
+    }
+
+    public MailDTO createMailDTOForEreimbMail(ErmbsMailDto dto){
+        MailPlaceholders mailPlaceholders = mailService.createPlaceholders()
+                .add(EMAIL_BODY_PLACEHOLDER, dto.getEmailBody())
+                .add(EMAIL_SUBJECT_PLACEHOLDER, dto.getEmailSubject());
+
+        EmailTemplate emailTemplate = emailTemplateRepository.get(DEFAULT_EMAIL_TEMPLATE_CODE);
+        return createAndFillMailDTO(emailTemplate, dto.getEmailsTo(), mailPlaceholders);
     }
 
     public List<MailDTO> createMailDTOsForCorrecionNotification(CorrectionNotificationEmailParamsDto paramsDto) {
@@ -146,42 +168,21 @@ public class MailDtoCreator {
         return result;
     }
 
-    public MailDTO createCreditNoteForUnreservedPoolMailDto(ErmbsMailParamsDto paramsDto) {
-        MailPlaceholders mailPlaceholders = mailService.createPlaceholders(GRANT_PROGRAM_PLACEHOLDER, paramsDto.getGrantProgramName())
-                .add(FIRST_NAME_PLACEHOLDER, paramsDto.getFirstName())
-                .add(LAST_NAME_PLACEHOLDER, paramsDto.getLastName())
-                .add(NOTE_NOT_PLACEHOLDER, paramsDto.getNoteNo());
-        EmailTemplate emailTemplate = emailTemplateRepository.get(E_REIMB_CONFIRMATION_EMAIL_TEMPLATE_CODE_FOR_UNRSV_POOL);
-        return createAndFillMailDTO(emailTemplate, paramsDto.getEmail(), mailPlaceholders);
+    //PRIVATE METHODS
+
+    private MailDTO createAndFillMailDTO(EmailTemplate emailTemplate, String email, MailPlaceholders mailPlaceholders) {
+        MailDTO mailDTO = new MailDTO();
+        mailDTO.setTemplateId(emailTemplate.getId());
+        mailDTO.setSubject(mailPlaceholders.replace(emailTemplate.getEmailSubjectTemplate()));
+        mailDTO.setAddressesFrom(applicationParameters.getGryfPbeDefPubEmailFrom());
+        mailDTO.setAddressesReplyTo(applicationParameters.getGryfPbeDefPubEmailReplyTo());
+        mailDTO.setAddressesTo(email);
+        mailDTO.setBody(mailPlaceholders.replace(emailTemplate.getEmailBodyTemplate()));
+        mailDTO.setAttachments(Collections.emptyList());
+        return mailDTO;
     }
 
-    public MailDTO createCreditNoteMailDto(ErmbsMailParamsDto paramsDto) {
-        MailPlaceholders mailPlaceholders = mailService.createPlaceholders(GRANT_PROGRAM_PLACEHOLDER, paramsDto.getGrantProgramName())
-                .add(FIRST_NAME_PLACEHOLDER, paramsDto.getFirstName())
-                .add(LAST_NAME_PLACEHOLDER, paramsDto.getLastName())
-                .add(TRAINING_NAME_PLACEHOLDER, paramsDto.getTrainingName())
-                .add(NOTE_NOT_PLACEHOLDER, paramsDto.getNoteNo());
-        EmailTemplate emailTemplate = emailTemplateRepository.get(E_REIMB_CONFIRMATION_EMAIL_TEMPLATE_CODE);
-        return createAndFillMailDTO(emailTemplate, paramsDto.getEmail(), mailPlaceholders);
-    }
-
-    public MailDTO createConfirmPaymentMailDto(ErmbsMailParamsDto paramsDto) {
-        MailPlaceholders mailPlaceholders = mailService.createPlaceholders(GRANT_PROGRAM_PLACEHOLDER, paramsDto.getGrantProgramName())
-                .add(FIRST_NAME_PLACEHOLDER, paramsDto.getFirstName())
-                .add(LAST_NAME_PLACEHOLDER, paramsDto.getLastName())
-                .add(TRAINING_NAME_PLACEHOLDER, paramsDto.getTrainingName());
-        String emailTemplateCode = CONFIRMATION_PAYMENT_EMAIL_TEMPLATE_CODE;
-        if(paramsDto.isContractForEnterprise()){
-            emailTemplateCode = CONFIRMATION_PAYMENT_EMAIL_TEMPLATE_CODE_FOR_ENTERPRISE;
-        }
-        EmailTemplate emailTemplate = emailTemplateRepository.get(emailTemplateCode);
-        return createAndFillMailDTO(emailTemplate, paramsDto.getEmail(), mailPlaceholders);
-    }
-
-    public MailDTO createMailDTOForEreimbMail(ErmbsMailDto dto){
-        MailPlaceholders mailPlaceholders = mailService.createPlaceholders(EMAIL_BODY_PLACEHOLDER, dto.getEmailBody())
-                .add(EMAIL_SUBJECT_PLACEHOLDER, dto.getEmailSubject());
-        EmailTemplate emailTemplate = emailTemplateRepository.get(DEFAULT_EMAIL_TEMPLATE_CODE);
-        return createAndFillMailDTO(emailTemplate, dto.getEmailsTo(), mailPlaceholders);
+    private String getDecrypt(String val) {
+        return (val != null) ? AEScryptographer.decrypt(val) : "";
     }
 }

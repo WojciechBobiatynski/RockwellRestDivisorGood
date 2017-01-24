@@ -68,6 +68,11 @@ public class MailServiceImpl implements MailService {
     //PUBLIC METHODS
 
     @Override
+    public MailPlaceholders createPlaceholders(){
+        return new MailPlaceholders();
+    }
+
+    @Override
     public MailPlaceholders createPlaceholders(String name, String value){
         return new MailPlaceholders(name, value);
     }
