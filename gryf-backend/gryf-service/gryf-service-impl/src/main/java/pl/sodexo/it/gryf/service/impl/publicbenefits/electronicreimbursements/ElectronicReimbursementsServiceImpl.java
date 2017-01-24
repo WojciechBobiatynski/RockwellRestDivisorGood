@@ -438,9 +438,7 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         ereimbursement.setRejectionReasonId(rejectionDto.getRejectionReasonId());
         ereimbursement.setRejectionDetails(rejectionDto.getRejectionDetails());
         setNotReimbReimburseStatusForTiInstance(ereimbursement);
-        //TODO:tbilski 6.	Pula bonów wraca jako pula dostępna,
-        //Ad 7. eventy do dodania w tym procesie:
-        //' REJECTRMB, 'Odrzucenie rozliczenia – zwolnienie bonów'
+        pbeProductInstancePoolLocalService.returnUsedPools(ereimbursement);
         ereimbursementRepository.update(ereimbursement, ereimbursement.getId());
         return ereimbursement.getId();
     }

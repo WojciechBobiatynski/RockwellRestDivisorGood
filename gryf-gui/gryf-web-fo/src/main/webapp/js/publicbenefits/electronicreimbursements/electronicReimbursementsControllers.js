@@ -216,6 +216,10 @@ angular.module('gryf.electronicreimbursements').controller("announce.electronicR
             return AnnounceEReimbursementService.getSaveAttUrl();
         };
 
+        $scope.rejectionPaneDisabled = function() {
+            return !!$scope.eReimbObject.entity && $scope.eReimbObject.entity.statusCode === 'RJCT';
+        };
+
     }]);
 
 angular.module('gryf.electronicreimbursements').controller("unrsv.electronicReimbursementsController",

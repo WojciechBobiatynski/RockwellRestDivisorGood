@@ -384,7 +384,7 @@ angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementS
                 var rejectionDto = new RejectionDto();
                 var promise = $http.post(REJECT_URL, rejectionDto);
                 promise.success(function(response) {
-                    eReimbObject.setPopup("success", "Sukces", "Rozliczenie zostało odrzucone");
+                    GryfPopups.setPopup("success", "Sukces", "Rozliczenie zostało odrzucone");
                     eReimbObject.entity = response;
                 })
                     .error(function(error) {
