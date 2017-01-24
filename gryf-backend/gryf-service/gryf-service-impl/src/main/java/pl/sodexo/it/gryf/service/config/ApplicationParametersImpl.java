@@ -59,8 +59,8 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     private Integer maxIndResetFailureAttempts = 5;
     private Integer indUserResetBlockMinutes = 5;
     private Integer resetLinkActiveMinutes = 30;
-    private String secretCaptchaKey = "6Lf2YwoUAAAAAAakGiKVaC-hAwLqDKQn4RQqEt7Y";
-    private String publicCaptchaKey = "6Lf2YwoUAAAAAJLQuF5yQzLcdSim4KNQ4Ur_WWgm";
+    private String secretCaptchaKey = "6LeC_BIUAAAAAHGZ8nD7_1DjFlTxZZIoK-38LigK";
+    private String publicCaptchaKey = "6LeC_BIUAAAAAA5tGG8XLtf4pnqlbQ3PPL6fJV8E";
     private String indUserContext = "IND";
     private String tiUserContext = "TI";
     private String indUserUrl = "http://localhost:8080/gryf-ind/";
