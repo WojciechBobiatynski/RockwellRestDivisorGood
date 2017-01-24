@@ -1,13 +1,13 @@
 
 --------------------------------------------------------------------------------------
 -----------------------------------RESET_LINK-----------------------------------------
---------------------Powiadomienie o wygenerowaniu linku resetujï¿½cego hasï¿½o------------
+--------------------Powiadomienie o wygenerowaniu linku resetuj¹cego has³o------------
 --------------------------------------------------------------------------------------
 
-MERGE INTO APP_PBE.EMAIL_TEMPLATES msg USING (SELECT 'RESET_LINK' ID ,'Link resetujï¿½cy hasï¿½o: {$resetLink}
+MERGE INTO APP_PBE.EMAIL_TEMPLATES msg USING (SELECT 'RESET_LINK' ID ,'Link resetuj¹cy has³o: {$resetLink}
 
-Z powaï¿½aniem
-Zespï¿½ ds. obsï¿½ugi klienta' EMAIL_BODY_TEMPLATE, 'Reset hasï¿½a' EMAIL_SUBJECT_TEMPLATE, 'Powiadomienie o wygenerowaniu linku resetujï¿½cego hasï¿½o' DESCRIPTION from dual)
+Z powa¿aniem
+Zespó³ ds. obs³ugi klienta' EMAIL_BODY_TEMPLATE, 'Reset has³a' EMAIL_SUBJECT_TEMPLATE, 'Powiadomienie o wygenerowaniu linku resetuj¹cego has³o' DESCRIPTION from dual)
 ins ON (msg.ID = ins.ID)
 WHEN MATCHED THEN
 UPDATE SET msg.EMAIL_BODY_TEMPLATE = ins.EMAIL_BODY_TEMPLATE,
@@ -25,14 +25,14 @@ THEN INSERT (ID, EMAIL_BODY_TEMPLATE, EMAIL_SUBJECT_TEMPLATE, DESCRIPTION) VALUE
 --------------------------------------------------------------------------------------
 
 MERGE INTO APP_PBE.EMAIL_TEMPLATES msg USING (SELECT 'VC_SEND' ID ,'Szanowny Panie/Szanowna Pani
-Poniï¿½ej znajdujï¿½ siï¿½ dane logowania do naszego serwisu
+Poni¿ej znajduj¹ siê dane logowania do naszego serwisu
 
 Adres: {$url}
 Login: {$login}
-Hasï¿½o: {$verificationCode}
+Has³o: {$verificationCode}
 
-Z powaï¿½aniem
-Zespï¿½ ds. obsï¿½ugi klienta' EMAIL_BODY_TEMPLATE, 'Dane do logowania' EMAIL_SUBJECT_TEMPLATE, 'Dane do logowania dla osoby fizycznej' DESCRIPTION from dual)
+Z powa¿aniem
+Zespó³ ds. obs³ugi klienta' EMAIL_BODY_TEMPLATE, 'Dane do logowania' EMAIL_SUBJECT_TEMPLATE, 'Dane do logowania dla osoby fizycznej' DESCRIPTION from dual)
 ins ON (msg.ID = ins.ID)
 WHEN MATCHED THEN
 UPDATE SET msg.EMAIL_BODY_TEMPLATE = ins.EMAIL_BODY_TEMPLATE,
@@ -46,21 +46,21 @@ THEN INSERT (ID, EMAIL_BODY_TEMPLATE, EMAIL_SUBJECT_TEMPLATE, DESCRIPTION) VALUE
 
 --------------------------------------------------------------------------------------
 -----------------------------------PIN_SEND-------------------------------------------
--------------------------Przesï¿½anie pinu do szkolenia---------------------------------
+-------------------------Przes³anie pinu do szkolenia---------------------------------
 -----------------3.7	Email do uczestnika z numerem PIN do szkolenia------------------
 --------------------------------------------------------------------------------------
 
 MERGE INTO APP_PBE.EMAIL_TEMPLATES msg USING (SELECT 'PIN_SEND' ID ,'Sz. P. {$firstName} {$lastName},
 
-Uprzejmie informujemy, iï¿½ zarezerwowano  SZKOLENIE:{$trainingName}, {$trainingPlace}, {$trainingInstitutionName}, {$trainingStartDate},
-liczba zarezerwowanych bonï¿½w: {$assignedProductNum}.
+Uprzejmie informujemy, i¿ zarezerwowano  SZKOLENIE:{$trainingName}, {$trainingPlace}, {$trainingInstitutionName}, {$trainingStartDate},
+liczba zarezerwowanych bonów: {$assignedProductNum}.
 
-Poniï¿½ej znajduje siï¿½ kod PIN, potwierdzajï¿½cy uczestnictwo w szkoleniu, ktï¿½ry naleï¿½y przekazaï¿½ UsÅ‚ugodawcy na koniec wskazanego szkolenia.
+PoniŸej znajduje siê kod PIN, potwierdzaj¹cy uczestnictwo w szkoleniu, który nale¿y przekazaæ Instytucji Szkoleniowej na koniec wskazanego szkolenia.
 PIN: {$reimbursmentPin}
 
-Z powaï¿½aniem
-Zespï¿½ ds. obsï¿½ugi klienta' EMAIL_BODY_TEMPLATE, 'Zarezerwowano szkolenie w ramach programu dofinansowania: {$grantProgramName}' EMAIL_SUBJECT_TEMPLATE,
-                                                     'Przesï¿½anie pinu do szkolenia' DESCRIPTION from dual)
+Z powa¿aniem
+Zespó³ ds. obs³ugi klienta' EMAIL_BODY_TEMPLATE, 'Zarezerwowano szkolenie w ramach programu dofinansowania: {$grantProgramName}' EMAIL_SUBJECT_TEMPLATE,
+                                                     'Przes³anie pinu do szkolenia' DESCRIPTION from dual)
 ins ON (msg.ID = ins.ID)
 WHEN MATCHED THEN
 UPDATE SET msg.EMAIL_BODY_TEMPLATE = ins.EMAIL_BODY_TEMPLATE,
@@ -72,20 +72,20 @@ THEN INSERT (ID, EMAIL_BODY_TEMPLATE, EMAIL_SUBJECT_TEMPLATE, DESCRIPTION) VALUE
 
 --------------------------------------------------------------------------------------
 -----------------------------------PIN_RESEND-----------------------------------------
-----------------------------Przesï¿½anie pinu do szkolenia------------------------------
+----------------------------Przes³anie pinu do szkolenia------------------------------
 --------------------------------------------------------------------------------------
 
 MERGE INTO APP_PBE.EMAIL_TEMPLATES msg USING (SELECT 'PIN_RESEND' ID ,'Sz. P. {$firstName} {$lastName},
 
-Uprzejmie informujemy, iï¿½ zarezerwowano  SZKOLENIE:{$trainingName}, {$trainingPlace}, {$trainingInstitutionName}, {$trainingStartDate},
-liczba zarezerwowanych bonï¿½w: {$assignedProductNum}.
+Uprzejmie informujemy, i¿ zarezerwowano  SZKOLENIE:{$trainingName}, {$trainingPlace}, {$trainingInstitutionName}, {$trainingStartDate},
+liczba zarezerwowanych bonów: {$assignedProductNum}.
 
-Poniï¿½ej znajduje siï¿½ kod PIN, potwierdzajï¿½cy uczestnictwo w szkoleniu, ktï¿½ry naleï¿½y przekazaï¿½ UsÅ‚ugodawcy na koniec wskazanego szkolenia.
+Poni¿ej znajduje siê kod PIN, potwierdzaj¹cy uczestnictwo w szkoleniu, który nale¿y przekazaæ Instytucji Szkoleniowej na koniec wskazanego szkolenia.
 PIN: {$reimbursmentPin}
 
-Z powaï¿½aniem
-Zespï¿½ ds. obsï¿½ugi klienta' EMAIL_BODY_TEMPLATE, 'Zarezerwowano szkolenie w ramach programu dofinansowania: {$grantProgramName}' EMAIL_SUBJECT_TEMPLATE,
-                                                     'Ponowne przesï¿½anie pinu do szkolenia' DESCRIPTION from dual)
+Z powa¿aniem
+Zespó³ ds. obs³ugi klienta' EMAIL_BODY_TEMPLATE, 'Zarezerwowano szkolenie w ramach programu dofinansowania: {$grantProgramName}' EMAIL_SUBJECT_TEMPLATE,
+                                                     'Ponowne przes³anie pinu do szkolenia' DESCRIPTION from dual)
 ins ON (msg.ID = ins.ID)
 WHEN MATCHED THEN
 UPDATE SET msg.EMAIL_BODY_TEMPLATE = ins.EMAIL_BODY_TEMPLATE,
@@ -97,24 +97,24 @@ THEN INSERT (ID, EMAIL_BODY_TEMPLATE, EMAIL_SUBJECT_TEMPLATE, DESCRIPTION) VALUE
 
 --------------------------------------------------------------------------------------
 -----------------------------------KK_ORDER-------------------------------------------
----------Przesï¿½anie informacji o zrealizowaniu szkolenia na bony elektroniczne--------
---------------------3.2	Email do OsFiz/Mï¿½P o przydzieleniu bonï¿½w----------------------
+---------Przes³anie informacji o zrealizowaniu szkolenia na bony elektroniczne--------
+--------------------3.2	Email do OsFiz/MŒP o przydzieleniu bonów----------------------
 --------------------------------------------------------------------------------------
 
 MERGE INTO APP_PBE.EMAIL_TEMPLATES msg USING (SELECT 'KK_ORDER' ID ,'Sz. P. {$firstName} {$lastName},
 
-Uprzejmie informujemy, ï¿½e przydzielono dofinansowanie w ramach programu {$grantProgramName} w wysokoï¿½ci {$grantedVouchersNumber} elektronicznych bonï¿½w szkoleniowych.
+Uprzejmie informujemy, ¿e przydzielono dofinansowanie w ramach programu {$grantProgramName} w wysokoœci {$grantedVouchersNumber} elektronicznych bonów szkoleniowych.
 
-Stan przydzielonej puli bonï¿½w oraz zapisy na szkolenia moï¿½na ï¿½ledziï¿½ pod adresem: {$IndividualWebAppURL}.
+Stan przydzielonej puli bonów oraz zapisy na szkolenia mo¿na œledziæ pod adresem: {$IndividualWebAppURL}.
 
 Login: {$IndividualWebAppLogin}
-Hasï¿½o: {$IndividualWebAppPass}
+Has³o: {$IndividualWebAppPass}
 
-W zaï¿½ï¿½czniku znajdï¿½ Paï¿½stwo notï¿½ obciï¿½ï¿½eniowo ksiï¿½gowï¿½ o numerze: {$noteNo}.
+W za³¹czniku znajd¹ Pañstwo notê obci¹¿eniowo ksiêgow¹ o numerze: {$noteNo}.
 
-Z powaï¿½aniem
-Zespï¿½ ds. obsï¿½ugi klienta' EMAIL_BODY_TEMPLATE, 'Przyznanie bonï¿½w szkoleniowych w ramach programu dofinansowania: {$grantProgramName}' EMAIL_SUBJECT_TEMPLATE,
-                                                     'Przesï¿½anie informacji o zrealizowaniu szkolenia na bony elektroniczne' DESCRIPTION from dual)
+Z powa¿aniem
+Zespó³ ds. obs³ugi klienta' EMAIL_BODY_TEMPLATE, 'Przyznanie bonów szkoleniowych w ramach programu dofinansowania: {$grantProgramName}' EMAIL_SUBJECT_TEMPLATE,
+                                                     'Przes³anie informacji o zrealizowaniu szkolenia na bony elektroniczne' DESCRIPTION from dual)
 ins ON (msg.ID = ins.ID)
 WHEN MATCHED THEN
 UPDATE SET msg.EMAIL_BODY_TEMPLATE = ins.EMAIL_BODY_TEMPLATE,
@@ -130,11 +130,11 @@ THEN INSERT (ID, EMAIL_BODY_TEMPLATE, EMAIL_SUBJECT_TEMPLATE, DESCRIPTION) VALUE
 -------------------------------3.6	Korekta rozliczenia-------------------------------
 --------------------------------------------------------------------------------------
 
-MERGE INTO APP_PBE.EMAIL_TEMPLATES msg USING (SELECT 'CORR_NOTIF' ID ,'Szanowni Paï¿½stwo
+MERGE INTO APP_PBE.EMAIL_TEMPLATES msg USING (SELECT 'CORR_NOTIF' ID ,'Szanowni Pañstwo
 
-Po weryfikacji dokumentï¿½w do rozliczenia otrzymanych w dniu {$arrivalDate}, numer rozliczenia {$rmbsNumber}, rozliczenie zostaï¿½o zwrï¿½cone do korekty, dane szczegï¿½owe na temat zidentyfikowanych niezgodnoï¿½ci znajdï¿½ Paï¿½stwo w serwisie.
-Wzywamy do uzupeï¿½nienia brakujï¿½cych dokumentï¿½w w ciï¿½gu 5 dni roboczych.' EMAIL_BODY_TEMPLATE,
-                                                     'Rozliczenie zwrï¿½cone do korekty w ramach programu dofinansowania: {$grantProgramName}' EMAIL_SUBJECT_TEMPLATE,
+Po weryfikacji dokumentów do rozliczenia otrzymanych w dniu {$arrivalDate}, numer rozliczenia {$rmbsNumber}, rozliczenie zosta³o zwrócone do korekty, dane szczeg³owe na temat zidentyfikowanych niezgodnoœci znajd¹ Pañstwo w serwisie.
+Wzywamy do uzupe³nienia brakuj¹cych dokumentów w ci¹gu 5 dni roboczych.' EMAIL_BODY_TEMPLATE,
+                                                     'Rozliczenie zwrócone do korekty w ramach programu dofinansowania: {$grantProgramName}' EMAIL_SUBJECT_TEMPLATE,
                                                      'Informacja o korekcie rozliczenia' DESCRIPTION from dual)
                                              ins ON (msg.ID = ins.ID)
 WHEN MATCHED THEN
@@ -147,16 +147,16 @@ THEN INSERT (ID, EMAIL_BODY_TEMPLATE, EMAIL_SUBJECT_TEMPLATE, DESCRIPTION) VALUE
 
 --------------------------------------------------------------------------------------
 -----------------------------------E_REIMB--------------------------------------------
----------------Informacja o rozliczeniu bonï¿½w szkoleniowych---------------------------
------------------3.3	Rozliczenie bonï¿½w szkoleniowych---------------------------------
+---------------Informacja o rozliczeniu bonów szkoleniowych---------------------------
+-----------------3.3	Rozliczenie bonów szkoleniowych---------------------------------
 --------------------------------------------------------------------------------------
 
 MERGE INTO APP_PBE.EMAIL_TEMPLATES msg USING (SELECT 'E_REIMB' ID ,'Sz. P. {$firstName} {$lastName},
-Uprzejmie informujemy, ï¿½e rozliczono bony w ramach programu {$grantProgramName} dotyczï¿½ce szkolenia {$trainingName}
+Uprzejmie informujemy, ¿e rozliczono bony w ramach programu {$grantProgramName} dotycz¹ce szkolenia {$trainingName}
 
-W zaï¿½ï¿½czniku znajdzie Pan/Pani notï¿½ uznaniowï¿½ o numerze: {$noteNo} rozliczajï¿½cï¿½ wpï¿½acony przez Pana/Paniï¿½ wkï¿½ad wï¿½asny.' EMAIL_BODY_TEMPLATE,
-                                                     'Rozliczenie bonï¿½w szkoleniowych w ramach programu dofinansowania: {$grantProgramName}' EMAIL_SUBJECT_TEMPLATE,
-                                                     'Informacja o rozliczeniu bonï¿½w szkoleniowych' DESCRIPTION
+W za³¹czniku znajdzie Pan/Pani notê uznaniow¹ o numerze: {$noteNo} rozliczaj¹c¹ wp³acony przez Pana/Pani¹ wk³ad w³asny.' EMAIL_BODY_TEMPLATE,
+                                                     'Rozliczenie bonów szkoleniowych w ramach programu dofinansowania: {$grantProgramName}' EMAIL_SUBJECT_TEMPLATE,
+                                                     'Informacja o rozliczeniu bonów szkoleniowych' DESCRIPTION
                                               from dual) ins ON (msg.ID = ins.ID)
 WHEN MATCHED THEN
 UPDATE SET msg.EMAIL_BODY_TEMPLATE = ins.EMAIL_BODY_TEMPLATE,
@@ -170,16 +170,16 @@ THEN INSERT (ID, EMAIL_BODY_TEMPLATE, EMAIL_SUBJECT_TEMPLATE, DESCRIPTION) VALUE
 
 --------------------------------------------------------------------------------------
 -----------------------------------CNF_PYMT-------------------------------------------
------------------------Potwierdzenie wpï¿½aty naleï¿½noï¿½ci--------------------------------
----------------------3.4	Potwierdzenie wypï¿½aty naleï¿½noï¿½ci----------------------------
+-----------------------Potwierdzenie wp³aty nale¿noœci--------------------------------
+---------------------3.4	Potwierdzenie wyp³aty naleŸnoœci----------------------------
 --------------------------------------------------------------------------------------
 
 MERGE INTO APP_PBE.EMAIL_TEMPLATES msg USING (SELECT 'CNF_PYMT' ID ,'Sz. P. {$firstName} {$lastName},
-Uprzejmie informujemy, ï¿½e rozliczono bony w ramach programu {$grantProgramName} dotyczï¿½ce szkolenia {$trainingName}
+Uprzejmie informujemy, ¿e rozliczono bony w ramach programu {$grantProgramName} dotycz¹ce szkolenia {$trainingName}
 
-W zaï¿½ï¿½czniku znajdzie Pan/Pani potwierdzenie wypï¿½aty naleï¿½noï¿½ci za szkolenie.' EMAIL_BODY_TEMPLATE,
-                                                     'Potwierdzenie wypï¿½aty naleï¿½noï¿½ci z tytuï¿½u rozliczenia bonï¿½w szkoleniowych w ramach programu dofinansowania: {$grantProgramName}' EMAIL_SUBJECT_TEMPLATE,
-                                                     'Potwierdzenie wpï¿½aty naleï¿½noï¿½ci' DESCRIPTION
+W za³¹czniku znajdzie Pan/Pani potwierdzenie wyp³aty nale¿noœci za szkolenie.' EMAIL_BODY_TEMPLATE,
+                                                     'Potwierdzenie wyp³aty nale¿noœci z tytu³u rozliczenia bonów szkoleniowych w ramach programu dofinansowania: {$grantProgramName}' EMAIL_SUBJECT_TEMPLATE,
+                                                     'Potwierdzenie wp³aty nale¿noœci' DESCRIPTION
                                               from dual) ins ON (msg.ID = ins.ID)
 WHEN MATCHED THEN
 UPDATE SET msg.EMAIL_BODY_TEMPLATE = ins.EMAIL_BODY_TEMPLATE,

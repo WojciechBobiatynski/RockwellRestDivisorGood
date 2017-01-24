@@ -40,24 +40,24 @@ END;
 /
 
 -- komentarze
-COMMENT ON TABLE APP_PBE.TI_TRAININGS IS '@Author(Krzysztof Antczak); @Project(Gryf-PBE); @Date(2016-10-25);@Purpose(Tabela przechowujï¿½ca dane dotyczï¿½ce szkoleï¿½ organizowanych przez IS);';
+COMMENT ON TABLE APP_PBE.TI_TRAININGS IS '@Author(Krzysztof Antczak); @Project(Gryf-PBE); @Date(2016-10-25);@Purpose(Tabela przechowuj¹ca dane dotycz¹ce szkoleñ organizowanych przez IS);';
 COMMENT ON COLUMN APP_PBE.TI_TRAININGS.ID IS 'Identyfikator szkolenia';
-COMMENT ON COLUMN APP_PBE.TI_TRAININGS.EXTERNAL_ID IS 'Identyfikator zewnï¿½trzny z BUR';
-COMMENT ON COLUMN APP_PBE.TI_TRAININGS.TRAINING_INSTITUTION_ID IS 'Identyfikator UsÅ‚ugodawcy';
+COMMENT ON COLUMN APP_PBE.TI_TRAININGS.EXTERNAL_ID IS 'Identyfikator zewnêtrzny z BUR';
+COMMENT ON COLUMN APP_PBE.TI_TRAININGS.TRAINING_INSTITUTION_ID IS 'Identyfikator instytucji szkoleniowej';
 COMMENT ON COLUMN APP_PBE.TI_TRAININGS.NAME IS 'Nazwa szkolenia';
 COMMENT ON COLUMN APP_PBE.TI_TRAININGS.PRICE IS 'Cena szkolenia';
-COMMENT ON COLUMN APP_PBE.TI_TRAININGS.START_DATE IS 'Data rozpoczï¿½cia szkolenia';
-COMMENT ON COLUMN APP_PBE.TI_TRAININGS.END_DATE IS 'Data zakoï¿½czenia szkolenia';
+COMMENT ON COLUMN APP_PBE.TI_TRAININGS.START_DATE IS 'Data rozpoczêcia szkolenia';
+COMMENT ON COLUMN APP_PBE.TI_TRAININGS.END_DATE IS 'Data zakoñczenia szkolenia';
 COMMENT ON COLUMN APP_PBE.TI_TRAININGS.PLACE IS 'Miejsce szkolenia';
 COMMENT ON COLUMN APP_PBE.TI_TRAININGS.HOURS_NUMBER IS 'Liczba godzin szkolenia';
-COMMENT ON COLUMN APP_PBE.TI_TRAININGS.HOUR_PRICE IS 'Cena za godzinï¿½ szkolenia';
+COMMENT ON COLUMN APP_PBE.TI_TRAININGS.HOUR_PRICE IS 'Cena za godzinê szkolenia';
 COMMENT ON COLUMN APP_PBE.TI_TRAININGS.TRAINING_CATEGORY_ID IS 'Kod kategorii szkolenia';
 COMMENT ON COLUMN APP_PBE.TI_TRAININGS.REIMBURSMENT_CONDITIONS IS 'Warunki rozliczenia szkolenia';
 COMMENT ON COLUMN APP_PBE.TI_TRAININGS.ACTIVE IS 'Flaga czy dany rekord jest aktywny';
 COMMENT ON COLUMN APP_PBE.TI_TRAININGS.DEACTIVATE_DATE IS 'Data deaktywacji';
-COMMENT ON COLUMN APP_PBE.TI_TRAININGS.DEACTIVATE_JOB_ID IS 'Identyfikator zadania ktï¿½re deaktywowaï¿½o rekord';
-COMMENT ON COLUMN APP_PBE.TI_TRAININGS.VERSION IS 'Wersja. Kolumna techniczna uï¿½ywana do mechanizmu Optimistic Lock';
-COMMENT ON COLUMN APP_PBE.TI_TRAININGS.CREATED_USER IS 'Nazwa uï¿½ytkownika, ktï¿½ry utworzyï¿½ rekord';
+COMMENT ON COLUMN APP_PBE.TI_TRAININGS.DEACTIVATE_JOB_ID IS 'Identyfikator zadania które deaktywowa³o rekord';
+COMMENT ON COLUMN APP_PBE.TI_TRAININGS.VERSION IS 'Wersja. Kolumna techniczna u¿ywana do mechanizmu Optimistic Lock';
+COMMENT ON COLUMN APP_PBE.TI_TRAININGS.CREATED_USER IS 'Nazwa u¿ytkownika, który utworzy³ rekord';
 COMMENT ON COLUMN APP_PBE.TI_TRAININGS.CREATED_TIMESTAMP IS 'Data i czas momentu utworzenia rekordu';
-COMMENT ON COLUMN APP_PBE.TI_TRAININGS.MODIFIED_USER IS 'Nazwa uï¿½ytkownika, ktï¿½ry ostatnio modyfikowaï¿½ rekord';
+COMMENT ON COLUMN APP_PBE.TI_TRAININGS.MODIFIED_USER IS 'Nazwa u¿ytkownika, który ostatnio modyfikowa³ rekord';
 COMMENT ON COLUMN APP_PBE.TI_TRAININGS.MODIFIED_TIMESTAMP IS 'Data i czas ostatniej modyfikacji rekordu';
