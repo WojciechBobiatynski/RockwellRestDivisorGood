@@ -106,4 +106,8 @@ public interface ApplicationParameters {
     Integer getBusinessDaysNumberForCorrection();
 
     String getErmbsEmailAttachmentDirectory();
+
+    Integer getDefaultEReimburseDayLimit();
+
+    Integer getDefaultDaysNumberAfterEndDateToExpiryPool();
 }

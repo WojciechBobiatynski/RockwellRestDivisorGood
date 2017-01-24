@@ -174,7 +174,7 @@
           ermbs.IND_SUBSIDY_VALUE                   indSubsidyValue,
           CASE
             WHEN
-              NVL(ermbs.ARRIVAL_DATE, SYSDATE) - NVL(e_day_limit_param.VALUE, 35) &gt; tr.END_DATE
+              NVL(ermbs.ARRIVAL_DATE, SYSDATE) - NVL(e_day_limit_param.VALUE, #{criteria.config.defaultEReimburseDayLimit}) &gt; tr.END_DATE
                 THEN 1
             ELSE
               0
@@ -534,7 +534,7 @@
         SELECT
             CASE
                 WHEN
-                  SYSDATE - NVL(e_day_limit_param.VALUE, 35) &gt; tr.END_DATE
+                  SYSDATE - NVL(e_day_limit_param.VALUE, #{criteria.config.defaultEReimburseDayLimit}) &gt; tr.END_DATE
                     THEN 1
                 ELSE
                   0

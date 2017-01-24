@@ -22,7 +22,7 @@
           JOIN APP_PBE.GRANT_OWNERS gr_own ON gr_own.ID = pr.GRANT_OWNER_ID
           JOIN APP_PBE.PBE_PRODUCTS prd ON prd.GRANT_OWNER_ID = gr_own.ID
         WHERE
-          TRUNC(pool.EXPIRY_DATE + NVL(prm.VALUE, 10)) &lt;= TRUNC(SYSDATE)
+          TRUNC(pool.EXPIRY_DATE + NVL(prm.VALUE, #{criteria.config.defaultDaysNumberAfterEndDateToExpiryPool})) &lt;= TRUNC(SYSDATE)
           AND pool.AVAILABLE_NUM &gt; 0
     </select>
 

@@ -68,6 +68,8 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     private Integer businessDaysNumberForReimbursement = 5;
     private Integer businessDaysNumberForCorrection = 5;
     private String ermbsEmailAttachmentDirectory = "mail_attachments";
+    private Integer defaultEReimburseDayLimit = 35;
+    private Integer defaultDaysNumberAfterEndDateToExpiryPool = 2;
 
     //LIFECYCLE METHODS
 
@@ -272,6 +274,15 @@ public class ApplicationParametersImpl implements ApplicationParameters {
         String dbErmbsEmailAttachmentDirectory = (String) findParameter("GRYF_ERMBS_EMAIL_ATTACHMENT_DIRECTORY");
         if (dbErmbsEmailAttachmentDirectory != null) {
             ermbsEmailAttachmentDirectory = dbErmbsEmailAttachmentDirectory;
+        }
+
+        Integer dbDefaultEReimburseDayLimit = (Integer) findParameter("GRYF_DEFAULT_E_REIMB_DAY_LIMI");
+        if (dbDefaultEReimburseDayLimit != null) {
+            defaultEReimburseDayLimit = dbDefaultEReimburseDayLimit;
+        }
+        Integer dbDefaultDaysNumberAfterEndDateToExpiryPool = (Integer) findParameter("GRYF_DEFAULT_DAYS_NR_AFT_END_DATE_TO_EXP_POOL");
+        if (dbDefaultDaysNumberAfterEndDateToExpiryPool != null) {
+            defaultDaysNumberAfterEndDateToExpiryPool = dbDefaultDaysNumberAfterEndDateToExpiryPool;
         }
 
     }
@@ -530,6 +541,16 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     @Override
     public String getErmbsEmailAttachmentDirectory() {
         return ermbsEmailAttachmentDirectory;
+    }
+
+    @Override
+    public Integer getDefaultEReimburseDayLimit() {
+        return defaultEReimburseDayLimit;
+    }
+
+    @Override
+    public Integer getDefaultDaysNumberAfterEndDateToExpiryPool() {
+        return defaultDaysNumberAfterEndDateToExpiryPool;
     }
 
     //PRIVATE METHODS
