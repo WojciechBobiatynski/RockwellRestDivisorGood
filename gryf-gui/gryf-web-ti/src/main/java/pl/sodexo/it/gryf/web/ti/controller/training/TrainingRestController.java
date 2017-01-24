@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingPrecalculatedDetailsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchQueryDTO;
@@ -14,6 +15,7 @@ import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.Training
 import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
 import pl.sodexo.it.gryf.web.ti.util.UrlConstants;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -28,6 +30,9 @@ public class TrainingRestController {
 
     @Autowired
     private SecurityChecker securityChecker;
+
+    @Autowired
+    private ApplicationParameters applicationParameters;
 
     //PUBLIC METHODS - FINDS
 
@@ -61,6 +66,13 @@ public class TrainingRestController {
     @RequestMapping(value = "/categories", method = RequestMethod.GET)
     public List<SimpleDictionaryDto> getTrainingCategoriesDict() {
         return trainingService.findTrainingCategories();
+    }
+
+    @RequestMapping(value = "/feedbackEmail", method = RequestMethod.GET)
+    public List<String> getFeedbackEmail() {
+        List<String> emails = new ArrayList<>();
+        emails.add(applicationParameters.getGryfPbeDefPubEmailReplyTo());
+        return emails;
     }
 
     //PRIVATE METHODS

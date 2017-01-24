@@ -37,6 +37,7 @@ angular.module('gryf.modals').factory('GryfModals', ['$rootScope', '$modal', fun
             templateUrl: contextPath + "/templates/modals/modal-delivery-lov.html",
             restURL: contextPath + "/rest/publicBenefits/reimbursements/reimbursableDeliveries"
         },
+        UNSUPPORTED_ERROR_INFO: contextPath + "/templates/modals/modal-unsupported-error.html",
         ERROR_INFO: contextPath + "/templates/modals/modal-error.html",
         INVALID_OBJECT_ID: contextPath + "/templates/modals/modal-invalid-object-id.html"
     };
@@ -105,7 +106,7 @@ angular.module('gryf.modals').factory('GryfModals', ['$rootScope', '$modal', fun
                 staleData: additionalTextData.staleData,
                 conflictedObjects: additionalTextData.conflictedObjects,
                 message: additionalTextData.message,
-                feedbackInfo: additionalTextData.feedbackInfo
+                feedback: additionalTextData.feedback
             })
         });
     };

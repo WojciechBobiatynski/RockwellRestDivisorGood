@@ -1,0 +1,14 @@
+<div id="modal-error">
+    <div class="modal-head green">
+        <h3 class="modal-title">Wystąpił nieznany błąd</h3>
+        <button class="close" ng-click="$dismiss()">×</button>
+    </div>
+    <div class="modal-body text">
+        Prosimy o zgłoszenie wystąpienia błędu do administratora. <br/> Za utrudnienia przepraszamy.
+        <div class="modal-footer text-center">
+            <a class="button standardButton"
+               ng-href="{{feedback.mailtoText}}"
+               ng-click="$dismiss()">Wyślij zgłoszenie</a>
+        </div>
+    </div>
+</div>

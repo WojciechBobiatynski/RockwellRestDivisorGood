@@ -153,9 +153,7 @@
             <ul class="text-center no-margin-padding">
                <li class="textButton green"
                    ui-sref="trainingReservation.trainingDetails({trainingId: item.trainingId})">SZCZEGÓŁY</li>
-               <li class="textButton green"
-                   ui-sref="reservationModal({trainingId: item.trainingId,
-                   grantProgramId: userTrainingReservationData.data.contracts[0].grantProgram.id})">REZERWUJ</li>
+               <li class="textButton green" ng-click="reserveTraining(item)">REZERWUJ</li>
             </ul>
          </td>
       </tr>

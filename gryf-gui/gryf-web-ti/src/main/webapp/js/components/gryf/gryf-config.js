@@ -1,8 +1,8 @@
 var app = angular.module('gryf.config', ['ui.router', 'ui.bootstrap', 'gryf.modals', 'ngAnimate', 'gryf.popups',
      'gryf.privileges', 'gryf.tables', 'gryf.exceptionHandler', 'gryf.helpers']);
 
-angular.module('gryf.config').factory('generalExceptionHandlerInterceptor', ['$q', '$injector', '$location',
-    function($q, $injector) {
+angular.module('gryf.config').factory('generalExceptionHandlerInterceptor', ['$q', '$injector', "$rootScope", "$filter", "$interpolate",
+    function($q, $injector, $rootScope, $filter, $interpolate) {
 
     return {
         responseError: function(rejection) {
@@ -14,11 +14,34 @@ angular.module('gryf.config').factory('generalExceptionHandlerInterceptor', ['$q
                     }]);                    
                 } else { // GENERAL_EXCEPTION
                     $injector.invoke(['GryfModals', function(GryfModals) {
-                        var additionalInfo = {
-                            message: rejection.data.stacktrace.substring(0, 1600),
-                            feedbackInfo: {email: "test@sodexo.pl", subject: "[Gryf] Błąd"}
+
+                        var recipient = $rootScope.FEEDBACK_EMAIL;
+                        var subject = "?subject=[Gryf] Zgłoszenie błędu";
+
+                        var params = {
+                            requestTime: $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss'),
+                            requestUrl: rejection.config.url,
+                            errorCause: rejection.data.cause,
+                            className: rejection.data.className,
+                            methodName: rejection.data.methodName,
+                            lineNumber: rejection.data.lineNumber
                         };
-                        GryfModals.openModal(GryfModals.MODALS_URL.ERROR_INFO, additionalInfo);
+
+                        var body = "&body=" + $interpolate("Przyczyna błędu:     {{errorCause}}%0D%0A" +
+                                                           "Adres żądania:         {{requestUrl}}%0D%0A" +
+                                                           "Data wystąpienia:   {{requestTime}}%0D%0A" +
+                                                           "Nazwa klasy:            {{className}}%0D%0A" +
+                                                           "Nazwa metody:       {{methodName}}%0D%0A" +
+                                                           "Numer linii:              {{lineNumber}}%0D%0A" +
+                                                           "------------------------------------------------------%0D%0A" +
+                                                           "Prosimy o opisanie w jakim momencie wystąpił błąd:")(params);
+
+                        var additionalInfo = {
+                            feedback: {
+                                mailtoText: "mailto:" + recipient + subject + body
+                            }
+                        };
+                        GryfModals.openModal(GryfModals.MODALS_URL.UNSUPPORTED_ERROR_INFO, additionalInfo);
                     }]);
                 }
             }

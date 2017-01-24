@@ -1,14 +1,11 @@
 <div id="modal-error">
     <div class="modal-head green">
-        <h3 class="modal-title">Wystąpił nieznany błąd</h3>
-        <button class="close" ng-click="$dismiss()">×</button>
+        <h3 class="modal-title">! Wystąpił błąd</h3>
     </div>
     <div class="modal-body text">
-        Fakt wystąpienia błędu wraz krótkim opisem prosimy zgłosić do administratora. <br/> Za utrudnienia przepraszamy.
-        <div class="modal-footer text-center">
-            <a class="button standardButton"
-               href=mailto:{{feedbackInfo.email}}?subject={{feedbackInfo.subject}}&body={{message}}
-               ng-click="$dismiss()">Wyślij zgłoszenie</a>
+        <p>{{message}}</p>
+        <div class="modal-footer text-right">
+            <a class="button standardButton" ng-click="$dismiss()">Ok</a>
         </div>
     </div>
 </div>

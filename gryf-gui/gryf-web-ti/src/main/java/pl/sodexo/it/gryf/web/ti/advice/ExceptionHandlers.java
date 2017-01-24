@@ -21,8 +21,6 @@ import pl.sodexo.it.gryf.web.ti.response.IndUserVerificationExceptionResponse;
 import pl.sodexo.it.gryf.web.ti.response.StaleDataResponse;
 import pl.sodexo.it.gryf.web.ti.response.ValidationErrorResponse;
 
-import java.util.Date;
-
 @ControllerAdvice
 @Order(Ordered.LOWEST_PRECEDENCE)
 public class ExceptionHandlers {
@@ -48,7 +46,20 @@ public class ExceptionHandlers {
     @ResponseBody
     public ResponseEntity<GeneralExceptionResponse> generalException(Exception sde) {
         LOGGER.error(sde.getMessage(), sde);
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new GeneralExceptionResponse(sde.getMessage(), Throwables.getStackTraceAsString(sde)));
+
+        StackTraceElement[] stackTrace = sde.getStackTrace();
+        String methodName = "";
+        String className = "";
+        Integer lineNumber = null;
+        if(stackTrace.length > 0) {
+            methodName = stackTrace[0].getMethodName();
+            className= stackTrace[0].getClassName();
+            lineNumber = stackTrace[0].getLineNumber();
+        }
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new GeneralExceptionResponse(sde.getMessage(), Throwables.getStackTraceAsString(sde),
+                        sde.getClass().getName(), methodName, className, lineNumber));
     }
 
     @ExceptionHandler(StaleDataException.class)

@@ -29,12 +29,6 @@ angular.module("gryf.ti").controller("ReservationModalController", ["$scope", "$
         trainingReservationDto.toReservedNum = $scope.toReservedNum;
         trainingReservationDto.version = $scope.training.data.version;
 
-        if(!trainingReservationDto.contractId) {
-            GryfModals.openModal(GryfModals.MODALS_URL.ERROR_INFO,
-                {message: "Nie można zarezerwować szkolenia, ponieważ ta osoba nie posiada żadnej umowy."});
-            return;
-        }
-
         TrainingReservationService.reserveTraining(trainingReservationDto).then(function() {
             $scope.close(true);
         });
@@ -42,5 +36,5 @@ angular.module("gryf.ti").controller("ReservationModalController", ["$scope", "$
 
     function resetViolations() {
         $scope.violations = TrainingReservationService.getNewViolations();
-    };
+    }
 }]);

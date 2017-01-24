@@ -1,6 +1,6 @@
 angular.module("gryf.ti").controller("TrainingReservationController",
-    ["$scope", "UserService", "TrainingReservationService", "DictionaryService", "TrainingSearchService",
-    function($scope, UserService, TrainingReservationService, DictionaryService, TrainingSearchService) {
+    ["$scope", "$state", "GryfModals", "UserService", "TrainingReservationService", "DictionaryService", "TrainingSearchService",
+    function($scope, $state, GryfModals, UserService, TrainingReservationService, DictionaryService, TrainingSearchService) {
 
     $scope.individualUser = UserService.getIndividualUser();
     $scope.userTrainingReservationData = TrainingReservationService.getUserTrainingReservationData();
@@ -68,6 +68,19 @@ angular.module("gryf.ti").controller("TrainingReservationController",
 
     $scope.loadMore = function() {
         TrainingSearchService.loadMore();
+    };
+
+    $scope.reserveTraining = function(item) {
+        if(!$scope.userTrainingReservationData.data.contracts[0]) {
+            GryfModals.openModal(GryfModals.MODALS_URL.ERROR_INFO,
+                {message: "Nie można zarezerwować szkolenia, ponieważ ta osoba nie posiada żadnej umowy."});
+            return;
+        }
+
+        $state.go("reservationModal", {
+            "trainingId": item.trainingId,
+            "grantProgramId": $scope.userTrainingReservationData.data.contracts[0].grantProgram.id
+        });
     };
 
     $scope.clear();

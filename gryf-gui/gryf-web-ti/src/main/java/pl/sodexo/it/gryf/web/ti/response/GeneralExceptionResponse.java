@@ -5,15 +5,23 @@ public class GeneralExceptionResponse {
     private final ResponseType responseType = ResponseType.GENERAL_EXCEPTION;
     private final String message;
     private final String stacktrace;
+    private final String cause;
+    private final String methodName;
+    private final String className;
+    private final Integer lineNumber;
+
 
     public ResponseType getResponseType() {
         return responseType;
     }
 
-    public GeneralExceptionResponse(String message, String stacktrace) {
-
+    public GeneralExceptionResponse(String message, String stacktrace, String cause, String methodName, String className, Integer lineNumber) {
         this.message = message;
         this.stacktrace = stacktrace;
+        this.cause = cause;
+        this.methodName = methodName;
+        this.className = className;
+        this.lineNumber = lineNumber;
     }
 
     public String getMessage() {
@@ -21,4 +29,20 @@ public class GeneralExceptionResponse {
     }
 
     public String getStacktrace() { return stacktrace; }
+
+    public String getCause() {
+        return cause;
+    }
+
+    public String getMethodName() {
+        return methodName;
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public Integer getLineNumber() {
+        return lineNumber;
+    }
 }
