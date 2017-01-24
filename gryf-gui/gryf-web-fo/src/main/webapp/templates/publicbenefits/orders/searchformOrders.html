@@ -19,6 +19,12 @@
                                focus-on-f7
                                search-on-enter >
                     </th>
+                    <th class="sortable" ng-class="getSortingTypeClass('externalOrderId')">
+                        <div ng-click="getSortedBy('externalOrderId')">Zewnętrzny identyfikator</div>
+                        <input placeholder="Zewnętrzny identyfikator" type="text"
+                               ng-model="searchDTO.entity.externalOrderId"
+                               search-on-enter>
+                    </th>
                     <th class="sortable" ng-class="getSortingTypeClass('grantProgram.programName')">
                         <div ng-click="getSortedBy('grantProgram.programName')">Program dofinansowania</div>
                         <select
@@ -128,6 +134,7 @@
                 <tbody>
                 <tr ng-repeat="item in searchDTO.searchResultList | limitTo: searchResultOptions.displayLimit">
                     <td>{{::item.id}}</td>
+                    <td>{{::item.externalOrderId}}</td>
                     <td>{{::item.grantProgramName}}</td>
                     <td>{{::item.status.name}}</td>
                     <td>{{::item.orderDate | date:'yyyy-MM-dd'}}</td>

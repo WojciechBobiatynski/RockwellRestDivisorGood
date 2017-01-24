@@ -67,6 +67,7 @@ public class Order extends VersionableEntity {
     
     //STATIC FIELDS - ATRIBUTES
     public static final String ID_ATTR_NAME = "id";
+    public static final String EXTERNAL_ORDER_ID_ATTR_NAME = "externalOrderId";
     public static final String STATUS_ATTR_NAME = "status";
     public static final String ORDER_DATE_ATTR_NAME = "orderDate";
     public static final String APPLICATION_ATTR_NAME = "application";

@@ -22,6 +22,8 @@ public class OrderSearchQueryDTO extends SearchDto {
 
     private Long id;
 
+    private String externalOrderId;
+
     private Long grantProgramId;
 
     private String statusId;
@@ -64,6 +66,14 @@ public class OrderSearchQueryDTO extends SearchDto {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getExternalOrderId() {
+        return externalOrderId;
+    }
+
+    public void setExternalOrderId(String externalOrderId) {
+        this.externalOrderId = externalOrderId;
     }
 
     public Long getGrantProgramId() {

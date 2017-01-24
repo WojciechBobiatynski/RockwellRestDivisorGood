@@ -48,6 +48,9 @@ public class OrderRepositoryImpl extends GenericRepositoryImpl<Order, Long> impl
         if(dto.getId() != null){
             predicates.add(cb.equal(from.get(Order.ID_ATTR_NAME), dto.getId()));
         }
+        if(dto.getExternalOrderId() != null){
+            predicates.add(cb.like(cb.upper(from.get(Order.EXTERNAL_ORDER_ID_ATTR_NAME)), getLikeWildCard(dto.getExternalOrderId())));
+        }
         if(dto.getStatusId() != null){
             predicates.add(cb.equal(from.get(Order.STATUS_ATTR_NAME).get(OrderFlowStatus.STATUS_ID_ATTR_NAME), dto.getStatusId()));
         }

@@ -18,6 +18,8 @@ public class OrderSearchResultDTO extends GryfDto {
 
     private Long id;
 
+    private String externalOrderId;
+
     private String grantProgramName;
 
     private DictionaryDTO status;
@@ -50,6 +52,14 @@ public class OrderSearchResultDTO extends GryfDto {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getExternalOrderId() {
+        return externalOrderId;
+    }
+
+    public void setExternalOrderId(String externalOrderId) {
+        this.externalOrderId = externalOrderId;
     }
 
     public String getGrantProgramName() {
