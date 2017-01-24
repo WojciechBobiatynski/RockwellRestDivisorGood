@@ -125,7 +125,7 @@ angular.module('gryf.electronicreimbursements').controller("announce.electronicR
         };
 
         $scope.rejectButtonVisible = function(){
-            return $scope.eReimbObject.entity != null && $scope.eReimbObject.entity.statusCode === 'T_RMS';
+            return $scope.eReimbObject.entity != null && $scope.eReimbObject.entity.statusCode === 'T_RMS' && eReimbObject.entity.terminated;
         };
 
         $scope.reimburseButtonVisible = function(){
