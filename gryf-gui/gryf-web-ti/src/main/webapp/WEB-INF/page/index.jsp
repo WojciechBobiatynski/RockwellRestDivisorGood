@@ -78,15 +78,34 @@
     <script src="${pageContext.request.contextPath}/js/app/confirmpin/confirmPinController.js"></script>
     <script src="${pageContext.request.contextPath}/js/app/confirmpin/confirmPinService.js"></script>
     <script src="${pageContext.request.contextPath}/js/app/confirmpin/modal/confirmPinModalController.js"></script>
+
+    <meta name="description" content="Kierunek Kariera - Wojewódzki Urząd Pracy w Krakowie">
+    <meta property="og:description" content="Kierunek Kariera - Wojewódzki Urząd Pracy w Krakowie">
+    <meta name="keywords" content="Kariera, Małopolska, Kraków, Urząd Pracy, Praca">
+    <meta property="og:title" content="System bonów szkoleniowych - Kierunek Kariera - Wojewódzki Urząd Pracy w Krakowie">
+    <meta name="application-name" content="System bonów szkoleniowych - Kierunek Kariera - Wojewódzki Urząd Pracy w Krakowie">
+    <meta property="og:site_name" content="System bonów szkoleniowych - Kierunek Kariera - Wojewódzki Urząd Pracy w Krakowie">
+    <meta property="og:type" content="website">
+    <meta name="author" content="Sodexo Benefits and Rewards Services Polska Sp. z o.o.">
+    <meta property="og:image" content="${cdnUrl}img/favicon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="${cdnUrl}img/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="${cdnUrl}img/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="${cdnUrl}img/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="${cdnUrl}img/manifest.json">
+    <link rel="mask-icon" href="${cdnUrl}img/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="${cdnUrl}img/favicon.ico">
+    <meta name="msapplication-config" content="${cdnUrl}img/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+
 </head>
 <body id="ak" ng-app="gryf.ti" ng-strict-di>
 
     <div id="accessbility"><div class="grid">
         <ol class="font">
-            <li><a href="#font-normal" title="ustaw małą czcionkę" class="current normal">A</a></li>
-            <li><a href="#font-medium" title="ustaw średnią czcionkę" class="medium">A</a></li>
-            <li><a href="#font-big" title="ustaw dużą czcionkę" class="big">A</a></li>
-            <li><a href="#high-contrast" title="zmień kontrast" class="high-contrast">zmień kontrast</a></li>
+            <li><a href="#font-normal" title="ustaw małą czcionkę" rel="font" class="font-normal current">A</a></li>
+            <li><a href="#font-medium" title="ustaw średnią czcionkę" rel="font" class="font-medium">A</a></li>
+            <li><a href="#font-big" title="ustaw dużą czcionkę" rel="font" class="font-big">A</a></li>
+            <li><a href="#high-contrast" title="zmień kontrast" rel="contrast" class="contrast-high">zmień kontrast</a></li>
         </ol>
     </div></div>
 

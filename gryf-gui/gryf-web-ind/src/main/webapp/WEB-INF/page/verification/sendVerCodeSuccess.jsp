@@ -112,10 +112,10 @@
 
     <div id="accessbility"><div class="grid">
         <ol class="font">
-            <li><a href="#font-normal" title="ustaw małą czcionkę" class="current normal">A</a></li>
-            <li><a href="#font-medium" title="ustaw średnią czcionkę" class="medium">A</a></li>
-            <li><a href="#font-big" title="ustaw dużą czcionkę" class="big">A</a></li>
-            <li><a href="#high-contrast" title="zmień kontrast" class="high-contrast">zmień kontrast</a></li>
+            <li><a href="#font-normal" title="ustaw małą czcionkę" rel="font" class="font-normal current">A</a></li>
+            <li><a href="#font-medium" title="ustaw średnią czcionkę" rel="font" class="font-medium">A</a></li>
+            <li><a href="#font-big" title="ustaw dużą czcionkę" rel="font" class="font-big">A</a></li>
+            <li><a href="#high-contrast" title="zmień kontrast" rel="contrast" class="contrast-high">zmień kontrast</a></li>
         </ol>
     </div></div>
 
