@@ -111,10 +111,11 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
             productInstanceRepository.update(instance, instance.getId());
         }
 
-        //PbeProductInstance instanceFirst = productInstances.get(0);
-        //PbeProductInstance instanceLast = productInstances.get(productInstances.size() - 1);
-        //gryfPLSQLRepository.flush();
-        //gryfPLSQLRepository.generateInstancesPrintNumber(pbeProduct.getId(), instanceFirst.getId().getNumber(), instanceLast.getId().getNumber());
+        //GENEROWANIE NUMEROW BONOW
+        PbeProductInstance instanceFirst = productInstances.get(0);
+        PbeProductInstance instanceLast = productInstances.get(productInstances.size() - 1);
+        gryfPLSQLRepository.flush();
+        gryfPLSQLRepository.generateInstancesPrintNumber(pbeProduct.getId(), instanceFirst.getId().getNumber(), instanceLast.getId().getNumber());
     }
 
     @Override
@@ -558,10 +559,10 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
         instance.setOrderId(pool.getOrder().getId());
         instance.setProductInstancePool(pool);
 
-        //GENEROWNAIE PRINT NUM
-        PrintNumberResultDto piPrintNumber = generatePrintNumber(instance.getProductEmission().getProduct(), contract, instance);
-        instance.setPrintNumber(piPrintNumber.getGeneratedPrintNumber());
-        instance.setCrc(piPrintNumber.getGeneratedChecksum());
+        //GENEROWNAIE PRINT NUM - PRZENIESIONE DO PLSQL - generateInstancesPrintNumber
+        //PrintNumberResultDto piPrintNumber = generatePrintNumber(instance.getProductEmission().getProduct(), contract, instance);
+        //instance.setPrintNumber(piPrintNumber.getGeneratedPrintNumber());
+        //instance.setCrc(piPrintNumber.getGeneratedChecksum());
 
         //EVENTY DO INSTANCJI PRODUKTOW
         productInstanceEventBuilder.saveEvent(instance, assignEventType, pool.getOrder().getId());
