@@ -115,12 +115,12 @@ public class ImportTrainingInstitutionServiceImpl extends ImportBaseDataServiceI
             if(trainingInstitution == null) {
                 violations.add(new EntityConstraintViolation(
                         String.format("Email (%s) jest już używany jako login użytkonika TI. Użytkownik o danym emailu "
-                                        + "istnieje w instytucji szkoleniowej o identyfikatorze (%s).", importDTO.getEmail(),
+                                        + "istnieje w Usługodawcy o identyfikatorze (%s).", importDTO.getEmail(),
                                 tiUser.getTrainingInstitution().getId())));
             }else if(!tiUser.getTrainingInstitution().equals(trainingInstitution)){
                 violations.add(new EntityConstraintViolation(
                         String.format("Email (%s) jest już używany jako login użytkonika TI. Użytkownik o danym emailu "
-                                        + "istnieje w instytucji szkoleniowej o identyfikatorze (%s).", importDTO.getEmail(),
+                                        + "istnieje w Usługodawcy o identyfikatorze (%s).", importDTO.getEmail(),
                                 tiUser.getTrainingInstitution().getId())));
             }
         }

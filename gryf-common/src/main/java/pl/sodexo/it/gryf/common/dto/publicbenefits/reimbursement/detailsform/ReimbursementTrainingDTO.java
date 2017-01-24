@@ -68,7 +68,7 @@ public class ReimbursementTrainingDTO extends GryfDto {
     private BigDecimal voucherRefundedTrainingHourValue;
 
     /**
-     * Kwota należna Instytucji Szkoleniowej od Sodexo
+     * Kwota należna Usługodawcy od Sodexo
      */
     private BigDecimal sxoTiAmountDue;
 

@@ -61,27 +61,27 @@ public class TrainingInstitution extends VersionableEntity {
     private Long id;
 
     @Column(name = "EXTERNAL_ID")
-    @Size(max = 20, message = "Identyfikator zewnętrzny instytucji szkoleniowej musi zawierać maksymalnie 20 znaków")
+    @Size(max = 20, message = "Identyfikator zewnętrzny Usługodawcy musi zawierać maksymalnie 20 znaków")
     private String externalId;
 
     @Column(name = "CODE")
-    @Size(max = 8, message = "Kod instytucji szkoleniowej musi zawierać maksymalnie 8 znaków")
+    @Size(max = 8, message = "Kod Usługodawcy musi zawierać maksymalnie 8 znaków")
     private String code;
 
     @Column(name = "NAME")
-    @NotEmpty(message = "Nazwa instytucji szkoleniowej nie może być pusta")
-    @Size(max = 500, message = "Nazwa instytucji szkoleniowej musi zawierać maksymalnie 500 znaków")
+    @NotEmpty(message = "Nazwa Usługodawcy nie może być pusta")
+    @Size(max = 500, message = "Nazwa Usługodawcy musi zawierać maksymalnie 500 znaków")
     private String name;
 
     @Column(name = "VAT_REG_NUM")
     @NotEmpty(message = "NIP nie może być pusty")
     @VatRegNumFormat(message = "Błedny format NIP")
-    @Size(max = 20, message = "NIP instytucji szkoleniowej musi zawierać maksymalnie 20 znaków")
+    @Size(max = 20, message = "NIP Usługodawcy musi zawierać maksymalnie 20 znaków")
     private String vatRegNum;
 
     @Column(name = "ADDRESS_INVOICE")
     @NotEmpty(message = "Adres do faktury nie może być pusty")
-    @Size(max = 200, message = "Adres do faktury instytucji szkoleniowej musi zawierać maksymalnie 200 znaków")
+    @Size(max = 200, message = "Adres do faktury Usługodawcy musi zawierać maksymalnie 200 znaków")
     private String addressInvoice;
 
     @ManyToOne
@@ -91,7 +91,7 @@ public class TrainingInstitution extends VersionableEntity {
 
     @Column(name = "ADDRESS_CORR")
     @NotEmpty(message = "Adres korespondencyjny nie może być pusty")
-    @Size(max = 200, message = "Adres korespondencyjny instytucji szkoleniowej musi zawierać maksymalnie 200 znaków")
+    @Size(max = 200, message = "Adres korespondencyjny Usługodawcy musi zawierać maksymalnie 200 znaków")
     private String addressCorr;
 
     @ManyToOne
@@ -100,7 +100,7 @@ public class TrainingInstitution extends VersionableEntity {
     private ZipCode zipCodeCorr;
 
     @Column(name = "REMARKS")
-    @Size(max = 4000, message = "Uwagi dla instytucji szkoleniowej musą zawierać maksymalnie 4000 znaków")
+    @Size(max = 4000, message = "Uwagi dla Usługodawcy musą zawierać maksymalnie 4000 znaków")
     private String remarks;
 
     @Valid

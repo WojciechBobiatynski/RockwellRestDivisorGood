@@ -93,7 +93,7 @@ public class ReimbursementDeliveryValidator {
         Long registerCount = reimbursementDeliveryRepository.findRegisterReimbursementDeliveriesCount(trainingInstitution.getId(), dateFrom, dateTo);
         if (registerCount >= Long.valueOf(registerLimit)) {
             violations.add(new EntityConstraintViolation(ReimbursementPatternParam.DELMMLIMIT,
-                    String.format("Przekroczono dopuszczalną w okresie rozliczeniowym ilość " + "zamówionych/obsłużonych dostaw dla tej Instytucji Szkoleniowej. Dopuszczalny limit: %s",
+                    String.format("Przekroczono dopuszczalną w okresie rozliczeniowym ilość " + "zamówionych/obsłużonych dostaw dla tej Usługodawcy. Dopuszczalny limit: %s",
                             registerLimit), null));
         }
     }
@@ -139,7 +139,7 @@ public class ReimbursementDeliveryValidator {
         } else {
             gryfValidator.validate("Nie udało się rozpoznać typu dostawy. Należy wypełnić pole 'Data otrzymania przesyłki' "
                     + "w przypadku rejestracji przyjęcia dostawy albo pola 'Planowana data odbioru kuponów', 'Data ptrzyjęcia zgłoszenia' "
-                    + "w przypadku zamawiania kuriera dla Instytucji Szkoleniowej.");
+                    + "w przypadku zamawiania kuriera dla Usługodawcy.");
             return null;
         }
     }

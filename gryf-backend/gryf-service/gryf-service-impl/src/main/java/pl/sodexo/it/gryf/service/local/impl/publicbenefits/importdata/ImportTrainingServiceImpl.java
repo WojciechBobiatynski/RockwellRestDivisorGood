@@ -164,7 +164,7 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
         List<EntityConstraintViolation> violations = Lists.newArrayList();
 
         if(trainingInstitution == null){
-            violations.add(new EntityConstraintViolation(String.format("Nie znaleziono instytucji szkoleniowej "
+            violations.add(new EntityConstraintViolation(String.format("Nie znaleziono Usługodawcy "
                             + "o identyfikatorze zewnętrzym (%s)", importDTO.getTrainingInstitutionExternalId())));
         }
         if(trainingInstitution != null && training != null){

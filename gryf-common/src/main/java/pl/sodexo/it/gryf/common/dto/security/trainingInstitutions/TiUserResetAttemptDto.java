@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Dto reprezentujące żądania resetu hasła dla instytucji szkoleniowej
+ * Dto reprezentujące żądania resetu hasła dla Usługodawcy
  *
  * Created by akmiecinski on 26.10.2016.
  */

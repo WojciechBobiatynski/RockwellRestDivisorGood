@@ -43,7 +43,7 @@ public interface ElectronicReimbursementsSearchMapper {
      * Metoda znajdująca parametry do obliczenia składek na rolizczeniu dla instancji szkolenia
      *
      * @param criteria - kryteria użytkownika
-     * @param trainingInstanceId - id instytucji szkoleniowej
+     * @param trainingInstanceId - id Usługodawcy
      * @return
      */
     CalculationChargesParamsDto findCalculationChargesParamsForTrInstId(@Param("criteria") UserCriteria criteria, @Param("trainingInstanceId") Long trainingInstanceId);

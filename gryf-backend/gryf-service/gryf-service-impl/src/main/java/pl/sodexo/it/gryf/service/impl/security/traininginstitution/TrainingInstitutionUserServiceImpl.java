@@ -16,7 +16,7 @@ import pl.sodexo.it.gryf.service.mapping.dtotoentity.security.traininginstitutio
 import pl.sodexo.it.gryf.service.mapping.entitytodto.security.traininginstitutions.TrainingInstitutionUserEntityMapper;
 
 /**
- * Implementacja serwius zajmującego się operacjami związanymi z użytkownikiem instytucji szkoleniowej
+ * Implementacja serwius zajmującego się operacjami związanymi z użytkownikiem Usługodawcy
  *
  * Created by akmiecinski on 24.10.2016.
  */

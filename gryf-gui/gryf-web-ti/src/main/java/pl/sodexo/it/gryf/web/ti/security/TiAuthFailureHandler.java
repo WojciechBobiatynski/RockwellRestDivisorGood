@@ -9,7 +9,7 @@ import pl.sodexo.it.gryf.web.common.security.AuthFailureHandler;
 import java.util.Date;
 
 /**
- * Obsługa zdarzenia niepoprawnego zalogowania użytkownika instytucji szkoleniowej
+ * Obsługa zdarzenia niepoprawnego zalogowania użytkownika Usługodawcy
  *
  * Created by akmiecinski on 24.10.2016.
  */

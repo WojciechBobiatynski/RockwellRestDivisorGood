@@ -20,7 +20,7 @@ public interface SecurityService {
     GryfIndUserDto findIndUserByPesel(String pesel);
 
     /**
-     * Metoda wyszukująca role dla instytucji szkoleniowej
+     * Metoda wyszukująca role dla Usługodawcy
      * @return lista ról
      */
     List<RoleDto> findRolesForTiUser();

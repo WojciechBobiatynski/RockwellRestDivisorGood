@@ -18,7 +18,7 @@ public interface VerificationService {
     void resendVerificationCode(VerificationDto verificationDto) throws GryfVerificationException;
 
     /**
-     * Metoda która resetuje hasło dla użytkownika instytucji szkoleniowej. Tworzy link do zmiany hasła a następnie go wysyła na zadany adres o ile jest w bazie.
+     * Metoda która resetuje hasło dla użytkownika Usługodawcy. Tworzy link do zmiany hasła a następnie go wysyła na zadany adres o ile jest w bazie.
      * @param email - adres email osoby fizycznej
      */
     void resetTiUserPassword(String email);

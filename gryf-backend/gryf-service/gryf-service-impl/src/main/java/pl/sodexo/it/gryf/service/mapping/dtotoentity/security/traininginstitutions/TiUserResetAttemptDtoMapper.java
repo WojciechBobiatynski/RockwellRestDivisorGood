@@ -8,7 +8,7 @@ import pl.sodexo.it.gryf.model.security.trainingInstitutions.TiUserResetAttempt;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.VersionableDtoMapper;
 
 /**
- * * Komponent mapujący Dto użytkownika instytucji szkoleniowej na encję
+ * * Komponent mapujący Dto użytkownika Usługodawcy na encję
  *
  * Created by akmiecinski on 24.10.2016.
  */

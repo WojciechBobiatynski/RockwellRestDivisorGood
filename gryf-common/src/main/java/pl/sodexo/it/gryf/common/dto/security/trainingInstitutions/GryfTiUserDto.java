@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Dto reprezentujące użytkownika instytucji szkoleniowej
+ * Dto reprezentujące użytkownika Usługodawcy
  *
  * Created by akmiecinski on 24.10.2016.
  */

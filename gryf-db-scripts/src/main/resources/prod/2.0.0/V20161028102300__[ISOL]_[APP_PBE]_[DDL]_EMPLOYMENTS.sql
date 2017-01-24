@@ -39,13 +39,13 @@ ALTER TABLE APP_PBE.EMPLOYMENTS
 ;
 
 -- Komentarze
-COMMENT ON TABLE APP_PBE.EMPLOYMENTS IS '@Author(Adam Kmieciñski); @Project(Gryf-PBE); @Date(2016-10-28) ;@Purpose(Tabela reprezentuj¹ca powi¹zania pomiêdzy MŒP a Osob¹ fizyczn¹);';
+COMMENT ON TABLE APP_PBE.EMPLOYMENTS IS '@Author(Adam Kmieciï¿½ski); @Project(Gryf-PBE); @Date(2016-10-28) ;@Purpose(Tabela reprezentujï¿½ca powiï¿½zania pomiï¿½dzy Mï¿½P a Osobï¿½ fizycznï¿½);';
 
 COMMENT ON COLUMN APP_PBE.EMPLOYMENTS.EMP_ID IS 'Unikalne ID. Klucz sztuczny';
 COMMENT ON COLUMN APP_PBE.EMPLOYMENTS.IND_ID IS 'ID osoby fizycznej';
-COMMENT ON COLUMN APP_PBE.EMPLOYMENTS.ENT_ID IS 'ID instytucji szkoleniowej';
-COMMENT ON COLUMN APP_PBE.EMPLOYMENTS.VERSION IS 'Wersja. Kolumna techniczna u¿ywana do mechanizmu Optimistic Lock';
-COMMENT ON COLUMN APP_PBE.EMPLOYMENTS.CREATED_USER IS 'Login u¿ytkownika, który utworzy³ rekord';
+COMMENT ON COLUMN APP_PBE.EMPLOYMENTS.ENT_ID IS 'ID UsÅ‚ugodawcy';
+COMMENT ON COLUMN APP_PBE.EMPLOYMENTS.VERSION IS 'Wersja. Kolumna techniczna uï¿½ywana do mechanizmu Optimistic Lock';
+COMMENT ON COLUMN APP_PBE.EMPLOYMENTS.CREATED_USER IS 'Login uï¿½ytkownika, ktï¿½ry utworzyï¿½ rekord';
 COMMENT ON COLUMN APP_PBE.EMPLOYMENTS.CREATED_TIMESTAMP IS 'Data utworzenia rekordu';
-COMMENT ON COLUMN APP_PBE.EMPLOYMENTS.MODIFIED_USER IS 'Login u¿ytkownika, który ostatnio modyfikowa³ rekord';
+COMMENT ON COLUMN APP_PBE.EMPLOYMENTS.MODIFIED_USER IS 'Login uï¿½ytkownika, ktï¿½ry ostatnio modyfikowaï¿½ rekord';
 COMMENT ON COLUMN APP_PBE.EMPLOYMENTS.MODIFIED_TIMESTAMP IS 'Data ostatniej modyfikacji rekordu';

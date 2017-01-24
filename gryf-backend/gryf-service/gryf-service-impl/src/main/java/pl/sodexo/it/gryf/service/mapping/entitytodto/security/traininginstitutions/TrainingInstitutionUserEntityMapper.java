@@ -8,7 +8,7 @@ import pl.sodexo.it.gryf.service.mapping.entitytodto.VersionableEntityMapper;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.security.RoleEntityMapper;
 
 /**
- * Komponent mapujący encje użytkownika instytucji szkoleniowej na DTO
+ * Komponent mapujący encje użytkownika Usługodawcy na DTO
  *
  * Created by akmiecinski on 24.10.2016.
  */

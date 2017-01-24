@@ -35,14 +35,14 @@ ALTER TABLE APP_PBE.TI_USER_RESET_ATTEMPTS
 ;
 
 -- Komentarze
-COMMENT ON TABLE APP_PBE.TI_USER_RESET_ATTEMPTS IS '@Author(Adam Kmieciñski); @Project(Gryf-PBE); @Date(2016-10-25) ;@Purpose(Tabel reprezentuj¹ca zdarzenia ¿¹dania zresetowania has³a dla instytucji szkoleniowej);';
+COMMENT ON TABLE APP_PBE.TI_USER_RESET_ATTEMPTS IS '@Author(Adam Kmieciï¿½ski); @Project(Gryf-PBE); @Date(2016-10-25) ;@Purpose(Tabel reprezentujï¿½ca zdarzenia ï¿½ï¿½dania zresetowania hasï¿½a dla UsÅ‚ugodawcy);';
 
-COMMENT ON COLUMN APP_PBE.TI_USER_RESET_ATTEMPTS.TUR_ID IS 'Unikalne ID generowane przez UUID. Czêœæ linku do resetowania has³a';
-COMMENT ON COLUMN APP_PBE.TI_USER_RESET_ATTEMPTS.TIU_ID IS 'ID instytucji szkoleniowej';
-COMMENT ON COLUMN APP_PBE.TI_USER_RESET_ATTEMPTS.EXPIRY_DATE IS 'Data wygaœniêcia wygenerowanego linku na podstawie TUR_ID';
-COMMENT ON COLUMN APP_PBE.TI_USER_RESET_ATTEMPTS.USED IS 'Czy link zosta³ wykorzystany';
-COMMENT ON COLUMN APP_PBE.TI_USER_RESET_ATTEMPTS.VERSION IS 'Wersja. Kolumna techniczna u¿ywana do mechanizmu Optimistic Lock';
-COMMENT ON COLUMN APP_PBE.TI_USER_RESET_ATTEMPTS.CREATED_USER IS 'Login u¿ytkownika, który utworzy³ rekord';
+COMMENT ON COLUMN APP_PBE.TI_USER_RESET_ATTEMPTS.TUR_ID IS 'Unikalne ID generowane przez UUID. Czï¿½ï¿½ linku do resetowania hasï¿½a';
+COMMENT ON COLUMN APP_PBE.TI_USER_RESET_ATTEMPTS.TIU_ID IS 'ID UsÅ‚ugodawcy';
+COMMENT ON COLUMN APP_PBE.TI_USER_RESET_ATTEMPTS.EXPIRY_DATE IS 'Data wygaï¿½niï¿½cia wygenerowanego linku na podstawie TUR_ID';
+COMMENT ON COLUMN APP_PBE.TI_USER_RESET_ATTEMPTS.USED IS 'Czy link zostaï¿½ wykorzystany';
+COMMENT ON COLUMN APP_PBE.TI_USER_RESET_ATTEMPTS.VERSION IS 'Wersja. Kolumna techniczna uï¿½ywana do mechanizmu Optimistic Lock';
+COMMENT ON COLUMN APP_PBE.TI_USER_RESET_ATTEMPTS.CREATED_USER IS 'Login uï¿½ytkownika, ktï¿½ry utworzyï¿½ rekord';
 COMMENT ON COLUMN APP_PBE.TI_USER_RESET_ATTEMPTS.CREATED_TIMESTAMP IS 'Data utworzenia rekordu';
-COMMENT ON COLUMN APP_PBE.TI_USER_RESET_ATTEMPTS.MODIFIED_USER IS 'Login u¿ytkownika, który ostatnio modyfikowa³ rekord';
+COMMENT ON COLUMN APP_PBE.TI_USER_RESET_ATTEMPTS.MODIFIED_USER IS 'Login uï¿½ytkownika, ktï¿½ry ostatnio modyfikowaï¿½ rekord';
 COMMENT ON COLUMN APP_PBE.TI_USER_RESET_ATTEMPTS.MODIFIED_TIMESTAMP IS 'Data ostatniej modyfikacji rekordu';

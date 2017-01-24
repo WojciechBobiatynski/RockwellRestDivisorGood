@@ -3,7 +3,7 @@ package pl.sodexo.it.gryf.service.api.security.trainingInstitutions;
 import pl.sodexo.it.gryf.common.dto.security.trainingInstitutions.TiUserResetAttemptDto;
 
 /**
- * Serwis do operacji na żądaniach resetu hasła dla użytkownika instytucji szkoleniowej
+ * Serwis do operacji na żądaniach resetu hasła dla użytkownika Usługodawcy
  *
  * Created by akmiecinski on 26.10.2016.
  */

@@ -13,7 +13,7 @@ public enum UserType {
     FINANCIAL_OPERATOR,
     
     /**
-     * Instytucja szkoleniowa
+     * Usługodawca
      */
     TRAINING_INSTITUTION,
 

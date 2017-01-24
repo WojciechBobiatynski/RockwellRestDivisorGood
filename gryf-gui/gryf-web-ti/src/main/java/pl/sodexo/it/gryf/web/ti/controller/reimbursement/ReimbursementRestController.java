@@ -29,7 +29,7 @@ import static pl.sodexo.it.gryf.web.common.util.WebUtils.writeFileToResponse;
 import static pl.sodexo.it.gryf.web.ti.util.UrlConstants.*;
 
 /**
- * Kontroler do obłsugi rozliczeń dla instytucji szkoleniowej
+ * Kontroler do obłsugi rozliczeń dla Usługodawcy
  *
  * Created by akmiecinski on 15.11.2016.
  */

@@ -25,7 +25,7 @@
 <div id="content">
     <div class="grid">
         <article itemprop="text" class="text centered">
-            <h1 itemprop="headline name" class="headline name">Panel Logowania Instytucji Szkoleniowej</h1>
+            <h1 itemprop="headline name" class="headline name">Panel Logowania Usługodawcy</h1>
 
             <p itemprop="description" class="description">Prosimy, wprowadź dane uwierzytelniające.</p>
 

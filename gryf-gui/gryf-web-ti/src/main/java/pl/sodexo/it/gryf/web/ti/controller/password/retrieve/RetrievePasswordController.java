@@ -28,7 +28,7 @@ import static pl.sodexo.it.gryf.web.common.util.PageUtil.getURLWithContextPath;
 import static pl.sodexo.it.gryf.web.ti.util.TiPageConstant.*;
 
 /**
- * Kontroler obsługjący zdarzenia związane z odzyskaniem hasła dla instytucji szkoleniowej
+ * Kontroler obsługjący zdarzenia związane z odzyskaniem hasła dla Usługodawcy
  *
  * Created by akmiecinski on 25.10.2016.
  */

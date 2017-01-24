@@ -121,7 +121,7 @@ public interface ElectronicReimbursementsService {
     Long expire(Long rmbsId);
 
     /**
-     * Sprawdza czy rozlicznei jest w ramach instytucji szkoleniowej zalogowanego zalogowanego użytkownika
+     * Sprawdza czy rozlicznei jest w ramach Usługodawcy zalogowanego zalogowanego użytkownika
      * @param ereimbursementId
      * @return
      */

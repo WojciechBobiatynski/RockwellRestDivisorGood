@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Authentication Provider dla użytkowników instytucji szkoleniowej
+ * Authentication Provider dla użytkowników Usługodawcy
  *
  * Created by jbentyn on 2016-10-04.
  */
@@ -35,7 +35,7 @@ public class TiUserAuthenticationProvider implements AuthenticationProvider {
         Object credentials = incomingAuthToken.getCredentials();
         String password = credentials.toString();
 
-        LOGGER.debug("[AUTH] Logowanie uzytkownika Instytucji Szkoleniowej, login={}", login);
+        LOGGER.debug("[AUTH] Logowanie uzytkownika Usługodawcy, login={}", login);
 
         List<GrantedAuthority> grantedAuthorities = null;
         try {

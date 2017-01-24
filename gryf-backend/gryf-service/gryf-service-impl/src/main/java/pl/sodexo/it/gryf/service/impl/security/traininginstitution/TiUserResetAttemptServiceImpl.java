@@ -17,7 +17,7 @@ import java.util.Date;
 import java.util.UUID;
 
 /**
- * Implementacja serwisu do operacji na żądaniach resetu hasła dla użytkownika instytucji szkoleniowej
+ * Implementacja serwisu do operacji na żądaniach resetu hasła dla użytkownika Usługodawcy
  *
  * Created by akmiecinski on 26.10.2016.
  */

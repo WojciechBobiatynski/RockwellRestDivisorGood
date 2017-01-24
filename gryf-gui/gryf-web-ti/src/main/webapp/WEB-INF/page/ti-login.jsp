@@ -75,7 +75,7 @@
 
                 <form name="loginForm" action="j_spring_security_check" method="POST">
 
-                    <h3>Panel Logowania<br>Instytucji Szkoleniowej</h3>
+                    <h3>Panel Logowania<br>Usługodawcy</h3>
 
                     <c:if test="${param.logout != null}">
                         <div class="msg"><p>Wylogowano pomyślnie.</p></div>

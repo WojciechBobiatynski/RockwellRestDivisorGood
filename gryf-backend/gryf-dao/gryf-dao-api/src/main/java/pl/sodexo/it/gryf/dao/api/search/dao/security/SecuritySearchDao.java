@@ -29,7 +29,7 @@ public interface SecuritySearchDao {
     GryfIndUserDto findIndUserByPesel(String pesel);
 
     /**
-     * Metoda wyszukująca role dla instytucji szkoleniowej
+     * Metoda wyszukująca role dla Usługodawcy
      * @return lista ról
      */
     List<RoleDto> findRolesForTiUser();
@@ -46,9 +46,9 @@ public interface SecuritySearchDao {
      */
     List<RoleDto> findRolesForIndividualUser(Long individualUserId);
     /**
-     * Metoda wyszukująca id instytucji szkoleniowej dla użytkownika instytucji szkoleniowej
+     * Metoda wyszukująca id Usługodawcy dla użytkownika Usługodawcy
      * @param tiUserLogin
-     * @return login instytucji szkoleniowej
+     * @return login Usługodawcy
      */
     Long findTrainingInstitutionIdForTiUser(String tiUserLogin);
 

@@ -31,7 +31,7 @@ public interface SecuritySearchMapper {
     GryfIndUserDto findIndUserByPesel(@Param("criteria") UserCriteria criteria, @Param("pesel") String pesel);
 
     /**
-     * Metoda wyszukująca role dla instytucji szkoleniowej
+     * Metoda wyszukująca role dla Usługodawcy
      * @param criteria - kryteria użytkownika
      * @return lista ról
      */
@@ -51,9 +51,9 @@ public interface SecuritySearchMapper {
      */
     List<RoleDto> findRolesForIndividualUser(@Param("individualUserId") Long individualUserId);
     /**
-     * Metoda wyszukująca id instytucji szkoleniowej dla użytkownika instytucji szkoleniowej
+     * Metoda wyszukująca id Usługodawcy dla użytkownika Usługodawcy
      * @param tiUserLogin
-     * @return login instytucji szkoleniowej
+     * @return login Usługodawcy
      */
     Long findTrainingInstitutionIdForTiUser(@Param("tiUserLogin") String tiUserLogin);
 }

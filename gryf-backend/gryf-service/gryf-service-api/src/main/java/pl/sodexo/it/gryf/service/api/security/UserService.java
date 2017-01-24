@@ -47,9 +47,9 @@ public interface UserService {
     void updateTiAfterSuccessLogin (GryfTiUser gryfTiUser);
 
     /**
-     * Metoda wyszukująca id instytucji szkoleniowej dla użytkownika instytucji szkoleniowej
+     * Metoda wyszukująca id Usługodawcy dla użytkownika Usługodawcy
      * @param tiUserLogin
-     * @return login instytucji szkoleniowej
+     * @return login Usługodawcy
      */
     Long findTrainingInstitutionIdForTiUser(String tiUserLogin);
 

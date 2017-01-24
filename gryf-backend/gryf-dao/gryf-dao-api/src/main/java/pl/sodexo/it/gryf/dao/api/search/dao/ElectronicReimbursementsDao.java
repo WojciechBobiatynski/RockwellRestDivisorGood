@@ -35,7 +35,7 @@ public interface ElectronicReimbursementsDao {
     /**
      * Metoda znajdująca parametry do obliczenia składek na rolizczeniu dla instancji szkolenia
      *
-     * @param trainingInstanceId - id instytucji szkoleniowej
+     * @param trainingInstanceId - id Usługodawcy
      * @return
      */
     CalculationChargesParamsDto findCalculationChargesParamsForTrInstId(Long trainingInstanceId);

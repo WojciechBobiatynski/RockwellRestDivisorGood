@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.model.security.trainingInstitutions.TrainingInstitutionUser;
 
 /**
- * Dao dla uzytkowników instytucji szkoleniowej
+ * Dao dla uzytkowników Usługodawcy
  *
  * Created by jbentyn on 2016-10-06.
  */

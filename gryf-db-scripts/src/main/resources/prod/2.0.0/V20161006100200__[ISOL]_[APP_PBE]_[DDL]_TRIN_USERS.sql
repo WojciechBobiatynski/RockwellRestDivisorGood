@@ -43,20 +43,20 @@ ALTER TABLE APP_PBE.TRAINING_INSTITUTION_USERS ADD CONSTRAINT TI_USR_PK PRIMARY 
 ALTER TABLE APP_PBE.TRAINING_INSTITUTION_USERS ADD CONSTRAINT TI_USR_TRIN_FK FOREIGN KEY (TRAINING_ISTITUTION_ID) REFERENCES APP_PBE.TRAINING_INSTITUTIONS (ID);
 
 -- Komentarze
-COMMENT ON TABLE APP_PBE.TRAINING_INSTITUTION_USERS IS '@Author(Jakub.Bentyn); @Project(Gryf-PBE); @Date(2016-10-05) ;@Purpose(Tabela przechowuj¹ca u¿ytkowników IS);';
+COMMENT ON TABLE APP_PBE.TRAINING_INSTITUTION_USERS IS '@Author(Jakub.Bentyn); @Project(Gryf-PBE); @Date(2016-10-05) ;@Purpose(Tabela przechowujï¿½ca uï¿½ytkownikï¿½w IS);';
 
-COMMENT ON COLUMN APP_PBE.TRAINING_INSTITUTION_USERS.ID IS 'Unikalne ID u¿ytkownika IS nadawane automatycznie. Sekwencja: EAGLE.TI_USR_SEQ ';
-COMMENT ON COLUMN APP_PBE.TRAINING_INSTITUTION_USERS.TRAINING_ISTITUTION_ID IS 'ID instytucji szkoleniowej u¿ytkownika.';
-COMMENT ON COLUMN APP_PBE.TRAINING_INSTITUTION_USERS.LOGIN IS 'Login u¿ytkownika IS'; 
-COMMENT ON COLUMN APP_PBE.TRAINING_INSTITUTION_USERS.EMAIL IS 'Adres email u¿ytkownika';
-COMMENT ON COLUMN APP_PBE.TRAINING_INSTITUTION_USERS.PASSWORD IS 'Hash has³a'; 
+COMMENT ON COLUMN APP_PBE.TRAINING_INSTITUTION_USERS.ID IS 'Unikalne ID uï¿½ytkownika IS nadawane automatycznie. Sekwencja: EAGLE.TI_USR_SEQ ';
+COMMENT ON COLUMN APP_PBE.TRAINING_INSTITUTION_USERS.TRAINING_ISTITUTION_ID IS 'ID UsÅ‚ugodawcy uï¿½ytkownika.';
+COMMENT ON COLUMN APP_PBE.TRAINING_INSTITUTION_USERS.LOGIN IS 'Login uï¿½ytkownika IS'; 
+COMMENT ON COLUMN APP_PBE.TRAINING_INSTITUTION_USERS.EMAIL IS 'Adres email uï¿½ytkownika';
+COMMENT ON COLUMN APP_PBE.TRAINING_INSTITUTION_USERS.PASSWORD IS 'Hash hasï¿½a'; 
 COMMENT ON COLUMN APP_PBE.TRAINING_INSTITUTION_USERS.LAST_LOGIN_DATE IS 'Data ostatniego udanego logowania';
-COMMENT ON COLUMN APP_PBE.TRAINING_INSTITUTION_USERS.PASSWORD_EXP_DATE IS 'Data wygaœniêcia has³a';
-COMMENT ON COLUMN APP_PBE.TRAINING_INSTITUTION_USERS.IS_ACTIVE IS 'Flaga oznaczaj¹ca czy konto uzytkownika jest aktywne'; 
-COMMENT ON COLUMN APP_PBE.TRAINING_INSTITUTION_USERS.VERSION IS 'Kolumna techniczna u¿ywana do mechanizmu Optimistic Lock'; 
-COMMENT ON COLUMN APP_PBE.TRAINING_INSTITUTION_USERS.CREATED_USER IS 'Login u¿ytkownika, który utworzy³ rekord'; 
+COMMENT ON COLUMN APP_PBE.TRAINING_INSTITUTION_USERS.PASSWORD_EXP_DATE IS 'Data wygaï¿½niï¿½cia hasï¿½a';
+COMMENT ON COLUMN APP_PBE.TRAINING_INSTITUTION_USERS.IS_ACTIVE IS 'Flaga oznaczajï¿½ca czy konto uzytkownika jest aktywne'; 
+COMMENT ON COLUMN APP_PBE.TRAINING_INSTITUTION_USERS.VERSION IS 'Kolumna techniczna uï¿½ywana do mechanizmu Optimistic Lock'; 
+COMMENT ON COLUMN APP_PBE.TRAINING_INSTITUTION_USERS.CREATED_USER IS 'Login uï¿½ytkownika, ktï¿½ry utworzyï¿½ rekord'; 
 COMMENT ON COLUMN APP_PBE.TRAINING_INSTITUTION_USERS.CREATED_TIMESTAMP IS 'Data utworzenia rekordu'; 
-COMMENT ON COLUMN APP_PBE.TRAINING_INSTITUTION_USERS.MODIFIED_USER IS 'Login u¿ytkownika, który ostatnio modyfikowa³ rekord'; 
+COMMENT ON COLUMN APP_PBE.TRAINING_INSTITUTION_USERS.MODIFIED_USER IS 'Login uï¿½ytkownika, ktï¿½ry ostatnio modyfikowaï¿½ rekord'; 
 COMMENT ON COLUMN APP_PBE.TRAINING_INSTITUTION_USERS.MODIFIED_TIMESTAMP IS 'Data ostatniej modyfikacji rekordu'; 
 
 ----------------------------
@@ -83,11 +83,11 @@ CREATE UNIQUE INDEX APP_PBE.TE_ROLES_PK ON APP_PBE.TE_ROLES (CODE);
 ALTER TABLE APP_PBE.TE_ROLES ADD CONSTRAINT TE_ROLES_PK PRIMARY KEY (CODE);
 
 -- Komentarze
-COMMENT ON TABLE APP_PBE.TE_ROLES IS '@Author(Jakub.Bentyn); @Project(Gryf-PBE); @Date(2016-10-05) ;@Purpose(Tabela przechowuj¹ca role u¿ytkowników IS);';
+COMMENT ON TABLE APP_PBE.TE_ROLES IS '@Author(Jakub.Bentyn); @Project(Gryf-PBE); @Date(2016-10-05) ;@Purpose(Tabela przechowujï¿½ca role uï¿½ytkownikï¿½w IS);';
 
 COMMENT ON COLUMN APP_PBE.TE_ROLES.CODE IS 'Nazwa roli';  
 COMMENT ON COLUMN APP_PBE.TE_ROLES.DESCRIPTION IS 'Opis roli'; 
-COMMENT ON COLUMN APP_PBE.TE_ROLES.CONTEXT IS 'Kontekst w jakim u¿ywana jest rola. TI - kontekst instytucji szkoleniowej'; 
+COMMENT ON COLUMN APP_PBE.TE_ROLES.CONTEXT IS 'Kontekst w jakim uï¿½ywana jest rola. TI - kontekst UsÅ‚ugodawcy';
 ----------------------------
 --TE_PRIVILEGES
 ----------------------------
@@ -112,11 +112,11 @@ CREATE UNIQUE INDEX APP_PBE.TE_PRIVS_PK ON APP_PBE.TE_PRIVILEGES (CODE);
 ALTER TABLE APP_PBE.TE_PRIVILEGES ADD CONSTRAINT TE_PRIVS_PK PRIMARY KEY (CODE);
 
 --komentarze
-COMMENT ON TABLE APP_PBE.TE_PRIVILEGES IS '@Author(Jakub.Bentyn); @Project(Gryf-PBE); @Date(2016-10-05) ;@Purpose(Tabela przechowuj¹ca uprawnienia bezpieczeñstwa uzytkowników IS);';
+COMMENT ON TABLE APP_PBE.TE_PRIVILEGES IS '@Author(Jakub.Bentyn); @Project(Gryf-PBE); @Date(2016-10-05) ;@Purpose(Tabela przechowujï¿½ca uprawnienia bezpieczeï¿½stwa uzytkownikï¿½w IS);';
 
-COMMENT ON COLUMN APP_PBE.TE_PRIVILEGES.CODE IS 'Nazwa uprawnienia bezpieczeñstwa'; 
+COMMENT ON COLUMN APP_PBE.TE_PRIVILEGES.CODE IS 'Nazwa uprawnienia bezpieczeï¿½stwa'; 
 COMMENT ON COLUMN APP_PBE.TE_PRIVILEGES.DESCRIPTION IS 'Opis uprawnienia';
-COMMENT ON COLUMN APP_PBE.TE_PRIVILEGES.CONTEXT IS 'Kontekst w jakim u¿ywana jest przywilej. TI - kontekst instytucji szkoleniowej'; 
+COMMENT ON COLUMN APP_PBE.TE_PRIVILEGES.CONTEXT IS 'Kontekst w jakim uï¿½ywana jest przywilej. TI - kontekst UsÅ‚ugodawcy';
 
 
 --------------------
@@ -144,10 +144,10 @@ ALTER TABLE APP_PBE.TI_USER_IN_ROLES ADD CONSTRAINT TI_USR_ROLES_USER_FK FOREIGN
 ALTER TABLE APP_PBE.TI_USER_IN_ROLES ADD CONSTRAINT TI_USR_ROLES_ROLE_FK FOREIGN KEY (TE_ROLE_CODE) REFERENCES APP_PBE.TE_ROLES (CODE);
 
 --komentarze
-COMMENT ON TABLE APP_PBE.TI_USER_IN_ROLES IS '@Author(Jakub.Bentyn); @Project(Gryf-PBE); @Date(2016-10-05) ;@Purpose(Tabela z³aczeniowa ról i  uzytkowników IS);';
+COMMENT ON TABLE APP_PBE.TI_USER_IN_ROLES IS '@Author(Jakub.Bentyn); @Project(Gryf-PBE); @Date(2016-10-05) ;@Purpose(Tabela zï¿½aczeniowa rï¿½l i  uzytkownikï¿½w IS);';
 
 COMMENT ON COLUMN APP_PBE.TI_USER_IN_ROLES.TI_USER_ID	IS 'Id uzytkownika IS';	
-COMMENT ON COLUMN APP_PBE.TI_USER_IN_ROLES.TE_ROLE_CODE	IS 'Kod roli bezpieczeñstwa aplikacji IS';	
+COMMENT ON COLUMN APP_PBE.TI_USER_IN_ROLES.TE_ROLE_CODE	IS 'Kod roli bezpieczeï¿½stwa aplikacji IS';	
 
 --------------------
 --TE_PRIV_IN_ROLES
@@ -175,7 +175,7 @@ ALTER TABLE APP_PBE.TE_PRIV_IN_ROLES ADD CONSTRAINT PRIV_ROLES_PRIV_FK FOREIGN K
 ALTER TABLE APP_PBE.TE_PRIV_IN_ROLES ADD CONSTRAINT PRIV_ROLES_ROLE_FK FOREIGN KEY (TE_ROLE_CODE) REFERENCES APP_PBE.TE_ROLES (CODE);
 
 --komentarze
-COMMENT ON TABLE APP_PBE.TE_PRIV_IN_ROLES IS '@Author(Jakub.Bentyn); @Project(Gryf-PBE); @Date(2016-10-05) ;@Purpose(Tabela z³aczeniowa ról i uprawnieñ bezpieczñstwa w aplikacji IS);';
+COMMENT ON TABLE APP_PBE.TE_PRIV_IN_ROLES IS '@Author(Jakub.Bentyn); @Project(Gryf-PBE); @Date(2016-10-05) ;@Purpose(Tabela zï¿½aczeniowa rï¿½l i uprawnieï¿½ bezpieczï¿½stwa w aplikacji IS);';
 
 COMMENT ON COLUMN APP_PBE.TE_PRIV_IN_ROLES.TE_PRIV_CODE	IS 'Kod uprawnienia';	
 COMMENT ON COLUMN APP_PBE.TE_PRIV_IN_ROLES.TE_ROLE_CODE	IS 'Kod roli';

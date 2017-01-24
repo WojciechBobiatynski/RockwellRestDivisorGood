@@ -10,7 +10,7 @@ import pl.sodexo.it.gryf.common.user.UserVisitor;
 import java.util.Collection;
 
 /**
- * Uzytkownik GRYFa o roli INSTYTUCJA SZKOLENIOWA (TI).
+ * Uzytkownik GRYFa o roli Usługodawca (TI).
  *
  * Created by jbentyn on 2016-10-04.
  */

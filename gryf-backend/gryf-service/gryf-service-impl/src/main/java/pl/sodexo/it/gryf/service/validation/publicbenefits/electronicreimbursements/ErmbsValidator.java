@@ -70,7 +70,7 @@ public class ErmbsValidator {
         GryfUser user = GryfUser.getLoggedUser();
         if(GryfUser.getLoggedUser() instanceof GryfTiUser){
             if(!trainingInstanceDataToValidateReimbursementCreation.getTrainingInstitutionId().equals(((GryfTiUser) user).getTrainingInstitutionId())){
-                violations.add(new EntityConstraintViolation(null, "Zarezerwowane szkolenie, które próbujesz rozliczyć nie jest z Twojej Instytucji Szkoleniowej"));
+                violations.add(new EntityConstraintViolation(null, "Zarezerwowane szkolenie, które próbujesz rozliczyć nie jest z Twojej Usługodawcy"));
             }
         }
 

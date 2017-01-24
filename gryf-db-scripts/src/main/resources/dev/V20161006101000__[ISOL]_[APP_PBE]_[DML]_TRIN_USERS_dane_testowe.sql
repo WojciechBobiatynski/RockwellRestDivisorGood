@@ -1,6 +1,6 @@
 -- PRIV & ROLE
-INSERT INTO APP_PBE.TE_PRIVILEGES (CODE,DESCRIPTION,CONTEXT) VALUES('TI_TEST_PRIV','Przywilej testowy dla instytucji szkoleniowej','TI');
-INSERT INTO APP_PBE.TE_ROLES(CODE,DESCRIPTION,CONTEXT)VALUES('TI_TEST_ROLE','Rola testowa dla instytucji szkoleniowej','TI');
+INSERT INTO APP_PBE.TE_PRIVILEGES (CODE,DESCRIPTION,CONTEXT) VALUES('TI_TEST_PRIV','Przywilej testowy dla Usługodawcy','TI');
+INSERT INTO APP_PBE.TE_ROLES(CODE,DESCRIPTION,CONTEXT)VALUES('TI_TEST_ROLE','Rola testowa dla Usługodawcy','TI');
 
 INSERT INTO APP_PBE.TE_PRIV_IN_ROLES (TE_PRIV_CODE, TE_ROLE_CODE) VALUES('TI_TEST_PRIV','TI_TEST_ROLE');
 
@@ -25,7 +25,7 @@ USR_ID := EAGLE.TI_USR_SEQ.nextval;
     VALUES
       (TI_ID, 'TEST',
       (SELECT ID FROM EAGLE.ZIP_CODES WHERE ACTIVE =1 AND ROWNUM <= 1), (SELECT ID FROM EAGLE.ZIP_CODES WHERE ACTIVE =1 AND ROWNUM <= 1), 
-      'Instutucja dla u�ytkownika testowego' ,'3554868937', 'adres','adres_kor',
+      'Instutucja dla u�ytkownika testowego' ,'3554868937', 'adres','adres_kor',
       1, user, sysdate, user,sysdate);
       
   INSERT INTO APP_PBE.TRAINING_INSTITUTION_USERS

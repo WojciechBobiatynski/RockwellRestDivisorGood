@@ -21,7 +21,7 @@ import static pl.sodexo.it.gryf.common.utils.GryfConstants.*;
 import static pl.sodexo.it.gryf.web.ti.util.TiPageConstant.*;
 
 /**
- * Kontroler związany za zapisem nowego hasła dla użytkownika instytucji szkoleniowej
+ * Kontroler związany za zapisem nowego hasła dla użytkownika Usługodawcy
  *
  * Created by akmiecinski on 26.10.2016.
  */
