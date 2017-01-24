@@ -181,6 +181,13 @@
           END                                       terminated,
           ermbs.REJECTION_REASON_ID                 rejectionReasonId,
           ermbs.REJECTION_DETAILS                   rejectionDetails,
+          CASE
+                WHEN
+                  auto_param.VALUE = 'Y'
+                    THEN 1
+                ELSE
+                  0
+          END                                       automatic,
           ermbs.VERSION                             version,
           ermbs.CREATED_USER                        createdUser,
           ermbs.CREATED_TIMESTAMP                   createdTimestamp,
@@ -259,6 +266,12 @@
             AND e_day_limit_param.PARAM_ID = 'E_DAY_LIM'
             AND NVL(e_day_limit_param.DATE_FROM, SYSDATE) &lt;= SYSDATE
             AND NVL(e_day_limit_param.DATE_TO, SYSDATE) &gt;= SYSDATE
+          )
+          LEFT JOIN APP_PBE.GRANT_PROGRAM_PARAMS auto_param on (
+            auto_param.GRANT_PROGRAM_ID = tr_in.GRANT_PROGRAM_ID
+            AND auto_param.PARAM_ID = 'AUTO_REIMB'
+            AND NVL(auto_param.DATE_FROM, SYSDATE) &lt;= SYSDATE
+            AND NVL(auto_param.DATE_TO, SYSDATE) &gt;= SYSDATE
           )
 
           LEFT JOIN APP_PBE.E_REIMBURSEMENT_REPORTS report ON report.E_REIMBURSEMENT_ID = ermbs.ID
@@ -540,6 +553,29 @@
           <if test="criteria.gryfUser.userType == 'TRAINING_INSTITUTION'">
               AND tr.TRAINING_INSTITUTION_ID = #{criteria.gryfUser.trainingInstitutionId}
           </if>
+    </select>
+
+    <select id="isAutomaticErmbs" resultType="java.lang.Boolean">
+        SELECT
+            CASE
+                WHEN
+                  auto_param.VALUE = 'Y'
+                    THEN 1
+                ELSE
+                  0
+             END
+        FROM
+          APP_PBE.E_REIMBURSEMENTS ermbs
+          JOIN APP_PBE.TI_TRAINING_INSTANCES tr_in ON tr_in.ID = ermbs.TI_TR_INST_ID
+          JOIN APP_PBE.TI_TRAININGS tr ON tr.ID = tr_in.TRAINING_ID
+          LEFT JOIN APP_PBE.GRANT_PROGRAM_PARAMS auto_param on (
+            auto_param.GRANT_PROGRAM_ID = tr_in.GRANT_PROGRAM_ID
+            AND auto_param.PARAM_ID = 'AUTO_REIMB'
+            AND NVL(auto_param.DATE_FROM, SYSDATE) &lt;= SYSDATE
+            AND NVL(auto_param.DATE_TO, SYSDATE) &gt;= SYSDATE
+          )
+        WHERE
+          ermbs.ID = #{ermbsId}
     </select>
 
 </mapper>

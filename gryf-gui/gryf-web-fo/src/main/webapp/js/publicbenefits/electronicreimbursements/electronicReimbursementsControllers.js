@@ -137,7 +137,7 @@ angular.module('gryf.electronicreimbursements').controller("announce.electronicR
         };
 
         $scope.generateDocumentsButtonVisible = function(){
-            return $scope.eReimbObject.entity != null && $scope.eReimbObject.entity.statusCode === 'T_RMS';
+            return $scope.eReimbObject.entity != null && $scope.eReimbObject.entity.statusCode === 'T_RMS' && !$scope.eReimbObject.entity.automatic;
         };
 
         $scope.printReportsButtonVisible = function(){
@@ -150,6 +150,10 @@ angular.module('gryf.electronicreimbursements').controller("announce.electronicR
 
         $scope.cancelButtonVisible = function(){
             return $scope.eReimbObject.entity != null && ($scope.eReimbObject.entity.statusCode === 'NEW' || $scope.eReimbObject.entity.statusCode === 'T_RMS' || $scope.eReimbObject.entity.statusCode === 'T_CRR');
+        };
+
+        $scope.automaticConfirmButtonVisible = function () {
+            return !!$scope.eReimbObject.entity && $scope.eReimbObject.entity.statusCode === 'T_RMS' && $scope.eReimbObject.entity.automatic;
         };
 
         $scope.sendToCorrect = function() {
@@ -175,6 +179,10 @@ angular.module('gryf.electronicreimbursements').controller("announce.electronicR
                 });
             };
             $scope.showAcceptModal("Rozliczenie zostanie zatwierdzone.", callback);
+        };
+
+        $scope.automaticConfirm = function () {
+            $scope.showAcceptModal("Rozliczenie zostanie zatwierdzone automatycznie.", AnnounceEReimbursementService.automaticConfirm);
         };
 
         $scope.reject = function() {

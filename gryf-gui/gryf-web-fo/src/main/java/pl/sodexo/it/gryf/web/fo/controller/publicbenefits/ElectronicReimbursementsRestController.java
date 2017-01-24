@@ -59,6 +59,9 @@ public class ElectronicReimbursementsRestController {
     @Autowired
     private ErmbsMailService ermbsMailService;
 
+    @Autowired
+    private AutomaticElectronicReimbursementsService automaticElectronicReimbursementsService;
+
     @RequestMapping(value = PATH_ELECTRONIC_REIMBURSEMENTS_LIST, method = RequestMethod.GET)
     @ResponseBody
     public List<ElctRmbsDto> findElctRmbsByCriteria(ElctRmbsCriteria elctRmbsCriteria){
@@ -229,6 +232,14 @@ public class ElectronicReimbursementsRestController {
     public ElctRmbsHeadDto reject(@RequestBody RejectionDto rejectionDto) {
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS_MOD);
         Long id = electronicReimbursementsService.reject(rejectionDto);
+        return electronicReimbursementsService.findEcltRmbsById(id);
+    }
+
+    @RequestMapping(value = PATH_ELECTRONIC_REIMBURSEMENTS_AUTO_CONFIRM + "{rmbsId}", method = RequestMethod.POST)
+    @ResponseBody
+    public ElctRmbsHeadDto automaticConfirm(@PathVariable("rmbsId") Long rmbsId) {
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS_MOD);
+        Long id = automaticElectronicReimbursementsService.reimburse(rmbsId);
         return electronicReimbursementsService.findEcltRmbsById(id);
     }
 

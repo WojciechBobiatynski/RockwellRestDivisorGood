@@ -443,6 +443,11 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         return ereimbursement.getId();
     }
 
+    @Override
+    public boolean isAutomaticErmbs(Long ermbs) {
+        return electronicReimbursementsDao.isAutomaticErmbs(ermbs);
+    }
+
     private void setNotReimbReimburseStatusForTiInstance(Ereimbursement ereimbursement) {
         ereimbursement.getTrainingInstance().setStatus(trainingInstanceStatusRepository.get(GryfConstants.NOT_REIMBURSED_TRAINING_INSTANCE_STATUS_CODE));
     }

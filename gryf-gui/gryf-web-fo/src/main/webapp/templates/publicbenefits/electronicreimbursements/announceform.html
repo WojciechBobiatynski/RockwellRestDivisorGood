@@ -7,6 +7,7 @@
         <li><a class="button button-save" ng-click="createDocuments()" gryf-privilege="GRF_PBE_E_REIMBURSEMENTS_MOD" ng-if="generateDocumentsButtonVisible()">Generuj dokumenty</a></li>
         <li><a class="button button-save" ng-click="printReports()" gryf-privilege="GRF_PBE_E_REIMBURSEMENTS_MOD" ng-if="printReportsButtonVisible()">Drukuj raporty</a></li>
         <li><a class="button button-save" ng-click="confirm()" gryf-privilege="GRF_PBE_E_REIMBURSEMENTS_MOD" ng-if="confirmButtonVisible()">Zatwierdź rozliczenie</a></li>
+        <li><a class="button button-save" ng-click="automaticConfirm()" gryf-privilege="GRF_PBE_E_REIMBURSEMENTS_MOD" ng-if="automaticConfirmButtonVisible()">Zatwierdź rozliczenie automatycznie</a></li>
         <li><a class="button button-save" ng-click="cancel()" gryf-privilege="GRF_PBE_E_REIMBURSEMENTS_MOD" ng-if="cancelButtonVisible()">Anuluj</a></li>
     </ul>
     <ol>

@@ -110,4 +110,11 @@ public interface ElectronicReimbursementsDao {
      */
     boolean checkIBeingCreatedErmbsIsTerminatedByTrainingInstanceId(Long trainingInstanceId);
 
+    /**
+     * Sprawdczy czy rozliczenie powinno być wykonane automatycznie
+     * @param ermbsId - id rozliczenia
+     * @return true/false
+     */
+    boolean isAutomaticErmbs(Long ermbsId);
+
 }

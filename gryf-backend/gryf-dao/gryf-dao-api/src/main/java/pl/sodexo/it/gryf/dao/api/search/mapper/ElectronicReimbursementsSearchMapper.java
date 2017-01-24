@@ -127,4 +127,12 @@ public interface ElectronicReimbursementsSearchMapper {
      */
     boolean checkIBeingCreatedErmbsIsTerminatedByTrainingInstanceId(@Param("criteria") UserCriteria criteria, @Param("trainingInstanceId") Long trainingInstanceId);
 
+    /**
+     * Sprawdczy czy rozliczenie powinno być wykonane automatycznie
+     * @param criteria - kryteria użytkownika
+     * @param ermbsId - id rozliczenia
+     * @return true/false
+     */
+    boolean isAutomaticErmbs(@Param("criteria") UserCriteria criteria, @Param("ermbsId")Long ermbsId);
+
 }

@@ -155,6 +155,7 @@ angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementS
             var SEND_EMAILS = contextPath + "/rest/publicBenefits/electronic/reimbursements/email/send";
             var SAVE_ATT = contextPath + "/rest/publicBenefits/electronic/reimbursements/att/save";
             var REJECT_URL = contextPath + "/rest/publicBenefits/electronic/reimbursements/reject/";
+            var AUTO_CONFIRM_URL = contextPath + "/rest/publicBenefits/electronic/reimbursements/automatic/confirm/";
 
             var eReimbObject = new EReimbObject();
             var correctionObject = new CorrectionObject();
@@ -184,7 +185,8 @@ angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementS
                     attachments: null,
                     statusCode: null,
                     returnAccountPayment: null,
-                    lastCorrectionDto: null
+                    lastCorrectionDto: null,
+                    automatic: false
                 }
             }
 
@@ -404,6 +406,22 @@ angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementS
                 this.rejectionDetails = eReimbObject.entity.rejectionDetails;
             };
 
+            var automaticConfirm = function () {
+                var rmbsId =  $routeParams.id;
+                var promise = $http.post(AUTO_CONFIRM_URL + rmbsId);
+                promise.success(function(response) {
+                    GryfPopups.setPopup("success", "Sukces", "Rozliczenie zostało zatwierdzone");
+                    eReimbObject.entity = response;
+                })
+                    .error(function() {
+                        GryfPopups.setPopup("success", "Sukces", "Nie udało się zatwierdzić rozliczenia");
+                    })
+                    .finally(function() {
+                        GryfPopups.showPopup();
+                    });
+                return promise;
+            };
+
             return {
                 getNewModel: getNewModel,
                 getViolation: getViolations,
@@ -420,7 +438,8 @@ angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementS
                 createEmailsFromTemplate: createEmailsFromTemplate,
                 sendMail: sendMail,
                 getSaveAttUrl: getSaveAttUrl,
-                reject: reject
+                reject: reject,
+                automaticConfirm: automaticConfirm
             };
         }]);
 

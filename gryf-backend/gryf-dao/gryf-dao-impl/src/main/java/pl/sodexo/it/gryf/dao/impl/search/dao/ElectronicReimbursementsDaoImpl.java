@@ -95,4 +95,9 @@ public class ElectronicReimbursementsDaoImpl implements ElectronicReimbursements
         return electronicReimbursementsSearchMapper.checkIBeingCreatedErmbsIsTerminatedByTrainingInstanceId(new UserCriteria(), trainingInstanceId);
     }
 
+    @Override
+    public boolean isAutomaticErmbs(Long ermbsId) {
+        return electronicReimbursementsSearchMapper.isAutomaticErmbs(new UserCriteria(), ermbsId);
+    }
+
 }

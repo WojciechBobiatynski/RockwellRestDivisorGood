@@ -141,4 +141,11 @@ public interface ElectronicReimbursementsService {
      */
     Long reject(RejectionDto rejectionDto);
 
+    /**
+     * Sprawdza czy dla danego rozliczenia ma być automatyczny proces
+     * @param ermbs
+     * @return
+     */
+    boolean isAutomaticErmbs(Long ermbs);
+
 }
