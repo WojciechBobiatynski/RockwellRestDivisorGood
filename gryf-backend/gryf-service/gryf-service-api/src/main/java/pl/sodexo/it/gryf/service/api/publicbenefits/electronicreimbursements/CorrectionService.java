@@ -22,9 +22,10 @@ public interface CorrectionService {
 
     /**
      * Metoda służąca do wyliczania wymaganej daty udzielenia korekty
+     * @param ermbsId - id rozliczenia
      * @return wymagana data udzielenia korekty
      */
-    Date getRequiredCorrectionDate();
+    Date getRequiredCorrectionDate(Long ermbsId);
 
     /**
      * Znajduje wszystkie korekty wskazanego rozliczenia wraz z ich numerami

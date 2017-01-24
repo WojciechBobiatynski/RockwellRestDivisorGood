@@ -30,4 +30,8 @@ public class PbeProductInstancePoolDto extends VersionableDto {
     @Getter
     @Setter
     private BigDecimal productValue;
+
+    @Getter
+    @Setter
+    private Long grantProgramId;
 }

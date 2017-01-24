@@ -8,7 +8,8 @@
           pool.ID                                 id,
           pool.AVAILABLE_NUM                      availableNum,
           pool.EXPIRY_DATE                        expiryDate,
-          prd.VALUE                               productValue
+          prd.VALUE                               productValue,
+          pr.ID                                   grantProgramId
         FROM
           APP_PBE.GRANT_PROGRAMS pr
           LEFT JOIN APP_PBE.GRANT_PROGRAM_PARAMS prm ON (

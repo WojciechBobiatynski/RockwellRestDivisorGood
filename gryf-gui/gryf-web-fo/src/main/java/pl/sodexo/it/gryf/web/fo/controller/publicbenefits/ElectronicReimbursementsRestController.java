@@ -97,11 +97,11 @@ public class ElectronicReimbursementsRestController {
        return electronicReimbursementsService.sendToCorrect(correctionDto);
     }
 
-    @RequestMapping(value = PATH_ELECTRONIC_REIMBURSEMENTS_CORRECTION_DATE, method = RequestMethod.GET)
+    @RequestMapping(value = PATH_ELECTRONIC_REIMBURSEMENTS_CORRECTION_DATE  + "{ermbsId}", method = RequestMethod.GET)
     @ResponseBody
-    public Date getRequiredCorrectionDate() {
+    public Date getRequiredCorrectionDate(@PathVariable Long ermbsId) {
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS_MOD);
-        return correctionService.getRequiredCorrectionDate();
+        return correctionService.getRequiredCorrectionDate(ermbsId);
     }
 
     @RequestMapping(value = PATH_ELECTRONIC_REIMBURSEMENTS_CORRECTIONS_LIST + "{ermbsId}", method = RequestMethod.GET)

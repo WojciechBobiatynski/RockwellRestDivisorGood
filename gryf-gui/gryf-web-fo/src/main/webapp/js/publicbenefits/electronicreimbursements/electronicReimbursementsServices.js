@@ -144,7 +144,7 @@ angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementS
 
             var FIND_RMBS_URL = contextPath + "/rest/publicBenefits/electronic/reimbursements/";
             var CHANGE_STATUS_URL = contextPath + "/rest/publicBenefits/electronic/reimbursements/status";
-            var NEW_CORRECTION_DATE_URL = contextPath + "/rest/publicBenefits/electronic/reimbursements/correctionDate";
+            var NEW_CORRECTION_DATE_URL = contextPath + "/rest/publicBenefits/electronic/reimbursements/correctionDate/";
             var FIND_RMBS_CORRECTIONS_LIST_URL = contextPath + "/rest/publicBenefits/electronic/reimbursements/correction/list/";
             var CREATE_DOCUMENTS_URL = contextPath + "/rest/publicBenefits/electronic/reimbursements/createDocuments/";
             var CORR_ATTACHMENT = contextPath + "/rest/publicBenefits/electronic/reimbursements/downloadCorrAttachment";
@@ -249,7 +249,7 @@ angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementS
             };
 
             var getNewRequiredCorrectionDate = function() {
-                return $http.get(NEW_CORRECTION_DATE_URL).success(function(date) {
+                return $http.get(NEW_CORRECTION_DATE_URL + eReimbObject.entity.ermbsId).success(function(date) {
                     correctionObject.isNewCorrect = true;
                     correctionObject.entity.requiredDate = date;
                     correctionObject.entity.ermbsId = eReimbObject.entity.ermbsId;

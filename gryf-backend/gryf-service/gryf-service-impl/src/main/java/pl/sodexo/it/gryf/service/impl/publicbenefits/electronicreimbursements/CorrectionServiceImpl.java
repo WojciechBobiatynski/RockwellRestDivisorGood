@@ -11,10 +11,15 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbu
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementRepository;
 import pl.sodexo.it.gryf.dao.api.search.dao.CorrectionSearchDao;
 import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.Correction;
+import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.Ereimbursement;
+import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgramParam;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.CorrectionService;
+import pl.sodexo.it.gryf.service.local.api.ParamInDateService;
 
 import java.util.Date;
 import java.util.List;
+
+import static pl.sodexo.it.gryf.common.utils.GryfConstants.BUSINESS_DAYS_FOR_CORRECTION_PARAM_NAME;
 
 /**
  * Implementacja serwisu realizującego operacje na korektach
@@ -40,6 +45,9 @@ public class CorrectionServiceImpl implements CorrectionService {
     @Autowired
     private GryfPLSQLRepository gryfPLSQLRepository;
 
+    @Autowired
+    private ParamInDateService paramInDateService;
+
     @Override
     public Long createAndSaveCorrection(CorrectionDto correctionDto) {
         Correction corr = createNewCorrection(correctionDto);
@@ -51,12 +59,8 @@ public class CorrectionServiceImpl implements CorrectionService {
         Correction correction = new Correction();
         correction.setEreimbursement(ereimbursementRepository.get(correctionDto.getErmbsId()));
         correction.setReason(correctionDto.getCorrectionReason());
-        correction.setRequiredDate(getRequiredCorrectionDate());
+        correction.setRequiredDate(gryfPLSQLRepository.getNthBusinessDay(new Date(), getBusinessDaysForCorrection(correctionDto.getErmbsId())));
         return correction;
-    }
-
-    public Date getRequiredCorrectionDate() {
-        return gryfPLSQLRepository.getNthBusinessDay(new Date(), applicationParameters.getBusinessDaysNumberForCorrection());
     }
 
     @Override
@@ -77,7 +81,23 @@ public class CorrectionServiceImpl implements CorrectionService {
     }
 
     @Override
+    public Date getRequiredCorrectionDate(Long ermbsId) {
+        Integer businessDaysForCorrection = getBusinessDaysForCorrection(ermbsId);
+        return gryfPLSQLRepository.getNthBusinessDay(new Date(), businessDaysForCorrection);
+    }
+
+    @Override
     public CorrectionNotificationEmailParamsDto findCorrNotifParamsByErmbsId(Long ermbsId) {
         return correctionSearchDoa.findCorrNotifParamsByErmbsId(ermbsId);
+    }
+
+    private Integer getBusinessDaysForCorrection(Long ermbsId) {
+        Ereimbursement ereimbursement = ereimbursementRepository.get(ermbsId);
+        Long grantProgramId = ereimbursement.getTrainingInstance().getGrantProgram().getId();
+        GrantProgramParam dbDaysForReimbParam =  paramInDateService.findGrantProgramParam(grantProgramId, BUSINESS_DAYS_FOR_CORRECTION_PARAM_NAME, new Date(), false);
+        if(dbDaysForReimbParam == null) {
+            return applicationParameters.getBusinessDaysNumberForCorrection();
+        }
+        return Integer.parseInt(dbDaysForReimbParam.getValue());
     }
 }

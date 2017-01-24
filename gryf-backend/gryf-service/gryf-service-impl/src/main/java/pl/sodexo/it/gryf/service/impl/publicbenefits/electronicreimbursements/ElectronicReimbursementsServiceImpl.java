@@ -28,12 +28,14 @@ import pl.sodexo.it.gryf.dao.api.search.dao.GrantProgramSearchDao;
 import pl.sodexo.it.gryf.dao.api.search.dao.ProductSearchDao;
 import pl.sodexo.it.gryf.model.api.FinanceNoteResult;
 import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.*;
+import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgramParam;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.CorrectionAttachmentService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.CorrectionService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.ElectronicReimbursementsService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.ErmbsAttachmentService;
 import pl.sodexo.it.gryf.service.api.reports.ReportService;
 import pl.sodexo.it.gryf.service.local.api.MailService;
+import pl.sodexo.it.gryf.service.local.api.ParamInDateService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.pbeproduct.PbeProductInstancePoolLocalService;
 import pl.sodexo.it.gryf.service.mapping.MailDtoCreator;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.electronicreimbursements.EreimbursementDtoMapper;
@@ -46,6 +48,8 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static pl.sodexo.it.gryf.common.utils.GryfConstants.BUSINESS_DAYS_FOR_REIMBURSEMENT_PARAM_NAME;
 
 /**
  * Serwis implementujący operacje na e-rozliczeniach
@@ -122,6 +126,9 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
 
     @Autowired
     private RejectionValidator rejectionValidator;
+
+    @Autowired
+    private ParamInDateService paramInDateService;
 
     @Override
     public List<ElctRmbsDto> findEcltRmbsListByCriteria(ElctRmbsCriteria criteria) {
@@ -206,12 +213,22 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         Ereimbursement ereimbursement = saveErmbsData(elctRmbsHeadDto);
         ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.TO_ERMBS));
         ereimbursement.setArrivalDate(new Date());
-        ereimbursement.setReimbursementDate(gryfPLSQLRepository.getNthBusinessDay(new Date(), applicationParameters.getBusinessDaysNumberForReimbursement()));
+        Long grantProgramId = ereimbursement.getTrainingInstance().getGrantProgram().getId();
+        Integer businessDaysForReimbursement = getBusinessDaysForReimbursement(grantProgramId);
+        ereimbursement.setReimbursementDate(gryfPLSQLRepository.getNthBusinessDay(new Date(), businessDaysForReimbursement));
         List<CorrectionAttachmentDto> correctionAttachmentDtoList = correctionAttachmentService.createCorrAttIfNotExistsForErmbsAttBeingChanged(elctRmbsHeadDto);
         ermbsAttachmentService.manageErmbsAttachmentsForCorrection(elctRmbsHeadDto, ErmbsAttachmentStatus.SENDED);
         correctionAttachmentService.saveCorrectionAttachments(correctionAttachmentDtoList);
         correctionService.completeCorrection(elctRmbsHeadDto.getLastCorrectionDto().getId());
         return ereimbursement.getId();
+    }
+
+    private Integer getBusinessDaysForReimbursement(Long grantProgramId) {
+        GrantProgramParam dbDaysForReimbParam =  paramInDateService.findGrantProgramParam(grantProgramId, BUSINESS_DAYS_FOR_REIMBURSEMENT_PARAM_NAME, new Date(), false);
+        if(dbDaysForReimbParam == null) {
+            return applicationParameters.getBusinessDaysNumberForReimbursement();
+        }
+        return Integer.parseInt(dbDaysForReimbParam.getValue());
     }
 
     @Override
@@ -368,7 +385,9 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         ereimbursement.setEreimbursementType(ereimbursementTypeRepository.get(EreimbursementType.TI_INST));
         setToReimburseStatusForTiInstance(ereimbursement);
         ereimbursement.setArrivalDate(new Date());
-        ereimbursement.setReimbursementDate(gryfPLSQLRepository.getNthBusinessDay(new Date(), applicationParameters.getBusinessDaysNumberForReimbursement()));
+        Long grantProgramId = ereimbursement.getTrainingInstance().getGrantProgram().getId();
+        Integer businessDaysForReimbursement = getBusinessDaysForReimbursement(grantProgramId);
+        ereimbursement.setReimbursementDate(gryfPLSQLRepository.getNthBusinessDay(new Date(), businessDaysForReimbursement));
     }
 
     private void setToReimburseStatusForTiInstance(Ereimbursement ereimbursement) {
@@ -424,7 +443,8 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
                 BigDecimal.valueOf(pbeProductInstancePool.getAvailableNum()).multiply(pbeProductInstancePool.getProductValue()).multiply(ownContributionPercentage).setScale(2, RoundingMode.HALF_UP));
         ereimbursement.setExpiredProductsNum(pbeProductInstancePool.getAvailableNum());
         ereimbursement.setArrivalDate(new Date());
-        ereimbursement.setReimbursementDate(gryfPLSQLRepository.getNthBusinessDay(new Date(), applicationParameters.getBusinessDaysNumberForReimbursement()));
+        Integer businessDaysForReimbursement = getBusinessDaysForReimbursement(pbeProductInstancePool.getGrantProgramId());
+        ereimbursement.setReimbursementDate(gryfPLSQLRepository.getNthBusinessDay(new Date(), businessDaysForReimbursement));
         return ereimbursementRepository.save(ereimbursement).getId();
     }
 
