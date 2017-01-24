@@ -80,6 +80,25 @@ public abstract class ImportBaseDataServiceImpl implements ImportDataService{
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
+    public void saveImportDataRowBeforeSaveData(Long importJobId, ImportParamsDTO paramsDTO, Row row){
+        ImportDataRow rowInfo = importDataRowRepository.getByImportJobAndRowNum(importJobId, row.getRowNum());
+
+        ImportResultDTO result = saveInternalImportDataRowBeforeSaveData(paramsDTO, row);
+
+        rowInfo.setContract(result.getContractId() != null ? contractRepository.get(result.getContractId()) : null);
+        rowInfo.setIndividual(result.getIndividualId() != null ? individualRepository.get(result.getIndividualId()) : null);
+        rowInfo.setEnterprise(result.getEnterpriseId() != null ? enterpriseRepository.get(result.getEnterpriseId()) : null);
+        rowInfo.setOrder(result.getOrderId() != null ? orderRepository.get(result.getOrderId()) : null);
+        rowInfo.setTrainingInstitution(result.getTrainingInstitutionId() != null ? trainingInstitutionRepository.get(result.getTrainingInstitutionId()) : null);
+        rowInfo.setTraining(result.getTrainingId() != null ? trainingRepository.get(result.getTrainingId()) : null);
+        rowInfo.setTrainingInstance(result.getTrainingInstanceId() != null ? trainingInstanceRepository.get(result.getTrainingInstanceId()) : null);
+
+        importDataRowRepository.update(rowInfo, rowInfo.getId());
+    }
+
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public void saveData(Long importJobId, ImportParamsDTO paramsDTO, Row row){
         ImportDataRow rowInfo = importDataRowRepository.getByImportJobAndRowNum(importJobId, row.getRowNum());
 
@@ -165,6 +184,8 @@ public abstract class ImportBaseDataServiceImpl implements ImportDataService{
     protected int saveEmptyExtraRows(Long importJobId, int rowNums){
         return 0;
     }
+
+    protected abstract ImportResultDTO saveInternalImportDataRowBeforeSaveData(ImportParamsDTO paramsDTO, Row row);
 
     protected abstract ImportResultDTO saveInternalNormalData(ImportParamsDTO paramsDTO, Row row);
 

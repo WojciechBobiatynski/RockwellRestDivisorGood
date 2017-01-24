@@ -13,6 +13,8 @@ public interface ImportDataService {
 
     int saveEmptyRows(Long importJobId, int rowNums);
 
+    void saveImportDataRowBeforeSaveData(Long importJobId, ImportParamsDTO paramsDTO, Row row);
+
     void saveData(Long importJobId, ImportParamsDTO paramsDTO, Row row);
 
     //SAVE EXTRA ROWS

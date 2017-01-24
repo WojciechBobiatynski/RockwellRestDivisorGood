@@ -31,6 +31,11 @@ public class ImportOpinionDoneServiceImpl extends ImportBaseDataServiceImpl {
     //OVERRIDE
 
     @Override
+    protected ImportResultDTO saveInternalImportDataRowBeforeSaveData(ImportParamsDTO paramsDTO, Row row){
+        return new ImportResultDTO();
+    }
+
+    @Override
     protected ImportResultDTO saveInternalNormalData(ImportParamsDTO paramsDTO, Row row){
         ImportOpinionDoneDTO importDTO = createImportDTO(row);
         validateImport(paramsDTO, importDTO);
@@ -40,7 +45,7 @@ public class ImportOpinionDoneServiceImpl extends ImportBaseDataServiceImpl {
 
         ImportResultDTO result = new ImportResultDTO();
         result.setTrainingInstanceId(trainingInstanceId);
-        result.setDescrption(String.format("Poprawno zaktualizowano dane: rezerwacja szkolenia (%s)", getIdToDescription(trainingInstanceId)));
+        result.setDescrption(String.format("Poprawnie zaktualizowano dane: rezerwacja szkolenia (%s).", getIdToDescription(trainingInstanceId)));
         return result;
     }
 

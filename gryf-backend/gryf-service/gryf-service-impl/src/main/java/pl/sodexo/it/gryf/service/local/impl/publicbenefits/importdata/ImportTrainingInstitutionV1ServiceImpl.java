@@ -19,6 +19,7 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.dictionaries.ZipCodeRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstitutionRepository;
 import pl.sodexo.it.gryf.model.dictionaries.ZipCode;
 import pl.sodexo.it.gryf.model.publicbenefits.api.ContactType;
+import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.Training;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstitution;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstitutionContact;
 import pl.sodexo.it.gryf.model.security.trainingInstitutions.TrainingInstitutionUser;
@@ -63,6 +64,11 @@ public class ImportTrainingInstitutionV1ServiceImpl extends ImportBaseDataServic
     //OVERRIDE
 
     @Override
+    protected ImportResultDTO saveInternalImportDataRowBeforeSaveData(ImportParamsDTO paramsDTO, Row row){
+        return new ImportResultDTO();
+    }
+
+    @Override
     protected ImportResultDTO saveInternalNormalData(ImportParamsDTO paramsDTO, Row row){
         ImportTrainingInstitutionV1DTO importDTO = createImportDTO(row);
         validateImport(importDTO);
@@ -74,23 +80,21 @@ public class ImportTrainingInstitutionV1ServiceImpl extends ImportBaseDataServic
         ZipCode zipCodeCorr = zipCodeRepository.findActiveByCode(importDTO.getAddressCorr().getZipCode());
         validateConnectedData(importDTO, trainingInstitution, zipCodeInvoice, zipCodeCorr, tiUser);
 
+        ImportResultDTO result = new ImportResultDTO();
         TrainingInstitutionDto trainingInstitutionDto = createTrainingInstitutionDTO(trainingInstitution, importDTO, zipCodeInvoice, zipCodeCorr);
+
         if(trainingInstitution == null){
             Long trainingInstitutionId = trainingInstitutionService.saveTrainingInstitution(trainingInstitutionDto, false);
-
-            ImportResultDTO result = new ImportResultDTO();
             result.setTrainingInstitutionId(trainingInstitutionId);
-            result.setDescrption(String.format("Poprawno utworzono dane: instytucje szkoleniową (%s)", getIdToDescription(trainingInstitutionId)));
-            return result;
+            result.setDescrption(String.format("Poprawnie utworzono dane: instytucje szkoleniową (%s).", getIdToDescription(trainingInstitutionId)));
 
         }else{
             trainingInstitutionService.updateTrainingInstitution(trainingInstitutionDto, false);
-
-            ImportResultDTO result = new ImportResultDTO();
             result.setTrainingInstitutionId(trainingInstitutionDto.getId());
-            result.setDescrption(String.format("Poprawno zaktualizowano dane: instytucje szkoleniową (%s)", trainingInstitutionDto.getId()));
-            return result;
+            result.setDescrption(String.format("Poprawnie zaktualizowano dane: instytucje szkoleniową (%s).", trainingInstitutionDto.getId()));
+
         }
+        return result;
     }
 
     //PRIVATE METHODS - VALIDATE & SAVE

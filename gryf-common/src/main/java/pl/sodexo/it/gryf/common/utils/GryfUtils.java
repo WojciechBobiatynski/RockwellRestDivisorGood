@@ -34,6 +34,9 @@ public final class GryfUtils {
     }
 
     public static Date getStartDay(Date date){
+        if(date == null){
+            return null;
+        }
         Calendar c = Calendar.getInstance();
         c.setTime(date);
         c.set(Calendar.HOUR_OF_DAY, 0);
@@ -44,6 +47,9 @@ public final class GryfUtils {
     }
 
     public static Date getEndDay(Date date){
+        if(date == null){
+            return null;
+        }
         Calendar c = Calendar.getInstance();
         c.setTime(date);
         c.set(Calendar.HOUR_OF_DAY, 23);
@@ -54,6 +60,9 @@ public final class GryfUtils {
     }
 
     public static Date getStartMonth(Date date){
+        if(date == null){
+            return null;
+        }
         Calendar c = Calendar.getInstance();
         c.setTime(date);
         c.set(Calendar.DAY_OF_MONTH, 1);
@@ -61,6 +70,9 @@ public final class GryfUtils {
     }
 
     public static Date getEndMonth(Date date){
+        if(date == null){
+            return null;
+        }
         Calendar c = Calendar.getInstance();
         c.setTime(date);
         c.add(Calendar.MONTH, 1);
@@ -70,6 +82,9 @@ public final class GryfUtils {
     }
 
     public static Date getNextMonth(Date date){
+        if(date == null){
+            return null;
+        }
         Calendar c = Calendar.getInstance();
         c.setTime(date);
         c.add(Calendar.MONTH, 1);
@@ -77,6 +92,9 @@ public final class GryfUtils {
     }
 
     public static Date addDays(Date date, int days){
+        if(date == null){
+            return null;
+        }
         Calendar c = Calendar.getInstance();
         c.setTime(date);
         c.add(Calendar.DAY_OF_YEAR, days);

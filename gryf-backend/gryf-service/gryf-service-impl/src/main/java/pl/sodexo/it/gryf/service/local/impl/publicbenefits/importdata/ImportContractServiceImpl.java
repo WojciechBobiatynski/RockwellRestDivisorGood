@@ -98,6 +98,11 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
     }
 
     @Override
+    protected ImportResultDTO saveInternalImportDataRowBeforeSaveData(ImportParamsDTO paramsDTO, Row row){
+        return new ImportResultDTO();
+    }
+
+    @Override
     protected ImportResultDTO saveInternalNormalData(ImportParamsDTO paramsDTO, Row row){
         ImportComplexContractDTO importDTO = createComplexContractDTO(row);
         validateImport(importDTO);
@@ -117,7 +122,7 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
         ImportResultDTO importResult = saveContractData(importDTO, paramsDTO,
                                                         contractType, trainingCategories, pair,
                                                         zipCodeIndividualInvoice, zipCodeEnterpriseInvoice);
-        importResult.setDescrption(String.format("Poprawno utworzono dane: umowa (%s) użytkownik (%s), MŚP (%s), zamówienie (%s)",
+        importResult.setDescrption(String.format("Poprawnie utworzono dane: umowa (%s) użytkownik (%s), MŚP (%s), zamówienie (%s).",
                                     getIdToDescription(importResult.getContractId()),
                                     getIdToDescription(importResult.getIndividualId()),
                                     getIdToDescription(importResult.getEnterpriseId()),

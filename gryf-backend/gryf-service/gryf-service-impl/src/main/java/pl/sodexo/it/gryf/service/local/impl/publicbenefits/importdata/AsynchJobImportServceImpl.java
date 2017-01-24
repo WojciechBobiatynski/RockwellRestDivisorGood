@@ -77,6 +77,10 @@ public class AsynchJobImportServceImpl implements AsynchJobService{
                 Row row = rowIterator.next();
                 if(row.getRowNum() != 0){
                     try {
+
+                        //UPDATE RECORD INFO
+                        importDataService.saveImportDataRowBeforeSaveData(dto.getId(), paramsDTO, row);
+
                         //SAVE DATA
                         importDataService.saveData(dto.getId(), paramsDTO, row);
                         normalSuccessRows++;

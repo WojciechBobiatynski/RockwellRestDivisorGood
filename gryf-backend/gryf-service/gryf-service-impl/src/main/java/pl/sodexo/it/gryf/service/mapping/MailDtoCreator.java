@@ -9,6 +9,7 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.Corr
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsMailDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsMailParamsDto;
 import pl.sodexo.it.gryf.common.dto.security.individuals.Verifiable;
+import pl.sodexo.it.gryf.common.dto.security.trainingInstitutions.GryfTiUserDto;
 import pl.sodexo.it.gryf.common.mail.MailPlaceholders;
 import pl.sodexo.it.gryf.dao.api.crud.repository.mail.EmailTemplateRepository;
 import pl.sodexo.it.gryf.model.mail.EmailTemplate;
@@ -70,8 +71,7 @@ public class MailDtoCreator {
     }
 
     public MailDTO createMailDTOForPinSend(TrainingInstance ti, String email) {
-
-        String pin = getDecryptedPin(ti.getReimbursmentPin());
+        String pin = getDecrypt(ti.getReimbursmentPin());
         MailPlaceholders mailPlaceholders = mailService.createPlaceholders("individualName", ti.getIndividual().getFirstName())
                 .add("grantProgramName", ti.getGrantProgram().getProgramName())
                 .add("firstName", ti.getIndividual().getFirstName())
@@ -87,7 +87,7 @@ public class MailDtoCreator {
     }
 
     public MailDTO createMailDTOForPinResend(TrainingInstance ti, String email) {
-        String pin = getDecryptedPin(ti.getReimbursmentPin());
+        String pin = getDecrypt(ti.getReimbursmentPin());
         MailPlaceholders mailPlaceholders = mailService.createPlaceholders("grantProgramName", ti.getGrantProgram().getProgramName())
                 .add("individualName", ti.getIndividual().getFirstName())
                 .add("reimbursmentPin", pin)
@@ -100,11 +100,17 @@ public class MailDtoCreator {
         return createAndFillMailDTO(emailTemplate, email, mailPlaceholders);
     }
 
-    private String getDecryptedPin(String reimbursmentPin) {
-        if (reimbursmentPin == null) {
-            return "";
-        }
-        return  AEScryptographer.decrypt(reimbursmentPin);
+    public MailDTO createMailDTOForTiAccess(String grantProgramName, GryfTiUserDto user, String newLink) {
+        MailPlaceholders mailPlaceholders = mailService.createPlaceholders("grantProgramName", grantProgramName)
+                .add("IndividualWebAppURL",  applicationParameters.getTiUserUrl())
+                .add("login", user.getLogin())
+                .add("resetLink", applicationParameters.getTiUserUrl() + RESET_LINK_URL_PREFIX + newLink);
+        EmailTemplate emailTemplate = emailTemplateRepository.get(TI_ACCESS_EMAIL_TEMPLATE_CODE);
+        return createAndFillMailDTO(emailTemplate, user.getEmail(), mailPlaceholders);
+    }
+
+    private String getDecrypt(String val) {
+        return (val != null) ? AEScryptographer.decrypt(val) : "";
     }
 
     private MailDTO createAndFillMailDTO(EmailTemplate emailTemplate, String email, MailPlaceholders mailPlaceholders) {

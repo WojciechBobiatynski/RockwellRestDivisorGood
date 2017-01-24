@@ -75,6 +75,9 @@ public class ImportTrainingDTO {
 
     @Getter
     @Setter
-    @NotEmpty(message = "Warunki rozliczenia szkolenia nie mogą być puste")
-    private String reimbursmentCondition;
+    private String reimbursmentCondition1;
+
+    @Getter
+    @Setter
+    private String reimbursmentCondition2;
 }

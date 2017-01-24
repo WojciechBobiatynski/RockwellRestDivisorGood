@@ -150,6 +150,15 @@ public class VerificationServiceImpl implements VerificationService {
         mailService.scheduleMail(mailDtoCreator.createMailDTOForResetLink(email, attemptDto.getTurId()));
     }
 
+    @Override
+    public void sendTiUserAccess(String grantProgramName, String email) {
+        GryfTiUserDto user = findActiveTiUserDto(email);
+        tiUserResetAttemptService.disableActiveAttemptOfTiUser(user.getId());
+        TiUserResetAttemptDto attemptDto = createNewAttemptForTiUser(user.getId());
+        tiUserResetAttemptService.saveTiUserResetAttempt(attemptDto);
+        mailService.scheduleMail(mailDtoCreator.createMailDTOForTiAccess(grantProgramName, user, attemptDto.getTurId()));
+    }
+
     private GryfTiUserDto findActiveTiUserDto(String email) {
         GryfTiUserDto user = trainingInstitutionUserService.findTiUserByEmail(email);
 

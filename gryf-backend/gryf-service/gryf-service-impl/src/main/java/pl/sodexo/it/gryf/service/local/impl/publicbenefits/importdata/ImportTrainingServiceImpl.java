@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.service.local.impl.publicbenefits.importdata;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -71,6 +72,16 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
     }
 
     @Override
+    protected ImportResultDTO saveInternalImportDataRowBeforeSaveData(ImportParamsDTO paramsDTO, Row row){
+        String externalId = getExternalId(row);
+        Training training = externalId != null ? trainingRepository.findByExternalId(externalId) : null;
+
+        ImportResultDTO result = new ImportResultDTO();
+        result.setTrainingId(training != null ? training.getId() : null);
+        return result;
+    }
+
+    @Override
     protected ImportResultDTO saveInternalNormalData(ImportParamsDTO paramsDTO, Row row){
         ImportTrainingDTO importDTO = createImportDTO(row);
         validateImport(importDTO);
@@ -80,23 +91,20 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
         TrainingCategory trainingCategory = trainingCategoryRepository.get(importDTO.getCategory());
         validateConnectedData(importDTO, trainingInstitution, training, trainingCategory);
 
+        ImportResultDTO result = new ImportResultDTO();
         TrainingDTO trainingDTO = createTrainingDTO(training, trainingInstitution, trainingCategory, importDTO);
+
         if(training == null){
             Long trainingId = trainingService.saveTraining(trainingDTO);
-
-            ImportResultDTO result = new ImportResultDTO();
             result.setTrainingId(trainingId);
-            result.setDescrption(String.format("Poprawno utworzono dane: szkolenie (%s)", getIdToDescription(trainingId)));
-            return result;
+            result.setDescrption(String.format("Poprawnie utworzono dane: szkolenie (%s).", getIdToDescription(trainingId)));
 
         }else{
             trainingService.updateTraining(trainingDTO);
-
-            ImportResultDTO result = new ImportResultDTO();
             result.setTrainingId(trainingDTO.getTrainingId());
-            result.setDescrption(String.format("Poprawno zaktualizowano dane: szkolenie (%s)", trainingDTO.getTrainingId()));
-            return result;
+            result.setDescrption(String.format("Poprawnie zaktualizowano dane: szkolenie (%s).", trainingDTO.getTrainingId()));
         }
+        return result;
     }
 
     @Override
@@ -154,6 +162,10 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
                                     importDTO.getHourPrice(), calcHourPrice)));
                 }
             }
+        }
+
+        if(Strings.isNullOrEmpty(importDTO.getReimbursmentCondition1()) && Strings.isNullOrEmpty(importDTO.getReimbursmentCondition2())){
+            violations.add(new EntityConstraintViolation("Pola 'Warunek rozliczrenia 1' oraz 'Warunek rozliczenia 2' nie moga być jednocześnie puste."));
         }
 
         gryfValidator.validate(violations);
@@ -228,11 +240,29 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
                     t.setCategory(getStringCellValue(cell));
                     break;
                 case 12:
-                    t.setReimbursmentCondition(getStringCellValue(cell));
+                    t.setReimbursmentCondition1(getStringCellValue(cell));
+                    break;
+                case 13:
+                    t.setReimbursmentCondition2(getStringCellValue(cell));
                     break;
             }
         }
         return t;
+    }
+
+    private String getExternalId(Row row){
+        ImportTrainingDTO t = new ImportTrainingDTO();
+
+        Iterator<Cell> cellIterator = row.cellIterator();
+        while (cellIterator.hasNext()) {
+            Cell cell = cellIterator.next();
+
+            switch (cell.getColumnIndex()) {
+                case 3:
+                    return getStringCellValue(cell);
+            }
+        }
+        return null;
     }
 
     //PRIVATE METHODS - CREATE BUSSINESS DTO
@@ -253,7 +283,7 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
         dto.setHourPrice(importDTO.getHourPrice());
         dto.setCategory(trainingCategory.getId());
         dto.setTrainingCategoryCatalogId(trainingCategory.getTrainingCategoryCatalog().getId());
-        dto.setReimbursmentConditions(importDTO.getReimbursmentCondition());
+        dto.setReimbursmentConditions(concateReimbursmentConditions(importDTO.getReimbursmentCondition1(), importDTO.getReimbursmentCondition2()));
         dto.setActive(true);
         dto.setDeactivateUser(null);
         dto.setDeactivateDate(null);
@@ -265,6 +295,22 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
         dto.setModifiedUser(training != null ? training.getModifiedUser() : null);
         dto.setModifiedTimestamp(training != null ? training.getModifiedTimestamp() : null);
         return dto;
+    }
+
+    private String concateReimbursmentConditions(String s1, String s2){
+        boolean flagS1 = !Strings.isNullOrEmpty(s1);
+        boolean flagS2 = !Strings.isNullOrEmpty(s2);
+        StringBuilder sb = new StringBuilder();
+        if(flagS1){
+            sb.append(s1);
+        }
+        if(flagS1 && flagS2){
+            sb.append(" ");
+        }
+        if(flagS2){
+            sb.append(s2);
+        }
+        return sb.toString();
     }
 
 }

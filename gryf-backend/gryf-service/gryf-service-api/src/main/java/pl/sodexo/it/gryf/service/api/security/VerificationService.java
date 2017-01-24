@@ -23,4 +23,6 @@ public interface VerificationService {
      */
     void resetTiUserPassword(String email);
 
+    void sendTiUserAccess(String grantProgramName, String email);
+
 }

@@ -1,6 +1,7 @@
 package pl.sodexo.it.gryf.service.local.impl.publicbenefits.importdata;
 
 import com.google.common.collect.Lists;
+import lombok.Getter;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +17,16 @@ import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.dao.api.crud.dao.traininginstitutions.TrainingInstitutionUserDao;
 import pl.sodexo.it.gryf.dao.api.crud.repository.dictionaries.ZipCodeRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.grantprograms.GrantProgramRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstitutionRepository;
 import pl.sodexo.it.gryf.model.dictionaries.ZipCode;
 import pl.sodexo.it.gryf.model.publicbenefits.api.ContactType;
+import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstitution;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstitutionContact;
 import pl.sodexo.it.gryf.model.security.trainingInstitutions.TrainingInstitutionUser;
 import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.TrainingInstitutionService;
+import pl.sodexo.it.gryf.service.api.security.VerificationService;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.traininginstiutions.TrainingInstitutionContactEntityMapper;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.security.traininginstitutions.TrainingInstitutionUserEntityMapper;
@@ -59,37 +63,54 @@ public class ImportTrainingInstitutionServiceImpl extends ImportBaseDataServiceI
     @Autowired
     private TrainingInstitutionContactEntityMapper trainingInstitutionContactEntityMapper;
 
+    @Autowired
+    private GrantProgramRepository grantProgramRepository;
+
+    @Autowired
+    private VerificationService verificationService;
+
     //OVERRIDE
+
+    @Override
+    protected ImportResultDTO saveInternalImportDataRowBeforeSaveData(ImportParamsDTO paramsDTO, Row row){
+        String externalId = getExternalId(row);
+        TrainingInstitution trainingInstitution = externalId != null ? trainingInstitutionRepository.findByExternalId(externalId) : null;
+
+        ImportResultDTO result = new ImportResultDTO();
+        result.setTrainingInstitutionId(trainingInstitution != null ? trainingInstitution.getId() : null);
+        return result;
+    }
 
     @Override
     protected ImportResultDTO saveInternalNormalData(ImportParamsDTO paramsDTO, Row row){
         ImportTrainingInstitutionDTO importDTO = createImportDTO(row);
         validateImport(importDTO);
 
-
+        GrantProgram grantProgram = grantProgramRepository.get(paramsDTO.getGrantProgramId());
         TrainingInstitution trainingInstitution = trainingInstitutionRepository.findByExternalId(importDTO.getExternalId());
         TrainingInstitutionUser tiUser = trainingInstitutionUserDao.findByLoginIgnoreCase(importDTO.getEmail());
         ZipCode zipCodeInvoice = zipCodeRepository.findActiveByCode(importDTO.getAddressInvoice().getZipCode());
         ZipCode zipCodeCorr = zipCodeRepository.findActiveByCode(importDTO.getAddressCorr().getZipCode());
         validateConnectedData(importDTO, trainingInstitution, zipCodeInvoice, zipCodeCorr, tiUser);
 
-        TrainingInstitutionDto trainingInstitutionDto = createTrainingInstitutionDTO(trainingInstitution, importDTO, zipCodeInvoice, zipCodeCorr);
+        ImportResultDTO result = new ImportResultDTO();
+        TrainingInstitutionTempDto tempDto = createTrainingInstitutionDTO(trainingInstitution, importDTO, zipCodeInvoice, zipCodeCorr);
+
         if(trainingInstitution == null){
-            Long trainingInstitutionId = trainingInstitutionService.saveTrainingInstitution(trainingInstitutionDto, false);
-
-            ImportResultDTO result = new ImportResultDTO();
+            Long trainingInstitutionId = trainingInstitutionService.saveTrainingInstitution(tempDto.getTrainingInstitution(), false);
             result.setTrainingInstitutionId(trainingInstitutionId);
-            result.setDescrption(String.format("Poprawno utworzono dane: instytucje szkoleniową (%s)", getIdToDescription(trainingInstitutionId)));
-            return result;
-
+            result.setDescrption(String.format("Poprawnie utworzono dane: instytucje szkoleniową (%s).", getIdToDescription(trainingInstitutionId)));
         }else{
-            trainingInstitutionService.updateTrainingInstitution(trainingInstitutionDto, false);
-
-            ImportResultDTO result = new ImportResultDTO();
-            result.setTrainingInstitutionId(trainingInstitutionDto.getId());
-            result.setDescrption(String.format("Poprawno zaktualizowano dane: instytucje szkoleniową (%s)", trainingInstitutionDto.getId()));
-            return result;
+            trainingInstitutionService.updateTrainingInstitution(tempDto.getTrainingInstitution(), false);
+            result.setTrainingInstitutionId(tempDto.getTrainingInstitution().getId());
+            result.setDescrption(String.format("Poprawnie zaktualizowano dane: instytucje szkoleniową (%s).", tempDto.getTrainingInstitution().getId()));
         }
+
+        if(tempDto.isSendMail()){
+            sendTiAccessMail(grantProgram, importDTO.getEmail());
+            result.setDescrption(result.getDescrption() + String.format(" Wysłano maila powitalnego na adres %s.", importDTO.getEmail()));
+        }
+        return result;
     }
 
     //PRIVATE METHODS - VALIDATE & SAVE
@@ -173,11 +194,27 @@ public class ImportTrainingInstitutionServiceImpl extends ImportBaseDataServiceI
         return ti;
     }
 
+    private String getExternalId(Row row){
+        Iterator<Cell> cellIterator = row.cellIterator();
+        while (cellIterator.hasNext()) {
+            Cell cell = cellIterator.next();
+
+            switch (cell.getColumnIndex()) {
+                case 0:
+                    return getStringCellValue(cell);
+            }
+        }
+        return null;
+    }
+
+
     //PRIVATE METHODS - CREATE BUSSINESS DTO
 
-    private TrainingInstitutionDto createTrainingInstitutionDTO(TrainingInstitution trainingInstitution, final ImportTrainingInstitutionDTO importDTO,
+    private TrainingInstitutionTempDto createTrainingInstitutionDTO(TrainingInstitution trainingInstitution, final ImportTrainingInstitutionDTO importDTO,
                                                                 ZipCode zipCodeInvoice, ZipCode zipCodeCorr){
         TrainingInstitutionDto dto = new TrainingInstitutionDto();
+        boolean sendMail = false;
+
         dto.setId(trainingInstitution != null ? trainingInstitution.getId() : null);
         dto.setExternalId(importDTO.getExternalId());
         dto.setCode(trainingInstitution != null ? trainingInstitution.getCode(): null);
@@ -201,6 +238,7 @@ public class ImportTrainingInstitutionServiceImpl extends ImportBaseDataServiceI
         if(trainingInstitution == null) {
             dto.setUsers(Lists.newArrayList(createGryfTiUserDto(importDTO)));
             dto.setContacts(Lists.newArrayList(createTrainingInstitutionContactDto(importDTO)));
+            sendMail = true;
         }else{
 
             //USER
@@ -212,6 +250,7 @@ public class ImportTrainingInstitutionServiceImpl extends ImportBaseDataServiceI
             });
             if(!userExist){
                 dto.getUsers().add(createGryfTiUserDto(importDTO));
+                sendMail = true;
             }
 
             //CONTACT
@@ -232,7 +271,7 @@ public class ImportTrainingInstitutionServiceImpl extends ImportBaseDataServiceI
         dto.setCreatedTimestamp(trainingInstitution != null ? trainingInstitution.getCreatedTimestamp() : null);
         dto.setModifiedUser(trainingInstitution != null ? trainingInstitution.getModifiedUser() : null);
         dto.setModifiedTimestamp(trainingInstitution != null ? trainingInstitution.getModifiedTimestamp() : null);
-        return dto;
+        return new TrainingInstitutionTempDto(dto, sendMail);
     }
 
     private GryfTiUserDto createGryfTiUserDto(ImportTrainingInstitutionDTO importDTO){
@@ -251,6 +290,26 @@ public class ImportTrainingInstitutionServiceImpl extends ImportBaseDataServiceI
         contactDTO.getContactType().setType(ContactType.TYPE_EMAIL);
         contactDTO.setContactData(importDTO.getEmail());
         return contactDTO;
+    }
+
+    private void sendTiAccessMail(GrantProgram grantProgram, String email){
+        verificationService.sendTiUserAccess(grantProgram.getProgramName(), email);
+    }
+
+    //CLASSES
+
+    private class TrainingInstitutionTempDto{
+
+        @Getter
+        private TrainingInstitutionDto trainingInstitution;
+
+        @Getter
+        private boolean sendMail;
+
+        public TrainingInstitutionTempDto(TrainingInstitutionDto trainingInstitution, boolean sendMail){
+            this.trainingInstitution = trainingInstitution;
+            this.sendMail = sendMail;
+        }
     }
 
 }
