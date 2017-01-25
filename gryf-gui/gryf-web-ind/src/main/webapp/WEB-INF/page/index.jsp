@@ -112,5 +112,6 @@
     </div></footer>
 
     <script src="${cdnUrl}js/gryf.js"></script>
+    <script src="//code.angularjs.org/1.0.8/i18n/angular-locale_pl-pl.js"></script>
 
 </body></html>

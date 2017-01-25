@@ -125,7 +125,7 @@
     <nav><div class="grid">
         <ul id="menu" ng-controller="MenuController">
             <li ng-class="{'current': isActive('dashboard')}"><a ui-sref="dashboard">Pulpit</a></li>
-            <li ng-class="{'current': isActive('trainingReservation')}"><a ui-sref="trainingReservation">Rezerwuj usługa</a></li>
+            <li ng-class="{'current': isActive('trainingReservation')}"><a ui-sref="trainingReservation">Rezerwuj usługę</a></li>
             <li ng-class="{'current': isActive('confirmPin')}"><a ui-sref="confirmPin">Zatwierdź PIN Uczestnika</a></li>
             <li class="submenu" ng-class="{'current': (isActive('trainingToReimburse') || isActive('reimbursements'))}">
                 <a href="#">Rozliczenia</a>
@@ -167,5 +167,6 @@
     </div></footer>
 
     <script src="${cdnUrl}js/gryf.js"></script>
+    <script src="//code.angularjs.org/1.0.8/i18n/angular-locale_pl-pl.js"></script>
 
 </body></html>
