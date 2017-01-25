@@ -84,7 +84,7 @@ public class MailDtoCreator {
         MailGrantProgramParam mailGpp = createGrantProgramParam(grantProgram);
         EmailTemplate emailTemplate = emailTemplateRepository.get(TI_ACCESS_EMAIL_TEMPLATE_CODE);
         return createAndFillMailDTO(emailTemplate, mailPlaceholders,
-                user.getEmail(), mailGpp.getEmailCC(), mailGpp.getEmailFrom(), mailGpp.getEmailReplay());
+                user.getEmail(), null, mailGpp.getEmailFrom(), mailGpp.getEmailReplay());
     }
 
     //PUBLIC METHODS - TRAINING INSTANCES MAILS
@@ -105,7 +105,7 @@ public class MailDtoCreator {
         MailGrantProgramParam mailGpp = createGrantProgramParam(ti.getGrantProgram());
         EmailTemplate emailTemplate = emailTemplateRepository.get(SEND_TRAINING_REIMBURSMENT_PIN_TEMPLATE_CODE);
         return createAndFillMailDTO(emailTemplate, mailPlaceholders,
-                email, mailGpp.getEmailCC(), mailGpp.getEmailFrom(), mailGpp.getEmailReplay());
+                email, null, mailGpp.getEmailFrom(), mailGpp.getEmailReplay());
     }
 
     public MailDTO createMailDTOForPinResend(TrainingInstance ti, String email) {
@@ -123,10 +123,23 @@ public class MailDtoCreator {
         MailGrantProgramParam mailGpp = createGrantProgramParam(ti.getGrantProgram());
         EmailTemplate emailTemplate = emailTemplateRepository.get(RESEND_TRAINING_REIMBURSMENT_PIN_TEMPLATE_CODE);
         return createAndFillMailDTO(emailTemplate, mailPlaceholders,
-                email, mailGpp.getEmailCC(), mailGpp.getEmailFrom(), mailGpp.getEmailReplay());
+                email, null, mailGpp.getEmailFrom(), mailGpp.getEmailReplay());
     }
 
     //PUBLIC METHODS - REIMBURSMENT MAILS
+
+    public MailDTO createExpireReimursment(ErmbsMailParamsDto paramsDto, ErmbsGrantProgramParamsDto grantProgramParam) {
+        MailPlaceholders mailPlaceholders = mailService.createPlaceholders()
+                .add(GRANT_PROGRAM_PLACEHOLDER, paramsDto.getGrantProgramName())
+                .add(FIRST_NAME_PLACEHOLDER, paramsDto.getFirstName())
+                .add(LAST_NAME_PLACEHOLDER, paramsDto.getLastName())
+                .add(NOTE_NOT_PLACEHOLDER, paramsDto.getNoteNo());
+
+        EmailTemplate emailTemplate = emailTemplateRepository.get(EXPI_REIMB_EMAIL_TEMPLATE_CODE);
+        return createAndFillMailDTO(emailTemplate, mailPlaceholders,
+                paramsDto.getEmail(), grantProgramParam.getGrantProgramEmailCC(),
+                grantProgramParam.getGrantProgramEmailFrom(), grantProgramParam.getGrantProgramEmailReplay());
+    }
 
     public MailDTO createCreditNoteForUnreservedPoolMailDto(ErmbsMailParamsDto paramsDto, ErmbsGrantProgramParamsDto grantProgramParam) {
         MailPlaceholders mailPlaceholders = mailService.createPlaceholders()
@@ -151,7 +164,7 @@ public class MailDtoCreator {
 
         EmailTemplate emailTemplate = emailTemplateRepository.get(E_REIMB_CONFIRMATION_EMAIL_TEMPLATE_CODE);
         return createAndFillMailDTO(emailTemplate, mailPlaceholders,
-                paramsDto.getEmail(), grantProgramParam.getGrantProgramEmailCC(),
+                paramsDto.getEmail(), null,
                 grantProgramParam.getGrantProgramEmailFrom(), grantProgramParam.getGrantProgramEmailReplay());
     }
 
@@ -166,7 +179,7 @@ public class MailDtoCreator {
                                                             CONFIRMATION_PAYMENT_EMAIL_TEMPLATE_CODE_FOR_ENTERPRISE :
                                                             CONFIRMATION_PAYMENT_EMAIL_TEMPLATE_CODE);
         return createAndFillMailDTO(emailTemplate, mailPlaceholders,
-                    paramsDto.getEmail(), grantProgramParam.getGrantProgramEmailCC(),
+                    paramsDto.getEmail(), null,
                 grantProgramParam.getGrantProgramEmailFrom(), grantProgramParam.getGrantProgramEmailReplay());
     }
 
@@ -177,7 +190,7 @@ public class MailDtoCreator {
 
         EmailTemplate emailTemplate = emailTemplateRepository.get(DEFAULT_EMAIL_TEMPLATE_CODE);
         return createAndFillMailDTO(emailTemplate, mailPlaceholders,
-                dto.getEmailsTo(), grantProgramParam.getGrantProgramEmailCC(),
+                dto.getEmailsTo(), null,
                 grantProgramParam.getGrantProgramEmailFrom(), grantProgramParam.getGrantProgramEmailReplay());
     }
 
@@ -193,7 +206,7 @@ public class MailDtoCreator {
 
             EmailTemplate emailTemplate = emailTemplateRepository.get(CORR_NOTIF_EMAIL_TEMPLATE_CODE);
             result.add(createAndFillMailDTO(emailTemplate, mailPlaceholders,
-                    email, grantProgramParam.getGrantProgramEmailCC(),
+                    email, null,
                     grantProgramParam.getGrantProgramEmailFrom(), grantProgramParam.getGrantProgramEmailReplay()));
         });
         return result;
