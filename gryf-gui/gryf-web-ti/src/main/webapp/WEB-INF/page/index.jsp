@@ -124,23 +124,23 @@
 
     <nav><div class="grid">
         <ul id="menu" ng-controller="MenuController">
-            <li ng-class="{'current': isActive('dashboard')}"><a ui-sref="dashboard">Pulpit</a></li>
-            <li ng-class="{'current': isActive('trainingReservation')}"><a ui-sref="trainingReservation">Rezerwuj usługę</a></li>
-            <li ng-class="{'current': isActive('confirmPin')}"><a ui-sref="confirmPin">Zatwierdź PIN Uczestnika</a></li>
+            <li ng-class="{'current': isActive('dashboard')}"><a ui-sref="dashboard" title="Pulpit">Pulpit</a></li>
+            <li ng-class="{'current': isActive('trainingReservation')}"><a ui-sref="trainingReservation" title="Rezerwuj usługę">Rezerwuj usługę</a></li>
+            <li ng-class="{'current': isActive('confirmPin')}"><a ui-sref="confirmPin" title="Zatwierdź PIN Uczestnika">Zatwierdź PIN Uczestnika</a></li>
             <li class="submenu" ng-class="{'current': (isActive('trainingToReimburse') || isActive('reimbursements'))}">
-                <a href="#">Rozliczenia</a>
+                <a ui-sref="trainingToReimburse" title="Rozliczenia">Rozliczenia</a>
                 <ul>
                     <li ng-class="{'current': isActive('trainingToReimburse')}">
-                        <a ui-sref="trainingToReimburse">Usługi do rozliczenia</a>
+                        <a ui-sref="trainingToReimburse" title="Usługi do rozliczenia">Usługi do rozliczenia</a>
                     </li>
                     <li ng-class="{'current': isActive('reimbursements')}">
-                        <a ui-sref="reimbursements">Rozliczenia i korekty</a>
+                        <a ui-sref="reimbursements" title="Rozliczenia i korekty">Rozliczenia i korekty</a>
                     </li>
                 </ul>
             </li>
-            <li ng-class="{'current': isActive('cancelReservation')}"><a ui-sref="cancelReservation">Anuluj rezerwację</a></li>
-            <li ng-class="{'current': isActive('ourTrainings')}"><a ui-sref="ourTrainings">Nasze usługi</a></li>
-            <li><a ng-href="${pageContext.request.contextPath}/logout">Wyloguj</a></li>
+            <li ng-class="{'current': isActive('cancelReservation')}"><a ui-sref="cancelReservation" title="Anuluj rezerwację">Anuluj rezerwację</a></li>
+            <li ng-class="{'current': isActive('ourTrainings')}"><a ui-sref="ourTrainings" title="Nasze usługi">Nasze usługi</a></li>
+            <li><a ng-href="${pageContext.request.contextPath}/logout" title="Wyloguj">Wyloguj</a></li>
         </ul>
     </div></nav>
 

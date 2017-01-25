@@ -1,11 +1,11 @@
 <section ng-hide="userTrainingReservationData.data">
    <div class="block borderTop green">
       <div class="multiSection">
-         <div class="grid-50">
+         <div class="grid-35">
             <br/>
             <strong class="label">Prosimy podać PESEL oraz kod weryfikacyjny Uczestnika</strong>
          </div>
-         <div class="grid-50 multiSection">
+         <div class="grid-35 multiSection">
             <div class="grid-50">
                <strong class="label">PESEL Uczestnika</strong>
                <input type="text" ng-model="individualUser.data.pesel" name="pesel">
@@ -17,9 +17,10 @@
                <gryf-validation-msg path="verificationCode"></gryf-validation-msg>
             </div>
          </div>
-      </div>
-      <div class="grid-100 text-right">
-         <button class="standardButton" data-ng-click="loadUserTrainingReservationData()">Rezerwuj nową usługę</button>
+         <div class="grid-30">
+            <br>
+            <button class="standardButton" data-ng-click="loadUserTrainingReservationData()">Rezerwuj nową usługę</button>
+         </div>
       </div>
    </div>
 </section>
@@ -131,7 +132,7 @@
             <input ng-model="searchDTO.entity.place">
          </th>
          <th class="grid-25">
-            <select ng-options="v.id as v.name for v in dictionaries.trainingCategories | orderBy:'ordinal'" ng-model="searchDTO.entity.categoryCodes" multiple>
+            <select id="dictionariesTrainingCategories" ng-options="v.id as v.name for v in dictionaries.trainingCategories | orderBy:'ordinal'" ng-model="searchDTO.entity.categoryCodes" multiple>
                <option value="">-wybierz-</option>
             </select>
          </th>

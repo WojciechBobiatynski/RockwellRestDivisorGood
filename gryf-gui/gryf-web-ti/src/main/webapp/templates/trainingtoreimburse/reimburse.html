@@ -114,26 +114,25 @@
                         </div>
                     </div>
                 </div>
-                <div class="multiSection">
-                    <div class="grid-100">
-                        <strong>Warunek rozliczenia</strong>
-                        <div>{{rmbsModel.trainingInstance.reimbursmentConditions}}
+            </div>
+
+            <div class="block grayBackground">
+                <div class="paddedBlock">
+                    <div class="multiSection">
+                        <div class="grid-30">
+                            <strong>Warunek rozliczenia</strong>
+                            <div>{{rmbsModel.trainingInstance.reimbursmentConditions}}</div>
+                        </div>
+                        <div class="grid-70">
+                            <strong>Rachunek rozliczeniowy</strong>
+                            <div>Numer rachunku bankowego do zwrotu<br><input type="text" data-ng-model="rmbsModel.model.tiReimbAccountNumber" ui-mask="99 9999 9999 9999 9999 9999 9999" ui-mask-placeholder ui-mask-placeholder-char=" "/>
+                                <gryf-validation-msg path="tiReimbAccountNumber"></gryf-validation-msg></div>
                         </div>
                     </div>
                 </div>
-                    <div class="grid-100">
-                        <strong>Rachunek rozliczeniowy</strong>
-                        <div class="multiSection">
-                            <div class="grid-25">
-                                <span>Numer rachunku bankowego do zwrotu</span>
-                            </div>
-                            <div class="grid-30">
-                                <input type="text" data-ng-model="rmbsModel.model.tiReimbAccountNumber" ui-mask="99 9999 9999 9999 9999 9999 9999" ui-mask-placeholder ui-mask-placeholder-char=" "/>
-                                <gryf-validation-msg path="tiReimbAccountNumber"></gryf-validation-msg>
-                            </div>
-                        </div>
-                    </div>
-                <div data-ng-if="rmbsModel.model">
+            </div>
+            <div class="block grayBackground">
+                <div class="paddedBlock" data-ng-if="rmbsModel.model">
                     <attachments model="rmbsModel.model" violations="violations" is-disabled="isDisabled()"/>
                 </div>
             </div>
@@ -141,8 +140,12 @@
     </fieldset>
 
     <div class="grid-100 row-30">
-        <button class="grid-10 cancelButton" style="float:left" ui-sref="reimbursements">Anuluj</button>
-        <button class="grid-10 standardButton" ng-hide="isDisabled()" style="float:right" data-ng-click="save()">Zapisz zmiany</button>
-        <button class="grid-10 standardButton" ng-hide="isDisabled()" style="float:right" data-ng-click="send()">{{sendButtonText}}</button>
+        <ul class="buttons">
+            <li><button class="cancelButton" ui-sref="reimbursements">Anuluj</button></li>
+        </ul>
+        <ol class="buttons">
+            <li><button class="standardButton" ng-hide="isDisabled()" data-ng-click="save()">Zapisz zmiany</button></li>
+            <li><button class="standardButton" ng-hide="isDisabled()" data-ng-click="send()">{{sendButtonText}}</button></li>
+        </ol>
     </div>
 </section>
