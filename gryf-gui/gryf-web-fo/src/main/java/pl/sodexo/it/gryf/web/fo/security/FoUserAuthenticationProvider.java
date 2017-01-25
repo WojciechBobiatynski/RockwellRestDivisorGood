@@ -12,9 +12,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import pl.sodexo.it.gryf.common.dto.security.UserDto;
 import pl.sodexo.it.gryf.common.dto.user.GryfFoUser;
-import pl.sodexo.it.gryf.common.exception.GryfUnknownException;
 import pl.sodexo.it.gryf.common.exception.authentication.GryfAuthenticationException;
 import pl.sodexo.it.gryf.common.exception.authentication.GryfBadCredentialsException;
+import pl.sodexo.it.gryf.common.exception.authentication.GryfUnknownAuthenticationException;
 import pl.sodexo.it.gryf.service.api.security.UserService;
 
 import java.util.List;
@@ -56,7 +56,7 @@ public class FoUserAuthenticationProvider implements AuthenticationProvider {
             throw new BadCredentialsException("Nieprawidlowy uzytkownik lub haslo", e);
         } catch (GryfAuthenticationException e) {
             LOGGER.error("Blad podczas autentykacji", e);
-            throw new GryfUnknownException("Blad podczas autentykacji", e);
+            throw new GryfUnknownAuthenticationException("Blad podczas autentykacji", e);
         }
     }
 

@@ -37,8 +37,7 @@
             </c:if>
 
             <c:if test="${param.error != null}">
-                <div class="msg msg-error"><p>System nie rozpoznał danych logowania. Prosimy, wprowadź poprawne
-                    dane.</p></div>
+                <div class="msg msg-error"><p><c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/></p></div>
             </c:if>
 
             <section class="form form-login">
