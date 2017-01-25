@@ -66,7 +66,7 @@
                 <gryf-validation-msg path="contractType"></gryf-validation-msg>
             </div>
             <div>
-                <strong class="label">Kategoria szkolenia</strong>
+                <strong class="label">Kategoria usługi</strong>
                 <select multiple ng-options="v.id as v.name for v in trainingCategory.list | orderBy:'ordinal'"
                         ng-model="model.entity.trainingCategory"
                         ng-disabled="hasNotPrivilege('GRF_PBE_CONTRACTS_MOD')">

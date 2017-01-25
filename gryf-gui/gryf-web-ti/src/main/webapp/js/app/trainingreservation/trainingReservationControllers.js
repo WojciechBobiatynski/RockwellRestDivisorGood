@@ -73,7 +73,7 @@ angular.module("gryf.ti").controller("TrainingReservationController",
     $scope.reserveTraining = function(item) {
         if(!$scope.userTrainingReservationData.data.contracts[0]) {
             GryfModals.openModal(GryfModals.MODALS_URL.ERROR_INFO,
-                {message: "Nie można zarezerwować szkolenia, ponieważ ta osoba nie posiada żadnej umowy."});
+                {message: "Nie można zarezerwować usługi, ponieważ ta osoba nie posiada żadnej umowy."});
             return;
         }
 

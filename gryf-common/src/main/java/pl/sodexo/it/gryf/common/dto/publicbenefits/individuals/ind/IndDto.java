@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by adziobek on 20.10.2016.
  *
- * DTO dla uczestnika szkolenia.
+ * DTO dla uczestnika usługi.
  */
 @ToString
 public class IndDto extends VersionableDto {

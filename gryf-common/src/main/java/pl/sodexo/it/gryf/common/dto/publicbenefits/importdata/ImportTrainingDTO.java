@@ -32,12 +32,12 @@ public class ImportTrainingDTO {
 
     @Getter
     @Setter
-    @NotEmpty(message = "Identyfikator szkolenia nie może być pusty")
+    @NotEmpty(message = "Identyfikator usługi nie może być pusty")
     private String externalId;
 
     @Getter
     @Setter
-    @NotEmpty(message = "Nazwa szkolenia nie może być pusta")
+    @NotEmpty(message = "Nazwa usługi nie może być pusta")
     private String name;
 
     @Getter
@@ -52,12 +52,12 @@ public class ImportTrainingDTO {
 
     @Getter
     @Setter
-    @NotEmpty(message = "Miejsce szkolenia nie może być puste")
+    @NotEmpty(message = "Miejsce usługi nie może być puste")
     private String place;
 
     @Getter
     @Setter
-    @NotNull(message = "Cena szkolenia nie może być pusta")
+    @NotNull(message = "Cena usługi nie może być pusta")
     private BigDecimal price;
 
     @Getter
@@ -70,7 +70,7 @@ public class ImportTrainingDTO {
 
     @Getter
     @Setter
-    @NotEmpty(message = "Kategorie szkolenia nie może być pusta")
+    @NotEmpty(message = "Kategorie usługi nie może być pusta")
     private String category;
 
     @Getter

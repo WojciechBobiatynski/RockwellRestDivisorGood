@@ -12,7 +12,7 @@ public interface GryfAccessCodeGenerator {
     String createVerificationCode();
 
     /**
-     * Tworzy nowy PIN do szkolenia
+     * Tworzy nowy PIN do usługi
      * @return
      */
     String createReimbursmentPin();

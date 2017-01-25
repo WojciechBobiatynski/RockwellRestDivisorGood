@@ -7,7 +7,7 @@ import lombok.ToString;
 import java.math.BigDecimal;
 
 /**
- * Dto dla parametrów na podstawie których wyliczane są rozliczenia dla instancji szkolenia
+ * Dto dla parametrów na podstawie których wyliczane są rozliczenia dla instancji usługi
  *
  * Created by akmiecinski on 18.11.2016.
  */

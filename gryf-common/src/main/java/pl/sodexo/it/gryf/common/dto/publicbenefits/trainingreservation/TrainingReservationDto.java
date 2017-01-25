@@ -10,7 +10,7 @@ public class TrainingReservationDto {
 
     @Getter
     @Setter
-    @NotNull(message = "Identyfikator szkolenia nie może być pusty")
+    @NotNull(message = "Identyfikator usługi nie może być pusty")
     private Long trainingId;
 
     @Getter

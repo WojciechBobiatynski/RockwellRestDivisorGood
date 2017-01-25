@@ -25,10 +25,10 @@ public interface TrainingSearchMapper {
                                                 @Param("trainingId") Long trainingId);
 
     /**
-     * Metoda zwracająca dto szkolenie na podstawie jego id oraz kryteriów użytkownika
+     * Metoda zwracająca dto usługa na podstawie jego id oraz kryteriów użytkownika
      * @param criteria kryteria użytkownika
-     * @param trainingId id szkolenia
-     * @return dto szkolenia
+     * @param trainingId id usługi
+     * @return dto usługi
      */
     TrainingPrecalculatedDetailsDto findTrainingPrecalculatedDetails(@Param("criteria") UserCriteria criteria,
                                                                      @Param("trainingId") Long trainingId,

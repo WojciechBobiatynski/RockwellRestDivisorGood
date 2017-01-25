@@ -1,11 +1,11 @@
 <div class="modal-head green">
-    <div class="modal-title">Metryka szkolenia</div>
+    <div class="modal-title">Metryka usługi</div>
     <button class="close"ng-click="close(true)">&times;</button>
 </div>
 <div class="modal-body">
     <div class="grid-100 multiSection">
         <div class="block">
-            <strong class="label">Nazwa szkolenia</strong>
+            <strong class="label">Nazwa usługi</strong>
             <div class="grid-100">{{trainingInstance.data.trainingName}}</div>
 
             <strong class="label">PESEL Uczestnika</strong>
@@ -17,10 +17,10 @@
             <strong class="label">Nazwisko Uczestnika</strong>
             <div class="grid-100">{{trainingInstance.data.participantSurname}}</div>
 
-            <strong class="label">Kategoria szkolenia</strong>
+            <strong class="label">Kategoria usługi</strong>
             <div class="grid-100">{{trainingInstance.data.trainingCategory}}</div>
 
-            <strong class="label">Miejsce szkolenia</strong>
+            <strong class="label">Miejsce usługi</strong>
             <div class="grid-100">{{trainingInstance.data.trainingPlace}}</div>
 
             <strong class="label">Dokonano oceny</strong>
@@ -28,13 +28,13 @@
         </div>
         <div class="separator-vertical"></div>
         <div class="block">
-            <strong class="label">Cena szkolenia (PLN)</strong>
+            <strong class="label">Cena usługi (PLN)</strong>
             <div class="grid-100">{{trainingInstance.data.trainingPrice}}</div>
 
             <strong class="label">Liczba godzin szkoleniowych</strong>
             <div class="grid-100">{{trainingInstance.data.trainingHoursNumber}}</div>
 
-            <strong class="label">Cena 1h szkolenia (PLN)</strong>
+            <strong class="label">Cena 1h usługi (PLN)</strong>
             <div class="grid-100">{{trainingInstance.data.trainingHourPrice}}</div>
 
             <strong class="label">Maksymalna liczba bonów do wykorzystania</strong>
@@ -46,7 +46,7 @@
             <strong class="label">Data zakończenia</strong>
             <div class="grid-100">{{trainingInstance.data.endDate  | date:'yyyy-MM-dd'}}</div>
 
-            <strong class="label">Liczba bonów zarezerwowanych na szkolenie</strong>
+            <strong class="label">Liczba bonów zarezerwowanych na usługa</strong>
             <div class="grid-100">{{trainingInstance.data.productAssignedNum}}</div>
         </div>
     </div>

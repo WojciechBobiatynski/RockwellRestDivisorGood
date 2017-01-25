@@ -8,7 +8,7 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.pbeproductinstancepool.PbePro
 import java.util.List;
 
 /**
- * Dane wymagane przy rejestracji użytkownika na szkolenie.
+ * Dane wymagane przy rejestracji użytkownika na usługa.
  */
 public class UserTrainingReservationDataDto {
 

@@ -247,7 +247,7 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
 
         //CZY DANE W BAZIE
         if(training == null){
-            violations.add(new EntityConstraintViolation("Nie znaleziono rekordu dla danego identyfikatora szkolenia"));
+            violations.add(new EntityConstraintViolation("Nie znaleziono rekordu dla danego identyfikatora usługi"));
         }
         if(individual == null){
             violations.add(new EntityConstraintViolation("Nie znaleziono rekordu dla danego identyfikatora użytkownika"));
@@ -258,13 +258,13 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
 
         //AKTUWNE SZKOLENIE
         if(training != null && !training.isActive()){
-            violations.add(new EntityConstraintViolation("Nie można zapisać użytkownika na nieaktywne szkolenie."));
+            violations.add(new EntityConstraintViolation("Nie można zapisać użytkownika na nieaktywne usługa."));
         }
 
         //CATEGORIE SZKOLEN
         if(training != null && contract != null && training.getCategory() != null){
             if(!contract.getCategories().contains(training.getCategory())){
-                violations.add(new EntityConstraintViolation("Umowa zawarta przez użytkownika nie finansuje szkolenia z danej kategorii."));
+                violations.add(new EntityConstraintViolation("Umowa zawarta przez użytkownika nie finansuje usługi z danej kategorii."));
             }
         }
 
@@ -272,13 +272,13 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
         if(training != null && individual != null) {
             int assignedTrainingInstances = trainingInstanceRepository.countByTrainingAndIndividualNotCaceled(training.getId(), individual.getId());
             if (assignedTrainingInstances > 0) {
-                violations.add(new EntityConstraintViolation("Rezerwacja dla użytkownika została już dokonana na dane szkolenie."));
+                violations.add(new EntityConstraintViolation("Rezerwacja dla użytkownika została już dokonana na dane usługa."));
             }
         }
 
         //CZY SZKOLENIE TRWA
         if(training != null && training.getStartDate().before(new Date())){
-            violations.add(new EntityConstraintViolation("Nie można zapisać użytkownika na trwające szkolenie."));
+            violations.add(new EntityConstraintViolation("Nie można zapisać użytkownika na trwające usługa."));
         }
 
         gryfValidator.validate(violations);
@@ -300,7 +300,7 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
         if(trainingInstance != null) {
             String trainingPin = AEScryptographer.decrypt(trainingInstance.getReimbursmentPin());
             if (!trainingPin.equals(useDto.getPin())) {
-                violations.add(new EntityConstraintViolation("Pin nie jest zgodny z pinem ze szkolenia"));
+                violations.add(new EntityConstraintViolation("Pin nie jest zgodny z pinem ze usługi"));
             }
             if(trainingInstance.getAssignedNum() < useDto.getNewReservationNum()){
                 violations.add(new EntityConstraintViolation("Nie można zwiększyć ilości zarezerwowanych bonów (możliwe jest tylko zmniejszenie)."));
@@ -313,7 +313,7 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
         List<EntityConstraintViolation> violations = Lists.newArrayList();
 
         if(trainingInstanceId == null){
-            violations.add(new EntityConstraintViolation("Identyfikator instancji szkolenia nie może być pusty"));
+            violations.add(new EntityConstraintViolation("Identyfikator instancji usługi nie może być pusty"));
         }
         gryfValidator.validate(violations);
     }
@@ -322,7 +322,7 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
         List<EntityConstraintViolation> violations = Lists.newArrayList();
 
         if(trainingInstance == null){
-            violations.add(new EntityConstraintViolation("Nie znaleziono rekordu dla danej instancji szkolenia"));
+            violations.add(new EntityConstraintViolation("Nie znaleziono rekordu dla danej instancji usługi"));
         }
         if(trainingInstance != null && allowedStatuses != null && allowedStatuses.length > 0){
             boolean isInTable = GryfUtils.contain(allowedStatuses, new GryfUtils.Predicate<String>() {
@@ -364,9 +364,9 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
 
     private void validateUpdateOpinionDone(List<TrainingInstance> trainnigInstances, String externalId, String pesel) {
         if (trainnigInstances.size() > 1) {
-            throw new RuntimeException(String.format("Dla identyfikatora zewnetrznego [%s] oraz numeru pesel [%s] " + "znaleziono wiecej niż jeden rekord instancji szkolenia", externalId, pesel));
+            throw new RuntimeException(String.format("Dla identyfikatora zewnetrznego [%s] oraz numeru pesel [%s] " + "znaleziono wiecej niż jeden rekord instancji usługi", externalId, pesel));
         } else if (trainnigInstances.size() == 0) {
-            gryfValidator.validate(String.format("Dla identyfikatora zewnetrznego [%s] oraz numeru pesel [%s] " + "nie znaleziono rekord instancji szkolenia", externalId, pesel));
+            gryfValidator.validate(String.format("Dla identyfikatora zewnetrznego [%s] oraz numeru pesel [%s] " + "nie znaleziono rekord instancji usługi", externalId, pesel));
         }
     }
 }

@@ -25,9 +25,9 @@ public interface IndividualSearchDao {
     IndDto findIndividualAfterLogin();
 
     /**
-     * Wyszukuje dane osoby fizycznej niezbędne na formatce rezerwacji szkolenia
+     * Wyszukuje dane osoby fizycznej niezbędne na formatce rezerwacji usługi
      * @param pesel - pesel osoby fizycznej
-     * @return date osoby fizycznej niezbędne do rezerwacji szkolenia
+     * @return date osoby fizycznej niezbędne do rezerwacji usługi
      */
     UserTrainingReservationDataDto findDataForTrainingReservation(String pesel);
 }

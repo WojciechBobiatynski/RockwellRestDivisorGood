@@ -112,14 +112,14 @@ angular.module("gryf.trainingInstances").factory("TrainingInstanceSearchService"
                 .success(function(data) {
                     trainingInstanceModel.entity = data;
                 }).error(function() {
-                    GryfPopups.setPopup("error", "Błąd", "Nie można pobrać instancji szkolenia o wskazanym id");
+                    GryfPopups.setPopup("error", "Błąd", "Nie można pobrać instancji usługi o wskazanym id");
                     GryfPopups.showPopup();
                 });
         };
 
         var getTiStatuses = function () {
             return $http.get(TRAINING_INSTANCE_STATUSES_LIST_URL).error(function() {
-                GryfPopups.setPopup("error", "Błąd", "Nie można pobrać słownika statusów instancji szkoleń");
+                GryfPopups.setPopup("error", "Błąd", "Nie można pobrać słownika statusów instancji usług");
                 GryfPopups.showPopup();
             });
         };
@@ -171,10 +171,10 @@ function ($http, GryfModals, GryfPopups, GryfExceptionHandler, GryfHelpers, Gryf
 
         return $http.put(TRAINING_RESERVATION_URL + "cancelTrainingReservation/" + trainingInstanceId + "/" + trainingInstanceVersion
         ).success(function() {
-            GryfPopups.setPopup("success", "Sukces", "Anulowano zapis osoby na szkolenie");
+            GryfPopups.setPopup("success", "Sukces", "Anulowano zapis osoby na usługa");
             GryfPopups.showPopup();
         }).error(function(error) {
-            GryfPopups.setPopup("error", "Błąd", "Nie udało się anulować zapisu na szkolenie");
+            GryfPopups.setPopup("error", "Błąd", "Nie udało się anulować zapisu na usługa");
             GryfPopups.showPopup();
 
             GryfExceptionHandler.handleSavingError(error, violations, null);
@@ -190,11 +190,11 @@ function ($http, GryfModals, GryfPopups, GryfExceptionHandler, GryfHelpers, Gryf
             return $http.put(TRAINING_RESERVATION_URL + "confirmPin",
                 {id: trainingInstanceId, pin: pinCode, version: trainingInstanceVersion, newReservationNum: newReservationNum}
             ).success(function() {
-                GryfPopups.setPopup("success", "Sukces", "Potwierdzono uczestnictwo w szkoleniu");
+                GryfPopups.setPopup("success", "Sukces", "Potwierdzono uczestnictwo w usłudze");
                 GryfPopups.showPopup();
                 TrainingInstanceSearchService.findDetailsById(TrainingInstanceSearchService.getTrainingInstanceModel().entity.trainingInstanceId);
             }).error(function(error) {
-                GryfPopups.setPopup("error", "Błąd", "Nie udało się potwierdzić uczestnictwa w szkoleniu");
+                GryfPopups.setPopup("error", "Błąd", "Nie udało się potwierdzić uczestnictwa w usłudze");
                 GryfPopups.showPopup();
 
                 GryfExceptionHandler.handleSavingError(error, violations, null);

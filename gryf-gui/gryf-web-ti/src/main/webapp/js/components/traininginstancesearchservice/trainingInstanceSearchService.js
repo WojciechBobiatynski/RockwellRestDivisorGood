@@ -88,7 +88,7 @@ angular.module("gryf.ti").factory("TrainingInstanceSearchService",
 
         var findDetailsById = function(trainingInstanceId) {
             return $http.get(FIND_TRAINING_INSTANCE_DETAILS_URL + trainingInstanceId).error(function() {
-                GryfPopups.setPopup("error", "Błąd", "Nie można pobrać instancji szkolenia o wskazanym id");
+                GryfPopups.setPopup("error", "Błąd", "Nie można pobrać instancji usługi o wskazanym id");
                 GryfPopups.showPopup();
             });
         };

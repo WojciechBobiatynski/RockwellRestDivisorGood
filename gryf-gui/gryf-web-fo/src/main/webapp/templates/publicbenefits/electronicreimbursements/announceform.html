@@ -1,6 +1,6 @@
 <toaster-container toaster-options="{'position-class': 'toast-top-center'}"></toaster-container>
 <header id="header">
-    <h1>Rozliczenie szkolenia</h1>
+    <h1>Rozliczenie usługi</h1>
     <ul>
         <li><a class="button button-save" ng-click="reject()" gryf-privilege="GRF_PBE_E_REIMBURSEMENTS_MOD" ng-if="rejectButtonVisible()">Odrzuć rozliczenie</a></li>
         <li><a class="button button-save" ng-click="sendToCorrect()" gryf-privilege="GRF_PBE_E_REIMBURSEMENTS_MOD" ng-if="correctButtonVisible()">Koryguj</a></li>
@@ -29,12 +29,12 @@
     <div class="grid-100">
         <div class="grid-10">
             <a ng-href="{{getUrlFor(MODULES.TrainingInstitution, eReimbObject.trainingInstitution.id)}}">
-                <strong class="label">ID instytucji &UpperRightArrow; </strong>
+                <strong class="label">ID usługodawcy &UpperRightArrow; </strong>
             </a>
             <input type="text" ng-model="eReimbObject.trainingInstitution.id" readonly="readonly">
         </div>
         <div class="grid-20">
-            <strong class="label">Nazwa instytucji</strong>
+            <strong class="label">Nazwa usługodawcy</strong>
             {{eReimbObject.trainingInstitution.name}}
         </div>
         <div class="grid-10">
@@ -47,18 +47,18 @@
 <section>
     <div class="grid-100">
         <header>
-            <h2>Dane szkolenia</h2>
+            <h2>Dane usługi</h2>
         </header>
     </div>
     <div class="grid-100">
         <div class="grid-10">
             <a ng-href="{{getUrlFor(MODULES.Training, eReimbObject.trainingInstance.trainingId)}}">
-                <strong class="label">ID szkolenia &UpperRightArrow; </strong>
+                <strong class="label">ID usługi &UpperRightArrow; </strong>
             </a>
             <input type="text" ng-model="eReimbObject.trainingInstance.trainingId" readonly="readonly">
         </div>
         <div class="grid-20">
-            <strong class="label">Nazwa szkolenia</strong>
+            <strong class="label">Nazwa usługi</strong>
             {{eReimbObject.trainingInstance.trainingName}}
         </div>
         <div class="grid-10">
@@ -70,7 +70,7 @@
             {{eReimbObject.trainingInstance.trainingPlace}}
         </div>
         <div class="grid-15">
-            <strong class="label">Dokonano szkolenia</strong>
+            <strong class="label">Dokonano usługi</strong>
             {{eReimbObject.trainingInstance.opinionDone ? 'Tak' : 'Nie'}}
         </div>
     </div>
@@ -273,7 +273,7 @@
             <gryf-validation-msg path="rejectionReasonId"></gryf-validation-msg>
         </div>
         <div class="grid-60">
-            <strong class="label">Szczegóły odrzucenia szkolenia</strong>
+            <strong class="label">Szczegóły odrzucenia usługi</strong>
             <textarea ng-model="eReimbObject.entity.rejectionDetails" rows="8" maxlength="4000" data-ng-disabled="rejectionPaneDisabled()"></textarea>
         </div>
     </div>

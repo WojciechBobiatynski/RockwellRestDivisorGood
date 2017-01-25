@@ -54,13 +54,13 @@ public class ReimbursementTraining extends AuditableEntity {
     private BigDecimal productsNumber;
 
     /**
-     * Cena brutto godziny szkolenia z systemu RUR
+     * Cena brutto godziny usługi z systemu RUR
      */
     @Column(name = "TRAINING_HOUR_GROSS_PRICE")
     private BigDecimal trainingHourGrossPrice;
 
     /**
-     * Sumaryczna ilość godzin szkolenia dla wszystkich uczestników
+     * Sumaryczna ilość godzin usługi dla wszystkich uczestników
      */
     @Column(name = "TRAINING_HOURS_TOTAL")
     private BigDecimal trainingHoursTotal;

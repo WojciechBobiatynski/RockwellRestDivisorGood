@@ -13,7 +13,7 @@ public class ImportOpinionDoneDTO {
 
     @Getter
     @Setter
-    @NotEmpty(message = "Identyfikator szkolenia nie może być pusty")
+    @NotEmpty(message = "Identyfikator usługi nie może być pusty")
     private String trainingExternalId;
 
     @Getter

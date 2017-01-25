@@ -3,7 +3,7 @@
 <div>
     <div>
         <header id="header">
-            <h1>Edycja szkolenia</h1>
+            <h1>Edycja usługi</h1>
             <ul>
                 <li>
                     <a ng-click="save()" class="button button-save">zapisz</a>
@@ -22,7 +22,7 @@
             <ol>
                 <li>
                     <a ng-href="#" ng-click="newTraining()" class="button button-new"
-                       target="_self">Nowe szkolenie</a>
+                       target="_self">Nowe usługa</a>
                 </li>
             </ol>
         </header>
@@ -30,7 +30,7 @@
         <section>
             <div class="grid-100">
                 <div class="grid-10">
-                    <strong class="label">Id szkolenia</strong>
+                    <strong class="label">Id usługi</strong>
                     <input type="text" ng-model="model.entity.trainingId" maxlength="500" disabled="disabled">
                 </div>
                 <div class="grid-20">
@@ -39,14 +39,14 @@
                     <gryf-validation-msg path="externalTrainingId"></gryf-validation-msg>
                 </div>
                 <div class="grid-10">
-                    <strong class="label">Id instytucji</strong>
+                    <strong class="label">Id usługodawcy</strong>
                     <input type="text" ng-model="model.entity.trainingInstitution" maxlength="500" disabled="disabled">
                     <a ng-click="openIsLov()" class="button button-save">
                         Wybierz
                     </a>
                 </div>
                 <div class="grid-30">
-                    <strong class="label">Nazwa instytucji</strong>
+                    <strong class="label">Nazwa usługodawcy</strong>
                     <input type="text" ng-model="model.entity.institutionName" maxlength="500" disabled="disabled">
                     <gryf-validation-msg path="trainingInstitution"></gryf-validation-msg>
                 </div>

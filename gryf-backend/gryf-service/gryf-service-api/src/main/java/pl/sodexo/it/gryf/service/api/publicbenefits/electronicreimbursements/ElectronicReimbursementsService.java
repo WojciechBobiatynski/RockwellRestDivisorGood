@@ -37,8 +37,8 @@ public interface ElectronicReimbursementsService {
     List<SimpleDictionaryDto> findElctRmbsTypes();
 
     /**
-     * Tworzy nowe rozliczenie na podstawie Id instancji szkolenia
-     * @param trainingInstanceId - id instancji szkolenia
+     * Tworzy nowe rozliczenie na podstawie Id instancji usługi
+     * @param trainingInstanceId - id instancji usługi
      * @return id rozliczenia
      */
     ElctRmbsHeadDto createRmbsDtoByTrainingInstanceId(Long trainingInstanceId);

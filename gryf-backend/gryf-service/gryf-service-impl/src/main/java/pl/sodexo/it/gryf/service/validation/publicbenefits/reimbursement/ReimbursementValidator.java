@@ -181,7 +181,7 @@ public class ReimbursementValidator {
         if (dto.getInvoiceAnonGrossAmount() != null) {
             BigDecimal trainingsTotalCost = ReimbursementCalculationHelper.calculateTrainingCostTotal_dependFilledData(dto);
             if (!dto.getInvoiceAnonGrossAmount().equals(trainingsTotalCost)) {
-                String message = String.format("Kwota brutto faktury musi być równa całkowitemu kosztowi szkoleń: kwota brutto faktury = %s, całkowity koszt szkolenia = %s",
+                String message = String.format("Kwota brutto faktury musi być równa całkowitemu kosztowi usług: kwota brutto faktury = %s, całkowity koszt usługi = %s",
                         GryfUtils.amountToString(dto.getInvoiceAnonGrossAmount()), GryfUtils.amountToString(trainingsTotalCost));
                 violations.add(new EntityConstraintViolation(ReimbursementDTO.INVOICE_ANON_GROSS_AMOUNT_ATTR_NAME, message, dto.getInvoiceAnonGrossAmount()));
             }
@@ -296,14 +296,14 @@ public class ReimbursementValidator {
                     //NE DODANO PLIKU
                     if (!attachmentDtoTab[i].isFileIncluded() && GryfStringUtils.isEmpty(attachmentDtoTab[i].getOriginalFileName())) {
                         violations.add(new EntityConstraintViolation(pathPrefix + ".reimbursementTraineeAttachments[" + i + "].file",
-                                String.format("Nie dodano pliku do wymaganego załacznika (dla użytkownika szkolenia) o nazwie '%s'", requiredAttachment.getName()), null));
+                                String.format("Nie dodano pliku do wymaganego załacznika (dla użytkownika usługi) o nazwie '%s'", requiredAttachment.getName()), null));
                     }
                     //ZMIENIONO RODZAJ DOKUMENTU
                     String attachmentTypeDto = attachmentDtoTab[i].getAttachmentType() != null ? (String) attachmentDtoTab[i].getAttachmentType().getId() : null;
                     String requiredAttachmentType = requiredAttachment.getAttachmentType() != null ? requiredAttachment.getAttachmentType().getId() : null;
                     if (!Objects.equals(attachmentTypeDto, requiredAttachmentType)) {
                         violations.add(new EntityConstraintViolation(pathPrefix + ".reimbursementTraineeAttachments[" + i + "].attachmentType",
-                                String.format("Zmieniono rodzaj dokumentu dla wymaganego załacznika (dla użytkownika szkolenia) o nazwie '%s'", requiredAttachment.getName()), null));
+                                String.format("Zmieniono rodzaj dokumentu dla wymaganego załacznika (dla użytkownika usługi) o nazwie '%s'", requiredAttachment.getName()), null));
                     }
                     isAttachmentInDTO = true;
                     break;
@@ -313,7 +313,7 @@ public class ReimbursementValidator {
             //ATTACMENT NIE ISTIEJE
             if (!isAttachmentInDTO) {
                 violations
-                        .add(new EntityConstraintViolation(pathPrefix, String.format("Nie dodano wymaganego załacznika o nazwie '%s' dla użytkownika szkolenia", requiredAttachment.getName()), null));
+                        .add(new EntityConstraintViolation(pathPrefix, String.format("Nie dodano wymaganego załacznika o nazwie '%s' dla użytkownika usługi", requiredAttachment.getName()), null));
             }
         }
     }

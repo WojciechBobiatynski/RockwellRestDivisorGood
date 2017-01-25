@@ -15,34 +15,34 @@ import java.util.List;
 public interface TrainingInstanceService {
 
     /**
-     * Metoda która znajduje wszystkie szkolenia do rozliczenia na podstawie wybranych kryteriów wyszkuwiania
+     * Metoda która znajduje wszystkie usługi do rozliczenia na podstawie wybranych kryteriów wyszkuwiania
      * @param criteria - kryteria wyszukiwania
-     * @return lista szkoleń do rozliczenia
+     * @return lista usług do rozliczenia
      */
     List<TrainingInstanceDto> findTrainingInstanceListByCriteria(TrainingInstanceCriteria criteria);
 
     /**
-     * Metoda która znajduje szczegółowe dane na temat instancji szkolenia
-     * @param trainingInstanceId - identyfikator instancji szkolenia
-     * @return szczegółowe dane na temat instancji szkolenia
+     * Metoda która znajduje szczegółowe dane na temat instancji usługi
+     * @param trainingInstanceId - identyfikator instancji usługi
+     * @return szczegółowe dane na temat instancji usługi
      */
     TrainingInstanceDetailsDto findTrainingInstanceDetails(Long trainingInstanceId);
 
     /**
-     * Metoda która znajduje szczegółowe dane na temat instancji szkolenia wraz z pinem (na potrzeby FO)
-     * @param trainingInstanceId - identyfikator instancji szkolenia
-     * @return szczegółowe dane na temat instancji szkolenia
+     * Metoda która znajduje szczegółowe dane na temat instancji usługi wraz z pinem (na potrzeby FO)
+     * @param trainingInstanceId - identyfikator instancji usługi
+     * @return szczegółowe dane na temat instancji usługi
      */
     TrainingInstanceDetailsDto findTrainingInstanceDetailsWithPinCode(Long trainingInstanceId);
 
     /**
-     * Metoda zwracająca listę statusów instancji szkoleń
+     * Metoda zwracająca listę statusów instancji usług
      * @return - lista statusów
      */
     List<SimpleDictionaryDto> findTrainingInstanceStatuses();
 
     /**
-     * Tworzy instancje szkolenia
+     * Tworzy instancje usługi
      * @param reservationDto
      */
     void createTrainingInstance(TrainingReservationDto reservationDto);
@@ -54,26 +54,26 @@ public interface TrainingInstanceService {
     void useTrainingInstance(TrainingInstanceUseDto useDto);
 
     /**
-     * Anuluje instancje szkolenia.
+     * Anuluje instancje usługi.
      * @param trainingInstanceId
      * @param version
      */
     void cancelTrainingInstance(Long trainingInstanceId, Integer version);
 
     /**
-     * Metoda przesyłająca pin do szkolenia do uczestnika
+     * Metoda przesyłająca pin do usługi do uczestnika
      * @param trainingInstanceId
      */
     void sendReimbursmentPin(Long trainingInstanceId);
 
     /**
-     * Metoda ponownie przesyłająca pin do szkolenia do uczestnika
+     * Metoda ponownie przesyłająca pin do usługi do uczestnika
      * @param trainingInstanceId
      */
     void resendReimbursmentPin(Long trainingInstanceId);
 
     /**
-     * uaktualnai znacznik czy została dokonana ocena szkolenia
+     * uaktualnai znacznik czy została dokonana ocena usługi
      * @param externalId
      * @param pesel
      * @param opinionDone
@@ -82,15 +82,15 @@ public interface TrainingInstanceService {
     Long updateOpinionDone(String externalId, String pesel, boolean opinionDone);
 
     /**
-     * Sprawdza czy dana instancja szkolenia jest w obrebie instytucji skolenia użytkownika zalogwanego.
-     * @param trainingInstanceId instancja szkolenia
+     * Sprawdza czy dana instancja usługi jest w obrebie usługodawcy skolenia użytkownika zalogwanego.
+     * @param trainingInstanceId instancja usługi
      * @return
      */
     boolean isTrainingInstanceInLoggedUserInstitution(Long trainingInstanceId);
 
     /**
-     * Sprawdza czy dana instancja szkolenia jest w obrebie danego użytkownika indywidualnego.
-     * @param trainingInstanceId instancja szkolenia
+     * Sprawdza czy dana instancja usługi jest w obrebie danego użytkownika indywidualnego.
+     * @param trainingInstanceId instancja usługi
      * @return
      */
     boolean isTrainingInstanceInLoggedIndividual(Long trainingInstanceId);

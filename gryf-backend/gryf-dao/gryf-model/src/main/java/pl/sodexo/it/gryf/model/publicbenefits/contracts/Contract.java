@@ -71,7 +71,7 @@ public class Contract extends VersionableEntity {
     @JoinTable(name = "CONTRACT_TRAINING_CATEGORIES", schema = "APP_PBE",
             joinColumns = {@JoinColumn(name = "CONTRACT_ID", referencedColumnName = "ID")},
             inverseJoinColumns = {@JoinColumn(name = "TRAINING_CATEGORY_ID", referencedColumnName = "ID")})
-    @NotEmpty(message = "Kategoria szkolenia nie może być pusta")
+    @NotEmpty(message = "Kategoria usługi nie może być pusta")
     private List<TrainingCategory> categories;
 
     //GETTERS && SETTERS

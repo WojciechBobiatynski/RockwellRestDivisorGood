@@ -33,7 +33,7 @@ public interface ElectronicReimbursementsDao {
     List<SimpleDictionaryDto> findElctRmbsTypes();
 
     /**
-     * Metoda znajdująca parametry do obliczenia składek na rolizczeniu dla instancji szkolenia
+     * Metoda znajdująca parametry do obliczenia składek na rolizczeniu dla instancji usługi
      *
      * @param trainingInstanceId - id Usługodawcy
      * @return
@@ -48,7 +48,7 @@ public interface ElectronicReimbursementsDao {
     ElctRmbsHeadDto findEcltRmbsById(Long ermbsId);
 
     /**
-     * Znajduje szczegóły rozliczenia podstawie Id instancji szkolenia
+     * Znajduje szczegóły rozliczenia podstawie Id instancji usługi
      * @param trainingInstanceId - id rozliczenia
      * @return Dto rozliczenia
      */
@@ -104,8 +104,8 @@ public interface ElectronicReimbursementsDao {
     boolean shouldBeCreditNoteCreated(Long ermbsId);
 
     /**
-     * Sprawdza czy tworzone szkolenie jest tworzone po terminie
-     * @param trainingInstanceId - id instancji szkolenia
+     * Sprawdza czy tworzone usługa jest tworzone po terminie
+     * @param trainingInstanceId - id instancji usługi
      * @return true/false
      */
     boolean checkIBeingCreatedErmbsIsTerminatedByTrainingInstanceId(Long trainingInstanceId);

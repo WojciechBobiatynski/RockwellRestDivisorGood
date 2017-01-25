@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.sodexo.it.gryf.web.ti.util.UrlConstants;
 
 /**
- * Kontroler dla szkoleń do rozliczenia
+ * Kontroler dla usług do rozliczenia
  *
  * Created by akmiecinski on 15.11.2016.
  */

@@ -1,8 +1,8 @@
 <div>
     <header id="header">
-        <h1>Wyszukiwanie szkoleń</h1>
+        <h1>Wyszukiwanie usług</h1>
         <ul>
-            <li><a href="#/modify/" class="button button-new">Nowe szkolenie</a></li>
+            <li><a href="#/modify/" class="button button-new">Nowe usługa</a></li>
             <li><a ng-click="clear()" class="button button-refresh">Wyczyść</a></li>
         </ul>
     </header>
@@ -14,25 +14,25 @@
                 <thead>
                 <tr class="grid-100">
                     <th class="sortable grid-10" ng-class="getSortingTypeClass('trainingId')">
-                        <div ng-click="getSortedBy('trainingId')">Id szkolenia</div>
+                        <div ng-click="getSortedBy('trainingId')">Id usługi</div>
                         <input placeholder="Id" type="text" force-digits
                                ng-model="searchDTO.entity.trainingId">
                     </th>
                     <th class="sortable grid-10" ng-class="getSortingTypeClass('institutionId')">
-                        <div ng-click="getSortedBy('institutionId')">Id instytucji</div>
+                        <div ng-click="getSortedBy('institutionId')">Id usługodawcy</div>
                         <a ng-click="openIsLov()" class="button button-save">
                             Wybierz
                         </a>
-                        <input placeholder="Id instytucji" type="text" force-digits
+                        <input placeholder="Id usługodawcy" type="text" force-digits
                                ng-model="searchDTO.entity.institutionId">
                     </th>
                     <th class="sortable grid-10" ng-class="getSortingTypeClass('institutionName')">
-                        <div ng-click="getSortedBy('institutionName')">Nazwa instytucji</div>
-                        <input placeholder="Nazwa instytucji" type="text" ng-model="searchDTO.entity.institutionName">
+                        <div ng-click="getSortedBy('institutionName')">Nazwa usługodawcy</div>
+                        <input placeholder="Nazwa usługodawcy" type="text" ng-model="searchDTO.entity.institutionName">
                     </th>
                     <th class="sortable grid-15" ng-class="getSortingTypeClass('name')">
-                        <div ng-click="getSortedBy('name')">Nazwa szkolenia</div>
-                        <input placeholder="Nazwa szkolenia"
+                        <div ng-click="getSortedBy('name')">Nazwa usługi</div>
+                        <input placeholder="Nazwa usługi"
                                ng-model="searchDTO.entity.name">
                     </th>
                     <th class="sortable grid-5"

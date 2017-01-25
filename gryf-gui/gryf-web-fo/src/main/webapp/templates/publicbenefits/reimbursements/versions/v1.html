@@ -144,7 +144,7 @@
                 {{entityObject.grantAmountPayedToTiTotal}}
             </div>
             <div class="grid-15">
-                <strong class="label">Koszt szkoleń</strong>
+                <strong class="label">Koszt usług</strong>
                 {{entityObject.trainingCostTotal}}
             </div>
         </div>
@@ -201,7 +201,7 @@
     <hr>
     <section>
         <header>
-            <h2>Szkolenia</h2>
+            <h2>Usługi</h2>
         </header>
         <div class="grid-100">
             <a ng-click="newTraining()" class="button button-add" ng-if="isNewOrAnnouncedOrCorrected()">
@@ -210,15 +210,15 @@
         </div>
         <div ng-if="isNewOrAnnouncedOrCorrected()">
             <div class="grid-100">
-                <div class="grid-20">Nazwa szkolenia</div>
-                <div class="grid-10">Data rozpoczęcia szkolenia</div>
-                <div class="grid-10">Data zakończenia szkolenia</div>
-                <div class="grid-10">Miejsce szkolenia</div>
+                <div class="grid-20">Nazwa usługi</div>
+                <div class="grid-10">Data rozpoczęcia usługi</div>
+                <div class="grid-10">Data zakończenia usługi</div>
+                <div class="grid-10">Miejsce usługi</div>
                 <div class="grid-10">Rodzaj dofinansowania</div>
                 <div class="grid-10">Liczba produktów</div>
-                <div class="grid-10">Cena brutto godziny szkolenia</div>
-                <div class="grid-10">Sumaryczna ilość godz. szkolenia wszystkich ucz.</div>
-                <div class="grid-5">Uczestnicy szkolenia</div>
+                <div class="grid-10">Cena brutto godziny usługi</div>
+                <div class="grid-10">Sumaryczna ilość godz. usługi wszystkich ucz.</div>
+                <div class="grid-5">Uczestnicy usługi</div>
                 <div class="grid-5">Akcje</div>
             </div>
             <div class="grid-100" ng-repeat="item in entityObject.reimbursementTrainings">
@@ -299,14 +299,14 @@
             <table class="table table-condensed">
                 <thead>
                 <tr>
-                    <th>Nazwa szkolenia</th>
-                    <th>Data rozpoczęcia szkolenia</th>
-                    <th>Data zakończenia szkolenia</th>
-                    <th>Miejsce szkolenia</th>
+                    <th>Nazwa usługi</th>
+                    <th>Data rozpoczęcia usługi</th>
+                    <th>Data zakończenia usługi</th>
+                    <th>Miejsce usługi</th>
                     <th>Rodzaj dofinansowania</th>
                     <th>Liczba produktów</th>
-                    <th>Cena brutto godziny szkolenia</th>
-                    <th>Sumaryczna ilość godz. szkolenia wszystkich ucz.</th>
+                    <th>Cena brutto godziny usługi</th>
+                    <th>Sumaryczna ilość godz. usługi wszystkich ucz.</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -327,26 +327,26 @@
     <hr>
     <section ng-if="!isNewOrAnnouncedOrCorrected()">
         <header>
-            <h2>Rozliczenie szkoleń</h2>
+            <h2>Rozliczenie usług</h2>
         </header>
         <div class="grid-100">
             <table class="table table-condensed">
                 <thead>
                 <tr>
-                    <th>Nazwa szkolenia</th>
+                    <th>Nazwa usługi</th>
                     <th>Ilość godzin</th>
                     <th>Liczba produktów</th>
-                    <th>Cena brutto godz. szkolenia</th>
+                    <th>Cena brutto godz. usługi</th>
                     <th>Wartość produktu</th>
                     <th>Wartość pomocy</th>
-                    <th>Wartość godziny szkolenia rozliczona bonami</th>
+                    <th>Wartość godziny usługi rozliczona bonami</th>
                     <th>Kwota należna IS od Sodexo</th>
                     <th>Kwota należna IS od MŚP</th>
                     <th>Kwota należna MŚP od Sodexo</th>
                     <th>Wykorzystany wkład własny MŚP</th>
                     <th>Wartość dofinansowania MŚP</th>
                     <th>Wartość dofinansowania wpłacona do IS</th>
-                    <th>Koszt szkolenia</th>
+                    <th>Koszt usługi</th>
                 </tr>
 
                 </thead>
@@ -435,7 +435,7 @@
     <aside ng-if="traineeWindowOpened" class="modal">
         <section class="modal-content height-70 max-width-85">
             <header>
-                <h2>Uczestnicy szkolenia</h2>
+                <h2>Uczestnicy usługi</h2>
                 <a href="" class="button" ng-click="closeTraineeLov()">Zamknij</a>
             </header>
 

@@ -9,7 +9,7 @@ import java.util.Date;
 /**
  * Created by adziobek on 20.10.2016.
  *
- * DTO dla szkolenia.
+ * DTO dla usługi.
  */
 public class TrainingDto extends VersionableDto {
 

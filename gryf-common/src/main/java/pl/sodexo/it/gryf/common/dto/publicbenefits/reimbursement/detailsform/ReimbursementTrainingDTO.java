@@ -20,18 +20,18 @@ public class ReimbursementTrainingDTO extends GryfDto {
 
     private Long id;
 
-    @NotEmpty(message = "Nazwa szkolenia nie może być pusta")
-    @Size(message = "Nazwa szkolenia może mieć maksymalnie 200 znaków", max = 200)
+    @NotEmpty(message = "Nazwa usługi nie może być pusta")
+    @Size(message = "Nazwa usługi może mieć maksymalnie 200 znaków", max = 200)
     private String trainingName;
 
-    @NotNull(message = "Data rozpoczęcia szkolenia nie może być pusta", groups = ValidationGroupReimbursementSettleAndVerify.class)
+    @NotNull(message = "Data rozpoczęcia usługi nie może być pusta", groups = ValidationGroupReimbursementSettleAndVerify.class)
     private Date trainingDateFrom;
 
-    @NotNull(message = "Data zakończenia szkolenia nie może być pusta", groups = ValidationGroupReimbursementSettleAndVerify.class)
+    @NotNull(message = "Data zakończenia usługi nie może być pusta", groups = ValidationGroupReimbursementSettleAndVerify.class)
     private Date trainingDateTo;
 
-    @NotEmpty(message = "Miejsce szkolenia nie może być puste", groups = ValidationGroupReimbursementSettleAndVerify.class)
-    @Size(message = "Miejsce szkolenia może mieć maksymalnie 100 znaków", max = 100)
+    @NotEmpty(message = "Miejsce usługi nie może być puste", groups = ValidationGroupReimbursementSettleAndVerify.class)
+    @Size(message = "Miejsce usługi może mieć maksymalnie 100 znaków", max = 100)
     private String trainingPlace;
 
     @NotNull(message = "Rodzaj dofinanoswania nie może być puste", groups = ValidationGroupReimbursementSettleAndVerify.class)
@@ -41,15 +41,15 @@ public class ReimbursementTrainingDTO extends GryfDto {
     private BigDecimal productsNumber;
 
     /**
-     * Cena brutto godziny szkolenia z systemu RUR
+     * Cena brutto godziny usługi z systemu RUR
      */
-    @NotNull(message = "Cena brutto godziny szkolenia nie może być pusta", groups = ValidationGroupReimbursementSettleAndVerify.class)
+    @NotNull(message = "Cena brutto godziny usługi nie może być pusta", groups = ValidationGroupReimbursementSettleAndVerify.class)
     private BigDecimal trainingHourGrossPrice;
 
     /**
-     * Sumaryczna ilość godzin szkolenia dla wszystkich uczestników
+     * Sumaryczna ilość godzin usługi dla wszystkich uczestników
      */
-    @NotNull(message = "Sumaryczna ilość godz. szkolenia wszystkich ucz. nie może być pusta", groups = ValidationGroupReimbursementSettleAndVerify.class)
+    @NotNull(message = "Sumaryczna ilość godz. usługi wszystkich ucz. nie może być pusta", groups = ValidationGroupReimbursementSettleAndVerify.class)
     private BigDecimal trainingHoursTotal;
 
     /**
@@ -63,7 +63,7 @@ public class ReimbursementTrainingDTO extends GryfDto {
     private BigDecimal productAidValue;
 
     /**
-     * Wartość godziny szkolenia rozliczona bonami (wyliczna)
+     * Wartość godziny usługi rozliczona bonami (wyliczna)
      */
     private BigDecimal voucherRefundedTrainingHourValue;
 
@@ -98,7 +98,7 @@ public class ReimbursementTrainingDTO extends GryfDto {
     private BigDecimal grantAmountPayedToTi;
 
     /**
-     * Koszt szkoleń (wyliczane)
+     * Koszt usług (wyliczane)
      */
     private BigDecimal trainingCost;
 

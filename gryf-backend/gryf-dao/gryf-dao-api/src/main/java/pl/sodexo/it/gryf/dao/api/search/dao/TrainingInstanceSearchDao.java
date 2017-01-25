@@ -14,35 +14,35 @@ import java.util.List;
 public interface TrainingInstanceSearchDao {
 
     /**
-     * Metoda która znajduje wszystkie szkolenia do rozliczenia na podstawie wybranych kryteriów wyszkuwiania
+     * Metoda która znajduje wszystkie usługi do rozliczenia na podstawie wybranych kryteriów wyszkuwiania
      * @param criteria - kryteria wyszukiwania
-     * @return lista szkoleń do rozliczenia
+     * @return lista usług do rozliczenia
      */
     List<TrainingInstanceDto> findTrainingToReimburseListByCriteria(TrainingInstanceCriteria criteria);
 
     /**
-     * Metoda która znajduje szczegółowe dane na temat instancji szkolenia
-     * @param trainingInstanceId - identyfikator instancji szkolenia
-     * @return szczegółowe dane na temat instancji szkolenia
+     * Metoda która znajduje szczegółowe dane na temat instancji usługi
+     * @param trainingInstanceId - identyfikator instancji usługi
+     * @return szczegółowe dane na temat instancji usługi
      */
     TrainingInstanceDetailsDto findTrainingInstanceDetails(Long trainingInstanceId);
 
     /**
-     * Metoda która znajduje szczegółowe dane na temat instancji szkolenia wraz z pinem (na potrzeby FO)
-     * @param trainingInstanceId - identyfikator instancji szkolenia
-     * @return szczegółowe dane na temat instancji szkolenia
+     * Metoda która znajduje szczegółowe dane na temat instancji usługi wraz z pinem (na potrzeby FO)
+     * @param trainingInstanceId - identyfikator instancji usługi
+     * @return szczegółowe dane na temat instancji usługi
      */
     TrainingInstanceDetailsDto findTrainingInstanceDetailsWithPinCode(Long trainingInstanceId);
 
     /**
-     * Metoda zwracająca listę statusów instancji szkoleń
+     * Metoda zwracająca listę statusów instancji usług
      * @return - lista statusów
      */
     List<SimpleDictionaryDto>  findTiTrainingInstancesStatuses();
 
     /**
-     * Zwraca parametry potrzbne do zwalidowania czy możemy wykonać rozliczenie dla danej instnacji szkolenia
-     * @param trainingInstanceId - identyfikator instancji szkolenia
+     * Zwraca parametry potrzbne do zwalidowania czy możemy wykonać rozliczenie dla danej instnacji usługi
+     * @param trainingInstanceId - identyfikator instancji usługi
      * @return dto z parametrami
      */
     TrainingInstanceDataToValidateDto findTrainingInstanceDataToValidateReimbursementCreation(Long trainingInstanceId);

@@ -14,7 +14,7 @@ import java.util.Date;
 import java.util.Objects;
 
 /**
- * Encja reprezentuająca szkolenie
+ * Encja reprezentuająca usługa
  *
  * Created by kantczak on 2016-10-26.
  */
@@ -44,36 +44,36 @@ public class Training extends VersionableEntity {
     private Long id;
 
     @Column(name = "EXTERNAL_ID")
-    @Size(max = 10, message = "Idnetyfikator zewnętrzny szkolenia musi zawierać maksymalnie 10 znaków")
+    @Size(max = 10, message = "Idnetyfikator zewnętrzny usługi musi zawierać maksymalnie 10 znaków")
     private String externalId;
 
     @OneToOne
     @JoinColumn(name = "TRAINING_INSTITUTION_ID")
-    @NotNull(message = "Należy wybrać instytucję szkoleniową")
+    @NotNull(message = "Należy wybrać usługodawcę")
     private TrainingInstitution trainingInstitution;
 
     @Column(name = "NAME")
-    @NotEmpty(message = "Nazwa szkolenia nie może być pusta")
-    @Size(max = 200, message = "Nazwa szkolenia musi zawierać maksymalnie 200 znaków")
+    @NotEmpty(message = "Nazwa usługi nie może być pusta")
+    @Size(max = 200, message = "Nazwa usługi musi zawierać maksymalnie 200 znaków")
     private String name;
 
     @Column(name = "PRICE")
-    @NotNull(message = "Należy podać cenę szkolenia")
+    @NotNull(message = "Należy podać cenę usługi")
     private BigDecimal price;
 
     @Column(name = "START_DATE")
     @Temporal(TemporalType.DATE)
-    @NotNull(message = "Należy podać datę rozpoczęcia szkolenia")
+    @NotNull(message = "Należy podać datę rozpoczęcia usługi")
     private Date startDate;
 
     @Column(name = "END_DATE")
     @Temporal(TemporalType.DATE)
-    @NotNull(message = "Należy podać datę zakończenia szkolenia")
+    @NotNull(message = "Należy podać datę zakończenia usługi")
     private Date endDate;
 
     @Column(name = "PLACE")
-    @NotEmpty(message = "Należy podać miejsce szkolenia")
-    @Size(max = 200, message = "Miejsce szkolenia musi zawierać maksymalnie 200 znaków")
+    @NotEmpty(message = "Należy podać miejsce usługi")
+    @Size(max = 200, message = "Miejsce usługi musi zawierać maksymalnie 200 znaków")
     private String place;
 
     @Column(name = "HOURS_NUMBER")
@@ -84,11 +84,11 @@ public class Training extends VersionableEntity {
 
     @OneToOne
     @JoinColumn(name = "TRAINING_CATEGORY_ID")
-    @NotNull(message = "Należy wybrać kategorię szkolenia")
+    @NotNull(message = "Należy wybrać kategorię usługi")
     private TrainingCategory category;
 
     @Column(name = "REIMBURSMENT_CONDITIONS")
-    @Size(max = 1000, message = "Warunki szkolenia muszą zawierać maksymalnie 1000 znaków")
+    @Size(max = 1000, message = "Warunki usługi muszą zawierać maksymalnie 1000 znaków")
     private String reimbursmentConditions;
 
     @Convert(converter = BooleanConverter.class)
@@ -96,7 +96,7 @@ public class Training extends VersionableEntity {
     private boolean active = true;
 
     @Column(name = "DEACTIVATE_USER")
-    @Size(max = 100, message = "Uzytkownik deaktywujący szkolenie musi zawierać maksymalnie 100 znaków")
+    @Size(max = 100, message = "Uzytkownik deaktywujący usługa musi zawierać maksymalnie 100 znaków")
     private String deactivateUser;
 
     @Column(name = "DEACTIVATE_DATE")

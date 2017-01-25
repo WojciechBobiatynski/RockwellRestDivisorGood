@@ -13,12 +13,12 @@ public class TrainingInstanceUseDto {
 
     @Getter
     @Setter
-    @NotNull(message = "Identyfikator instancji szkolenia nie może być pusty")
+    @NotNull(message = "Identyfikator instancji usługi nie może być pusty")
     private Long id;
 
     @Getter
     @Setter
-    @NotNull(message = "Pin do potwierdzenie instancji szkolenia nie może być pusty")
+    @NotNull(message = "Pin do potwierdzenie instancji usługi nie może być pusty")
     private String pin;
 
     @Getter
@@ -29,6 +29,6 @@ public class TrainingInstanceUseDto {
 
     @Getter
     @Setter
-    @NotNull(message = "Wersja instancji szkolenia nie może być pusty")
+    @NotNull(message = "Wersja instancji usługi nie może być pusty")
     private Integer version;
 }

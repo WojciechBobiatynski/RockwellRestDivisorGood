@@ -17,7 +17,7 @@ import java.util.List;
 import static pl.sodexo.it.gryf.web.fo.utils.UrlConstants.*;
 
 /**
- * Kontroler dla instancji szkoleń
+ * Kontroler dla instancji usług
  *
  * Created by akmiecinski on 15.11.2016.
  */

@@ -1,9 +1,9 @@
 <div class="modal-head green">
-    <div class="modal-title">Rezerwacja szkolenia</div>
+    <div class="modal-title">Rezerwacja usługi</div>
     <button class="close"ng-click="close(true)">&times;</button>
 </div>
 <form name="reservationForm" class="modal-body">
-    <span class="alert-text">W celu rezerwacji szkolenia prosimy o wpisanie liczby rezerwowanych bonów i potwierdzenie operacji</span>
+    <span class="alert-text">W celu rezerwacji usługi prosimy o wpisanie liczby rezerwowanych bonów i potwierdzenie operacji</span>
     <div class="row-30"></div>
     <div class="block">
         <div class="multiSection">
@@ -49,8 +49,8 @@
     <table>
         <thead>
         <tr class="grid-100 tableHeader-names">
-            <th class="grid-20">Nazwa szkolenia</th>
-            <th class="grid-10">Kategoria szkolenia</th>
+            <th class="grid-20">Nazwa usługi</th>
+            <th class="grid-10">Kategoria usługi</th>
             <th class="grid-15">Data rozpoczęcia</th>
             <th class="grid-15">Data zakończenia</th>
             <th class="grid-10">Maks. liczba bonów do zarezerwowania</th>
@@ -71,6 +71,6 @@
     <div class="row-30"></div>
     <div class="grid-100 text-center">
         <button ng-disabled="!toReservedNum || toReservedNum == 0"
-                class="row-10 standardButton" ng-click="reserveTraining()">Rezerwuję szkolenie</button>
+                class="row-10 standardButton" ng-click="reserveTraining()">Rezerwuję usługa</button>
     </div>
 </form>

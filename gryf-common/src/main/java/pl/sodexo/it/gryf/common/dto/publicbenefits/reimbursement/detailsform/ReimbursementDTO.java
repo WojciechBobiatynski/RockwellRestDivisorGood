@@ -94,7 +94,7 @@ public class ReimbursementDTO extends VersionableDto {
     private BigDecimal grantAmountPayedToTiTotal;
 
     /**
-     * Całkowity koszt szkoleń
+     * Całkowity koszt usług
      */
     private BigDecimal trainingCostTotal;
 

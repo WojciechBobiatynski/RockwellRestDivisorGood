@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Encja reprezentująca użytkowników instytucji szkoleniowych
+ * Encja reprezentująca użytkowników usługodawcy szkoleniowych
  *
  * Created by jbentyn on 2016-10-06.
  */

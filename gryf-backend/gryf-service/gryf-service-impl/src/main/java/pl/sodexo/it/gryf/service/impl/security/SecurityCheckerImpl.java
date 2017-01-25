@@ -61,7 +61,7 @@ public class SecurityCheckerImpl implements SecurityChecker {
     public void assertTiUserAccessTraining(Long trainingId) {
         if(trainingId != null){
             if(!trainingService.isTrainingInLoggedUserInstitution(trainingId)){
-                gryfValidator.validate("Nie masz dostepu do danego szkolenia");
+                gryfValidator.validate("Nie masz dostepu do danego usługi");
             }
         }
     }
@@ -70,7 +70,7 @@ public class SecurityCheckerImpl implements SecurityChecker {
     public void assertTiUserAccessTrainingInstance(Long trainingInstanceId){
         if(trainingInstanceId != null){
             if(!trainingInstanceService.isTrainingInstanceInLoggedUserInstitution(trainingInstanceId)){
-                gryfValidator.validate("Nie masz dostepu do danej instancji szkolenia");
+                gryfValidator.validate("Nie masz dostepu do danej instancji usługi");
             }
         }
     }
@@ -97,7 +97,7 @@ public class SecurityCheckerImpl implements SecurityChecker {
     public void assertIndUserAccessTrainingInstance(Long trainingInstanceId){
         if(trainingInstanceId != null){
             if(!trainingInstanceService.isTrainingInstanceInLoggedIndividual(trainingInstanceId)){
-                gryfValidator.validate("Nie masz dostepu do danej instancji szkolenia");
+                gryfValidator.validate("Nie masz dostepu do danej instancji usługi");
             }
         }
     }

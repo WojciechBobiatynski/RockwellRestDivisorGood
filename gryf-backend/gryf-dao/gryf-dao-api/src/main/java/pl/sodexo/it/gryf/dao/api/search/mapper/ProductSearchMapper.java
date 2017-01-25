@@ -21,8 +21,8 @@ public interface ProductSearchMapper {
     List<ProductDto> findProducts(@Param("criteria") UserCriteria criteria);
 
     /**
-     * Znajduje listę wykorzystanych produktów na podstawie id instancji szkolenia
-     * @param trainingInstanceId - id instancji szkolenia
+     * Znajduje listę wykorzystanych produktów na podstawie id instancji usługi
+     * @param trainingInstanceId - id instancji usługi
      * @return lista produktów
      */
     List<ProductHeadDto> findProductsByTrainingInstanceId(@Param("criteria") UserCriteria criteria, @Param("trainingInstanceId") Long trainingInstanceId);

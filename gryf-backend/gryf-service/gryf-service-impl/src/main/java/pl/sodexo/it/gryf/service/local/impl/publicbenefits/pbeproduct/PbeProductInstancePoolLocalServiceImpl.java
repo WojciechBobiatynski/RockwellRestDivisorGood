@@ -433,7 +433,7 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
         //NIE ZNALEZLISMY ZADNYCH PULI BONOW DO ROZLICZENIA
         if (pools.isEmpty()) {
             violations.add(new EntityConstraintViolation("Użytkownik nie posiada żadnej puli bonów, "
-                    + "które można użyć do rezerwacji wybranego szkolenia."));
+                    + "które można użyć do rezerwacji wybranego usługi."));
         }else {
 
             //SPRAWDZENIE ABY UMOWY MIALY TEN SAM TYP (TO SAMO MSP)
@@ -453,7 +453,7 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
             //ILOSC JAKA CHCEMY ZAREZERWOWAC PRZEKRACZA ILOSC DOSTEPNYCH BONOW W ZNALEZIONYCH PULACH
             int avaiableNum = sumAvaiableNum(pools);
             if (avaiableNum < toReservedNum) {
-                violations.add(new EntityConstraintViolation("Użytkownik nie posiada odpowiedniej liczby " + "ważnych bonów do rezerwacji wybranego szkolenia."));
+                violations.add(new EntityConstraintViolation("Użytkownik nie posiada odpowiedniej liczby " + "ważnych bonów do rezerwacji wybranego usługi."));
             }
         }
         gryfValidator.validate(violations);
@@ -472,11 +472,11 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
             if (training.getHoursNumber() != null) {
 
                 //ILOSC BONÓW KTÓRĄ CHCEMY PRZEZNACZY PRZEKRACZA ILOSC BOBNÓW JAKA JEST POTRZEBNA NA WSZYSTKIE GODZINY SZKOLENIA
-                //NA PRZYKLAD szkolenie IT: 1h = 2bony, szkolenie ma 10h, maksymlanie możemy przeznaczyć 20 bonów, przeznaczamy 21
+                //NA PRZYKLAD usługa IT: 1h = 2bony, usługa ma 10h, maksymlanie możemy przeznaczyć 20 bonów, przeznaczamy 21
                 int maxToReimbursmentNum = training.getHoursNumber() * productInstanceForHour;
                 if (maxToReimbursmentNum < toReservedNum) {
                     violations.add(new EntityConstraintViolation(
-                            String.format(" Wskazana ilość bonów (%s) przekracza maksymalną ilość bonów (%s) " + "na rezerwację wybranego szkolenia.", toReservedNum, maxToReimbursmentNum)));
+                            String.format(" Wskazana ilość bonów (%s) przekracza maksymalną ilość bonów (%s) " + "na rezerwację wybranego usługi.", toReservedNum, maxToReimbursmentNum)));
                 }
 
                 //ROZLICZAMY GODZINY CZESCIA BONOW A NIE CALOSCIA
@@ -484,7 +484,7 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
                 int modToReservedNum = toReservedNum % productInstanceForHour;
                 if (modToReservedNum != 0) {
                     violations.add(new EntityConstraintViolation(
-                            String.format("Wybrana ilość bonów nie jest zgodna z wybraną kategorią szkolenia. " + "Ilość bonów musi stanowić wielokrotność %s.", productInstanceForHour)));
+                            String.format("Wybrana ilość bonów nie jest zgodna z wybraną kategorią usługi. " + "Ilość bonów musi stanowić wielokrotność %s.", productInstanceForHour)));
                 }
             }
         }
@@ -497,7 +497,7 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
             //NA PRZYKLAD: maksymalnie 40 bonów, cena bonu 15PLN, maksymalnie możemy dać 600PLN
             if (maxProductInstance < toReservedNum) {
                 violations.add(new EntityConstraintViolation(
-                        String.format(" Wskazana ilość bonów (%s) przekracza maksymalną ilość bonów (%s) " + "na rezerwację wybranego szkolenia.", toReservedNum, maxProductInstance)));
+                        String.format(" Wskazana ilość bonów (%s) przekracza maksymalną ilość bonów (%s) " + "na rezerwację wybranego usługi.", toReservedNum, maxProductInstance)));
             }
             //REZERWUJEMY WIECEJ BONÓW NIŻ POTRZEBA:
             //NA PRZYKLAD: koszt egaminu 150PLN, cena bonu 15PLN, potrzeba 15bonów, rezerwujemy 16
@@ -506,7 +506,7 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
                 Integer maxProductInstanceCalculate = training.getPrice().divide(productValue, BIG_DECIMAL_INTEGER_SCALE, BigDecimal.ROUND_UP).intValue();
                 if (maxProductInstanceCalculate < toReservedNum) {
                     violations.add(new EntityConstraintViolation(
-                            String.format(" Wskazana ilość bonów (%s) przekracza maksymalną ilość bonów (%s) " + "na rezerwację wybranego szkolenia.", toReservedNum, maxProductInstanceCalculate)));
+                            String.format(" Wskazana ilość bonów (%s) przekracza maksymalną ilość bonów (%s) " + "na rezerwację wybranego usługi.", toReservedNum, maxProductInstanceCalculate)));
                 }
             }
         }

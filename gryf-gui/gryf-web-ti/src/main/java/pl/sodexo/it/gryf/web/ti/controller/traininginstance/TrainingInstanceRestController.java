@@ -21,7 +21,7 @@ import static pl.sodexo.it.gryf.web.ti.util.UrlConstants.PATH_TRAINING_INSTANCE_
 import static pl.sodexo.it.gryf.web.ti.util.UrlConstants.PATH_TRAINING_INSTANCE_STATUSES_LIST;
 
 /**
- * Kontroler dla instancji szkoleń
+ * Kontroler dla instancji usług
  *
  * Created by akmiecinski on 15.11.2016.
  */

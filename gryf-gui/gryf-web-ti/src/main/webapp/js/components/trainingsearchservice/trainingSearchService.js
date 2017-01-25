@@ -112,14 +112,14 @@ angular.module("gryf.ti").factory("TrainingSearchService", [ "$http", "GryfModal
 
     var findDetailsById = function(trainingId) {
         return $http.get(FIND_TRAINING_DETAILS_URL + trainingId).error(function() {
-            GryfPopups.setPopup("error", "Błąd", "Nie można pobrać szkolenia o wskazanym id");
+            GryfPopups.setPopup("error", "Błąd", "Nie można pobrać usługi o wskazanym id");
             GryfPopups.showPopup();
         });
     };
 
     var findPrecalculatedDetailsById = function(trainingId, grantProgramId) {
         return $http.get(FIND_PRECALCULATED_TRAINING_DETAILS_URL + trainingId + "/" + grantProgramId).error(function() {
-            GryfPopups.setPopup("error", "Błąd", "Nie można pobrać szkolenia o wskazanym id");
+            GryfPopups.setPopup("error", "Błąd", "Nie można pobrać usługi o wskazanym id");
             GryfPopups.showPopup();
         });
     };

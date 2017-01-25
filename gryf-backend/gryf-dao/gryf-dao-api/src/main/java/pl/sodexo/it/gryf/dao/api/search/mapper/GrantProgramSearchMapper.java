@@ -11,9 +11,9 @@ import pl.sodexo.it.gryf.common.criteria.UserCriteria;
 public interface GrantProgramSearchMapper {
 
     /**
-     * Metoda znajdująca id programu dofinansowania na podstawie id instancji szkolenia
+     * Metoda znajdująca id programu dofinansowania na podstawie id instancji usługi
      * @param criteria - kryteria użytkownika
-     * @param trainingInstanceId - id instancji szkolenia
+     * @param trainingInstanceId - id instancji usługi
      * @return id programu dofinansowania
      */
     Long findGrantProgramIdByTrainingInstanceId(@Param("criteria") UserCriteria criteria, @Param("trainingInstanceId") Long trainingInstanceId);

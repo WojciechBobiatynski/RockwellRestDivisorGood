@@ -5,17 +5,17 @@
                 Przekroczono termin rozliczenia
             </div>
         </div>
-        <strong class="label">Rozliczenie szkolenia</strong>
+        <strong class="label">Rozliczenie usługi</strong>
         <div class="block">
-            <strong class="blackLabel">Dane szkolenia</strong>
+            <strong class="blackLabel">Dane usługi</strong>
             <div class="paddedBlock">
                 <div class="multiSection">
                     <div class="grid-30">
-                        <strong>Nazwa szkolenia</strong>
+                        <strong>Nazwa usługi</strong>
                         <div>{{rmbsModel.trainingInstance.trainingName}}</div>
                     </div>
                     <div class="grid-30">
-                        <strong>Cena za szkolenie (PLN)</strong>
+                        <strong>Cena za usługa (PLN)</strong>
                         <div>{{rmbsModel.trainingInstance.trainingPrice}}</div>
                     </div>
                     <div class="grid-30">
@@ -25,7 +25,7 @@
                 </div>
                 <div class="multiSection">
                     <div class="grid-30">
-                        <strong>Kategoria szkolenia</strong>
+                        <strong>Kategoria usługi</strong>
                         <div>{{rmbsModel.trainingInstance.trainingCategory}}</div>
                     </div>
                     <div class="grid-30">
@@ -39,11 +39,11 @@
                 </div>
                 <div class="multiSection">
                     <div class="grid-30">
-                        <strong>Miejsce szkolenia</strong>
+                        <strong>Miejsce usługi</strong>
                         <div>{{rmbsModel.trainingInstance.trainingPlace}}</div>
                     </div>
                     <div class="grid-30">
-                        <strong>Cena 1h szkolenia (PLN)</strong>
+                        <strong>Cena 1h usługi (PLN)</strong>
                         <div>{{rmbsModel.trainingInstance.trainingHourPrice}}</div>
                     </div>
                     <div class="grid-30">
@@ -70,7 +70,7 @@
                         <div>{{rmbsModel.trainingInstance.participantPesel}}</div>
                     </div>
                     <div class="grid-30">
-                        <strong>Liczba bonów zarezerwowanych na szkolenie</strong>
+                        <strong>Liczba bonów zarezerwowanych na usługa</strong>
                         <div data-ng-repeat="prd in rmbsModel.model.products">{{prd.reservedProductsCount}}</div>
                     </div>
                     <div class="grid-30">

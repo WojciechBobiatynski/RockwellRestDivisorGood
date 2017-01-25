@@ -45,7 +45,7 @@ public class ImportOpinionDoneServiceImpl extends ImportBaseDataServiceImpl {
 
         ImportResultDTO result = new ImportResultDTO();
         result.setTrainingInstanceId(trainingInstanceId);
-        result.setDescrption(String.format("Poprawnie zaktualizowano dane: rezerwacja szkolenia (%s).", getIdToDescription(trainingInstanceId)));
+        result.setDescrption(String.format("Poprawnie zaktualizowano dane: rezerwacja usługi (%s).", getIdToDescription(trainingInstanceId)));
         return result;
     }
 

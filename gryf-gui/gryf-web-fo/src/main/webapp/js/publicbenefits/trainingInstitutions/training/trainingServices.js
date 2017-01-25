@@ -209,12 +209,12 @@ angular.module("gryf.training").factory("ModifyTrainingService",
             }
 
             promise.then(function() {
-                GryfPopups.setPopup("success", "Sukces", "Szkolenie poprawnie zapisane");
+                GryfPopups.setPopup("success", "Sukces", "Usługa poprawnie zapisane");
                 GryfPopups.showPopup();
             });
 
             promise.error(function(error) {
-                GryfPopups.setPopup("error", "Błąd", "Nie udało się zapisać szkolenia");
+                GryfPopups.setPopup("error", "Błąd", "Nie udało się zapisać usługi");
                 GryfPopups.showPopup();
 
                 var conflictCallbacksObject = {

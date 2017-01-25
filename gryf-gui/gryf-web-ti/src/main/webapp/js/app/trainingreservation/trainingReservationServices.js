@@ -39,12 +39,12 @@ angular.module("gryf.ti").factory("TrainingReservationService", [ "$http", "Gryf
 
         return $http.post(TRAINING_RESERVATION_URL + "/reserveTraining", trainingReservationDto
         ).success(function(data) {
-            GryfPopups.setPopup("success", "Sukces", "Osoba została zapisana na szkolenie");
+            GryfPopups.setPopup("success", "Sukces", "Osoba została zapisana na usługa");
             GryfPopups.showPopup();
 
             userTrainingReservationData.data = data;
         }).error(function(error) {
-            GryfPopups.setPopup("error", "Błąd", "Nie udało się zapisać osoby na szkolenie");
+            GryfPopups.setPopup("error", "Błąd", "Nie udało się zapisać osoby na usługa");
             GryfPopups.showPopup();
 
             GryfExceptionHandler.handleSavingError(error, violations, null);
@@ -59,12 +59,12 @@ angular.module("gryf.ti").factory("TrainingReservationService", [ "$http", "Gryf
 
         return $http.put(TRAINING_RESERVATION_URL + "/cancelTrainingReservation/" + trainingInstanceId + "/" + trainingInstanceVersion
         ).success(function(data) {
-            GryfPopups.setPopup("success", "Sukces", "Anulowano zapis osoby na szkolenie");
+            GryfPopups.setPopup("success", "Sukces", "Anulowano zapis osoby na usługa");
             GryfPopups.showPopup();
 
             userTrainingReservationData.data = data;
         }).error(function(error) {
-            GryfPopups.setPopup("error", "Błąd", "Nie udało się anulować zapisu na szkolenie");
+            GryfPopups.setPopup("error", "Błąd", "Nie udało się anulować zapisu na usługa");
             GryfPopups.showPopup();
 
             GryfExceptionHandler.handleSavingError(error, violations, null);
@@ -80,12 +80,12 @@ angular.module("gryf.ti").factory("TrainingReservationService", [ "$http", "Gryf
         return $http.put(TRAINING_RESERVATION_URL + "/confirmPin",
             {id: trainingInstanceId, pin: pinCode, newReservationNum: newReservationNum, version: trainingInstanceVersion}
         ).success(function(data) {
-            GryfPopups.setPopup("success", "Sukces", "Potwierdzono uczestnictwo w szkoleniu");
+            GryfPopups.setPopup("success", "Sukces", "Potwierdzono uczestnictwo w usłudze");
             GryfPopups.showPopup();
 
             userTrainingReservationData.data = data;
         }).error(function(error) {
-            GryfPopups.setPopup("error", "Błąd", "Nie udało się potwierdzić uczestnictwa w szkoleniu");
+            GryfPopups.setPopup("error", "Błąd", "Nie udało się potwierdzić uczestnictwa w usłudze");
             GryfPopups.showPopup();
 
             GryfExceptionHandler.handleSavingError(error, violations, null);

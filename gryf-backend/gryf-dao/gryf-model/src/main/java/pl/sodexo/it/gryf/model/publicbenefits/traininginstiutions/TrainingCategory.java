@@ -10,7 +10,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 /**
- * Encja reprezentuająca kategorię szkolenia
+ * Encja reprezentuająca kategorię usługi
  *
  * Created by kantczak on 2016-10-26.
  */

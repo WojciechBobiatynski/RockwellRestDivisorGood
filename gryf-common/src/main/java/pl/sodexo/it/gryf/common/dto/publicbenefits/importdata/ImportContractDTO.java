@@ -46,7 +46,7 @@ public class ImportContractDTO {
 
     @Getter
     @Setter
-    @NotEmpty(message = "Kategorie szkolenia przydzielone uczestnikowi nie mogą być puste")
+    @NotEmpty(message = "Kategorie usługi przydzielone uczestnikowi nie mogą być puste")
     private String contractTrainingCategories;
 
     //EXTRA FIELDS

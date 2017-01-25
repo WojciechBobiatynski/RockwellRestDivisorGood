@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Kryteria wyszukiwania dla instancji szkoleń
+ * Kryteria wyszukiwania dla instancji usług
  *
  * Created by akmiecinski on 14.11.2016.
  */

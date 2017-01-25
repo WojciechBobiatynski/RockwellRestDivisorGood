@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import static pl.sodexo.it.gryf.web.ind.util.IndPageConstant.PAGE_REIMBURSMENT_PIN_SEND_SUCCESS;
 
 /**
- * Kontroler obsługujący akcje wysyłki pinu do rozliczenia szkolenia
+ * Kontroler obsługujący akcje wysyłki pinu do rozliczenia usługi
  * na pocztę uczestnika
  *
  * Created by adziobek on 16.11.2016.

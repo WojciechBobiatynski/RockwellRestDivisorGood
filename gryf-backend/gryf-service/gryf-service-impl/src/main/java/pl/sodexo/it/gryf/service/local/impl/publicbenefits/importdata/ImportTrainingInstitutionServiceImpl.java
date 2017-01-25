@@ -99,11 +99,11 @@ public class ImportTrainingInstitutionServiceImpl extends ImportBaseDataServiceI
         if(trainingInstitution == null){
             Long trainingInstitutionId = trainingInstitutionService.saveTrainingInstitution(tempDto.getTrainingInstitution(), false);
             result.setTrainingInstitutionId(trainingInstitutionId);
-            result.setDescrption(String.format("Poprawnie utworzono dane: instytucje szkoleniową (%s).", getIdToDescription(trainingInstitutionId)));
+            result.setDescrption(String.format("Poprawnie utworzono dane: usługodawcye szkoleniową (%s).", getIdToDescription(trainingInstitutionId)));
         }else{
             trainingInstitutionService.updateTrainingInstitution(tempDto.getTrainingInstitution(), false);
             result.setTrainingInstitutionId(tempDto.getTrainingInstitution().getId());
-            result.setDescrption(String.format("Poprawnie zaktualizowano dane: instytucje szkoleniową (%s).", tempDto.getTrainingInstitution().getId()));
+            result.setDescrption(String.format("Poprawnie zaktualizowano dane: usługodawcye szkoleniową (%s).", tempDto.getTrainingInstitution().getId()));
         }
 
         if(tempDto.isSendMail()){

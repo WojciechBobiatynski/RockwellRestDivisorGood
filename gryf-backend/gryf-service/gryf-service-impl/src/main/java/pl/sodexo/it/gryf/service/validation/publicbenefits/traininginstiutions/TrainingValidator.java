@@ -30,7 +30,7 @@ public class TrainingValidator {
     private void validateTrainingDates(Training training, List<EntityConstraintViolation> violations) {
         if(training.getStartDate() != null && training.getEndDate() != null && training.getEndDate().before(training.getStartDate())) {
             violations.add(new EntityConstraintViolation(Training.END_DATE_ATTR_NAME,
-                    "Data zakończenia szkolenia nie może być wcześniejsza niż data rozpoczęcia szkolenia", null));
+                    "Data zakończenia usługi nie może być wcześniejsza niż data rozpoczęcia usługi", null));
         }
     }
 
@@ -41,7 +41,7 @@ public class TrainingValidator {
                 violations.add(new EntityConstraintViolation("Ilość godzin lekcyjnych nie może być pusta"));
             }
             if(training.getHourPrice() == null){
-                violations.add(new EntityConstraintViolation("Cena 1h szkolenia nie może być pusta"));
+                violations.add(new EntityConstraintViolation("Cena 1h usługi nie może być pusta"));
             }
         }
     }

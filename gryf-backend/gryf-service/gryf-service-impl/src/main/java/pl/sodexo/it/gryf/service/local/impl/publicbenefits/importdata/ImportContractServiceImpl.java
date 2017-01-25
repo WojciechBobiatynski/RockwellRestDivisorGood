@@ -176,7 +176,7 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
 
         for(String c : importDTO.getContract().getContractTrainingCategoryList()){
             if(!trainingCategoryMap.containsKey(c)){
-                violations.add(new EntityConstraintViolation(String.format("Nie znaleziono kategori szkolenia przydzielonej użytkownikowi "
+                violations.add(new EntityConstraintViolation(String.format("Nie znaleziono kategori usługi przydzielonej użytkownikowi "
                         + "o identyfikatorze (%s)", c)));
             }
         }

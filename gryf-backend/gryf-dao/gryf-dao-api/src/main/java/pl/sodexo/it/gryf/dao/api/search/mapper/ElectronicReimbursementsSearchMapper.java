@@ -40,7 +40,7 @@ public interface ElectronicReimbursementsSearchMapper {
     List<SimpleDictionaryDto> findElctRmbsTypes(@Param("criteria") UserCriteria criteria);
 
     /**
-     * Metoda znajdująca parametry do obliczenia składek na rolizczeniu dla instancji szkolenia
+     * Metoda znajdująca parametry do obliczenia składek na rolizczeniu dla instancji usługi
      *
      * @param criteria - kryteria użytkownika
      * @param trainingInstanceId - id Usługodawcy
@@ -57,7 +57,7 @@ public interface ElectronicReimbursementsSearchMapper {
     ElctRmbsHeadDto findEcltRmbsById(@Param("criteria") UserCriteria criteria, @Param("ermbsId") Long ermbsId);
 
     /**
-     * Znajduje szczegóły rozliczenia podstawie Id instancji szkolenia
+     * Znajduje szczegóły rozliczenia podstawie Id instancji usługi
      * @param criteria - krytertia użytkownika
      * @param trainingInstanceId - id rozliczenia
      * @return Dto rozliczenia
@@ -120,9 +120,9 @@ public interface ElectronicReimbursementsSearchMapper {
     boolean shouldBeCreditNoteCreated(@Param("criteria") UserCriteria criteria, @Param("ermbsId")Long ermbsId);
 
     /**
-     * Sprawdza czy tworzone szkolenie jest tworzone po terminie
+     * Sprawdza czy tworzone usługa jest tworzone po terminie
      * @param criteria - kryteria użytkownika
-     * @param trainingInstanceId - id instancji szkolenia
+     * @param trainingInstanceId - id instancji usługi
      * @return true/false
      */
     boolean checkIBeingCreatedErmbsIsTerminatedByTrainingInstanceId(@Param("criteria") UserCriteria criteria, @Param("trainingInstanceId") Long trainingInstanceId);

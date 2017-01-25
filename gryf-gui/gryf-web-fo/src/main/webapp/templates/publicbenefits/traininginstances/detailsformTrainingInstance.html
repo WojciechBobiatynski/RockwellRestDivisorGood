@@ -2,7 +2,7 @@
 
 <div>
     <header id="header">
-        <h1>Szczegóły rezerwacji szkolenia</h1>
+        <h1>Szczegóły rezerwacji usługi</h1>
         <ul ng-if="isInStatus('RES')">
             <li>
                 <a ng-click="openConfirmModal()" class="button button-save"
@@ -60,7 +60,7 @@
         <div class="grid-100">
             <div class="grid-10">
                 <a ng-href="{{getUrlFor(MODULES.TrainingInstitution, trainingInstanceModel.entity.trainingInstitutionId)}}">
-                    <strong class="label">ID instytucji &UpperRightArrow; </strong>
+                    <strong class="label">ID usługodawcy &UpperRightArrow; </strong>
                 </a>
                 <input type="text" ng-model="trainingInstanceModel.entity.trainingInstitutionId" disabled="disabled">
             </div>
@@ -69,7 +69,7 @@
                 <input type="text" ng-model="trainingInstanceModel.entity.trainingInstitutionName" disabled="disabled">
             </div>
             <div class="grid-20">
-                <strong class="label">NIP instytucji</strong>
+                <strong class="label">NIP usługodawcy</strong>
                 <input type="text" ng-model="trainingInstanceModel.entity.trainingInstitutionVatRegNum" disabled="disabled">
             </div>
         </div>
@@ -106,22 +106,22 @@
     <section>
         <div class="grid-100">
             <header>
-                <h2>Dane szkolenia</h2>
+                <h2>Dane usługi</h2>
             </header>
         </div>
         <div class="grid-100">
             <div class="grid-10">
                 <a ng-href="{{getUrlFor(MODULES.Training, trainingInstanceModel.entity.trainingId)}}">
-                    <strong class="label">ID szkolenia &UpperRightArrow; </strong>
+                    <strong class="label">ID usługi &UpperRightArrow; </strong>
                 </a>
                 <input type="text" ng-model="trainingInstanceModel.entity.trainingId" disabled="disabled">
             </div>
             <div class="grid-20">
-                <strong class="label">Nazwa szkolenia</strong>
+                <strong class="label">Nazwa usługi</strong>
                 <input type="text" ng-model="trainingInstanceModel.entity.trainingName" disabled="disabled">
             </div>
             <div class="grid-20">
-                <strong class="label">Kategoria szkolenia</strong>
+                <strong class="label">Kategoria usługi</strong>
                 <input type="text" ng-model="trainingInstanceModel.entity.trainingCategory" disabled="disabled">
             </div>
         </div>

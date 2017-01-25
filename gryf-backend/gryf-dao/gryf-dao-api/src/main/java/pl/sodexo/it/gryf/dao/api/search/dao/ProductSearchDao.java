@@ -20,8 +20,8 @@ public interface ProductSearchDao {
     List<ProductDto> findProducts();
 
     /**
-     * Znajduje listę wykorzystanych produktów na podstawie id instancji szkolenia
-     * @param trainingInstanceId - id instancji szkolenia
+     * Znajduje listę wykorzystanych produktów na podstawie id instancji usługi
+     * @param trainingInstanceId - id instancji usługi
      * @return lista produktów
      */
     List<ProductHeadDto> findProductsByTrainingInstanceId(Long trainingInstanceId);

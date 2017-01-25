@@ -86,7 +86,7 @@ angular.module("gryf.training").controller("detailsform.TrainingController",
                      window.location = GryfModulesUrlProvider.LINKS.Training;
                  });
              };
-             $scope.showAcceptModal("Ta akcja zapisuje zmiany w szkoleniu", saveCallback);
+             $scope.showAcceptModal("Ta akcja zapisuje zmiany w usłudze", saveCallback);
          };
 
          $scope.save = function () {
@@ -97,7 +97,7 @@ angular.module("gryf.training").controller("detailsform.TrainingController",
                      ModifyTrainingService.findById($routeParams.id);
                  });
              };
-             $scope.showAcceptModal("Ta akcja zapisuje zmiany w szkoleniu", saveCallback);
+             $scope.showAcceptModal("Ta akcja zapisuje zmiany w usłudze", saveCallback);
          };
 
          $scope.showAcceptModal = function(messageText, callback) {

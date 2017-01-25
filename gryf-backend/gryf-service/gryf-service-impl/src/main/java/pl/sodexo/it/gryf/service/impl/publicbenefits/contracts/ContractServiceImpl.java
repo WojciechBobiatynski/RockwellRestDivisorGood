@@ -121,7 +121,7 @@ public class ContractServiceImpl implements ContractService {
                 if(!StringUtils.isEmpty(categoryId)) {
                     TrainingCategory category = trainingCategoryRepository.get(categoryId);
                     if(category == null){
-                        gryfValidator.validate(String.format("Nie istnieje kategoria szkolenia o identyfikatorze [%s]", categoryId));
+                        gryfValidator.validate(String.format("Nie istnieje kategoria usługi o identyfikatorze [%s]", categoryId));
                     }
                     entity.addCategory(category);
                 }

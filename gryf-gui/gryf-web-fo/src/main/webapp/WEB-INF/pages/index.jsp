@@ -141,22 +141,22 @@
                             <li class="submenu">
                                 <a ng-href="${pageContext.request.contextPath}/publicBenefits/training/"
                                    gryf-link-privilege="GRF_PBE_TI_TRAININGS">
-                                    Katalog szkoleń
+                                    Katalog usług
                                 </a>
                                 <ul>
                                     <li>
                                         <a ng-href="${pageContext.request.contextPath}/publicBenefits/training/"
-                                           gryf-link-privilege="GRF_PBE_TI_TRAININGS">Lista szkoleń</a>
+                                           gryf-link-privilege="GRF_PBE_TI_TRAININGS">Lista usług</a>
                                     <li>
                                         <a ng-href="${pageContext.request.contextPath}/publicBenefits/training/#/modify"
-                                           gryf-link-privilege="GRF_PBE_TI_TRAININGS_MOD">Nowe szkolenie</a>
+                                           gryf-link-privilege="GRF_PBE_TI_TRAININGS_MOD">Nowe usługa</a>
                                     </li>
                                 </ul>
                             </li>
                             <li>
                                 <a ng-href="${pageContext.request.contextPath}/publicBenefits/trainingInstances/"
                                    gryf-link-privilege="GRF_PBE_TI_TRAINING_INSTANCES">
-                                    Rezerwacje szkoleń
+                                    Rezerwacje usług
                                 </a>
                             </li>
                         </ul>

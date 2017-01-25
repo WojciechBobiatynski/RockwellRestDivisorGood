@@ -97,12 +97,12 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
         if(training == null){
             Long trainingId = trainingService.saveTraining(trainingDTO);
             result.setTrainingId(trainingId);
-            result.setDescrption(String.format("Poprawnie utworzono dane: szkolenie (%s).", getIdToDescription(trainingId)));
+            result.setDescrption(String.format("Poprawnie utworzono dane: usługa (%s).", getIdToDescription(trainingId)));
 
         }else{
             trainingService.updateTraining(trainingDTO);
             result.setTrainingId(trainingDTO.getTrainingId());
-            result.setDescrption(String.format("Poprawnie zaktualizowano dane: szkolenie (%s).", trainingDTO.getTrainingId()));
+            result.setDescrption(String.format("Poprawnie zaktualizowano dane: usługa (%s).", trainingDTO.getTrainingId()));
         }
         return result;
     }
@@ -110,8 +110,8 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
     @Override
     protected String saveInternalExtraData(ImportParamsDTO paramsDTO, ImportDataRow importDataRow){
         int updateNum = trainingRepository.deactiveTrainings(importDataRow.getImportJob(), GryfUser.getLoggedUserLoginOrDefault());
-        return updateNum > 0 ? String.format("Poprawnie deaktywowano szkolenia: ilość zmienionych szkoleń (%s).", updateNum) :
-                                "Brak deaktywowanych szkoleń.";
+        return updateNum > 0 ? String.format("Poprawnie deaktywowano usługi: ilość zmienionych usług (%s).", updateNum) :
+                                "Brak deaktywowanych usług.";
     }
 
     @Override
@@ -152,13 +152,13 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
                 violations.add(new EntityConstraintViolation("Ilość godzin lekcyjnych nie może być pusta"));
             }
             if(importDTO.getHourPrice() == null){
-                violations.add(new EntityConstraintViolation("Cena 1h szkolenia nie może być pusta"));
+                violations.add(new EntityConstraintViolation("Cena 1h usługi nie może być pusta"));
             }
             if (importDTO.getHourPrice() != null && importDTO.getHoursNumber() != null && importDTO.getPrice() != null) {
                 BigDecimal calcHourPrice = importDTO.getHourPrice().multiply(BigDecimal.valueOf(importDTO.getHoursNumber()));
                 if (calcHourPrice.compareTo(importDTO.getPrice()) != 0) {
                     violations.add(new EntityConstraintViolation(
-                            String.format("Cena szkolenia (%sPLN) nie zgadza się z iloscią godzin (%s) " + "oraz cena za 1h szkolenia (%sPLN). Otrzymany wynik: %sPLN", importDTO.getPrice(), importDTO.getHoursNumber(),
+                            String.format("Cena usługi (%sPLN) nie zgadza się z iloscią godzin (%s) " + "oraz cena za 1h usługi (%sPLN). Otrzymany wynik: %sPLN", importDTO.getPrice(), importDTO.getHoursNumber(),
                                     importDTO.getHourPrice(), calcHourPrice)));
                 }
             }
@@ -181,13 +181,13 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
         }
         if(trainingInstitution != null && training != null){
             if(!training.getTrainingInstitution().equals(trainingInstitution)){
-                violations.add(new EntityConstraintViolation(String.format("Szkolenie (%s) jest połączone z instytucją szkoleniową (%s). "
-                        + "Nie można zmienić przynależności takiego szkolenia do innej instytucji (%s).",
+                violations.add(new EntityConstraintViolation(String.format("Usługa (%s) jest połączone z usługodawcyą szkoleniową (%s). "
+                        + "Nie można zmienić przynależności takiego usługi do innej usługodawcy (%s).",
                         training.getExternalId(), training.getTrainingInstitution().getExternalId(), trainingInstitution.getExternalId())));
             }
         }
         if(trainingCategory == null){
-            violations.add(new EntityConstraintViolation(String.format("Nie znaleziono kategorii szkolenia dla kodu (%s).",
+            violations.add(new EntityConstraintViolation(String.format("Nie znaleziono kategorii usługi dla kodu (%s).",
                                                         importDTO.getCategory())));
         }
         gryfValidator.validate(violations);

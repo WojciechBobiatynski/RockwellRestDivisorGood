@@ -16,39 +16,39 @@ import java.util.List;
 public interface TrainingInstanceSearchMapper {
 
     /**
-     * Metoda która znajduje wszystkie szkolenia do rozliczenia na podstawie wybranych kryteriów wyszkuwiania
+     * Metoda która znajduje wszystkie usługi do rozliczenia na podstawie wybranych kryteriów wyszkuwiania
      * @param criteria - kryteria wyszukiwania
-     * @return lista szkoleń do rozliczenia
+     * @return lista usług do rozliczenia
      */
     List<TrainingInstanceDto> findTrainingToReimburseListByCriteria(@Param("criteria") TrainingInstanceCriteria criteria);
 
     /**
-     * Metoda która znajduje szczegółowe dane na temat instancji szkolenia
+     * Metoda która znajduje szczegółowe dane na temat instancji usługi
      * @param criteria - kryteria użytkownika
-     * @param trainingInstanceId - identyfikator instancji szkolenia
-     * @return szczegółowe dane na temat instancji szkolenia
+     * @param trainingInstanceId - identyfikator instancji usługi
+     * @return szczegółowe dane na temat instancji usługi
      */
     TrainingInstanceDetailsDto findTrainingInstanceDetails(@Param("criteria") UserCriteria criteria, @Param("trainingInstanceId") Long trainingInstanceId);
 
     /**
-     * Metoda która znajduje szczegółowe dane na temat instancji szkolenia wraz z pinem (na potrzeby FO)
+     * Metoda która znajduje szczegółowe dane na temat instancji usługi wraz z pinem (na potrzeby FO)
      * @param criteria - kryteria użytkownika
-     * @param trainingInstanceId - identyfikator instancji szkolenia
-     * @return szczegółowe dane na temat instancji szkolenia
+     * @param trainingInstanceId - identyfikator instancji usługi
+     * @return szczegółowe dane na temat instancji usługi
      */
     TrainingInstanceDetailsDto findTrainingInstanceDetailsWithPinCode(@Param("criteria") UserCriteria criteria, @Param("trainingInstanceId") Long trainingInstanceId);
 
     /**
-     * Metoda zwracająca listę statusów instancji szkoleń
+     * Metoda zwracająca listę statusów instancji usług
      * @param criteria kryteria użytkownika
      * @return - lista statusów
      */
     List<SimpleDictionaryDto>  findTiTrainingInstancesStatuses(@Param("criteria") UserCriteria criteria);
 
     /**
-     * Zwraca parametry potrzbne do zwalidowania czy możemy wykonać rozliczenie dla danej instnacji szkolenia
+     * Zwraca parametry potrzbne do zwalidowania czy możemy wykonać rozliczenie dla danej instnacji usługi
      * @param criteria kryteria użytkownika
-     * @param trainingInstanceId - identyfikator instancji szkolenia
+     * @param trainingInstanceId - identyfikator instancji usługi
      * @return dto z parametrami
      */
     TrainingInstanceDataToValidateDto findTrainingInstanceDataToValidateReimbursementCreation(@Param("criteria") UserCriteria criteria, @Param("trainingInstanceId") Long trainingInstanceId);

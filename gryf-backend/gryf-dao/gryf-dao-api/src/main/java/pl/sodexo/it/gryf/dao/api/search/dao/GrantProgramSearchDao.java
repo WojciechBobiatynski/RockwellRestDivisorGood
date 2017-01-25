@@ -8,8 +8,8 @@ package pl.sodexo.it.gryf.dao.api.search.dao;
 public interface GrantProgramSearchDao {
 
     /**
-     * Metoda znajdująca id programu dofinansowania na podstawie id instancji szkolenia
-     * @param trainingInstanceId - id instancji szkolenia
+     * Metoda znajdująca id programu dofinansowania na podstawie id instancji usługi
+     * @param trainingInstanceId - id instancji usługi
      * @return id programu dofinansowania
      */
     Long findGrantProgramIdByTrainingInstanceId(Long trainingInstanceId);

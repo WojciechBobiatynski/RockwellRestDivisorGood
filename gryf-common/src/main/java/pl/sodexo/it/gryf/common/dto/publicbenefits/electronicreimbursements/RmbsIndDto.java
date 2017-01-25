@@ -9,7 +9,7 @@ import java.io.Serializable;
 /**
  * Created by adziobek on 20.10.2016.
  *
- * DTO dla uczestnika szkolenia.
+ * DTO dla uczestnika usługi.
  */
 @ToString
 public class RmbsIndDto implements Serializable {

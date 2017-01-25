@@ -36,7 +36,7 @@ public class AutomaticElectronicReimbursementsServiceImpl implements AutomaticEl
             List<ErmbsMailDto> mailFromTemplates = ermbsMailService.createMailFromTemplates(ermbsId);
             mailFromTemplates.stream().forEach(ermbsMailDto -> ermbsMailService.sendErmbsMail(ermbsMailDto));
         } else {
-            throw new IllegalStateException("Próbujesz rozliczyć szkolenie automatycznie, pomimo braku takiej możliwości");
+            throw new IllegalStateException("Próbujesz rozliczyć usługa automatycznie, pomimo braku takiej możliwości");
         }
         return ermbsId;
     }

@@ -56,7 +56,7 @@ public class ReimbursementTrainingServiceImpl implements ReimbursementTrainingSe
                 if (isRemoveAllowed) {
                     reimbursement.removeReimbursementTraining(training);
                 } else {
-                    gryfValidator.validate(String.format("Nie jest możliwe usunięcie szkolenia o nazwie '%s", training.getTrainingName()));
+                    gryfValidator.validate(String.format("Nie jest możliwe usunięcie usługi o nazwie '%s", training.getTrainingName()));
                 }
 
                 //ADD NEW RECORD

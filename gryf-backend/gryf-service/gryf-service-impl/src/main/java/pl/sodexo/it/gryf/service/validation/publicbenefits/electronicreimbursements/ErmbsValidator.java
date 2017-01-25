@@ -70,12 +70,12 @@ public class ErmbsValidator {
         GryfUser user = GryfUser.getLoggedUser();
         if(GryfUser.getLoggedUser() instanceof GryfTiUser){
             if(!trainingInstanceDataToValidateReimbursementCreation.getTrainingInstitutionId().equals(((GryfTiUser) user).getTrainingInstitutionId())){
-                violations.add(new EntityConstraintViolation(null, "Zarezerwowane szkolenie, które próbujesz rozliczyć nie jest z Twojej Usługodawcy"));
+                violations.add(new EntityConstraintViolation(null, "Zarezerwowane usługa, które próbujesz rozliczyć nie jest z Twojej Usługodawcy"));
             }
         }
 
         if(!trainingInstanceDataToValidateReimbursementCreation.isOpinionDone())
-            violations.add(new EntityConstraintViolation(null, "Szkolenie nie zostało ocenione. Nie można utworzyć rozliczenia"));
+            violations.add(new EntityConstraintViolation(null, "Usługa nie zostało ocenione. Nie można utworzyć rozliczenia"));
 
         gryfValidator.validate(violations);
     }

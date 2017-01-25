@@ -28,35 +28,35 @@ public interface TrainingService {
     boolean isTrainingInLoggedUserInstitution(Long trainingId);
 
     /**
-     * Zwraca szkolenie na podstawie jego id oraz kontekstu zalogowanego użytkownika
-     * @param id identyfikator szkolenia
-     * @return dto szkolenia
+     * Zwraca usługa na podstawie jego id oraz kontekstu zalogowanego użytkownika
+     * @param id identyfikator usługi
+     * @return dto usługi
      */
     TrainingSearchResultDTO findTrainingDetails(Long id);
 
     /**
-     * Zwraca szkolenie wraz z wyliczeniami maksymalnej liczby bonów
+     * Zwraca usługa wraz z wyliczeniami maksymalnej liczby bonów
      * na podstawie id oraz kontekstu zalogowanego użytkownika
-     * @param id identyfikator szkolenia
-     * @return dto szkolenia
+     * @param id identyfikator usługi
+     * @return dto usługi
      */
     TrainingPrecalculatedDetailsDto findTrainingPrecalculatedDetails(Long id, Long grantProgramId);
 
     /**
-     * Zwraca listę z kategoriami szkoleń dla programu dofinansowania
+     * Zwraca listę z kategoriami usług dla programu dofinansowania
      * @param grantProgramId
      * @return
      */
     List<SimpleDictionaryDto> findTrainingCategoriesByGrantProgram(Long grantProgramId);
 
     /**
-     * Zwraca listę ze wszystkimi katalogami szkoleń
+     * Zwraca listę ze wszystkimi katalogami usług
      * @return
      */
     List<SimpleDictionaryDto> findAllTrainingCategoryCatalogs();
 
     /**
-     * Zwraca listę z kategoriami szkoleń z danego katalogu
+     * Zwraca listę z kategoriami usług z danego katalogu
      * @param catalogId
      * @return
      */

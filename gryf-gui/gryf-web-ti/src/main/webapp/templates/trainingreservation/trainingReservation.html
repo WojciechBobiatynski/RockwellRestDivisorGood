@@ -19,7 +19,7 @@
          </div>
       </div>
       <div class="grid-100 text-right">
-         <button class="standardButton" data-ng-click="loadUserTrainingReservationData()">Rezerwuj nowe szkolenie</button>
+         <button class="standardButton" data-ng-click="loadUserTrainingReservationData()">Rezerwuj nowe usługa</button>
       </div>
    </div>
 </section>
@@ -59,7 +59,7 @@
             <div ng-repeat="contract in userTrainingReservationData.data.contracts">{{contract.grantProgram.name}}</div>
          </div>
          <div class="grid-20 text-right">
-               <button class="standardButton" data-ng-click="reserveTrainingForAnotherUser()">Rezerwuj szkolenie dla innego uczestnika</button>
+               <button class="standardButton" data-ng-click="reserveTrainingForAnotherUser()">Rezerwuj usługa dla innego uczestnika</button>
          </div>
       </div>
    </div>
@@ -70,10 +70,10 @@
       <thead>
       <tr class="grid-100 tableHeader-names">
          <th class="sortable grid-20" ng-class="getSortingTypeClass('name')">
-            <div ng-click="getSortedBy('name')">Nazwa szkolenia</div>
+            <div ng-click="getSortedBy('name')">Nazwa usługi</div>
          </th>
          <th class="sortable grid-10" ng-class="getSortingTypeClass('price')">
-            <div ng-click="getSortedBy('price')">Cena szkolenia (PLN)</div>
+            <div ng-click="getSortedBy('price')">Cena usługi (PLN)</div>
          </th>
          <th class="sortable grid-10" ng-class="getSortingTypeClass('hoursNumber')">
             <div ng-click="getSortedBy('hoursNumber')">Liczba godzin szkoleniowych</div>

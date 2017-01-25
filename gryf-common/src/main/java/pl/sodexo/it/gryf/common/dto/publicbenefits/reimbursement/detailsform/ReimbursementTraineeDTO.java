@@ -21,11 +21,11 @@ public class ReimbursementTraineeDTO extends GryfDto {
 
     private Long id;
 
-    @NotEmpty(message = "Imię i nazwisko uczestnika szkolenia nie może być puste")
+    @NotEmpty(message = "Imię i nazwisko uczestnika usługi nie może być puste")
     @Size(message = "Imię i nazwisko uczestnika może mieć maksymalnie 200 znaków", max = 200)
     private String traineeName;
 
-    @NotNull(message = "Płeć uczestnika szkolenia nie może być pusta", groups = ValidationGroupReimbursementSettleAndVerify.class)
+    @NotNull(message = "Płeć uczestnika usługi nie może być pusta", groups = ValidationGroupReimbursementSettleAndVerify.class)
     private DictionaryDTO traineeSex;
 
     @Valid

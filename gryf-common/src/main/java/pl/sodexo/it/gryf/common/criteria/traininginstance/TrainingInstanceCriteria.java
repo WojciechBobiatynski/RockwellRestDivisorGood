@@ -13,7 +13,7 @@ import java.util.List;
 import static pl.sodexo.it.gryf.common.utils.GryfConstants.DATE_FORMAT;
 
 /**
- * Kryteria wyszukiwania dla instancji szkoleń
+ * Kryteria wyszukiwania dla instancji usług
  *
  * Created by akmiecinski on 14.11.2016.
  */
