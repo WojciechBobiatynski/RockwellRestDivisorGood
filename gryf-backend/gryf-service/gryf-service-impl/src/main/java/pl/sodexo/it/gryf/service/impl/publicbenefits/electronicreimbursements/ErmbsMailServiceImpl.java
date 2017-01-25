@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.common.dto.mail.MailDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.MailAttachmentDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsGrantProgramParamsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsMailAttachmentDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsMailDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsMailParamsDto;
@@ -90,8 +91,13 @@ public class ErmbsMailServiceImpl implements ErmbsMailService {
     }
 
     private void addCreditNoteMailIfNotExistForUnreservedPool(Long ermbsId, List<ErmbsMailDto> existedMail, ErmbsMailParamsDto paramsDto, List<ErmbsMailAttachmentDto> reportFiles) {
+
+        ErmbsGrantProgramParamsDto grantProgramParam = null;
         if(existedMail.stream().noneMatch(ermbsMailDto -> ErmbsMailType.CREDIT_NOTE.equals(ermbsMailDto.getEmailType())) && electronicReimbursementsDao.shouldBeCreditNoteCreated(ermbsId)){
-            ErmbsMailDto confirmReimbMail = createErmbsMailFromMailDTO(mailDtoCreator.createCreditNoteForUnreservedPoolMailDto(paramsDto), ermbsId);
+            if(grantProgramParam == null) {
+                grantProgramParam = electronicReimbursementsDao.findGrantProgramParams(ermbsId);
+            }
+            ErmbsMailDto confirmReimbMail = createErmbsMailFromMailDTO(mailDtoCreator.createCreditNoteForUnreservedPoolMailDto(paramsDto, grantProgramParam), ermbsId);
             confirmReimbMail.setEmailType(ErmbsMailType.CREDIT_NOTE);
             addReportToCreditNoteMailAsAttachments(confirmReimbMail, reportFiles);
             existedMail.add(confirmReimbMail);
@@ -117,8 +123,12 @@ public class ErmbsMailServiceImpl implements ErmbsMailService {
     }
 
     private void addPayConfirmMailIfNotExist(Long ermbsId, List<ErmbsMailDto> existedMail, ErmbsMailParamsDto paramsDto, List<ErmbsMailAttachmentDto> reportFiles) {
+        ErmbsGrantProgramParamsDto grantProgramParam = null;
         if(existedMail.stream().noneMatch(ermbsMailDto -> ErmbsMailType.PAYMENT_CONFIRMATION.equals(ermbsMailDto.getEmailType()))){
-            ErmbsMailDto confirmPaymentMail = createErmbsMailFromMailDTO(mailDtoCreator.createConfirmPaymentMailDto(paramsDto), ermbsId);
+            if(grantProgramParam == null) {
+                grantProgramParam = electronicReimbursementsDao.findGrantProgramParams(ermbsId);
+            }
+            ErmbsMailDto confirmPaymentMail = createErmbsMailFromMailDTO(mailDtoCreator.createConfirmPaymentMailDto(paramsDto, grantProgramParam), ermbsId);
             confirmPaymentMail.setEmailType(ErmbsMailType.PAYMENT_CONFIRMATION);
             addReportToConfirmPaymentMailsAsAttachments(confirmPaymentMail, reportFiles, paramsDto);
             existedMail.add(confirmPaymentMail);
@@ -126,8 +136,12 @@ public class ErmbsMailServiceImpl implements ErmbsMailService {
     }
 
     private void addCreditNoteMailIfNotExist(Long ermbsId, List<ErmbsMailDto> existedMail, ErmbsMailParamsDto paramsDto, List<ErmbsMailAttachmentDto> reportFiles) {
+        ErmbsGrantProgramParamsDto grantProgramParam = null;
         if(existedMail.stream().noneMatch(ermbsMailDto -> ErmbsMailType.CREDIT_NOTE.equals(ermbsMailDto.getEmailType())) && electronicReimbursementsDao.shouldBeCreditNoteCreated(ermbsId)){
-            ErmbsMailDto confirmReimbMail = createErmbsMailFromMailDTO(mailDtoCreator.createCreditNoteMailDto(paramsDto), ermbsId);
+            if(grantProgramParam == null) {
+                grantProgramParam = electronicReimbursementsDao.findGrantProgramParams(ermbsId);
+            }
+            ErmbsMailDto confirmReimbMail = createErmbsMailFromMailDTO(mailDtoCreator.createCreditNoteMailDto(paramsDto, grantProgramParam), ermbsId);
             confirmReimbMail.setEmailType(ErmbsMailType.CREDIT_NOTE);
             addReportToCreditNoteMailAsAttachments(confirmReimbMail, reportFiles);
             existedMail.add(confirmReimbMail);
@@ -137,7 +151,10 @@ public class ErmbsMailServiceImpl implements ErmbsMailService {
     @Override
     public ErmbsMailDto sendErmbsMail(ErmbsMailDto dto) {
         //TODO: AK - uporządkować
-        MailDTO mail = mailDtoCreator.createMailDTOForEreimbMail(dto);
+
+
+        ErmbsGrantProgramParamsDto grantProgramParam = electronicReimbursementsDao.findGrantProgramParams(dto.getErmbsId());
+        MailDTO mail = mailDtoCreator.createMailDTOForEreimbMail(dto, grantProgramParam);
         fillMailDTOWithAttachmentsOfErmbsMail(mail, dto);
         Date delayTimestamp = new Date();
         if(ErmbsMailType.PAYMENT_CONFIRMATION.equals(dto.getEmailType())){

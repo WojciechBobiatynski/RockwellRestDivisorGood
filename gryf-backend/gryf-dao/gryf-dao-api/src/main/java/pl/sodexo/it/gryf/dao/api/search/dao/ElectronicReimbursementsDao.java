@@ -82,6 +82,8 @@ public interface ElectronicReimbursementsDao {
      */
     List<ErmbsMailDto> findMailsByErmbsId(Long ermbsId);
 
+    ErmbsGrantProgramParamsDto findGrantProgramParams(Long ermbsId);
+
     /**
      * Pobiera rozliczenie dla niewykorzystanej puli bonów
      * @param ermbsId - id rozliczenia

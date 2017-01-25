@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.dao.impl.search.dao;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
@@ -58,6 +59,11 @@ public class ElectronicReimbursementsDaoImpl implements ElectronicReimbursements
     @Override
     public ErmbsMailParamsDto findMailParams(Long ermbsId) {
         return electronicReimbursementsSearchMapper.findMailParams(new UserCriteria(), ermbsId);
+    }
+
+    @Override
+    public ErmbsGrantProgramParamsDto findGrantProgramParams(Long ermbsId){
+        return electronicReimbursementsSearchMapper.findGrantProgramParams(new UserCriteria(), ermbsId);
     }
 
     @Override

@@ -293,7 +293,7 @@ public class ImportTrainingInstitutionServiceImpl extends ImportBaseDataServiceI
     }
 
     private void sendTiAccessMail(GrantProgram grantProgram, String email){
-        verificationService.sendTiUserAccess(grantProgram.getProgramName(), email);
+        verificationService.sendTiUserAccess(grantProgram.getId(), email);
     }
 
     //CLASSES

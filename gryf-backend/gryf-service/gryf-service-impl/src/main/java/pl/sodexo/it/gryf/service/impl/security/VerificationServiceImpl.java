@@ -15,7 +15,9 @@ import pl.sodexo.it.gryf.common.exception.authentication.GryfUserNotActiveExcept
 import pl.sodexo.it.gryf.common.exception.verification.GryfVerificationException;
 import pl.sodexo.it.gryf.common.utils.GryfConstants;
 import pl.sodexo.it.gryf.common.utils.PeselUtils;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.grantprograms.GrantProgramRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.individuals.IndividualRepository;
+import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
 import pl.sodexo.it.gryf.service.api.security.UserService;
 import pl.sodexo.it.gryf.service.api.security.VerificationService;
@@ -48,6 +50,9 @@ public class VerificationServiceImpl implements VerificationService {
 
     @Autowired
     private ApplicationParameters applicationParameters;
+
+    @Autowired
+    private GrantProgramRepository grantProgramRepository;
 
     @Autowired
     private TiUserResetAttemptService tiUserResetAttemptService;
@@ -151,12 +156,13 @@ public class VerificationServiceImpl implements VerificationService {
     }
 
     @Override
-    public void sendTiUserAccess(String grantProgramName, String email) {
+    public void sendTiUserAccess(Long grantProgramId, String email) {
         GryfTiUserDto user = findActiveTiUserDto(email);
         tiUserResetAttemptService.disableActiveAttemptOfTiUser(user.getId());
         TiUserResetAttemptDto attemptDto = createNewAttemptForTiUser(user.getId());
         tiUserResetAttemptService.saveTiUserResetAttempt(attemptDto);
-        mailService.scheduleMail(mailDtoCreator.createMailDTOForTiAccess(grantProgramName, user, attemptDto.getTurId()));
+        GrantProgram grantProgram = grantProgramRepository.get(grantProgramId);
+        mailService.scheduleMail(mailDtoCreator.createMailDTOForTiAccess(grantProgram, user, attemptDto.getTurId()));
     }
 
     private GryfTiUserDto findActiveTiUserDto(String email) {

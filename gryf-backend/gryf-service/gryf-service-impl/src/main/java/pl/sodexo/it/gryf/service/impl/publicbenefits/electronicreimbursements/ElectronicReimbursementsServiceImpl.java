@@ -364,7 +364,8 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
 
     private void sendMailsToTiUsers(Long ermbsId) {
         CorrectionNotificationEmailParamsDto corrNotifParamsByErmbsId = correctionService.findCorrNotifParamsByErmbsId(ermbsId);
-        List<MailDTO> mailsToSend = mailDtoCreator.createMailDTOsForCorrecionNotification(corrNotifParamsByErmbsId);
+        ErmbsGrantProgramParamsDto grantProgramParam = electronicReimbursementsDao.findGrantProgramParams(ermbsId);
+        List<MailDTO> mailsToSend = mailDtoCreator.createMailDTOsForCorrecionNotification(corrNotifParamsByErmbsId, grantProgramParam);
         mailsToSend.stream().forEach(mailDTO -> mailService.scheduleMail(mailDTO));
     }
 

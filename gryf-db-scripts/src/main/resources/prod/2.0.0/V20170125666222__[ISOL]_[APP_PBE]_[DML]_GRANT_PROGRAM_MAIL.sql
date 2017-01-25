@@ -1,0 +1,2 @@
+Insert into APP_PBE.GRANT_PROGRAM_PARAMS (ID, GRANT_PROGRAM_ID, PARAM_ID, VALUE, DATE_FROM, DATE_TO) values (10, 100, 'EMAIL_FROM', 'system.bonow.szkoleniowych@bony.sodexo.pl', null, null);
+Insert into APP_PBE.GRANT_PROGRAM_PARAMS (ID, GRANT_PROGRAM_ID, PARAM_ID, VALUE, DATE_FROM, DATE_TO) values (11, 100, 'EMAIL_RT', 'tbok.kk@sodexo.com', null, null);

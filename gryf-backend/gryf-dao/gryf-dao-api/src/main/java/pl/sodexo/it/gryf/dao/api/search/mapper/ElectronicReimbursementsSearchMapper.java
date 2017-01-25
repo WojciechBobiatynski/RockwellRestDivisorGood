@@ -73,6 +73,14 @@ public interface ElectronicReimbursementsSearchMapper {
     ErmbsMailParamsDto findMailParams(@Param("criteria") UserCriteria criteria, @Param("ermbsId") Long ermbsId);
 
     /**
+     * Znajduje parametry programu dofinansowania na podstawie id rozliczenia
+     * @param criteria - krytertia użytkownika
+     * @param ermbsId - id rozliczenia
+     * @return
+     */
+    ErmbsGrantProgramParamsDto findGrantProgramParams(@Param("criteria") UserCriteria criteria, @Param("ermbsId") Long ermbsId);
+
+    /**
      * Znajduje parametry potrzbene do wypełnienia maila z rozliczeń dla niewykorzystanej puli bonów
      * @param criteria - krytertia użytkownika
      * @param ermbsId - id rozliczenia
