@@ -129,6 +129,11 @@ angular.module("gryf.ti").factory("TrainingSearchService", [ "$http", "GryfModal
         return find();
     };
 
+    var findToReserveSortedBy = function(sortColumnName) {
+        GryfTables.sortByColumn(searchDTO.entity, sortColumnName);
+        return findToReserve();
+    };
+
     var getSortingTypeClass = function(entity, columnName) {
         return GryfTables.getSortingTypeClass(entity, columnName);
     };
@@ -144,17 +149,28 @@ angular.module("gryf.ti").factory("TrainingSearchService", [ "$http", "GryfModal
         return find();
     };
 
+    var loadMoreToReserve = function() {
+        searchDTO.entity.limit += searchResultOptions.displayLimitIncrementer;
+        searchResultOptions.displayLimit += searchResultOptions.displayLimitIncrementer;
+        return findToReserve();
+    };
+
+
+
     return {
         getNewSearchDTO: getNewSearchDTO,
         getSearchDTO: getSearchDTO,
         getNewSearchResultOptions: getNewSearchResultOptions,
         getSearchResultOptions: getSearchResultOptions,
         find: find,
-        findToReserve: findToReserve,
         findSortedBy: findSortedBy,
+        loadMore: loadMore,
+        findToReserve: findToReserve,
+        loadMoreToReserve: loadMoreToReserve,
+        findToReserveSortedBy: findToReserveSortedBy,
         findDetailsById: findDetailsById,
         findPrecalculatedDetailsById: findPrecalculatedDetailsById,
-        getSortingTypeClass: getSortingTypeClass,
-        loadMore: loadMore
+        getSortingTypeClass: getSortingTypeClass
+
     };
 }]);

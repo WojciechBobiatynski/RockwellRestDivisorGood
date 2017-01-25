@@ -33,17 +33,11 @@ angular.module("gryf.ti").controller("TrainingReservationController",
     $scope.find = function() {
         $scope.searchResultOptions = TrainingSearchService.getNewSearchResultOptions();
         $scope.searchDTO.entity.limit = 10;
-        TrainingSearchService.find();
-    };
-
-    $scope.findToReserve = function() {
-        $scope.searchResultOptions = TrainingSearchService.getNewSearchResultOptions();
-        $scope.searchDTO.entity.limit = 10;
         TrainingSearchService.findToReserve();
     };
 
     $scope.getSortedBy = function(sortColumnName) {
-        TrainingSearchService.findSortedBy(sortColumnName);
+        TrainingSearchService.findToReserveSortedBy(sortColumnName);
     };
 
     $scope.getSortingTypeClass = function(columnName) {
@@ -67,7 +61,7 @@ angular.module("gryf.ti").controller("TrainingReservationController",
     };
 
     $scope.loadMore = function() {
-        TrainingSearchService.loadMore();
+        TrainingSearchService.loadMoreToReserve();
     };
 
     $scope.reserveTraining = function(item) {
