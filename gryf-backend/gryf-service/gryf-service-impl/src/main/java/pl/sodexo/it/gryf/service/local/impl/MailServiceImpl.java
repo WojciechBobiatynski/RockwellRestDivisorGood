@@ -203,7 +203,9 @@ public class MailServiceImpl implements MailService {
 
         //POBRANIE INSTANCJI MAILA
         List<EmailInstance> emails = emailInstanceRepository.findAvaiableToSend(EmailInstance.STATUS_PENDING);
-        LOGGER.info("Uruchominie zadania wysyłajacego maile. Ilość maili do wysłania jest równa[{}]", emails.size());
+        if(!emails.isEmpty()) {
+            LOGGER.info("Uruchominie zadania wysyłajacego maile. Ilość maili do wysłania jest równa[{}]", emails.size());
+        }
 
         //WYSLANIE MAILI
         for (EmailInstance email : emails) {
@@ -211,7 +213,9 @@ public class MailServiceImpl implements MailService {
             mailService.sendMail(email);
         }
 
-        LOGGER.info("Zakończenie zadania wysyłajacego maile");
+        if(!emails.isEmpty()) {
+            LOGGER.info("Zakończenie zadania wysyłajacego maile");
+        }
     }
 
     @Override
