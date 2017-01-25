@@ -27,4 +27,9 @@ public class TiMainViewController {
     public String dashboard(Model model) {
         return PAGE_MAIN;
     }
+
+    @RequestMapping(value = PATH_HELP, method = RequestMethod.GET)
+    public String help() {
+        return PAGE_HELP;
+    }
 }

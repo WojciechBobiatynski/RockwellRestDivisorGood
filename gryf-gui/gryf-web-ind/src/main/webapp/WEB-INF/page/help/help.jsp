@@ -1,7 +1,8 @@
-<%@page pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@page pageEncoding="UTF-8" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
-<html prefix="og: http://ogp.me/ns#" lang="pl" itemtype="http://schema.org/WebPage" itemscope class="gryf-web-ti ti-login">
+<html prefix="og: http://ogp.me/ns#" lang="pl" itemtype="http://schema.org/WebPage" itemscope class="gryf-web-ind ind-login">
 
 <head>
     <meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,6 +14,7 @@
 
     <link href="//fonts.googleapis.com/css?family=Roboto:300,400,700&amp;subset=latin-ext" rel="stylesheet">
 
+    <meta property="og:url" content="http://">
     <meta name="description" content="Kierunek Kariera - Wojewódzki Urząd Pracy w Krakowie">
     <meta property="og:description" content="Kierunek Kariera - Wojewódzki Urząd Pracy w Krakowie">
     <meta name="keywords" content="Kariera, Małopolska, Kraków, Urząd Pracy, Praca">
@@ -59,64 +61,13 @@
 
     <nav><div class="grid">
         <ul>
-            <li><a href="#" class="current" title="Panel Logowania">Panel Logowania</a></li>
-            <li><a href="${pageContext.request.contextPath}/help" class="" title="Pomoc">Pomoc</a></li>
+            <li><a href="${pageContext.request.contextPath}" title="Panel Logowania">Panel Logowania</a></li>
+            <li><a href="#" class="current" title="Pomoc">Pomoc</a></li>
         </ul>
     </div></nav>
 
-    <div id="content" class="page-login"><div class="grid">
-
-        <section class="form form-big form-login">
-
-            <header>
-                <h2>Kierunek Kariera</h2>
-            </header>
-
-            <div class="content">
-
-                <form name="loginForm" action="j_spring_security_check" method="POST">
-
-                    <h3>Panel Logowania<br>Usługodawcy</h3>
-
-                    <c:if test="${param.logout != null}">
-                        <div class="msg"><p>Wylogowano pomyślnie.</p></div>
-                    </c:if>
-
-                    <%--TODO: docelowo ma być licznik dla nieaktywnego konta--%>
-                    <c:if test="${param.error != null}">
-                        <div class="msg msg-error"><p><c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/></p></div>
-                    </c:if>
-
-                    <div class="field field-string">
-                        <div class="label">
-                            <label for="username">Wprowadź login/email</label>
-                        </div>
-                        <div class="control">
-                            <input type="text" id="username" name="username" tabindex="1" data-test="__login__username">
-                        </div>
-                    </div>
-
-                    <div class="field field-string">
-                        <div class="label">
-                            <label for="password">Hasło</label>
-                        </div>
-                        <div class="control">
-                            <input type="password" id="password" name="password" tabindex="2" maxlength="60" data-test="__login__password">
-                        </div>
-                    </div>
-
-                    <div class="field field-submit">
-                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-                        <button type="submit" class="button" tabindex="3" data-test="__login__submit">Zaloguj się</button>
-                    </div>
-
-                    <div class="msg">
-                        <a href="${pageContext.request.contextPath}/retrieve" title="Odzyskaj hasło">Odzyskaj hasło</a>
-                    </div>
-
-                </form>
-            </div>
-        </section>
+    <div id="content" class="page-static"><div class="grid">
+        <c:import url="http://cdn.sodexo.pl/gryf/html/ind-pomoc.html" />
     </div></div>
 
     <div id="bottombar"><div class="grid">
@@ -147,14 +98,5 @@
     </div></footer>
 
     <script src="${cdnUrl}js/gryf.js"></script>
-
-    <script>
-        document.loginForm.username.focus();
-        var hashFragment = window.location.hash;
-        if (hashFragment ) {
-            var action = document.loginForm.getAttribute('action');
-            document.loginForm.setAttribute('action', action+hashFragment);
-        }
-    </script>
 
 </body></html>

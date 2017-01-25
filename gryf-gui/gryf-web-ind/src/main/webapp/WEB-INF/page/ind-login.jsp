@@ -62,6 +62,7 @@
     <nav><div class="grid">
         <ul>
             <li><a href="#" class="current" title="Panel Logowania">Panel Logowania</a></li>
+            <li><a href="${pageContext.request.contextPath}/help" title="Pomoc">Pomoc</a></li>
         </ul>
     </div></nav>
 

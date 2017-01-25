@@ -31,4 +31,7 @@ public final class TiPageConstant extends PageConstant {
 
     public static final String PATH_SAVE_PASSWORD = "/password/save";
     public static final String PAGE_SAVE_SUCCESS = PREFIX_PAGE + "password/save/savePasswordSuccess.jsp";
+
+    public static final String PATH_HELP = "/help";
+    public static final String PAGE_HELP = PREFIX_PAGE + "help/help.jsp";
 }

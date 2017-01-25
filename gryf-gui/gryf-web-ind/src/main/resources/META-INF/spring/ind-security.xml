@@ -23,6 +23,7 @@
         <intercept-url pattern="/verification" access="permitAll" />
         <intercept-url pattern="/verification/resend" access="permitAll" />
         <intercept-url pattern="/logout" access="permitAll" />
+        <intercept-url pattern="/help" access="permitAll" />
         <intercept-url pattern="/**" access="isAuthenticated()" />
         <http-basic/>
 

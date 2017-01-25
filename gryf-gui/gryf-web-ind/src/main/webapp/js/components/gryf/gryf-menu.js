@@ -1,7 +1,7 @@
 "use strict";
 
-angular.module('gryf.menu', ['gryf.privileges', 'gryf.helpers', 'gryf.modals']).controller('MenuController',
-    ['$scope', 'AltShortcutHandler', function($scope, AltShortcutHandler) {
+angular.module('gryf.ind').controller('MenuController',
+    ['$scope', 'AltShortcutHandler', "$state", function($scope, AltShortcutHandler, $state) {
         var CODES = {
             "m": 77,
             "i": 73,
@@ -9,20 +9,19 @@ angular.module('gryf.menu', ['gryf.privileges', 'gryf.helpers', 'gryf.modals']).
             "r": 82
         };
 
-        var NEW_DELIVERY_URL = contextPath + "/publicBenefits/reimbursements/#registerDelivery";
-        var LIST_DELIVERY_URL = contextPath + "/publicBenefits/reimbursements/#searchDelivery";
+        var URL_1 = contextPath + "/";
+        var URL_2 = contextPath + "/";
 
         AltShortcutHandler.attachAltShortcut(CODES.d, function() {
-            window.location = LIST_DELIVERY_URL;
+            window.location = URL_2;
         });
 
         AltShortcutHandler.attachAltShortcut(CODES.r, function() {
-            window.location = NEW_DELIVERY_URL;
+            window.location = URL_1;
         });
 
+        $scope.isActive = function(stateName) {
+            return $state.current.name == stateName;
+        };
 
     }]);
-
-angular.element(document).ready(function() {
-    angular.bootstrap(document.getElementById('menu'), ['gryf.menu']);
-});

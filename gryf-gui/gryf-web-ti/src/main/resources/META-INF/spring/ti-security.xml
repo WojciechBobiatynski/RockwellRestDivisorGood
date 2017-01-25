@@ -24,6 +24,7 @@
         <intercept-url pattern="/retrieve/password" access="permitAll" />
         <intercept-url pattern="/reset/*" access="permitAll" />
         <intercept-url pattern="/password/save" access="permitAll" />
+        <intercept-url pattern="/help" access="permitAll" />
         <intercept-url pattern="/**" access="isAuthenticated()" />
         <http-basic/>
 

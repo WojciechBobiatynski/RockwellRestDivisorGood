@@ -76,7 +76,7 @@ public class ExceptionHandlers {
     @ResponseBody
     public ResponseEntity<InvalidObjectIdExceptionResponse> invalidObjectIdException(InvalidObjectIdException ioie) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new InvalidObjectIdExceptionResponse(ioie.getMessage()));
-    }    
+    }
     
     @ExceptionHandler(Exception.class)
     @ResponseBody

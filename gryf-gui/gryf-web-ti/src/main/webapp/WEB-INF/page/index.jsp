@@ -78,6 +78,7 @@
     <script src="${pageContext.request.contextPath}/js/app/confirmpin/confirmPinController.js"></script>
     <script src="${pageContext.request.contextPath}/js/app/confirmpin/confirmPinService.js"></script>
     <script src="${pageContext.request.contextPath}/js/app/confirmpin/modal/confirmPinModalController.js"></script>
+    <script src="${pageContext.request.contextPath}/js/app/help/gryf-help.js"></script>
 
     <meta name="description" content="Kierunek Kariera - Wojewódzki Urząd Pracy w Krakowie">
     <meta property="og:description" content="Kierunek Kariera - Wojewódzki Urząd Pracy w Krakowie">
@@ -140,6 +141,7 @@
             </li>
             <li ng-class="{'current': isActive('cancelReservation')}"><a ui-sref="cancelReservation" title="Anuluj rezerwację">Anuluj rezerwację</a></li>
             <li ng-class="{'current': isActive('ourTrainings')}"><a ui-sref="ourTrainings" title="Nasze usługi">Nasze usługi</a></li>
+            <li ng-class="{'current': isActive('help')}"><a ui-sref="help" title="Pomoc">Pomoc</a></li>
             <li><a ng-href="${pageContext.request.contextPath}/logout" title="Wyloguj">Wyloguj</a></li>
         </ul>
     </div></nav>

@@ -6,18 +6,17 @@ angular.module('gryf.config').controller('ConfigController', ['$scope', 'excepti
 
     $scope.isShowExceptionStackTrace = false;
     $scope.setShowExceptionStackTrace = function () {
-        if ($scope.isShowExceptionStackTrace != true) {
-            $scope.isShowExceptionStackTrace = true;
-        } else {
-            $scope.isShowExceptionStackTrace = false;
-        }
-    }
+        $scope.isShowExceptionStackTrace = $scope.isShowExceptionStackTrace != true;
+    };
+
     $scope.getLastExceptionStackTrace = function () {
         return exceptionsService.getLastExceptionStackTrace();
-    }
+    };
+
     $scope.setLastExceptionStackTrace = function (stacktrace) {
         exceptionsService.setLastExceptionStackTrace(stacktrace);
-    }
+    };
+
 }]);
 
 angular.module('gryf.config').service('exceptionsService', function () {
@@ -84,16 +83,6 @@ angular.module('gryf.config').factory('generalExceptionHandlerInterceptor', ['$q
         }
     };
 }]);
-
-/*angular.module('gryf.config').config(['$httpProvider','$routeProvider', function($httpProvider, $routeProvider) {
-    $httpProvider.defaults.headers.common["X-CSRF-TOKEN"] = xsrf;
-    $httpProvider.interceptors.push('generalExceptionHandlerInterceptor');
-    $routeProvider
-        .when('/exception',
-            {
-                templateUrl: contextPath + '/templates/exception.jsp'
-            })
-}]);*/
 
 angular.module('gryf.config').config(['$provide', '$controllerProvider', function($provide, $controllerProvider) {
     app._controller = app.controller;

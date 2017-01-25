@@ -38,14 +38,15 @@
 
     <script src="${pageContext.request.contextPath}/js/components/gryf/gryf-config.js"></script>
     <script src="${pageContext.request.contextPath}/js/components/gryf/gryf-components.js"></script>
-    <script src="${pageContext.request.contextPath}/js/components/gryf/gryf-menu.js"></script>
     <script src="${pageContext.request.contextPath}/js/components/gryf/gryf-sessionStorage.js"></script>
     <script src="${pageContext.request.contextPath}/js/app.js"></script>
+    <script src="${pageContext.request.contextPath}/js/components/gryf/gryf-menu.js"></script>
 
-    <script src="${pageContext.request.contextPath}/js/components/individualuser/gryf-individualUser.js"></script>
-    <script src="${pageContext.request.contextPath}/js/components/individualuser/individualUserController.js"></script>
-    <script src="${pageContext.request.contextPath}/js/components/individualuser/individualUserService.js"></script>
-    <script src="${pageContext.request.contextPath}/js/components/individualuser/modal/sendPinModalController.js"></script>
+    <script src="${pageContext.request.contextPath}/js/app/dashboard/gryf-dashboard.js"></script>
+    <script src="${pageContext.request.contextPath}/js/app/dashboard/individualUserController.js"></script>
+    <script src="${pageContext.request.contextPath}/js/app/dashboard/individualUserService.js"></script>
+    <script src="${pageContext.request.contextPath}/js/app/dashboard/modal/sendPinModalController.js"></script>
+    <script src="${pageContext.request.contextPath}/js/app/help/gryf-help.js"></script>
 
     <link rel="apple-touch-icon" sizes="180x180" href="${cdnUrl}img/apple-touch-icon.png">
     <link rel="icon" type="image/png" href="${cdnUrl}img/favicon-32x32.png" sizes="32x32">
@@ -58,7 +59,6 @@
 </head>
 
 <body id="ak" ng-app="gryf.ind" ng-strict-di>
-
 
     <div id="accessbility"><div class="grid">
         <ol class="font">
@@ -83,8 +83,9 @@
     </div></header>
 
     <nav><div class="grid">
-        <ul>
-            <li><a ng-href="${pageContext.request.contextPath}/" class="current" title="Kierunek Kariera">Kierunek Kariera</a></li>
+        <ul id="menu" ng-controller="MenuController">
+            <li ng-class="{'current': isActive('dashboard')}"><a ui-sref="dashboard" title="Kierunek Kariera">Kierunek Kariera</a></li>
+            <li ng-class="{'current': isActive('help')}"><a ui-sref="help" title="Pomoc">Pomoc</a></li>
             <li><a ng-href="${pageContext.request.contextPath}/logout" title="Wyloguj">Wyloguj</a></li>
         </ul>
     </div></nav>

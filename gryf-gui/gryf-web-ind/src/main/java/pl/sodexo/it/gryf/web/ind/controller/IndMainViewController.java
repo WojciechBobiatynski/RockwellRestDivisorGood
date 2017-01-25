@@ -34,4 +34,9 @@ public class IndMainViewController {
     public String welcome(Model model) {
         return MAIN_PAGE;
     }
+
+    @RequestMapping(value = PATH_HELP, method = RequestMethod.GET)
+    public String help() {
+        return PAGE_HELP;
+    }
 }
