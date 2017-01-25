@@ -128,7 +128,7 @@ public class MailDtoCreator {
 
     //PUBLIC METHODS - REIMBURSMENT MAILS
 
-    public MailDTO createExpireReimursment(ErmbsMailParamsDto paramsDto, ErmbsGrantProgramParamsDto grantProgramParam) {
+    public MailDTO createExpireReimbursment(ErmbsMailParamsDto paramsDto, ErmbsGrantProgramParamsDto grantProgramParam) {
         MailPlaceholders mailPlaceholders = mailService.createPlaceholders()
                 .add(GRANT_PROGRAM_PLACEHOLDER, paramsDto.getGrantProgramName())
                 .add(FIRST_NAME_PLACEHOLDER, paramsDto.getFirstName())
