@@ -13,6 +13,7 @@ import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.common.dto.mail.EmailSourceType;
 import pl.sodexo.it.gryf.common.dto.mail.MailDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.MailAttachmentDTO;
+import pl.sodexo.it.gryf.common.logging.NoLog;
 import pl.sodexo.it.gryf.common.mail.MailPlaceholders;
 import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
@@ -199,6 +200,7 @@ public class MailServiceImpl implements MailService {
 
     @Override
     @Scheduled(initialDelay = 60 * 1000, fixedDelay= 60 * 1000)
+    @NoLog
     public void sendMails(){
 
         //POBRANIE INSTANCJI MAILA

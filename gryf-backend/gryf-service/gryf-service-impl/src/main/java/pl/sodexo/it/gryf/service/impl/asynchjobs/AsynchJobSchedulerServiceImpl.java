@@ -18,6 +18,7 @@ import pl.sodexo.it.gryf.common.dto.importdatarows.ImportDataRowSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.importdatarows.ImportDataRowSearchResultDTO;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.common.exception.EntityValidationException;
+import pl.sodexo.it.gryf.common.logging.NoLog;
 import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.asynch.AsynchronizeJobRepository;
 import pl.sodexo.it.gryf.dao.api.search.dao.AsynchJobSearchDao;
@@ -98,6 +99,7 @@ public class AsynchJobSchedulerServiceImpl implements AsynchJobSchedulerService 
     @Override
     @Scheduled(initialDelay = 15 * 1000, fixedDelay= 5 * 1000)
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
+    @NoLog
     public void processAsynchronizeJob(){
         Long jobId;
         do{
@@ -108,12 +110,14 @@ public class AsynchJobSchedulerServiceImpl implements AsynchJobSchedulerService 
                 try {
 
                     //ACTION JOB
+                    LOGGER.info("Rozpoczęto procesowanie asynchronicznego joba, jobId={}", jobId);
                     AsynchronizeJobInfoDTO dto = asynchJobSchedulerService.getAsynchronizeJobInfoDTO(jobId);
                     AsynchJobService jobService = (AsynchJobService) BeanUtils.findBean(context, dto.getServiceName());
                     AsynchronizeJobResultInfoDTO resultDTO = jobService.processAsynchronizeJob(dto);
 
                     //SET SUCCESS STATUS
                     asynchJobSchedulerService.successEndJob(resultDTO);
+                    LOGGER.info("Zakończono sukcesem procesowanie asynchronicznego joba, result={}",resultDTO);
 
                     //OBSLUGA BLEDOW
                 }catch(EntityValidationException e){
@@ -129,6 +133,7 @@ public class AsynchJobSchedulerServiceImpl implements AsynchJobSchedulerService 
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @NoLog
     public Long reserveAsynchronizeJob(){
         AsynchronizeJob job = asynchronizeJobRepository.findFirstAsynchronizeJobToWork();
         if(job != null) {
