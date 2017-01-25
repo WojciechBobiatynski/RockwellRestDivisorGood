@@ -178,7 +178,7 @@
                             </includes>
                             <replacements>
                                 <replacement>
-                                    <token>&lt;script src.*&gt;\n</token>
+                                    <token>&lt;script src=\"\$\{pageContext.request.contextPath\}.*&gt;\n</token>
                                     <value></value>
                                 </replacement>
                                 <replacement>
