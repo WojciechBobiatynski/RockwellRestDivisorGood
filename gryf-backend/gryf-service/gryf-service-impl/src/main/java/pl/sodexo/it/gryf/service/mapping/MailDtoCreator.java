@@ -17,6 +17,7 @@ import pl.sodexo.it.gryf.common.dto.security.trainingInstitutions.GryfTiUserDto;
 import pl.sodexo.it.gryf.common.mail.MailPlaceholders;
 import pl.sodexo.it.gryf.dao.api.crud.repository.mail.EmailTemplateRepository;
 import pl.sodexo.it.gryf.model.mail.EmailTemplate;
+import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.EreimbursementType;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantOwner;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgramParam;
@@ -148,10 +149,20 @@ public class MailDtoCreator {
                 .add(LAST_NAME_PLACEHOLDER, paramsDto.getLastName())
                 .add(NOTE_NOT_PLACEHOLDER, paramsDto.getNoteNo());
 
-        EmailTemplate emailTemplate = emailTemplateRepository.get(E_REIMB_CONFIRMATION_EMAIL_TEMPLATE_CODE_FOR_UNRSV_POOL);
+        EmailTemplate emailTemplate = getPoolReimbEmailTemplate(paramsDto);
         return createAndFillMailDTO(emailTemplate, mailPlaceholders,
                 paramsDto.getEmail(), grantProgramParam.getGrantProgramEmailCC(),
                 grantProgramParam.getGrantProgramEmailFrom(), grantProgramParam.getGrantProgramEmailReplay());
+    }
+
+    private EmailTemplate getPoolReimbEmailTemplate(ErmbsMailParamsDto paramsDto) {
+        EmailTemplate emailTemplate;
+        if(EreimbursementType.RET_POOL.equals(paramsDto.getErmbsTypeId())){
+            emailTemplate = emailTemplateRepository.get(E_REIMB_CONFIRMATION_EMAIL_TEMPLATE_CODE_FOR_UNRSV_POOL);
+        } else {
+            emailTemplate = emailTemplateRepository.get(EXPI_REIMB_EMAIL_TEMPLATE_CODE);
+        }
+        return emailTemplate;
     }
 
     public MailDTO createCreditNoteMailDto(ErmbsMailParamsDto paramsDto, ErmbsGrantProgramParamsDto grantProgramParam) {

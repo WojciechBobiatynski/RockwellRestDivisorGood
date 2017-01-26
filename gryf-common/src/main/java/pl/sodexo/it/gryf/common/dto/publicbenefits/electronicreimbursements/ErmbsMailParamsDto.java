@@ -41,4 +41,8 @@ public class ErmbsMailParamsDto implements Serializable {
     @Getter
     @Setter
     private boolean contractForEnterprise;
+
+    @Getter
+    @Setter
+    private String ermbsTypeId;
 }
