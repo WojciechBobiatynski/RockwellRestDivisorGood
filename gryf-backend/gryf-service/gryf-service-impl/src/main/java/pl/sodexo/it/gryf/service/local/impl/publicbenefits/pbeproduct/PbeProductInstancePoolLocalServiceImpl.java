@@ -379,6 +379,34 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
     }
 
     @Override
+    public void returnAvaiablePools(Ereimbursement ereimbursement){
+
+        //POBRANIE STATUSOW
+        PbeProductInstanceStatus returnInstStat = productInstanceStatusRepository.get(PbeProductInstanceStatus.RETURNED_CODE);
+        PbeProductInstanceEventType returnEventType = productInstanceEventTypeRepository.get(PbeProductInstanceEventType.RETURN_CODE);
+        PbeProductInstancePoolEventType returnEventPoolType = productInstancePoolEventTypeRepository.get(PbeProductInstancePoolEventType.RETURN_CODE);
+
+        //UAKTUALNINIE PULI
+        PbeProductInstancePool pool = ereimbursement.getProductInstancePool();
+        Integer num = pool.getAvailableNum();
+        pool.setAvailableNum(pool.getAvailableNum() - num);
+        pool.setReturnedNum(pool.getReturnedNum() + num);
+
+        productInstancePoolEventBuilder.saveEvent(pool, returnEventPoolType,
+                ereimbursement.getId(), num);
+
+        //ITERACJA PO INSTANCJACH PRODUKTU
+        List<PbeProductInstance> instances = findInstancesToExpired(pool, num);
+        for(PbeProductInstance i : instances){
+            i.setStatus(returnInstStat);
+            i.setEreimbursmentId(ereimbursement.getId());
+
+            //EVENT
+            productInstanceEventBuilder.saveEvent(i, returnEventType, ereimbursement.getId());
+        }
+    }
+
+    @Override
     public List<PbeProductInstancePoolDto> findExpiredPoolInstances() {
         return productInstancePoolSearchDao.findExpiredPoolInstances();
     }
@@ -533,6 +561,7 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
         pool.setUsedNum(0);
         pool.setRembursNum(0);
         pool.setExpiredNum(0);
+        pool.setReturnedNum(0);
         pool.setIndividual(individual);
         pool.setOrder(order);
         pool.setProduct(product);

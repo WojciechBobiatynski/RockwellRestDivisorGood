@@ -26,6 +26,7 @@ public class PbeProductInstanceEventType extends GryfEntity implements Dictionar
     public static final String REJECTRMB_CODE = "REJECTRMB";
     public static final String REIMB_CODE = "REIMB";
     public static final String EXPIRATION_CODE = "EXPIRATION";
+    public static final String RETURN_CODE = "RETURN";
 
     //FIELDS
 

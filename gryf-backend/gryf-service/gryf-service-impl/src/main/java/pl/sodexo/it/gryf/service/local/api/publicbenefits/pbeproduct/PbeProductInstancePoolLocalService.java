@@ -28,6 +28,8 @@ public interface PbeProductInstancePoolLocalService {
 
     void expirePools(Long ermbsId);
 
+    void returnAvaiablePools(Ereimbursement ereimbursement);
+
     /**
      * Znajduje wszystkie przeterminowane pule bonów dla kierunku kariera
      * @return lista pul bonów

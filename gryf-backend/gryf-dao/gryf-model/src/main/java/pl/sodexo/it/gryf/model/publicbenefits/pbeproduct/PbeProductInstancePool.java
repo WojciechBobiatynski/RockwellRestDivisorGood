@@ -54,6 +54,9 @@ public class PbeProductInstancePool extends VersionableEntity {
     @Column(name = "EXPIRED_NUM")
     private Integer expiredNum;
 
+    @Column(name = "RETURNED_NUM")
+    private Integer returnedNum;
+
     @ManyToOne
     @JoinColumn(name = "INDIVIDUAL_ID")
     private Individual individual;
@@ -138,6 +141,14 @@ public class PbeProductInstancePool extends VersionableEntity {
 
     public void setExpiredNum(Integer expiredNum) {
         this.expiredNum = expiredNum;
+    }
+
+    public Integer getReturnedNum() {
+        return returnedNum;
+    }
+
+    public void setReturnedNum(Integer returnedNum) {
+        this.returnedNum = returnedNum;
     }
 
     public Individual getIndividual() {

@@ -26,6 +26,7 @@ public class PbeProductInstanceStatus extends GryfEntity implements DictionaryEn
     public static final String USED_CODE = "USE";
     public static final String REIMBD_CODE = "RMB";
     public static final String EXPIRED_CODE = "EXP";
+    public static final String RETURNED_CODE = "RET";
 
     //FIELDS
 
