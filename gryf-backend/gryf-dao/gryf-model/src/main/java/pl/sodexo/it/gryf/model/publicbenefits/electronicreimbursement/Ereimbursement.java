@@ -117,6 +117,7 @@ public class Ereimbursement extends VersionableEntity {
     @Setter
     private Date requiredCorrectionDate;
 
+    //TODO: zmienić nazwę kolumnt na PRODUCTS_NUM (ze względu na nowe rozliczenia)
     @Column(name = "EXPIRED_PRODUCTS_NUM")
     @Getter
     @Setter

@@ -1,5 +1,7 @@
 package pl.sodexo.it.gryf.web.fo.controller.dictionaries;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +24,8 @@ import java.util.List;
 @RequestMapping(value = "/rest/dictionaries")
 public class DictionariesRestController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(DictionariesRestController.class);
+
     //PRIVATE FIELDS
 
     @Autowired
@@ -37,18 +41,21 @@ public class DictionariesRestController {
 
     @RequestMapping(value = "/zipCode/", method = RequestMethod.GET)
     public ZipCodeDto getZipCodeById() {
+        LOGGER.debug("getZipCodeById");
         securityChecker.assertServicePrivilege(Privileges.GRF_ZIP_CODES);
         return zipCodeService.createZipCode();
     }
 
     @RequestMapping(value = "/zipCode/{id}", method = RequestMethod.GET)
     public ZipCodeDto getZipCodeById(@PathVariable Long id) {
+        LOGGER.debug("getZipCodeById, id={}", id);
         securityChecker.assertServicePrivilege(Privileges.GRF_ZIP_CODES);
         return zipCodeService.findZipCode(id);
     }
 
     @RequestMapping(value = "zipCodes", method = RequestMethod.GET)
     public List<ZipCodeSearchResultDTO> findZipCodes(ZipCodeSearchQueryDTO zipCode) {
+        LOGGER.debug("findZipCodes, zipCode={}", zipCode);
         securityChecker.assertServicePrivilege(Privileges.GRF_ZIP_CODES);
         return zipCodeService.findZipCodes(zipCode);
 
@@ -56,6 +63,7 @@ public class DictionariesRestController {
 
     @RequestMapping(value = "/zipCode/{id}", method = RequestMethod.PUT, consumes = "application/json")
     public ResponseEntity updateZipCode(@PathVariable Long id, @RequestBody ZipCodeDto zipCodeDto) {
+        LOGGER.debug("findZipCodes, id={}, zipCodeDto={}",id, zipCodeDto);
         securityChecker.assertServicePrivilege(Privileges.GRF_ZIP_CODES_MOD);
         GryfUtils.checkForUpdate(id, zipCodeDto.getId());
 
@@ -65,6 +73,7 @@ public class DictionariesRestController {
 
     @RequestMapping(value = "/zipCode", method = RequestMethod.POST)
     public ResponseEntity saveZipCode(@RequestBody ZipCodeDto zipCodeDto) {
+        LOGGER.debug("findZipCodes, zipCodeDto={}", zipCodeDto);
         securityChecker.assertServicePrivilege(Privileges.GRF_ZIP_CODES_MOD);
         zipCodeService.saveZipCode(zipCodeDto);
         return ResponseEntity.noContent().build();
@@ -74,6 +83,7 @@ public class DictionariesRestController {
 
     @RequestMapping(value = "states", method = RequestMethod.GET)
     public List<StateDto> findStates() {
+        LOGGER.debug("findStates");
         return stateService.findStatesInPoland();
     }
 

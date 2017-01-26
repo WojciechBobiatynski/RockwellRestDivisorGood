@@ -1,5 +1,7 @@
 package pl.sodexo.it.gryf.web.fo.controller.publicbenefits;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,6 +28,8 @@ import java.util.List;
 @RequestMapping(value = UrlConstants.PUBLIC_BENEFITS_REST + "/grantapplication", produces = "application/json;charset=UTF-8")
 public class GrantApplicationsRestController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(GrantApplicationsRestController.class);
+
     @Autowired
     private SecurityChecker securityChecker;
 
@@ -36,12 +40,14 @@ public class GrantApplicationsRestController {
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public List<GrantApplicationSearchResultDTO> findApplication(GrantApplicationSearchQueryDTO searchDTO) {
+        LOGGER.debug("findApplication, searchDTO={}", searchDTO);
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_APPLICATIONS);
         return grantApplicationActionService.findApplications(searchDTO);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String getApplicationFormDataById(@PathVariable Long id) {
+        LOGGER.debug("getApplicationFormDataById, id={}", id);
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_APPLICATIONS);
         return grantApplicationActionService.findApplicationFormData(id);
     }
@@ -50,6 +56,7 @@ public class GrantApplicationsRestController {
     public Long saveApplication(@PathVariable Long versionId,
                                 @RequestParam("data") String data,
                                 @RequestParam("file") MultipartFile[] files) throws IOException {
+        LOGGER.debug("saveApplication, versionId={}, data={}", versionId, data);
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_APPLICATION_MOD);
 
         List<FileDTO> fileDtoList = WebUtils.createFileDtoList(files);
@@ -61,12 +68,14 @@ public class GrantApplicationsRestController {
                                   @PathVariable Long id,
                                   @RequestParam(value = "data") String data,
                                   @RequestParam(value = "file") MultipartFile[] files) throws IOException {
+        LOGGER.debug("updateApplication, versionId={}, id={}, data={}", versionId, id, data);
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_APPLICATION_MOD);
         try {
             List<FileDTO> fileDtoList = WebUtils.createFileDtoList(files);
             return grantApplicationActionService.updateApplication(versionId, data, fileDtoList);
 
         } catch (GryfOptimisticLockRuntimeException e) {
+            LOGGER.warn("Optimistic Lock podczas updateApplication");
             grantApplicationActionService.manageLocking(id);
         }
         return null;
@@ -78,6 +87,7 @@ public class GrantApplicationsRestController {
                                  @RequestParam("data") String data,
                                  @RequestParam(value = "acceptedViolationsParam", required = false) String grantApplicationApplyParams,
                                  @RequestParam("file") MultipartFile[] files) throws IOException {
+        LOGGER.debug("applyApplication, versionId={}, grantApplicationApplyParams={}, data={}", versionId, grantApplicationApplyParams, data);
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_APPLICATION_PROC);
 
         List<FileDTO> fileDtoList = WebUtils.createFileDtoList(files);
@@ -92,6 +102,7 @@ public class GrantApplicationsRestController {
                                  @RequestParam("data") String data,
                                  @RequestParam(value = "acceptedViolationsParam", required = false) String acceptedViolationsParam,
                                  @RequestParam("file") MultipartFile[] files) throws IOException {
+        LOGGER.debug("applyApplication, versionId={}, acceptedViolationsParam={}, data={}", versionId, acceptedViolationsParam, data);
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_APPLICATION_PROC);
         try {
             List<FileDTO> fileDtoList = WebUtils.createFileDtoList(files);
@@ -109,6 +120,7 @@ public class GrantApplicationsRestController {
                                    @RequestParam("data") String data,
                                    @RequestParam(value = "checkVatRegNumDup", required = false, defaultValue = "true") boolean checkVatRegNumDup,
                                    @RequestParam("file") MultipartFile[] files) throws IOException {
+        LOGGER.debug("executeApplication, id={}, checkVatRegNumDup={}, data={}", id, checkVatRegNumDup, data);
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_APPLICATION_PROC);
         try {
             List<FileDTO> fileDtoList = WebUtils.createFileDtoList(files);
@@ -124,6 +136,7 @@ public class GrantApplicationsRestController {
     public Long rejectApplication(@PathVariable Long id,
                                   @RequestParam("data") String data,
                                   @RequestParam("file") MultipartFile[] files) throws IOException {
+        LOGGER.debug("rejectApplication, id={}, data={}", id, data);
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_APPLICATION_PROC);
 
         try {
@@ -141,6 +154,7 @@ public class GrantApplicationsRestController {
     @RequestMapping(value = "/grantProgramsDictionaries", method = RequestMethod.GET)
     @ResponseBody
     public List<DictionaryDTO> findGrantProgramsDictionaries() {
+        LOGGER.debug("findGrantProgramsDictionaries");
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_APPLICATIONS);
         return grantApplicationActionService.FindGrantProgramsDictionaries();
     }
@@ -148,6 +162,7 @@ public class GrantApplicationsRestController {
     @RequestMapping(value = "/grantApplicationVersionsDictionaries/{grantProgramId}", method = RequestMethod.GET)
     @ResponseBody
     public List<GrantApplicationVersionDictionaryDTO> findGrantApplicationVersionsDictionaries(@PathVariable Long grantProgramId) {
+        LOGGER.debug("findGrantApplicationVersionsDictionaries, grantProgramId={}", grantProgramId);
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_APPLICATIONS);
         return grantApplicationActionService.findGrantApplicationVersionsDictionaries(grantProgramId);
     }

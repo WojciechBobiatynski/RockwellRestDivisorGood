@@ -1,5 +1,7 @@
 package pl.sodexo.it.gryf.web.fo.controller.administration;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +21,8 @@ import static pl.sodexo.it.gryf.web.fo.utils.UrlConstants.*;
 @RequestMapping(AdministrationViewController.PATH_ADMINISTRATION)
 public class AdministrationViewController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(AdministrationViewController.class);
+
     //TODO  przenieść do stałych po rozdzieleniu weba
     public static final String PATH_ADMINISTRATION = "/administration";
 
@@ -30,6 +34,7 @@ public class AdministrationViewController {
 
     @RequestMapping(value = ASYNCH_JOBS_PATH, method = RequestMethod.GET)
     public String getImportFromFileView(Model model) {
+        LOGGER.debug("getImportFromFileView, model=", model);
         securityChecker.assertFormPrivilege(Privileges.GRF_PBE_ASYNCH_JOBS);
         model.addAttribute(MAIN_CONTENT_PARAM_NAME, PAGES_PREFIX + ASYNCH_JOBS_INDEX);
         return DEFAULT_VIEW;
