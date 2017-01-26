@@ -33,12 +33,14 @@ public class ExceptionHandlers {
     @ExceptionHandler(EntityValidationException.class)
     @ResponseBody
     public ResponseEntity<ValidationErrorResponse> validationException(EntityValidationException sde) {
+        LOGGER.error(sde.getMessage(), sde);
         return ResponseEntity.badRequest().body(new ValidationErrorResponse(sde.getViolations()));
     }
 
     @ExceptionHandler(GryfIndUserVerificationException.class)
     @ResponseBody
     public ResponseEntity<IndUserVerificationExceptionResponse> validationException(GryfIndUserVerificationException sde) {
+        LOGGER.error(sde.getMessage(), sde);
         return ResponseEntity.badRequest().body(new IndUserVerificationExceptionResponse(sde.getMessage()));
     }
 
@@ -65,12 +67,14 @@ public class ExceptionHandlers {
     @ExceptionHandler(StaleDataException.class)
     @ResponseBody
     public ResponseEntity<StaleDataResponse> sde(StaleDataException sde) {
+        LOGGER.error(sde.getMessage(), sde);
         return ResponseEntity.status(HttpStatus.CONFLICT).body(new StaleDataResponse(sde.getMessage(), sde.getId(), sde.getVersion(), sde.getModifiedUser(), sde.getModifiedTimestamp()));
     }
 
     @ExceptionHandler(GryfOptimisticLockRuntimeException.class)
     @ResponseBody
     public ResponseEntity<StaleDataResponse> sde(GryfOptimisticLockRuntimeException sde) {
+        LOGGER.error(sde.getMessage(), sde);
         return ResponseEntity.status(HttpStatus.CONFLICT).body(new StaleDataResponse(sde.getMessage()));
     }
     

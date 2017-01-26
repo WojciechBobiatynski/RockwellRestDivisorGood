@@ -36,35 +36,41 @@ public class ExceptionHandlers {
     @ExceptionHandler(StaleDataException.class)
     @ResponseBody
     public ResponseEntity<StaleDataResponse> sde(StaleDataException sde) {
+        LOGGER.error(sde.getMessage(), sde);
         return ResponseEntity.status(HttpStatus.CONFLICT).body(new StaleDataResponse(sde.getId(), sde.getVersion(), sde.getModifiedUser(), sde.getModifiedTimestamp(), sde.getMessage()));
     }
 
     @ExceptionHandler(GryfOptimisticLockRuntimeException.class)
     @ResponseBody
     public ResponseEntity<StaleDataResponse> sde(GryfOptimisticLockRuntimeException sde) {
+        LOGGER.error(sde.getMessage(), sde);
         return ResponseEntity.status(HttpStatus.CONFLICT).body(new StaleDataResponse(null, null, null, null, sde.getMessage()));
     }
 
     @ExceptionHandler(EntityValidationException.class)
     @ResponseBody
     public ResponseEntity<ValidationErrorResponse> validationException(EntityValidationException sde) {
+        LOGGER.error(sde.getMessage(), sde);
         return ResponseEntity.badRequest().body(new ValidationErrorResponse(sde.getViolations()));
     }
 
     @ExceptionHandler(EntityValidationWithConfirmException.class)
     @ResponseBody
     public ResponseEntity<ValidationErrorWithConfirmResponse> validationWithConfirmException(EntityValidationWithConfirmException e) {
+        LOGGER.error(e.getMessage(), e);
         return ResponseEntity.badRequest().body(new ValidationErrorWithConfirmResponse(e.getViolations()));
     }
 
     @ExceptionHandler(AuthAssertionFailureException.class)
     @ResponseBody
     public ResponseEntity<UnauthorizedResponse> serviceAuthException(AuthAssertionFailureException aafe) {
+        LOGGER.error(aafe.getMessage(), aafe);
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new UnauthorizedResponse(aafe.getPrivilegesRequired()));
     }
 
     @ExceptionHandler(AuthAssertionFailureFormException.class)
     public ModelAndView formAuthException(AuthAssertionFailureFormException aafe) {
+        LOGGER.error(aafe.getMessage(), aafe);
         ModelAndView modelAndView = new ModelAndView(DEFAULT_VIEW);
         modelAndView.addObject(MAIN_CONTENT_PARAM_NAME, PAGES_PREFIX + "error/authError.jsp");
         modelAndView.addObject("privilegesRequired", aafe.getPrivilegesRequired());
@@ -75,6 +81,7 @@ public class ExceptionHandlers {
     @ExceptionHandler(InvalidObjectIdException.class)
     @ResponseBody
     public ResponseEntity<InvalidObjectIdExceptionResponse> invalidObjectIdException(InvalidObjectIdException ioie) {
+        LOGGER.error(ioie.getMessage(), ioie);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new InvalidObjectIdExceptionResponse(ioie.getMessage()));
     }
     

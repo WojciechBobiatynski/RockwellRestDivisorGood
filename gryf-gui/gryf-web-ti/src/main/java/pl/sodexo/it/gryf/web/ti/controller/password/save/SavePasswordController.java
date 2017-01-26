@@ -72,6 +72,7 @@ public class SavePasswordController {
                 GryfTiUserDto user = trainingInstitutionUserService.findUserByTurIdAndSaveNewPassword(token, password);
                 uiModel.addAttribute(JSP_LOGIN_PLACEHOLDER, user.getLogin());
             } catch (GryfRuntimeException e){
+                LOGGER.error("Blad podczas zapisywania hasła", e);
                 uiModel.addAttribute(JSP_ERROR_PLACEHOLDER, e);
             }
         } else {

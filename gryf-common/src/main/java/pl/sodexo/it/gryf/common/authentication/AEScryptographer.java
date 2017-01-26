@@ -1,5 +1,7 @@
 package pl.sodexo.it.gryf.common.authentication;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pl.sodexo.it.gryf.common.exception.authentication.GryfAuthenticationException;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
@@ -17,6 +19,8 @@ import static pl.sodexo.it.gryf.common.utils.GryfConstants.CHAR_SET_UTF_8_ENCODI
  */
 public final class AEScryptographer {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(AEScryptographer.class);
+
     private static final String SECRET_KEY = "8l5SA49KtADbCq==";
     private static final String AES_CODE = "AES";
 
@@ -31,6 +35,7 @@ public final class AEScryptographer {
             byte[] utf8encrypted = cipher.doFinal(utf8in);
             return new BASE64Encoder().encode(utf8encrypted);
         } catch (Exception e) {
+            LOGGER.error("Nie udało się zaszyforwać tekstu, text={}", text);
             throw new GryfAuthenticationException("Nie udało się zaszyforwać tekstu",e);
         }
     }
@@ -44,6 +49,7 @@ public final class AEScryptographer {
             byte[] utf8decoded = cipher.doFinal(base64decoded);
             return new String(utf8decoded, CHAR_SET_UTF_8_ENCODING);
         } catch (Exception e) {
+            LOGGER.error("Nie udało się zdekryptować tekstu, text={}", encryptedText);
             throw new GryfAuthenticationException("Nie udało się zdeszyfrować tekstu",e);
         }
     }
