@@ -2,6 +2,7 @@ package pl.sodexo.it.gryf.service.impl.publicbenefits.contracts;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import pl.sodexo.it.gryf.common.dto.other.DictionaryDTO;
@@ -9,6 +10,9 @@ import pl.sodexo.it.gryf.common.dto.other.GrantProgramDictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.contracts.detailsform.ContractDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.contracts.searchform.ContractSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.contracts.searchform.ContractSearchResultDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.pbeproductinstancepool.ContractPbeProductInstancePoolDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.pbeproductinstancepool.PbeProductInstancePoolDto;
+import pl.sodexo.it.gryf.common.exception.GryfValidationException;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.contracts.ContractRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.contracts.ContractTypeRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.enterprises.EnterpriseRepository;
@@ -21,7 +25,10 @@ import pl.sodexo.it.gryf.model.publicbenefits.contracts.ContractType;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingCategory;
 import pl.sodexo.it.gryf.service.api.publicbenefits.contracts.ContractService;
+import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.ElectronicReimbursementsService;
+import pl.sodexo.it.gryf.service.api.publicbenefits.pbeproductinstancepool.PbeProductInstancePoolService;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
+import pl.sodexo.it.gryf.service.local.api.publicbenefits.pbeproduct.PbeProductInstancePoolLocalService;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.contracts.ContractDtoMapper;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.dictionaries.DictionaryEntityMapper;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.contracts.ContractEntityMapper;
@@ -31,6 +38,7 @@ import pl.sodexo.it.gryf.service.validation.publicbenefits.contracts.ContractVal
 
 import java.util.Date;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * Created by adziobek on 25.10.2016.
@@ -80,6 +88,15 @@ public class ContractServiceImpl implements ContractService {
 
     @Autowired
     private GryfValidator gryfValidator;
+
+    @Autowired
+    private PbeProductInstancePoolService pbeProductInstancePoolService;
+
+    @Autowired
+    private PbeProductInstancePoolLocalService pbeProductInstancePoolLocalService;
+
+    @Autowired
+    private ElectronicReimbursementsService electronicReimbursementsService;
 
     @Override
     public List<GrantProgramDictionaryDTO> findGrantProgramsDictionaries() {
@@ -153,6 +170,27 @@ public class ContractServiceImpl implements ContractService {
             return grantProgramEntityMapper.convert(contract.getGrantProgram());
         } else {
             return null;
+        }
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
+    public Long resign(Long contractId) {
+        List<ContractPbeProductInstancePoolDto> contractPools = pbeProductInstancePoolService.findPoolInstancesByContractId(contractId);
+        Consumer<PbeProductInstancePoolDto> pInsPoolCons = pbeProductInstancePool -> {
+            checkIfContainsAvaiablePool(pbeProductInstancePool);
+            Long ermbsId = electronicReimbursementsService.createEreimbursementForReturnedPool(pbeProductInstancePool);
+            pbeProductInstancePoolLocalService.returnAvaiablePools(ermbsId);
+            electronicReimbursementsService.createDocuments(ermbsId);
+            electronicReimbursementsService.printReports(ermbsId);
+        };
+        contractPools.stream().forEach(pInsPoolCons);
+        return contractId;
+    }
+
+    private void checkIfContainsAvaiablePool(PbeProductInstancePoolDto pbeProductInstancePool) {
+        if(pbeProductInstancePool.getAvailableNum() == null || pbeProductInstancePool.getAvailableNum() == 0){
+            throw new GryfValidationException("Brak dostępnej puli bonów. Nie można utworzyć rozliczenia");
         }
     }
 }

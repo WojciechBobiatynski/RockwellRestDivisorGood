@@ -120,6 +120,7 @@ angular.module("gryf.contracts").factory("ModifyContractService",
         var GET_TRAINING_CATEGORY_DICT = contextPath + "/rest/publicBenefits/training/getTrainingCategoriesDict";
         var CONTRACT_URL = contextPath + "/rest/publicBenefits/contract/";
         var POOL_INSTANCES = contextPath + "/rest/publicBenefits/contract/poolInstances/";
+        var RESING_URL = contextPath + "/rest/publicBenefits/contract/resign/";
 
         var grantProgram = new GrantProgram();
         var contractType = new ContractType();
@@ -290,6 +291,23 @@ angular.module("gryf.contracts").factory("ModifyContractService",
             return promise;
         };
 
+        var resign = function(){
+            var promise = $http.post(RESING_URL + contract.entity.id);
+            promise.success(function(response) {
+                GryfPopups.setPopup("success", "Sukces", "Rezygnacja przeprowadzona pomyślnie. Zostało utworzone rozliczenie.");
+                contract.pools = response;
+            })
+            .error(function(error) {
+                GryfPopups.setPopup("error", "Błąd", "Akcja nie powiodła się");
+                var conflictCallbacksObject;
+                GryfExceptionHandler.handleSavingError(error, violations, conflictCallbacksObject);
+            })
+            .finally(function() {
+                GryfPopups.showPopup();
+            });
+            return promise;
+        };
+
         return{
             getNewGrantPrograms: getNewGrantPrograms,
             getNewContractTypes: getNewContractTypes,
@@ -304,6 +322,7 @@ angular.module("gryf.contracts").factory("ModifyContractService",
             getViolation: getViolations,
             getNewViolations: getNewViolations,
             getNewTrainingCategory: getNewTrainingCategory,
-            getContractPoolInstances: getContractPoolInstances
+            getContractPoolInstances: getContractPoolInstances,
+            resign: resign
         }
     }]);

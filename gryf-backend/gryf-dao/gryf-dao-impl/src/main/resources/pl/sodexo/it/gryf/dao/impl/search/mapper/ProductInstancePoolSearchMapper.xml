@@ -20,8 +20,7 @@
           )
           JOIN APP_PBE.ORDERS ord ON ord.GRANT_PROGRAM_ID = pr.ID
           JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOLS pool ON pool.ORDER_ID = ord.ID
-          JOIN APP_PBE.GRANT_OWNERS gr_own ON gr_own.ID = pr.GRANT_OWNER_ID
-          JOIN APP_PBE.PBE_PRODUCTS prd ON prd.GRANT_OWNER_ID = gr_own.ID
+          JOIN APP_PBE.PBE_PRODUCTS prd ON prd.PRD_ID = pool.PRD_ID
         WHERE
           TRUNC(pool.EXPIRY_DATE + NVL(prm.VALUE, #{criteria.config.defaultDaysNumberAfterEndDateToExpiryPool})) &lt;= TRUNC(SYSDATE)
           AND pool.AVAILABLE_NUM &gt; 0
@@ -37,14 +36,17 @@
           pool.USED_NUM                           usedNum,
           pool.REMBURS_NUM                        reimbursedNum,
           pool.EXPIRED_NUM                        expiredNum,
+          pool.RETURNED_NUM                       returnedNum,
           pool.START_DATE                         startDate,
           pool.EXPIRY_DATE                        expiryDate,
           ord.GRANT_PROGRAM_ID                    grantProgramId,
-          ord.EXTERNAL_ORDER_ID                   externalOrderId
+          ord.EXTERNAL_ORDER_ID                   externalOrderId,
+          prd.VALUE                               productValue
         FROM
           APP_PBE.CONTRACTS cnt
           JOIN APP_PBE.ORDERS ord on ord.CONTRACT_ID = cnt.ID
           JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOLS pool on pool.ORDER_ID = ord.ID
+          JOIN APP_PBE.PBE_PRODUCTS prd ON prd.PRD_ID = pool.PRD_ID
         WHERE
           cnt.ID = #{contractId}
     </select>

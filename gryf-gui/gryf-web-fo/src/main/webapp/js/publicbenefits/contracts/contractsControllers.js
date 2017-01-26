@@ -43,7 +43,7 @@ angular.module('gryf.contracts').controller("searchform.ContractsController",
             }
         }
     }]);
-
+var test;
 angular.module('gryf.contracts').controller("detailsform.ContractsController",
     ["$scope", '$routeParams', "ModifyContractService", "GryfModals", "GryfPopups", "GryfModulesUrlProvider",
     function ($scope, $routeParams, ModifyContractService, GryfModals, GryfPopups, GryfModulesUrlProvider) {
@@ -53,6 +53,7 @@ angular.module('gryf.contracts').controller("detailsform.ContractsController",
         $scope.trainingCategory = ModifyContractService.getNewTrainingCategory();
         $scope.violations = ModifyContractService.getNewViolations();
         GryfPopups.showPopup();
+        test = $scope;
 
         $scope.datepicker = {
             signDate: false,
@@ -165,5 +166,13 @@ angular.module('gryf.contracts').controller("detailsform.ContractsController",
         $scope.getPrevUrl = function() {
             return gryfSessionStorage.getUrlFromSessionStorage();
         };
+
+        $scope.resign = function () {
+            $scope.showAcceptModal("Zostanie przeprowadzona rezygnacja z umowy", ModifyContractService.resign);
+        };
+
+        $scope.resignButtonVisible = function () {
+            return !!$scope.model.pools && $scope.model.pools.length > 0;
+        }
 
     }]);

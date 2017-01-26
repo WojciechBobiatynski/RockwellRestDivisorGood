@@ -278,7 +278,7 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         Ereimbursement ereimbursement = ereimbursementRepository.get(rmbsId);
         List<EreimbursementReport> ereimbursementReports = new ArrayList<>();
 
-        if(isEreimbursementOfUnreservedPools(ereimbursement)){
+        if(!isEreimbursementOfTrainingInstance(ereimbursement)){
             createCreditNote(ereimbursement, ereimbursementReports);
         } else {
             createCreditNote(ereimbursement, ereimbursementReports);
@@ -292,8 +292,8 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         return ereimbursement.getId();
     }
 
-    private boolean isEreimbursementOfUnreservedPools(Ereimbursement ereimbursement) {
-        return EreimbursementType.URSVD_POOL.equals(ereimbursement.getEreimbursementType().getCode());
+    private boolean isEreimbursementOfTrainingInstance(Ereimbursement ereimbursement) {
+        return EreimbursementType.TI_INST.equals(ereimbursement.getEreimbursementType().getCode());
     }
 
     private void createGrantAidConfirmation(Ereimbursement ereimbursement, List<EreimbursementReport> ereimbursementReports) {
@@ -434,8 +434,13 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
 
     @Override
     public Long createEreimbursementForUnrsvPool(PbeProductInstancePoolDto pbeProductInstancePool) {
-        Ereimbursement ereimbursement = new Ereimbursement();
+        Ereimbursement ereimbursement = prepareEreimbursement(pbeProductInstancePool);
         ereimbursement.setEreimbursementType(ereimbursementTypeRepository.get(EreimbursementType.URSVD_POOL));
+        return ereimbursementRepository.save(ereimbursement).getId();
+    }
+
+    private Ereimbursement prepareEreimbursement(PbeProductInstancePoolDto pbeProductInstancePool) {
+        Ereimbursement ereimbursement = new Ereimbursement();
         ereimbursement.setProductInstancePool(productInstancePoolRepository.get(pbeProductInstancePool.getId()));
         ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.TO_ERMBS));
         //TODO: pobrać procent wkładu własnego z parametrów
@@ -446,6 +451,13 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         ereimbursement.setArrivalDate(new Date());
         Integer businessDaysForReimbursement = getBusinessDaysForReimbursement(pbeProductInstancePool.getGrantProgramId());
         ereimbursement.setReimbursementDate(gryfPLSQLRepository.getNthBusinessDay(new Date(), businessDaysForReimbursement));
+        return ereimbursement;
+    }
+
+    @Override
+    public Long createEreimbursementForReturnedPool(PbeProductInstancePoolDto pbeProductInstancePool) {
+        Ereimbursement ereimbursement = prepareEreimbursement(pbeProductInstancePool);
+        ereimbursement.setEreimbursementType(ereimbursementTypeRepository.get(EreimbursementType.RET_POOL));
         return ereimbursementRepository.save(ereimbursement).getId();
     }
 

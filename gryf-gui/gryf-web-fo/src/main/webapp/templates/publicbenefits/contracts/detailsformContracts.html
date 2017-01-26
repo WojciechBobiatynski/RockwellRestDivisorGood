@@ -14,8 +14,8 @@
                    gryf-privilege="GRF_PBE_CONTRACTS_MOD">
                     Zapisz i dodaj następną</a>
             </li>
-            <li data-ng-if="!!model.pools">
-                <a class="button"
+            <li data-ng-if="resignButtonVisible()">
+                <a ng-click="resign()" class="button"
                    gryf-privilege="GRF_PBE_CONTRACTS_MOD">
                     Rezygnacja z umowy</a>
             </li>
@@ -134,7 +134,7 @@
         </div>
     </section>
 
-    <section data-ng-if="!!model.pools">
+    <section data-ng-if="resignButtonVisible()">
         <h1>Pule bonów</h1>
 
         <div id="productPanelHead" class="grid-100">
@@ -148,6 +148,7 @@
             <div class="grid-10"><strong class="label">Wykorzystane</strong></div>
             <div class="grid-10"><strong class="label">Rozliczone</strong></div>
             <div class="grid-10"><strong class="label">Wygaśnięte</strong></div>
+            <div class="grid-10"><strong class="label">Zwrócone</strong></div>
         </div>
         <div id="productsPanel" class="grid-100" data-ng-repeat="pool in model.pools">
             <div class="grid-10">{{::pool.id}}</div>
@@ -160,6 +161,7 @@
             <div class="grid-10">{{::pool.usedNum}}</div>
             <div class="grid-10">{{::pool.reimbursedNum}}</div>
             <div class="grid-10">{{::pool.expiredNum}}</div>
+            <div class="grid-10">{{::pool.returnedNum}}</div>
         </div>
     </section>
 </div>

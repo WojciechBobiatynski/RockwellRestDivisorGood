@@ -21,6 +21,7 @@ public class EreimbursementType {
 
     public static final String TI_INST = "TI_INST";
     public static final String URSVD_POOL = "URSVD_POOL";
+    public static final String RET_POOL = "RET_POOL";
 
     @Id
     @Column(name = "CODE")

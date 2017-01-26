@@ -20,6 +20,7 @@ import pl.sodexo.it.gryf.web.fo.utils.UrlConstants;
 import java.util.List;
 
 import static pl.sodexo.it.gryf.web.fo.utils.UrlConstants.PATH_CONTRACTS_FIND_POOL_INSTANCES;
+import static pl.sodexo.it.gryf.web.fo.utils.UrlConstants.PATH_CONTRACTS_RESIGN;
 
 /**
  * Created by adziobek on 25.10.2016.
@@ -83,6 +84,14 @@ public class ContractsRestController {
     public List<ContractPbeProductInstancePoolDto> findContractPoolInstances(@PathVariable Long id) {
         LOGGER.debug("findContractPoolInstances, contractId={}", id);
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_CONTRACTS);
+        return pbeProductInstancePoolService.findPoolInstancesByContractId(id);
+    }
+
+    @RequestMapping(value = PATH_CONTRACTS_RESIGN + "/{id}", method = RequestMethod.POST)
+    public List<ContractPbeProductInstancePoolDto> resign(@PathVariable Long id) {
+        LOGGER.debug("resign, contractId={}", id);
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_CONTRACTS);
+        contractService.resign(id);
         return pbeProductInstancePoolService.findPoolInstancesByContractId(id);
     }
 

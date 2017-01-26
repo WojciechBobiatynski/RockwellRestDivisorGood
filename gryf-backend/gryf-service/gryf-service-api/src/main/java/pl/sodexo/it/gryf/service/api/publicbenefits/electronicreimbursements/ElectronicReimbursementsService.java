@@ -135,6 +135,13 @@ public interface ElectronicReimbursementsService {
     Long createEreimbursementForUnrsvPool(PbeProductInstancePoolDto pbeProductInstancePool);
 
     /**
+     * Tworzy rozliczenie dla zwracanej puli bonów
+     * @param pbeProductInstancePool - dto instancji puli bonó
+     * @return - id rozliczenia
+     */
+    Long createEreimbursementForReturnedPool(PbeProductInstancePoolDto pbeProductInstancePool);
+
+    /**
      * Odrzuca rozliczenie
      * @param rejectionDto - dto odrzucenia
      * @return id rozliczenia zaktualizowanego

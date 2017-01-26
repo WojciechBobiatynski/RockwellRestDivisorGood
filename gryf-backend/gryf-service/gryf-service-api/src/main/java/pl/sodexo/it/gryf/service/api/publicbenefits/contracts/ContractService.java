@@ -28,4 +28,11 @@ public interface ContractService {
     List<DictionaryDTO> findContractTypesDictionaries();
 
     GrantProgramDictionaryDTO findGrantProgramOfFirstUserContract(String pesel);
+
+    /**
+     * Metoda dla procesu rezygnacji z umowy
+     * @param contractId - id umowy w trakcie rezygnacji
+     * @return - id zaktualizowanej umowy
+     */
+    Long resign(Long contractId);
 }

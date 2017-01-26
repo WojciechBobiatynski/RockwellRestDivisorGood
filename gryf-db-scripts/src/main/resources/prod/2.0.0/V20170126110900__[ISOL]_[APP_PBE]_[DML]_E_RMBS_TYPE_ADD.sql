@@ -1,0 +1,13 @@
+MERGE INTO APP_PBE.E_REIMBURSEMENT_TYPES ug USING (
+  SELECT
+      'RET_POOL' CODE,
+      'Rozliczenie zwrotu puli bonów' NAME,
+      3 ORDINAL
+  FROM dual
+) ins
+ON ( ug.CODE = ins.CODE)
+WHEN MATCHED THEN
+  UPDATE SET ug.NAME = ins.NAME, ug.ORDINAL = ins.ORDINAL
+WHEN NOT MATCHED THEN INSERT
+  (CODE, NAME, ORDINAL)
+  VALUES (ins.CODE, ins.NAME, ins.ORDINAL);

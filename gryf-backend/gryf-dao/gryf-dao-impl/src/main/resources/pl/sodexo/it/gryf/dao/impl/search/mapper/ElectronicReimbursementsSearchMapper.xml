@@ -53,7 +53,7 @@
                     LEFT JOIN APP_PBE.CONTRACTS cnt on ord.CONTRACT_ID = cnt.ID
                     LEFT JOIN APP_PBE.INDIVIDUALS ind on ind.ID = cnt.INDIVIDUAL_ID
                 WHERE
-                    ermbs.TYPE_ID = 'URSVD_POOL'
+                    ermbs.TYPE_ID in ('URSVD_POOL', 'RET_POOL')
             )
         <where>
             <if test="criteria.rmbsNumber != null and criteria.rmbsNumber != ''">

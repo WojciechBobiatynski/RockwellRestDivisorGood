@@ -63,4 +63,5 @@ public final class UrlConstants {
     public static final String PATH_TRAINING_INSTANCE_DETAILS_FIND =  "/details";
 
     public static final String PATH_CONTRACTS_FIND_POOL_INSTANCES = "/poolInstances";
+    public static final String PATH_CONTRACTS_RESIGN = "/resign";
 }

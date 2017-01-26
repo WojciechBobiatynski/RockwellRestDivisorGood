@@ -33,6 +33,10 @@ public class ContractPbeProductInstancePoolDto extends PbeProductInstancePoolDto
 
     @Getter
     @Setter
+    private Integer returnedNum;
+
+    @Getter
+    @Setter
     private Integer expiredNum;
 
     @Getter
