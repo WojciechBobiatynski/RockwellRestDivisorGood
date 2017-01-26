@@ -1,6 +1,6 @@
 <div ng-if="orderStatus.loaded" class="width-100">
     <div ng-controller="AttrDController" class="grid-100">
-        <div class="grid-60" gryf-mandatory-flag="{{item.flags}}">
+        <div class="grid-60" gryf-mandatory-flag="{{item.flags}}" data-ng-if="item.flags.indexOf('I') > -1 || item.flags.indexOf('U') > -1">
             <strong class="label">
                 {{item.name}}
             </strong>
@@ -16,8 +16,19 @@
                    gryf-data-modification-flags="{{item.flags}}"
                    gryf-privilege="{{item.privilege}}">
             <gryf-validation-msg path="{{item.orderFlowElementId}}"/>
-
         </div>
+        <div class="grid-60" data-ng-if="item.flags == null || (item.flags.indexOf('I') <= -1 && item.flags.indexOf('U') <= -1)">
+            <strong class="label">
+                {{item.name}}
+            </strong>
+            <input type="text"
+                   placeholder="{{item.name}}"
+                   disabled = "true"
+                   value="{{item.valueDate | date:'yyyy-MM-dd'}}"
+                   gryf-privilege="{{item.privilege}}">
+            <gryf-validation-msg path="{{item.orderFlowElementId}}"/>
+        </div>
+
         <div class="grid-20">
             <strong class="label">
                 Data wymagana danych
