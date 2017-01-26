@@ -14,6 +14,11 @@
                    gryf-privilege="GRF_PBE_CONTRACTS_MOD">
                     Zapisz i dodaj następną</a>
             </li>
+            <li data-ng-if="!!model.pools">
+                <a class="button"
+                   gryf-privilege="GRF_PBE_CONTRACTS_MOD">
+                    Rezygnacja z umowy</a>
+            </li>
         </ul>
         <ol>
             <li>
@@ -126,6 +131,35 @@
                        ng-disabled="hasNotPrivilege('GRF_PBE_CONTRACTS_MOD')"/>
                 <gryf-validation-msg path="expiryDate"></gryf-validation-msg>
             </div>
+        </div>
+    </section>
+
+    <section data-ng-if="!!model.pools">
+        <h1>Pule bonów</h1>
+
+        <div id="productPanelHead" class="grid-100">
+            <div class="grid-10"><strong class="label">Id puli</strong></div>
+            <div class="grid-10"><strong class="label">Zewnętrzny numer zamówienia</strong></div>
+            <div class="grid-10"><strong class="label">Data zamówienia</strong></div>
+            <div class="grid-10"><strong class="label">Data ważności</strong></div>
+            <div class="grid-10"><strong class="label">Całkowita liczba bonów</strong></div>
+            <div class="grid-10"><strong class="label">Dostępne</strong></div>
+            <div class="grid-10"><strong class="label">Zarezerwowane</strong></div>
+            <div class="grid-10"><strong class="label">Wykorzystane</strong></div>
+            <div class="grid-10"><strong class="label">Rozliczone</strong></div>
+            <div class="grid-10"><strong class="label">Wygaśnięte</strong></div>
+        </div>
+        <div id="productsPanel" class="grid-100" data-ng-repeat="pool in model.pools">
+            <div class="grid-10">{{::pool.id}}</div>
+            <div class="grid-10">{{::pool.externalOrderId}}</div>
+            <div class="grid-10">{{::pool.startDate | date:'yyyy-MM-dd'}}</div>
+            <div class="grid-10">{{::pool.expiryDate | date:'yyyy-MM-dd'}}</div>
+            <div class="grid-10">{{::pool.allNum}}</div>
+            <div class="grid-10">{{::pool.availableNum}}</div>
+            <div class="grid-10">{{::pool.reservedNum}}</div>
+            <div class="grid-10">{{::pool.usedNum}}</div>
+            <div class="grid-10">{{::pool.reimbursedNum}}</div>
+            <div class="grid-10">{{::pool.expiredNum}}</div>
         </div>
     </section>
 </div>

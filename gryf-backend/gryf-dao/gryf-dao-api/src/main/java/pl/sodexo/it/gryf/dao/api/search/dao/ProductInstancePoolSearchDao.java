@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.dao.api.search.dao;
 
+import pl.sodexo.it.gryf.common.dto.publicbenefits.pbeproductinstancepool.ContractPbeProductInstancePoolDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.pbeproductinstancepool.PbeProductInstancePoolDto;
 
 import java.util.List;
@@ -16,5 +17,12 @@ public interface ProductInstancePoolSearchDao {
      * @return lista pul bonów
      */
     List<PbeProductInstancePoolDto> findExpiredPoolInstances();
+
+    /**
+     * Znajduje pule bonów dla danej umowy
+     * @param contractId - id umowy
+     * @return lista puli bonów
+     */
+    List<ContractPbeProductInstancePoolDto> findPoolInstancesByContractId(Long contractId);
 
 }

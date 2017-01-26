@@ -27,14 +27,14 @@ angular.module("gryf.contracts").factory("BrowseContractsService",
                 sortColumns: [],
                 sortTypes: []
             }
-        }
+        };
 
         function SearchResultOptions() {
             this.displayLimit = 10;
             this.displayLimitIncrementer = 10;
             this.overflow = false;
             this.badQuery = false;
-        }
+        };
 
         var isResultsOverflow = function(zipCodesArray) {
             return zipCodesArray.length > searchResultOptions.displayLimit;
@@ -107,7 +107,7 @@ angular.module("gryf.contracts").factory("BrowseContractsService",
             resetSearchResultOptions: resetSearchResultOptions,
             getNewSearchDTO: getNewSearchDTO,
             loadMore: loadMore
-        }
+        };
     }]);
 
 
@@ -119,6 +119,7 @@ angular.module("gryf.contracts").factory("ModifyContractService",
         var FIND_CONTRACT_TYPES_DICTIONARIES_URL = contextPath + "/rest/publicBenefits/contract/contractTypes";
         var GET_TRAINING_CATEGORY_DICT = contextPath + "/rest/publicBenefits/training/getTrainingCategoriesDict";
         var CONTRACT_URL = contextPath + "/rest/publicBenefits/contract/";
+        var POOL_INSTANCES = contextPath + "/rest/publicBenefits/contract/poolInstances/";
 
         var grantProgram = new GrantProgram();
         var contractType = new ContractType();
@@ -137,14 +138,15 @@ angular.module("gryf.contracts").factory("ModifyContractService",
 
         function TrainingCategory() {
             this.list = [];
-        }
+        };
+
         function GrantProgram() {
             this.list = [];
-        }
+        };
 
         function ContractType() {
             this.list = [];
-        }
+        };
 
         function Contract() {
             this.entity = {
@@ -159,12 +161,12 @@ angular.module("gryf.contracts").factory("ModifyContractService",
                 created : null,
                 modified : null
             }
-        }
+        };
 
         var getNewGrantPrograms = function () {
             grantProgram = new GrantProgram();
             return grantProgram;
-        }
+        };
 
         var getNewContractTypes = function () {
             contractType = new ContractType();
@@ -174,12 +176,12 @@ angular.module("gryf.contracts").factory("ModifyContractService",
         var getNewContract = function () {
             contract = new Contract();
             return contract;
-        }
+        };
 
         var getNewTrainingCategory = function () {
             trainingCategory = new TrainingCategory();
             return trainingCategory;
-        }
+        };
 
         var loadGrantPrograms = function() {
             var promise = $http.get(FIND_GRANT_PROGRAMS_DICTIONARIES_URL);
@@ -208,6 +210,7 @@ angular.module("gryf.contracts").factory("ModifyContractService",
                     if(contract.entity.grantProgram) {
                         getTrainingCategoriesDict(contract.entity.grantProgram.id);
                     }
+                    getContractPoolInstances();
                 });
                 promise.finally(function() {
                     GryfModals.closeModal(modalInstance);
@@ -279,6 +282,14 @@ angular.module("gryf.contracts").factory("ModifyContractService",
             return promise;
         };
 
+        var getContractPoolInstances = function(){
+            var promise = $http.get(POOL_INSTANCES + contract.entity.id);
+            promise.success(function(response) {
+                contract.pools = response;
+            });
+            return promise;
+        };
+
         return{
             getNewGrantPrograms: getNewGrantPrograms,
             getNewContractTypes: getNewContractTypes,
@@ -292,6 +303,7 @@ angular.module("gryf.contracts").factory("ModifyContractService",
             openIndividualLov: openIndividualLov,
             getViolation: getViolations,
             getNewViolations: getNewViolations,
-            getNewTrainingCategory: getNewTrainingCategory
+            getNewTrainingCategory: getNewTrainingCategory,
+            getContractPoolInstances: getContractPoolInstances
         }
     }]);

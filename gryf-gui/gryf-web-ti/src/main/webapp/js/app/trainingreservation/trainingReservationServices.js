@@ -93,7 +93,7 @@ angular.module("gryf.ti").factory("TrainingReservationService", [ "$http", "Gryf
         }).finally(function() {
             GryfModals.closeModal(modalInstance);
         });
-    }
+    };
 
     return {
         loadUserTrainingReservationData: loadUserTrainingReservationData,

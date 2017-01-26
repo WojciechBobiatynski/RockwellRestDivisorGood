@@ -1,11 +1,8 @@
 /**
  * Created by adziobek on 24.10.2016.
  */
-var scopeBrowseController;
-
 angular.module('gryf.contracts').controller("searchform.ContractsController",
     ["$scope", "BrowseContractsService", "GryfPopups", function ($scope, BrowseContractsService, GryfPopups) {
-        scopeBrowseController = $scope;
         $scope.searchObjModel = BrowseContractsService.getSearchDTO();
         $scope.searchResultOptions = BrowseContractsService.getSearchResultOptions();
         gryfSessionStorage.setUrlToSessionStorage();
@@ -47,11 +44,9 @@ angular.module('gryf.contracts').controller("searchform.ContractsController",
         }
     }]);
 
-var scopeModifyController;
 angular.module('gryf.contracts').controller("detailsform.ContractsController",
     ["$scope", '$routeParams', "ModifyContractService", "GryfModals", "GryfPopups", "GryfModulesUrlProvider",
     function ($scope, $routeParams, ModifyContractService, GryfModals, GryfPopups, GryfModulesUrlProvider) {
-        scopeModifyController = $scope;
         $scope.grantProgram = ModifyContractService.getNewGrantPrograms();
         $scope.contractType = ModifyContractService.getNewContractTypes();
         $scope.model = ModifyContractService.getNewContract();

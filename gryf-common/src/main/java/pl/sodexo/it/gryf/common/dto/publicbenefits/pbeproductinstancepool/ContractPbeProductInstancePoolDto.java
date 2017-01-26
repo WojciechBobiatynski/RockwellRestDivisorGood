@@ -3,38 +3,40 @@ package pl.sodexo.it.gryf.common.dto.publicbenefits.pbeproductinstancepool;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import pl.sodexo.it.gryf.common.dto.api.VersionableDto;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 
 @ToString
-public class PbeProductInstancePoolDto extends VersionableDto implements Serializable{
+public class ContractPbeProductInstancePoolDto extends PbeProductInstancePoolDto {
 
     private static final long serialVersionUID = 1L;
 
     @Getter
     @Setter
-    private Long id;
+    private String externalOrderId;
 
     @Getter
     @Setter
-    private Long orderId;
+    private Integer allNum;
 
     @Getter
     @Setter
-    private Integer availableNum;
+    private Integer reservedNum;
 
     @Getter
     @Setter
-    private Date expiryDate;
+    private Integer usedNum;
 
     @Getter
     @Setter
-    private BigDecimal productValue;
+    private Integer reimbursedNum;
 
     @Getter
     @Setter
-    private Long grantProgramId;
+    private Integer expiredNum;
+
+    @Getter
+    @Setter
+    private Date startDate;
+
 }

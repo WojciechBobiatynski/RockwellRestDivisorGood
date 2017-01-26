@@ -27,4 +27,26 @@
           AND pool.AVAILABLE_NUM &gt; 0
     </select>
 
+    <select id="findPoolInstancesByContractId" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.pbeproductinstancepool.ContractPbeProductInstancePoolDto" parameterType="list">
+        SELECT
+          pool.ID                                 id,
+          ord.ID                                  orderId,
+          pool.ALL_NUM                            allNum,
+          pool.AVAILABLE_NUM                      availableNum,
+          pool.RESERVED_NUM                       reservedNum,
+          pool.USED_NUM                           usedNum,
+          pool.REMBURS_NUM                        reimbursedNum,
+          pool.EXPIRED_NUM                        expiredNum,
+          pool.START_DATE                         startDate,
+          pool.EXPIRY_DATE                        expiryDate,
+          ord.GRANT_PROGRAM_ID                    grantProgramId,
+          ord.EXTERNAL_ORDER_ID                   externalOrderId
+        FROM
+          APP_PBE.CONTRACTS cnt
+          JOIN APP_PBE.ORDERS ord on ord.CONTRACT_ID = cnt.ID
+          JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOLS pool on pool.ORDER_ID = ord.ID
+        WHERE
+          cnt.ID = #{contractId}
+    </select>
+
 </mapper>
