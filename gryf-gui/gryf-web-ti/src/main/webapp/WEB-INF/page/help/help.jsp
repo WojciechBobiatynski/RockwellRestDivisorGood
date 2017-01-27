@@ -65,7 +65,7 @@
     </div></nav>
 
     <div id="content" class="page-static"><div class="grid">
-        <c:import url="http://cdn.sodexo.pl/gryf/html/ti-pomoc.html" />
+        <c:import url="https://cdn.sodexo.pl/gryf/html/ti-pomoc.html" />
     </div></div>
 
     <div id="bottombar"><div class="grid">
