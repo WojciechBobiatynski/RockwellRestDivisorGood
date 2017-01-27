@@ -4,11 +4,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderInvoice;
 import pl.sodexo.it.gryf.service.api.reports.ReportService;
+import pl.sodexo.it.gryf.service.local.api.AccountingDocumentArchiveFileService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.elements.elementTypes.OrderElementAttachmentService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.orderflows.OrderFlowElementService;
 import pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.actions.ActionBaseService;
@@ -31,6 +31,9 @@ public class CareerDirectionGenerateDocumentsActionService extends ActionBaseSer
     private ReportService reportService;
 
     @Autowired
+    private AccountingDocumentArchiveFileService accountingDocumentArchiveFileService;
+
+    @Autowired
     private OrderElementAttachmentService orderElementAttachmentService;
 
     @Autowired
@@ -44,6 +47,7 @@ public class CareerDirectionGenerateDocumentsActionService extends ActionBaseSer
         //GENEROWANIE RAPORTU
         OrderInvoice orderInvoice = getOrderInvoice(order);
         String reportLocation = reportService.generateDebitNoteForOrder(order.getId(), orderInvoice.getInvoiceNumber());
+        accountingDocumentArchiveFileService.createAccountingDocument(orderInvoice.getInvoiceNumber(), reportLocation);
 
         //DTO DLA DANEGO ELEMENT
         orderFlowElementService.addElementEmpty(order, KK_DOCUMENT_OWN_CONTRIBUTION_ELEM_ID);

@@ -6,6 +6,7 @@ import pl.sodexo.it.gryf.model.api.AuditableEntity;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -61,6 +62,19 @@ public interface FileService {
     OutputStream getOutputStream(String fileName);
 
     /**
+     * Tworzy scieżke do foulderu z date (rok/miesiac/dzien)
+     * @param date data
+     * @return sciezka do fiolderu datowego
+     */
+    String createDateFolderPath(Date date);
+
+    /**
+     * Tworzy folder o podanej ścieżce jeżeli nie istnieje
+     * @param dirPath scieżka do folderu
+     */
+    void createDirectories(String dirPath);
+
+    /**
      * Na podstawie typu pliku. Zwraca ściezkę do pliku.
      * @param fileType typ pliku
      * @return ścieżka do pliku
@@ -74,4 +88,13 @@ public interface FileService {
      * @return nowa ścieżka do pliku
      */
     String copyFile(String sourceFilePath, String newFileRoot);
+
+    /**
+     * Kopiuje plik ze ścieżki źródłowej do podanego roota z nowa nazwa
+     * @param sourceFilePath - oryginalna ścieżka
+     * @param newFileRoot - root
+     * @param newFileName - nowa nazwa pliku
+     * @return nowa ścieżka do pliku
+     */
+    String copyFile(String sourceFilePath, String newFileRoot, String newFileName);
 }

@@ -31,6 +31,7 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     private String pathDataImport = "import\\";
     private String pathAccountingDocument = "accounting_documents\\dev\\";
     private String pathEreimbursements = "ereimbursements\\dev\\";
+    private String pathAccountingDocumentArchive = "ArchiwumDokumentowKsiegowychGryf\\dev\\%s\\WUP";
     private int attachmentMaxSize = 3145728;
     private String gryfEnterpriseCodePrefix = "6";
     private int gryfEnterpriseCodeZeroCount = 7;
@@ -255,6 +256,10 @@ public class ApplicationParametersImpl implements ApplicationParameters {
         if (dbPathEreimbursements != null) {
             pathEreimbursements = dbPathEreimbursements;
         }
+        String dbPathAccountingDocumentArchive = (String) findParameter("GRYF_PATH_ACCOUNTING_DOCUMENT_ARCHIVE");
+        if (dbPathAccountingDocumentArchive != null) {
+            pathAccountingDocumentArchive = dbPathAccountingDocumentArchive;
+        }
         String dbIndUserUrl = (String) findParameter("GRYF_IND_USER_URL");
         if(dbIndUserUrl != null){
             indUserUrl = dbIndUserUrl;
@@ -352,6 +357,11 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     @Override
     public String getPathEreimbursements() {
         return pathEreimbursements;
+    }
+
+    @Override
+    public String getPathAccountingDocumentArchive() {
+        return pathAccountingDocumentArchive;
     }
 
     @Override

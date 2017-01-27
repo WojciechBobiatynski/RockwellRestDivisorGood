@@ -19,6 +19,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -109,6 +110,18 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
+    public String createDateFolderPath(Date date){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy" + File.separator + "MM" + File.separator + "dd");
+        return sdf.format(date);
+    }
+
+    @Override
+    public void createDirectories(String dirPath){
+        File dir = new File(dirPath);
+        dir.mkdirs();
+    }
+
+    @Override
     public String findPath(FileType fileType) {
         switch (fileType) {
             case GRANT_APPLICATIONS:
@@ -125,6 +138,8 @@ public class FileServiceImpl implements FileService {
                 return parameterService.getPathAttachments() + parameterService.getPathDataImport();
             case ACCOUNTING_DOCUMENT:
                 return parameterService.getPathAttachments() + parameterService.getPathAccountingDocument();
+            case ACCOUNTING_DOCUMENT_ARCHIVE:
+                return parameterService.getPathAttachments() + parameterService.getPathAccountingDocumentArchive();
             default:
                 throw new RuntimeException(String.format("Nieznany typ pliku: [%s]", fileType));
         }
@@ -135,6 +150,18 @@ public class FileServiceImpl implements FileService {
         Path oldSourcePath = Paths.get(sourceFilePath);
         Path oldFileName = oldSourcePath.getFileName();
         String newFileName = GryfStringUtils.convertFileNameWithExtension(oldFileName.toString());
+        Path newFilePath = Paths.get(newFileRoot, newFileName);
+        try (OutputStream os = new FileOutputStream(newFilePath.toFile())) {
+            Files.copy(oldSourcePath, os);
+        } catch (IOException ex) {
+            throw new GryfFileException(String.format("Nie udało się zapisać pliku"), ex);
+        }
+        return newFilePath.toString();
+    }
+
+    @Override
+    public String copyFile(String sourceFilePath, String newFileRoot, String newFileName) {
+        Path oldSourcePath = Paths.get(sourceFilePath);
         Path newFilePath = Paths.get(newFileRoot, newFileName);
         try (OutputStream os = new FileOutputStream(newFilePath.toFile())) {
             Files.copy(oldSourcePath, os);
