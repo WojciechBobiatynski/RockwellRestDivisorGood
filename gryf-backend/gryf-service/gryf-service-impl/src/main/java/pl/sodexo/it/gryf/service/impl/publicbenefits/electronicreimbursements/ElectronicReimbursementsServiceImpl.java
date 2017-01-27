@@ -34,6 +34,7 @@ import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.Cor
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.CorrectionService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.ElectronicReimbursementsService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.ErmbsAttachmentService;
+import pl.sodexo.it.gryf.service.local.api.AccountingDocumentArchiveFileService;
 import pl.sodexo.it.gryf.service.local.api.reports.ReportService;
 import pl.sodexo.it.gryf.service.local.api.MailService;
 import pl.sodexo.it.gryf.service.local.api.ParamInDateService;
@@ -130,6 +131,9 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
 
     @Autowired
     private ParamInDateService paramInDateService;
+
+    @Autowired
+    private AccountingDocumentArchiveFileService accountingDocumentArchiveFileService;
 
     @Override
     public List<ElctRmbsDto> findEcltRmbsListByCriteria(ElctRmbsCriteria criteria) {
@@ -325,6 +329,9 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         if(shouldBeCreditNoteCreated(ereimbursement)){
             EreimbursementInvoice ereimbursementInvoice = getEreimbursementInvoice(ereimbursement);
             ReportInstance reportInstance = reportService.generateCreditNoteForReimbursment(ereimbursement.getId(), ereimbursementInvoice.getInvoiceNumber());
+            accountingDocumentArchiveFileService.createAccountingDocument(ereimbursementInvoice.getInvoiceId(), ereimbursementInvoice.getInvoiceNumber(),
+                                                                            reportInstance.getPath(), reportInstance.getParameters());
+
             EreimbursementReport report = new EreimbursementReport();
             report.setEreimbursement(ereimbursement);
             report.setFileLocation(reportInstance.getPath());
