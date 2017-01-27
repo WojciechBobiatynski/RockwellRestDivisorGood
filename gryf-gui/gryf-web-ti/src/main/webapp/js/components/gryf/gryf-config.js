@@ -2,7 +2,19 @@ var app = angular.module('gryf.config', ['ui.router', 'ui.bootstrap', 'gryf.moda
      'gryf.privileges', 'gryf.tables', 'gryf.exceptionHandler', 'gryf.helpers']);
 
 angular.module('gryf.config').factory('generalExceptionHandlerInterceptor', ['$q', '$injector', "$rootScope", "$filter", "$interpolate",
-    function($q, $injector, $rootScope, $filter, $interpolate) {
+function($q, $injector, $rootScope, $filter, $interpolate) {
+
+    var timers = {
+        messageKeeper: null,
+        timeoutKeeper: null,
+        timerIntervalKeeper: null
+    };
+
+    document.getElementById('prolongSession').onclick = function() {
+        $injector.invoke(['$http', function($http) {
+            $http.get(contextPath + '/prolongSession');
+        }]);
+    };
 
     return {
         responseError: function(rejection) {
@@ -46,6 +58,29 @@ angular.module('gryf.config').factory('generalExceptionHandlerInterceptor', ['$q
                 }
             }
             return $q.reject(rejection);
+        },
+        response: function(response) {
+            document.getElementById('timeoutBox').style.opacity = 0;
+            document.getElementById('timeoutBox').style.visibility = 'hidden';
+            clearTimeout(timers.messageKeeper);
+            clearTimeout(timers.timeoutKeeper);
+            clearInterval(timers.timerIntervalKeeper);
+
+            timers.messageKeeper = setTimeout(function() {
+                document.getElementById('timeoutBox').style.visibility = 'visible';
+                document.getElementById('timeoutBox').style.opacity = 1;
+                var timeLeft = 59;
+                document.getElementById('timerCounter').innerHTML = timeLeft.toString();
+                timers.timerIntervalKeeper = setInterval(function() {
+                    document.getElementById('timerCounter').innerHTML = timeLeft.toString();
+                    timeLeft--;
+                }, 1000)
+            }, sessionTimeoutInMs - 60000);
+
+            timers.timeoutKeeper = setTimeout(function() {
+                location.href = contextPath + '/logout';
+            }, sessionTimeoutInMs);
+            return response;
         }
     };
 }]);

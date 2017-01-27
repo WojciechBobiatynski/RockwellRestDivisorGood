@@ -1,9 +1,11 @@
 package pl.sodexo.it.gryf.web.ti.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import static pl.sodexo.it.gryf.web.ti.util.TiPageConstant.*;
 
@@ -32,4 +34,8 @@ public class TiMainViewController {
     public String help() {
         return PAGE_HELP;
     }
+
+    @RequestMapping(value = "/prolongSession", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public void prolongSession() { }
 }

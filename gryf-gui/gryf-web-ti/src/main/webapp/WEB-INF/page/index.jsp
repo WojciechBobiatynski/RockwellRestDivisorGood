@@ -100,7 +100,36 @@
 
 </head>
 <body id="ak" ng-app="gryf.ti" ng-strict-di>
+    <style>
+        #timeoutBox {
+            position: fixed;
+            top: 0;
+            right: 40%;
+            padding: 30px;
+            width: 350px;
+            background-color: #FF9400;
+            color: #ffffff;
+            text-align: center;
+            z-index: 100000;
+            font-size: 14px;
+            margin: 0;
+            opacity: 0;
+            visibility: hidden;
+            -webkit-transition: all 0.5s;
+            -moz-transition: all 0.5s;
+            -ms-transition: all 0.5s;
+            -o-transition: all 0.5s;
+            transition: all 0.5s;
+            -webkit-box-shadow: 0 0 10px 1px rgba(148,148,148,1);
+            -moz-box-shadow: 0 0 10px 1px rgba(148,148,148,1);
+            box-shadow: 0 0 10px 1px rgba(148,148,148,1);
+        }
+    </style>
+    <section id="timeoutBox">
+        <p>Twoja sesja wygaśnie za <span id="timerCounter">60</span> sekund.</p>
 
+        <p><span id="prolongSession">Przedłuż sesję</span></p>
+    </section>
     <div id="accessbility"><div class="grid">
         <ol class="font">
             <li><a href="#font-normal" title="ustaw małą czcionkę" rel="font" class="font-normal current">A</a></li>

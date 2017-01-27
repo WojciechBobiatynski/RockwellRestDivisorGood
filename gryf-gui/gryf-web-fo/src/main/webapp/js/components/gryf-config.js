@@ -65,11 +65,13 @@ angular.module('gryf.config').factory('generalExceptionHandlerInterceptor', ['$q
         },
         response: function(response) {
             document.getElementById('timeoutBox').style.opacity = 0;
+            document.getElementById('timeoutBox').style.visibility = 'hidden';
             clearTimeout(timers.messageKeeper);
             clearTimeout(timers.timeoutKeeper);
             clearInterval(timers.timerIntervalKeeper);
 
             timers.messageKeeper = setTimeout(function() {
+                document.getElementById('timeoutBox').style.visibility = 'visible';
                 document.getElementById('timeoutBox').style.opacity = 1;
                 var timeLeft = 59;
                 document.getElementById('timerCounter').innerHTML = timeLeft.toString();

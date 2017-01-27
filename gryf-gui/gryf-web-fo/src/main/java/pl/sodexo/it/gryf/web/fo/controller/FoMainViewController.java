@@ -1,9 +1,11 @@
 package pl.sodexo.it.gryf.web.fo.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import static pl.sodexo.it.gryf.web.common.util.PageUtil.setUpMainContent;
 import static pl.sodexo.it.gryf.web.fo.utils.FoPageConstant.*;
@@ -28,5 +30,9 @@ public class FoMainViewController {
         //return PAGE_MAIN;
         return "/WEB-INF/pages/index.jsp"; //todo ak poprawic
     }
+
+    @RequestMapping(value = "/prolongSession", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public void prolongSession() { }
 
 }
