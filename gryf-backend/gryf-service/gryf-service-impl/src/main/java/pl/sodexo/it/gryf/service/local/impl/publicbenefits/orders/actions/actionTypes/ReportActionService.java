@@ -8,7 +8,8 @@ import pl.sodexo.it.gryf.common.enums.ReportSourceType;
 import pl.sodexo.it.gryf.common.enums.ReportTemplateCode;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
-import pl.sodexo.it.gryf.service.api.reports.ReportService;
+import pl.sodexo.it.gryf.model.reports.ReportInstance;
+import pl.sodexo.it.gryf.service.local.api.reports.ReportService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.elements.elementTypes.OrderElementAttachmentService;
 import pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.actions.ActionBaseService;
 
@@ -46,13 +47,13 @@ public class ReportActionService extends ActionBaseService {
 
 
         String reportFileName = String.format("Invoice_%s.pdf", order.getId());
-        String reportLocation = reportService.generateReport(ReportTemplateCode.INVOICE, reportFileName,
+        ReportInstance report = reportService.generateReport(ReportTemplateCode.INVOICE, reportFileName,
                                                                 FileType.ORDERS, parameters, ReportSourceType.INVOICE, 1308L);
 
         //DTO DLA DANEGO ELEMENT
         OrderElement orderElement = order.getElement("ATT_REP_T");
         if(orderElement != null) {
-            orderElementAttachmentService.updateValue(orderElement, reportLocation);
+            orderElementAttachmentService.updateValue(orderElement, report.getPath());
         }
     }
 }

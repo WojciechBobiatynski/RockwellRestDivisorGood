@@ -7,7 +7,8 @@ import org.springframework.stereotype.Service;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderInvoice;
-import pl.sodexo.it.gryf.service.api.reports.ReportService;
+import pl.sodexo.it.gryf.model.reports.ReportInstance;
+import pl.sodexo.it.gryf.service.local.api.reports.ReportService;
 import pl.sodexo.it.gryf.service.local.api.AccountingDocumentArchiveFileService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.elements.elementTypes.OrderElementAttachmentService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.orderflows.OrderFlowElementService;
@@ -46,13 +47,14 @@ public class CareerDirectionGenerateDocumentsActionService extends ActionBaseSer
 
         //GENEROWANIE RAPORTU
         OrderInvoice orderInvoice = getOrderInvoice(order);
-        String reportLocation = reportService.generateDebitNoteForOrder(order.getId(), orderInvoice.getInvoiceNumber());
-        accountingDocumentArchiveFileService.createAccountingDocument(orderInvoice.getInvoiceNumber(), reportLocation);
+        ReportInstance reportInstance = reportService.generateDebitNoteForOrder(order.getId(), orderInvoice.getInvoiceNumber());
+        accountingDocumentArchiveFileService.createAccountingDocument(orderInvoice.getInvoiceId(),
+                                                    orderInvoice.getInvoiceNumber(), reportInstance.getPath(), reportInstance.getParameters());
 
         //DTO DLA DANEGO ELEMENT
         orderFlowElementService.addElementEmpty(order, KK_DOCUMENT_OWN_CONTRIBUTION_ELEM_ID);
         OrderElement orderElement = order.getElement(KK_DOCUMENT_OWN_CONTRIBUTION_ELEM_ID);
-        orderElementAttachmentService.updateValue(orderElement, reportLocation);
+        orderElementAttachmentService.updateValue(orderElement, reportInstance.getPath());
     }
 
     //PRIVATE METHODS

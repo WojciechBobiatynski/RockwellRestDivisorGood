@@ -8,7 +8,8 @@ import pl.sodexo.it.gryf.common.enums.ReportSourceType;
 import pl.sodexo.it.gryf.common.enums.ReportTemplateCode;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
-import pl.sodexo.it.gryf.service.api.reports.ReportService;
+import pl.sodexo.it.gryf.model.reports.ReportInstance;
+import pl.sodexo.it.gryf.service.local.api.reports.ReportService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.elements.elementTypes.OrderElementAttachmentService;
 import pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.actions.ActionBaseService;
 
@@ -42,13 +43,13 @@ public class GenerateQualificationDocuments1ActionService extends ActionBaseServ
                                                         order.getContract().getIndividual().getId() : null);
 
         String reportFileName = String.format("%s_%s_Umowa_z_przedsiebiorstewem_o_dofinansowanie.pdf", entityId, order.getId());
-        String reportLocation = reportService.generateReport(ReportTemplateCode.ENTERPRISE_AGREEMENT, reportFileName,
+        ReportInstance report = reportService.generateReport(ReportTemplateCode.ENTERPRISE_AGREEMENT, reportFileName,
                 FileType.ORDERS, parameters, ReportSourceType.ORDER, order.getId());
 
         //DTO DLA DANEGO ELEMENT
         OrderElement orderElement = order.getElement("EQCONTRCT1");
         if(orderElement != null) {
-            orderElementAttachmentService.updateValue(orderElement, reportLocation);
+            orderElementAttachmentService.updateValue(orderElement, report.getPath());
         }
     }
 }

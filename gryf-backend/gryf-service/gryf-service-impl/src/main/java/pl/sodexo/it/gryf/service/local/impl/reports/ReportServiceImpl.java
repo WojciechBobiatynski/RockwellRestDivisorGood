@@ -1,4 +1,4 @@
-package pl.sodexo.it.gryf.service.impl.reports;
+package pl.sodexo.it.gryf.service.local.impl.reports;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -17,7 +17,7 @@ import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.common.utils.JsonMapperUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.report.ReportInstanceRepository;
 import pl.sodexo.it.gryf.model.reports.ReportInstance;
-import pl.sodexo.it.gryf.service.api.reports.ReportService;
+import pl.sodexo.it.gryf.service.local.api.reports.ReportService;
 import pl.sodexo.it.gryf.service.local.api.FileService;
 
 import javax.sql.DataSource;
@@ -53,13 +53,13 @@ public class ReportServiceImpl implements ReportService {
     //PUBLIC METHODS
 
     @Override
-    public String generateReport(ReportTemplateCode templateCode, String reportFileName, FileType fileType,
+    public ReportInstance generateReport(ReportTemplateCode templateCode, String reportFileName, FileType fileType,
                                 ReportSourceType reportSourceType, Long sourceId) {
         return generateReport(templateCode, reportFileName, fileType, new HashMap<>(), reportSourceType, sourceId);
     }
 
     @Override
-    public String generateReport(ReportTemplateCode templateCode, String reportFileName, FileType fileType, Map<String, Object> parameters,
+    public ReportInstance generateReport(ReportTemplateCode templateCode, String reportFileName, FileType fileType, Map<String, Object> parameters,
                                     ReportSourceType reportSourceType, Long sourceId) {
         try {
             //ADD STD PARAMS
@@ -94,7 +94,7 @@ public class ReportServiceImpl implements ReportService {
                 reportInstance.setSourceId(sourceId);
                 reportInstanceRepository.save(reportInstance);
 
-                return reportPath;
+                return reportInstance;
             }
         }catch(IOException e){
             throw new RuntimeException("Wystapił błąd pliku", e);
@@ -108,7 +108,7 @@ public class ReportServiceImpl implements ReportService {
     //PUBLIC METHODS FOR DOCUMENTS
 
     @Override
-    public String generateDebitNoteForOrder(Long orderId, String invoiceNumber){
+    public ReportInstance generateDebitNoteForOrder(Long orderId, String invoiceNumber){
         Map<String, Object> parameters = new HashMap<>();
         parameters.put(ReportParameter.ORDER_ID.getParam(), orderId);
         parameters.put("companyName", applicationParameters.getSodexoName());
@@ -123,7 +123,7 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public String generateCreditNoteForReimbursment(Long reimbursmentId, String invoiceNumber) {
+    public ReportInstance generateCreditNoteForReimbursment(Long reimbursmentId, String invoiceNumber) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("rmbsId", reimbursmentId);
         parameters.put("companyName", applicationParameters.getSodexoName());
@@ -138,7 +138,7 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public String generateBankTransferConfirmationForReimbursment(Long reimbursmentId) {
+    public ReportInstance generateBankTransferConfirmationForReimbursment(Long reimbursmentId) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("rmbsId", reimbursmentId);
         parameters.put("companyName", applicationParameters.getSodexoName());
@@ -153,7 +153,7 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public String generateGrantAidConfirmationForReimbursment(Long reimbursmentId) {
+    public ReportInstance generateGrantAidConfirmationForReimbursment(Long reimbursmentId) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("reimbId", reimbursmentId);
         parameters.put("companyName", applicationParameters.getSodexoName());

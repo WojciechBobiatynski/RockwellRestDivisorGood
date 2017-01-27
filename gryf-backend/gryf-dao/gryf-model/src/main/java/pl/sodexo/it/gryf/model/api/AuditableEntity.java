@@ -40,7 +40,6 @@ public class AuditableEntity extends CreationAuditedEntity implements Auditable 
 
     //LIFECYCLE METHODS
 
-    //TODO: gdy będziemy wiedzieć jak updateować wpisy gdy jeszcze niezlogowany użytkownik (np. dla rewysyłki kodu weryfikacyjnego)
     @PrePersist
     public void prePersist() {
         Date now = new Date();
@@ -50,7 +49,6 @@ public class AuditableEntity extends CreationAuditedEntity implements Auditable 
         setModifiedTimestamp(now);
     }
 
-    //TODO: gdy będziemy wiedzieć jak updateować wpisy gdy jeszcze niezlogowany użytkownik (np. dla rewysyłki kodu weryfikacyjnego)
     @PreUpdate
     public void preUpdate() {
         setModifiedUser(!GryfUser.getLoggedUserLogin().isEmpty() ? GryfUser.getLoggedUserLogin() : "GRYF");

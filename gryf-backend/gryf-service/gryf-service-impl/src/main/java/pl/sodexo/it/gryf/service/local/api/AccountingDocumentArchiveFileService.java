@@ -5,6 +5,6 @@ package pl.sodexo.it.gryf.service.local.api;
  */
 public interface AccountingDocumentArchiveFileService {
 
-    String createAccountingDocument(String invoiceNumber, String sourcePath);
+    Long createAccountingDocument(Long invoiceId, String invoiceNumber, String sourcePath, String reportParameters);
 
 }

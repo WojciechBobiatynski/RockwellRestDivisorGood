@@ -29,11 +29,12 @@ import pl.sodexo.it.gryf.dao.api.search.dao.ProductSearchDao;
 import pl.sodexo.it.gryf.model.api.FinanceNoteResult;
 import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.*;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgramParam;
+import pl.sodexo.it.gryf.model.reports.ReportInstance;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.CorrectionAttachmentService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.CorrectionService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.ElectronicReimbursementsService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.ErmbsAttachmentService;
-import pl.sodexo.it.gryf.service.api.reports.ReportService;
+import pl.sodexo.it.gryf.service.local.api.reports.ReportService;
 import pl.sodexo.it.gryf.service.local.api.MailService;
 import pl.sodexo.it.gryf.service.local.api.ParamInDateService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.pbeproduct.PbeProductInstancePoolLocalService;
@@ -302,20 +303,20 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
             throw new NoAppropriateData("Brak odpowiednich danych. Nie można stwierdzić czy MSP czy IND");
         }
         if(isMsp) {
-            String grantAidConfirmationLocation = reportService.generateGrantAidConfirmationForReimbursment(ereimbursement.getId());
+            ReportInstance reportInstance = reportService.generateGrantAidConfirmationForReimbursment(ereimbursement.getId());
             EreimbursementReport report = new EreimbursementReport();
             report.setEreimbursement(ereimbursement);
-            report.setFileLocation(grantAidConfirmationLocation);
+            report.setFileLocation(reportInstance.getPath());
             report.setTypeName(ReportTemplateCode.GRANT_AID_CONFIRMATION.getTypeName());
             ereimbursementReports.add(report);
         }
     }
 
     private void createBankTransferConfirmation(Ereimbursement ereimbursement, List<EreimbursementReport> ereimbursementReports) {
-        String bankTransferConfirmationLocation = reportService.generateBankTransferConfirmationForReimbursment(ereimbursement.getId());
+        ReportInstance reportInstance = reportService.generateBankTransferConfirmationForReimbursment(ereimbursement.getId());
         EreimbursementReport report = new EreimbursementReport();
         report.setEreimbursement(ereimbursement);
-        report.setFileLocation(bankTransferConfirmationLocation);
+        report.setFileLocation(reportInstance.getPath());
         report.setTypeName(ReportTemplateCode.BANK_TRANSFER_CONFIRMATION.getTypeName());
         ereimbursementReports.add(report);
     }
@@ -323,10 +324,10 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     private void createCreditNote(Ereimbursement ereimbursement, List<EreimbursementReport> ereimbursementReports) {
         if(shouldBeCreditNoteCreated(ereimbursement)){
             EreimbursementInvoice ereimbursementInvoice = getEreimbursementInvoice(ereimbursement);
-            String creditNoteLocation = reportService.generateCreditNoteForReimbursment(ereimbursement.getId(), ereimbursementInvoice.getInvoiceNumber());
+            ReportInstance reportInstance = reportService.generateCreditNoteForReimbursment(ereimbursement.getId(), ereimbursementInvoice.getInvoiceNumber());
             EreimbursementReport report = new EreimbursementReport();
             report.setEreimbursement(ereimbursement);
-            report.setFileLocation(creditNoteLocation);
+            report.setFileLocation(reportInstance.getPath());
             report.setTypeName(ReportTemplateCode.CREDIT_NOTE.getTypeName());
             ereimbursementReports.add(report);
         }

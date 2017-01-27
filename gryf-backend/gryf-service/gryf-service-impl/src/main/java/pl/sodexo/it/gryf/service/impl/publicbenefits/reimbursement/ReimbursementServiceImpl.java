@@ -19,9 +19,10 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.other.GryfPLSQLRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.enterprises.EnterpriseRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.reimbursement.*;
 import pl.sodexo.it.gryf.model.publicbenefits.reimbursement.*;
+import pl.sodexo.it.gryf.model.reports.ReportInstance;
 import pl.sodexo.it.gryf.service.api.publicbenefits.reimbursement.ReimbursementPatternService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.reimbursement.ReimbursementService;
-import pl.sodexo.it.gryf.service.api.reports.ReportService;
+import pl.sodexo.it.gryf.service.local.api.reports.ReportService;
 import pl.sodexo.it.gryf.service.local.api.FileService;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.reimbursement.ReimbursementAttachmentLocalService;
@@ -240,7 +241,8 @@ public class ReimbursementServiceImpl implements ReimbursementService {
 
             //GENERATOE REPORT
             String reportFileName = reimbursementAttachmentLocalService.findAttachmentName(entity, ReimbursementAttachment.ATTACHMENT_TYPE_IN_PATH, reportAttachment.getId(), reportAttachment.getName()) + ".pdf";
-            reportLocation = reportService.generateReport(ReportTemplateCode.GRANT_ACKNOWLEDGMENT_REPORT, reportFileName, FileType.REIMBURSEMENTS, ReportSourceType.REIMBURSEMENT, entity.getId());
+            ReportInstance reportInstance = reportService.generateReport(ReportTemplateCode.GRANT_ACKNOWLEDGMENT_REPORT, reportFileName, FileType.REIMBURSEMENTS, ReportSourceType.REIMBURSEMENT, entity.getId());
+            reportLocation = reportInstance.getPath();
 
             //UPDATE REPORT PATH
             reportAttachment.setFileLocation(reportLocation);
