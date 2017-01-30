@@ -1,19 +1,19 @@
 package pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.orders.action;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.google.common.collect.Lists;
 import pl.sodexo.it.gryf.common.dto.mail.MailDTO;
 import pl.sodexo.it.gryf.common.dto.other.DictionaryDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.invoices.PaymentDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.*;
 import pl.sodexo.it.gryf.common.dto.zipcodes.detailsform.ZipCodeDto;
 import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
-import pl.sodexo.it.gryf.model.dictionaries.ZipCode;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationBasicData;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationContactData;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationContactType;
+import pl.sodexo.it.gryf.model.publicbenefits.invoices.Payment;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElementDTOBuilder;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowElement;
@@ -149,6 +149,24 @@ public final class OrderElementDTOProvider {
             }
         }
 
+        return dto;
+    }
+
+    public static OrderElementComplexTypePaymentListInfoDTO createOrderElementComplexTypePaymentListInfoDTO(OrderElementDTOBuilder builder, List<Payment> payments) {
+        OrderElementComplexTypePaymentListInfoDTO dto = (OrderElementComplexTypePaymentListInfoDTO) createOrderElementDTO(builder, new OrderElementComplexTypePaymentListInfoDTO());
+        dto.setPayments(Lists.newArrayListWithCapacity(payments.size()));
+        for (Payment payment : payments){
+            PaymentDTO paymentDTO = new PaymentDTO();
+            paymentDTO.setId(payment.getId());
+            paymentDTO.setUsed(payment.getUsed());
+            paymentDTO.setAmount(payment.getAmount());
+            paymentDTO.setTransferAmount(payment.getTransferAmount());
+            paymentDTO.setMatchDate(payment.getMatchDate());
+            paymentDTO.setPaymentDate(payment.getPaymentDate());
+            paymentDTO.setTransferDate(payment.getTransferDate());
+            paymentDTO.setTransferDetail(payment.getTransferDetail());
+            dto.getPayments().add(paymentDTO);
+        }
         return dto;
     }
 

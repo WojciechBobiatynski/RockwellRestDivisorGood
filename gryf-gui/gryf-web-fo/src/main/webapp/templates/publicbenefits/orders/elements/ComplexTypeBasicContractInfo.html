@@ -15,11 +15,11 @@
         </div>
         <div class="grid-20">
             <strong class="label">Data podpisania umowy</strong>
-            <input type="text" ng-model="item.contractSignDate" readonly="readonly">
+            <input type="text" value="{{item.contractSignDate | date:'yyyy-MM-dd' }}" readonly="readonly">
         </div>
         <div class="grid-20">
             <strong class="label">Data wygaśnięcia umowy</strong>
-            <input type="text" ng-model="item.contractExpiryDate" readonly="readonly">
+            <input type="text" value="{{item.contractExpiryDate | date:'yyyy-MM-dd' }}" readonly="readonly">
         </div>
         <div class="grid-20">
             <strong class="label">Program dofinansowania</strong>

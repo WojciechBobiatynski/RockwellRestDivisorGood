@@ -1,0 +1,47 @@
+<div class="width-100">
+    <div class="grid-100">
+        <header>
+            <h2>{{item.name}}</h2>
+        </header>
+    </div>
+
+            <table class="table table-condensed">
+                <thead>
+                <tr class="grid-100">
+                    <th class="grid-10">
+                        Płatność użyta
+                    </th>
+                    <th class="grid-10">
+                        Kwota podpięcia
+                    </th>
+                    <th class="grid-10">
+                        Kwota przelewu
+                    </th>
+                    <th class="grid-10">
+                        Data podpięcia
+                    </th>
+                    <th class="grid-10">
+                        Data płatności
+                    </th>
+                    <th class="grid-10">
+                        Data przelewu
+                    </th>
+                    <th class="grid-40">
+                        Tytuł przelewu
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="p in item.payments">
+                    <td>{{::p.used ? 'Tak' : 'Nie'}}</td>
+                    <td>{{::p.amount}}</td>
+                    <td>{{::p.transferAmount}}</td>
+                    <td>{{::p.matchDate  | date:'yyyy-MM-dd'}}</td>
+                    <td>{{::p.paymentDate  | date:'yyyy-MM-dd'}}</td>
+                    <td>{{::p.transferDate  | date:'yyyy-MM-dd'}}</td>
+                    <td>{{::p.transferDetail}}</td>
+                </tr>
+                </tbody>
+            </table>
+
+</div>
