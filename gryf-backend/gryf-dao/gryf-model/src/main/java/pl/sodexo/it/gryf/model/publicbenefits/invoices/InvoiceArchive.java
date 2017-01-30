@@ -33,7 +33,7 @@ public class InvoiceArchive extends AuditableEagleEntity {
     private String sourcePath;
 
     @Column(name = "GEN_DATE")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date genDate;
 
     @Column(name = "INV_ID")
@@ -48,7 +48,7 @@ public class InvoiceArchive extends AuditableEagleEntity {
     private Boolean checked;
 
     @Column(name = "CHECK_DATE")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date checkDate;
 
     @Column(name = "URL")
