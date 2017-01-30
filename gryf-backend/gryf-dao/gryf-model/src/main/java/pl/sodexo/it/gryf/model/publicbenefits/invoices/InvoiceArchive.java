@@ -62,7 +62,7 @@ public class InvoiceArchive extends AuditableEagleEntity {
     private Boolean duplicate;
 
     @Column(name = "DUPLICATE_DATE")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date duplicateDate;
 
     @Column(name = "ATT_ID")
