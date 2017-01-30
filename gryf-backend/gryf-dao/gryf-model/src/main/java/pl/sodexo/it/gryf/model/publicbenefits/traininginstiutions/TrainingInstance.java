@@ -28,7 +28,7 @@ import java.util.*;
                 + "where e.id = :trainingInstanceId and i.pesel = :indUserLogin"),
         @NamedQuery(name = "TrainingInstance.findByExternalIdAndPesel", query = "select e "
                 + "from TrainingInstance e "
-                + "where e.training.externalId = :externalId and e.individual.pesel = :pesel ")
+                + "where e.training.externalId = :externalId and e.individual.pesel = :pesel and e.status not in :excludedStatuses")
 })
 public class TrainingInstance extends VersionableEntity {
 

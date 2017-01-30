@@ -43,10 +43,11 @@ public class TrainingInstanceRepositoryImpl extends GenericRepositoryImpl<Traini
     }
 
     @Override
-    public List<TrainingInstance> findByExternalIdAndPesel(String externalId, String pesel){
+    public List<TrainingInstance> findByExternalIdAndPesel(String externalId, String pesel, List<String> excludedStatuses){
         TypedQuery<TrainingInstance> query = entityManager.createNamedQuery("TrainingInstance.findByExternalIdAndPesel", TrainingInstance.class);
         query.setParameter("externalId", externalId);
         query.setParameter("pesel", pesel);
+        query.setParameter("excludedStatuses", excludedStatuses);
         return query.getResultList();
     }
 }

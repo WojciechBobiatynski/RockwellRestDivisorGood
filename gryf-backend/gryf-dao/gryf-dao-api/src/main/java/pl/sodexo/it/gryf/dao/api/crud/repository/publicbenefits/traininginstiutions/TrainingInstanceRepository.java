@@ -16,5 +16,5 @@ public interface TrainingInstanceRepository extends GenericRepository<TrainingIn
 
     boolean isInUserIndividual(Long trainingInstanceId, String indUserLogin);
 
-    List<TrainingInstance> findByExternalIdAndPesel(String externalId, String pesel);
+    List<TrainingInstance> findByExternalIdAndPesel(String externalId, String pesell, List<String> excludedStatuses);
 }

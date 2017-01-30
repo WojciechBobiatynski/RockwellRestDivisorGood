@@ -39,6 +39,7 @@ import pl.sodexo.it.gryf.service.local.api.publicbenefits.pbeproduct.PbeProductI
 import pl.sodexo.it.gryf.service.mapping.MailDtoCreator;
 import pl.sodexo.it.gryf.service.validation.publicbenefits.trainingreservation.TrainingReservationValidator;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -228,7 +229,8 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
     public Long updateOpinionDone(String externalId, String pesel, boolean opinionDone){
         validateUpdateOpinionDone(externalId, pesel);
 
-        List<TrainingInstance> trainnigInstances = trainingInstanceRepository.findByExternalIdAndPesel(externalId, pesel);
+        List<TrainingInstance> trainnigInstances = trainingInstanceRepository.findByExternalIdAndPesel(externalId, pesel,
+                                                                                Collections.singletonList(TrainingInstanceStatus.CANCEL_CODE));
         validateUpdateOpinionDone(trainnigInstances, externalId, pesel);
 
         TrainingInstance ti = trainnigInstances.get(0);
