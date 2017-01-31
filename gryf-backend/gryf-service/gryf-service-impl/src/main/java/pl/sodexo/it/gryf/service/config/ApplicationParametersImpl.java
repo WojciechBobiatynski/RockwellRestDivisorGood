@@ -2,12 +2,14 @@ package pl.sodexo.it.gryf.service.config;
 
 import org.springframework.stereotype.Component;
 import pl.sodexo.it.gryf.common.config.ApplicationParameters;
+import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Marcel.GOLUNSKI
@@ -71,6 +73,7 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     private String ermbsEmailAttachmentDirectory = "mail_attachments";
     private Integer defaultEReimburseDayLimit = 35;
     private Integer defaultDaysNumberAfterEndDateToExpiryPool = 2;
+    private Set<String> ereimbursmentAttachmentFileExtensionSet = GryfStringUtils.createExtensionSet("pdf;doc;docx;xls;xlsx;png;jpg;gif");
 
     //LIFECYCLE METHODS
 
@@ -289,7 +292,10 @@ public class ApplicationParametersImpl implements ApplicationParameters {
         if (dbDefaultDaysNumberAfterEndDateToExpiryPool != null) {
             defaultDaysNumberAfterEndDateToExpiryPool = dbDefaultDaysNumberAfterEndDateToExpiryPool;
         }
-
+        String dbEreimbursmentAttachmentFileExtensionSet = (String) findParameter("GRYF_ERMBS_ATTACHMENT_FILE_EXTENSION");
+        if (dbEreimbursmentAttachmentFileExtensionSet != null) {
+            ereimbursmentAttachmentFileExtensionSet = GryfStringUtils.createExtensionSet(dbEreimbursmentAttachmentFileExtensionSet);
+        }
     }
 
     //PUBLIC METHODS
@@ -561,6 +567,11 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     @Override
     public Integer getDefaultDaysNumberAfterEndDateToExpiryPool() {
         return defaultDaysNumberAfterEndDateToExpiryPool;
+    }
+
+    @Override
+    public Set<String> getEreimbursmentAttachmentFileExtensionSet() {
+        return ereimbursmentAttachmentFileExtensionSet;
     }
 
     //PRIVATE METHODS

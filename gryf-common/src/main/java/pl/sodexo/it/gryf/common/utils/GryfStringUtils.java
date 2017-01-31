@@ -1,9 +1,12 @@
 package pl.sodexo.it.gryf.common.utils;
 
+import com.google.common.base.Strings;
+import com.google.common.collect.Sets;
 import com.google.common.io.Files;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import static pl.sodexo.it.gryf.common.utils.GryfConstants.FILE_EXTENSION_DELIMITER;
 
@@ -147,6 +150,17 @@ public final class GryfStringUtils {
                 .replaceAll("[^A-Za-z0-9 _]", "")
                 .replaceAll(" ", "_")
                 .toLowerCase() + FILE_EXTENSION_DELIMITER + extension;
+    }
+
+    public static Set<String> createExtensionSet(String extension){
+        Set<String> result = Sets.newHashSet();
+        if(!Strings.isNullOrEmpty(extension)){
+            String[] table = extension.toLowerCase().split(";");
+            for(int i = 0; i < table.length; i++){
+                result.add(table[i].toLowerCase().trim());
+            }
+        }
+        return result;
     }
 
 }

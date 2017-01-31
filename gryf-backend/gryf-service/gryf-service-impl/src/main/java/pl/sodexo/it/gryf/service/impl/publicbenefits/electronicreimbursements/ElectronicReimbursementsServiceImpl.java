@@ -176,6 +176,8 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     @Override
     public Long saveErmbs(ElctRmbsHeadDto elctRmbsHeadDto) {
         ermbsValidator.isCorrectStatusTransition(elctRmbsHeadDto.getErmbsId(), EreimbursementStatus.NEW_ERMBS);
+        ermbsValidator.validateFileAttachments(elctRmbsHeadDto);
+
         //wyliczanie składek zawsze przed zapisem na wypadek manipulowania danymi z frontu
         calculateCharges(elctRmbsHeadDto);
         //musimy zapisać rmbs, żeby mieć ID potrzebne do nadania odpowiedniej nazwy załącznikom
@@ -190,6 +192,8 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     public Long sendToReimburse(ElctRmbsHeadDto elctRmbsHeadDto) {
         ermbsValidator.validateRmbs(elctRmbsHeadDto);
         ermbsValidator.isCorrectStatusTransition(elctRmbsHeadDto.getErmbsId(), EreimbursementStatus.TO_ERMBS);
+        ermbsValidator.validateFileAttachments(elctRmbsHeadDto);
+
         //wyliczanie składek zawsze przed zapisem na wypadek manipulowania danymi z frontu
         calculateCharges(elctRmbsHeadDto);
         //musimy zapisać rmbs, żeby mieć ID potrzebne do nadania odpowiedniej nazwy załącznikom
@@ -203,6 +207,8 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     @Override
     public Long saveErmbsWithCorr(ElctRmbsHeadDto elctRmbsHeadDto) {
         ermbsValidator.isCorrectStatusTransition(elctRmbsHeadDto.getErmbsId(), EreimbursementStatus.TO_CORRECT);
+        ermbsValidator.validateFileAttachments(elctRmbsHeadDto);
+
         Ereimbursement ereimbursement = saveErmbsData(elctRmbsHeadDto);
         List<CorrectionAttachmentDto> correctionAttachmentDtoList = correctionAttachmentService.createCorrAttIfNotExistsForErmbsAttBeingChanged(elctRmbsHeadDto);
         ermbsAttachmentService.manageErmbsAttachmentsForCorrection(elctRmbsHeadDto, ErmbsAttachmentStatus.TEMP);
@@ -214,6 +220,8 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     public Long sendToReimburseWithCorr(ElctRmbsHeadDto elctRmbsHeadDto) {
         ermbsValidator.validateRmbs(elctRmbsHeadDto);
         ermbsValidator.isCorrectStatusTransition(elctRmbsHeadDto.getErmbsId(), EreimbursementStatus.TO_ERMBS);
+        ermbsValidator.validateFileAttachments(elctRmbsHeadDto);
+
         calculateCharges(elctRmbsHeadDto);
         Ereimbursement ereimbursement = saveErmbsData(elctRmbsHeadDto);
         ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.TO_ERMBS));

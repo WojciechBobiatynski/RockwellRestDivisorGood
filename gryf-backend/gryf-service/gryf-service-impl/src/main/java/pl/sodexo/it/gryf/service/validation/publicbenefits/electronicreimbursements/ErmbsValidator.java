@@ -1,11 +1,14 @@
 package pl.sodexo.it.gryf.service.validation.publicbenefits.electronicreimbursements;
 
+import com.google.common.base.Strings;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.validator.routines.checkdigit.IBANCheckDigit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import pl.sodexo.it.gryf.common.config.ApplicationParameters;
+import pl.sodexo.it.gryf.common.dto.other.FileDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceDataToValidateDto;
 import pl.sodexo.it.gryf.common.dto.user.GryfTiUser;
@@ -18,10 +21,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.Ereimburse
 import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.EreimbursementStatus;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.function.IntConsumer;
 import java.util.stream.IntStream;
 
@@ -40,6 +40,9 @@ public class ErmbsValidator {
 
     @Autowired
     private TrainingInstanceSearchDao trainingInstanceSearchDao;
+
+    @Autowired
+    private ApplicationParameters applicationParameters;
 
     @Autowired
     private GryfValidator gryfValidator;
@@ -125,7 +128,6 @@ public class ErmbsValidator {
     }
 
     private void validateAttachments(List<EntityConstraintViolation> violations, ElctRmbsHeadDto elctRmbsHeadDto){
-        //TODO wynieść stringi do stałych
         IntConsumer myConsumer = (index) -> {
             if (elctRmbsHeadDto.getAttachments().get(index).getDocumentNumber() == null || StringUtils.isEmpty(elctRmbsHeadDto.getAttachments().get(index).getDocumentNumber())) {
                 String path = String.format("%s[%s].%s", "attachments", index, "documentNumber");
@@ -140,6 +142,27 @@ public class ErmbsValidator {
         if (elctRmbsHeadDto.getAttachments() != null) {
             IntStream.range(0, elctRmbsHeadDto.getAttachments().size()).forEach(myConsumer);
         }
+    }
+
+    public void validateFileAttachments(ElctRmbsHeadDto elctRmbsHeadDto){
+        List<EntityConstraintViolation> violations = new ArrayList<EntityConstraintViolation>();
+
+        IntConsumer myConsumer = (index) -> {
+            FileDTO fileDTO = elctRmbsHeadDto.getAttachments().get(index).getFile();
+            if (fileDTO != null && !Strings.isNullOrEmpty(fileDTO.getOriginalFilename())) {
+                String fileExtension = GryfStringUtils.findFileExtension(fileDTO.getOriginalFilename()).toLowerCase();
+                Set<String> allowedFileExtensionSet = applicationParameters.getEreimbursmentAttachmentFileExtensionSet();
+
+                if(!allowedFileExtensionSet.contains(fileExtension)){
+                    String path = String.format("%s[%s].%s", "attachments", index, "file");
+                    violations.add(new EntityConstraintViolation(path, "Wiersz " + (index + 1) + ": nieprawidłowy typ pliku"));
+                }
+            }
+        };
+        if (elctRmbsHeadDto.getAttachments() != null) {
+            IntStream.range(0, elctRmbsHeadDto.getAttachments().size()).forEach(myConsumer);
+        }
+        gryfValidator.validate(violations);
     }
 
     private boolean wasFileAddedBefore(ElctRmbsHeadDto elctRmbsHeadDto, int index) {

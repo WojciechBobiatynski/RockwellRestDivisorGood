@@ -1,5 +1,7 @@
 package pl.sodexo.it.gryf.common.config;
 
+import java.util.Set;
+
 /**
  * Created by jbentyn on 2016-09-20.
  */
@@ -112,4 +114,6 @@ public interface ApplicationParameters {
     Integer getDefaultEReimburseDayLimit();
 
     Integer getDefaultDaysNumberAfterEndDateToExpiryPool();
+
+    Set<String> getEreimbursmentAttachmentFileExtensionSet();
 }
