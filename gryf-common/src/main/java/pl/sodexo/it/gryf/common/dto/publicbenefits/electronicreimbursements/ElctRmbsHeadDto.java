@@ -163,8 +163,9 @@ public class ElctRmbsHeadDto extends VersionableDto implements Serializable {
 
     private void calculateSxoIndAmountForTraining(CalculationChargesParamsDto params) {
         if (isTrainingHourPriceLowerThanProductValue(params)) {
-            setSxoIndAmountDueTotal(params.getProductValue().multiply(BigDecimal.valueOf(params.getUsedProductsNumber()))
-                    .subtract(BigDecimal.valueOf(params.getUsedProductsNumber() / params.getProductInstanceForHour()).multiply(params.getTrainingHourPrice())));
+            BigDecimal tempValue = params.getProductValue().multiply(BigDecimal.valueOf(params.getUsedProductsNumber()))
+                    .subtract(BigDecimal.valueOf(params.getUsedProductsNumber() / params.getProductInstanceForHour()).multiply(params.getTrainingHourPrice()));
+            setSxoIndAmountDueTotal(tempValue.multiply(params.getOwnContributionPercentage()));
         } else {
             setSxoIndAmountDueTotal(BigDecimal.ZERO);
         }
