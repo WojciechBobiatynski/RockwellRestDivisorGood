@@ -108,7 +108,7 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
         validateImport(importDTO);
 
         ContractType contractType = contractTypeRepository.get(importDTO.getContract().getContractType());
-        List<TrainingCategory> trainingCategories = trainingCategoryRepository.findByIdList(importDTO.getContract().getContractTrainingCategoryList());
+        List<TrainingCategory> trainingCategories = trainingCategoryRepository.findByIdList(importDTO.getContract().getContractTrainingCategories());
         AccountContractPair pair = accountContractPairService.getValidAccountContractPairForUsed(importDTO.getContract().getId());
 
         ZipCode zipCodeIndividualInvoice = zipCodeRepository.findActiveByCode(importDTO.getIndividual().getAddressInvoice().getZipCode());
@@ -174,7 +174,7 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
             }
         });
 
-        for(String c : importDTO.getContract().getContractTrainingCategoryList()){
+        for(String c : importDTO.getContract().getContractTrainingCategories()){
             if(!trainingCategoryMap.containsKey(c)){
                 violations.add(new EntityConstraintViolation(String.format("Nie znaleziono kategori usługi przydzielonej użytkownikowi "
                         + "o identyfikatorze (%s)", c)));
@@ -270,7 +270,7 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
                     c.getContract().setExpiryDate(getDateCellValue(cell));
                     break;
                 case 5:
-                    c.getContract().setContractTrainingCategories(getStringCellValue(cell));
+                    c.getContract().setContractTrainingCategories(getStringListCellValue(cell));
                     break;
                 case 6:
                     c.getIndividual().setFirstName(getStringCellValue(cell));
@@ -411,7 +411,7 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
         dto.setId(importDTO.getId());
         dto.setSignDate(importDTO.getSignDate());
         dto.setExpiryDate(importDTO.getExpiryDate());
-        dto.setTrainingCategory(importDTO.getContractTrainingCategoryList());
+        dto.setTrainingCategory(importDTO.getContractTrainingCategories());
         dto.setContractType(new DictionaryDTO(importDTO.getContractType()));
 
         GrantProgramDictionaryDTO grantProgram = new GrantProgramDictionaryDTO();

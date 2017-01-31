@@ -9,6 +9,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
 
@@ -46,14 +47,13 @@ public class ImportContractDTO {
 
     @Getter
     @Setter
-    @NotEmpty(message = "Kategorie usługi przydzielone uczestnikowi nie mogą być puste")
-    private String contractTrainingCategories;
+    @Size(message = "Kategorie usługi przydzielone uczestnikowi nie mogą być puste", min = 1)
+    private List<String> contractTrainingCategories;
 
     //EXTRA FIELDS
 
     private Long id;
 
-    private List<String> contractTrainingCategoryList;
 
     //EXTRA GETETRS
 
@@ -63,14 +63,6 @@ public class ImportContractDTO {
             id = Long.valueOf(tab[1]);
         }
         return id;
-    }
-
-    public List<String> getContractTrainingCategoryList(){
-        if(contractTrainingCategoryList == null) {
-            contractTrainingCategoryList = Strings.isNullOrEmpty(contractTrainingCategories) ? Lists.newArrayList() :
-                                            Lists.newArrayList(contractTrainingCategories.split(","));
-        }
-        return contractTrainingCategoryList;
     }
 
 }

@@ -7,6 +7,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.List;
 
 /**
  * Created by Isolution on 2016-12-02.
@@ -43,6 +45,6 @@ public class ImportTrainingInstitutionDTO {
 
     @Getter
     @Setter
-    @NotEmpty(message = "Email nie może być pusty")
-    private String email;
+    @Size(message = "Email nie może być pusty", min = 1)
+    private List<String> emails;
 }

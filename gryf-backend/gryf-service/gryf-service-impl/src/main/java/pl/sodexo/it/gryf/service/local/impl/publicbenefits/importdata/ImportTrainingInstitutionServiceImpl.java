@@ -31,6 +31,7 @@ import pl.sodexo.it.gryf.service.local.api.GryfValidator;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.traininginstiutions.TrainingInstitutionContactEntityMapper;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.security.traininginstitutions.TrainingInstitutionUserEntityMapper;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -88,10 +89,10 @@ public class ImportTrainingInstitutionServiceImpl extends ImportBaseDataServiceI
 
         GrantProgram grantProgram = grantProgramRepository.get(paramsDTO.getGrantProgramId());
         TrainingInstitution trainingInstitution = trainingInstitutionRepository.findByExternalId(importDTO.getExternalId());
-        TrainingInstitutionUser tiUser = trainingInstitutionUserDao.findByLoginIgnoreCase(importDTO.getEmail());
+        List<TrainingInstitutionUser> tiUsers = findByLoginsIgnoreCase(importDTO.getEmails());
         ZipCode zipCodeInvoice = zipCodeRepository.findActiveByCode(importDTO.getAddressInvoice().getZipCode());
         ZipCode zipCodeCorr = zipCodeRepository.findActiveByCode(importDTO.getAddressCorr().getZipCode());
-        validateConnectedData(importDTO, trainingInstitution, zipCodeInvoice, zipCodeCorr, tiUser);
+        validateConnectedData(importDTO, trainingInstitution, zipCodeInvoice, zipCodeCorr, tiUsers);
 
         ImportResultDTO result = new ImportResultDTO();
         TrainingInstitutionTempDto tempDto = createTrainingInstitutionDTO(trainingInstitution, importDTO, zipCodeInvoice, zipCodeCorr);
@@ -106,9 +107,9 @@ public class ImportTrainingInstitutionServiceImpl extends ImportBaseDataServiceI
             result.setDescrption(String.format("Poprawnie zaktualizowano dane: usługodawcye szkoleniową (%s).", tempDto.getTrainingInstitution().getId()));
         }
 
-        if(tempDto.isSendMail()){
-            sendTiAccessMail(grantProgram, importDTO.getEmail());
-            result.setDescrption(result.getDescrption() + String.format(" Wysłano maila powitalnego na adres %s.", importDTO.getEmail()));
+        if(!tempDto.getSendMails().isEmpty()){
+            sendTiAccessMail(grantProgram, tempDto.getSendMails());
+            result.setDescrption(result.getDescrption() + String.format(" Wysłano maila powitalnego na adresy: %s.", tempDto.getSendMails()));
         }
         return result;
     }
@@ -121,7 +122,7 @@ public class ImportTrainingInstitutionServiceImpl extends ImportBaseDataServiceI
     }
 
     private void validateConnectedData(ImportTrainingInstitutionDTO importDTO, TrainingInstitution trainingInstitution,
-                                        ZipCode zipCodeInvoice, ZipCode zipCodeCorr, TrainingInstitutionUser tiUser){
+                                        ZipCode zipCodeInvoice, ZipCode zipCodeCorr, List<TrainingInstitutionUser> tiUsers){
         List<EntityConstraintViolation> violations = Lists.newArrayList();
 
         if(zipCodeInvoice == null){
@@ -132,17 +133,19 @@ public class ImportTrainingInstitutionServiceImpl extends ImportBaseDataServiceI
             violations.add(new EntityConstraintViolation(String.format("Nie znaleziono kodu pocztowego dla adresu korespondencyjnego "
                     + "o wartości (%s)", importDTO.getAddressCorr().getZipCode())));
         }
-        if(tiUser != null){
-            if(trainingInstitution == null) {
-                violations.add(new EntityConstraintViolation(
-                        String.format("Email (%s) jest już używany jako login użytkonika TI. Użytkownik o danym emailu "
-                                        + "istnieje w Usługodawcy o identyfikatorze (%s).", importDTO.getEmail(),
-                                tiUser.getTrainingInstitution().getId())));
-            }else if(!tiUser.getTrainingInstitution().equals(trainingInstitution)){
-                violations.add(new EntityConstraintViolation(
-                        String.format("Email (%s) jest już używany jako login użytkonika TI. Użytkownik o danym emailu "
-                                        + "istnieje w Usługodawcy o identyfikatorze (%s).", importDTO.getEmail(),
-                                tiUser.getTrainingInstitution().getId())));
+        if(!tiUsers.isEmpty()){
+            for(TrainingInstitutionUser tiUser : tiUsers) {
+                if (trainingInstitution == null) {
+                    violations.add(new EntityConstraintViolation(
+                            String.format("Email (%s) jest już używany jako login użytkonika TI. Użytkownik o danym emailu " +
+                                            "istnieje w Usługodawcy o identyfikatorze (%s).", tiUser.getEmail(),
+                                    tiUser.getTrainingInstitution().getId())));
+                } else if (!tiUser.getTrainingInstitution().equals(trainingInstitution)) {
+                    violations.add(new EntityConstraintViolation(
+                            String.format("Email (%s) jest już używany jako login użytkonika TI. Użytkownik o danym emailu " +
+                                            "istnieje w Usługodawcy o identyfikatorze (%s).", tiUser.getEmail(),
+                                    tiUser.getTrainingInstitution().getId())));
+                }
             }
         }
 
@@ -187,7 +190,7 @@ public class ImportTrainingInstitutionServiceImpl extends ImportBaseDataServiceI
                     ti.getAddressCorr().setCity(getStringCellValue(cell));
                     break;
                 case 9:
-                    ti.setEmail(getStringCellValue(cell));
+                    ti.setEmails(getStringListCellValue(cell));
                     break;
             }
         }
@@ -213,7 +216,7 @@ public class ImportTrainingInstitutionServiceImpl extends ImportBaseDataServiceI
     private TrainingInstitutionTempDto createTrainingInstitutionDTO(TrainingInstitution trainingInstitution, final ImportTrainingInstitutionDTO importDTO,
                                                                 ZipCode zipCodeInvoice, ZipCode zipCodeCorr){
         TrainingInstitutionDto dto = new TrainingInstitutionDto();
-        boolean sendMail = false;
+        List<String> sendMails = new ArrayList<>();
 
         dto.setId(trainingInstitution != null ? trainingInstitution.getId() : null);
         dto.setExternalId(importDTO.getExternalId());
@@ -236,34 +239,39 @@ public class ImportTrainingInstitutionServiceImpl extends ImportBaseDataServiceI
 
         //USER & CONTACTS
         if(trainingInstitution == null) {
-            dto.setUsers(Lists.newArrayList(createGryfTiUserDto(importDTO)));
-            dto.setContacts(Lists.newArrayList(createTrainingInstitutionContactDto(importDTO)));
-            sendMail = true;
+            dto.setUsers(createGryfTiUserDto(importDTO));
+            dto.setContacts(createTrainingInstitutionContactDto(importDTO));
+            sendMails.addAll(importDTO.getEmails());
         }else{
 
             //USER
             dto.setUsers(trainingInstitutionUserEntityMapper.convert(trainingInstitution.getTrainingInstitutionUsers()));
-            boolean userExist = GryfUtils.contain(trainingInstitution.getTrainingInstitutionUsers(), new GryfUtils.Predicate<TrainingInstitutionUser>() {
-                public boolean apply(TrainingInstitutionUser input) {
-                    return input.getEmail().equals(importDTO.getEmail());
+            for(String email : importDTO.getEmails()) {
+                boolean userExist = GryfUtils.contain(trainingInstitution.getTrainingInstitutionUsers(), new GryfUtils.Predicate<TrainingInstitutionUser>() {
+                    public boolean apply(TrainingInstitutionUser input) {
+                        return input.getEmail().equals(email);
+                    }
+                });
+                if (!userExist) {
+                    dto.getUsers().add(createGryfTiUserDto(email));
+                    sendMails.add(email);
                 }
-            });
-            if(!userExist){
-                dto.getUsers().add(createGryfTiUserDto(importDTO));
-                sendMail = true;
             }
 
             //CONTACT
             dto.setContacts(trainingInstitutionContactEntityMapper.convert(trainingInstitution.getContacts()));
-            boolean contactExist = GryfUtils.contain(trainingInstitution.getContacts(), new GryfUtils.Predicate<TrainingInstitutionContact>() {
-                public boolean apply(TrainingInstitutionContact input) {
-                    return ContactType.TYPE_EMAIL.equals(input.getContactType().getType()) &&
-                            importDTO.getEmail().equals(input.getContactData());
+            for(String email : importDTO.getEmails()) {
+                boolean contactExist = GryfUtils.contain(trainingInstitution.getContacts(), new GryfUtils.Predicate<TrainingInstitutionContact>() {
+                    public boolean apply(TrainingInstitutionContact input) {
+                        return ContactType.TYPE_EMAIL.equals(input.getContactType().getType()) &&
+                                email.equals(input.getContactData());
+                    }
+                });
+                if(!contactExist){
+                    dto.getContacts().add(createTrainingInstitutionContactDto(email));
                 }
-            });
-            if(!contactExist){
-                dto.getContacts().add(createTrainingInstitutionContactDto(importDTO));
             }
+
         }
 
         dto.setVersion(trainingInstitution != null ? trainingInstitution.getVersion() : null);
@@ -271,29 +279,58 @@ public class ImportTrainingInstitutionServiceImpl extends ImportBaseDataServiceI
         dto.setCreatedTimestamp(trainingInstitution != null ? trainingInstitution.getCreatedTimestamp() : null);
         dto.setModifiedUser(trainingInstitution != null ? trainingInstitution.getModifiedUser() : null);
         dto.setModifiedTimestamp(trainingInstitution != null ? trainingInstitution.getModifiedTimestamp() : null);
-        return new TrainingInstitutionTempDto(dto, sendMail);
+        return new TrainingInstitutionTempDto(dto, sendMails);
     }
 
-    private GryfTiUserDto createGryfTiUserDto(ImportTrainingInstitutionDTO importDTO){
+    private List<GryfTiUserDto> createGryfTiUserDto(ImportTrainingInstitutionDTO importDTO){
+        List<GryfTiUserDto> result = new ArrayList<>();
+        for(String email : importDTO.getEmails()) {
+            result.add(createGryfTiUserDto(email));
+        }
+        return result;
+    }
+
+    private GryfTiUserDto createGryfTiUserDto(String email){
         GryfTiUserDto user = new GryfTiUserDto();
-        user.setLogin(importDTO.getEmail());
-        user.setEmail(importDTO.getEmail());
+        user.setLogin(email);
+        user.setEmail(email);
         RoleDto roleDTO = new RoleDto();
         roleDTO.setCode(Privileges.TI_MAIN_ROLE.name());
         user.setRoles(Lists.newArrayList(roleDTO));
         return user;
     }
 
-    private TrainingInstitutionContactDto createTrainingInstitutionContactDto(ImportTrainingInstitutionDTO importDTO){
+    private List<TrainingInstitutionContactDto> createTrainingInstitutionContactDto(ImportTrainingInstitutionDTO importDTO){
+        List<TrainingInstitutionContactDto> result = new ArrayList<>();
+        for(String email : importDTO.getEmails()) {
+            result.add(createTrainingInstitutionContactDto(email));
+        }
+        return result;
+    }
+
+    private TrainingInstitutionContactDto createTrainingInstitutionContactDto(String  email){
         TrainingInstitutionContactDto contactDTO = new TrainingInstitutionContactDto();
         contactDTO.setContactType(new ContactTypeDto());
         contactDTO.getContactType().setType(ContactType.TYPE_EMAIL);
-        contactDTO.setContactData(importDTO.getEmail());
+        contactDTO.setContactData(email);
         return contactDTO;
     }
 
-    private void sendTiAccessMail(GrantProgram grantProgram, String email){
-        verificationService.sendTiUserAccess(grantProgram.getId(), email);
+    private List<TrainingInstitutionUser>  findByLoginsIgnoreCase(List<String> emails){
+        List<TrainingInstitutionUser> result = new ArrayList<>();
+        for(String email : emails){
+            TrainingInstitutionUser tiUser = trainingInstitutionUserDao.findByLoginIgnoreCase(email);
+            if(tiUser != null){
+                result.add(tiUser);
+            }
+        }
+        return result;
+    }
+
+    private void sendTiAccessMail(GrantProgram grantProgram, List<String> emails){
+        for(String email : emails){
+            verificationService.sendTiUserAccess(grantProgram.getId(), email);
+        }
     }
 
     //CLASSES
@@ -304,12 +341,13 @@ public class ImportTrainingInstitutionServiceImpl extends ImportBaseDataServiceI
         private TrainingInstitutionDto trainingInstitution;
 
         @Getter
-        private boolean sendMail;
+        private List<String> sendMails;
 
-        public TrainingInstitutionTempDto(TrainingInstitutionDto trainingInstitution, boolean sendMail){
+        public TrainingInstitutionTempDto(TrainingInstitutionDto trainingInstitution, List<String> sendMails){
             this.trainingInstitution = trainingInstitution;
-            this.sendMail = sendMail;
+            this.sendMails = sendMails;
         }
     }
+
 
 }

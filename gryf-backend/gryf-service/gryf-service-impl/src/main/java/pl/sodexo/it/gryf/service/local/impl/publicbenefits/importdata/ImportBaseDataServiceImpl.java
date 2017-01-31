@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.service.local.impl.publicbenefits.importdata;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -31,6 +32,7 @@ import pl.sodexo.it.gryf.service.local.api.publicbenefits.importdata.ImportDataS
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -249,6 +251,31 @@ public abstract class ImportBaseDataServiceImpl implements ImportDataService{
                                                                  String.format("%s",valueNumberic);
             }
             return cell.getStringCellValue().trim();
+
+        }catch(RuntimeException e){
+            throw new RuntimeException(String.format("Błąd przy pobraniu wartości "
+                    + "z kolumny numer %s. Komunikat: %s.", cell.getColumnIndex() + 1, e.getMessage()), e);
+        }
+    }
+
+    protected List<String> getStringListCellValue(Cell cell){
+        try{
+            if(isEmpty(cell)) {
+                return null;
+            }
+            if(isNumber(cell)) {
+                throw new RuntimeException(String.format("Nie można odcyzta listy z komórki która jest typu numerycznego."));
+            }
+            List<String> result = new ArrayList<>();
+            String[] valueTab = cell.getStringCellValue().split("[,;:]");
+            for(int i = 0; i < valueTab.length; i++){
+                String value = valueTab[i].trim();
+                if(!Strings.isNullOrEmpty(value)){
+                    result.add(valueTab[i].trim());
+                }
+
+            }
+            return result;
 
         }catch(RuntimeException e){
             throw new RuntimeException(String.format("Błąd przy pobraniu wartości "
