@@ -199,7 +199,7 @@ public class MailDtoCreator {
                 .add(EMAIL_BODY_PLACEHOLDER, dto.getEmailBody())
                 .add(EMAIL_SUBJECT_PLACEHOLDER, dto.getEmailSubject());
 
-        EmailTemplate emailTemplate = emailTemplateRepository.get(DEFAULT_EMAIL_TEMPLATE_CODE);
+        EmailTemplate emailTemplate = emailTemplateRepository.get(DEFAULT_HTML_EMAIL_TEMPLATE_CODE);
         return createAndFillMailDTO(emailTemplate, mailPlaceholders,
                 dto.getEmailsTo(), null,
                 grantProgramParam.getGrantProgramEmailFrom(), grantProgramParam.getGrantProgramEmailReplay());

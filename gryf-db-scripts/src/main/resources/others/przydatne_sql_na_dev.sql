@@ -54,7 +54,8 @@ set ACTIVE = 'Y',
   DEACTIVATE_DATE = null,
   DEACTIVATE_JOB_ID = null;
 
-
+update APP_PBE.TI_TRAINING_INSTANCES
+set OPINION_DONE = 'Y';
 
 
 
