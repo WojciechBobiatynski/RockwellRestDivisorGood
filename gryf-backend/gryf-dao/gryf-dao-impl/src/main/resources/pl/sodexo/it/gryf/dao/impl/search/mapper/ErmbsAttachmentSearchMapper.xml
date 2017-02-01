@@ -10,6 +10,7 @@
               att.attach_type                           code,
               files.ID                                  fileId,
               att.DOCUMENT_NUMBER                       documentNumber,
+              att.DOCUMENT_DATE                         documentDate,
               att.ADDITIONAL_DESCRIPTION                additionalDescription,
               att.STATUS                                status,
               files.ORIGINAL_FILE_NAME                  originalFileName,

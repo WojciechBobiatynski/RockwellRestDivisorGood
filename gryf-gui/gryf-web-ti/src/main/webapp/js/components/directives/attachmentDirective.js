@@ -11,8 +11,15 @@ angular.module("gryf.ti").directive("attachments", ['AttachmentService',
             controller: ['$scope' ,function ($scope) {
                 $scope.modelTypes = {};
                 $scope.defaultType = {};
+                $scope.datepicker = {
+                    isDocumentDateOpened: false
+                };
                 $scope.maxAttachmentSize = 0;
                 $scope.defaultMaxAttachmentSizeInMB = 2;
+
+                $scope.openDatepicker = function (fieldName) {
+                    $scope.datepicker[fieldName] = true;
+                };
 
                 $scope.addNew = function () {
                     var newAttachment = {};

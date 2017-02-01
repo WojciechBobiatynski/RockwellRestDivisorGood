@@ -20,6 +20,7 @@ import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.electronicre
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Implementacja serwisu realizującego operacje na załącznikach do korekt
@@ -93,24 +94,27 @@ public class CorrectionAttachmentServiceImpl implements CorrectionAttachmentServ
         if (dto.isChanged()) {
             return true;
         }
-
         if (dto.isMarkToDelete()) {
             return true;
         }
-
         if (documentNumberHasChanged(dto, source)) {
             return true;
         }
-
         if (additionalDescHasChanged(dto, source)) {
             return true;
         }
-
+        if(documentDateHasChanged(dto, source)){
+            return true;
+        }
         return false;
     }
 
     private boolean documentNumberHasChanged(ErmbsAttachmentDto dto, ErmbsAttachment source) {
         return GryfStringUtils.isEmpty(dto.getDocumentNumber()) || !source.getDocumentNumber().equals(dto.getDocumentNumber());
+    }
+
+    private boolean documentDateHasChanged(ErmbsAttachmentDto dto, ErmbsAttachment source) {
+        return !Objects.equals(dto.getDocumentDate(), source.getDocumentDate());
     }
 
     private boolean additionalDescHasChanged(ErmbsAttachmentDto dto, ErmbsAttachment source) {

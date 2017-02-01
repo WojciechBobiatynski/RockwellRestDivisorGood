@@ -15,6 +15,9 @@
                 <div>Numer dokumentu (np. FV) lub opis</div>
             </th>
             <th class="grid-20">
+                <div>Data dokumentu</div>
+            </th>
+            <th class="grid-20">
                 <div>Opis dodatkowy</div>
             </th>
             <th class="grid-20">
@@ -30,8 +33,15 @@
                     <option data-ng-repeat="t in modelTypes.types" data-ng-show="!t.required" ng-selected="{{t.code == item.code}}" value="{{t.code}}">{{t.name}}</option>
                 </select>
             </td>
-            <td><input type="text" data-ng-model="item.documentNumber"/>
+            <td>
+                <input type="text" data-ng-model="item.documentNumber"/>
                 <gryf-validation-msg style="position: absolute;" path="attachments[{{$index}}].documentNumber"></gryf-validation-msg>
+            </td>
+            <td>
+                <input type="text"  ng-model="item.documentDate"
+                       datepicker-popup="yyyy-MM-dd" is-open="datepicker.isDocumentDateOpened"
+                       close-text="Zamknij" clear-text="Czyść" current-text="Dziś"
+                       ng-click="openDatepicker('isDocumentDateOpened')"/>
             </td>
             <td>
                 <input type="text" data-ng-model="item.additionalDescription"/>

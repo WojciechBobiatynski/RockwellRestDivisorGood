@@ -9,6 +9,7 @@ import pl.sodexo.it.gryf.common.dto.other.FileDTO;
 import pl.sodexo.it.gryf.common.enums.ErmbsAttachmentStatus;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Dto dla załączników rozliczenia bonów elektronicznych
@@ -37,6 +38,10 @@ public class ErmbsAttachmentDto extends VersionableDto implements Serializable {
     @Getter
     @Setter
     private String documentNumber;
+
+    @Getter
+    @Setter
+    private Date documentDate;
 
     @Getter
     @Setter

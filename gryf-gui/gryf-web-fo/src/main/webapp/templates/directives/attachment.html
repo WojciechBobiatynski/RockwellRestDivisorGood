@@ -5,6 +5,7 @@
     <div class="grid-100">
         <div class="grid-20">Rodzaj załącznika</div>
         <div class="grid-20">Numer dokumentu (np. FV) lub opis</div>
+        <div class="grid-10">Data dokumentu</div>
         <div class="grid-20">Opis dodatkowy</div>
         <div class="grid-20">Oryginalna nazwa pliku</div>
     </div>
@@ -17,6 +18,14 @@
         <div class="grid-20">
             <input type="text" ng-disabled="hasNotPrivilege('GRF_PBE_CONTRACTS_MOD') || item.required" data-ng-model="item.documentNumber"/>
             <gryf-validation-msg style="position: absolute;" path="attachments[{{$index}}].documentNumber"></gryf-validation-msg>
+        </div>
+        <div class="grid-10">
+            <input type="text"  ng-disabled="hasNotPrivilege('GRF_PBE_CONTRACTS_MOD') || item.required"
+                   ng-model="item.documentDate"
+                   datepicker-popup="yyyy-MM-dd" is-open="datepicker.isRmbsDateFromOpened"
+                   close-text="Zamknij" clear-text="Czyść" current-text="Dziś"
+                   ng-click="openDatepicker('isRmbsDateFromOpened')"/>
+            <gryf-validation-msg style="position: absolute;" path="attachments[{{$index}}].documentDate"></gryf-validation-msg>
         </div>
         <div class="grid-20">
             <input ng-disabled="hasNotPrivilege('GRF_PBE_CONTRACTS_MOD') || item.required" type="text" data-ng-model="item.additionalDescription"/>

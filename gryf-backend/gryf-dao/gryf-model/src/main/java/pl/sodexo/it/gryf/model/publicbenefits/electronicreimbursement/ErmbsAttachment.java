@@ -10,6 +10,7 @@ import pl.sodexo.it.gryf.model.attachments.AttachmentType;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 /**
  * Encja dla załączników do rozliczeń bonów elektronicznych
@@ -51,6 +52,12 @@ public class ErmbsAttachment extends VersionableEntity {
     @Getter
     @Setter
     private String documentNumber;
+
+    @Column(name = "DOCUMENT_DATE")
+    @Temporal(TemporalType.DATE)
+    @Getter
+    @Setter
+    private Date documentDate;
 
     @Column(name = "ADDITIONAL_DESCRIPTION")
     @Getter

@@ -241,6 +241,7 @@
           att.attach_type                           att_code,
           files.ID                                  att_fileId,
           att.DOCUMENT_NUMBER                       att_documentNumber,
+          att.DOCUMENT_DATE                         att_documentDate,
           att.ADDITIONAL_DESCRIPTION                att_additionalDescription,
           att.STATUS                                att_status,
           files.ORIGINAL_FILE_NAME                  att_originalFileName,
