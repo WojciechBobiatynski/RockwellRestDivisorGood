@@ -486,6 +486,8 @@
           ermbs.ID                                  ermbsId,
           ermbs.TYPE_ID                             typeCode,
           ermbs.STATUS_ID                           statusCode,
+          ermbs_stat.NAME                           statusName,
+          ermbs.REIMBURSEMENT_DATE                  reimbursementDate,
           ermbs.SXO_TI_AMOUNT_DUE_TOTAL             sxoTiAmountDueTotal,
           ermbs.SXO_IND_AMOUNT_DUE_TOTAL            sxoIndAmountDueTotal,
           ermbs.IND_TI_AMOUNT_DUE_TOTAL             indTiAmountDueTotal,
@@ -525,6 +527,7 @@
           e_att.ATTACHMENT_NAME                     mail_ett_originalFilename
         FROM
           APP_PBE.E_REIMBURSEMENTS ermbs
+          JOIN APP_PBE.E_REIMBURSEMENT_STATUSES ermbs_stat ON ermbs.STATUS_ID = ermbs_stat.ID
           JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOLS pip on ermbs.PRODUCT_INSTANCE_POOL_ID = pip.ID
           JOIN APP_PBE.ORDERS ord on pip.ORDER_ID = ord.ID
           JOIN APP_PBE.CONTRACTS cnt on ord.CONTRACT_ID = cnt.ID

@@ -67,6 +67,10 @@ public class UnrsvPoolRmbsDto extends VersionableDto implements Serializable {
 
     @Getter
     @Setter
+    private String statusName;
+
+    @Getter
+    @Setter
     private Date reimbursementDate;
 
     @Getter
