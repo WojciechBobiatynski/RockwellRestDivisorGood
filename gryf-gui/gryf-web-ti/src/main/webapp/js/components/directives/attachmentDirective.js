@@ -11,14 +11,11 @@ angular.module("gryf.ti").directive("attachments", ['AttachmentService',
             controller: ['$scope' ,function ($scope) {
                 $scope.modelTypes = {};
                 $scope.defaultType = {};
-                $scope.datepicker = {
-                    isDocumentDateOpened: false
-                };
                 $scope.maxAttachmentSize = 0;
                 $scope.defaultMaxAttachmentSizeInMB = 2;
 
-                $scope.openDatepicker = function (fieldName) {
-                    $scope.datepicker[fieldName] = true;
+                $scope.openDatepicker = function (attachment) {
+                    attachment.isDocumentDateOpened = true;
                 };
 
                 $scope.addNew = function () {
@@ -58,8 +55,10 @@ angular.module("gryf.ti").directive("attachments", ['AttachmentService',
 
                 function Attachment(code, maxFileSize, required) {
                     this.code = code,
-                        this.maxFileSize = maxFileSize,
-                        this.required = required
+                    this.maxFileSize = maxFileSize,
+                    this.isDocumentDateOpened = false;
+                    this.documentDate = null;
+                    this.required = required
                 }
 
                 var unregisterCallback = $scope.$watch('model.grantProgramId', function (newData) {
