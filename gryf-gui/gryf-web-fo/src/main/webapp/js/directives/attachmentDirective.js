@@ -13,6 +13,10 @@ angular.module("gryf.config").directive("attachments", ['AttachmentService',
                 $scope.modelTypes = {};
                 $scope.defaultType = {};
 
+                $scope.openDatepicker = function (attachment) {
+                    attachment.isDocumentDateOpened = true;
+                };
+
                 $scope.addNew = function () {
                     var newAttachment = {};
                     angular.copy($scope.defaultType, newAttachment);
@@ -55,7 +59,8 @@ angular.module("gryf.config").directive("attachments", ['AttachmentService',
                 function Attachment(code, maxFileSize, required) {
                     this.code = code,
                         this.maxFileSize = maxFileSize,
-                        this.required = required
+                        this.required = required,
+                        this.isDocumentDateOpened = false;
                 };
 
                 $scope.$watch('model.grantProgramId', function (newData) {

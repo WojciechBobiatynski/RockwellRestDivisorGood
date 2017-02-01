@@ -42,6 +42,7 @@
                        datepicker-popup="yyyy-MM-dd" is-open="item.isDocumentDateOpened"
                        close-text="Zamknij" clear-text="Czyść" current-text="Dziś"
                        ng-click="openDatepicker(item)"/>
+                <gryf-validation-msg style="position: absolute;" path="attachments[{{$index}}].documentDate"></gryf-validation-msg>
             </td>
             <td>
                 <input type="text" data-ng-model="item.additionalDescription"/>

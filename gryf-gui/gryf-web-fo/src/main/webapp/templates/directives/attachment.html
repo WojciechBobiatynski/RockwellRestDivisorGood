@@ -22,9 +22,9 @@
         <div class="grid-10">
             <input type="text"  ng-disabled="hasNotPrivilege('GRF_PBE_CONTRACTS_MOD') || item.required"
                    ng-model="item.documentDate"
-                   datepicker-popup="yyyy-MM-dd" is-open="datepicker.isRmbsDateFromOpened"
+                   datepicker-popup="yyyy-MM-dd" is-open="item.isDocumentDateOpened"
                    close-text="Zamknij" clear-text="Czyść" current-text="Dziś"
-                   ng-click="openDatepicker('isRmbsDateFromOpened')"/>
+                   ng-click="openDatepicker(item)"/>
             <gryf-validation-msg style="position: absolute;" path="attachments[{{$index}}].documentDate"></gryf-validation-msg>
         </div>
         <div class="grid-20">

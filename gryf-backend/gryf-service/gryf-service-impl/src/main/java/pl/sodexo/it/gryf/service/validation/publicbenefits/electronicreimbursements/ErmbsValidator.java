@@ -129,9 +129,13 @@ public class ErmbsValidator {
 
     private void validateAttachments(List<EntityConstraintViolation> violations, ElctRmbsHeadDto elctRmbsHeadDto){
         IntConsumer myConsumer = (index) -> {
-            if (elctRmbsHeadDto.getAttachments().get(index).getDocumentNumber() == null || StringUtils.isEmpty(elctRmbsHeadDto.getAttachments().get(index).getDocumentNumber())) {
+            if (StringUtils.isEmpty(elctRmbsHeadDto.getAttachments().get(index).getDocumentNumber())) {
                 String path = String.format("%s[%s].%s", "attachments", index, "documentNumber");
                 violations.add(new EntityConstraintViolation(path, "Wiersz " + (index + 1) + ": brak numeru dokumentu"));
+            }
+            if (elctRmbsHeadDto.getAttachments().get(index).getDocumentDate() == null) {
+                String path = String.format("%s[%s].%s", "attachments", index, "documentDate");
+                violations.add(new EntityConstraintViolation(path, "Wiersz " + (index + 1) + ": brak daty dokumentu"));
             }
             if (!wasFileAddedBefore(elctRmbsHeadDto, index) && elctRmbsHeadDto.getAttachments().get(index).getFile() == null) {
                 String path = String.format("%s[%s].%s", "attachments", index, "file");
