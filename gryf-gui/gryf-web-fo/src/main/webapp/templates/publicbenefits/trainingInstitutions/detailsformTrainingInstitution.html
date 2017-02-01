@@ -136,7 +136,7 @@
                         <gryf-validation-msg path="users[{{$index}}].role"></gryf-validation-msg>
                     </td>
                     <td>
-                        <input type="text" ng-model="user.lastLoginSuccessDate" disabled="disabled"/>
+                        <input type="text" value="{{user.lastLoginSuccessDate | date:'yyyy-MM-dd'}}" disabled="disabled"/>
                     </td>
                     <td>
                         <button class="button button-reset" data-ng-click="sendResetLink(user)" data-ng-disabled="!isModType(user)">Wyślij link resetu hasła</button>
