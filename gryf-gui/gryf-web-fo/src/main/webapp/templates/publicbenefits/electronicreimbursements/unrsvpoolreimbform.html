@@ -15,6 +15,29 @@
 <section>
     <div class="grid-100">
         <header>
+            <h2>Dane rozliczenia</h2>
+        </header>
+    </div>
+    <div class="grid-100">
+        <div class="grid-10">
+            <strong class="label">Id rozliczenia</strong>
+            {{eReimbObject.entity.ermbsId}}
+        </div>
+        <!--div class="grid-10">
+            <strong class="label">Data otrzymania</strong>
+            {{eReimbObject.entity.aaa}}
+        </div-->
+        <div class="grid-10">
+            <strong class="label">Status</strong>
+            {{eReimbObject.entity.statusName}}
+        </div>
+        <div class="grid-10">
+            <strong class="label">Data rozliczenia</strong>
+            {{eReimbObject.entity.reimbursementDate | date:'yyyy-MM-dd'}}
+        </div>
+    </div>
+    <div class="grid-100">
+        <header>
             <h2>Dane uczestnika</h2>
         </header>
     </div>

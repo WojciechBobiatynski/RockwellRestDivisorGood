@@ -82,6 +82,10 @@ public class ElctRmbsHeadDto extends VersionableDto implements Serializable {
 
     @Getter
     @Setter
+    private String statusName;
+
+    @Getter
+    @Setter
     private String tiReimbAccountNumber;
 
     @Getter
