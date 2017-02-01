@@ -210,6 +210,7 @@
                         <tr class="grid-100">
                             <th class="grid-10">Rodzaj załącznika</th>
                             <th class="grid-20">Numer dokumentu</th>
+                            <th class="grid-20">Data dokumentu</th>
                             <th class="grid-20">Opis dodatkowy</th>
                             <th class="grid-20">Oryginalna nazwa pliku</th>
                             <th class="grid-10">Status</th>
@@ -219,6 +220,7 @@
                         <tr data-ng-repeat="att in corr.attachments">
                             <td>{{::att.attTypeName}}</td>
                             <td>{{::att.oldDocumentNumber}}</td>
+                            <td>{{::att.oldDocumentDate | date:'yyyy-MM-dd'}}
                             <td>{{::att.oldAdditionalDesc}}</td>
                             <td><a ng-href="{{getDownloadCorrAttachmentLink(att)}}">{{att.originalFileName}}</a></td>
                             <td>{{att.status == 'DELETED' ? 'Usunięto' : 'Zmieniono'}}</td>

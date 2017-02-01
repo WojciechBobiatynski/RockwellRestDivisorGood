@@ -8,6 +8,7 @@ import pl.sodexo.it.gryf.model.attachments.AttachmentFile;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 /**
  * Encja dla korekt rozliczeń bonów elektronicznych
@@ -40,10 +41,17 @@ public class CorrectionAttachment extends VersionableEntity {
     @Setter
     private ErmbsAttachment ermbsAttachment;
 
+
     @Column(name = "OLD_DOCUMENT_NUMBER")
     @Getter
     @Setter
     private String oldDocumentNumber;
+
+    @Temporal(TemporalType.DATE)
+    @Column(name = "OLD_DOCUMENT_DATE")
+    @Getter
+    @Setter
+    private Date oldDocumentDate;
 
     @Column(name = "OLD_ADDITIONAL_DESC")
     @Getter

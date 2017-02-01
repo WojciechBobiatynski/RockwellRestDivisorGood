@@ -5,6 +5,8 @@ import lombok.Setter;
 import lombok.ToString;
 import pl.sodexo.it.gryf.common.dto.api.VersionableDto;
 
+import java.util.Date;
+
 /**
  * Dto dla korekty
  *
@@ -32,6 +34,10 @@ public class CorrectionAttachmentDto extends VersionableDto{
     @Getter
     @Setter
     private String oldDocumentNumber;
+
+    @Getter
+    @Setter
+    private Date oldDocumentDate;
 
     @Getter
     @Setter

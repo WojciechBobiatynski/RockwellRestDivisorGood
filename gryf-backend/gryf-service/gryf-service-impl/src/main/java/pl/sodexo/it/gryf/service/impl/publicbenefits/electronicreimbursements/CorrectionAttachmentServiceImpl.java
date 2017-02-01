@@ -80,6 +80,7 @@ public class CorrectionAttachmentServiceImpl implements CorrectionAttachmentServ
         correctionAttachment.setErmbsAttId(ermbsAttachment.getId());
         correctionAttachment.setOldAdditionalDesc(ermbsAttachment.getAdditionalDescription());
         correctionAttachment.setOldDocumentNumber(ermbsAttachment.getDocumentNumber());
+        correctionAttachment.setOldDocumentDate(ermbsAttachment.getDocumentDate());
         if(ermbsAttachment.getAttachmentFile() != null){
             correctionAttachment.setFileId(ermbsAttachment.getAttachmentFile().getId());
         }

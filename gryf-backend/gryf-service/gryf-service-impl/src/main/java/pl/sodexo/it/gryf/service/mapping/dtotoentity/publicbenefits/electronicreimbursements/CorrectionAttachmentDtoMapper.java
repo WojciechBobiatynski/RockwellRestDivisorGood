@@ -39,6 +39,7 @@ public class CorrectionAttachmentDtoMapper extends VersionableDtoMapper<Correcti
         entity.setCorrection(dto.getCorrId() != null ? correctionRepository.get(dto.getCorrId()) : null);
         entity.setErmbsAttachment(dto.getErmbsAttId() != null ? ereimbursementAttachmentRepository.get(dto.getErmbsAttId()) : null);
         entity.setOldDocumentNumber(dto.getOldDocumentNumber());
+        entity.setOldDocumentDate(dto.getOldDocumentDate());
         entity.setOldAdditionalDesc(dto.getOldAdditionalDesc());
     }
 

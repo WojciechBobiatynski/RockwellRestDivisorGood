@@ -227,6 +227,7 @@
           cor_att.E_RMBS_ATT_ID                     corr_ctt_ermbsAttId,
           cor_att.FILE_ID                           corr_ctt_fileId,
           cor_att.OLD_DOCUMENT_NUMBER               corr_ctt_oldDocumentNumber,
+          cor_att.OLD_DOCUMENT_DATE                 corr_ctt_oldDocumentDate,
           cor_att.OLD_ADDITIONAL_DESC               corr_ctt_oldAdditionalDesc,
           ctt_t.NAME                                corr_ctt_attTypeName,
           rmbs_att.STATUS                           corr_ctt_status,
