@@ -249,6 +249,13 @@ angular.module('gryf.electronicreimbursements').controller("unrsv.electronicReim
                 });
             };
 
+            $scope.goBack = function() {
+                var callback = function() {
+                    window.location = GryfModulesUrlProvider.getBackUrl(GryfModulesUrlProvider.MODULES.ElectronicReimbursement);
+                };
+                $scope.showAcceptModal("Wywołując tę akcję stracisz niezapisane dane", callback);
+            };
+
             //TODO: ujednolicić, tak jak cały ekran dla rozliczeń niewykorzystanej puli bonów
             $scope.reimburseButtonVisible = function(){
                 return $scope.unReimbObject.entity != null && ($scope.unReimbObject.entity.statusCode === 'NEW' || $scope.unReimbObject.entity.statusCode === 'T_CRR');
