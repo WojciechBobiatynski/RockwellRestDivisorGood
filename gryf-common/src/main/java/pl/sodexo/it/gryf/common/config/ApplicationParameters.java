@@ -116,4 +116,6 @@ public interface ApplicationParameters {
     Integer getDefaultDaysNumberAfterEndDateToExpiryPool();
 
     Set<String> getEreimbursmentAttachmentFileExtensionSet();
+
+    String getStrongPasswordRegexp();
 }

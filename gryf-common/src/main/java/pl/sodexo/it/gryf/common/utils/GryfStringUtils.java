@@ -7,6 +7,8 @@ import com.google.common.io.Files;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static pl.sodexo.it.gryf.common.utils.GryfConstants.FILE_EXTENSION_DELIMITER;
 
@@ -161,6 +163,12 @@ public final class GryfStringUtils {
             }
         }
         return result;
+    }
+
+    public static boolean isRegexpMatch(String regexp, String value){
+        Pattern p = Pattern.compile(regexp);
+        Matcher m = p.matcher(value);
+        return m.matches();
     }
 
 }

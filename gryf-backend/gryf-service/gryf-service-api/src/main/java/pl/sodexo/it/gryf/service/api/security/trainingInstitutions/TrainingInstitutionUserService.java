@@ -51,4 +51,11 @@ public interface TrainingInstitutionUserService {
      * @return dto użytkownika Usługodawcy
      */
     GryfTiUserDto findUserByTurIdAndSaveNewPassword(String turId, String password);
+
+    /**
+     * Sprawdza czy hasło jest mocne
+     * @param password - hasło
+     * @return
+     */
+    boolean isPasswordStrong(String password);
 }

@@ -63,6 +63,11 @@ public class SavePasswordController {
             uiModel.addAttribute(JSP_ERROR_PLACEHOLDER, new GryfVerificationException("Hasła muszą być identyczne"));
             return PAGE_RESET_PASSWORD;
         }
+        if(!trainingInstitutionUserService.isPasswordStrong(password)){
+            uiModel.addAttribute(JSP_ERROR_PLACEHOLDER, new GryfVerificationException("Hasło powinno zawierać minimum 8 znaków. "
+                    + "Hasło powinno zawierać przynajmniej jedną cyfrę, wielką literę oraz znak specjalny (np: # @ !)"));
+            return PAGE_RESET_PASSWORD;
+        }
 
         String token = (String) request.getSession().getAttribute(TOKEN_PLACEHOLDER);
         request.getSession().removeAttribute(TOKEN_PLACEHOLDER);

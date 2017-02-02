@@ -74,6 +74,7 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     private Integer defaultEReimburseDayLimit = 35;
     private Integer defaultDaysNumberAfterEndDateToExpiryPool = 2;
     private Set<String> ereimbursmentAttachmentFileExtensionSet = GryfStringUtils.createExtensionSet("pdf;doc;docx;xls;xlsx;png;jpg;gif");
+    private String strongPasswordRegexp = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[\\\\-_!@#$%^&*.])[a-zA-Z0-9\\\\-_!@#$%^&*.]{8,}$";
 
     //LIFECYCLE METHODS
 
@@ -295,6 +296,10 @@ public class ApplicationParametersImpl implements ApplicationParameters {
         String dbEreimbursmentAttachmentFileExtensionSet = (String) findParameter("GRYF_ERMBS_ATTACHMENT_FILE_EXTENSION");
         if (dbEreimbursmentAttachmentFileExtensionSet != null) {
             ereimbursmentAttachmentFileExtensionSet = GryfStringUtils.createExtensionSet(dbEreimbursmentAttachmentFileExtensionSet);
+        }
+        String dbStrongPasswordRegexp = (String) findParameter("GRYF_STRONG_PASSWORD_REGEXP");
+        if (dbStrongPasswordRegexp != null) {
+            strongPasswordRegexp = dbStrongPasswordRegexp;
         }
     }
 
@@ -572,6 +577,11 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     @Override
     public Set<String> getEreimbursmentAttachmentFileExtensionSet() {
         return ereimbursmentAttachmentFileExtensionSet;
+    }
+
+    @Override
+    public String getStrongPasswordRegexp() {
+        return strongPasswordRegexp;
     }
 
     //PRIVATE METHODS

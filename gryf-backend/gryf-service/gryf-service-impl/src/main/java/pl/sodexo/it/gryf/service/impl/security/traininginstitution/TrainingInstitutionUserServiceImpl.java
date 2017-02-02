@@ -5,8 +5,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.common.dto.security.trainingInstitutions.GryfTiUserDto;
 import pl.sodexo.it.gryf.common.exception.verification.GryfInvalidTokenException;
+import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.dao.api.crud.dao.traininginstitutions.TiUserResetAttemptDao;
 import pl.sodexo.it.gryf.dao.api.crud.dao.traininginstitutions.TrainingInstitutionUserDao;
 import pl.sodexo.it.gryf.model.security.trainingInstitutions.TiUserResetAttempt;
@@ -35,6 +37,9 @@ public class TrainingInstitutionUserServiceImpl implements TrainingInstitutionUs
 
     @Autowired
     private TiUserResetAttemptDao tiUserResetAttemptDao;
+
+    @Autowired
+    private ApplicationParameters applicationParameters;
 
     @Override
     public GryfTiUserDto saveTiUser(GryfTiUserDto gryfTiUserDto) {
@@ -75,5 +80,11 @@ public class TrainingInstitutionUserServiceImpl implements TrainingInstitutionUs
         user.setPassword(passwordEncoder.encode(password));
         tiUserResetAttempt.setUsed(true);
         return trainingInstitutionUserEntityMapper.convert(trainingInstitutionUserDao.save(user));
+    }
+
+    @Override
+    public boolean isPasswordStrong(String password){
+        String strongPasswordRegexp = applicationParameters.getStrongPasswordRegexp();
+        return GryfStringUtils.isRegexpMatch(strongPasswordRegexp, password);
     }
 }
