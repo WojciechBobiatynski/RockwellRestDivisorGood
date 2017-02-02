@@ -98,6 +98,10 @@ public class ElctRmbsHeadDto extends VersionableDto implements Serializable {
 
     @Getter
     @Setter
+    private Date arrivalDate;
+
+    @Getter
+    @Setter
     private CorrectionDto lastCorrectionDto;
 
     @Getter

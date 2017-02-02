@@ -31,10 +31,10 @@
             <strong class="label">Id rozliczenia</strong>
             {{eReimbObject.entity.ermbsId}}
         </div>
-        <!--div class="grid-10">
+        <div class="grid-10">
             <strong class="label">Data otrzymania</strong>
-            {{eReimbObject.entity.aaa}}
-        </div-->
+            {{eReimbObject.entity.arrivalDate | date:'yyyy-MM-dd'}}
+        </div>
         <div class="grid-10">
             <strong class="label">Status</strong>
             {{eReimbObject.entity.statusName}}

@@ -23,10 +23,10 @@
             <strong class="label">Id rozliczenia</strong>
             {{unReimbObject.entity.ermbsId}}
         </div>
-        <!--div class="grid-10">
+        <div class="grid-10">
             <strong class="label">Data otrzymania</strong>
-            {{unReimbObject.entity.aaa}}
-        </div-->
+            {{unReimbObject.entity.arrivalDate | date:'yyyy-MM-dd'}}
+        </div>
         <div class="grid-10">
             <strong class="label">Status</strong>
             {{unReimbObject.entity.statusName}}

@@ -161,6 +161,7 @@
           ermbs.STATUS_ID                           statusCode,
           ermbs_stat.NAME                           statusName,
           ermbs.REIMBURSEMENT_DATE                  reimbursementDate,
+          ermbs.ARRIVAL_DATE                        arrivalDate,
           tr_in.GRANT_PROGRAM_ID                    grantProgramId,
           CASE tr_in.OPINION_DONE
             WHEN 'Y'
@@ -488,6 +489,7 @@
           ermbs.STATUS_ID                           statusCode,
           ermbs_stat.NAME                           statusName,
           ermbs.REIMBURSEMENT_DATE                  reimbursementDate,
+          ermbs.ARRIVAL_DATE                        arrivalDate,
           ermbs.SXO_TI_AMOUNT_DUE_TOTAL             sxoTiAmountDueTotal,
           ermbs.SXO_IND_AMOUNT_DUE_TOTAL            sxoIndAmountDueTotal,
           ermbs.IND_TI_AMOUNT_DUE_TOTAL             indTiAmountDueTotal,
