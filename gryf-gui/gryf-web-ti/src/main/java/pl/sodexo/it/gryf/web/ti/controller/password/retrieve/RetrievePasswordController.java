@@ -17,7 +17,9 @@ import org.springframework.web.client.RestTemplate;
 import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.common.dto.captcha.CaptchaResponseDto;
 import pl.sodexo.it.gryf.common.exception.GryfRuntimeException;
+import pl.sodexo.it.gryf.common.exception.authentication.GryfUserNotActiveException;
 import pl.sodexo.it.gryf.common.exception.verification.GryfCaptchaException;
+import pl.sodexo.it.gryf.common.exception.verification.GryfVerificationException;
 import pl.sodexo.it.gryf.service.api.security.VerificationService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -67,7 +69,10 @@ public class RetrievePasswordController {
             verificationService.resetTiUserPassword(email);
             uiModel.addAttribute(JSP_EMAIL_PLACEHOLDER, email);
             comebackPage = PAGE_RETRIEVE_RESET_PASSWORD_SUCCESS;
-        } catch (GryfRuntimeException e){
+        }
+        catch(GryfUserNotActiveException | GryfVerificationException e){
+            comebackPage = PAGE_RETRIEVE_RESET_PASSWORD_SUCCESS;
+        }catch (GryfRuntimeException e){
             LOGGER.error("Blad podczas obslugi", e);
             uiModel.addAttribute(JSP_ERROR_PLACEHOLDER, e);
             uiModel.addAttribute(JSP_SITE_KEY_PLACEHOLDER, applicationParameters.getPublicCaptchaKey());
