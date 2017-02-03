@@ -8,9 +8,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.common.dto.user.GryfUser;
 
-/**
- * TODO COMMENT
- */
 @ControllerAdvice
 public class CommonModelAttributeAdvicer {
 

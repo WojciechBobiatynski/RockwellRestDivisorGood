@@ -39,7 +39,7 @@ public class ReportActionService extends ActionBaseService {
     protected void executeAction(Order order){
 
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("invoiceId", 1308L);//TODO; PRZEKAZAC
+        parameters.put("invoiceId", 1308L);//to jest tylko przykad wiec stała
         parameters.put("companyName", applicationParameters.getSodexoName());
         parameters.put("companyAddress1", applicationParameters.getSodexoAddress1());
         parameters.put("companyAddress2", applicationParameters.getSodexoAddress2());

@@ -10,7 +10,6 @@ import pl.sodexo.it.gryf.service.local.api.publicbenefits.products.PrintNumberCh
  *
  * Created by jbentyn on 2016-10-13.
  */
-//TODO podmienić na prawdziwą implementaje jak juz będzie wiadomo jak to zrobić
 @Component
 public class DummyNumberChecksumProvider implements PrintNumberChecksumProvider {
 

@@ -10,7 +10,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 /**
- * TODO COMMENT
+ * Klasa formatujaca datę
  */
 public class DateFormatter implements Formatter<Date> {
 

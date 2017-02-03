@@ -14,7 +14,6 @@ public final class OrderFlowTransitionDTOProvider {
 
     private OrderFlowTransitionDTOProvider(){};
 
-    //TODO AdamK: na razie tak
     public static OrderFlowTransitionDTO createOrderFlowTransitionDTO(OrderFlowTransitionDTOBuilder builder) {
         OrderFlowTransitionDTO dto = new OrderFlowTransitionDTO();
         dto.setActionName(builder.getOrderFlowStatusTransition().getActionName());

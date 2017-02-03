@@ -68,7 +68,6 @@ public class TrainingInstitutionValidator {
     }
 
     private void validateTiUser(TrainingInstitution trainingInstitution, List<EntityConstraintViolation> violations) {
-        //TODO wynieść stringi do stałych
         IntConsumer myConsumer = (index) -> {
             if (trainingInstitution.getTrainingInstitutionUsers().get(index).getRoles() == null || trainingInstitution.getTrainingInstitutionUsers().get(index).getRoles().isEmpty()) {
                 String path = String.format("%s[%s].%s", "users", index, "role");

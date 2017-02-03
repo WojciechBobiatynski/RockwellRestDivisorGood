@@ -21,7 +21,6 @@ import java.lang.reflect.Field;
 import java.util.Collection;
 
 @Component
-//todo do przerobienia
 public class SecurityCheckerImpl implements SecurityChecker {
 
     //PUBLIC METHODS - ASSERT PRIVILEGE
