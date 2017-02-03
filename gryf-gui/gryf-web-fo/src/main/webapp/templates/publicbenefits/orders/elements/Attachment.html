@@ -4,6 +4,7 @@
             Załącznik - {{item.name}}
         </strong>
         <a class="button"
+           ng-if="item.flags.indexOf('I') > -1 || item.flags.indexOf('U') > -1"
            ng-model="item.file"
            ngf-select
            ngf-change="validateSize($files, attachment)"
@@ -18,7 +19,8 @@
             Pobierz załącznik
         </a>
 
-        <a ng-if="item.fileName" class="button button-add" href=""
+        <a ng-if="item.fileName && (item.flags.indexOf('I') > -1 || item.flags.indexOf('U') > -1)"
+           class="button button-add" href=""
            ng-click="setFileToDelete(item)" target="_self">
             Usuń
         </a>
