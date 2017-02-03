@@ -24,7 +24,6 @@ import pl.sodexo.it.gryf.model.mail.EmailInstance;
 import pl.sodexo.it.gryf.model.mail.EmailInstanceAttachment;
 import pl.sodexo.it.gryf.model.mail.EmailTemplate;
 import pl.sodexo.it.gryf.model.mail.EmailType;
-import pl.sodexo.it.gryf.service.config.MailTemplateConfiguration;
 import pl.sodexo.it.gryf.service.local.api.MailService;
 
 import javax.activation.DataHandler;
@@ -62,9 +61,6 @@ public class MailServiceImpl implements MailService {
 
     @Autowired
     private ApplicationParameters applicationParameters;
-
-    @Autowired
-    private MailTemplateConfiguration mailTemplateConfiguration;
 
     //PUBLIC METHODS
 
@@ -115,10 +111,10 @@ public class MailServiceImpl implements MailService {
     public MailDTO scheduleSystemMail(String subject, String body, String addressesFrom, String addressesReplyTo, String addressesTo, String addressesCC, EmailSourceType sourceType, Long sourceId,
             List<MailAttachmentDTO> attachments){
         MailPlaceholders stdMailPlaceholders = createPlaceholders("emailSubject", subject) .add("emailBody", body);
-        EmailTemplate emailTemplate = mailTemplateConfiguration.getStdEmailTemplate();
+        EmailTemplate emailTemplate = emailTemplateRepository.get(EmailTemplate.STD_EMAIL);
         MailDTO mailDTO =  new MailDTO(emailTemplate.getId(),
-                stdMailPlaceholders.replace(mailTemplateConfiguration.getStdEmailSubjectTemplate()),
-                stdMailPlaceholders.replace(mailTemplateConfiguration.getStdEmailBodyTemplate()),
+                stdMailPlaceholders.replace("{$emailSubject}"),
+                stdMailPlaceholders.replace("{$emailBody}"),
                 addressesFrom, addressesReplyTo, addressesTo, addressesCC,
                 sourceType, sourceId, attachments);
         return scheduleMail(mailDTO);
