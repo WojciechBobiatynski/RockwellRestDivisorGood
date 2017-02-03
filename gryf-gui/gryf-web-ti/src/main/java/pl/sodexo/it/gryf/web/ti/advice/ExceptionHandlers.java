@@ -60,7 +60,7 @@ public class ExceptionHandlers {
         }
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(new GeneralExceptionResponse(sde.getMessage(), Throwables.getStackTraceAsString(sde),
+                .body(new GeneralExceptionResponse(sde.getMessage(), /*Throwables.getStackTraceAsString(sde),*/
                         sde.getClass().getName(), methodName, className, lineNumber));
     }
 
