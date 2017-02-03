@@ -490,6 +490,7 @@
           ermbs_stat.NAME                           statusName,
           ermbs.REIMBURSEMENT_DATE                  reimbursementDate,
           ermbs.ARRIVAL_DATE                        arrivalDate,
+          ermbs.EXPIRED_PRODUCTS_NUM                expiredProductsNum,
           ermbs.SXO_TI_AMOUNT_DUE_TOTAL             sxoTiAmountDueTotal,
           ermbs.SXO_IND_AMOUNT_DUE_TOTAL            sxoIndAmountDueTotal,
           ermbs.IND_TI_AMOUNT_DUE_TOTAL             indTiAmountDueTotal,

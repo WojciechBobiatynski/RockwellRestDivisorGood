@@ -75,6 +75,14 @@ public class UnrsvPoolRmbsDto extends VersionableDto implements Serializable {
 
     @Getter
     @Setter
+    private Date arrivalDate;
+
+    @Getter
+    @Setter
+    private Integer expiredProductsNum;
+
+    @Getter
+    @Setter
     private List<ErmbsReportDto> reports;
 
     @Getter
