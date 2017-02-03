@@ -48,8 +48,8 @@ angular.module("gryf.ti").controller("ReimbursementsController", ["$scope", "Rei
         }
 }]);
 
-angular.module("gryf.ti").controller("ReimbursementModifyController", ["$scope", "$state", "ReimbursementsServiceModify", "DictionaryService","$stateParams","TrainingInstanceSearchService",
-    function ($scope, $state, ReimbursementsServiceModify, DictionaryService, $stateParams, TrainingInstanceSearchService) {
+angular.module("gryf.ti").controller("ReimbursementModifyController", ["$scope", "$state", "ReimbursementsServiceModify", "DictionaryService","$stateParams","TrainingInstanceSearchService", "prevStateName",
+    function ($scope, $state, ReimbursementsServiceModify, DictionaryService, $stateParams, TrainingInstanceSearchService, prevStateName) {
         $scope.rmbsModel = ReimbursementsServiceModify.getNewRmbsModel();
         $scope.violations = ReimbursementsServiceModify.getNewViolations();
 
@@ -81,6 +81,10 @@ angular.module("gryf.ti").controller("ReimbursementModifyController", ["$scope",
                 && !$scope.rmbsModel.model.lastCorrectionDto.complementDate;
         };
 
+        $scope.cancel = function() {
+            $state.go(prevStateName);
+        };
+
         $scope.terminatedVisible = function () {
             return !!$scope.rmbsModel.model
                 && ($scope.rmbsModel.model.statusCode === null || $scope.rmbsModel.model.statusCode === 'T_RMS' || $scope.rmbsModel.model.statusCode === 'T_CRR')
@@ -89,8 +93,8 @@ angular.module("gryf.ti").controller("ReimbursementModifyController", ["$scope",
 
 }]);
 
-angular.module("gryf.ti").controller("ReimburseDetailsController", ["$scope", "ReimbursementsServiceModify", "$state" ,"$stateParams","TrainingInstanceSearchService",
-    function ($scope, ReimbursementsServiceModify, $state, $stateParams, TrainingInstanceSearchService) {
+angular.module("gryf.ti").controller("ReimburseDetailsController", ["$scope", "ReimbursementsServiceModify", "$state" ,"$stateParams","TrainingInstanceSearchService", "prevStateName",
+    function ($scope, ReimbursementsServiceModify, $state, $stateParams, TrainingInstanceSearchService, prevStateName) {
         $scope.rmbsModel = ReimbursementsServiceModify.getRmbsModel();
         $scope.violations = ReimbursementsServiceModify.getNewViolations();
 
@@ -110,12 +114,16 @@ angular.module("gryf.ti").controller("ReimburseDetailsController", ["$scope", "R
         $scope.isDisabled = function(){
             return $state.params.isDisabled;
         };
+
+        $scope.cancel = function() {
+            $state.go(prevStateName);
+        };
+
         $scope.terminatedVisible = function () {
             return !!$scope.rmbsModel.model
                 && ($scope.rmbsModel.model.statusCode === null || $scope.rmbsModel.model.statusCode === 'T_RMS' || $scope.rmbsModel.model.statusCode === 'T_CRR')
                 && ($scope.rmbsModel.model.terminated);
         };
-
 
     }]);
 

@@ -8,13 +8,24 @@ angular.module("gryf.ti").config(["$stateProvider", function($stateProvider) {
     }).state("reimburse", {
         url: "/reimburse/:trainingInstanceId",
         templateUrl: contextPath + "/templates/trainingtoreimburse/reimburse.html",
+        resolve: {
+            prevStateName: function ($state) {
+                return $state.current.name;
+            }
+        },
         controller: "ReimbursementModifyController"
     }).state("reimburseDetails", {
         url: "/reimburseDetails/:reimbursementId",
         templateUrl: contextPath + "/templates/trainingtoreimburse/reimburse.html",
         controller: "ReimburseDetailsController",
-        params : {isDisabled: true}
-    }),
+        params : {isDisabled: true},
+        resolve: {
+            prevStateName: function ($state) {
+                return $state.current.name;
+            }
+        }
+    })
+
     $stateProvider.state("trainingToReimburse.trainingInstanceDetails", {
         parent: "trainingToReimburse",
         url: "/trainingInstanceDetails/{trainingInstanceId}",
