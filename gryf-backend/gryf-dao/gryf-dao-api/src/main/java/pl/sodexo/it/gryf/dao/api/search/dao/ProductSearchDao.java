@@ -13,13 +13,6 @@ import java.util.List;
 public interface ProductSearchDao {
 
     /**
-     * Wyszukuje listę ważnych produktów
-     *
-     * @return lista produktów
-     */
-    List<ProductDto> findProducts();
-
-    /**
      * Znajduje listę wykorzystanych produktów na podstawie id instancji usługi
      * @param trainingInstanceId - id instancji usługi
      * @return lista produktów

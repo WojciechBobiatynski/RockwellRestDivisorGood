@@ -19,6 +19,4 @@
     <ehcache:annotation-driven cache-manager="ehCacheManager"/>
     <bean id="ehCacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"/>
 
-    <import resource="classpath*:batch-context.xml"/>
-
 </beans>

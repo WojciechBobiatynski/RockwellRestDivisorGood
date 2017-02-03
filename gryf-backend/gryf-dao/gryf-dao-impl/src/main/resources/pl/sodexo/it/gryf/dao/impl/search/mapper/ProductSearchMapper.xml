@@ -3,14 +3,6 @@
 
 <mapper namespace="pl.sodexo.it.gryf.dao.api.search.mapper.ProductSearchMapper">
 
-    <select id="findProducts" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.products.ProductDto" parameterType="list">
-        SELECT
-            prod.PRD_ID productId,
-            prod.NAME   name
-        FROM APP_PBE.PBE_PRODUCTS prod
-        WHERE prod.EXPIRY_DATE IS NULL OR prod.EXPIRY_DATE > sysdate
-    </select>
-
     <select id="findProductsByTrainingInstanceId" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.ProductHeadDto" parameterType="list">
         SELECT
             pool_uses.ID                              id,

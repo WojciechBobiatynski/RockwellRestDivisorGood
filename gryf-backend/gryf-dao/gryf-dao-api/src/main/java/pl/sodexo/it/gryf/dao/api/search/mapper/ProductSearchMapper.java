@@ -15,12 +15,6 @@ import java.util.List;
 public interface ProductSearchMapper {
 
     /**
-     * Znajduje listę ważnych produktów
-     * @return lista produktów
-     */
-    List<ProductDto> findProducts(@Param("criteria") UserCriteria criteria);
-
-    /**
      * Znajduje listę wykorzystanych produktów na podstawie id instancji usługi
      * @param trainingInstanceId - id instancji usługi
      * @return lista produktów

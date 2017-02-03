@@ -23,11 +23,6 @@ public class ProductSearchDaoImpl implements ProductSearchDao {
     private ProductSearchMapper productSearchMapper;
 
     @Override
-    public List<ProductDto> findProducts() {
-        return productSearchMapper.findProducts(new UserCriteria());
-    }
-
-    @Override
     public List<ProductHeadDto> findProductsByTrainingInstanceId(Long trainingInstanceId) {
         return productSearchMapper.findProductsByTrainingInstanceId(new UserCriteria(), trainingInstanceId);
     }

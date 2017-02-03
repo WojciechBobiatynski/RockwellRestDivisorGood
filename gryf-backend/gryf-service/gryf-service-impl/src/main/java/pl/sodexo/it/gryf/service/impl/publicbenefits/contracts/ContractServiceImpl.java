@@ -19,7 +19,6 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.enterprises.Ente
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.grantprograms.GrantProgramRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.individuals.IndividualRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingCategoryRepository;
-import pl.sodexo.it.gryf.dao.api.search.dao.ContractSearchDao;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.ContractType;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
@@ -52,9 +51,6 @@ public class ContractServiceImpl implements ContractService {
 
     @Autowired
     private GrantProgramEntityMapper grantProgramEntityMapper;
-
-    @Autowired
-    private ContractSearchDao contractSearchDao;
 
     @Autowired
     private ContractRepository contractRepository;
