@@ -41,6 +41,7 @@
     <script src="${pageContext.request.contextPath}/js/vendor/angular/angular-toastr.tpls.min.js"></script>
     <script src="${pageContext.request.contextPath}/js/vendor/angular/ng-file-upload.min.js"></script>
     <script src="${pageContext.request.contextPath}/js/vendor/angular/mask.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/vendor/angular/angular-locale_pl-pl.min.js"></script>
 
     <script src="${pageContext.request.contextPath}/js/components/gryf/gryf-config.js"></script>
     <script src="${pageContext.request.contextPath}/js/app.js"></script>
@@ -198,6 +199,5 @@
     </div></footer>
 
     <script src="${cdnUrl}js/gryf.js"></script>
-    <script src="//code.angularjs.org/1.0.8/i18n/angular-locale_pl-pl.js"></script>
 
 </body></html>

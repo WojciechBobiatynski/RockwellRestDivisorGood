@@ -103,6 +103,7 @@
                                 <jsSourceFile>angular/angular-ui-router.min.js</jsSourceFile>
                                 <jsSourceFile>angular/angular-resource.min.js</jsSourceFile>
                                 <jsSourceFile>angular/angular-toastr.tpls.min.js</jsSourceFile>
+                                <jsSourceFile>angular/angular-locale_pl-pl.min.js</jsSourceFile>
                             </jsSourceFiles>
 
                             <webappTargetDir>${project.build.directory}/${project.build.finalName}</webappTargetDir>

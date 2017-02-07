@@ -35,6 +35,7 @@
     <script src="${pageContext.request.contextPath}/js/vendor/angular/angular-ui-router.min.js"></script>
     <script src="${pageContext.request.contextPath}/js/vendor/angular/angular-resource.min.js"></script>
     <script src="${pageContext.request.contextPath}/js/vendor/angular/angular-toastr.tpls.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/vendor/angular/angular-locale_pl-pl.min.js"></script>
 
     <script src="${pageContext.request.contextPath}/js/components/gryf/gryf-config.js"></script>
     <script src="${pageContext.request.contextPath}/js/components/gryf/gryf-components.js"></script>

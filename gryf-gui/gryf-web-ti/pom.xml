@@ -107,6 +107,7 @@
                                 <jsSourceFile>angular/angular-toastr.tpls.min.js</jsSourceFile>
                                 <jsSourceFile>angular/ng-file-upload.min.js</jsSourceFile>
                                 <jsSourceFile>angular/mask.min.js</jsSourceFile>
+                                <jsSourceFile>angular/angular-locale_pl-pl.min.js</jsSourceFile>
                             </jsSourceFiles>
 
                             <webappTargetDir>${project.build.directory}/${project.build.finalName}</webappTargetDir>
