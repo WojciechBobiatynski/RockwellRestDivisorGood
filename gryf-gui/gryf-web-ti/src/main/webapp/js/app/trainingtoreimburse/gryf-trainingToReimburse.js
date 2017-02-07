@@ -9,9 +9,9 @@ angular.module("gryf.ti").config(["$stateProvider", function($stateProvider) {
         url: "/reimburse/:trainingInstanceId",
         templateUrl: contextPath + "/templates/trainingtoreimburse/reimburse.html",
         resolve: {
-            prevStateName: function ($state) {
+            prevStateName: ["$state", function ($state) {
                 return $state.current.name;
-            }
+            }]
         },
         controller: "ReimbursementModifyController"
     }).state("reimburseDetails", {
@@ -20,12 +20,11 @@ angular.module("gryf.ti").config(["$stateProvider", function($stateProvider) {
         controller: "ReimburseDetailsController",
         params : {isDisabled: true},
         resolve: {
-            prevStateName: function ($state) {
+            prevStateName: ["$state", function ($state) {
                 return $state.current.name;
-            }
+            }]
         }
-    })
-
+    });
     $stateProvider.state("trainingToReimburse.trainingInstanceDetails", {
         parent: "trainingToReimburse",
         url: "/trainingInstanceDetails/{trainingInstanceId}",
