@@ -37,6 +37,8 @@ import static pl.sodexo.it.gryf.web.ti.util.UrlConstants.*;
 @RequestMapping(value = UrlConstants.PATH_REIMBURSEMENT_REST, produces = "application/json;charset=UTF-8")
 public class ReimbursementRestController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(ReimbursementRestController.class);
+
     //PRIVATE FIELDS
 
     @Autowired
@@ -61,6 +63,7 @@ public class ReimbursementRestController {
     @RequestMapping(value = PATH_REIMBURSEMENTS_CREATE + "/{trainingInstanceId}", method = RequestMethod.GET)
     @ResponseBody
     public ElctRmbsHeadDto createRmbsForTrainingInstance(@PathVariable Long trainingInstanceId){
+        LOGGER.debug("createRmbsForTrainingInstance, trainingInstanceId={}", trainingInstanceId);
         securityChecker.assertTiUserAccessTrainingInstance(trainingInstanceId);
         return electronicReimbursementsService.createRmbsDtoByTrainingInstanceId(trainingInstanceId);
     }
@@ -68,6 +71,7 @@ public class ReimbursementRestController {
     @RequestMapping(value = PATH_REIMBURSEMENTS_MODIFY + "/{ermbsId}", method = RequestMethod.GET)
     @ResponseBody
     public ElctRmbsHeadDto modifyRmbsForTrainingInstance(@PathVariable Long ermbsId){
+        LOGGER.debug("modifyRmbsForTrainingInstance, ermbsId={}", ermbsId);
         securityChecker.assertTiUserAccessEreimbursement(ermbsId);
         return electronicReimbursementsService.findEcltRmbsById(ermbsId);
     }
@@ -77,6 +81,7 @@ public class ReimbursementRestController {
         ElctRmbsHeadDto dto = getElctRmbsHeadDtoFromMultipartRequest(request);
         securityChecker.assertTiUserAccessTrainingInstance(dto.getTrainingInstanceId());
         securityChecker.assertTiUserAccessEreimbursement(dto.getErmbsId());
+        LOGGER.debug("saveReimbursement, elctRmbsHeadDto={}", dto);
 
         Long ermbsId = electronicReimbursementsService.saveErmbs(dto);
         return electronicReimbursementsService.findEcltRmbsById(ermbsId);
@@ -87,6 +92,7 @@ public class ReimbursementRestController {
         ElctRmbsHeadDto dto = getElctRmbsHeadDtoFromMultipartRequest(request);
         securityChecker.assertTiUserAccessTrainingInstance(dto.getTrainingInstanceId());
         securityChecker.assertTiUserAccessEreimbursement(dto.getErmbsId());
+        LOGGER.debug("sendToReimburse, elctRmbsHeadDto={}", dto);
 
         Long ermbsId = electronicReimbursementsService.sendToReimburse(dto);
         return electronicReimbursementsService.findEcltRmbsById(ermbsId);
@@ -97,6 +103,7 @@ public class ReimbursementRestController {
         ElctRmbsHeadDto dto = getElctRmbsHeadDtoFromMultipartRequest(request);
         securityChecker.assertTiUserAccessTrainingInstance(dto.getTrainingInstanceId());
         securityChecker.assertTiUserAccessEreimbursement(dto.getErmbsId());
+        LOGGER.debug("saveReimbursementWithCorr, elctRmbsHeadDto={}", dto);
 
         Long ermbsId = electronicReimbursementsService.saveErmbsWithCorr(dto);
         return electronicReimbursementsService.findEcltRmbsById(ermbsId);
@@ -107,6 +114,7 @@ public class ReimbursementRestController {
         ElctRmbsHeadDto dto = getElctRmbsHeadDtoFromMultipartRequest(request);
         securityChecker.assertTiUserAccessTrainingInstance(dto.getTrainingInstanceId());
         securityChecker.assertTiUserAccessEreimbursement(dto.getErmbsId());
+        LOGGER.debug("sendToReimburseWithCorr, dto={}", dto);
 
         Long ermbsId = electronicReimbursementsService.sendToReimburseWithCorr(dto);
         return electronicReimbursementsService.findEcltRmbsById(ermbsId);
@@ -114,6 +122,7 @@ public class ReimbursementRestController {
 
     @RequestMapping(PATH_REIMBURSEMENTS_DOWNLOAD_ATT)
     public void downloadReimbursementAttachment(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        LOGGER.debug("downloadReimbursementAttachment");
         String idParam = request.getParameter("id");
         if(!GryfStringUtils.isEmpty(idParam)) {
             Long elementId = Long.valueOf(idParam);
@@ -129,6 +138,7 @@ public class ReimbursementRestController {
     @RequestMapping(value = PATH_REIMBURSEMENTS_STATUSES_LIST, method = RequestMethod.GET)
     @ResponseBody
     public List<SimpleDictionaryDto> findElctRmbsStatuses(){
+        LOGGER.debug("findElctRmbsStatuses");
         return electronicReimbursementsService.findElctRmbsStatuses();
     }
 

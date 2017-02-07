@@ -107,7 +107,7 @@ public class GryfValidatorImpl implements GryfValidator {
     @Override
     public void validate(List<EntityConstraintViolation> violations) {
         if (!violations.isEmpty()) {
-            throw new EntityValidationException(violations);
+            throw new EntityValidationException(violations, "Błąd podczas walidacji");
         }
     }
 

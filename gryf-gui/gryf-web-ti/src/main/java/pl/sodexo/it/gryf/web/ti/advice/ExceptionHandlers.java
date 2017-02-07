@@ -1,6 +1,5 @@
 package pl.sodexo.it.gryf.web.ti.advice;
 
-import com.google.common.base.Throwables;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +20,8 @@ import pl.sodexo.it.gryf.web.ti.response.IndUserVerificationExceptionResponse;
 import pl.sodexo.it.gryf.web.ti.response.StaleDataResponse;
 import pl.sodexo.it.gryf.web.ti.response.ValidationErrorResponse;
 
+import java.util.stream.Collectors;
+
 @ControllerAdvice
 @Order(Ordered.LOWEST_PRECEDENCE)
 public class ExceptionHandlers {
@@ -33,7 +34,7 @@ public class ExceptionHandlers {
     @ExceptionHandler(EntityValidationException.class)
     @ResponseBody
     public ResponseEntity<ValidationErrorResponse> validationException(EntityValidationException sde) {
-        LOGGER.error(sde.getMessage(), sde);
+        LOGGER.error(sde.getViolations().stream().map(entityConstraintViolation -> entityConstraintViolation.getMessage()).collect(Collectors.joining("\n")), sde);
         return ResponseEntity.badRequest().body(new ValidationErrorResponse(sde.getViolations()));
     }
 

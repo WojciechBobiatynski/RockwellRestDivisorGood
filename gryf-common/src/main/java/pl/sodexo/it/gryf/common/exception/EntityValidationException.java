@@ -15,6 +15,11 @@ public class EntityValidationException extends RuntimeException {
         this.violations = new ArrayList<>(violations);
     }
 
+    public EntityValidationException(List<EntityConstraintViolation> violations, String message) {
+        super(message);
+        this.violations = new ArrayList<>(violations);
+    }
+
     //GETTERS
 
     public List<EntityConstraintViolation> getViolations() {
