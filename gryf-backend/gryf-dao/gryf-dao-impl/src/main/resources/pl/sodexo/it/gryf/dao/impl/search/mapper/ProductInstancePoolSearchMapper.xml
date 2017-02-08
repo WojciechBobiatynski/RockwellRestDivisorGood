@@ -49,6 +49,7 @@
           JOIN APP_PBE.PBE_PRODUCTS prd ON prd.PRD_ID = pool.PRD_ID
         WHERE
           cnt.ID = #{contractId}
+        ORDER BY pool.START_DATE, pool.EXPIRY_DATE, pool.ID
     </select>
 
 </mapper>

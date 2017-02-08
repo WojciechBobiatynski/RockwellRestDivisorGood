@@ -143,4 +143,12 @@ public interface ElectronicReimbursementsSearchMapper {
      */
     boolean isAutomaticErmbs(@Param("criteria") UserCriteria criteria, @Param("ermbsId")Long ermbsId);
 
+    /**
+     * Pobiera nazwe statusu danego rozlicznenia
+     * @param criteria - kryteria użytkownika
+     * @param ermbsId identyfikator rozliczneia
+     * @return nazwa statusu
+     */
+    String getReimbursmentStatusName(@Param("criteria") UserCriteria criteria, @Param("ermbsId")Long ermbsId);
+
 }

@@ -625,4 +625,13 @@
           ermbs.ID = #{ermbsId}
     </select>
 
+    <select id="getReimbursmentStatusName" resultType="java.lang.String">
+        SELECT stat.NAME
+        FROM APP_PBE.E_REIMBURSEMENTS ermbs
+        INNER JOIN APP_PBE.E_REIMBURSEMENT_STATUSES stat ON ermbs.STATUS_ID = stat.ID
+        WHERE ermbs.ID = #{ermbsId}
+    </select>
+
+
+
 </mapper>

@@ -119,4 +119,10 @@ public interface ElectronicReimbursementsDao {
      */
     boolean isAutomaticErmbs(Long ermbsId);
 
+    /**
+     * Pobiera nazwe statusu danego rozlicznenia
+     * @param ermbs identyfikator rozliczneia
+     * @return nazwa statusu
+     */
+    String getReimbursmentStatusName(Long ermbs);
 }

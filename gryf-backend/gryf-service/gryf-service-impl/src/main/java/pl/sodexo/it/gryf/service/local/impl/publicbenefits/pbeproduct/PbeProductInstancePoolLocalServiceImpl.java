@@ -379,8 +379,7 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
     }
 
     @Override
-    public void returnAvaiablePools(Long ermbsId){
-        Ereimbursement ereimbursement = ereimbursementRepository.get(ermbsId);
+    public void returnAvaiablePools(Ereimbursement ereimbursement){
 
         //POBRANIE STATUSOW
         PbeProductInstanceStatus returnInstStat = productInstanceStatusRepository.get(PbeProductInstanceStatus.RETURNED_CODE);

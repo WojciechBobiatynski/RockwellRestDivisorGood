@@ -155,4 +155,10 @@ public interface ElectronicReimbursementsService {
      */
     boolean isAutomaticErmbs(Long ermbs);
 
+    /**
+     * Pobiera nazwe statusu danego rozlicznenia
+     * @param ermbs
+     * @return
+     */
+    String getReimbursmentStatusName(Long ermbs);
 }

@@ -1,5 +1,7 @@
 package pl.sodexo.it.gryf.service.impl.publicbenefits.contracts;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -12,6 +14,8 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.contracts.searchform.Contract
 import pl.sodexo.it.gryf.common.dto.publicbenefits.contracts.searchform.ContractSearchResultDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.pbeproductinstancepool.ContractPbeProductInstancePoolDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.pbeproductinstancepool.PbeProductInstancePoolDto;
+import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
+import pl.sodexo.it.gryf.common.exception.GryfRuntimeException;
 import pl.sodexo.it.gryf.common.exception.GryfValidationException;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.contracts.ContractRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.contracts.ContractTypeRepository;
@@ -35,6 +39,7 @@ import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.contracts.se
 import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.grantprograms.GrantProgramEntityMapper;
 import pl.sodexo.it.gryf.service.validation.publicbenefits.contracts.ContractValidator;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.function.Consumer;
@@ -45,6 +50,8 @@ import java.util.function.Consumer;
 @Service
 @Transactional
 public class ContractServiceImpl implements ContractService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ContractServiceImpl.class);
 
     @Autowired
     private GrantProgramRepository grantProgramRepository;
@@ -87,9 +94,6 @@ public class ContractServiceImpl implements ContractService {
 
     @Autowired
     private PbeProductInstancePoolService pbeProductInstancePoolService;
-
-    @Autowired
-    private PbeProductInstancePoolLocalService pbeProductInstancePoolLocalService;
 
     @Autowired
     private ElectronicReimbursementsService electronicReimbursementsService;
@@ -173,20 +177,69 @@ public class ContractServiceImpl implements ContractService {
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public Long resign(Long contractId) {
         List<ContractPbeProductInstancePoolDto> contractPools = pbeProductInstancePoolService.findPoolInstancesByContractId(contractId);
+        checkIfContainsAvaiablePool(contractPools);
+
+        List<Long[]> successList = new ArrayList<>();
         Consumer<PbeProductInstancePoolDto> pInsPoolCons = pbeProductInstancePool -> {
-            checkIfContainsAvaiablePool(pbeProductInstancePool);
-            Long ermbsId = electronicReimbursementsService.createEreimbursementForReturnedPool(pbeProductInstancePool);
-            pbeProductInstancePoolLocalService.returnAvaiablePools(ermbsId);
-            electronicReimbursementsService.createDocuments(ermbsId);
-            electronicReimbursementsService.printReports(ermbsId);
+            if(pbeProductInstancePool.getAvailableNum() > 0) {
+
+                Long ermbsId = null;
+                try {
+                    ermbsId = electronicReimbursementsService.createEreimbursementForReturnedPool(pbeProductInstancePool);
+                    electronicReimbursementsService.createDocuments(ermbsId);
+                    electronicReimbursementsService.printReports(ermbsId);
+                    successList.add(new Long[]{pbeProductInstancePool.getId(), ermbsId});
+
+                } catch (GryfRuntimeException e){
+                    serveException("biznesowy", ermbsId, pbeProductInstancePool, successList, e);
+                } catch (RuntimeException e) {
+                    LOGGER.error("Wysąpił bład przy rezygnacji z umowy: " + e.getMessage(), e);
+                    serveException("krytyczny", ermbsId, pbeProductInstancePool, successList, e);
+                }
+            }
         };
         contractPools.stream().forEach(pInsPoolCons);
         return contractId;
     }
 
-    private void checkIfContainsAvaiablePool(PbeProductInstancePoolDto pbeProductInstancePool) {
-        if(pbeProductInstancePool.getAvailableNum() == null || pbeProductInstancePool.getAvailableNum() == 0){
-            throw new GryfValidationException("Brak dostępnej puli bonów. Nie można utworzyć rozliczenia");
+    private void checkIfContainsAvaiablePool(List<ContractPbeProductInstancePoolDto> pools) {
+        boolean flag = false;
+        for(ContractPbeProductInstancePoolDto p : pools){
+            if(p.getAvailableNum() > 0){
+                flag = true;
+            }
         }
+        if(!flag){
+            throw new GryfValidationException("Brak dostępnych puli bonów. Nie można utworzyć rozliczeń.");
+        }
+    }
+
+    private List<EntityConstraintViolation> getSuccessMessage(List<Long[]> successList){
+        List<EntityConstraintViolation> result = new ArrayList<>();
+        for(Long[] tab : successList){
+            result.add(new EntityConstraintViolation(String.format("Dla puli '%s' poprawnie utworzono rozliczenie o identyfikatorze '%s'.",
+                    tab[0], tab[1])));
+        }
+        return result;
+    }
+
+    private void serveException(String exceptionType, Long ermbsId, PbeProductInstancePoolDto pbeProductInstancePool,
+                                List<Long[]> successList, RuntimeException e){
+
+        List<EntityConstraintViolation> violations = getSuccessMessage(successList);
+        if(ermbsId != null) {
+            String statusName = electronicReimbursementsService.getReimbursmentStatusName(ermbsId);
+            violations.add(new EntityConstraintViolation(String.format("Dla puli o identyfikatorze '%s' "
+                            + "utworzono rozliczenie o identyfikatorze '%s' w statusie '%s'. "
+                            + "Wystapił błąd %s: '%s'. "
+                            + "Należy ponowić próbę zmiany statusu rozliczenia. ",
+                    pbeProductInstancePool.getId(), ermbsId, statusName, exceptionType, e.getMessage())));
+        }else{
+            violations.add(new EntityConstraintViolation(String.format("Dla puli o identyfikatorze '%s' "
+                            + "wystapił błąd %s: '%s'. ",
+                    pbeProductInstancePool.getId(), exceptionType, e.getMessage())));
+        }
+        violations.add(new EntityConstraintViolation("Należy odświeżyć ekran umowy!!!"));
+        gryfValidator.validate(violations);
     }
 }

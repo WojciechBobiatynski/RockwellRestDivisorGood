@@ -476,7 +476,10 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     public Long createEreimbursementForReturnedPool(PbeProductInstancePoolDto pbeProductInstancePool) {
         Ereimbursement ereimbursement = prepareEreimbursement(pbeProductInstancePool);
         ereimbursement.setEreimbursementType(ereimbursementTypeRepository.get(EreimbursementType.RET_POOL));
-        return ereimbursementRepository.save(ereimbursement).getId();
+        ereimbursement = ereimbursementRepository.save(ereimbursement);
+
+        pbeProductInstancePoolLocalService.returnAvaiablePools(ereimbursement);
+        return ereimbursement.getId();
     }
 
     @Override
@@ -497,6 +500,11 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     @Override
     public boolean isAutomaticErmbs(Long ermbs) {
         return electronicReimbursementsDao.isAutomaticErmbs(ermbs);
+    }
+
+    @Override
+    public String getReimbursmentStatusName(Long ermbs){
+        return electronicReimbursementsDao.getReimbursmentStatusName(ermbs);
     }
 
     private void setNotReimbReimburseStatusForTiInstance(Ereimbursement ereimbursement) {

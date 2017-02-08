@@ -106,4 +106,9 @@ public class ElectronicReimbursementsDaoImpl implements ElectronicReimbursements
         return electronicReimbursementsSearchMapper.isAutomaticErmbs(new UserCriteria(), ermbsId);
     }
 
+    @Override
+    public String getReimbursmentStatusName(Long ermbsId){
+        return electronicReimbursementsSearchMapper.getReimbursmentStatusName(new UserCriteria(), ermbsId);
+    }
+
 }
