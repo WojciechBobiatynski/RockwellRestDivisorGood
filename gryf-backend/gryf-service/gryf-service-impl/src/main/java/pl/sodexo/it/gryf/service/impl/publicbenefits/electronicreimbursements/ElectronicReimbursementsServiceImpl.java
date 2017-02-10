@@ -461,7 +461,7 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.TO_ERMBS));
 
         GrantProgramParam gppOwnContributionPercentage = paramInDateService.findGrantProgramParam(pbeProductInstancePool.getGrantProgramId(), GrantProgramParam.OWN_CONTRIBUTION_PERCENT, new Date(), true);
-        BigDecimal ownContributionPercentage = new BigDecimal(gppOwnContributionPercentage.getValue());
+        BigDecimal ownContributionPercentage = new BigDecimal(gppOwnContributionPercentage.getValue()).divide(new BigDecimal("100"));
 
         ereimbursement.setSxoIndAmountDueTotal(
                 BigDecimal.valueOf(pbeProductInstancePool.getAvailableNum()).multiply(pbeProductInstancePool.getProductValue()).multiply(ownContributionPercentage).setScale(2, RoundingMode.HALF_UP));
