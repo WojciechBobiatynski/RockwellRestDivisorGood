@@ -7,7 +7,7 @@ import pl.sodexo.it.gryf.common.dto.security.trainingInstitutions.TiUserResetAtt
 import pl.sodexo.it.gryf.common.exception.verification.GryfInvalidTokenException;
 import pl.sodexo.it.gryf.common.exception.verification.GryfResetLinkNotActive;
 import pl.sodexo.it.gryf.common.utils.GryfConstants;
-import pl.sodexo.it.gryf.dao.api.crud.dao.traininginstitutions.TiUserResetAttemptDao;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TiUserResetAttemptRepository;
 import pl.sodexo.it.gryf.model.security.trainingInstitutions.TiUserResetAttempt;
 import pl.sodexo.it.gryf.service.api.security.trainingInstitutions.TiUserResetAttemptService;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.security.traininginstitutions.TiUserResetAttemptDtoMapper;
@@ -26,7 +26,7 @@ import java.util.UUID;
 public class TiUserResetAttemptServiceImpl implements TiUserResetAttemptService {
 
     @Autowired
-    private TiUserResetAttemptDao tiUserResetAttemptDao;
+    private TiUserResetAttemptRepository tiUserResetAttemptRepository;
 
     @Autowired
     private TiUserResetAttemptEntityMapper tiUserResetAttemptEntityMapper;
@@ -36,17 +36,17 @@ public class TiUserResetAttemptServiceImpl implements TiUserResetAttemptService 
 
     @Override
     public void disableActiveAttemptOfTiUser(Long tiuId) {
-        TiUserResetAttempt tiUserResetAttempt = tiUserResetAttemptDao.findCurrentByTrainingInstitutionId(tiuId, new Date());
+        TiUserResetAttempt tiUserResetAttempt = tiUserResetAttemptRepository.findCurrentByTrainingInstitutionId(tiuId, new Date());
         if(tiUserResetAttempt != null){
             tiUserResetAttempt.setExpiryDate(new Date());
-            tiUserResetAttemptDao.save(tiUserResetAttempt);
+            tiUserResetAttemptRepository.update(tiUserResetAttempt, tiUserResetAttempt.getTurId());
         }
     }
 
     @Override
     public String createNewLink() {
         String newLink = UUID.randomUUID().toString();
-        while(tiUserResetAttemptDao.findByTurId(newLink) != null){
+        while(tiUserResetAttemptRepository.get(newLink) != null){
             newLink = UUID.randomUUID().toString();
         }
         return newLink;
@@ -56,12 +56,12 @@ public class TiUserResetAttemptServiceImpl implements TiUserResetAttemptService 
     public TiUserResetAttemptDto saveTiUserResetAttempt(TiUserResetAttemptDto tiUserResetAttemptDto) {
         TiUserResetAttempt entity = tiUserResetAttemptDtoMapper.convert(tiUserResetAttemptDto);
         entity.getTrainingInstitutionUser().setLoginFailureAttempts(GryfConstants.DEFAULT_LOGIN_FAILURE_ATTEMPTS_NUMBER);
-        return tiUserResetAttemptEntityMapper.convert(tiUserResetAttemptDao.save(entity));
+        return tiUserResetAttemptEntityMapper.convert(tiUserResetAttemptRepository.saveOrUpdate(entity, entity.getTurId()));
     }
 
     @Override
     public void checkIfResetAttemptStillActive(String turId) {
-        TiUserResetAttempt tiUserResetAttempt = tiUserResetAttemptDao.findByTurId(turId);
+        TiUserResetAttempt tiUserResetAttempt = tiUserResetAttemptRepository.get(turId);
         if(tiUserResetAttempt == null){
             throw new GryfInvalidTokenException("Niepoprawny token");
         }

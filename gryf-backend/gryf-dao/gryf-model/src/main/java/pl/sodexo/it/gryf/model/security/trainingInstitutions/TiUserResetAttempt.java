@@ -16,6 +16,10 @@ import java.util.Date;
 @Entity
 @Table(name = "TI_USER_RESET_ATTEMPTS", schema = "APP_PBE")
 @ToString(exclude = {"trainingInstitutionUser"})
+@NamedQueries({
+        @NamedQuery(name = "TiUserResetAttempt.findCurrentByTrainingInstitutionId", query = "SELECT res FROM TiUserResetAttempt res "
+                + "WHERE res.trainingInstitutionUser.id = :tiuId AND res.expiryDate >= :now"),
+})
 public class TiUserResetAttempt extends VersionableEntity {
 
     @Id

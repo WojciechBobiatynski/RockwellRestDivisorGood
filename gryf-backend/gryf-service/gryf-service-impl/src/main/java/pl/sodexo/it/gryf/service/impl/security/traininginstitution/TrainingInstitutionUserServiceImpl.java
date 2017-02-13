@@ -9,7 +9,7 @@ import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.common.dto.security.trainingInstitutions.GryfTiUserDto;
 import pl.sodexo.it.gryf.common.exception.verification.GryfInvalidTokenException;
 import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
-import pl.sodexo.it.gryf.dao.api.crud.dao.traininginstitutions.TiUserResetAttemptDao;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TiUserResetAttemptRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstitutionUserRepository;
 import pl.sodexo.it.gryf.model.security.trainingInstitutions.TiUserResetAttempt;
 import pl.sodexo.it.gryf.model.security.trainingInstitutions.TrainingInstitutionUser;
@@ -36,7 +36,7 @@ public class TrainingInstitutionUserServiceImpl implements TrainingInstitutionUs
     private GryfTiUserDtoMapper gryfTiUserDtoMapper;
 
     @Autowired
-    private TiUserResetAttemptDao tiUserResetAttemptDao;
+    private TiUserResetAttemptRepository tiUserResetAttemptRepository;
 
     @Autowired
     private ApplicationParameters applicationParameters;
@@ -65,7 +65,7 @@ public class TrainingInstitutionUserServiceImpl implements TrainingInstitutionUs
 
     @Override
     public GryfTiUserDto findUserByTurIdAndSaveNewPassword(String turId, String password) {
-        TiUserResetAttempt tiUserResetAttempt = tiUserResetAttemptDao.findByTurId(turId);
+        TiUserResetAttempt tiUserResetAttempt = tiUserResetAttemptRepository.get(turId);
         if(tiUserResetAttempt == null){
             throw new GryfInvalidTokenException("Niepoprawny token");
         }
