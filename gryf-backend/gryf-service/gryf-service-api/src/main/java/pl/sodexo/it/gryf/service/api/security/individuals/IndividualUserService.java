@@ -30,21 +30,14 @@ public interface IndividualUserService {
      * @param gryfIndUserDto - dto użytkownika osoby fizycznej, którą chcemy zapisać
      * @return zaktualizowane Dto użytkownika osoby fizycznej
      */
-    GryfIndUserDto saveIndUser(GryfIndUserDto gryfIndUserDto);
-
-    /**
-     * Zapis i flush użytkownika osoby fizycznej
-     * @param gryfIndUserDto - dto użytkownika osoby fizycznej, którą chcemy zapisać
-     * @return zaktualizowane Dto użytkownika osoby fizycznej
-     */
-    GryfIndUserDto saveAndFlushIndUser(GryfIndUserDto gryfIndUserDto);
+    GryfIndUserDto updateIndUser(GryfIndUserDto gryfIndUserDto);
 
     /**
      * Zapis i flush użytkownika osoby fizycznej w nowej transakcji
      * @param gryfIndUserDto - dto użytkownika osoby fizycznej, którą chcemy zapisać
      * @return zaktualizowane Dto użytkownika osoby fizycznej
      */
-    GryfIndUserDto saveAndFlushIndUserInNewTransaction(GryfIndUserDto gryfIndUserDto);
+    GryfIndUserDto updateIndUserInNewTransaction(GryfIndUserDto gryfIndUserDto);
 
     /**
      * Tworzy i zapisuje nowego użytkownika osoby fizycznej na podstawie Dto osoby fizycznej

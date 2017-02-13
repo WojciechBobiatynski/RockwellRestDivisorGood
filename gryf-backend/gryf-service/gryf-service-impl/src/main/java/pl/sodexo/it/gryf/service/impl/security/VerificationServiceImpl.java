@@ -111,12 +111,12 @@ public class VerificationServiceImpl implements VerificationService {
             if (user.getResetFailureAttempts() >= applicationParameters.getMaxIndResetFailureAttempts()) {
                 user.setActive(false);
             }
-            individualUserService.saveAndFlushIndUserInNewTransaction(user);
+            individualUserService.updateIndUserInNewTransaction(user);
             throw new GryfVerificationException("Niepoprawna para PESEL - adres email");
         }
         user.setResetFailureAttempts(GryfConstants.DEFAULT_RESET_FAILURE_ATTEMPTS_NUMBER);
         user.setLoginFailureAttempts(GryfConstants.DEFAULT_LOGIN_FAILURE_ATTEMPTS_NUMBER);
-        individualUserService.saveIndUser(user);
+        individualUserService.updateIndUser(user);
 
         return user;
     }

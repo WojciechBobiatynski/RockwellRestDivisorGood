@@ -21,6 +21,16 @@ import java.util.List;
 @Table(name = "INDIVIDUAL_USERS", schema = "APP_PBE")
 @SequenceGenerator(name = "ind_usr_seq", schema = "eagle", sequenceName = "ind_usr_seq", allocationSize = 1)
 @ToString(exclude = {"verificationCode", "individual"})
+@NamedQueries({
+        @NamedQuery(name = "IndividualUser.findByPeselWithVerEmail", query = "SELECT usr FROM IndividualUser usr "
+                + "JOIN Individual ind on ind = usr.individual "
+                + "JOIN IndividualContact cont ON cont.individual = ind "
+                + "WHERE cont.contactType.type = 'VER_EMAIL' AND ind.pesel = :pesel"),
+        @NamedQuery(name = "IndividualUser.findByIndividualPesel", query = "SELECT usr FROM IndividualUser usr "
+                + "WHERE  usr.individual.pesel = :pesel"),
+        @NamedQuery(name = "IndividualUser.findByIndividualId", query = "SELECT usr FROM IndividualUser usr "
+                + "WHERE  usr.individual.id = :individualId"),
+})
 public class IndividualUser extends VersionableEntity {
 
     @Id

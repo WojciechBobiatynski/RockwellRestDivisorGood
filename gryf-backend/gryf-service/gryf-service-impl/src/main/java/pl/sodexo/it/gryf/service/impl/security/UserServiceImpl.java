@@ -140,7 +140,7 @@ public class UserServiceImpl implements UserService {
             @Override
             public GryfBlockableUserDto visitInd(GryfIndUserDto gryfIndUserDto) {
                 unlockIndUser(gryfIndUserDto);
-                return individualUserService.saveIndUser(gryfIndUserDto);
+                return individualUserService.updateIndUser(gryfIndUserDto);
             }
 
             @Override
@@ -164,7 +164,7 @@ public class UserServiceImpl implements UserService {
             @Override
             public GryfBlockableUserDto visitInd(GryfIndUserDto gryfIndUserDto) {
                 unlockIndUser(gryfIndUserDto);
-                return individualUserService.saveAndFlushIndUserInNewTransaction(gryfIndUserDto);
+                return individualUserService.updateIndUserInNewTransaction(gryfIndUserDto);
             }
 
             @Override

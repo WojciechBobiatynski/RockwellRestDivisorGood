@@ -9,7 +9,7 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.detailsForm.Indiv
 import pl.sodexo.it.gryf.common.dto.security.individuals.GryfIndUserDto;
 import pl.sodexo.it.gryf.common.dto.user.GryfIndUser;
 import pl.sodexo.it.gryf.common.utils.GryfConstants;
-import pl.sodexo.it.gryf.dao.api.crud.dao.individuals.IndividualUserDao;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.individuals.IndividualUserRepository;
 import pl.sodexo.it.gryf.model.security.individuals.IndividualUser;
 import pl.sodexo.it.gryf.service.api.security.individuals.IndividualUserService;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.individuals.IndividualDtoMapper;
@@ -28,7 +28,7 @@ import java.util.Date;
 public class IndividualUserServiceImpl implements IndividualUserService {
 
     @Autowired
-    private IndividualUserDao individualUserDao;
+    private IndividualUserRepository individualUserRepository;
 
     @Autowired
     private IndividualUserEntityMapper individualUserEntityMapper;
@@ -41,30 +41,25 @@ public class IndividualUserServiceImpl implements IndividualUserService {
 
     @Override
     public GryfIndUserDto findByPeselWithVerEmail(String pesel) {
-        return individualUserEntityMapper.convert(individualUserDao.findByPeselWithVerEmail(pesel));
+        IndividualUser iu = individualUserRepository.findByPeselWithVerEmail(pesel);
+        return individualUserEntityMapper.convert(iu);
     }
 
     @Override
     public GryfIndUserDto findByPesel(String pesel) {
-        return individualUserEntityMapper.convert(individualUserDao.findByIndividual_Pesel(pesel));
+        return individualUserEntityMapper.convert(individualUserRepository.findByIndividualPesel(pesel));
     }
 
     @Override
-    public GryfIndUserDto saveIndUser(GryfIndUserDto gryfIndUserDto) {
+    public GryfIndUserDto updateIndUser(GryfIndUserDto gryfIndUserDto) {
         IndividualUser entity = gryfIndUserDtoMapper.convert(gryfIndUserDto);
-        return individualUserEntityMapper.convert(individualUserDao.save(entity));
-    }
-
-    @Override
-    public GryfIndUserDto saveAndFlushIndUser(GryfIndUserDto gryfIndUserDto) {
-        IndividualUser entity = gryfIndUserDtoMapper.convert(gryfIndUserDto);
-        return individualUserEntityMapper.convert(individualUserDao.saveAndFlush(entity));
+        return individualUserEntityMapper.convert(individualUserRepository.update(entity, entity.getInuId()));
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public GryfIndUserDto saveAndFlushIndUserInNewTransaction(GryfIndUserDto gryfIndUserDto) {
-        return saveAndFlushIndUser(gryfIndUserDto);
+    public GryfIndUserDto updateIndUserInNewTransaction(GryfIndUserDto gryfIndUserDto) {
+        return updateIndUser(gryfIndUserDto);
     }
 
     @Override
@@ -73,22 +68,22 @@ public class IndividualUserServiceImpl implements IndividualUserService {
         entity.setVerificationCode(AEScryptographer.encrypt(verificationCode));
         entity.setIndividual(individualDtoMapper.convert(individualDto));
         entity.setActive(true);
-        return individualUserEntityMapper.convert(individualUserDao.save(entity));
+        return individualUserEntityMapper.convert(individualUserRepository.save(entity));
     }
 
     @Override
     public void updateIndAfterSuccessLogin(GryfIndUser gryfIndUser) {
-        IndividualUser user = individualUserDao.findByIndividual_Pesel(gryfIndUser.getUsername());
+        IndividualUser user = individualUserRepository.findByIndividualPesel(gryfIndUser.getUsername());
         user.setLastLoginSuccessDate(new Date());
         user.setLoginFailureAttempts(GryfConstants.DEFAULT_LOGIN_FAILURE_ATTEMPTS_NUMBER);
-        individualUserDao.save(user);
+        individualUserRepository.update(user, user.getInuId());
     }
 
     @Override
     public GryfIndUserDto saveNewVerificationCodeForIndividual(Long individualId, String verificationCode) {
-        IndividualUser user = individualUserDao.findByIndividual_Id(individualId);
+        IndividualUser user = individualUserRepository.findByIndividualId(individualId);
         user.setVerificationCode(AEScryptographer.encrypt(verificationCode));
-        return individualUserEntityMapper.convert(individualUserDao.save(user));
+        return individualUserEntityMapper.convert(individualUserRepository.update(user, user.getInuId()));
     }
 
 }

@@ -43,7 +43,7 @@ public class IndAuthFailureHandler extends AuthFailureHandler {
             indUserDto.setActive(false);
         }
 
-        individualUserService.saveIndUser(indUserDto);
+        individualUserService.updateIndUser(indUserDto);
     }
 
 }
