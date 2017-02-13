@@ -15,10 +15,10 @@ import pl.sodexo.it.gryf.common.dto.security.trainingInstitutions.GryfTiUserDto;
 import pl.sodexo.it.gryf.common.enums.Privileges;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
-import pl.sodexo.it.gryf.dao.api.crud.dao.traininginstitutions.TrainingInstitutionUserDao;
 import pl.sodexo.it.gryf.dao.api.crud.repository.dictionaries.ZipCodeRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.grantprograms.GrantProgramRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstitutionRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstitutionUserRepository;
 import pl.sodexo.it.gryf.model.dictionaries.ZipCode;
 import pl.sodexo.it.gryf.model.publicbenefits.api.ContactType;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
@@ -56,7 +56,7 @@ public class ImportTrainingInstitutionServiceImpl extends ImportBaseDataServiceI
     private ZipCodeRepository zipCodeRepository;
 
     @Autowired
-    private TrainingInstitutionUserDao trainingInstitutionUserDao;
+    private TrainingInstitutionUserRepository trainingInstitutionUserRepository;
 
     @Autowired
     private TrainingInstitutionUserEntityMapper trainingInstitutionUserEntityMapper;
@@ -319,7 +319,7 @@ public class ImportTrainingInstitutionServiceImpl extends ImportBaseDataServiceI
     private List<TrainingInstitutionUser>  findByLoginsIgnoreCase(List<String> emails){
         List<TrainingInstitutionUser> result = new ArrayList<>();
         for(String email : emails){
-            TrainingInstitutionUser tiUser = trainingInstitutionUserDao.findByLoginIgnoreCase(email);
+            TrainingInstitutionUser tiUser = trainingInstitutionUserRepository.findByLoginIgnoreCase(email);
             if(tiUser != null){
                 result.add(tiUser);
             }

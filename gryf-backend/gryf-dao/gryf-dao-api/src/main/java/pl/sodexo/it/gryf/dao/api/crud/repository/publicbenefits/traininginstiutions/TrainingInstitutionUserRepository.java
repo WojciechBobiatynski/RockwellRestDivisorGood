@@ -8,4 +8,7 @@ import pl.sodexo.it.gryf.model.security.trainingInstitutions.TrainingInstitution
  */
 public interface TrainingInstitutionUserRepository extends GenericRepository<TrainingInstitutionUser, Long> {
 
+    TrainingInstitutionUser findByLoginIgnoreCase(String login);
+
+    TrainingInstitutionUser findByEmailIgnoreCase(String email);
 }

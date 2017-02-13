@@ -16,7 +16,7 @@ import pl.sodexo.it.gryf.common.exception.authentication.GryfPasswordExpiredExce
 import pl.sodexo.it.gryf.common.exception.authentication.GryfUserNotActiveException;
 import pl.sodexo.it.gryf.common.user.GryfBlockableUserVisitor;
 import pl.sodexo.it.gryf.common.utils.GryfConstants;
-import pl.sodexo.it.gryf.dao.api.crud.dao.traininginstitutions.TrainingInstitutionUserDao;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstitutionUserRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.security.UserRepository;
 import pl.sodexo.it.gryf.dao.api.search.dao.security.SecuritySearchDao;
 import pl.sodexo.it.gryf.model.security.trainingInstitutions.TrainingInstitutionUser;
@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
     private SecuritySearchDao securitySearchDao;
 
     @Autowired
-    private TrainingInstitutionUserDao trainingInstitutionUserDao;
+    private TrainingInstitutionUserRepository trainingInstitutionUserRepository;
 
     @Autowired
     private ApplicationParameters applicationParameters;
@@ -101,10 +101,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateTiAfterSuccessLogin(GryfTiUser gryfTiUser) {
-        TrainingInstitutionUser tiUser = trainingInstitutionUserDao.findByLoginIgnoreCase(gryfTiUser.getUsername());
+        TrainingInstitutionUser tiUser = trainingInstitutionUserRepository.findByLoginIgnoreCase(gryfTiUser.getUsername());
         tiUser.setLastLoginSuccessDate(new Date());
         tiUser.setLoginFailureAttempts(GryfConstants.DEFAULT_LOGIN_FAILURE_ATTEMPTS_NUMBER);
-        trainingInstitutionUserDao.save(tiUser);
+        trainingInstitutionUserRepository.update(tiUser, tiUser.getId());
     }
 
     @Override

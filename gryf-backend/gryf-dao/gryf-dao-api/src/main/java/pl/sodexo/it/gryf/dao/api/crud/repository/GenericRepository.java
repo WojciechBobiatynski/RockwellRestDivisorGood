@@ -14,6 +14,8 @@ public interface GenericRepository<E, K extends Serializable> {
 
     E update(E entity, K key);
 
+    E saveOrUpdate(E entity, K key);
+
     void delete(E entity);
 
     void refresh(E entity);

@@ -17,13 +17,6 @@ public interface TrainingInstitutionUserService {
     GryfTiUserDto saveTiUser(GryfTiUserDto gryfTiUserDto);
 
     /**
-     * Zapis i flush użytkownika Usługodawcy
-     * @param gryfTiUserDto - dto użytkownika Usługodawcy, którą chcemy zapisać
-     * @return zaktualizowane Dto użytkownika Usługodawcy
-     */
-    GryfTiUserDto saveAndFlushTiUser(GryfTiUserDto gryfTiUserDto);
-
-    /**
      * Zapis i flush użytkownika Usługodawcy w nowej transakcji
      * @param gryfTiUserDto - dto użytkownika Usługodawcy, którą chcemy zapisać
      * @return zaktualizowane Dto użytkownika Usługodawcy

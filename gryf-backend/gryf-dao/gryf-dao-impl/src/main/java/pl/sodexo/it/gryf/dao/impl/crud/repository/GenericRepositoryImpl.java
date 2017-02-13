@@ -65,6 +65,15 @@ public class GenericRepositoryImpl<E, K extends Serializable> implements Generic
     }
 
     @Override
+    public E saveOrUpdate(E entity, K key){
+        if(key == null){
+            return save(entity);
+        }else{
+            return update(entity, key);
+        }
+    }
+
+    @Override
     public void delete(E entity){
         entity = entityManager.merge(entity);
         entityManager.remove(entity);

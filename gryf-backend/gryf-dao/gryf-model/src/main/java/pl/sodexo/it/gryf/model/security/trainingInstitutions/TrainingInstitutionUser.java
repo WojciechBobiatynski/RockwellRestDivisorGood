@@ -21,6 +21,12 @@ import java.util.List;
 @Table(name = "TRAINING_INSTITUTION_USERS", schema = "APP_PBE")
 @SequenceGenerator(name = "ti_usr_seq", schema = "eagle", sequenceName = "ti_usr_seq", allocationSize = 1)
 @ToString(exclude = {"password", "trainingInstitution", "tiUserResetAttemptList", "roles"})
+@NamedQueries({
+        @NamedQuery(name = "TrainingInstitutionUser.findByLoginIgnoreCase", query = "SELECT tiu FROM TrainingInstitutionUser tiu "
+                + "WHERE lower(tiu.login) = lower(:login)"),
+        @NamedQuery(name = "TrainingInstitutionUser.findByEmailIgnoreCase", query = "SELECT tiu FROM TrainingInstitutionUser tiu "
+                + "WHERE lower(tiu.email) = lower(:email)")
+})
 public class TrainingInstitutionUser extends VersionableEntity {
 
     @Id

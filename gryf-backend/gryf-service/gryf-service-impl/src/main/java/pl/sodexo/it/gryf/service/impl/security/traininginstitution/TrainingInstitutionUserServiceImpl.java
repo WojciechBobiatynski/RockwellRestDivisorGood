@@ -10,7 +10,7 @@ import pl.sodexo.it.gryf.common.dto.security.trainingInstitutions.GryfTiUserDto;
 import pl.sodexo.it.gryf.common.exception.verification.GryfInvalidTokenException;
 import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.dao.api.crud.dao.traininginstitutions.TiUserResetAttemptDao;
-import pl.sodexo.it.gryf.dao.api.crud.dao.traininginstitutions.TrainingInstitutionUserDao;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstitutionUserRepository;
 import pl.sodexo.it.gryf.model.security.trainingInstitutions.TiUserResetAttempt;
 import pl.sodexo.it.gryf.model.security.trainingInstitutions.TrainingInstitutionUser;
 import pl.sodexo.it.gryf.service.api.security.trainingInstitutions.TrainingInstitutionUserService;
@@ -27,7 +27,7 @@ import pl.sodexo.it.gryf.service.mapping.entitytodto.security.traininginstitutio
 public class TrainingInstitutionUserServiceImpl implements TrainingInstitutionUserService{
 
     @Autowired
-    private TrainingInstitutionUserDao trainingInstitutionUserDao;
+    private TrainingInstitutionUserRepository trainingInstitutionUserRepository;
 
     @Autowired
     private TrainingInstitutionUserEntityMapper trainingInstitutionUserEntityMapper;
@@ -44,29 +44,23 @@ public class TrainingInstitutionUserServiceImpl implements TrainingInstitutionUs
     @Override
     public GryfTiUserDto saveTiUser(GryfTiUserDto gryfTiUserDto) {
         TrainingInstitutionUser entity = gryfTiUserDtoMapper.convert(gryfTiUserDto);
-        return trainingInstitutionUserEntityMapper.convert(trainingInstitutionUserDao.save(entity));
-    }
-
-    @Override
-    public GryfTiUserDto saveAndFlushTiUser(GryfTiUserDto gryfTiUserDto) {
-        TrainingInstitutionUser entity = gryfTiUserDtoMapper.convert(gryfTiUserDto);
-        return trainingInstitutionUserEntityMapper.convert(trainingInstitutionUserDao.saveAndFlush(entity));
+        return trainingInstitutionUserEntityMapper.convert(trainingInstitutionUserRepository.saveOrUpdate(entity, entity.getId()));
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public GryfTiUserDto saveAndFlushTiUserInNewTransaction(GryfTiUserDto gryfTiUserDto) {
-        return saveAndFlushTiUser(gryfTiUserDto);
+        return saveTiUser(gryfTiUserDto);
     }
 
     @Override
     public GryfTiUserDto findTiUserByLogin(String login) {
-        return trainingInstitutionUserEntityMapper.convert(trainingInstitutionUserDao.findByLoginIgnoreCase(login));
+        return trainingInstitutionUserEntityMapper.convert(trainingInstitutionUserRepository.findByLoginIgnoreCase(login));
     }
 
     @Override
     public GryfTiUserDto findTiUserByEmail(String email) {
-        return trainingInstitutionUserEntityMapper.convert(trainingInstitutionUserDao.findByEmailIgnoreCase(email));
+        return trainingInstitutionUserEntityMapper.convert(trainingInstitutionUserRepository.findByEmailIgnoreCase(email));
     }
 
     @Override
@@ -79,7 +73,9 @@ public class TrainingInstitutionUserServiceImpl implements TrainingInstitutionUs
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         user.setPassword(passwordEncoder.encode(password));
         tiUserResetAttempt.setUsed(true);
-        return trainingInstitutionUserEntityMapper.convert(trainingInstitutionUserDao.save(user));
+
+        user = trainingInstitutionUserRepository.update(user, user.getId());
+        return trainingInstitutionUserEntityMapper.convert(user);
     }
 
     @Override

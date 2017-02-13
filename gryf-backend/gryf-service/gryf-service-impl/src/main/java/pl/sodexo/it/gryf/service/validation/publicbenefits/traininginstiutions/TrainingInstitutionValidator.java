@@ -7,8 +7,8 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.ContactDataValidationDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingInstitutionDto;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.common.exception.publicbenefits.VatRegNumTrainingInstitutionExistException;
-import pl.sodexo.it.gryf.dao.api.crud.dao.traininginstitutions.TrainingInstitutionUserDao;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstitutionRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstitutionUserRepository;
 import pl.sodexo.it.gryf.model.publicbenefits.enterprises.Enterprise;
 import pl.sodexo.it.gryf.model.publicbenefits.enterprises.EnterpriseContact;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstitution;
@@ -45,7 +45,7 @@ public class TrainingInstitutionValidator {
     private TrainingInstitutionEntityMapper trainingInstitutionEntityMapper;
 
     @Autowired
-    private TrainingInstitutionUserDao trainingInstitutionUserDao;
+    private TrainingInstitutionUserRepository trainingInstitutionUserRepository;
 
     public void validateTrainingInstitution(TrainingInstitution trainingInstitution, boolean checkVatRegNumDup) {
 
@@ -84,7 +84,7 @@ public class TrainingInstitutionValidator {
                 violations.add(new EntityConstraintViolation(path, "Niepoprawny adres email"));
             }
 
-            TrainingInstitutionUser institutionUser = trainingInstitutionUserDao.findByLoginIgnoreCase(trainingInstitution.getTrainingInstitutionUsers().get(index).getLogin());
+            TrainingInstitutionUser institutionUser = trainingInstitutionUserRepository.findByLoginIgnoreCase(trainingInstitution.getTrainingInstitutionUsers().get(index).getLogin());
             if(institutionUser != null && !institutionUser.getTrainingInstitution().getId().equals(trainingInstitution.getId())){
                 String path = String.format("%s[%s].%s", "users", index, "email");
                 violations.add(new EntityConstraintViolation(path, "Użytkownik o podanym adresie email/loginie już istnieje. Nie można zapisać użytkownika"));
