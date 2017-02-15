@@ -10,15 +10,20 @@ import org.springframework.stereotype.Component;
 import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.common.dto.other.FileDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsAttachmentDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceDataToValidateDto;
 import pl.sodexo.it.gryf.common.dto.user.GryfTiUser;
 import pl.sodexo.it.gryf.common.dto.user.GryfUser;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
+import pl.sodexo.it.gryf.common.exception.GryfFileException;
 import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
+import pl.sodexo.it.gryf.dao.api.crud.repository.attachments.AttachmentFileRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementAttachmentRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementRepository;
 import pl.sodexo.it.gryf.dao.api.search.dao.TrainingInstanceSearchDao;
 import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.Ereimbursement;
 import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.EreimbursementStatus;
+import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.ErmbsAttachment;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
 
 import java.util.*;
@@ -43,6 +48,12 @@ public class ErmbsValidator {
 
     @Autowired
     private ApplicationParameters applicationParameters;
+
+    @Autowired
+    private EreimbursementAttachmentRepository ereimbursementAttachmentRepository;
+
+    @Autowired
+    private AttachmentFileRepository attachmentFileRepository;
 
     @Autowired
     private GryfValidator gryfValidator;
@@ -151,22 +162,58 @@ public class ErmbsValidator {
     public void validateFileAttachments(ElctRmbsHeadDto elctRmbsHeadDto){
         List<EntityConstraintViolation> violations = new ArrayList<EntityConstraintViolation>();
 
-        IntConsumer myConsumer = (index) -> {
-            FileDTO fileDTO = elctRmbsHeadDto.getAttachments().get(index).getFile();
-            if (fileDTO != null && !Strings.isNullOrEmpty(fileDTO.getOriginalFilename())) {
-                String fileExtension = GryfStringUtils.findFileExtension(fileDTO.getOriginalFilename()).toLowerCase();
-                Set<String> allowedFileExtensionSet = applicationParameters.getEreimbursmentAttachmentFileExtensionSet();
-
-                if(!allowedFileExtensionSet.contains(fileExtension)){
-                    String path = String.format("%s[%s].%s", "attachments", index, "file");
-                    violations.add(new EntityConstraintViolation(path, "Wiersz " + (index + 1) + ": nieprawidłowy typ pliku"));
-                }
-            }
+        IntConsumer validationConsumer = (index) -> {
+            validateAccessToFile(elctRmbsHeadDto, index);
+            validataeFileExtensions(elctRmbsHeadDto, violations, index);
         };
         if (elctRmbsHeadDto.getAttachments() != null) {
-            IntStream.range(0, elctRmbsHeadDto.getAttachments().size()).forEach(myConsumer);
+            IntStream.range(0, elctRmbsHeadDto.getAttachments().size()).forEach(validationConsumer);
         }
         gryfValidator.validate(violations);
+    }
+
+    private void validateAccessToFile(ElctRmbsHeadDto elctRmbsHeadDto, int index) {
+        ErmbsAttachmentDto ermbsAttachmentDto = elctRmbsHeadDto.getAttachments().get(index);
+        if(isNewAttachmentWithFilledFileId(ermbsAttachmentDto)){
+            LOGGER.warn("Próba nieautoryzowanego zapisu pliku. Dane zostały zmanipulowane");
+            throw new GryfFileException("Wystąpił niespodziewany błąd");
+        }
+        if(isExistedAttachmentWithFilledFileId(ermbsAttachmentDto)){
+            checkFileBelongToAttachment(ermbsAttachmentDto);
+        }
+    }
+
+    private void checkFileBelongToAttachment(ErmbsAttachmentDto ermbsAttachmentDto) {
+        ErmbsAttachment existedErmbsAttachment = ereimbursementAttachmentRepository.get(ermbsAttachmentDto.getId());
+        if(isFileIdDiffrentThenFromDatabase(ermbsAttachmentDto, existedErmbsAttachment)){
+            LOGGER.warn("Próba nieautoryzowanego zapisu pliku. Dane zostały zmanipulowane");
+            throw new GryfFileException("Wystąpił niespodziewany błąd");
+        }
+    }
+
+    private boolean isFileIdDiffrentThenFromDatabase(ErmbsAttachmentDto ermbsAttachmentDto, ErmbsAttachment existedErmbsAttachment) {
+        return existedErmbsAttachment.getAttachmentFile() != null && !ermbsAttachmentDto.getFileId().equals(existedErmbsAttachment.getAttachmentFile().getId());
+    }
+
+    private boolean isExistedAttachmentWithFilledFileId(ErmbsAttachmentDto ermbsAttachmentDto) {
+        return ermbsAttachmentDto.getId() != null && ermbsAttachmentDto.getFileId() != null;
+    }
+
+    private boolean isNewAttachmentWithFilledFileId(ErmbsAttachmentDto ermbsAttachmentDto) {
+        return ermbsAttachmentDto.getId() == null && ermbsAttachmentDto.getFileId() != null;
+    }
+
+    private void validataeFileExtensions(ElctRmbsHeadDto elctRmbsHeadDto, List<EntityConstraintViolation> violations, int index) {
+        FileDTO fileDTO = elctRmbsHeadDto.getAttachments().get(index).getFile();
+        if (fileDTO != null && !Strings.isNullOrEmpty(fileDTO.getOriginalFilename())) {
+            String fileExtension = GryfStringUtils.findFileExtension(fileDTO.getOriginalFilename()).toLowerCase();
+            Set<String> allowedFileExtensionSet = applicationParameters.getEreimbursmentAttachmentFileExtensionSet();
+
+            if(!allowedFileExtensionSet.contains(fileExtension)){
+                String path = String.format("%s[%s].%s", "attachments", index, "file");
+                violations.add(new EntityConstraintViolation(path, "Wiersz " + (index + 1) + ": nieprawidłowy typ pliku"));
+            }
+        }
     }
 
     private boolean wasFileAddedBefore(ElctRmbsHeadDto elctRmbsHeadDto, int index) {
