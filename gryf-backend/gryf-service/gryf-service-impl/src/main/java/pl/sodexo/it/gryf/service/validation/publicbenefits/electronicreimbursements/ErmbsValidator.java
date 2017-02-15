@@ -17,7 +17,6 @@ import pl.sodexo.it.gryf.common.dto.user.GryfUser;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.common.exception.GryfFileException;
 import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
-import pl.sodexo.it.gryf.dao.api.crud.repository.attachments.AttachmentFileRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementAttachmentRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementRepository;
 import pl.sodexo.it.gryf.dao.api.search.dao.TrainingInstanceSearchDao;
@@ -51,9 +50,6 @@ public class ErmbsValidator {
 
     @Autowired
     private EreimbursementAttachmentRepository ereimbursementAttachmentRepository;
-
-    @Autowired
-    private AttachmentFileRepository attachmentFileRepository;
 
     @Autowired
     private GryfValidator gryfValidator;
