@@ -23,8 +23,6 @@ import javax.persistence.*;
 })
 public class Employment extends VersionableEntity {
 
-    public static final String FIND_BY_INDIVIDUAL_AND_ENTERPRISE_ID = "Employment.findByIndividualAndEnterpriseId";
-
     @Id
     @Column(name = "EMP_ID")
     @GeneratedValue(generator = "pk_seq")

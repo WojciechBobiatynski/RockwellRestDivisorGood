@@ -148,7 +148,7 @@ public class Individual extends VersionableEntity implements AccountContractPair
     @OneToMany(mappedBy = IndividualContact.INDIVIDUAL_ATTR_NAME, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<IndividualContact> contacts;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "individual")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "individual", orphanRemoval = true)
     private List<Employment> employments;
 
     //GETTERS & SETTERS

@@ -17,7 +17,7 @@ public class EmploymentRepositoryImpl extends GenericRepositoryImpl<Employment, 
     @Override
     public Employment findByIndividualIdAndEnterpriseId(Long individualId, Long enterpriseId) {
         try {
-            TypedQuery<Employment> query = entityManager.createNamedQuery(Employment.FIND_BY_INDIVIDUAL_AND_ENTERPRISE_ID, Employment.class);
+            TypedQuery<Employment> query = entityManager.createNamedQuery("Employment.findByIndividualAndEnterpriseId", Employment.class);
             query.setParameter("individualId", individualId);
             query.setParameter("enterpriseId", enterpriseId);
             return query.getSingleResult();

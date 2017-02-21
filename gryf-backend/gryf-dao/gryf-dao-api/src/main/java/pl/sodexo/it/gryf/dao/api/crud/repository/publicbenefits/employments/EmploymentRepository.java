@@ -9,4 +9,5 @@ import pl.sodexo.it.gryf.model.publicbenefits.employment.Employment;
 public interface EmploymentRepository extends GenericRepository<Employment, Long> {
 
     Employment findByIndividualIdAndEnterpriseId(Long individualId, Long enterpriseId);
+
 }

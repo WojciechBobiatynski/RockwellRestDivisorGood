@@ -20,6 +20,8 @@ public interface GenericRepository<E, K extends Serializable> {
 
     void refresh(E entity);
 
+    void detach(E entity);
+
     List<E> findAll();
 
     void flush();

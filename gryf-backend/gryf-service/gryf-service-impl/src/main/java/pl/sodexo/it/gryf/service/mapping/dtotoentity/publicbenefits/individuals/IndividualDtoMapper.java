@@ -5,7 +5,9 @@ import org.springframework.stereotype.Component;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.enterprises.detailsform.EnterpriseDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.detailsForm.IndividualContactDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.detailsForm.IndividualDto;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.employments.EmploymentRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.enterprises.EnterpriseRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.individuals.IndividualRepository;
 import pl.sodexo.it.gryf.model.publicbenefits.employment.Employment;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.VersionableDtoMapper;
@@ -30,6 +32,12 @@ public class IndividualDtoMapper extends VersionableDtoMapper<IndividualDto, Ind
     @Autowired
     private EnterpriseRepository enterpriseRepository;
 
+    @Autowired
+    private EmploymentRepository employmentRepository;
+
+    @Autowired
+    private IndividualRepository individualRepository;
+
     @Override
     protected Individual initDestination() {
         return new Individual();
@@ -40,6 +48,16 @@ public class IndividualDtoMapper extends VersionableDtoMapper<IndividualDto, Ind
         super.map(dto, entity);
 
         Consumer<EnterpriseDto> myConsumer = enterpriseDto -> {
+
+            if(dto.getId() != null){
+                Employment emp = employmentRepository.findByIndividualIdAndEnterpriseId(dto.getId(), enterpriseDto.getId());
+                if(emp != null){
+                    individualRepository.detach(emp.getIndividual());
+                    employmentRepository.detach(emp);
+                    entity.addEmployment(emp);
+                    return;
+                }
+            }
             Employment employment = new Employment();
             employment.setEnterprise(enterpriseRepository.get(enterpriseDto.getId()));
             entity.addEmployment(employment);

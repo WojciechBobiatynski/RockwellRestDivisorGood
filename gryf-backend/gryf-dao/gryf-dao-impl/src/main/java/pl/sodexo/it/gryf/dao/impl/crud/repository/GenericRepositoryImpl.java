@@ -80,6 +80,11 @@ public class GenericRepositoryImpl<E, K extends Serializable> implements Generic
     }
 
     @Override
+    public void detach(E entity){
+        entityManager.detach(entity);
+    }
+
+    @Override
     public void refresh(E entity){
         entityManager.refresh(entity);
     }
