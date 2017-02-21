@@ -1,5 +1,5 @@
 update EAGLE.ADM_PARAMETERS
-set value = 'C:\Users\Isolution\Desktop\GryfWorkspace\GryfFileRepo\'
+set value = 'C:\Users\Home\Desktop\GRYF\REPO\'
 WHERE NAME = 'GRYF_PATH_ATTACHMENTS';
 
 
@@ -21,7 +21,7 @@ where INV_ID = 814 and (POS_NUM <> 1 or POS_TYPE <> 'S');
 MERGE INTO EAGLE.ADM_PARAMETERS ug USING (
                                            SELECT
                                              'GRYF_TI_USER_URL' NAME,
-                                             'http://localhost:8080/gryf-ti-fo/' VALUE,
+                                             'http://localhost:8080/gryf-web-ti/' VALUE,
                                              'URL aplikacji TI' DESCRIPTION
                                            FROM dual
                                          ) ins
@@ -37,7 +37,7 @@ VALUES (ins.NAME, ins.VALUE, ins.DESCRIPTION);
 MERGE INTO EAGLE.ADM_PARAMETERS ug USING (
                                            SELECT
                                              'GRYF_IND_USER_URL' NAME,
-                                             'http://localhost:8080/gryf-ind-fo/' VALUE,
+                                             'http://localhost:8080/gryf-web-ind/' VALUE,
                                              'URL aplikacji IND' DESCRIPTION
                                            FROM dual
                                          ) ins
@@ -84,29 +84,29 @@ CREATE TABLE APP_FIN.NAV_MC_TRANSFERS_PRC
 );
 
 COMMENT ON COLUMN APP_FIN.NAV_MC_TRANSFERS_PRC.ID                         IS 'Id Pobierane z sekwencji...';
-COMMENT ON COLUMN APP_FIN.NAV_MC_TRANSFERS_PRC.USED                       IS 'Czy wpis zosta³ u¿yty do oznaczenia p³atnoœci na docelowym obiekcie (zamówieniu/Zadaniu/Zamówieniu PB';
-COMMENT ON COLUMN APP_FIN.NAV_MC_TRANSFERS_PRC.ORDER_ID                   IS 'Id Zamówienia / Zadania / Zamówienia PB';
-COMMENT ON COLUMN APP_FIN.NAV_MC_TRANSFERS_PRC.SOURCE_TYPE                IS 'Typ Ÿród³a identyfikatora w polu ORD_ID
+COMMENT ON COLUMN APP_FIN.NAV_MC_TRANSFERS_PRC.USED                       IS 'Czy wpis zostaï¿½ uï¿½yty do oznaczenia pï¿½atnoï¿½ci na docelowym obiekcie (zamï¿½wieniu/Zadaniu/Zamï¿½wieniu PB';
+COMMENT ON COLUMN APP_FIN.NAV_MC_TRANSFERS_PRC.ORDER_ID                   IS 'Id Zamï¿½wienia / Zadania / Zamï¿½wienia PB';
+COMMENT ON COLUMN APP_FIN.NAV_MC_TRANSFERS_PRC.SOURCE_TYPE                IS 'Typ ï¿½rï¿½dï¿½a identyfikatora w polu ORD_ID
 RECK - Rozliczenie akceptacji kart
-ORD - Zamówienie
+ORD - Zamï¿½wienie
 REM - Rozliczenie
 TSK - Zadanie
-ORDV - Zamówienie VB
+ORDV - Zamï¿½wienie VB
 IP - Propozycja faktury
-ORDPB - Zamówienia PB';
-COMMENT ON COLUMN APP_FIN.NAV_MC_TRANSFERS_PRC.DOC_NUMBER                 IS 'Identyfikator dokumentu, po którym nast¹pi³o zmatchowanie p³atnoœci. Dla zamówieñ, zadañ, propozycji faktury jest to numer proformy. Dla zamówieñ PB jest to zewnêtrzny numer zamówienia nadawany przez WUP';
-COMMENT ON COLUMN APP_FIN.NAV_MC_TRANSFERS_PRC.AMOUNT                     IS 'Wartoœæ podpiêta do zamówienia';
+ORDPB - Zamï¿½wienia PB';
+COMMENT ON COLUMN APP_FIN.NAV_MC_TRANSFERS_PRC.DOC_NUMBER                 IS 'Identyfikator dokumentu, po ktï¿½rym nastï¿½piï¿½o zmatchowanie pï¿½atnoï¿½ci. Dla zamï¿½wieï¿½, zadaï¿½, propozycji faktury jest to numer proformy. Dla zamï¿½wieï¿½ PB jest to zewnï¿½trzny numer zamï¿½wienia nadawany przez WUP';
+COMMENT ON COLUMN APP_FIN.NAV_MC_TRANSFERS_PRC.AMOUNT                     IS 'Wartoï¿½ï¿½ podpiï¿½ta do zamï¿½wienia';
 COMMENT ON COLUMN APP_FIN.NAV_MC_TRANSFERS_PRC.CUST_NAME                  IS 'Nazwa klienta';
 COMMENT ON COLUMN APP_FIN.NAV_MC_TRANSFERS_PRC.CUST_BALANCE               IS 'Bilans klienta';
-COMMENT ON COLUMN APP_FIN.NAV_MC_TRANSFERS_PRC.MATCH_DATE                 IS 'Data podpiêcia p³atnoœci w Eagle';
-COMMENT ON COLUMN APP_FIN.NAV_MC_TRANSFERS_PRC.MATCH_DATE_NAV             IS 'Data podpiêcia p³atnoœci w Navision';
-COMMENT ON COLUMN APP_FIN.NAV_MC_TRANSFERS_PRC.PAYMENT_DATE               IS 'Data p³atnoœci';
+COMMENT ON COLUMN APP_FIN.NAV_MC_TRANSFERS_PRC.MATCH_DATE                 IS 'Data podpiï¿½cia pï¿½atnoï¿½ci w Eagle';
+COMMENT ON COLUMN APP_FIN.NAV_MC_TRANSFERS_PRC.MATCH_DATE_NAV             IS 'Data podpiï¿½cia pï¿½atnoï¿½ci w Navision';
+COMMENT ON COLUMN APP_FIN.NAV_MC_TRANSFERS_PRC.PAYMENT_DATE               IS 'Data pï¿½atnoï¿½ci';
 COMMENT ON COLUMN APP_FIN.NAV_MC_TRANSFERS_PRC.TRANSFER_ID                IS 'Identyfikator przelewu';
 COMMENT ON COLUMN APP_FIN.NAV_MC_TRANSFERS_PRC.TRANSFER_DATE              IS 'Data przelewu';
-COMMENT ON COLUMN APP_FIN.NAV_MC_TRANSFERS_PRC.TRANSFER_DETAIL            IS 'Tytu³ przelewu';
+COMMENT ON COLUMN APP_FIN.NAV_MC_TRANSFERS_PRC.TRANSFER_DETAIL            IS 'Tytuï¿½ przelewu';
 COMMENT ON COLUMN APP_FIN.NAV_MC_TRANSFERS_PRC.TRANSFER_AMOUNT            IS 'Kwota przelewu';
-COMMENT ON COLUMN APP_FIN.NAV_MC_TRANSFERS_PRC.ERROR_TIMESTAMP            IS 'B³¹d podpiêcia p³atnoœci - data';
-COMMENT ON COLUMN APP_FIN.NAV_MC_TRANSFERS_PRC.ERROR_MESSAGE              IS 'B³¹d podpiêcia p³atnoœci - opis';
+COMMENT ON COLUMN APP_FIN.NAV_MC_TRANSFERS_PRC.ERROR_TIMESTAMP            IS 'Bï¿½ï¿½d podpiï¿½cia pï¿½atnoï¿½ci - data';
+COMMENT ON COLUMN APP_FIN.NAV_MC_TRANSFERS_PRC.ERROR_MESSAGE              IS 'Bï¿½ï¿½d podpiï¿½cia pï¿½atnoï¿½ci - opis';
 
 CREATE SEQUENCE EAGLE.NATP_SEQ
 START WITH 1
@@ -132,14 +132,14 @@ ALTER TABLE APP_FIN.NAV_MC_TRANSFERS_PRC ADD
   MODIFIED_TIMESTAMP    TIMESTAMP(6)            DEFAULT SYSTIMESTAMP NOT NULL
   );
 
-COMMENT ON COLUMN APP_FIN.NAV_MC_TRANSFERS_PRC.CREATED_USER       IS 'U¿ytkownik tworzacy wiersz - kolumna audytowa';
+COMMENT ON COLUMN APP_FIN.NAV_MC_TRANSFERS_PRC.CREATED_USER       IS 'Uï¿½ytkownik tworzacy wiersz - kolumna audytowa';
 COMMENT ON COLUMN APP_FIN.NAV_MC_TRANSFERS_PRC.CREATED_TIMESTAMP  IS 'Timestamp utworzenia wiersza - kolumna audytowa';
-COMMENT ON COLUMN APP_FIN.NAV_MC_TRANSFERS_PRC.MODIFIED_USER      IS 'Ostatni u¿ytkownik modyfikuj¹cy wiersz - kolumna audytowa';
+COMMENT ON COLUMN APP_FIN.NAV_MC_TRANSFERS_PRC.MODIFIED_USER      IS 'Ostatni uï¿½ytkownik modyfikujï¿½cy wiersz - kolumna audytowa';
 COMMENT ON COLUMN APP_FIN.NAV_MC_TRANSFERS_PRC.MODIFIED_TIMESTAMP IS 'Timestamp ostatniej modyfikacji wiersza - kolumna audytowa';
 
 
-Insert into APP_FIN.NAV_MC_TRANSFERS_PRC (ID,USED,ORDER_ID,SOURCE_TYPE,DOC_NUMBER,AMOUNT,CUST_NAME,CUST_BALANCE,MATCH_DATE,MATCH_DATE_NAV,PAYMENT_DATE,TRANSFER_ID,TRANSFER_DATE,TRANSFER_DETAIL,TRANSFER_AMOUNT,ERROR_TIMESTAMP,ERROR_MESSAGE,CREATED_USER,CREATED_TIMESTAMP,MODIFIED_USER,MODIFIED_TIMESTAMP) values ('1','Y','1265','ORDPB','dcvsd','21,45','COS','1000',to_date('16/12/20','RR/MM/DD'),to_date('16/12/20','RR/MM/DD'),to_date('16/12/20','RR/MM/DD'),'123',to_date('16/12/19','RR/MM/DD'),'P³atnoœæ za dokument dcvsd','21,45',null,null,'EAGLE',to_timestamp('17/01/30 10:33:39,466000000','RR/MM/DD HH24:MI:SSXFF'),'EAGLE',to_timestamp('17/01/30 10:33:39,466000000','RR/MM/DD HH24:MI:SSXFF'));
-Insert into APP_FIN.NAV_MC_TRANSFERS_PRC (ID,USED,ORDER_ID,SOURCE_TYPE,DOC_NUMBER,AMOUNT,CUST_NAME,CUST_BALANCE,MATCH_DATE,MATCH_DATE_NAV,PAYMENT_DATE,TRANSFER_ID,TRANSFER_DATE,TRANSFER_DETAIL,TRANSFER_AMOUNT,ERROR_TIMESTAMP,ERROR_MESSAGE,CREATED_USER,CREATED_TIMESTAMP,MODIFIED_USER,MODIFIED_TIMESTAMP) values ('2','Y','1265','ORDPB','WKK/50/1','19,5','COS','1000',to_date('16/12/20','RR/MM/DD'),to_date('16/12/20','RR/MM/DD'),to_date('16/12/20','RR/MM/DD'),'123',to_date('16/12/19','RR/MM/DD'),'P³atnoœæ za zamówienie PB WKK/50/1','19,5',null,null,'EAGLE',to_timestamp('17/01/30 10:33:39,466000000','RR/MM/DD HH24:MI:SSXFF'),'EAGLE',to_timestamp('17/01/30 10:33:39,466000000','RR/MM/DD HH24:MI:SSXFF'));
+Insert into APP_FIN.NAV_MC_TRANSFERS_PRC (ID,USED,ORDER_ID,SOURCE_TYPE,DOC_NUMBER,AMOUNT,CUST_NAME,CUST_BALANCE,MATCH_DATE,MATCH_DATE_NAV,PAYMENT_DATE,TRANSFER_ID,TRANSFER_DATE,TRANSFER_DETAIL,TRANSFER_AMOUNT,ERROR_TIMESTAMP,ERROR_MESSAGE,CREATED_USER,CREATED_TIMESTAMP,MODIFIED_USER,MODIFIED_TIMESTAMP) values ('1','Y','1265','ORDPB','dcvsd','21,45','COS','1000',to_date('16/12/20','RR/MM/DD'),to_date('16/12/20','RR/MM/DD'),to_date('16/12/20','RR/MM/DD'),'123',to_date('16/12/19','RR/MM/DD'),'Pï¿½atnoï¿½ï¿½ za dokument dcvsd','21,45',null,null,'EAGLE',to_timestamp('17/01/30 10:33:39,466000000','RR/MM/DD HH24:MI:SSXFF'),'EAGLE',to_timestamp('17/01/30 10:33:39,466000000','RR/MM/DD HH24:MI:SSXFF'));
+Insert into APP_FIN.NAV_MC_TRANSFERS_PRC (ID,USED,ORDER_ID,SOURCE_TYPE,DOC_NUMBER,AMOUNT,CUST_NAME,CUST_BALANCE,MATCH_DATE,MATCH_DATE_NAV,PAYMENT_DATE,TRANSFER_ID,TRANSFER_DATE,TRANSFER_DETAIL,TRANSFER_AMOUNT,ERROR_TIMESTAMP,ERROR_MESSAGE,CREATED_USER,CREATED_TIMESTAMP,MODIFIED_USER,MODIFIED_TIMESTAMP) values ('2','Y','1265','ORDPB','WKK/50/1','19,5','COS','1000',to_date('16/12/20','RR/MM/DD'),to_date('16/12/20','RR/MM/DD'),to_date('16/12/20','RR/MM/DD'),'123',to_date('16/12/19','RR/MM/DD'),'Pï¿½atnoï¿½ï¿½ za zamï¿½wienie PB WKK/50/1','19,5',null,null,'EAGLE',to_timestamp('17/01/30 10:33:39,466000000','RR/MM/DD HH24:MI:SSXFF'),'EAGLE',to_timestamp('17/01/30 10:33:39,466000000','RR/MM/DD HH24:MI:SSXFF'));
 
 BEGIN
   dbms_output.put_line(SYS.PK_ADMIN.F_GRANT_TO_EAGLE('APP_FIN', 'SRV_EE', 'NAV_MC_TRANSFERS_PRC', 'SELECT'));
