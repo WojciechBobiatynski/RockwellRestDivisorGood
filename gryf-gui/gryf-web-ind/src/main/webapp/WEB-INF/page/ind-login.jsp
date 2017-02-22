@@ -80,6 +80,14 @@
 
                     <h3>Panel logowania UCZESTNIKA</h3>
 
+                    <c:if test="${param.logout != null}">
+                        <div class="msg"><p>Wylogowano pomyślnie.</p></div>
+                    </c:if>
+
+                    <c:if test="${param.error != null}">
+                        <div class="msg msg-error"><p><c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/></p></div>
+                    </c:if>
+
                     <div class="field field-string">
                         <div class="label">
                             <label for="username">Wprowadź PESEL</label>
