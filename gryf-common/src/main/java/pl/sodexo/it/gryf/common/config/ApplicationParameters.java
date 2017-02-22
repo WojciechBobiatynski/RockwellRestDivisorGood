@@ -7,6 +7,8 @@ import java.util.Set;
  */
 public interface ApplicationParameters {
 
+    String getParametersInfo();
+
     String getCdnUrl();
 
     String getResourcesUrl();
@@ -118,4 +120,5 @@ public interface ApplicationParameters {
     Set<String> getEreimbursmentAttachmentFileExtensionSet();
 
     String getStrongPasswordRegexp();
+
 }

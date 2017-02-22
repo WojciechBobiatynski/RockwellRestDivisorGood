@@ -1,5 +1,8 @@
 package pl.sodexo.it.gryf.service.config;
 
+import lombok.ToString;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
@@ -15,7 +18,10 @@ import java.util.Set;
  * @author Marcel.GOLUNSKI
  */
 @Component
+@ToString(exclude = "em")
 public class ApplicationParametersImpl implements ApplicationParameters {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationParametersImpl.class);
 
     @PersistenceContext
     private EntityManager em;
@@ -306,6 +312,11 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     //PUBLIC METHODS
 
     @Override
+    public String getParametersInfo(){
+        return this.toString();
+    }
+
+    @Override
     public String getCdnUrl() {
         return cdnUrl;
     }
@@ -590,7 +601,9 @@ public class ApplicationParametersImpl implements ApplicationParameters {
         Query query = em.createNativeQuery("SELECT p.value FROM EAGLE.ADM_PARAMETERS p WHERE P.NAME = ? AND ROWNUM = 1");
         query.setParameter(1, name);
         List<Object> result = query.getResultList();
-        return result.size() > 0 ? result.get(0) : null;
+        Object o = result.size() > 0 ? result.get(0) : null;
+        LOGGER.info(String.format("Dla wartosci klucza %s znaleziono wartość %s w tabelce EAGLE.ADM_PARAMETERS", name, o));
+        return o;
     }
 
 }

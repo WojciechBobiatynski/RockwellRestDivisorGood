@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.common.dto.asynchjobs.detailsform.AsynchJobDetailsDTO;
 import pl.sodexo.it.gryf.common.dto.asynchjobs.searchform.AsynchJobSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.asynchjobs.searchform.AsynchJobSearchResultDTO;
@@ -30,6 +31,7 @@ public class AsynchJobRestController {
 
     public static final String ADMINISTRATION_REST = "rest/administration";
     public static final String ASYNCH_JOBS_URL = "/asynchjobs";
+    public static final String PARAMETERS_URL = "/parameters";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AsynchJobRestController.class);
 
@@ -38,6 +40,16 @@ public class AsynchJobRestController {
 
     @Autowired
     private SecurityChecker securityChecker;
+
+    @Autowired
+    private ApplicationParameters applicationParameters;
+
+    @RequestMapping(value = PARAMETERS_URL + "/info", method = RequestMethod.GET)
+    @ResponseBody
+    public String getParametersInfo() {
+        LOGGER.debug("findParametersInfo");
+        return applicationParameters.getParametersInfo();
+    }
 
     @RequestMapping(value = ASYNCH_JOBS_URL + "/list", method = RequestMethod.GET)
     @ResponseBody
@@ -81,7 +93,7 @@ public class AsynchJobRestController {
     }
 
     @RequestMapping(value = {ASYNCH_JOBS_URL + "/dictionary/types/{onlyImportJobs}",
-                             ASYNCH_JOBS_URL + "/dictionary/types/{grantProgramId}/{onlyImportJobs}"}, method = RequestMethod.GET)
+            ASYNCH_JOBS_URL + "/dictionary/types/{grantProgramId}/{onlyImportJobs}"}, method = RequestMethod.GET)
     @ResponseBody
     public Map<String, String> getJobTypes(@PathVariable("grantProgramId") Optional<Long> grantProgramId,
                                            @PathVariable("onlyImportJobs") boolean onlyImportJobs) {
