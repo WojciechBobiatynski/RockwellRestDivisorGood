@@ -97,13 +97,17 @@ public class VerificationServiceImpl implements VerificationService {
     private GryfIndUserDto checkEmailPeselPairCorrectness(VerificationDto verificationDto) throws GryfVerificationException {
         GryfIndUserDto user = individualUserService.findByPeselWithVerEmail(verificationDto.getPesel());
 
-        if (user == null)
-            throw new GryfVerificationException("Nie znaleziono użytkownika o podanym numerze PESEL");
+        if (user == null){
+            LOGGER.warn("Nie znaleziono użytkownika o podanym peselu={}", verificationDto.getPesel());
+            throw new GryfVerificationException("Niepoprawna para PESEL - adres email");
+        }
 
         unlockUser(user);
 
-        if (!user.isActive())
+        if (!user.isActive()){
+            LOGGER.warn("Użytkownik jest nieaktywny, pesel={}", verificationDto.getPesel());
             throw new GryfUserNotActiveException("Twoje konto jest nieaktywne. Zgłoś sie do administratora");
+        }
 
         if (!verificationDto.getEmail().equals(user.getVerificationEmail())) {
             user.setLastResetFailureDate(new Date());
@@ -112,6 +116,7 @@ public class VerificationServiceImpl implements VerificationService {
                 user.setActive(false);
             }
             individualUserService.updateIndUserInNewTransaction(user);
+            LOGGER.warn("Niepoprawna para PESEL - adres email, pesel={}, mail={}", verificationDto.getPesel(), verificationDto.getEmail());
             throw new GryfVerificationException("Niepoprawna para PESEL - adres email");
         }
         user.setResetFailureAttempts(GryfConstants.DEFAULT_RESET_FAILURE_ATTEMPTS_NUMBER);
