@@ -1,6 +1,8 @@
 package pl.sodexo.it.gryf.service.impl.security;
 
 import com.google.common.collect.Sets;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -37,6 +39,8 @@ import java.util.List;
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Autowired
     private UserRepository userRepository;
@@ -77,23 +81,27 @@ public class UserServiceImpl implements UserService {
         GryfTiUserDto user = trainingInstitutionUserService.findTiUserByLogin(login);
 
         if (user == null) {
-            throw new GryfBadCredentialsException("Niepoprawny login");
+            LOGGER.warn("Niepoprawny login={}", login);
+            throw new GryfBadCredentialsException("Niepoprawny login lub/i hasło");
         }
 
         unlockUserInNewTransaction(user);
 
         if (!user.isActive()) {
+            LOGGER.warn("Konto jest nieaktywne, login={}", login);
             throw new GryfUserNotActiveException("Twoje konto jest nieaktywne. Zgłoś sie do administratora");
         }
 
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         if (user == null || !passwordEncoder.matches(password, user.getPassword())) {
+            LOGGER.warn("Niepoprawne hasło, login={}", login);
             throw new GryfBadCredentialsException("Niepoprawny login lub/i hasło");
         }
 
         Date currentDate = new Date();
 
         if (user.getPasswordExpirationDate() != null && currentDate.after(user.getPasswordExpirationDate())) {
+            LOGGER.warn("Hasło wygasło, login={}", login);
             throw new GryfPasswordExpiredException("Hasło wygasło");
         }
 
@@ -116,7 +124,8 @@ public class UserServiceImpl implements UserService {
         //TODO pobierać póxniej przy pomocy spring data jpa dla zachowania spójności - nie będzie potrzeby decryptowania hasła
         GryfIndUserDto user = securitySearchDao.findIndUserByPesel(pesel);
         if (user == null) {
-            throw new GryfBadCredentialsException("Niepoprawny PESEL");
+            LOGGER.warn("Niepoprawny PESEL={}", pesel);
+            throw new GryfBadCredentialsException("Niepoprawny PESEL lub/i hasło");
         }
         user.setRoles(Sets.newHashSet(securitySearchDao.findRolesForIndividualUser(user.getInuId())));
         user.setVerificationCode(AEScryptographer.decrypt(user.getVerificationCode()));
@@ -124,10 +133,12 @@ public class UserServiceImpl implements UserService {
         unlockUserInNewTransaction(user);
 
         if (!user.isActive()) {
+            LOGGER.warn("Konto jest nieaktywne, PESEL={}", pesel);
             throw new GryfUserNotActiveException("Twoje konto jest nieaktywne. Zgłoś sie do administratora");
         }
 
         if (!verificationCode.equals(user.getVerificationCode())){
+            LOGGER.warn("Niepoprawne hasło, PESEL={}", pesel);
             throw new GryfBadCredentialsException("Niepoprawny PESEL lub/i hasło");
         }
 
