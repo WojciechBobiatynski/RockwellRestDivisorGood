@@ -249,13 +249,8 @@
           att.ADDITIONAL_DESCRIPTION                att_additionalDescription,
           att.STATUS                                att_status,
           files.ORIGINAL_FILE_NAME                  att_originalFileName,
-          files.FILE_LOCATION                       att_fileLocation,
           att_t.MAX_BYTES_PER_FILE                  att_maxFileSize,
           att.VERSION                               att_version,
-          att.CREATED_USER                          att_createdUser,
-          att.CREATED_TIMESTAMP                     att_createdTimestamp,
-          att.MODIFIED_USER                         att_modifiedUser,
-          att.MODIFIED_TIMESTAMP                    att_modifiedTimestamp,
           CASE
               WHEN att_req.ATTACH_TYPE is not NULL
                 THEN 1

@@ -7,7 +7,7 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.attachments.AttachmentFileRepos
 import pl.sodexo.it.gryf.dao.api.crud.repository.attachments.AttachmentTypeRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementRepository;
 import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.ErmbsAttachment;
-import pl.sodexo.it.gryf.service.mapping.dtotoentity.VersionableDtoMapper;
+import pl.sodexo.it.gryf.service.mapping.GenericMapper;
 
 /**
  * Mapper mapujący dto ErmbsAttachmentDto na encję ErmbsAttachment
@@ -15,7 +15,7 @@ import pl.sodexo.it.gryf.service.mapping.dtotoentity.VersionableDtoMapper;
  * Created by jbentyn on 2016-09-27.
  */
 @Component
-public class ErmbsAttachmentDtoMapper extends VersionableDtoMapper<ErmbsAttachmentDto, ErmbsAttachment> {
+public class ErmbsAttachmentDtoMapper extends GenericMapper<ErmbsAttachmentDto, ErmbsAttachment> {
 
     @Autowired
     private EreimbursementRepository ereimbursementRepository;
@@ -33,7 +33,6 @@ public class ErmbsAttachmentDtoMapper extends VersionableDtoMapper<ErmbsAttachme
 
     @Override
     protected void map(ErmbsAttachmentDto dto, ErmbsAttachment entity) {
-        super.map(dto, entity);
         entity.setId(dto.getId());
         entity.setEreimbursement(dto.getErmbsId() != null ? ereimbursementRepository.get(dto.getErmbsId()) : null);
         entity.setAttachmentType(attachmentTypeRepository.get(dto.getCode()));
@@ -42,6 +41,7 @@ public class ErmbsAttachmentDtoMapper extends VersionableDtoMapper<ErmbsAttachme
         entity.setAdditionalDescription(dto.getAdditionalDescription());
         entity.setAttachmentFile(dto.getFileId() != null ? attachmentFileRepository.get(dto.getFileId()) : null);
         entity.setStatus(dto.getStatus());
+        entity.setVersion(dto.getVersion());
     }
 
 }

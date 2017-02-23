@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import pl.sodexo.it.gryf.common.dto.api.VersionableDto;
 import pl.sodexo.it.gryf.common.dto.other.FileDTO;
 import pl.sodexo.it.gryf.common.enums.ErmbsAttachmentStatus;
 
@@ -17,7 +16,9 @@ import java.util.Date;
  * Created by akmiecinski on 24.11.2016.
  */
 @ToString
-public class ErmbsAttachmentDto extends VersionableDto implements Serializable {
+public class ErmbsAttachmentDto implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Getter
     @Setter
@@ -53,10 +54,6 @@ public class ErmbsAttachmentDto extends VersionableDto implements Serializable {
 
     @Getter
     @Setter
-    private String fileLocation;
-
-    @Getter
-    @Setter
     private Integer maxFileSize;
 
     @Getter
@@ -88,4 +85,8 @@ public class ErmbsAttachmentDto extends VersionableDto implements Serializable {
     @Setter
     @JsonIgnoreProperties
     private FileDTO errorFile;
+
+    @Getter
+    @Setter
+    private Integer version;
 }

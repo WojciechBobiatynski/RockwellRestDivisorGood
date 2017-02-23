@@ -12,10 +12,10 @@ public class CreationAuditedEntity extends GryfEntity {
 
     //FIELDS
 
-    @Column(name = "CREATED_USER")
+    @Column(name = "CREATED_USER", updatable = false)
     private String createdUser;
 
-    @Column(name = "CREATED_TIMESTAMP")
+    @Column(name = "CREATED_TIMESTAMP", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdTimestamp;
 
