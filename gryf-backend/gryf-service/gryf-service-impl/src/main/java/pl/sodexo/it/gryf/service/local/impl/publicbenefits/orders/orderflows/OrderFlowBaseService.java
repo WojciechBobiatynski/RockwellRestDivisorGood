@@ -99,7 +99,7 @@ public abstract class OrderFlowBaseService implements OrderFlowService {
         order.setContract(contract);
         order.setPbeProduct(gpProduct.getPbeProduct());
 
-        return orderRepository.save(order);
+        return order;
     }
 
     @Override

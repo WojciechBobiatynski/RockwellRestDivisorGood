@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.CreateOrderDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementDTO;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.contracts.ContractRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderRepository;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationVersion;
@@ -48,6 +49,9 @@ public class OrderServiceLocalImpl implements OrderServiceLocal {
     @Autowired
     private GryfValidator gryfValidator;
 
+    @Autowired
+    private OrderRepository orderRepository;
+
     //PUBLIC METHODS
 
     @Override
@@ -75,7 +79,7 @@ public class OrderServiceLocalImpl implements OrderServiceLocal {
         OrderFlowService orderFlowService = (OrderFlowService) BeanUtils.findBean(context, orderFlow.getServiceBeanName());
         Order order = orderFlowService.createOrder(contract, orderFlow, dto);
         orderFlowElementService.addElementsByOrderStatus(order);
-        return order;
+        return orderRepository.save(order);
     }
 
     @Override
