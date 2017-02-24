@@ -20,6 +20,19 @@ public class AuditableEntity extends CreationAuditedEntity implements Auditable 
     @Temporal(TemporalType.TIMESTAMP)
     private Date modifiedTimestamp;
 
+    //CONSTRUCTORS
+
+    public AuditableEntity() {
+    }
+
+    public AuditableEntity(String createdUser, Date createdTimestamp, String modifiedUser, Date modifiedTimestamp) {
+        this.setCreatedUser(createdUser);
+        this.setCreatedTimestamp(createdTimestamp);
+        this.setModifiedUser(modifiedUser);
+        this.setModifiedTimestamp(modifiedTimestamp);
+    }
+
+
     //GETTERS & SETTERS
 
     public String getModifiedUser() {

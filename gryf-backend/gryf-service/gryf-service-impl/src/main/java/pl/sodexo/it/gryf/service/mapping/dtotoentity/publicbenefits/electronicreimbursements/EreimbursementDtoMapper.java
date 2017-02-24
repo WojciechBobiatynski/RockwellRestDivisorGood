@@ -2,7 +2,9 @@ package pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.electronicr
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import pl.sodexo.it.gryf.common.crud.Auditable;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementStatusRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementTypeRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.pbeproducts.PbeProductInstancePoolRepository;
@@ -30,6 +32,9 @@ public class EreimbursementDtoMapper extends VersionableDtoMapper<ElctRmbsHeadDt
     @Autowired
     private PbeProductInstancePoolRepository pbeProductInstancePoolRepository;
 
+    @Autowired
+    private EreimbursementRepository ereimbursementRepository;
+
     @Override
     protected Ereimbursement initDestination() {
         return new Ereimbursement();
@@ -37,6 +42,10 @@ public class EreimbursementDtoMapper extends VersionableDtoMapper<ElctRmbsHeadDt
 
     @Override
     protected void map(ElctRmbsHeadDto dto, Ereimbursement entity) {
+
+        //w ElctRmbsHeadDto nie są ustawione kolumny auditable
+        //setAuditable(dto);
+
         super.map(dto, entity);
         entity.setId(dto.getErmbsId());
         entity.setEreimbursementType(dto.getTypeCode() != null ? ereimbursementTypeRepository.get(dto.getTypeCode()) : null);
@@ -54,6 +63,16 @@ public class EreimbursementDtoMapper extends VersionableDtoMapper<ElctRmbsHeadDt
         entity.setExpiredProductsNum(dto.getExpiredProductsNum());
         entity.setRejectionReasonId(dto.getRejectionReasonId());
         entity.setRejectionDetails(dto.getRejectionDetails());
+    }
+
+    private void setAuditable(ElctRmbsHeadDto dto){
+        if(dto.getErmbsId() != null){
+            Auditable auditable = ereimbursementRepository.getAuditableInfoById(dto.getErmbsId());
+            dto.setCreatedUser(auditable.getCreatedUser());
+            dto.setCreatedTimestamp(auditable.getCreatedTimestamp());
+            dto.setModifiedUser(auditable.getModifiedUser());
+            dto.setModifiedTimestamp(auditable.getModifiedTimestamp());
+        }
     }
 
 }

@@ -28,7 +28,10 @@ import java.util.List;
         @NamedQuery(name = "Ereimbursement.isInUserInstitution", query = "select count(e) "
                 + "from Ereimbursement e join e.trainingInstance tins join tins.training t join t.trainingInstitution ti "
                 + "join ti.trainingInstitutionUsers tiu "
-                + "where e.id = :ereimbursementId and lower(tiu.login) = lower(:tiUserLogin)")})
+                + "where e.id = :ereimbursementId and lower(tiu.login) = lower(:tiUserLogin)"),
+        @NamedQuery(name = "Ereimbursement.getAuditableInfoById", query = "select new pl.sodexo.it.gryf.model.api.AuditableEntity(e.createdUser, e.createdTimestamp, e.modifiedUser, e.modifiedTimestamp) "
+                + "from Ereimbursement e "
+                + "where e.id = :ereimbursementId")})
 public class Ereimbursement extends VersionableEntity {
 
     @Id
