@@ -44,7 +44,7 @@ public class Training extends VersionableEntity {
     private Long id;
 
     @Column(name = "EXTERNAL_ID")
-    @Size(max = 10, message = "Idnetyfikator zewnętrzny usługi musi zawierać maksymalnie 10 znaków")
+    @Size(max = 30, message = "Idnetyfikator zewnętrzny usługi musi zawierać maksymalnie 30 znaków")
     private String externalId;
 
     @OneToOne

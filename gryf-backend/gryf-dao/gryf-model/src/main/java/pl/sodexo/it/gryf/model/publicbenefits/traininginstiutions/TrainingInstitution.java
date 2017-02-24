@@ -61,7 +61,7 @@ public class TrainingInstitution extends VersionableEntity {
     private Long id;
 
     @Column(name = "EXTERNAL_ID")
-    @Size(max = 20, message = "Identyfikator zewnętrzny Usługodawcy musi zawierać maksymalnie 20 znaków")
+    @Size(max = 30, message = "Identyfikator zewnętrzny Usługodawcy musi zawierać maksymalnie 30 znaków")
     private String externalId;
 
     @Column(name = "CODE")
