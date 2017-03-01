@@ -26,5 +26,9 @@ public class ProductDto extends ProductHeadDto {
 
     @Getter
     @Setter
+    private Integer returnedProductsCount;
+
+    @Getter
+    @Setter
     private Date orderDate;
 }

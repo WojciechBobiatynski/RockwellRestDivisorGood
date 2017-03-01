@@ -36,6 +36,9 @@
                     <strong class="label">Wykorzystane</strong>
                 </th>
                 <th class="grid-10">
+                    <strong class="label">Zwrócone</strong>
+                </th>
+                <th class="grid-10">
                     <strong class="label">Data zamówienia</strong>
                 </th>
                 <th class="grid-10">
@@ -49,6 +52,7 @@
                     <td>{{product.reservedProductsCount}}</td>
                     <td>{{product.availableProductsCount}}</td>
                     <td>{{product.usedProductsCount}}</td>
+                    <td>{{product.returnedProductsCount}}</td>
                     <td>{{product.orderDate  | date:'yyyy-MM-dd'}}</td>
                     <td>{{product.orderId}}</td>
                 </tr>
