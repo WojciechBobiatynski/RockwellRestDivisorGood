@@ -192,11 +192,6 @@
                   0
           END                                       automatic,
           ermbs.VERSION                             version,
-          --pola do usuniecia do usuniecia z gui
-          ermbs.CREATED_USER                        createdUser,
-          ermbs.CREATED_TIMESTAMP                   createdTimestamp,
-          ermbs.MODIFIED_USER                       modifiedUser,
-          ermbs.MODIFIED_TIMESTAMP                  modifiedTimestamp,
 --        raporty
           report.ID                                 rep_id,
           report.E_REIMBURSEMENT_ID                 rep_ermbsId,

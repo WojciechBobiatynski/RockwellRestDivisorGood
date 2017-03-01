@@ -44,7 +44,7 @@ public class EreimbursementDtoMapper extends VersionableDtoMapper<ElctRmbsHeadDt
     protected void map(ElctRmbsHeadDto dto, Ereimbursement entity) {
 
         //w ElctRmbsHeadDto nie są ustawione kolumny auditable
-        //setAuditable(dto);
+        setAuditable(dto);
 
         super.map(dto, entity);
         entity.setId(dto.getErmbsId());
