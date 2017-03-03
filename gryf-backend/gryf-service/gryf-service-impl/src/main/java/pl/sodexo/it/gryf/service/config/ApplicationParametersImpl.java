@@ -80,6 +80,7 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     private Integer defaultEReimburseDayLimit = 35;
     private Integer defaultDaysNumberAfterEndDateToExpiryPool = 2;
     private Set<String> ereimbursmentAttachmentFileExtensionSet = GryfStringUtils.createExtensionSet("pdf;doc;docx;xls;xlsx;png;jpg;gif");
+    private Set<String> ereimbursmentAttachmentContentTypeSet = GryfStringUtils.createExtensionSet("application/pdf;application/msword;application/vnd.openxmlformats-officedocument.wordprocessingml.document;application/vnd.ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;image/png;image/jpeg;image/gif");
     private String strongPasswordRegexp = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[\\\\-_!@#$%^&*.])[a-zA-Z0-9\\\\-_!@#$%^&*.]{8,}$";
 
     //LIFECYCLE METHODS
@@ -302,6 +303,10 @@ public class ApplicationParametersImpl implements ApplicationParameters {
         String dbEreimbursmentAttachmentFileExtensionSet = (String) findParameter("GRYF_ERMBS_ATTACHMENT_FILE_EXTENSION");
         if (dbEreimbursmentAttachmentFileExtensionSet != null) {
             ereimbursmentAttachmentFileExtensionSet = GryfStringUtils.createExtensionSet(dbEreimbursmentAttachmentFileExtensionSet);
+        }
+        String dbEreimbursmentAttachmentContentTypeSet = (String) findParameter("GRYF_ERMBS_ATTACHMENT_CONTENT_TYPE");
+        if (dbEreimbursmentAttachmentContentTypeSet != null) {
+            ereimbursmentAttachmentContentTypeSet = GryfStringUtils.createExtensionSet(dbEreimbursmentAttachmentContentTypeSet);
         }
         String dbStrongPasswordRegexp = (String) findParameter("GRYF_STRONG_PASSWORD_REGEXP");
         if (dbStrongPasswordRegexp != null) {
@@ -588,6 +593,11 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     @Override
     public Set<String> getEreimbursmentAttachmentFileExtensionSet() {
         return ereimbursmentAttachmentFileExtensionSet;
+    }
+
+    @Override
+    public Set<String> getEreimbursmentAttachmentContentTypeSet() {
+        return ereimbursmentAttachmentContentTypeSet;
     }
 
     @Override

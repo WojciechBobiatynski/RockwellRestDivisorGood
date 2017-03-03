@@ -160,7 +160,7 @@ public class ErmbsValidator {
 
         IntConsumer validationConsumer = (index) -> {
             validateAccessToFile(elctRmbsHeadDto, index);
-            validataeFileExtensions(elctRmbsHeadDto, violations, index);
+            validateFileType(elctRmbsHeadDto, violations, index);
         };
         if (elctRmbsHeadDto.getAttachments() != null) {
             IntStream.range(0, elctRmbsHeadDto.getAttachments().size()).forEach(validationConsumer);
@@ -199,13 +199,15 @@ public class ErmbsValidator {
         return ermbsAttachmentDto.getId() == null && ermbsAttachmentDto.getFileId() != null;
     }
 
-    private void validataeFileExtensions(ElctRmbsHeadDto elctRmbsHeadDto, List<EntityConstraintViolation> violations, int index) {
+    private void validateFileType(ElctRmbsHeadDto elctRmbsHeadDto, List<EntityConstraintViolation> violations, int index) {
         FileDTO fileDTO = elctRmbsHeadDto.getAttachments().get(index).getFile();
         if (fileDTO != null && !Strings.isNullOrEmpty(fileDTO.getOriginalFilename())) {
             String fileExtension = GryfStringUtils.findFileExtension(fileDTO.getOriginalFilename()).toLowerCase();
+            String contentType = fileDTO.getContentType().toLowerCase();
             Set<String> allowedFileExtensionSet = applicationParameters.getEreimbursmentAttachmentFileExtensionSet();
+            Set<String> allowedContentTypeSet = applicationParameters.getEreimbursmentAttachmentContentTypeSet();
 
-            if(!allowedFileExtensionSet.contains(fileExtension)){
+            if(!allowedFileExtensionSet.contains(fileExtension) || !allowedContentTypeSet.contains(contentType)){
                 String path = String.format("%s[%s].%s", "attachments", index, "file");
                 violations.add(new EntityConstraintViolation(path, "Wiersz " + (index + 1) + ": nieprawidłowy typ pliku"));
             }

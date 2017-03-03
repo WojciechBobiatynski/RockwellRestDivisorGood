@@ -119,6 +119,8 @@ public interface ApplicationParameters {
 
     Set<String> getEreimbursmentAttachmentFileExtensionSet();
 
+    Set<String> getEreimbursmentAttachmentContentTypeSet();
+
     String getStrongPasswordRegexp();
 
 }
