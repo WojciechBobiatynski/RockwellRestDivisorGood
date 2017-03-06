@@ -45,4 +45,19 @@ public class IndMainViewController {
     @RequestMapping(value = "/prolongSession", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public void prolongSession() { }
+
+    @RequestMapping(value="/error/404")
+    public String errorCode404(){
+        return String.format(PAGE_ERROR_CODE, 404);
+    }
+
+    @RequestMapping(value="/error/500")
+    public String errorCode500(){
+        return String.format(PAGE_ERROR_CODE, 500);
+    }
+
+    @RequestMapping(value="/error")
+    public String error(){
+        return PAGE_ERROR;
+    }
 }

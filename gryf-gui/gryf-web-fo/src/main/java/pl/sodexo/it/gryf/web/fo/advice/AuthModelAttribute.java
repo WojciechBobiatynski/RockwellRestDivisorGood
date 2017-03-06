@@ -28,7 +28,7 @@ public class AuthModelAttribute {
 
     @ModelAttribute("loggedIn")
     public boolean isLoggedIn() {
-        return !GryfUser.isAnonymousUser();
+        return GryfUser.isUserLoggedInApplication();
     }
 
     @ModelAttribute("cdnUrl")    

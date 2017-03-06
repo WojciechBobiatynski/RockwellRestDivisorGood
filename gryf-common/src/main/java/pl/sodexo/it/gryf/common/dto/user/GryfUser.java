@@ -107,6 +107,11 @@ public abstract class GryfUser extends User {
         return getGryfUser(authentication);
     }
 
+    public static boolean isUserLoggedInApplication() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return getGryfUser(authentication) != null;
+    }
+
     /**
      * Zwraca zalogowanego użytkownika dla przekazanego obiektu autentykacji.
      *
