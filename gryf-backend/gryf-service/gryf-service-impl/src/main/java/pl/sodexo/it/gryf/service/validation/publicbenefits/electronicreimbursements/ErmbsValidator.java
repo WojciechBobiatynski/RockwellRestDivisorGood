@@ -161,6 +161,7 @@ public class ErmbsValidator {
         IntConsumer validationConsumer = (index) -> {
             validateAccessToFile(elctRmbsHeadDto, index);
             validateFileType(elctRmbsHeadDto, violations, index);
+            validateFileContent(elctRmbsHeadDto, violations, index);
         };
         if (elctRmbsHeadDto.getAttachments() != null) {
             IntStream.range(0, elctRmbsHeadDto.getAttachments().size()).forEach(validationConsumer);
@@ -210,6 +211,26 @@ public class ErmbsValidator {
             if(!allowedFileExtensionSet.contains(fileExtension) || !allowedContentTypeSet.contains(contentType)){
                 String path = String.format("%s[%s].%s", "attachments", index, "file");
                 violations.add(new EntityConstraintViolation(path, "Wiersz " + (index + 1) + ": nieprawidłowy typ pliku"));
+            }
+        }
+    }
+
+    private void validateFileContent(ElctRmbsHeadDto elctRmbsHeadDto, List<EntityConstraintViolation> violations, int index) {
+        FileDTO fileDTO = elctRmbsHeadDto.getAttachments().get(index).getFile();
+        if (fileDTO != null) {
+            String path = String.format("%s[%s].%s", "attachments", index, "file");
+
+            if(Strings.isNullOrEmpty(fileDTO.getName())){
+                violations.add(new EntityConstraintViolation(path, "Wiersz " + (index + 1) + ": Nazwa pliku nie może być pusta"));
+            }
+            if(Strings.isNullOrEmpty(fileDTO.getOriginalFilename())){
+                violations.add(new EntityConstraintViolation(path, "Wiersz " + (index + 1) + ": Orginalna nazwa pliku nie może być pusta"));
+            }
+            if(Strings.isNullOrEmpty(fileDTO.getContentType())){
+                violations.add(new EntityConstraintViolation(path, "Wiersz " + (index + 1) + ": Content-type nie może być pusty"));
+            }
+            if(fileDTO.getInputStream() == null){
+                violations.add(new EntityConstraintViolation(path, "Wiersz " + (index + 1) + ": Nie znaleziono danych pliku"));
             }
         }
     }

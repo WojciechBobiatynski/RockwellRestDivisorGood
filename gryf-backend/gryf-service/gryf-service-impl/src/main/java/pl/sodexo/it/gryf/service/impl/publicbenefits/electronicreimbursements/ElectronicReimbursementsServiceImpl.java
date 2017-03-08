@@ -182,9 +182,9 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         calculateCharges(elctRmbsHeadDto);
         //musimy zapisać rmbs, żeby mieć ID potrzebne do nadania odpowiedniej nazwy załącznikom
         Ereimbursement ereimbursement = saveErmbsData(elctRmbsHeadDto);
+        setErmbsDataWhenSave(ereimbursement);
         elctRmbsHeadDto.setErmbsId(ereimbursement.getId());
         ermbsAttachmentService.manageErmbsAttachments(elctRmbsHeadDto, ErmbsAttachmentStatus.TEMP);
-        setErmbsDataWhenSave(ereimbursement);
         return ereimbursement.getId();
     }
 
