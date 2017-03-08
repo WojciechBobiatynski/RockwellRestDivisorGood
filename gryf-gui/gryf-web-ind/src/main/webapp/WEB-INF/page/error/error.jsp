@@ -81,11 +81,19 @@
     </c:choose>
 </nav>
 
-<c:choose>
-    <c:when test="${param['code'] == 404}">Nie znaleziono danej strony</c:when>
-    <c:when test="${param['code'] == 500}">Wystapił krytyczny błąd</c:when>
-    <c:otherwise>Wystąpił nieznany błąd</c:otherwise>
-</c:choose>
+<div id="content" class="page-error"><div class="grid">
+    <p>
+        <c:choose>
+            <c:when test="${param['code'] == 404}">Nie znaleziono danej strony</c:when>
+            <c:when test="${param['code'] == 500}">Wystapił krytyczny błąd</c:when>
+            <c:otherwise>Wystąpił nieznany błąd</c:otherwise>
+        </c:choose>
+    </p>
+    <ul>
+      <li><a class="button" href="/" title="wróć do strony głównej">wróć do strony głównej</a><li>
+      <li><a class="button" href="javascript:window.history.back();" title="wróć do poprzedniej strony">wróć do poprzedniej strony</a></li>
+    </ul>
+</div></div>
 
 <div id="bottombar"><div class="grid">
     <h2>Telefoniczne Biuro Obsługi Klienta</h2>
