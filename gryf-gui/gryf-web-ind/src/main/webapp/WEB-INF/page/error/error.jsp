@@ -90,7 +90,7 @@
         </c:choose>
     </p>
     <ul>
-      <li><a class="button" href="/" title="wróć do strony głównej">wróć do strony głównej</a><li>
+      <li><a class="button" href="/gryf-ti-web" title="wróć do strony głównej">wróć do strony głównej</a><li>
       <li><a class="button" href="javascript:window.history.back();" title="wróć do poprzedniej strony">wróć do poprzedniej strony</a></li>
     </ul>
 </div></div>
