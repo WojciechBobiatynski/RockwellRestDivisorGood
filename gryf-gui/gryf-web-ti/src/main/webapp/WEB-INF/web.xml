@@ -11,6 +11,12 @@
         </param-value>
     </context-param>
 
+    <!--session-config>
+        <cookie-config>
+            <secure>true</secure>
+        </cookie-config>
+    </session-config-->
+
     <error-page>
         <error-code>404</error-code>
         <location>/error/404</location>
