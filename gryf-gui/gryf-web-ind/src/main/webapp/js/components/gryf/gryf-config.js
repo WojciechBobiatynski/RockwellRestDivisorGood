@@ -87,6 +87,7 @@ angular.module('gryf.config').factory('generalExceptionHandlerInterceptor', ['$q
 }]);
 
 angular.module('gryf.config').config(['$httpProvider', function($httpProvider) {
+    $httpProvider.defaults.headers.common["X-CSRF-TOKEN"] = xsrf;
     $httpProvider.interceptors.push('generalExceptionHandlerInterceptor');
 }]);
 

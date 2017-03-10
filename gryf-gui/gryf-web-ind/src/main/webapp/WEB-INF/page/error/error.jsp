@@ -84,6 +84,7 @@
 <div id="content" class="page-error"><div class="grid">
     <p>
         <c:choose>
+            <c:when test="${param['code'] == 403}">Dostęp do strony jest zabroniony</c:when>
             <c:when test="${param['code'] == 404}">Nie znaleziono danej strony</c:when>
             <c:when test="${param['code'] == 500}">Wystapił krytyczny błąd</c:when>
             <c:otherwise>Wystąpił nieznany błąd</c:otherwise>

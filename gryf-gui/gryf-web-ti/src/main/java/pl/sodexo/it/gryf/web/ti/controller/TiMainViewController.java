@@ -39,6 +39,11 @@ public class TiMainViewController {
     @ResponseStatus(HttpStatus.OK)
     public void prolongSession() { }
 
+    @RequestMapping(value="/error/403")
+    public String errorCode403(){
+        return String.format(PAGE_ERROR_CODE, 403);
+    }
+
     @RequestMapping(value="/error/404")
     public String errorCode404(){
         return String.format(PAGE_ERROR_CODE, 404);
