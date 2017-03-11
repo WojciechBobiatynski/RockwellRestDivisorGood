@@ -94,7 +94,7 @@
                         </div>
                     </div>
                     <div class="g-recaptcha" data-sitekey=${siteKey}></div>
-
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                     <div class="field field-submit">
                         <button class="button" type="submit">Resetuj hasło</button>
                         <p><a href="${pageContext.request.contextPath}/login" title="Powrót na stronę logowania">Powrót na stronę logowania</a></p>

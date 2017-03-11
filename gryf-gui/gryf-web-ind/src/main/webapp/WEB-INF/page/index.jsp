@@ -116,7 +116,11 @@
         <ul id="menu" ng-controller="MenuController">
             <li ng-class="{'current': isActive('dashboard')}"><a ui-sref="dashboard" title="Kierunek Kariera">Kierunek Kariera</a></li>
             <li ng-class="{'current': isActive('help')}"><a ui-sref="help" title="Pomoc">Pomoc</a></li>
-            <li><a ng-href="${pageContext.request.contextPath}/logout" title="Wyloguj">Wyloguj</a></li>
+            <li><a onclick="document.getElementById('logoutForm').submit();" title="Pomoc">Wyloguj</a>
+                <form id="logoutForm" action="${pageContext.request.contextPath}/logout" method="POST">
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                </form>
+            </li>
         </ul>
     </div></nav>
 
