@@ -171,6 +171,26 @@
                         </configuration>
                     </execution>
                     <execution>
+                        <id>web-xml-replace</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>replace</goal>
+                        </goals>
+                        <configuration>
+                            <regex>false</regex>
+                            <ignoreMissingFile>false</ignoreMissingFile>
+                            <includes>
+                                <include>${project.build.directory}/${project.build.finalName}/WEB-INF/web.xml</include>
+                            </includes>
+                            <replacements>
+                                <replacement>
+                                    <token>%security.sesion.cookie.secure%</token>
+                                    <value>${security.sesion.cookie.secure}</value>
+                                </replacement>
+                            </replacements>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>source-replace</id>
                         <phase>prepare-package</phase>
                         <goals>
@@ -201,6 +221,12 @@
     </build>
 
     <profiles>
+        <profile>
+            <id>security-dev</id>
+            <properties>
+                <security.sesion.cookie.secure>false</security.sesion.cookie.secure>
+            </properties>
+        </profile>
         <profile>
             <id>gui-dev</id>
             <properties>

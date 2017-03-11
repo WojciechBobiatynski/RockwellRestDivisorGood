@@ -11,11 +11,11 @@
         </param-value>
     </context-param>
 
-    <!--session-config>
+    <session-config>
         <cookie-config>
-            <secure>true</secure>
+            <secure>%security.sesion.cookie.secure%</secure>
         </cookie-config>
-    </session-config-->
+    </session-config>
 
     <error-page>
         <error-code>403</error-code>
