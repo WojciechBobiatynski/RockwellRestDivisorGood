@@ -14,6 +14,7 @@ angular.module("gryf.ti").factory("TrainingSearchService", [ "$http", "GryfModal
             institutionId: null,
             institutionName: null,
             name: null,
+            externalId: null,
             priceFrom: null,
             priceTo: null,
             startDateFrom: null,

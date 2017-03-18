@@ -12,6 +12,7 @@
             tri.VAT_REG_NUM               trainingInstitutionVatRegNum,
             ti.ID                         trainingId,
             ti.NAME                       trainingName,
+            ti.EXTERNAL_ID                trainingExternalId,
             ind.PESEL                     participantPesel,
             ind.FIRST_NAME                participantName,
             ind.LAST_NAME                 participantSurname,
@@ -40,6 +41,12 @@
             </if>
             <if test="criteria.trainingId != null and criteria.trainingId != ''">
                 AND ti.ID = #{criteria.trainingId}
+            </if>
+            <if test="criteria.trainingName != null and criteria.trainingName != ''">
+                AND LOWER(ti.NAME) like '%' || LOWER(#{criteria.trainingName}) || '%'
+            </if>
+            <if test="criteria.trainingExternalId != null and criteria.trainingExternalId != ''">
+                AND LOWER(ti.EXTERNAL_ID) like '%' || LOWER(#{criteria.trainingExternalId}) || '%'
             </if>
             <if test="criteria.participantPesel != null and criteria.participantPesel != ''">
                 AND ind.PESEL like '%' || #{criteria.participantPesel} || '%'
@@ -90,6 +97,7 @@
         CASE tin.OPINION_DONE WHEN 'Y' THEN 1 ELSE 0 END  opinionDone,
         tra.ID                                            trainingId,
         tra.NAME                                          trainingName,
+        tra.EXTERNAL_ID                                   trainingExternalId,
         cat.NAME                                          trainingCategory,
         tra.PLACE                                         trainingPlace,
         tra.PRICE                                         trainingPrice,
@@ -138,6 +146,7 @@
         CASE tin.OPINION_DONE WHEN 'Y' THEN 1 ELSE 0 END  opinionDone,
         tra.ID                                            trainingId,
         tra.NAME                                          trainingName,
+        tra.EXTERNAL_ID                                   trainingExternalId,
         cat.NAME                                          trainingCategory,
         tra.PLACE                                         trainingPlace,
         tra.PRICE                                         trainingPrice,

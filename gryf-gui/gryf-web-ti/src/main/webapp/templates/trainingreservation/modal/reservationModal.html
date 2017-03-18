@@ -50,6 +50,7 @@
         <thead>
         <tr class="grid-100 tableHeader-names">
             <th class="grid-20">Nazwa usługi</th>
+            <th class="grid-10">Nr usługi</th>
             <th class="grid-10">Kategoria usługi</th>
             <th class="grid-15">Data rozpoczęcia</th>
             <th class="grid-15">Data zakończenia</th>
@@ -60,6 +61,7 @@
         <tbody class="tableData">
         <tr>
             <td>{{training.data.name}}</td>
+            <td>{{training.data.externalId}}</td>
             <td>{{training.data.category}}</td>
             <td>{{training.data.startDate  | date:'yyyy-MM-dd'}}</td>
             <td>{{training.data.endDate  | date:'yyyy-MM-dd'}}</td>

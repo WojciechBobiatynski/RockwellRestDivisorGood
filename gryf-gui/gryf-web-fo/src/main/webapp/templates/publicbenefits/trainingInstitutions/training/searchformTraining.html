@@ -13,7 +13,7 @@
             <table class="table table-condensed">
                 <thead>
                 <tr class="grid-100">
-                    <th class="sortable grid-10" ng-class="getSortingTypeClass('trainingId')">
+                    <th class="sortable grid-5" ng-class="getSortingTypeClass('trainingId')">
                         <div ng-click="getSortedBy('trainingId')">Id usługi</div>
                         <input placeholder="Id" type="text" force-digits
                                ng-model="searchDTO.entity.trainingId">
@@ -30,12 +30,17 @@
                         <div ng-click="getSortedBy('institutionName')">Nazwa usługodawcy</div>
                         <input placeholder="Nazwa usługodawcy" type="text" ng-model="searchDTO.entity.institutionName">
                     </th>
-                    <th class="sortable grid-15" ng-class="getSortingTypeClass('name')">
+                    <th class="sortable grid-10" ng-class="getSortingTypeClass('name')">
                         <div ng-click="getSortedBy('name')">Nazwa usługi</div>
                         <input placeholder="Nazwa usługi"
                                ng-model="searchDTO.entity.name">
                     </th>
-                    <th class="sortable grid-5"
+                    <th class="sortable grid-10" ng-class="getSortingTypeClass('externalId')">
+                        <div ng-click="getSortedBy('externalId')">Nr usługi</div>
+                        <input placeholder="Nr usługi"
+                               ng-model="searchDTO.entity.externalId">
+                    </th>
+                    <th class="sortable grid-10"
                         ng-class="getSortingTypeClass('price')">
                         <div ng-click="getSortedBy('price')">
                             Cena
@@ -96,7 +101,7 @@
                         <input placeholder="Miejsce"
                                ng-model="searchDTO.entity.place">
                     </th>
-                    <th class="sortable grid-5"
+                    <th class="sortable grid-10"
                         ng-class="getSortingTypeClass('hoursNumber')">
                         <div ng-click="getSortedBy('hoursNumber')">
                             Liczba godzin
@@ -104,7 +109,7 @@
                         <input type="number" placeholder="Min" ng-model="searchDTO.entity.hoursNumberFrom"/>
                         <input type="number" placeholder="Max" ng-model="searchDTO.entity.hoursNumberTo"/>
                     </th>
-                    <th class="sortable grid-5"
+                    <th class="sortable grid-10"
                         ng-class="getSortingTypeClass('hourPrice')">
                         <div ng-click="getSortedBy('hourPrice')">
                             Cena za godzinę
@@ -112,12 +117,12 @@
                         <input type="number" placeholder="Min" ng-model="searchDTO.entity.hourPriceFrom"/>
                         <input type="number" placeholder="Max" ng-model="searchDTO.entity.hourPriceTo"/>
                     </th>
-                    <th class="sortable grid-15" ng-class="getSortingTypeClass('category')">
+                    <th class="sortable grid-10" ng-class="getSortingTypeClass('category')">
                         <div ng-click="getSortedBy('category')">Kategoria</div>
                         <input placeholder="Kategoria"
                                ng-model="searchDTO.entity.categoryName">
                     </th>
-                    <th class="sortable grid-15" ng-class="getSortingTypeClass('active')">
+                    <th class="sortable grid-5" ng-class="getSortingTypeClass('active')">
                         <div ng-click="getSortedBy('active')">Aktywne</div>
                         <select name="singleSelect" ng-model="searchDTO.entity.active">
                             <option value="true">Tak</option>
@@ -136,6 +141,7 @@
                     <td>{{::item.institutionId}}</td>
                     <td>{{::item.institutionName}}</td>
                     <td>{{::item.name}}</td>
+                    <td>{{::item.externalId}}</td>
                     <td>{{::item.price}}</td>
                     <td>{{::item.startDate | date:'yyyy-MM-dd'}}</td>
                     <td>{{::item.endDate | date:'yyyy-MM-dd'}}</td>

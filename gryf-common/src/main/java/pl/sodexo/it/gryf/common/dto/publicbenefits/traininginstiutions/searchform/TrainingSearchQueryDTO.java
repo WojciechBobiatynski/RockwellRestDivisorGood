@@ -34,6 +34,10 @@ public class TrainingSearchQueryDTO extends SearchDto {
 
     @Getter
     @Setter
+    private String externalId;
+
+    @Getter
+    @Setter
     private BigDecimal priceFrom;
 
     @Getter

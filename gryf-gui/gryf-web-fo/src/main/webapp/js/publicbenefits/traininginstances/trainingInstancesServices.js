@@ -19,6 +19,7 @@ angular.module("gryf.trainingInstances").factory("TrainingInstanceSearchService"
                 trainingInstitutionName: null,
                 trainingId: null,
                 trainingName: null,
+                trainingExternalId: null,
                 participantPesel: null,
                 participantName: null,
                 participantSurname: null,

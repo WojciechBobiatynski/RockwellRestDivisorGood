@@ -39,6 +39,10 @@ public class ElctRmbsDto implements Serializable {
 
     @Getter
     @Setter
+    private String trainingExternalId;
+
+    @Getter
+    @Setter
     private String pesel;
 
     @Getter

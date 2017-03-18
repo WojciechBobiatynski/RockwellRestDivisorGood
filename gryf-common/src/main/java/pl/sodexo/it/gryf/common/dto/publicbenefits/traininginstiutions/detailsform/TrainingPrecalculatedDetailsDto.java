@@ -27,6 +27,10 @@ public class TrainingPrecalculatedDetailsDto extends ProductCalculationsDto {
 
     @Getter
     @Setter
+    private String externalId;
+
+    @Getter
+    @Setter
     private BigDecimal price;
 
     @Getter

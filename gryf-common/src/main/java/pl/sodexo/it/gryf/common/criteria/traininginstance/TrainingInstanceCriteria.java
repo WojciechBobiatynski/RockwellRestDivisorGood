@@ -49,6 +49,10 @@ public class TrainingInstanceCriteria extends UserCriteria {
 
     @Getter
     @Setter
+    private String trainingExternalId;
+
+    @Getter
+    @Setter
     private String participantPesel;
 
     @Getter

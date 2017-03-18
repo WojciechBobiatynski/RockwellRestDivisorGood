@@ -31,6 +31,12 @@
                     </div>
                     <input placeholder="Nazwa usługi" type="text"ng-model="elctRmbsCriteria.trainingName">
                 </th>
+                <th class="sortable grid-10" ng-class="getSortingTypeClass('trainingExternalId')">
+                    <div ng-click="getSortedBy('trainingExternalId')">
+                        Nr usługi
+                    </div>
+                    <input placeholder="Nr usługi" type="text"ng-model="elctRmbsCriteria.trainingExternalId">
+                </th>
                 <th class="sortable grid-15" ng-class="getSortingTypeClass('pesel')">
                     <div ng-click="getSortedBy('pesel')">
                         PESEL Uczestnika
@@ -91,6 +97,7 @@
                 <td>{{::item.rmbsNumber}}</td>
                 <td>{{::item.rmbsType}}</td>
                 <td>{{::item.trainingName}}</td>
+                <td>{{::item.trainingExternalId}}</td>
                 <td>{{::item.pesel}}</td>
                 <td>{{::item.participantName}}</td>
                 <td>{{::item.participantSurname}}</td>

@@ -56,6 +56,10 @@ public class TrainingInstanceDetailsDto extends ProductCalculationsDto implement
 
     @Getter
     @Setter
+    private String trainingExternalId;
+
+    @Getter
+    @Setter
     private String trainingCategory;
 
     @Getter

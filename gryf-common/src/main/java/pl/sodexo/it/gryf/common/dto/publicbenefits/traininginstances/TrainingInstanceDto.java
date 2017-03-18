@@ -45,6 +45,10 @@ public class TrainingInstanceDto implements Serializable {
 
     @Getter
     @Setter
+    private String trainingExternalId;
+
+    @Getter
+    @Setter
     private String participantPesel;
 
     @Getter

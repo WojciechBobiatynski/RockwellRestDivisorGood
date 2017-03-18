@@ -12,6 +12,7 @@ angular.module("gryf.ti").factory("TrainingInstanceSearchService",
 
         function TrainingCriteria() {
             this.trainingName = null,
+            this.trainingExternalId = null,
             this.participantPesel = null,
             this.participantName = null,
             this.participantSurname = null,

@@ -2,10 +2,13 @@
    <table>
       <thead>
       <tr class="grid-100 tableHeader-names">
-         <th class="sortable grid-20" ng-class="getSortingTypeClass('name')">
+         <th class="sortable grid-10" ng-class="getSortingTypeClass('name')">
             <div ng-click="getSortedBy('name')">Nazwa usługi</div>
          </th>
-         <th class="sortable grid-10" ng-class="getSortingTypeClass('price')">
+         <th class="sortable grid-10" ng-class="getSortingTypeClass('externalId')">
+            <div ng-click="getSortedBy('externalId')">Nr usługi</div>
+         </th>
+         <th class="sortable grid-5" ng-class="getSortingTypeClass('price')">
             <div ng-click="getSortedBy('price')">Cena usługi (PLN)</div>
          </th>
          <th class="sortable grid-10" ng-class="getSortingTypeClass('hoursNumber')">
@@ -20,18 +23,21 @@
          <th class="sortable grid-10" ng-class="getSortingTypeClass('place')">
             <div ng-click="getSortedBy('place')">Miejsce</div>
          </th>
-         <th class="sortable grid-25" ng-class="getSortingTypeClass('category')">
+         <th class="sortable grid-20" ng-class="getSortingTypeClass('category')">
             <div ng-click="getSortedBy('category')">Kategoria</div>
          </th>
-         <th class="sortable grid-15" ng-class="getSortingTypeClass('active')">
+         <th class="sortable grid-10" ng-class="getSortingTypeClass('active')">
             <div ng-click="getSortedBy('active')">Aktywne</div>
          </th>
       </tr>
       <tr class="grid-100 tableHeader-options">
-         <th class="grid-20">
+         <th class="grid-10">
             <input type="text" ng-model="searchDTO.entity.name">
          </th>
          <th class="grid-10">
+            <input type="text" ng-model="searchDTO.entity.externalId">
+         </th>
+         <th class="grid-5">
             <input type="text" placeholder="Min" ng-model="searchDTO.entity.priceFrom"
                    force-digits pattern-type="float" maxlength="10"/>
             <input type="text" placeholder="Max" ng-model="searchDTO.entity.priceTo"
@@ -66,12 +72,12 @@
          <th class="grid-10">
             <input ng-model="searchDTO.entity.place">
          </th>
-         <th class="grid-25">
+         <th class="grid-20">
             <select id="dictionariesTrainingCategories" ng-options="v.id as v.name for v in dictionaries.trainingCategories | orderBy:'ordinal'" ng-model="searchDTO.entity.categoryCodes" multiple>
                <option value="">-wybierz-</option>
             </select>
          </th>
-         <th class="grid-15">
+         <th class="grid-5">
             <select name="singleSelect" ng-model="searchDTO.entity.active"  >
                <option value="true">Tak</option>
                <option value="false">Nie</option>
@@ -85,6 +91,7 @@
       <tbody class="tableData">
       <tr ng-repeat="item in searchDTO.searchResultList | limitTo: searchResultOptions.displayLimit" ng-class="{'row-even': $even, 'row-odd': $odd}">
          <td>{{::item.name}}</td>
+         <td>{{::item.externalId}}</td>
          <td>{{::item.price}}</td>
          <td>{{::item.hoursNumber}}</td>
          <td>{{::item.startDate  | date:'yyyy-MM-dd'}}</td>

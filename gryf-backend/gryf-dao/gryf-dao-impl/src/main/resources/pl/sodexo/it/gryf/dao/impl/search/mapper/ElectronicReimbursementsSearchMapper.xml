@@ -12,6 +12,7 @@
                     ermbs.ID                    rmbsNumber,
                     ti_in.ID                    trainingInstanceId,
                     ti.NAME                     trainingName,
+                    ti.EXTERNAL_ID              trainingExternalId,
                     ind.PESEL                   pesel,
                     ind.FIRST_NAME              participantName,
                     ind.LAST_NAME               participantSurname,
@@ -35,6 +36,7 @@
                     ermbs.ID                  rmbsNumber,
                     null                      trainingInstanceId,
                     null                      trainingName,
+                    null                      trainingExternalId,
                     ind.PESEL                 pesel,
                     ind.FIRST_NAME            participantName,
                     ind.LAST_NAME             participantSurname,
@@ -61,6 +63,9 @@
             </if>
             <if test="criteria.trainingName != null and criteria.trainingName != ''">
                 AND LOWER(trainingName) like '%' || LOWER(#{criteria.trainingName}) || '%'
+            </if>
+            <if test="criteria.trainingExternalId != null and criteria.trainingExternalId != ''">
+                AND LOWER(trainingExternalId) like '%' || LOWER(#{criteria.trainingExternalId}) || '%'
             </if>
             <if test="criteria.pesel != null and criteria.pesel != ''">
                 AND pesel like '%' || #{criteria.pesel} || '%'

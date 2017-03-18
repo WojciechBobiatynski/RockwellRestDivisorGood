@@ -5,6 +5,9 @@
          <th class="sortable grid-15" ng-class="getSortingTypeClass('trainingName')">
             <div ng-click="getSortedBy('trainingName')">Nazwa usługi</div>
          </th>
+         <th class="sortable grid-15" ng-class="getSortingTypeClass('trainingExternalId')">
+            <div ng-click="getSortedBy('trainingExternalId')">Nr usługi</div>
+         </th>
          <th class="sortable grid-15" ng-class="getSortingTypeClass('participantPesel')">
             <div ng-click="getSortedBy('participantPesel')">PESEL Uczestnika</div>
          </th>
@@ -27,6 +30,9 @@
       <tr class="grid-100 tableHeader-options">
          <th class="grid-15">
             <input type="text" ng-model="trainingCriteria.trainingName">
+         </th>
+         <th class="grid-15">
+            <input type="text" ng-model="trainingCriteria.trainingExternalId">
          </th>
          <th class="grid-15">
             <input type="text" ng-model="trainingCriteria.participantPesel"/>
@@ -71,6 +77,7 @@
       <tbody class="tableData">
       <tr ng-repeat="item in trainingModel.foundTrainings | limitTo: searchResultOptions.displayLimit" ng-class="{'row-even': $even, 'row-odd': $odd}">
          <td>{{::item.trainingName}}</td>
+         <td>{{::item.trainingExternalId}}</td>
          <td>{{::item.participantPesel}}</td>
          <td>{{::item.participantName}}</td>
          <td>{{::item.participantSurname}}</td>

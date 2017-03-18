@@ -36,6 +36,10 @@ public class ElctRmbsCriteria extends UserCriteria {
 
     @Getter
     @Setter
+    private String trainingExternalId;
+
+    @Getter
+    @Setter
     private String pesel;
 
     @Getter

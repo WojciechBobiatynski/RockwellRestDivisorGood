@@ -9,6 +9,7 @@
             t.TRAINING_INSTITUTION_ID   institutionId,
             i.NAME                      institutionName,
             t.NAME                      name,
+            t.EXTERNAL_ID               externalId,
             t.PRICE                     price,
             t.START_DATE                startDate,
             t.END_DATE                  endDate,
@@ -33,6 +34,9 @@
             </if>
             <if test="searchParams.name != null and searchParams.name != ''">
                 AND LOWER(t.NAME) like '%' || LOWER(#{searchParams.name}) || '%'
+            </if>
+            <if test="searchParams.externalId != null and searchParams.externalId != ''">
+                AND LOWER(t.EXTERNAL_ID) like '%' || LOWER(#{searchParams.externalId}) || '%'
             </if>
             <if test="searchParams.priceFrom != null">
                 AND t.PRICE >= #{searchParams.priceFrom}
@@ -172,6 +176,7 @@
         t.TRAINING_INSTITUTION_ID	      trainingInstitution,
         i.NAME	                          institutionName,
         t.NAME                            name,
+        t.EXTERNAL_ID                     externalId,
         t.PRICE                           price,
         t.START_DATE	                  startDate,
         t.END_DATE	                      endDate,

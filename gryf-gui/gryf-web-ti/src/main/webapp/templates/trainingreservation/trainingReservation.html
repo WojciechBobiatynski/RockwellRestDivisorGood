@@ -73,6 +73,9 @@
          <th class="sortable grid-20" ng-class="getSortingTypeClass('name')">
             <div ng-click="getSortedBy('name')">Nazwa usługi</div>
          </th>
+         <th class="sortable grid-10" ng-class="getSortingTypeClass('externalId')">
+            <div ng-click="getSortedBy('externalId')">Nr usługi</div>
+         </th>
          <th class="sortable grid-10" ng-class="getSortingTypeClass('price')">
             <div ng-click="getSortedBy('price')">Cena usługi (PLN)</div>
          </th>
@@ -95,6 +98,9 @@
       <tr class="grid-100 tableHeader-options">
          <th class="grid-20">
             <input type="text" ng-model="searchDTO.entity.name">
+         </th>
+         <th class="grid-10">
+            <input type="text" ng-model="searchDTO.entity.externalId">
          </th>
          <th class="grid-10">
             <input type="text" placeholder="Min" ng-model="searchDTO.entity.priceFrom"
@@ -144,6 +150,7 @@
       <tbody class="tableData">
       <tr ng-repeat="item in searchDTO.searchResultList | limitTo: searchResultOptions.displayLimit" ng-class="{'row-even': $even, 'row-odd': $odd}">
          <td>{{::item.name}}</td>
+         <td>{{::item.externalId}}</td>
          <td>{{::item.price}}</td>
          <td>{{::item.hoursNumber}}</td>
          <td>{{::item.startDate  | date:'yyyy-MM-dd'}}</td>

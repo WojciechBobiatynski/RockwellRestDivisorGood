@@ -34,6 +34,10 @@
                         <div ng-click="getSortedBy('trainingName')">Nazwa usługi</div>
                         <input placeholder="Nazwa usługi" ng-model="searchDTO.trainingName">
                     </th>
+                    <th class="sortable grid-10" ng-class="getSortingTypeClass('trainingExternalId')">
+                        <div ng-click="getSortedBy('trainingExternalId')">Nr usługi</div>
+                        <input placeholder="Nr usługi" ng-model="searchDTO.trainingExternalId">
+                    </th>
                     <th class="sortable grid-5" ng-class="getSortingTypeClass('participantPesel')">
                         <div ng-click="getSortedBy('participantPesel')">PESEL<br/>Uczestnika</div>
                         <input placeholder="PESEL" type="text" ng-model="searchDTO.participantPesel">
@@ -113,6 +117,7 @@
                     <td>{{::item.trainingInstitutionName}}</td>
                     <td>{{::item.trainingId}}</td>
                     <td>{{::item.trainingName}}</td>
+                    <td>{{::item.trainingExternalId}}</td>
                     <td>{{::item.participantPesel}}</td>
                     <td>{{::item.participantName}}</td>
                     <td>{{::item.participantSurname}}</td>
