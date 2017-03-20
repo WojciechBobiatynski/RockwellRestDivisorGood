@@ -223,7 +223,7 @@ public abstract class ImportBaseDataServiceImpl implements ImportDataService{
     }
 
     protected void saveRuntimeError(ImportDataRow rowInfo, RuntimeException e){
-        rowInfo.setDescription(GryfStringUtils.substring("Wystapił nieoczekowany krytyczny błąd: " + e.getMessage(),
+        rowInfo.setDescription(GryfStringUtils.substring("Wystąpił nieoczekiwany krytyczny błąd: " + e.getMessage(),
                                                 0, ImportDataRow.DESCRIPTION_MAX_SIZE));
         rowInfo.setStatus(ImportDataRowStatus.F);
         importDataRowRepository.update(rowInfo, rowInfo.getId());
