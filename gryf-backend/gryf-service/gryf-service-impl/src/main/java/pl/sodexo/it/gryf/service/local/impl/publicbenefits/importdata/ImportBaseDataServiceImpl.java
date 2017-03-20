@@ -253,8 +253,7 @@ public abstract class ImportBaseDataServiceImpl implements ImportDataService{
             return cell.getStringCellValue().trim();
 
         }catch(RuntimeException e){
-            throw new RuntimeException(String.format("Błąd przy pobraniu wartości "
-                    + "z kolumny numer %s. Komunikat: %s.", cell.getColumnIndex() + 1, e.getMessage()), e);
+            throw createInfoException(cell.getColumnIndex(), e);
         }
     }
 
@@ -278,8 +277,7 @@ public abstract class ImportBaseDataServiceImpl implements ImportDataService{
             return result;
 
         }catch(RuntimeException e){
-            throw new RuntimeException(String.format("Błąd przy pobraniu wartości "
-                    + "z kolumny numer %s. Komunikat: %s.", cell.getColumnIndex() + 1, e.getMessage()), e);
+            throw createInfoException(cell.getColumnIndex(), e);
         }
     }
 
@@ -295,13 +293,12 @@ public abstract class ImportBaseDataServiceImpl implements ImportDataService{
             double valueNumberic = cell.getNumericCellValue();
             if(valueNumberic != (int) valueNumberic){
                 throw new RuntimeException(String.format("Błąd przy pobraniu wartości "
-                        + "z kolumny numer %s. Komunikat: Wartość %s musi być liczbą całkowitą.", cell.getColumnIndex() + 1, valueNumberic));
+                        + "z kolumny numer %s. Komunikat: Wartość %s musi być liczbą całkowitą.", getCellNumber(cell.getColumnIndex()), valueNumberic));
             }
             return (int)valueNumberic;
 
         }catch(RuntimeException e){
-            throw new RuntimeException(String.format("Błąd przy pobraniu wartości "
-                    + "z kolumny numer %s. Komunikat: %s.", cell.getColumnIndex() + 1, e.getMessage()), e);
+            throw createInfoException(cell.getColumnIndex(), e);
         }
     }
 
@@ -317,8 +314,7 @@ public abstract class ImportBaseDataServiceImpl implements ImportDataService{
             return BigDecimal.valueOf(cell.getNumericCellValue());
 
         }catch(RuntimeException e){
-            throw new RuntimeException(String.format("Błąd przy pobraniu wartości "
-                    + "z kolumny numer %s. Komunikat: %s.", cell.getColumnIndex() + 1, e.getMessage()), e);
+            throw createInfoException(cell.getColumnIndex(), e);
         }
     }
 
@@ -336,7 +332,7 @@ public abstract class ImportBaseDataServiceImpl implements ImportDataService{
             if(valueNumberic != (long) valueNumberic){
                 retrowThisException = true;
                 throw new RuntimeException(String.format("Błąd przy pobraniu wartości "
-                        + "z kolumny numer %s. Komunikat: Wartość %s musi być liczbą całkowitą.", cell.getColumnIndex() + 1, valueNumberic));
+                        + "z kolumny numer %s. Komunikat: Wartość %s musi być liczbą całkowitą.", getCellNumber(cell.getColumnIndex()), valueNumberic));
             }
             return (long)valueNumberic;
 
@@ -344,8 +340,7 @@ public abstract class ImportBaseDataServiceImpl implements ImportDataService{
             if(retrowThisException){
                 throw e;
             }
-            throw new RuntimeException(String.format("Błąd przy pobraniu wartości "
-                    + "z kolumny numer %s. Komunikat: %s.", cell.getColumnIndex() + 1, e.getMessage()), e);
+            throw createInfoException(cell.getColumnIndex(), e);
         }
     }
 
@@ -361,9 +356,21 @@ public abstract class ImportBaseDataServiceImpl implements ImportDataService{
             return cell.getDateCellValue();
 
         }catch(RuntimeException | ParseException e){
-            throw new RuntimeException(String.format("Błąd przy pobraniu wartości "
-                    + "z kolumny numer %s. Komunikat: %s.", cell.getColumnIndex() + 1, e.getMessage()), e);
+            throw createInfoException(cell.getColumnIndex(), e);
         }
+    }
+
+    protected RuntimeException createInfoException(int cellIndex, Exception e){
+        return new RuntimeException(String.format("Błąd przy pobraniu wartości "
+                + "z kolumny numer %s. Typ błędu: %s. Komunikat: '%s'. ", getCellNumber(cellIndex), e.getClass().getSimpleName(), getMessage(e)), e);
+    }
+
+    protected String getMessage(Exception e){
+        return e.getMessage() != null ? e.getMessage() : "BRAK";
+    }
+
+    protected String getCellNumber(int index){
+        return String.valueOf(((char)('A' + index)));
     }
 
     protected Object getIdToDescription(Object val){
