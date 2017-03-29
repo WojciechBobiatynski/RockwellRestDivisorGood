@@ -26,6 +26,7 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiuti
 import pl.sodexo.it.gryf.dao.api.search.dao.TrainingInstanceSearchDao;
 import pl.sodexo.it.gryf.model.publicbenefits.api.ContactType;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
+import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgramParam;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.IndividualContact;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.Training;
@@ -35,6 +36,7 @@ import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.Training
 import pl.sodexo.it.gryf.service.api.utils.GryfAccessCodeGenerator;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
 import pl.sodexo.it.gryf.service.local.api.MailService;
+import pl.sodexo.it.gryf.service.local.api.ParamInDateService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.pbeproduct.PbeProductInstancePoolLocalService;
 import pl.sodexo.it.gryf.service.mapping.MailDtoCreator;
 import pl.sodexo.it.gryf.service.validation.publicbenefits.trainingreservation.TrainingReservationValidator;
@@ -89,6 +91,9 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
     @Autowired
     private GryfAccessCodeGenerator gryfAccessCodeGenerator;
 
+    @Autowired
+    private ParamInDateService paramInDateService;
+
     //PUBLIC METHODS
 
     @Override
@@ -124,6 +129,12 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
     @Override
     public boolean isTrainingInstanceInLoggedIndividual(Long trainingInstanceId){
         return trainingInstanceRepository.isInUserIndividual(trainingInstanceId, GryfUser.getLoggedUserLogin());
+    }
+
+    @Override
+    public Date findReservationDatePossibility(Long grantProgramId, Date date){
+        int reservationDayNumPossibility = findReservationDayNumPossibility(grantProgramId);
+        return findReservationDatePossibility(date, reservationDayNumPossibility);
     }
 
     //PUBLIC METHODS - ACTIONS
@@ -238,7 +249,7 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
         return ti.getId();
     }
 
-    //PRIVATE METHODS
+    //PRIVATE METHODS - VALIDATE
 
     private void validateTrainingReservation(TrainingReservationDto reservationDto){
         trainingReservationValidator.validateTrainingReservation(reservationDto);
@@ -278,9 +289,14 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
             }
         }
 
-        //CZY SZKOLENIE TRWA
-        if(training != null && training.getStartDate().before(new Date())){
-            violations.add(new EntityConstraintViolation("Nie można zapisać użytkownika na trwające usługa."));
+        //CZY SZKOLENIE MOZNA ZAREZERWOWAC ZE WZGLEDU NA DATE ROZPOCZECIA
+        if(training != null && contract != null){
+            int reservationDayNumPossibility = findReservationDayNumPossibility(contract.getGrantProgram().getId());
+            Date reservationDatePossibility = findReservationDatePossibility(new Date(), reservationDayNumPossibility);
+
+            if(training.getStartDate().before(reservationDatePossibility)) {
+                violations.add(new EntityConstraintViolation(getReservationDatePossibilityMessage(reservationDayNumPossibility)));
+            }
         }
 
         gryfValidator.validate(violations);
@@ -369,6 +385,38 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
             throw new RuntimeException(String.format("Dla identyfikatora zewnetrznego [%s] oraz numeru pesel [%s] " + "znaleziono wiecej niż jeden rekord instancji usługi", externalId, pesel));
         } else if (trainnigInstances.size() == 0) {
             gryfValidator.validate(String.format("Dla identyfikatora zewnetrznego [%s] oraz numeru pesel [%s] " + "nie znaleziono rekord instancji usługi", externalId, pesel));
+        }
+    }
+
+    //PRIVATE METHODS - RESERVATION DATE POSSIBILITY
+
+    private int findReservationDayNumPossibility(Long grantProgramId){
+        GrantProgramParam rdnpParam = paramInDateService.findGrantProgramParam(grantProgramId, GrantProgramParam.RESERVATION_DAY_NUM_POSSIBILITY, new Date(), false);
+        if(rdnpParam != null){
+            try{
+                return Integer.valueOf(rdnpParam.getValue());
+            }catch(NumberFormatException e){
+                return 0;
+            }
+        }
+        return 0;
+    }
+
+    private Date findReservationDatePossibility(Date date, int reservationDayNumPossibility){
+        return  GryfUtils.getStartDay(GryfUtils.addDays(date, reservationDayNumPossibility));
+    }
+
+    private String getReservationDatePossibilityMessage(int reservationDayNum){
+        if(reservationDayNum == 0){
+            return "Dane szkolenie jest rozpoczęte. Nie można zapisać użytkownika na trwające usługa.";
+        }else if (reservationDayNum == -1){
+            return String.format("Użytkownika można zapisać na szkolenie najpóźniej do %s dnia po rozpoczęciu", Math.abs(reservationDayNum));
+        }else if (reservationDayNum < -1){
+            return String.format("Użytkownika można zapisać na szkolenie najpóźniej do %s dni po rozpoczęciu", Math.abs(reservationDayNum));
+        }else if (reservationDayNum == 1){
+            return String.format("Użytkownika można zapisać na szkolenie najpóźniej do %s dnia przed rozpoczęciem", Math.abs(reservationDayNum));
+        }else {
+            return String.format("Użytkownika można zapisać na szkolenie najpóźniej do %s dni przed rozpoczęciem", Math.abs(reservationDayNum));
         }
     }
 }

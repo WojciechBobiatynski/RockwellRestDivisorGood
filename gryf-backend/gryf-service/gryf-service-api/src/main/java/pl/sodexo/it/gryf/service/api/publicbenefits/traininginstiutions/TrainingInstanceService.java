@@ -7,6 +7,7 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingIns
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceUseDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.trainingreservation.TrainingReservationDto;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -94,4 +95,12 @@ public interface TrainingInstanceService {
      * @return
      */
     boolean isTrainingInstanceInLoggedIndividual(Long trainingInstanceId);
+
+    /**
+     * Znajduje od jakiej daty mozna rezerwować szklenie
+     * @param grantProgramId identyfikator programu
+     * @param date data
+     * @return
+     */
+    Date findReservationDatePossibility(Long grantProgramId, Date date);
 }

@@ -31,13 +31,25 @@ angular.module("gryf.ti").controller("TrainingReservationController",
     }
 
     $scope.find = function() {
+        if(!$scope.userTrainingReservationData.data.contracts[0]) {
+            GryfModals.openModal(GryfModals.MODALS_URL.ERROR_INFO,
+                {message: "Nie można zarezerwować usługi, ponieważ ta osoba nie posiada żadnej umowy."});
+            return;
+        }
+
         $scope.searchResultOptions = TrainingSearchService.getNewSearchResultOptions();
         $scope.searchDTO.entity.limit = 10;
-        TrainingSearchService.findToReserve();
+        TrainingSearchService.findToReserve($scope.userTrainingReservationData.data.contracts[0].grantProgram.id);
     };
 
     $scope.getSortedBy = function(sortColumnName) {
-        TrainingSearchService.findToReserveSortedBy(sortColumnName);
+        if(!$scope.userTrainingReservationData.data.contracts[0]) {
+            GryfModals.openModal(GryfModals.MODALS_URL.ERROR_INFO,
+                {message: "Nie można zarezerwować usługi, ponieważ ta osoba nie posiada żadnej umowy."});
+            return;
+        }
+
+        TrainingSearchService.findToReserveSortedBy($scope.userTrainingReservationData.data.contracts[0].grantProgram.id, sortColumnName);
     };
 
     $scope.getSortingTypeClass = function(columnName) {

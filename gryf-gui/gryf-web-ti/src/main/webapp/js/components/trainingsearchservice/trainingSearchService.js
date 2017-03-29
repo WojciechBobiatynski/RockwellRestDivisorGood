@@ -1,6 +1,6 @@
 angular.module("gryf.ti").factory("TrainingSearchService", [ "$http", "GryfModals", "GryfTables", "GryfHelpers", "GryfPopups" ,function($http, GryfModals, GryfTables, GryfHelpers, GryfPopups) {
     var FIND_TRAINING_URL = contextPath + "/rest/training/list";
-    var FIND_TRAINING_TO_RESERVE_URL = contextPath + "/rest/training/listToReserve";
+    var FIND_TRAINING_TO_RESERVE_URL = contextPath + "/rest/training/listToReserve/";
     var FIND_TRAINING_DETAILS_URL = contextPath + "/rest/training/";
     var FIND_PRECALCULATED_TRAINING_DETAILS_URL = contextPath + "/rest/training/precalculated/";
 
@@ -88,11 +88,11 @@ angular.module("gryf.ti").factory("TrainingSearchService", [ "$http", "GryfModal
         return promise;
     };
 
-    var findToReserve = function(restUrl) {
+    var findToReserve = function(grantProgramId, restUrl) {
         var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING);
         GryfHelpers.transformDatesToString(searchDTO.entity);
         if (!restUrl) {
-            restUrl = FIND_TRAINING_TO_RESERVE_URL;
+            restUrl = FIND_TRAINING_TO_RESERVE_URL + grantProgramId;
         }
         var promise = $http.get(restUrl, {params: searchDTO.entity});
         promise.then(function(response) {
@@ -130,9 +130,9 @@ angular.module("gryf.ti").factory("TrainingSearchService", [ "$http", "GryfModal
         return find();
     };
 
-    var findToReserveSortedBy = function(sortColumnName) {
+    var findToReserveSortedBy = function(grantProgramId, sortColumnName) {
         GryfTables.sortByColumn(searchDTO.entity, sortColumnName);
-        return findToReserve();
+        return findToReserve(grantProgramId);
     };
 
     var getSortingTypeClass = function(entity, columnName) {

@@ -11,6 +11,7 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsfo
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchResultDTO;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
+import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.TrainingInstanceService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.TrainingService;
 import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
 import pl.sodexo.it.gryf.web.ti.util.UrlConstants;
@@ -29,6 +30,9 @@ public class TrainingRestController {
     private TrainingService trainingService;
 
     @Autowired
+    private TrainingInstanceService trainingInstanceService;
+
+    @Autowired
     private SecurityChecker securityChecker;
 
     @Autowired
@@ -41,9 +45,9 @@ public class TrainingRestController {
         return trainingService.findTrainings(dto);
     }
 
-    @RequestMapping(value = "/listToReserve", method = RequestMethod.GET)
-    public List<TrainingSearchResultDTO> findTrainingsToReserve(TrainingSearchQueryDTO dto) {
-        dto.setStartDateFrom(getStartDateFromToReservation(dto));
+    @RequestMapping(value = "/listToReserve/{grantProgramId}", method = RequestMethod.GET)
+    public List<TrainingSearchResultDTO> findTrainingsToReserve(@PathVariable("grantProgramId") Long grantProgramId, TrainingSearchQueryDTO dto) {
+        dto.setStartDateFrom(trainingInstanceService.findReservationDatePossibility(grantProgramId, new Date()));
         dto.setActive(true);
         return trainingService.findTrainings(dto);
     }

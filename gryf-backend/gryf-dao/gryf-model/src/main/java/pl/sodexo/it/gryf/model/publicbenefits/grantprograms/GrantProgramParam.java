@@ -28,6 +28,7 @@ public class GrantProgramParam extends GryfEntity {
     public static final String EMAIL_REPLAY_TO = "EMAIL_RT";
     public static final String EMAIL_FROM = "EMAIL_FROM";
     public static final String OWN_CONTRIBUTION_PERCENT = "OWN_CONT_P";
+    public static final String RESERVATION_DAY_NUM_POSSIBILITY = "ENROLL_GAP";
 
     //STATIC FIELDS - NAMED QUERY
 
