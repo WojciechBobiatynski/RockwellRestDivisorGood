@@ -10,17 +10,17 @@ public enum UserType {
     /**
      * Operator finansowy
      */
-    FINANCIAL_OPERATOR("FO"),
+    FINANCIAL_OPERATOR("FOU"),
     
     /**
      * Usługodawca
      */
-    TRAINING_INSTITUTION("TI"),
+    TRAINING_INSTITUTION("TIU"),
 
     /**
      * Osoba fizyczna
      */
-    INDIVIDUAL("IND");
+    INDIVIDUAL("INDU");
 
     private String code;
 
