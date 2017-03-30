@@ -22,14 +22,17 @@ import java.util.Map;
 @Getter
 @ToString
 public abstract class GryfUser extends User {
-
     private static final long serialVersionUID = 1L;
+
+    //FIELDS
 
     protected UserType userType = null;
 
     protected UserDto user;
     
     protected Map<String, Boolean> authorityMap; 
+
+    //CONSTRUCTORS
 
     public GryfUser(UserDto user, Collection<? extends GrantedAuthority> authorities) {
         super(user.getLogin(), user.getLogin(), authorities);
@@ -41,10 +44,18 @@ public abstract class GryfUser extends User {
         }
     }
 
+    //PUBLIC METHODS
+
+    public abstract <T> T accept(UserVisitor<T> userVisitor);
+
+    public abstract String getAuditableInfo();
+
     public String getUserType() {
         if (userType == null) return "NO_TYPE";
         return userType.toString();
     }
+
+    //STATIC METHODS
 
     /**
      * Zwraca login zalogowanego użytkownika.
@@ -77,6 +88,14 @@ public abstract class GryfUser extends User {
         }
 
         return user.getLogin();
+    }
+
+    public static String getLoggedUserAuditableInfo() {
+        GryfUser loggedUser = GryfUser.getLoggedUser();
+        if (loggedUser == null){
+            return "";
+        }
+        return loggedUser.getAuditableInfo();
     }
 
     public static String getLoggedUserLoginOrDefault() {
@@ -127,5 +146,4 @@ public abstract class GryfUser extends User {
         return (GryfUser) principal;
     }
 
-    public abstract <T> T accept(UserVisitor<T> userVisitor);
 }

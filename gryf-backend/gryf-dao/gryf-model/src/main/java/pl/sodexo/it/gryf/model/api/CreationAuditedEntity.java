@@ -2,6 +2,7 @@ package pl.sodexo.it.gryf.model.api;
 
 import lombok.ToString;
 import pl.sodexo.it.gryf.common.dto.user.GryfUser;
+import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -42,7 +43,9 @@ public class CreationAuditedEntity extends GryfEntity {
     @PrePersist
     public void prePersist() {
         Date now = new Date();
-        setCreatedUser(!GryfUser.getLoggedUserLogin().isEmpty() ? GryfUser.getLoggedUserLogin() : "GRYF" );
+        String auditableInfo = GryfUser.getLoggedUserAuditableInfo();
+
+        setCreatedUser(!GryfStringUtils.isEmpty(auditableInfo) ? auditableInfo : "GRYF");
         setCreatedTimestamp(now);
     }
 }

@@ -3,6 +3,7 @@ package pl.sodexo.it.gryf.model.api;
 import lombok.ToString;
 import pl.sodexo.it.gryf.common.crud.Auditable;
 import pl.sodexo.it.gryf.common.dto.user.GryfUser;
+import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -56,16 +57,21 @@ public class AuditableEntity extends CreationAuditedEntity implements Auditable 
     @PrePersist
     public void prePersist() {
         Date now = new Date();
-        setCreatedUser(!GryfUser.getLoggedUserLogin().isEmpty() ? GryfUser.getLoggedUserLogin() : "GRYF");
+        String auditableInfo = GryfUser.getLoggedUserAuditableInfo();
+
+        setCreatedUser(!GryfStringUtils.isEmpty(auditableInfo) ? auditableInfo : "GRYF");
         setCreatedTimestamp(now);
-        setModifiedUser(!GryfUser.getLoggedUserLogin().isEmpty() ? GryfUser.getLoggedUserLogin() : "GRYF");
+        setModifiedUser(!GryfStringUtils.isEmpty(auditableInfo) ? auditableInfo : "GRYF");
         setModifiedTimestamp(now);
     }
 
     @PreUpdate
     public void preUpdate() {
-        setModifiedUser(!GryfUser.getLoggedUserLogin().isEmpty() ? GryfUser.getLoggedUserLogin() : "GRYF");
-        setModifiedTimestamp(new Date());
+        Date now = new Date();
+        String auditableInfo = GryfUser.getLoggedUserAuditableInfo();
+
+        setModifiedUser(!GryfStringUtils.isEmpty(auditableInfo) ? auditableInfo : "GRYF");
+        setModifiedTimestamp(now);
     }
 
 }

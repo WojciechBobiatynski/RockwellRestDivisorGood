@@ -85,9 +85,6 @@ public class ReportServiceImpl implements ReportService {
                 //SAVE REPORT
                 ReportInstance reportInstance = new ReportInstance();
                 reportInstance.setTemplateName(templateCode.getFileName());
-                String loggedUser = GryfUser.getLoggedUser() == null ? "EAGLE" : GryfUser.getLoggedUser().getUsername();
-                reportInstance.setCreatedUser(loggedUser);
-                reportInstance.setCreatedTimestamp(new Date());
                 reportInstance.setParameters(JsonMapperUtils.writeValueAsString(mainParameters));
                 reportInstance.setPath(reportPath);
                 reportInstance.setSourceType(reportSourceType.name());

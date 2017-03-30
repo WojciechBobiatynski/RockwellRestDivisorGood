@@ -26,6 +26,11 @@ public class GryfFoUser extends GryfUser {
     }
 
     @Override
+    public String getAuditableInfo(){
+        return String.format("%s:%s", userType.getCode(), getUsername());
+    }
+
+    @Override
     public String toString() {
         return "GryfFoUser[login=" + super.getUser().getLogin() + "]";
     }

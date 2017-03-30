@@ -10,15 +10,25 @@ public enum UserType {
     /**
      * Operator finansowy
      */
-    FINANCIAL_OPERATOR,
+    FINANCIAL_OPERATOR("FO"),
     
     /**
      * Usługodawca
      */
-    TRAINING_INSTITUTION,
+    TRAINING_INSTITUTION("TI"),
 
     /**
      * Osoba fizyczna
      */
-    INDIVIDUAL,
+    INDIVIDUAL("IND");
+
+    private String code;
+
+    UserType(String code){
+        this.code = code;
+    }
+
+    public String getCode() {
+        return code;
+    }
 }

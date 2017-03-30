@@ -30,4 +30,9 @@ public class GryfTiUser extends GryfUser {
     public <T> T accept(UserVisitor<T> userVisitor) {
         return userVisitor.visitTi(this);
     }
+
+    @Override
+    public String getAuditableInfo(){
+        return String.format("%s:%s", userType.getCode(), trainingInstitutionId);
+    }
 }

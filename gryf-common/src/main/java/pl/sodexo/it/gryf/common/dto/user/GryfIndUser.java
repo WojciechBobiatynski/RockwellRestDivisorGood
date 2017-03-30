@@ -27,6 +27,11 @@ public class GryfIndUser extends GryfUser {
         return userVisitor.visitInd(this);
     }
 
+    @Override
+    public String getAuditableInfo(){
+        return String.format("%s:%s", userType.getCode(), individualId);
+    }
+
     public Long getIndividualId() {
         return individualId;
     }
