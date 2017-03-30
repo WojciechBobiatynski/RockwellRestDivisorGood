@@ -73,7 +73,13 @@ angular.module("gryf.ti").controller("TrainingReservationController",
     };
 
     $scope.loadMore = function() {
-        TrainingSearchService.loadMoreToReserve();
+        if(!$scope.userTrainingReservationData.data.contracts[0]) {
+            GryfModals.openModal(GryfModals.MODALS_URL.ERROR_INFO,
+                {message: "Nie można zarezerwować usługi, ponieważ ta osoba nie posiada żadnej umowy."});
+            return;
+        }
+
+        TrainingSearchService.loadMoreToReserve($scope.userTrainingReservationData.data.contracts[0].grantProgram.id);
     };
 
     $scope.reserveTraining = function(item) {
