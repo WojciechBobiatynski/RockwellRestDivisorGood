@@ -14,7 +14,7 @@
 <div id="breadcrumbs">
     <div class="grid">
         <ul>
-            <li><a href="${pageContext.request.contextPath}" title="Sodexo Gryf">Sodexo Gryf</a></li>
+            <li><a href="${pageContext.request.contextPath}/" title="Sodexo Gryf">Sodexo Gryf</a></li>
         </ul>
     </div>
 </div>

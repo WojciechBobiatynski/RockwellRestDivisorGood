@@ -52,7 +52,7 @@
     <div class="grid">
         <ul>
             <li>
-                <a href="${pageContext.request.contextPath}" title="Sodexo Gryf">Sodexo Gryf</a>
+                <a href="${pageContext.request.contextPath}/" title="Sodexo Gryf">Sodexo Gryf</a>
             </li>
             <c:forEach items="${breadcrumbs}" var="item">
                 <c:choose>

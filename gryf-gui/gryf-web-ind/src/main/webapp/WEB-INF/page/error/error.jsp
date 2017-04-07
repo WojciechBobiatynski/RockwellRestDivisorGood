@@ -50,7 +50,7 @@
     <div>
         <span class="description">System bonów szkoleniowych realizowany jest na zlecenie</span>
         <h1 class="ci ci-wup">
-            <a title="Instytucja Województwa Małopolskiego, Wojewódzki Urząd Pracy w Krakowie" rel="home" href="${pageContext.request.contextPath}" itemprop="name">Kierunek Kariera - Wojewódzki Urząd Pracy w Krakowie</a>
+            <a title="Instytucja Województwa Małopolskiego, Wojewódzki Urząd Pracy w Krakowie" rel="home" href="${pageContext.request.contextPath}/" itemprop="name">Kierunek Kariera - Wojewódzki Urząd Pracy w Krakowie</a>
         </h1>
     </div>
     <ol>
@@ -73,7 +73,7 @@
     <c:otherwise>
         <div class="grid">
             <ul>
-                <li><a href="${pageContext.request.contextPath}" title="Panel Logowania">Panel Logowania</a></li>
+                <li><a href="${pageContext.request.contextPath}/" title="Panel Logowania">Panel Logowania</a></li>
                 <li><a href="${pageContext.request.contextPath}/help" class="current" title="Pomoc">Pomoc</a></li>
             </ul>
         </div>
@@ -91,7 +91,7 @@
         </c:choose>
     </p>
     <ul>
-      <li><a class="button" href="${pageContext.request.contextPath}" title="wróć do strony głównej">wróć do strony głównej</a><li>
+      <li><a class="button" href="${pageContext.request.contextPath}/" title="wróć do strony głównej">wróć do strony głównej</a><li>
       <li><a class="button" href="javascript:window.history.back();" title="wróć do poprzedniej strony">wróć do poprzedniej strony</a></li>
     </ul>
 </div></div>

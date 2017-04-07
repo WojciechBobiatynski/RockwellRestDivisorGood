@@ -48,7 +48,7 @@
         <div>
             <span class="description">System bonów szkoleniowych realizowany jest na zlecenie</span>
             <h1 class="ci ci-wup">
-                <a title="Instytucja Województwa Małopolskiego, Wojewódzki Urząd Pracy w Krakowie" rel="home" href="${pageContext.request.contextPath}" itemprop="name">Kierunek Kariera - Wojewódzki Urząd Pracy w Krakowie</a>
+                <a title="Instytucja Województwa Małopolskiego, Wojewódzki Urząd Pracy w Krakowie" rel="home" href="${pageContext.request.contextPath}/" itemprop="name">Kierunek Kariera - Wojewódzki Urząd Pracy w Krakowie</a>
             </h1>
         </div>
         <ol>
@@ -59,7 +59,7 @@
 
     <nav><div class="grid">
         <ul>
-            <li><a href="${pageContext.request.contextPath}" title="Panel Logowania">Panel Logowania</a></li>
+            <li><a href="${pageContext.request.contextPath}/" title="Panel Logowania">Panel Logowania</a></li>
         </ul>
     </div></nav>
 
