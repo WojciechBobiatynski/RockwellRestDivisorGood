@@ -172,7 +172,6 @@
             <li ng-class="{'current': isActive('cancelReservation')}"><a ui-sref="cancelReservation" title="Anuluj rezerwację">Anuluj rezerwację</a></li>
             <li ng-class="{'current': isActive('ourTrainings')}"><a ui-sref="ourTrainings" title="Nasze usługi">Nasze usługi</a></li>
             <li ng-class="{'current': isActive('help')}"><a ui-sref="help" title="Pomoc">Pomoc</a></li>
-            <li><a ng-href="${pageContext.request.contextPath}/logout" title="Wyloguj">Wyloguj</a></li>
             <li><a onclick="document.getElementById('logoutForm').submit();" title="Pomoc">Wyloguj</a>
                 <form id="logoutForm" action="${pageContext.request.contextPath}/logout" method="POST">
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
