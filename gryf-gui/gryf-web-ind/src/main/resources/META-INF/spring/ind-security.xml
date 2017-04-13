@@ -34,7 +34,7 @@
             <frame-options policy="SAMEORIGIN"/>
             <xss-protection block="true" enabled="true"/>
             <content-type-options/>
-            <header name="Content-Security-Policy" value="default-src 'self' 'unsafe-inline' 'unsafe-eval' cdn.sodexo.pl google.com fonts.gstatic.com fonts.googleapis.com code.angularjs.org"/>
+            <!--header name="Content-Security-Policy" value="default-src 'self' 'unsafe-inline' 'unsafe-eval' cdn.sodexo.pl google.com fonts.gstatic.com fonts.googleapis.com code.angularjs.org"/-->
             <header name="Strict-Transport-Security" value="max-age=60000;includeSubDomains"/>
         </headers>
         <csrf/>
