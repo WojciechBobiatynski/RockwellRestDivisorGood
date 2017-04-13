@@ -35,7 +35,7 @@
             <frame-options policy="SAMEORIGIN"/>
             <xss-protection block="true" enabled="true"/>
             <content-type-options/>
-            <!--header name="Content-Security-Policy" value="default-src 'self' 'unsafe-inline' 'unsafe-eval' cdn.sodexo.pl google.com gstatic.com fonts.gstatic.com fonts.googleapis.com "/-->
+            <header name="Content-Security-Policy" value="default-src 'self' 'unsafe-inline' 'unsafe-eval' cdn.sodexo.pl google.com google.com/recaptcha/api.js www.google.com/recaptcha/api.js gstatic.com fonts.gstatic.com fonts.googleapis.com "/>
             <header name="Strict-Transport-Security" value="max-age=60000;includeSubDomains"/>
         </headers>
         <csrf />
