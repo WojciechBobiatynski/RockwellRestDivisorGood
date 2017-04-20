@@ -224,7 +224,6 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
 
                 //ZMIANA W INSTANCJACH
                 ins.setStatus(productInstStatAssign);
-                ins.setOrderId(null);
                 poolUse.removePollUse(ins);
                 ins.setEreimbursmentId(null);
 
