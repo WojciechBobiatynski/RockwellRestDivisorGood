@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by tomasz.bilski.ext on 2015-09-18.
  */
-@ToString
+@ToString(exclude = {"body", "attachments"})
 public class MailDTO {
 
     //FIELDS
