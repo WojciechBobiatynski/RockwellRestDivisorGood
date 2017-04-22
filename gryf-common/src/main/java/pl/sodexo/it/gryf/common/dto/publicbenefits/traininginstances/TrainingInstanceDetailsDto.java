@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-@ToString
+@ToString(exclude = "pinCode")
 public class TrainingInstanceDetailsDto extends ProductCalculationsDto implements Serializable {
 
     private static final long serialVersionUID = 1L;

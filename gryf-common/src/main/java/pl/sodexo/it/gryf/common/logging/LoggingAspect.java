@@ -29,12 +29,22 @@ public class LoggingAspect {
     public void executionOfAnyServiceMethod() {
     }
 
-    @Before("executionOfAnyServiceMethod()")
+    @Pointcut("execution(* pl.sodexo.it.gryf.service.api.security.UserService.findPrivilegesForFoLogin(..)) || " +
+            "execution(* pl.sodexo.it.gryf.service.api.security.UserService.findPrivilegesForTiLogin(..)) || " +
+            "execution(* pl.sodexo.it.gryf.service.api.security.UserService.findPrivilegesForIndPesel(..)) || " +
+            "execution(* pl.sodexo.it.gryf.service.api.security.trainingInstitutions.TrainingInstitutionUserService.findUserByTurIdAndSaveNewPassword(..)) || " +
+            "execution(* pl.sodexo.it.gryf.service.api.security.trainingInstitutions.TrainingInstitutionUserService.isPasswordStrong(..)) || " +
+            "execution(* pl.sodexo.it.gryf.service.api.security.individuals.IndividualUserService.createAndSaveNewUser(..)) || " +
+            "execution(* pl.sodexo.it.gryf.service.api.security.individuals.IndividualUserService.saveNewVerificationCodeForIndividual(..))")
+    public void excludePasswordParameterMethods(){
+    }
+
+    @Before("executionOfAnyServiceMethod() && !excludePasswordParameterMethods()")
     public void doBefore(JoinPoint joinPoint) throws ClassNotFoundException {
         createLogBefore(joinPoint);
     }
 
-    @AfterReturning(pointcut = "executionOfAnyServiceMethod()", returning = "result")
+    @AfterReturning(pointcut = "executionOfAnyServiceMethod() && !excludePasswordParameterMethods()", returning = "result")
     public void doAfter(JoinPoint joinPoint, Object result) {
         createLogAfter(joinPoint, result);
     }
