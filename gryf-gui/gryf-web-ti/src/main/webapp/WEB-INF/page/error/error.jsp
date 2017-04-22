@@ -80,7 +80,11 @@
                         <li><a href="${pageContext.request.contextPath}/#/cancelReservation" ui-sref="cancelReservation" title="Anuluj rezerwację">Anuluj rezerwację</a></li>
                         <li><a href="${pageContext.request.contextPath}/#/ourTrainings" ui-sref="ourTrainings" title="Nasze usługi">Nasze usługi</a></li>
                         <li><a href="${pageContext.request.contextPath}/#/help" ui-sref="help" title="Pomoc">Pomoc</a></li>
-                        <li><a href="${pageContext.request.contextPath}/logout" title="Wyloguj">Wyloguj</a></li>
+                        <li><a onclick="document.getElementById('logoutForm').submit();" title="Pomoc">Wyloguj</a>
+                            <form id="logoutForm" action="${pageContext.request.contextPath}/logout" method="POST">
+                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                            </form>
+                        </li>
                     </ul>
                 </div>
             </c:when>

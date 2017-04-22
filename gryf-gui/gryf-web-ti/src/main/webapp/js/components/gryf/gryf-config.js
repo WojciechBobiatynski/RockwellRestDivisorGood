@@ -78,7 +78,8 @@ function($q, $injector, $rootScope, $filter, $interpolate) {
             }, sessionTimeoutInMs - 60000);
 
             timers.timeoutKeeper = setTimeout(function() {
-                location.href = contextPath + '/logout';
+                document.getElementById('logoutForm').submit();//na wszelki wypadek jakby jeszcze chwile sesja trwała
+                location.href = contextPath + '/login';
             }, sessionTimeoutInMs);
             return response;
         }
