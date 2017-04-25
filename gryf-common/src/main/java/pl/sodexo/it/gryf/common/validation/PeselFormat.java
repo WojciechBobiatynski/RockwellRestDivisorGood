@@ -9,7 +9,7 @@ import java.lang.annotation.RetentionPolicy;
 @Constraint(validatedBy = PeselFormatConstraintValidator.class)
 public @interface PeselFormat {
 
-    public String message() default "Błedny format PESEL";
+    public String message() default "Błędny format PESEL";
 
     public Class<?>[] groups() default {};
 

@@ -100,7 +100,7 @@ public class Individual extends VersionableEntity implements AccountContractPair
 
     @Column(name = "PESEL")
     @NotEmpty(message = "PESEL nie może być pusty")
-    @PeselFormat(message = "Błedny format PESEL")
+    @PeselFormat(message = "Błędny format PESEL")
     @Size(max = 11, message = "PESEL użytkownika musi zawierać maksymalnie 300 znaków")
     private String pesel;
 
