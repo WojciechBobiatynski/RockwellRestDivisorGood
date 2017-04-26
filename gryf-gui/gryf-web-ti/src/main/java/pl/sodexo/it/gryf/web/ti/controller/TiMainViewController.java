@@ -35,6 +35,11 @@ public class TiMainViewController {
         return PAGE_HELP;
     }
 
+    @RequestMapping(value = PATH_HELP_AFTER_LOGIN, method = RequestMethod.GET)
+    public String helpAfterLogin() {
+        return PAGE_HELP_AFTER_LOGIN;
+    }
+
     @RequestMapping(value = "/prolongSession", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public void prolongSession() { }

@@ -36,4 +36,6 @@ public final class TiPageConstant extends PageConstant {
     public static final String PAGE_HELP = PREFIX_PAGE + "help/help.jsp";
     public static final String PAGE_ERROR_CODE = PREFIX_PAGE + "error/error.jsp?code=%s";
     public static final String PAGE_ERROR = PREFIX_PAGE + "error/error.jsp";
+    public static final String PATH_HELP_AFTER_LOGIN = "/help-after-login";
+    public static final String PAGE_HELP_AFTER_LOGIN = PREFIX_PAGE + "help/help-after-login.jsp";
 }
