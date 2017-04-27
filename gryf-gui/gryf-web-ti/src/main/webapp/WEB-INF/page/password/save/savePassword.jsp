@@ -98,6 +98,7 @@
 
                     <div class="field field-submit">
                         <button class="button" type="submit" tabindex="3">Zapisz hasło</button>
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                         <input type="hidden" name="token" value="${token}">
                     </div>
 
