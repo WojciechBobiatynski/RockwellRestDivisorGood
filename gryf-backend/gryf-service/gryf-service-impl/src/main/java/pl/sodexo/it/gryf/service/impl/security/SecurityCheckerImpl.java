@@ -65,7 +65,7 @@ public class SecurityCheckerImpl implements SecurityChecker {
     public void assertTiUserAccessTraining(Long trainingId) {
         if(trainingId != null){
             if(!trainingService.isTrainingInLoggedUserInstitution(trainingId)){
-                gryfValidator.validate("Nie masz dostepu do danego usługi");
+                gryfValidator.validate("Nie masz dostępu do danego usługi");
             }
         }
     }
@@ -74,7 +74,7 @@ public class SecurityCheckerImpl implements SecurityChecker {
     public void assertTiUserAccessTrainingInstance(Long trainingInstanceId){
         if(trainingInstanceId != null){
             if(!trainingInstanceService.isTrainingInstanceInLoggedUserInstitution(trainingInstanceId)){
-                gryfValidator.validate("Nie masz dostepu do danej instancji usługi");
+                gryfValidator.validate("Nie masz dostępu do danej instancji usługi");
             }
         }
     }
@@ -83,7 +83,7 @@ public class SecurityCheckerImpl implements SecurityChecker {
     public void assertTiUserAccessEreimbursement(Long ereimbursementId){
         if(ereimbursementId != null){
             if(!electronicReimbursementsService.isEreimbursementInLoggedUserInstitution(ereimbursementId)){
-                gryfValidator.validate("Nie masz dostepu do danego rozliczenia");
+                gryfValidator.validate("Nie masz dostępu do danego rozliczenia");
             }
         }
     }
@@ -92,7 +92,7 @@ public class SecurityCheckerImpl implements SecurityChecker {
     public void assertTiUserAccessEreimbursementAttachment(Long ereimbursementAttachmentId){
         if(ereimbursementAttachmentId != null){
             if(!ermbsAttachmentService.isEreimbursementAttachmentInLoggedUserInstitution(ereimbursementAttachmentId)){
-                gryfValidator.validate("Nie masz dostepu do danego załącznika rozliczenia");
+                gryfValidator.validate("Nie masz dostępu do danego załącznika rozliczenia");
             }
         }
     }
@@ -101,7 +101,7 @@ public class SecurityCheckerImpl implements SecurityChecker {
     public void assertIndUserAccessTrainingInstance(Long trainingInstanceId){
         if(trainingInstanceId != null){
             if(!trainingInstanceService.isTrainingInstanceInLoggedIndividual(trainingInstanceId)){
-                gryfValidator.validate("Nie masz dostepu do danej instancji usługi");
+                gryfValidator.validate("Nie masz dostępu do danej instancji usługi");
             }
         }
     }
