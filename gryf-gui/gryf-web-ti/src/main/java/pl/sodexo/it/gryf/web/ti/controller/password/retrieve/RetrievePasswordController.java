@@ -71,6 +71,7 @@ public class RetrievePasswordController {
             comebackPage = PAGE_RETRIEVE_RESET_PASSWORD_SUCCESS;
         }
         catch(GryfUserNotActiveException | GryfVerificationException e){
+            uiModel.addAttribute(JSP_EMAIL_PLACEHOLDER, email);
             comebackPage = PAGE_RETRIEVE_RESET_PASSWORD_SUCCESS;
         }catch (GryfRuntimeException e){
             LOGGER.error("Blad podczas obslugi", e);
