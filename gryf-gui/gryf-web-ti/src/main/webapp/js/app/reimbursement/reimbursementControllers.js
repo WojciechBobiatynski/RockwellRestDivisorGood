@@ -77,8 +77,7 @@ angular.module("gryf.ti").controller("ReimbursementModifyController", ["$scope",
 
         $scope.correctionVisible = function(){
             return !!$scope.rmbsModel.model
-                && !!$scope.rmbsModel.model.lastCorrectionDto
-                && !$scope.rmbsModel.model.lastCorrectionDto.complementDate;
+                && !!$scope.rmbsModel.model.lastCorrectionDto;
         };
 
         $scope.cancel = function() {
@@ -107,8 +106,7 @@ angular.module("gryf.ti").controller("ReimburseDetailsController", ["$scope", "R
 
         $scope.correctionVisible = function(){
             return !!$scope.rmbsModel.model
-                && !!$scope.rmbsModel.model.lastCorrectionDto
-                && !$scope.rmbsModel.model.lastCorrectionDto.complementDate;
+                && !!$scope.rmbsModel.model.lastCorrectionDto;
         };
 
         $scope.isDisabled = function(){
@@ -153,8 +151,7 @@ angular.module("gryf.ti").controller("CorrectionController", ["$scope", "Reimbur
 
         $scope.correctionVisible = function(){
             return !!$scope.rmbsModel.model
-                && !!$scope.rmbsModel.model.lastCorrectionDto
-                && !$scope.rmbsModel.model.lastCorrectionDto.complementDate;
+                && !!$scope.rmbsModel.model.lastCorrectionDto;
         };
 
         $scope.terminatedVisible = function () {
