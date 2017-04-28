@@ -52,8 +52,9 @@ public class FileServiceImpl implements FileService {
             if(entity != null) {
                 entity.setModifiedTimestamp(new Date());
             }
-        } catch (IOException e) {
-            throw new GryfFileException(String.format("Nie udało się zapisać pliku [%s]", filePath), e);
+        } catch (IOException ex) {
+            LOGGER.error(String.format("Nie udało się zapisać pliku [%s]", filePath), ex);
+            throw new GryfFileException("Nie udało się zapisać pliku", ex);
         }
         return filePath;
     }
@@ -64,8 +65,9 @@ public class FileServiceImpl implements FileService {
         Path newFilePath = Paths.get(newFileRoot, newFileName);
         try {
             Files.copy(fileDTO.getInputStream(), newFilePath);
-        } catch (IOException e) {
-            throw new RuntimeException(String.format("Nie udało się zapisać pliku [%s]", newFilePath), e);
+        } catch (IOException ex) {
+            LOGGER.error(String.format("Nie udało się zapisać pliku [%s]", newFilePath), ex);
+            throw new GryfFileException("Nie udało się zapisać pliku", ex);
         }
         return newFilePath.toString();
     }
@@ -154,7 +156,8 @@ public class FileServiceImpl implements FileService {
         try (OutputStream os = new FileOutputStream(newFilePath.toFile())) {
             Files.copy(oldSourcePath, os);
         } catch (IOException ex) {
-            throw new GryfFileException(String.format("Nie udało się zapisać pliku"), ex);
+            LOGGER.error(String.format("Nie udało się zapisać pliku [%s]", newFilePath), ex);
+            throw new GryfFileException("Nie udało się zapisać pliku", ex);
         }
         return newFilePath.toString();
     }
@@ -166,7 +169,8 @@ public class FileServiceImpl implements FileService {
         try (OutputStream os = new FileOutputStream(newFilePath.toFile())) {
             Files.copy(oldSourcePath, os);
         } catch (IOException ex) {
-            throw new GryfFileException(String.format("Nie udało się zapisać pliku"), ex);
+            LOGGER.error(String.format("Nie udało się zapisać pliku [%s]", newFilePath), ex);
+            throw new GryfFileException("Nie udało się zapisać pliku", ex);
         }
         return newFilePath.toString();
     }
