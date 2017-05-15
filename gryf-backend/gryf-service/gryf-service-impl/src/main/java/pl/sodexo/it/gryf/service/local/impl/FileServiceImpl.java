@@ -98,7 +98,8 @@ public class FileServiceImpl implements FileService {
         try {
             return new FileInputStream(fileName);
         } catch (FileNotFoundException e) {
-            throw new RuntimeException(String.format("Nie znależiono pliku o nazwie '%s'", fileName));
+            LOGGER.error(String.format("Nie znaleziono pliku o nazwie '%s'", fileName));
+            throw new RuntimeException("Nie znaleziono pliku");
         }
     }
 
@@ -107,7 +108,8 @@ public class FileServiceImpl implements FileService {
         try {
             return new FileOutputStream(fileName);
         } catch (FileNotFoundException e) {
-            throw new RuntimeException(String.format("Nie znależiono pliku o nazwie '%s'", fileName));
+            LOGGER.error(String.format("Nie znaleziono pliku o nazwie '%s'", fileName));
+            throw new RuntimeException("Nie znaleziono pliku");
         }
     }
 
