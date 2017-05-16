@@ -4,11 +4,10 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:jee="http://www.springframework.org/schema/jee"
-       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
        xsi:schemaLocation="http://www.springframework.org/schema/beans      http://www.springframework.org/schema/beans/spring-beans.xsd
                            http://www.springframework.org/schema/tx         http://www.springframework.org/schema/tx/spring-tx.xsd
                            http://www.springframework.org/schema/jee        http://www.springframework.org/schema/jee/spring-jee.xsd
-                           http://www.springframework.org/schema/data/jpa   http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+
                            http://www.springframework.org/schema/context    http://www.springframework.org/schema/context/spring-context.xsd">
 
 
@@ -16,8 +15,6 @@
 
     <context:component-scan base-package="pl.sodexo.it.gryf.dao"/>
     <import resource="dao-mappers-context.xml"/>
-
-    <jpa:repositories base-package="pl.sodexo.it.gryf.dao.api.crud.dao"/>
 
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
