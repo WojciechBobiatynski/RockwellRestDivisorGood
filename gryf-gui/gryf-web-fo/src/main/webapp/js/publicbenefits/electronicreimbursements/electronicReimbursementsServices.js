@@ -21,6 +21,7 @@ angular.module('gryf.electronicreimbursements').factory("electronicReimbursement
             this.rmbsDateFrom= null,
             this.rmbsDateTo= null,
             this.rmbsStatus= null,
+            this.noteNumber = null,
             this.sortTypes= [],
             this.sortColumns= [],
             this.limit= 10

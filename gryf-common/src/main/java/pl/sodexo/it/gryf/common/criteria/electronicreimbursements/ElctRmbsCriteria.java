@@ -66,6 +66,10 @@ public class ElctRmbsCriteria extends UserCriteria {
 
     @Getter
     @Setter
+    private String noteNumber;
+
+    @Getter
+    @Setter
     private Integer limit;
 
     @Getter

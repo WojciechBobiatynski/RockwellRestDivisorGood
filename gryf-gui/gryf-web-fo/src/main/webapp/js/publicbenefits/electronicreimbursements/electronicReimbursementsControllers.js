@@ -1,7 +1,9 @@
 "use strict";
 //TODO: wydzielić kontroler, po którym podziedziczy reszta z metodami wpsólnymi dla wszystkich kontrolerów
+var test;
 angular.module('gryf.electronicreimbursements').controller("searchform.electronicReimbursementsController",
     ['$scope', 'electronicReimbursementSearchService', function ($scope, electronicReimbursementSearchService) {
+        test = $scope;
         $scope.elctRmbsCriteria = electronicReimbursementSearchService.getNewCriteria();
         $scope.searchResultOptions = electronicReimbursementSearchService.getSearchResultOptions();
         $scope.elctRmbsModel = electronicReimbursementSearchService.getElctRmbsModel();

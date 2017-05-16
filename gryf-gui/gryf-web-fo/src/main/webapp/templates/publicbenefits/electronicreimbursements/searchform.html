@@ -87,6 +87,12 @@
                         <option label="-wybierz-"></option>
                     </select>
                 </th>
+                <th class="sortable grid-15" ng-class="getSortingTypeClass('noteNumber')">
+                    <div ng-click="getSortedBy('noteNumber')">
+                        Numer noty rozliczeniowej
+                    </div>
+                    <input placeholder="Numer noty" type="text" ng-model="elctRmbsCriteria.noteNumber">
+                </th>
                 <th>
                     <a ng-click="find()" class="button button-search">szukaj</a>
                 </th>
@@ -103,6 +109,7 @@
                 <td>{{::item.participantSurname}}</td>
                 <td>{{::item.rmbsDate | date:'yyyy-MM-dd'}}</td>
                 <td>{{::item.rmbsStatus}}</td>
+                <td>{{::item.noteNumber}}</td>
                 <td>
                     <ul class="buttons">
                         <li>

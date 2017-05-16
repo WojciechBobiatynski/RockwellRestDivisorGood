@@ -21,7 +21,8 @@
                     status.ID                   rmbsStatusId,
                     tp.NAME                     rmbsType,
                     tp.CODE                     rmbsTypeCode,
-                    ti.TRAINING_INSTITUTION_ID  trainingInstitutionId
+                    ti.TRAINING_INSTITUTION_ID  trainingInstitutionId,
+                    inv.INVOICE_NUMBER          noteNumber
                 FROM
                     APP_PBE.E_REIMBURSEMENTS ermbs
                     LEFT JOIN APP_PBE.TI_TRAINING_INSTANCES ti_in ON ti_in.ID = ermbs.TI_TR_INST_ID
@@ -29,6 +30,7 @@
                     LEFT JOIN APP_PBE.INDIVIDUALS ind ON ind.ID = ti_in.INDIVIDUAL_ID
                     LEFT JOIN APP_PBE.E_REIMBURSEMENT_STATUSES status ON status.ID = ermbs.STATUS_ID
                     LEFT JOIN APP_PBE.E_REIMBURSEMENT_TYPES tp ON tp.CODE = ermbs.TYPE_ID
+                    LEFT JOIN APP_PBE.E_REIMBURSEMENT_INVOICES inv on (inv.E_REIMBURSEMENT_ID = ermbs.ID AND inv.INVOICE_TYPE = 'NUPB')
                 WHERE
                     ermbs.TYPE_ID = 'TI_INST'
                 UNION
@@ -45,7 +47,8 @@
                     status.ID                 rmbsStatusId,
                     tp.NAME                   rmbsType,
                     tp.CODE                   rmbsTypeCode,
-                    null                      trainingInstitutionId
+                    null                      trainingInstitutionId,
+                    inv.INVOICE_NUMBER        noteNumber
                 FROM
                     APP_PBE.E_REIMBURSEMENTS ermbs
                     LEFT JOIN APP_PBE.E_REIMBURSEMENT_STATUSES status ON status.ID = ermbs.STATUS_ID
@@ -54,6 +57,7 @@
                     LEFT JOIN APP_PBE.ORDERS ord on pip.ORDER_ID = ord.ID
                     LEFT JOIN APP_PBE.CONTRACTS cnt on ord.CONTRACT_ID = cnt.ID
                     LEFT JOIN APP_PBE.INDIVIDUALS ind on ind.ID = cnt.INDIVIDUAL_ID
+                    LEFT JOIN APP_PBE.E_REIMBURSEMENT_INVOICES inv on (inv.E_REIMBURSEMENT_ID = ermbs.ID AND inv.INVOICE_TYPE = 'NUPB')
                 WHERE
                     ermbs.TYPE_ID in ('URSVD_POOL', 'RET_POOL')
             )
@@ -87,6 +91,9 @@
             </if>
             <if test="criteria.rmbsType != null and criteria.rmbsType != ''">
                 AND rmbsType = #{criteria.rmbsType}
+            </if>
+            <if test="criteria.noteNumber != null and criteria.noteNumber != ''">
+                AND LOWER(noteNumber) like '%' || LOWER(#{criteria.noteNumber}) || '%'
             </if>
             <if test="criteria.gryfUser.userType == 'TRAINING_INSTITUTION'">
                 AND trainingInstitutionId = #{criteria.gryfUser.trainingInstitutionId}
