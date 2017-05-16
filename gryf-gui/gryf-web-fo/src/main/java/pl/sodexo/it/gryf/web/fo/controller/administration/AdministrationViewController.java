@@ -40,4 +40,13 @@ public class AdministrationViewController {
         return DEFAULT_VIEW;
     }
 
+    @RequestMapping(value = CHANGE_PASSWORD_PATH, method = RequestMethod.GET)
+    public String getPasswordChangeView(Model model) {
+        LOGGER.debug("getPasswordChangeView, model=", model);
+        //TODO: zmień uprawnienie zgodnie z tym co w menu index.jsp
+        securityChecker.assertFormPrivilege(Privileges.GRF_PBE_ASYNCH_JOBS);
+        model.addAttribute(MAIN_CONTENT_PARAM_NAME, PAGES_PREFIX + CHANGE_PASSWORD_INDEX);
+        return DEFAULT_VIEW;
+    }
+
 }

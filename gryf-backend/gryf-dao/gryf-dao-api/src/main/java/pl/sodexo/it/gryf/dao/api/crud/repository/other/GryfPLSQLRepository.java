@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.dao.api.crud.repository.other;
 
+import pl.sodexo.it.gryf.common.dto.password.ChangePasswordDto;
 import pl.sodexo.it.gryf.model.api.FinanceNoteResult;
 import pl.sodexo.it.gryf.model.enums.DayType;
 
@@ -57,4 +58,11 @@ public interface GryfPLSQLRepository {
      * Metoda robi flush do bazy danych
      */
     void flush();
+
+    /**
+     * Metoda zmieniająca hasło dla użytkownika
+     * @param username - login użytkownika
+     * @param changePasswordDto - obiekt z danymi dotyczącymi haseł
+     */
+    void changePassword(String username, ChangePasswordDto changePasswordDto);
 }

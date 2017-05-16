@@ -298,6 +298,12 @@
                             </li>
                         </ul>
                     </li>
+                    <li class="submenu">
+                        <%--TODO: zmień nazwę przywilejów--%>
+                        <a ng-href="${pageContext.request.contextPath}/administration/pass/change"
+                           gryf-link-privilege="GRF_PBE_ASYNCH_JOBS">Zmiana hasła
+                        </a>
+                    </li>
                 </ul>
             </li>
         </ul>

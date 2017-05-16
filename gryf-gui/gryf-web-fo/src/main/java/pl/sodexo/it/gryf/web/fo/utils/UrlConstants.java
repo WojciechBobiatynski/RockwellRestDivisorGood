@@ -64,4 +64,7 @@ public final class UrlConstants {
 
     public static final String PATH_CONTRACTS_FIND_POOL_INSTANCES = "/poolInstances";
     public static final String PATH_CONTRACTS_RESIGN = "/resign";
+
+    public static final String CHANGE_PASSWORD_PATH = "/pass/change";
+    public static final String CHANGE_PASSWORD_INDEX = "/administration/password/password.jsp";
 }
