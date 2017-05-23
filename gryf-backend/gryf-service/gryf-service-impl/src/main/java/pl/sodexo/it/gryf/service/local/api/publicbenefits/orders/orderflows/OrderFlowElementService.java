@@ -4,6 +4,7 @@ import pl.sodexo.it.gryf.common.dto.other.FileDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.action.IncomingOrderElementDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementDTO;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
+import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowStatusTransition;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -65,9 +66,10 @@ public interface OrderFlowElementService {
      * Waliduje elementy. Dla elementów wywołuje metode validacyjną w zależnosci o typu elementu.
      *
      * @param order zamowienie
+     * @param  statusTransition przejscie zamówienia
      * @param elementDtoList lista obiektów dto
      */
-    void validateElements(Order order, List<OrderElementDTO> elementDtoList);
+    void validateElements(Order order, OrderFlowStatusTransition statusTransition, List<OrderElementDTO> elementDtoList);
 
     /**
      * Metoda aktualizuje elementy zamówienia na podstawie listy objektów dto. Poszczególne

@@ -25,6 +25,7 @@ import java.util.Objects;
                 "JOIN o.orderElements e " +
                 "JOIN e.orderFlowElement fe " +
                 "JOIN fe.orderFlowElementInStatuses eis " +
+                "LEFT JOIN FETCH eis.orderFlowStatusTransitionElementFlags ofstf " +
                 "WHERE o.status = eis.status " +
                 "AND o.id = :id " +
                 "ORDER by eis.pos"),

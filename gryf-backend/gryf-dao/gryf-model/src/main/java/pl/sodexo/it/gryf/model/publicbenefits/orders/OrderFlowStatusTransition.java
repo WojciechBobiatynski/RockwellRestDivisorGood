@@ -86,6 +86,10 @@ public class OrderFlowStatusTransition extends GryfEntity {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "orderFlowStatusTransition")
     private List<OrderFlowStatusTransSql> orderFlowStatusTransSqlList;
 
+    @JsonManagedReference("orderFlowStatusTransitionElementFlags")
+    @OneToMany(mappedBy = "orderFlowStatusTransition")
+    private List<OrderFlowStatusTransitionElementFlag> orderFlowStatusTransitionElementFlags;
+
     //GETTERS & SETTERS
 
     public OrderFlowStatusTransitionPK getId() {
@@ -170,6 +174,16 @@ public class OrderFlowStatusTransition extends GryfEntity {
 
     public List<OrderFlowStatusTransSql> getOrderFlowStatusTransSqlList() {
         return Collections.unmodifiableList(getInitializedOrderFlowStatusTransSqlList());
+    }
+
+    private List<OrderFlowStatusTransitionElementFlag> getInitializedOrderFlowStatusTransitionElementFlags() {
+        if (orderFlowStatusTransitionElementFlags == null)
+            orderFlowStatusTransitionElementFlags = new ArrayList<>();
+        return orderFlowStatusTransitionElementFlags;
+    }
+
+    public List<OrderFlowStatusTransitionElementFlag> getOrderFlowStatusTransitionElementFlags() {
+        return Collections.unmodifiableList(getInitializedOrderFlowStatusTransitionElementFlags());
     }
 
     //PUBLIC METHODS - COMPONENT METHODS

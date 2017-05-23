@@ -1,6 +1,7 @@
 package pl.sodexo.it.gryf.model.publicbenefits.orders;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.ToString;
 import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.model.api.GryfEntity;
@@ -8,6 +9,9 @@ import pl.sodexo.it.gryf.model.api.GryfEntity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -65,6 +69,10 @@ public class OrderFlowElementInStatus extends GryfEntity {
     @ManyToOne(optional = false)
     private OrderFlowStatus status;
 
+    @JsonManagedReference("orderFlowStatusTransitionElementFlags")
+    @OneToMany(mappedBy = "orderFlowElementInStatus")
+    private List<OrderFlowStatusTransitionElementFlag> orderFlowStatusTransitionElementFlags;
+
     //GETTERS & SETTERS
 
     public OrderFlowElementInStatusPK getId() {
@@ -115,14 +123,24 @@ public class OrderFlowElementInStatus extends GryfEntity {
         this.orderFlowAllowedDelayType = orderFlowAllowedDelayType;
     }
 
-
-
     public Integer getPos() {
         return pos;
     }
 
     public void setPos(Integer pos) {
         this.pos = pos;
+    }
+
+    //LIST METHODS
+
+    private List<OrderFlowStatusTransitionElementFlag> getInitializedOrderFlowStatusTransitionElementFlags() {
+        if (orderFlowStatusTransitionElementFlags == null)
+            orderFlowStatusTransitionElementFlags = new ArrayList<>();
+        return orderFlowStatusTransitionElementFlags;
+    }
+
+    public List<OrderFlowStatusTransitionElementFlag> getOrderFlowStatusTransitionElementFlags() {
+        return Collections.unmodifiableList(getInitializedOrderFlowStatusTransitionElementFlags());
     }
 
     //PUBLIC METHODS

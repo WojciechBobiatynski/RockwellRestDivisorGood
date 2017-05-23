@@ -14,9 +14,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationContactData;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationContactType;
 import pl.sodexo.it.gryf.model.publicbenefits.invoices.Payment;
-import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
-import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElementDTOBuilder;
-import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowElement;
+import pl.sodexo.it.gryf.model.publicbenefits.orders.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -36,7 +34,7 @@ public final class OrderElementDTOProvider {
         dto.setName(builder.getOrderFlowElement().getElementName());
         dto.setElementTypeComponentName(builder.getOrderFlowElement().getOrderFlowElementType().getComponentName());
         dto.setElementTypeParams(builder.getOrderFlowElement().getElementTypeParams());
-        dto.setFlags((builder.getOrderFlowElementInStatus() != null) ? builder.getOrderFlowElementInStatus().getFlags() : null);
+        dto.setFlags(calculateFlags(builder));
         dto.setPrivilege((builder.getOrderFlowElementInStatus() != null) ? builder.getOrderFlowElementInStatus().getAugIdRequired() : null);
         dto.setRequiredDate(builder.getElement().getRequiredDate());
         dto.setCompletedDate(builder.getElement().getCompletedDate());
@@ -268,6 +266,28 @@ public final class OrderElementDTOProvider {
 
     public static OrderElementHeadingDTO createOrderElementHeadingDTO(OrderElementDTOBuilder builder) {
         return (OrderElementHeadingDTO) createOrderElementDTO(builder, new OrderElementHeadingDTO());
+    }
+
+    //PRIVATE METHODS
+
+    private static String calculateFlags(OrderElementDTOBuilder builder){
+        StringBuilder sb = new StringBuilder();
+
+        OrderFlowElementInStatus ofeis = builder.getOrderFlowElementInStatus();
+        if(ofeis != null && !GryfStringUtils.isEmpty(ofeis.getFlags())){
+            sb.append(ofeis.getFlags().trim());
+        }
+
+        List<OrderFlowStatusTransitionElementFlag> flags = builder.getOrderFlowStatusTransitionElementFlags();
+        if(flags != null){
+            for(OrderFlowStatusTransitionElementFlag flag : flags){
+                if(flag != null && !GryfStringUtils.isEmpty(flag.getFlags())){
+                    sb.append(flag.getFlags().trim());
+                }
+            }
+        }
+
+        return GryfStringUtils.removeDuplicateCharacters(sb.toString());
     }
 
 }

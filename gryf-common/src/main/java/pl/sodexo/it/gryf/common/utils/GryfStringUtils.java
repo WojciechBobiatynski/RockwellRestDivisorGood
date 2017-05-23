@@ -5,6 +5,7 @@ import com.google.common.collect.Sets;
 import com.google.common.io.Files;
 
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -171,4 +172,20 @@ public final class GryfStringUtils {
         return m.matches();
     }
 
+    public static String removeDuplicateCharacters(String s) {
+        if(s == null){
+            return null;
+        }
+        char[] chars = s.toCharArray();
+        Set<Character> charSet = new LinkedHashSet<>();
+        for (char c : chars) {
+            charSet.add(c);
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (Character character : charSet) {
+            sb.append(character);
+        }
+        return sb.toString();
+    }
 }

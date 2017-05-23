@@ -2,6 +2,9 @@ package pl.sodexo.it.gryf.model.publicbenefits.orders;
 
 import lombok.ToString;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by tomasz.bilski.ext on 2015-08-18.
  */
@@ -17,6 +20,8 @@ public class OrderElementDTOBuilder {
     private OrderFlowElement orderFlowElement;
 
     private OrderFlowElementInStatus orderFlowElementInStatus;
+
+    private List<OrderFlowStatusTransitionElementFlag> orderFlowStatusTransitionElementFlags;
 
     //CONSTRUCTORS
 
@@ -39,6 +44,8 @@ public class OrderElementDTOBuilder {
         this.element = element;
         this.orderFlowElement = orderFlowElement;
         this.orderFlowElementInStatus = orderFlowElementInStatus;
+        this.orderFlowStatusTransitionElementFlags = orderFlowElementInStatus != null ?
+                orderFlowElementInStatus.getOrderFlowStatusTransitionElementFlags() : new ArrayList<>();
     }
 
     //GETTERS & SETTERS
@@ -57,5 +64,9 @@ public class OrderElementDTOBuilder {
 
     public OrderFlowElementInStatus getOrderFlowElementInStatus() {
         return orderFlowElementInStatus;
+    }
+
+    public List<OrderFlowStatusTransitionElementFlag> getOrderFlowStatusTransitionElementFlags() {
+        return orderFlowStatusTransitionElementFlags;
     }
 }

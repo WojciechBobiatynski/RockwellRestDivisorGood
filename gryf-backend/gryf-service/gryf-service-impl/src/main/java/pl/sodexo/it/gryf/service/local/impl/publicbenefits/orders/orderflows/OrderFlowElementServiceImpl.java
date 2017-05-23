@@ -156,7 +156,7 @@ public class OrderFlowElementServiceImpl implements OrderFlowElementService {
     }
 
     @Override
-    public void validateElements(Order order, List<OrderElementDTO> elementDtoList) {
+    public void validateElements(Order order, OrderFlowStatusTransition statusTransition, List<OrderElementDTO> elementDtoList) {
         List<EntityConstraintViolation> violations = new ArrayList<>();
         OrderFlowStatus status = order.getStatus();
 
@@ -184,6 +184,16 @@ public class OrderFlowElementServiceImpl implements OrderFlowElementService {
             }
         });
 
+
+        Map<String, OrderFlowStatusTransitionElementFlag> ofeintfMap = GryfUtils.constructMap(statusTransition.getOrderFlowStatusTransitionElementFlags(), new GryfUtils.MapConstructor<String, OrderFlowStatusTransitionElementFlag>() {
+            public boolean isAddToMap(OrderFlowStatusTransitionElementFlag input) {
+                return true;
+            }
+            public String getKey(OrderFlowStatusTransitionElementFlag input) {
+                return input.getId().getElementId();
+            }
+        });
+
         //LISTA PO DTO (DLA KAŻDEGO ODPALANEI WALIDACJI)
         for (OrderElementDTO elementDTO : elementDtoList) {
             String serviceName = OrderFlowElementType.getServiceBeanName(elementDTO.getElementTypeComponentName());
@@ -197,12 +207,15 @@ public class OrderFlowElementServiceImpl implements OrderFlowElementService {
 
             //POBRANIE "ELEMENTU" DLA DANEGO DTO
             OrderElement oe = oeMap.get(elementDTO.getId());
-            if (ofeis == null) {
+            if (oe == null) {
                 throw new RuntimeException(String.format("Bład konfiguracji - element '%s' nie został dodany do zamówienia (id zamowienia - '%s')", elementDTO.getName(), oe.getId()));
             }
 
+            //POBRANIE FLAG ZALEZNYCH OD PRZEJSCIA DLA DANEGO DTO
+            OrderFlowStatusTransitionElementFlag ofeintf = ofeintfMap.get(elementDTO.getOrderFlowElementId());
+
             //WALIDACJA
-            service.validate(violations, oe, ofeis, elementDTO);
+            service.validate(violations, oe, ofeis, ofeintf, elementDTO);
         }
 
         //VALIDATE

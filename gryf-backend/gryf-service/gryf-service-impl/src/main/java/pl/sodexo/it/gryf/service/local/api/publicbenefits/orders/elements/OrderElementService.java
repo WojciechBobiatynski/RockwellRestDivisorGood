@@ -5,6 +5,7 @@ import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElementDTOBuilder;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowElementInStatus;
+import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowStatusTransitionElementFlag;
 
 import java.util.List;
 
@@ -33,7 +34,9 @@ public interface OrderElementService<T extends OrderElementDTO> {
      * @param violations lista błędów do tej listy dodawane sa błedy zwiazane z konktretnym polem
      * @param orderElement pole które jest walidowane
      * @param orderFlowElementInStatus pole obrazujące element w danym statusie
+     * @param orderFlowStatusTransitionElementFlag obiekt reprezentujacy flagi na przejscie
      * @param dto obiekt z nowymi danymi
      */
-    void validate(List<EntityConstraintViolation> violations, OrderElement orderElement, OrderFlowElementInStatus orderFlowElementInStatus, T dto);
+    void validate(List<EntityConstraintViolation> violations, OrderElement orderElement,
+                  OrderFlowElementInStatus orderFlowElementInStatus, OrderFlowStatusTransitionElementFlag orderFlowStatusTransitionElementFlag, T dto);
 }

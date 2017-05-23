@@ -151,7 +151,7 @@ public class OrderActionServiceImpl implements OrderActionService {
                                     List<OrderElementDTO> elementDtoList, List<String> acceptedViolations){
 
         //VALIDACJA ELEMENTOW
-        orderFlowElementService.validateElements(order, elementDtoList);
+        orderFlowElementService.validateElements(order, statusTransition, elementDtoList);
 
         //UPDATE ELEMENTS
         orderFlowElementService.updateElements(order, elementDtoList);

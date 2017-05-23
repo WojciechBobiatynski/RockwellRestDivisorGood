@@ -12,6 +12,7 @@ import pl.sodexo.it.gryf.common.utils.JsonMapperUtils;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElement;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElementClob;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowElementInStatus;
+import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlowStatusTransitionElementFlag;
 import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.elements.OrderElementService;
 
@@ -55,12 +56,13 @@ public abstract class OrderElementBaseClobService<T extends OrderElementDTO>  im
     }
 
     @Override
-    public void validate(List<EntityConstraintViolation> violations, OrderElement orderElement, OrderFlowElementInStatus orderFlowElementInStatus, T dto) {
+    public void validate(List<EntityConstraintViolation> violations, OrderElement orderElement,
+                         OrderFlowElementInStatus orderFlowElementInStatus, OrderFlowStatusTransitionElementFlag orderFlowStatusTransitionElementFlag, T dto) {
 
         T oldDto = getOldValue(orderElement);
 
         //VALIDATE FLAGS
-        validateFlags(violations, oldDto, orderFlowElementInStatus, dto);
+        validateFlags(violations, oldDto, orderFlowElementInStatus, orderFlowStatusTransitionElementFlag, dto);
 
         //WALICACJA NA POSTAWIE PARAMSÓW
         validateCustom(violations, orderElement, orderFlowElementInStatus, dto);
@@ -71,26 +73,27 @@ public abstract class OrderElementBaseClobService<T extends OrderElementDTO>  im
 
     //PROTECTED METHODS - VALIDATE
 
-    protected void validateFlags(List<EntityConstraintViolation> violations, T oldDto, OrderFlowElementInStatus orderFlowElementInStatus, T dto){
+    protected void validateFlags(List<EntityConstraintViolation> violations, T oldDto,
+                                 OrderFlowElementInStatus orderFlowElementInStatus, OrderFlowStatusTransitionElementFlag orderFlowStatusTransitionElementFlag, T dto){
 
         //BLAD GDY - BRAK FLAGI 'I' ORAZ WARTOSC ZOSTALA WYPELNIONA
-        if(!orderFlowElementInStatus.isInsertable()){
+        if(!orderFlowElementInStatus.isInsertable() && !isTransitionFlagInsertable(orderFlowStatusTransitionElementFlag)){
             if(isValueInserted(oldDto, dto)){
-                addViolation(violations, dto, String.format("W danym statusie nie można wypełniać pól elemntu '%s'", dto.getName()));
+                addViolation(violations, dto, String.format("W danym przejściu nie można wypełniać pól elemntu '%s'", dto.getName()));
             }
         }
 
         //BLAD GDY - BRAK FLAGI 'U' ORAZ WARTOSC ZOSTALA ZMIENIONA
-        if(!orderFlowElementInStatus.isUpdatable()){
+        if(!orderFlowElementInStatus.isUpdatable() && !isTransitionFlagUpdatable(orderFlowStatusTransitionElementFlag)){
             if(isValueUpdated(oldDto, dto)){
-                addViolation(violations, dto, String.format("W danym statusie nie można zmieniać pól elemntu '%s'", dto.getName()));
+                addViolation(violations, dto, String.format("W danym przejściu nie można zmieniać pól elemntu '%s'", dto.getName()));
             }
         }
 
         //BLAD GDY - JEST FLAGA 'M' ORAZ NIE ZOSTALA WYPELNIONA
-        if(orderFlowElementInStatus.isMandatory()){
+        if(orderFlowElementInStatus.isMandatory() || isTransitionFlagMandatory(orderFlowStatusTransitionElementFlag)){
             if(!isValueFilled(dto)){
-                addViolation(violations, dto, String.format("W danym statusie należy wypełnić pola elementu '%s'", dto.getName()));
+                addViolation(violations, dto, String.format("W danym przejściu należy wypełnić pola elementu '%s'", dto.getName()));
             }
         }
     }
@@ -129,6 +132,20 @@ public abstract class OrderElementBaseClobService<T extends OrderElementDTO>  im
 
     protected boolean isValueFilled(String newVal){
         return !GryfStringUtils.isEmpty(newVal);
+    }
+
+    //PRIVATE METHODS - TRANSITION FLAGS
+
+    private boolean isTransitionFlagInsertable(OrderFlowStatusTransitionElementFlag orderFlowStatusTransitionElementFlag){
+        return orderFlowStatusTransitionElementFlag != null && orderFlowStatusTransitionElementFlag.isInsertable();
+    }
+
+    private boolean isTransitionFlagUpdatable(OrderFlowStatusTransitionElementFlag orderFlowStatusTransitionElementFlag){
+        return orderFlowStatusTransitionElementFlag != null && orderFlowStatusTransitionElementFlag.isUpdatable();
+    }
+
+    private boolean isTransitionFlagMandatory(OrderFlowStatusTransitionElementFlag orderFlowStatusTransitionElementFlag){
+        return orderFlowStatusTransitionElementFlag != null && orderFlowStatusTransitionElementFlag.isMandatory();
     }
 
     //PROTECTED METHODS
