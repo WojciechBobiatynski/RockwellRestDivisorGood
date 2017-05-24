@@ -530,7 +530,8 @@
           e_att.ID                                  mail_ett_id,
           e_att.ATTACHMENT_PATH                     mail_ett_fileLocation,
           e_att.ATTACHMENT_NAME                     mail_ett_name,
-          e_att.ATTACHMENT_NAME                     mail_ett_originalFilename
+        e_att.ATTACHMENT_NAME mail_ett_originalFilename,
+        ind.CODE ind_code
         FROM
           APP_PBE.E_REIMBURSEMENTS ermbs
           JOIN APP_PBE.E_REIMBURSEMENT_STATUSES ermbs_stat ON ermbs.STATUS_ID = ermbs_stat.ID

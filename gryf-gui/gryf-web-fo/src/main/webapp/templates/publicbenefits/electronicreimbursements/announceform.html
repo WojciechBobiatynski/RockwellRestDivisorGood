@@ -56,6 +56,10 @@
             </a>
             <input type="text" ng-model="eReimbObject.trainingInstitution.id" readonly="readonly">
         </div>
+        <div class="grid-10">
+            <strong class="label">Kod IS</strong>
+            {{eReimbObject.trainingInstitution.code}}
+        </div>
         <div class="grid-20">
             <strong class="label">Nazwa usługodawcy</strong>
             {{eReimbObject.trainingInstitution.name}}
@@ -142,6 +146,10 @@
                 <strong class="label">ID uczestnika &UpperRightArrow; </strong>
             </a>
             <input type="text" ng-model="eReimbObject.trainingInstance.participantId" readonly="readonly">
+        </div>
+        <div class="grid-10">
+            <strong class="label">Kod Osoby fizycznej</strong>
+            {{eReimbObject.trainingInstance.participantCode}}
         </div>
         <div class="grid-10">
             <strong class="label">PESEL</strong>

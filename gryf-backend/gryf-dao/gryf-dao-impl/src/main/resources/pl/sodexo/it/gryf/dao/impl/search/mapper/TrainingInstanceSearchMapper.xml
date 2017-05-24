@@ -167,7 +167,8 @@
         tin.GRANT_PROGRAM_ID                              grantProgramId,
         gr_pr.PROGRAM_NAME                                grantProgramName,
         tra.REIMBURSMENT_CONDITIONS                       reimbursmentConditions,
-        tin.REIMBURSMENT_PIN                              pinCode
+        tin.REIMBURSMENT_PIN pinCode,
+        IND.CODE participantCode
         FROM APP_PBE.TI_TRAINING_INSTANCES tin
         JOIN APP_PBE.TI_TRAININGS tra ON tra.ID = tin.TRAINING_ID
         JOIN APP_PBE.TI_TRAINING_CATEGORIES cat ON cat.ID = tra.TRAINING_CATEGORY_ID

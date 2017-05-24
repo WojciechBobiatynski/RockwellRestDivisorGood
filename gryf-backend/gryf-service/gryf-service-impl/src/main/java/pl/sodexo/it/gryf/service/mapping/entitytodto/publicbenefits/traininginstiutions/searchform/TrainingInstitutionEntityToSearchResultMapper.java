@@ -33,5 +33,6 @@ public class TrainingInstitutionEntityToSearchResultMapper extends GryfEntityMap
         dto.setAddressCorr(entity.getAddressCorr());
         dto.setZipCodeCorr(zipCodeEntityToSearchResultMapper.convert(entity.getZipCodeCorr()));
         dto.setId(entity.getId());
+        dto.setCode(entity.getCode());
     }
 }

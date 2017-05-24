@@ -32,4 +32,8 @@ public class RmbsIndDto implements Serializable {
     @Setter
     private String pesel;
 
+    @Getter
+    @Setter
+    private String code;
+
 }

@@ -26,6 +26,8 @@ public class TrainingInstitutionSearchResultDTO extends GryfDto {
 
     private ZipCodeSearchResultDTO zipCodeCorr;
 
+    private String code;
+
     //GETTERS & SETTERS
 
     public Long getId() {
@@ -83,5 +85,14 @@ public class TrainingInstitutionSearchResultDTO extends GryfDto {
     public void setZipCodeCorr(ZipCodeSearchResultDTO zipCodeCorr) {
         this.zipCodeCorr = zipCodeCorr;
     }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
 }
 

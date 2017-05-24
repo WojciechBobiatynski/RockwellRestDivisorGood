@@ -118,6 +118,10 @@ public class TrainingInstanceDetailsDto extends ProductCalculationsDto implement
     @Setter
     private String pinCode;
 
+    @Getter
+    @Setter
+    private String participantCode;
+
     public Integer getMaxProductsNumber() {
         return super.getMaxProductsNumber(this.trainingPrice, this.trainingHoursNumber);
     }
