@@ -3,7 +3,7 @@ package pl.sodexo.it.gryf.dao.impl.crud.repository.other;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-import pl.sodexo.it.gryf.common.dto.password.ChangePasswordDto;
+import pl.sodexo.it.gryf.common.dto.security.ChangePasswordDto;
 import pl.sodexo.it.gryf.dao.api.crud.repository.other.GryfPLSQLRepository;
 import pl.sodexo.it.gryf.model.api.FinanceNoteResult;
 import pl.sodexo.it.gryf.model.enums.DayType;
@@ -130,6 +130,7 @@ public class GryfPLSQLRepositoryImpl implements GryfPLSQLRepository {
         query.execute();
     }
 
+
     @Override
     public void flush(){
         entityManager.flush();
@@ -137,7 +138,18 @@ public class GryfPLSQLRepositoryImpl implements GryfPLSQLRepository {
 
     @Override
     public void changePassword(String username, ChangePasswordDto changePasswordDto) {
-        //TODO: przenieść kod podobny do tego z metody createDebitNoteForOrder, tylko z wywołaniem odpowiedniej procedury
+        StoredProcedureQuery query = entityManager.createStoredProcedureQuery("PK_GRF_UTILS.Change_Passwd");
+        query.registerStoredProcedureParameter("username", String.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter("password", String.class, ParameterMode.IN);
+
+        query.setParameter("username", username);
+        query.setParameter("password", changePasswordDto.getNewPassword());
+
+        query.execute();
     }
+
+
+
+
 
 }
