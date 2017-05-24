@@ -31,4 +31,8 @@ public class ErmbsReportDto extends VersionableDto implements Serializable {
     @Setter
     private String fileLocation;
 
+    @Getter
+    @Setter
+    private String documentNumber;
+
 }

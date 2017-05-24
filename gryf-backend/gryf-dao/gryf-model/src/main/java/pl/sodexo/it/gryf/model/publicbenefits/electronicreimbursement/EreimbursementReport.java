@@ -39,4 +39,10 @@ public class EreimbursementReport extends VersionableEntity {
     @Getter
     @Setter
     private String fileLocation;
+
+    @JoinColumn(name = "E_REIMB_INV_ID", referencedColumnName = "ID")
+    @OneToOne
+    @Getter
+    @Setter
+    private EreimbursementInvoice ereimbursementInvoice;
 }

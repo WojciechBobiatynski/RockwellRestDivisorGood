@@ -35,10 +35,10 @@ import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.Cor
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.ElectronicReimbursementsService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.ErmbsAttachmentService;
 import pl.sodexo.it.gryf.service.local.api.AccountingDocumentArchiveFileService;
-import pl.sodexo.it.gryf.service.local.api.reports.ReportService;
 import pl.sodexo.it.gryf.service.local.api.MailService;
 import pl.sodexo.it.gryf.service.local.api.ParamInDateService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.pbeproduct.PbeProductInstancePoolLocalService;
+import pl.sodexo.it.gryf.service.local.api.reports.ReportService;
 import pl.sodexo.it.gryf.service.mapping.MailDtoCreator;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.electronicreimbursements.EreimbursementDtoMapper;
 import pl.sodexo.it.gryf.service.validation.publicbenefits.electronicreimbursements.CorrectionValidator;
@@ -345,6 +345,7 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
             report.setEreimbursement(ereimbursement);
             report.setFileLocation(reportInstance.getPath());
             report.setTypeName(ReportTemplateCode.CREDIT_NOTE.getTypeName());
+            report.setEreimbursementInvoice(ereimbursementInvoice);
             ereimbursementReports.add(report);
         }
     }

@@ -209,6 +209,7 @@
           report.E_REIMBURSEMENT_ID                 rep_ermbsId,
           report.TYPE_NAME                          rep_typeName,
           report.FILE_LOCATION                      rep_fileLocation,
+          report_inv.INVOICE_NUMBER                 rep_documentNumber,
 --        maile
           mails.ID                                  mail_id,
           mails.EMAIL_TYPE                          mail_emailType,
@@ -284,6 +285,7 @@
           )
 
           LEFT JOIN APP_PBE.E_REIMBURSEMENT_REPORTS report ON report.E_REIMBURSEMENT_ID = ermbs.ID
+          LEFT JOIN APP_PBE.E_REIMBURSEMENT_INVOICES report_inv ON report_inv.ID = report.E_REIMB_INV_ID
 
           LEFT JOIN APP_PBE.E_REIMBURSEMENT_EMAILS mails ON mails.E_REIMBURSEMENT_ID = ermbs.ID
           LEFT JOIN APP_PBE.EMAIL_INSTANCE_ATTACHMENTS e_att ON e_att.EMAIL_INSTANCE_ID = mails.EMAIL_INSTANCE_ID
@@ -520,6 +522,7 @@
           report.E_REIMBURSEMENT_ID                 rep_ermbsId,
           report.TYPE_NAME                          rep_typeName,
           report.FILE_LOCATION                      rep_fileLocation,
+          report_inv.INVOICE_NUMBER                 rep_documentNumber,
 --        maile
           mails.ID                                  mail_id,
           mails.EMAIL_TYPE                          mail_emailType,
@@ -540,6 +543,7 @@
           JOIN APP_PBE.CONTRACTS cnt on ord.CONTRACT_ID = cnt.ID
           JOIN APP_PBE.INDIVIDUALS ind on ind.ID = cnt.INDIVIDUAL_ID
           LEFT JOIN APP_PBE.E_REIMBURSEMENT_REPORTS report ON report.E_REIMBURSEMENT_ID = ermbs.ID
+          LEFT JOIN APP_PBE.E_REIMBURSEMENT_INVOICES report_inv ON report_inv.ID = report.E_REIMB_INV_ID
           LEFT JOIN APP_PBE.E_REIMBURSEMENT_EMAILS mails ON mails.E_REIMBURSEMENT_ID = ermbs.ID
           LEFT JOIN APP_PBE.EMAIL_INSTANCE_ATTACHMENTS e_att ON e_att.EMAIL_INSTANCE_ID = mails.EMAIL_INSTANCE_ID
         WHERE
