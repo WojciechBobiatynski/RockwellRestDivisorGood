@@ -6,8 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.dto.password.ChangePasswordDto;
 import pl.sodexo.it.gryf.common.exception.authentication.GryfBadCredentialsException;
 import pl.sodexo.it.gryf.dao.api.crud.repository.other.GryfPLSQLRepository;
-import pl.sodexo.it.gryf.service.api.password.PasswordService;
 import pl.sodexo.it.gryf.dao.api.crud.repository.security.UserRepository;
+import pl.sodexo.it.gryf.service.api.password.PasswordService;
 
 import static pl.sodexo.it.gryf.common.dto.user.GryfUser.getLoggedUser;
 
@@ -18,7 +18,7 @@ import static pl.sodexo.it.gryf.common.dto.user.GryfUser.getLoggedUser;
  */
 @Service
 @Transactional
-public class PasswordServiceImpl implements PasswordService{
+public class PasswordServiceImpl implements PasswordService {
 
     @Autowired
     private GryfPLSQLRepository gryfPLSQLRepository;
@@ -28,25 +28,19 @@ public class PasswordServiceImpl implements PasswordService{
 
     @Override
     public void changePassword(ChangePasswordDto changePasswordDto) {
+        ckeckIfNewPasswordTheSame(changePasswordDto);
         String username = getLoggedUser().getUser().getLogin();
-        changeIfNewPasswordTheSame(changePasswordDto);
-        changeIfOldPasswordCorrect(username, changePasswordDto);
+        checkIfOldPasswordCorrect(username, changePasswordDto);
         gryfPLSQLRepository.changePassword(username, changePasswordDto);
     }
 
-    private void changeIfOldPasswordCorrect(String username, ChangePasswordDto changePasswordDto) {
-        try {
-            userRepository.findRolesForLogin(username, changePasswordDto.getCurrentPassword());
-        }
-        catch (GryfBadCredentialsException e) {
-            throw new GryfBadCredentialsException("Dotychczasowe hasło jest nieprawidłowe.", e);
-        }
+    private void checkIfOldPasswordCorrect(String username, ChangePasswordDto changePasswordDto) {
+        userRepository.checkIfOldPasswordCorrect(username, changePasswordDto.getCurrentPassword());
     }
 
-    private void changeIfNewPasswordTheSame(ChangePasswordDto changePasswordDto)
-    {
-        if (changePasswordDto.getConfirmPassword().equals(changePasswordDto.getNewPassword() ) ) { }
-        throw new GryfBadCredentialsException("Hasła nie są zgodne.");
+    private void ckeckIfNewPasswordTheSame(ChangePasswordDto changePasswordDto) {
+        if (!changePasswordDto.getConfirmPassword().equals(changePasswordDto.getNewPassword()))
+            throw new GryfBadCredentialsException("Hasła nie są zgodne.");
     }
 
 }

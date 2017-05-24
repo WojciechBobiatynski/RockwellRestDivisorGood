@@ -19,4 +19,11 @@ public interface UserRepository {
      */
     List<String> findRolesForLogin(String login, String password);
 
+    /**
+     * Sprawdza czy stare hasło poprawne
+     * @param login - login
+     * @param oldPassword - stare hasło
+     */
+    void checkIfOldPasswordCorrect(String login, String oldPassword);
+
 }

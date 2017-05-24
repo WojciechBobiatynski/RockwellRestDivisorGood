@@ -47,6 +47,14 @@ public class UserRepositoryImpl implements UserRepository {
         }
     }
 
+    @Override
+    public void checkIfOldPasswordCorrect(String login, String oldPassword) {
+        try (Connection dsConnection = dataSource.getConnection(); Connection ignored = DriverManager.getConnection(dsConnection.getMetaData().getURL(), login, oldPassword)) {
+        } catch (Exception e) {
+            throw new GryfBadCredentialsException("Nieprawidlowe stare hasło", e);
+        }
+    }
+
     private List<String> findRolesForLogin(String login) {
         return entityManager.createNativeQuery("" + 
                 "select aug_id " + 
@@ -66,7 +74,7 @@ public class UserRepositoryImpl implements UserRepository {
     private void handleIfBadCredentials(Exception e) {
         Optional<SQLException> readOnlyException = tryFind(filter(Throwables.getCausalChain(e), SQLException.class), ex -> ex.getErrorCode() == ERROR_CODE_BAD_CREDENTIALS);
         if (!readOnlyException.isPresent()) return;
-        
+
         throw new GryfBadCredentialsException("Nieprawidlowy uzytkownik lub haslo", e);
     }
 }
