@@ -3,7 +3,7 @@ package pl.sodexo.it.gryf.dao.impl.crud.repository.other;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-import pl.sodexo.it.gryf.common.dto.security.ChangePasswordDto;
+import pl.sodexo.it.gryf.common.dto.password.ChangePasswordDto;
 import pl.sodexo.it.gryf.dao.api.crud.repository.other.GryfPLSQLRepository;
 import pl.sodexo.it.gryf.model.api.FinanceNoteResult;
 import pl.sodexo.it.gryf.model.enums.DayType;
