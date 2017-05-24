@@ -30,7 +30,7 @@ public class PasswordServiceImpl implements PasswordService{
     public void changePassword(ChangePasswordDto changePasswordDto) {
         String username = getLoggedUser().getUser().getLogin();
         changeIfNewPasswordTheSame(changePasswordDto);
-        changeIfOldPasswordCorrect(changePasswordDto);
+        changeIfOldPasswordCorrect(username, changePasswordDto);
         gryfPLSQLRepository.changePassword(username, changePasswordDto);
     }
 
