@@ -11,12 +11,6 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "ORDER_FLOW_ST_TRANS_ELEM_FLAGS", schema = "APP_PBE")
-@NamedQueries({
-        @NamedQuery(name = "OrderFlowStatusTransitionElementFlag.findByOrderFlowElementInStatusList", query =
-                "SELECT e " +
-                "FROM OrderFlowStatusTransitionElementFlag e " +
-                "WHERE e.orderFlowElementInStatus in :orderFlowElementInStatusList "),
-})
 public class OrderFlowStatusTransitionElementFlag extends GryfEntity {
 
     //STATIC FIELDS - FLAGS
