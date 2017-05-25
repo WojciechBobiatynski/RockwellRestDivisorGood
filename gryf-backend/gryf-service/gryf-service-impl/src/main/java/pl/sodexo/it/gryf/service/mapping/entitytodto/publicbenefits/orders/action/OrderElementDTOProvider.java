@@ -282,7 +282,7 @@ public final class OrderElementDTOProvider {
         if(flags != null){
             for(OrderFlowStatusTransitionElementFlag flag : flags){
                 if(flag != null && !GryfStringUtils.isEmpty(flag.getFlags())){
-                    sb.append(flag.getFlags().trim());
+                    sb.append(flag.getFlags().replace(OrderFlowStatusTransitionElementFlag.FLAG_MANDATORY, "").trim());
                 }
             }
         }
