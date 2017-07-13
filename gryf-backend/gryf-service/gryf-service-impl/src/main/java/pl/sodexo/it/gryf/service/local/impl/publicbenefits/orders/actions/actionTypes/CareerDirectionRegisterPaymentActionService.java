@@ -69,10 +69,6 @@ public class CareerDirectionRegisterPaymentActionService extends ActionBaseServi
         if(connectAmount == null){
             bussinesViolations.add(new EntityConstraintViolation("Kwota podpięcia nie została wypełniona"));
         }
-        if(payAmount.compareTo(ownContributionAmount) < 0){
-            bussinesViolations.add(new EntityConstraintViolation(String.format("Kwota wpłaty (%s) nie może być "
-                    + "mniejsza od kwoty wkładu własnego (%s)", payAmount, ownContributionAmount)));
-        }
         if(connectAmount.compareTo(ownContributionAmount) != 0){
             bussinesViolations.add(new EntityConstraintViolation(String.format("Kwota podpięcia (%s) musi być "
                     + "równa kwocie wkładu własnego (%s)", connectAmount, ownContributionAmount)));
