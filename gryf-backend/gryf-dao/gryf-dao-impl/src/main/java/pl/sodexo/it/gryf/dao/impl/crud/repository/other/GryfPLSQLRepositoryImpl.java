@@ -142,8 +142,8 @@ public class GryfPLSQLRepositoryImpl implements GryfPLSQLRepository {
         query.registerStoredProcedureParameter("username", String.class, ParameterMode.IN);
         query.registerStoredProcedureParameter("password", String.class, ParameterMode.IN);
 
-        query.setParameter("username", username);
-        query.setParameter("password", changePasswordDto.getNewPassword());
+        query.setParameter("a_user", username);
+        query.setParameter("a_passwd", changePasswordDto.getNewPassword());
 
         query.execute();
     }
