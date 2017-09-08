@@ -139,8 +139,8 @@ public class GryfPLSQLRepositoryImpl implements GryfPLSQLRepository {
     @Override
     public void changePassword(String username, ChangePasswordDto changePasswordDto) {
         StoredProcedureQuery query = entityManager.createStoredProcedureQuery("PK_GRF_UTILS.Change_Passwd");
-        query.registerStoredProcedureParameter("username", String.class, ParameterMode.IN);
-        query.registerStoredProcedureParameter("password", String.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter("a_user", String.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter("a_passwd", String.class, ParameterMode.IN);
 
         query.setParameter("a_user", username);
         query.setParameter("a_passwd", changePasswordDto.getNewPassword());
