@@ -60,7 +60,8 @@ public class UserRepositoryImpl implements UserRepository {
                 "select aug_id " + 
                 "from EAGLE.ADM_USER_IN_ROLES " + 
                 "natural left join EAGLE.ADM_GROUPS_IN_ROLES " + 
-                "where upper(aur_id) = upper(?) " + 
+                "where upper(aur_id) = upper(?) " +
+                "and trunc(sysdate) between trunc(nvl(start_date,to_date('1999-01-01','YYYY-MM-DD'))) and trunc(nvl(revoke_date,to_date('2099-01-01','YYYY-MM-DD'))) " +
                 "and aug_id is not null")
                 .setParameter(1, login)
                 .getResultList();

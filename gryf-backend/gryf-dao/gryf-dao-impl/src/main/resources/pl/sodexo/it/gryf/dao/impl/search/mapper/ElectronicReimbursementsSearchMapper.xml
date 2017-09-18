@@ -454,10 +454,12 @@
         SELECT
           report.TYPE_NAME                name,
           report.TYPE_NAME || '.pdf'      originalFilename,
-          report.FILE_LOCATION            fileLocation
+          report.FILE_LOCATION            fileLocation,
+          inv.INVOICE_NUMBER              noteNumber
         FROM
           APP_PBE.E_REIMBURSEMENTS ermbs
           JOIN APP_PBE.E_REIMBURSEMENT_REPORTS report ON report.E_REIMBURSEMENT_ID = ermbs.ID
+          LEFT JOIN APP_PBE.E_REIMBURSEMENT_INVOICES inv ON (inv.E_REIMBURSEMENT_ID = ermbs.id AND inv.invoice_type='NUPB')
         WHERE
           ermbs.ID = #{ermbsId}
     </select>
