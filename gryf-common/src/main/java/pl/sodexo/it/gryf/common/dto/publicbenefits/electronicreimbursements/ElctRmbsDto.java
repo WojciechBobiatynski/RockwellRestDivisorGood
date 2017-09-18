@@ -55,10 +55,6 @@ public class ElctRmbsDto implements Serializable {
 
     @Getter
     @Setter
-    private String noteNumber;
-
-    @Getter
-    @Setter
     private Date rmbsDate;
 
     @Getter
