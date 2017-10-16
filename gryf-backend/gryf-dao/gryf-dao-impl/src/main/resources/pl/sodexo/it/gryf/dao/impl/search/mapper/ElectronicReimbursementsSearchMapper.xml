@@ -571,6 +571,7 @@
           JOIN APP_PBE.CONTRACTS cnt on ord.CONTRACT_ID = cnt.ID
         WHERE
           ermbs.ID = #{ermbsId}
+        GROUP BY contract_type_id
     </select>
 
     <select id="shouldBeCreditNoteCreated" resultType="java.lang.Boolean">
