@@ -45,11 +45,11 @@ CREATED_TIMESTAMP2   TIMESTAMP(6),
 STATUS_ID    VARCHAR2 (10 Byte)
 );
 
-comment on table APP_PBE.REP_WUP_ORDERS_ARCHIVES is 'GRYF; Archiwum raportów 1.114 WUP Umowy ';
+comment on table APP_PBE.REP_WUP_ORDERS_ARCHIVES is '@Author(MAPO); @Project(WUP/GRYF 13/18 Utrwalanie raportów okresowych WUP w bazie danych);@Date(2017-02-22);@Purpose(Archiwum raportów 1.114. WUP Umowy)';
 
 
-comment on column APP_PBE.REP_WUP_ORDERS_ARCHIVES.DATE_FROM   is 'Parametr; Umowy zawarte od';
-comment on column APP_PBE.REP_WUP_ORDERS_ARCHIVES.DATE_TO           is 'Parametr; Umowy zawarte do';     
+--comment on column APP_PBE.REP_WUP_ORDERS_ARCHIVES.DATE_FROM   is 'Parametr; Umowy zawarte od';
+--comment on column APP_PBE.REP_WUP_ORDERS_ARCHIVES.DATE_TO           is 'Parametr; Umowy zawarte do';     
 comment on column APP_PBE.REP_WUP_ORDERS_ARCHIVES.GRANT_PROGRAM_ID  is 'Parametr; Id programu dofinansowania; WUP=100';              
 comment on column APP_PBE.REP_WUP_ORDERS_ARCHIVES.LP                is 'A; LP';
 comment on column APP_PBE.REP_WUP_ORDERS_ARCHIVES.IND_ID      is 'B; Id uczestnika';
@@ -91,7 +91,9 @@ CONSTRAINT REP_WUP_ORDERS_ARCHIVES_ID_FK
  VALIDATE
 ;
 
-create or replace view app_pbe.rep_wup_orders
+
+
+create or replace view app_pbe.V_rep_wup_orders
 as 
 select       
     GRANT_PROGRAM_ID,  row_number() OVER (ORDER BY sign_date) as LP, 
@@ -182,29 +184,29 @@ order by created_timestamp
 with read only;
 
 
-comment on table APP_PBE.rep_wup_orders is 'GRYF; Raport 1.114 WUP Umowy - zapytanie online';
+comment on table app_pbe.v_rep_wup_orders is 'GRYF; Raport 1.114 WUP Umowy - zapytanie online';
 
 
-comment on column APP_PBE.rep_wup_orders.GRANT_PROGRAM_ID  is 'Parametr; Id programu dofinansowania; WUP=100';              
-comment on column APP_PBE.rep_wup_orders.LP                is 'A; LP';
-comment on column APP_PBE.rep_wup_orders.IND_ID      is 'B; Id uczestnika';
-comment on column APP_PBE.rep_wup_orders.IND_NAME    is 'C; Imie i Nazwisko';
-comment on column APP_PBE.rep_wup_orders.PESEL       is 'D; PESEL';
-comment on column APP_PBE.rep_wup_orders.ID_MSP      is 'E; Id MSP    ';
-comment on column APP_PBE.rep_wup_orders.ENT_NAME    is 'F; Pe³na nazwa MSP    ';
-comment on column APP_PBE.rep_wup_orders.NIP                    is 'G; NIP    ';
-comment on column APP_PBE.rep_wup_orders.EXTERNAL_ORDER_ID      is 'H; Numer Umowy    ';
-comment on column APP_PBE.rep_wup_orders.EXTERNAL_ORDER_SEQ_NO  is 'I;Która umowa    ';
-comment on column APP_PBE.rep_wup_orders.SIGN_DATE              is 'J;Data zawarcia umowy    ';
-comment on column APP_PBE.rep_wup_orders.FULLY_PAID        is 'K;Wp³. wk³ad w³asny T/N    ';
-comment on column APP_PBE.rep_wup_orders.OWN_SHARE         is 'L;Wp³acony wk³ad w³asny    ';
-comment on column APP_PBE.rep_wup_orders.PAYMENT_DATE      is 'M;Data zaksiêgowania wp³aty wk³adu w³asnego    ';
-comment on column APP_PBE.rep_wup_orders.VALID             is 'N;Umowa Wa¿na T/N    ';
-comment on column APP_PBE.rep_wup_orders.EXPIRY_DATE       is 'O;Data wygaœniêcia umowy/zamówienia    ';
-comment on column APP_PBE.rep_wup_orders.DATA_WAZNOSCI     is 'P;Data wa¿noœci bonów    ';
-comment on column APP_PBE.rep_wup_orders.WYDANO            is 'R;Iloœæ wydanych bonów    ';
-comment on column APP_PBE.rep_wup_orders.DATA_WYDANIA      is 'S;Data wydania bonów    ';
-comment on column APP_PBE.rep_wup_orders.CREATED_TIMESTAMP is 'T;Data utworzenia w Gryf';
+comment on column app_pbe.v_rep_wup_orders.GRANT_PROGRAM_ID  is 'Parametr; Id programu dofinansowania; WUP=100';              
+comment on column app_pbe.v_rep_wup_orders.LP                is 'A; LP';
+comment on column app_pbe.v_rep_wup_orders.IND_ID      is 'B; Id uczestnika';
+comment on column app_pbe.v_rep_wup_orders.IND_NAME    is 'C; Imie i Nazwisko';
+comment on column app_pbe.v_rep_wup_orders.PESEL       is 'D; PESEL';
+comment on column app_pbe.v_rep_wup_orders.ID_MSP      is 'E; Id MSP    ';
+comment on column app_pbe.v_rep_wup_orders.ENT_NAME    is 'F; Pe³na nazwa MSP    ';
+comment on column app_pbe.v_rep_wup_orders.NIP                    is 'G; NIP    ';
+comment on column app_pbe.v_rep_wup_orders.EXTERNAL_ORDER_ID      is 'H; Numer Umowy    ';
+comment on column app_pbe.v_rep_wup_orders.EXTERNAL_ORDER_SEQ_NO  is 'I;Która umowa    ';
+comment on column app_pbe.v_rep_wup_orders.SIGN_DATE              is 'J;Data zawarcia umowy    ';
+comment on column app_pbe.v_rep_wup_orders.FULLY_PAID        is 'K;Wp³. wk³ad w³asny T/N    ';
+comment on column app_pbe.v_rep_wup_orders.OWN_SHARE         is 'L;Wp³acony wk³ad w³asny    ';
+comment on column app_pbe.v_rep_wup_orders.PAYMENT_DATE      is 'M;Data zaksiêgowania wp³aty wk³adu w³asnego    ';
+comment on column app_pbe.v_rep_wup_orders.VALID             is 'N;Umowa Wa¿na T/N    ';
+comment on column app_pbe.v_rep_wup_orders.EXPIRY_DATE       is 'O;Data wygaœniêcia umowy/zamówienia    ';
+comment on column app_pbe.v_rep_wup_orders.DATA_WAZNOSCI     is 'P;Data wa¿noœci bonów    ';
+comment on column app_pbe.v_rep_wup_orders.WYDANO            is 'R;Iloœæ wydanych bonów    ';
+comment on column app_pbe.v_rep_wup_orders.DATA_WYDANIA      is 'S;Data wydania bonów    ';
+comment on column app_pbe.v_rep_wup_orders.CREATED_TIMESTAMP is 'T;Data utworzenia w Gryf';
 
 
 
@@ -213,10 +215,10 @@ declare
     v_table_name_ varchar2(100);
 begin
     -- zapytanie online
-    v_table_name_ :=  'REP_WUP_ORDERS';
+    v_table_name_ :=  'V_REP_WUP_ORDERS';
     dbms_output.put_line('Grant SELECT on '|| v_table_name_ ||':'|| SYS.PK_ADMIN.F_GRANT_TO_EAGLE('APP_PBE', 'REPORTS_USER', v_table_name_, 'SELECT' ));
     dbms_output.put_line('Grant SELECT on '|| v_table_name_ ||':'|| SYS.PK_ADMIN.F_GRANT_TO_EAGLE('APP_PBE', 'REP_USR', v_table_name_, 'SELECT' ));
-    -- dla procedur EAGLE:
+    -- dla procedury EAGLE generujacej raport:
     dbms_output.put_line('Grant SELECT on '|| v_table_name_ ||':'|| SYS.PK_ADMIN.F_GRANT_TO_EAGLE('APP_PBE', 'EAGLE', v_table_name_, 'SELECT' ));
     
     
@@ -229,107 +231,8 @@ begin
 end;
 
 
-select * from APP_PBE.REP_WUP_ORDERS          where lp = 1;
+select * from app_pbe.v_rep_wup_orders          where lp = 1;
 select * from app_pbe.rep_wup_orders_archives;
-
---alter table app_pbe.rep_wup_orders_archives drop column rep_type;
-
-
-create or replace procedure eagle.run_pbe_reports_wup( a_grant_program_id in number, a_report_type in varchar2, a_rep_view in varchar2, a_rep_arch_table in varchar2 )
-is
-    -- Uruchamia generacjê dowolnego raportu WUP
-    v_id number;
-    v_rep_type varchar2(100) :=  a_report_type; --'1.115_WUP_ROZLICZENIA';
-    
-    v_stmt varchar2(8000);
-    v_cols varchar2(4000);
-
-    PROCEDURE dbg(msg_ in varchar2)
-    is
-    begin
-        dbms_output.put_line( substr(msg_,1,200) );
-        if length(msg_) > 200 then
-            dbms_output.put_line( substr(msg_,201,200) );
-        end if;
-        if length(msg_) > 400 then
-            dbms_output.put_line( substr(msg_,401,200) );
-        end if;
-        if length(msg_) > 600 then
-            dbms_output.put_line( substr(msg_,601,200) );
-        end if;
-        if length(msg_) > 800 then
-            dbms_output.put_line( substr(msg_,801,200) );
-        end if;
-    end;
-
-    procedure aud_( a_proc in varchar2, a_params in varchar2, a_params2 in varchar2 default null,a_params3 in varchar2 default null, a_params4 in varchar2 default null )  
-    is
-    begin
-        dbg( 'PROC: '||a_proc || '('||a_params||','||a_params2||','||a_params3||','||a_params4||')');
-        PK_AUDIT.AUDIT_MODULE('STORED PROC', a_proc, a_params);    
-    end;
-    
-    
-    FUNCTION var(p_name in varchar2, p_value IN BOOLEAN) RETURN VARCHAR2 
-    IS
-    BEGIN
-      RETURN p_name||'='||
-       CASE p_value
-         WHEN TRUE THEN 'TRUE'
-         WHEN FALSE THEN 'FALSE'
-         ELSE 'NULL'
-       END;
-    END;    
-
-    FUNCTION ivar(p_name in varchar2, p_value IN number) RETURN VARCHAR2 
-    IS
-    BEGIN
-      RETURN p_name||'='||nvl(to_char(trunc(p_value),'fm999999999990'),'<null>');
-    END;
-
-    FUNCTION var(p_name in varchar2, p_value IN varchar2) RETURN VARCHAR2 
-    IS
-    BEGIN
-      RETURN p_name||'='||nvl(p_value,'<null>');
-    END;
-
-begin
-    aud_('run_pbe_reports_wup', ivar( 'a_grant_program_id', a_grant_program_id ), var('a_report_type', a_report_type), var('a_rep_view', a_rep_view), var('a_rep_arch_table',a_rep_arch_table ) );
-
-    select EAGLE.PK_SEQ.nextval
-          into v_id 
-         from dual;
-         
-select listagg(column_name, ',') within group (order by atc.column_id)
-into v_cols
-from ALL_TAB_COLS atc where ATC.TABLE_NAME =  a_rep_arch_table and owner = 'APP_PBE';         
-         
-    insert into app_pbe.reports_wup(id, rep_type, on_day, created_user, created )  
-    values (v_id,  v_rep_type, trunc(sysdate) , user   ,      systimestamp );
-
-    v_stmt := 'insert into app_pbe.'||a_rep_arch_table||' ';
-    v_stmt := v_stmt || '('|| v_cols ||')';
-    v_stmt := v_stmt||q'[
-    select :v_id id, 
-            rownum, 
-            trunc(sysdate,'MONTH') on_day,  
-            user   created_user,
-            systimestamp created,
-            user   modified_user,
-            systimestamp modified,
-            online_view.*
-       from app_pbe.]'||a_rep_view||q'[ online_view 
-      where grant_program_id = :p_grant_program_id]';
-
-    dbg(var('stmt',v_stmt));
-    execute immediate v_stmt 
-       using in v_id,
-             --in v_rep_type,
-             in a_grant_program_id;
-             
-    aud_('run_pbe_reports_wup', ivar('Rekordów wstawionych:',SQL%ROWCOUNT) );                                 
-end run_pbe_reports_wup;
-
 
 declare
 begin
@@ -337,6 +240,9 @@ begin
     --commit;                                             
 end;
 
-select count(*) from app_pbe.rep_wup_orders;
-select * from app_pbe.rep_wup_orders_archives;
-select * from APP_PBE.REPORTS_WUP 
+--select count(*) from app_pbe.rep_wup_orders;
+--select * from app_pbe.rep_wup_orders_archives;
+--select * from APP_PBE.REPORTS_WUP 
+
+select * from APP_PBE.REP_WUP_ORDERS;
+select * from APP_PBE.REP_WUP_EREMIT
