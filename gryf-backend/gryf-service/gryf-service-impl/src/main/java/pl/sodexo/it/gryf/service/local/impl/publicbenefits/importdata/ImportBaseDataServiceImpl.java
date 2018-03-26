@@ -104,7 +104,7 @@ public abstract class ImportBaseDataServiceImpl implements ImportDataService{
     public void saveData(Long importJobId, ImportParamsDTO paramsDTO, Row row){
         ImportDataRow rowInfo = importDataRowRepository.getByImportJobAndRowNum(importJobId, row.getRowNum());
 
-        ImportResultDTO result = saveInternalNormalData(paramsDTO, row);
+        ImportResultDTO result = saveInternalNormalData(paramsDTO, row, importJobId);
         rowInfo.setDescription(GryfStringUtils.substring(result.getDescrption(), 0, ImportDataRow.DESCRIPTION_MAX_SIZE));
         rowInfo.setStatus(ImportDataRowStatus.S);
 
@@ -189,7 +189,7 @@ public abstract class ImportBaseDataServiceImpl implements ImportDataService{
 
     protected abstract ImportResultDTO saveInternalImportDataRowBeforeSaveData(ImportParamsDTO paramsDTO, Row row);
 
-    protected abstract ImportResultDTO saveInternalNormalData(ImportParamsDTO paramsDTO, Row row);
+    protected abstract ImportResultDTO saveInternalNormalData(ImportParamsDTO paramsDTO, Row row, Long importJobId);
 
     protected String saveInternalExtraData(ImportParamsDTO paramsDTO, ImportDataRow importDataRow){
         return null;

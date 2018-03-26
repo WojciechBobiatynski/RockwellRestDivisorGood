@@ -11,6 +11,7 @@ import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.dao.api.crud.repository.other.GryfPLSQLRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.pbeproducts.*;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstanceExtRepository;
 import pl.sodexo.it.gryf.dao.api.search.dao.ProductInstancePoolSearchDao;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.ContractType;
@@ -84,6 +85,9 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
 
     @Autowired
     private GryfPLSQLRepository gryfPLSQLRepository;
+
+    @Autowired
+    TrainingInstanceExtRepository trainingInstanceExtRepository;
 
     //PUBLIC METHODS
 
@@ -465,6 +469,12 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
 
             //SPRAWDZENIE ABY UMOWY MIALY TEN SAM TYP (TO SAMO MSP)
             Contract firsContract = pools.get(0).getOrder().getContract();
+
+            // Walidacja, czy numer umowy był w pliku z BUR
+            int fileLineQuantity = trainingInstanceExtRepository.countByIndOrderExternalId(pools.get(0).getOrder().getExternalOrderId());
+            if (fileLineQuantity == 0) {
+                violations.add(new EntityConstraintViolation("Uczestnik nie dokonał zapisu w BUR na wybrane szkolenie. Uczestnik zobowiązany jest do uprzedniego zarezerwowania usługi w BUR. W razie wątpliwości prosimy o kontakt z Operatorem Finansowym."));
+            }
             for(PbeProductInstancePool pool : pools){
                 Contract contract = pool.getOrder().getContract();
                 if(!Objects.equals(firsContract.getContractType(), contract.getContractType())){

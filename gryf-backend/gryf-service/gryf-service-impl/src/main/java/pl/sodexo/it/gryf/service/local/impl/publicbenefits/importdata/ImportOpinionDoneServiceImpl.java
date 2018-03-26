@@ -36,7 +36,7 @@ public class ImportOpinionDoneServiceImpl extends ImportBaseDataServiceImpl {
     }
 
     @Override
-    protected ImportResultDTO saveInternalNormalData(ImportParamsDTO paramsDTO, Row row){
+    protected ImportResultDTO saveInternalNormalData(ImportParamsDTO paramsDTO, Row row, Long importJobId) {
         ImportOpinionDoneDTO importDTO = createImportDTO(row);
         validateImport(paramsDTO, importDTO);
 

@@ -83,7 +83,7 @@ public class ImportTrainingInstitutionServiceImpl extends ImportBaseDataServiceI
     }
 
     @Override
-    protected ImportResultDTO saveInternalNormalData(ImportParamsDTO paramsDTO, Row row){
+    protected ImportResultDTO saveInternalNormalData(ImportParamsDTO paramsDTO, Row row, Long importJobId) {
         ImportTrainingInstitutionDTO importDTO = createImportDTO(row);
         validateImport(importDTO);
 
