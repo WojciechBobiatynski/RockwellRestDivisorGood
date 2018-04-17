@@ -164,12 +164,15 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
 
     private void validateImport(ImportTrainingDTO importDTO){
         List<EntityConstraintViolation> violations = gryfValidator.generateViolation(importDTO);
-
-        String searchPattern = "WKK/[0-9]+/1$";
-        Pattern r = Pattern.compile(searchPattern);
-        Matcher m = r.matcher(importDTO.getReimbursmentCondition2());
-        if (!m.find()) {
-            violations.add(new EntityConstraintViolation("Błędny format identyfikatora wsparcia " + importDTO.getReimbursmentCondition2()));
+        if (importDTO.getReimbursmentCondition2() == null) {
+            violations.add(new EntityConstraintViolation("Brak identyfikatora wsparcia"));
+        } else {
+            String searchPattern = "WKK/[0-9]+/1$";
+            Pattern r = Pattern.compile(searchPattern);
+            Matcher m = r.matcher(importDTO.getReimbursmentCondition2());
+            if (!m.find()) {
+                violations.add(new EntityConstraintViolation("Błędny format identyfikatora wsparcia " + importDTO.getReimbursmentCondition2()));
+            }
         }
 
         if(!TrainingCategory.EGZ_TYPE.equals(importDTO.getCategory())) {
