@@ -1,0 +1,39 @@
+version: "2"
+
+services:
+  # frontend_select2_central:
+  #   build: ./frontend
+  #   container_name: frontend_select2_central
+  #   command: startAndKeepLive.sh core central
+  #   mem_limit: 250M
+  #   expose:
+  #     - "2000"
+  #   ports:
+  #     - "2000:2000"
+  #   stdin_open: true
+  #   tty: true
+  app_gryf:
+    build: ./app
+    container_name: app_gryf
+    mem_limit: 1G
+    expose:
+    - "6091"
+    ports:
+    - "6091:8080"
+    extra_hosts:
+    - "dbhost:10.48.8.126"
+    environment:
+    - GRYF_DB_IP=10.48.0.20
+    - GRYF_DB_PORT=1521
+    - GRYF_DB_SID=DEV1
+    - GRYF_DB_USER=srv_ee
+    - GRYF_DB_PASS=kaczka!1
+    - GRYF_IP=10.48.8.126
+
+volumes:
+  volumeSelect2:
+
+networks:
+  default:
+    external:
+      name: app_tierNet

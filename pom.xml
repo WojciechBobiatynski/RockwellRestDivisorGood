@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
 
     <properties>
-        <gryf.version>2.0.1</gryf.version>
+        <gryf.version>2.2.0-SNAPSHOT</gryf.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <gryf.datasource.jndiName>java:comp/env/jdbc/srvee</gryf.datasource.jndiName>
         
@@ -51,8 +51,53 @@
         <module>gryf-backend</module>
         <module>gryf-common</module>
         <module>gryf-db-scripts</module>
+        <module>gryf-docker</module>
+        <module>gryf-jasper</module>
     </modules>
-    
+
+    <profiles>
+        <profile>
+            <id>excludeLoggingConfig</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <version>3.0.1</version>
+                        <configuration>
+                            <excludes>
+                                <exclude>**/logback.xml</exclude>
+                            </excludes>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>excludeProperties</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <version>3.0.1</version>
+                        <configuration>
+                            <excludes>
+                                <exclude>**/gryf2*.properties</exclude>
+                            </excludes>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
     <build>
         <resources>
             <resource>

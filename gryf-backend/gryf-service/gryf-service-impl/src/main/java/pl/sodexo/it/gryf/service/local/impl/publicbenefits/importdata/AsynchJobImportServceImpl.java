@@ -12,11 +12,13 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.dto.asynchjobs.AsynchronizeJobInfoDTO;
 import pl.sodexo.it.gryf.common.dto.asynchjobs.AsynchronizeJobResultInfoDTO;
+import pl.sodexo.it.gryf.common.dto.other.GrantProgramDictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.importdata.ImportParamsDTO;
 import pl.sodexo.it.gryf.common.exception.EntityValidationException;
 import pl.sodexo.it.gryf.model.asynch.AsynchronizeJobStatus;
 import pl.sodexo.it.gryf.service.local.api.FileService;
 import pl.sodexo.it.gryf.service.local.api.asynchjobs.AsynchJobService;
+import pl.sodexo.it.gryf.service.api.programs.GrantProgramService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.importdata.ImportDataService;
 import pl.sodexo.it.gryf.service.utils.BeanUtils;
 
@@ -24,6 +26,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by Isolution on 2016-12-05.
@@ -43,6 +46,9 @@ public class AsynchJobImportServceImpl implements AsynchJobService{
     @Autowired
     private FileService fileService;
 
+    @Autowired
+    private GrantProgramService grantProgramService;
+
     //PUBLIC METHODS
 
     @Override
@@ -57,9 +63,12 @@ public class AsynchJobImportServceImpl implements AsynchJobService{
             int extraBussinssRows = 0;
             int extraErrorRows = 0;
 
-            //GET SERVICE
-            ImportDataService importDataService = (ImportDataService) BeanUtils.findBean(context, dto.getTypeParams());
             ImportParamsDTO paramsDTO = createImportParamDTO(dto.getParams());
+
+
+            //GET SERVICE - Wybierz Implementacje uslugi na podstawie typu zadania
+            ImportDataService importDataService = (ImportDataService) BeanUtils.findBean(context, dto.getTypeParams());
+
 
             //OPEN FILE
             InputStream is = fileService.getInputStream(paramsDTO.getPath());
@@ -130,6 +139,13 @@ public class AsynchJobImportServceImpl implements AsynchJobService{
         }
     }
 
+    private void fillGrantProgram(ImportParamsDTO paramsDTO) {
+        if (Objects.nonNull(paramsDTO)) {
+            GrantProgramDictionaryDTO grantProgramById = grantProgramService.getGrantProgramById(paramsDTO.getGrantProgramId());
+            paramsDTO.setGrantProgram(grantProgramById);
+        }
+    }
+
     //PRIVATE METHODS
 
    private ImportParamsDTO createImportParamDTO(String params){
@@ -148,6 +164,8 @@ public class AsynchJobImportServceImpl implements AsynchJobService{
                                             + "dofinansowania z wartości [%s]", tabParams[0]));
        }
        result.setPath(tabParams[1]);
+
+       fillGrantProgram(result);
 
        return result;
    }

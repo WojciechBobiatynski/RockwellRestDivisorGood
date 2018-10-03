@@ -19,6 +19,7 @@ public class AsynchJobFileServiceImpl implements AsynchJobFileService {
     @Override
     public String saveFile(AsynchJobDetailsDTO createDTO) {
         String fileName = getNewFileName(createDTO);
+        //ToDo: Czy doodać id programu/nazwa programu alby wrożnić?
         return fileService.writeFile(FileType.DATA_IMPORT, fileName, createDTO.getFile(), null);
     }
 

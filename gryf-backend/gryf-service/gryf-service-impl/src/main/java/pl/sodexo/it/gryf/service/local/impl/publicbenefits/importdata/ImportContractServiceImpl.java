@@ -40,6 +40,7 @@ import pl.sodexo.it.gryf.service.api.publicbenefits.individuals.IndividualServic
 import pl.sodexo.it.gryf.service.api.publicbenefits.orders.OrderService;
 import pl.sodexo.it.gryf.service.local.api.AccountContractPairService;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
+import pl.sodexo.it.gryf.service.local.api.publicbenefits.importdata.ImportDataService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.OrderServiceLocal;
 
 import java.util.Iterator;
@@ -49,7 +50,7 @@ import java.util.Map;
 /**
  * Created by Isolution on 2016-12-02.
  */
-@Service(value = "importContractService")
+@Service(value = ImportDataService.IMPORT_CONTRACT_SERVICE)
 public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
 
     //PRIVATE METHODS
@@ -104,7 +105,7 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
 
     @Override
     protected ImportResultDTO saveInternalNormalData(ImportParamsDTO paramsDTO, Row row, Long importJobId) {
-        ImportComplexContractDTO importDTO = createComplexContractDTO(row);
+        ImportComplexContractDTO importDTO = createComplexContractDTO(paramsDTO, row);
         validateImport(importDTO);
 
         ContractType contractType = contractTypeRepository.get(importDTO.getContract().getContractType());
@@ -246,8 +247,11 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
 
     //PRIVATE METHODS - CREATE IMPORT DTO
 
-    private ImportComplexContractDTO createComplexContractDTO(Row row){
+    private ImportComplexContractDTO createComplexContractDTO(ImportParamsDTO paramsDTO, Row row){
         ImportComplexContractDTO c = new ImportComplexContractDTO();
+
+        //Ustaw Program
+        c.getContract().setGrantProgram(paramsDTO.getGrantProgram());
 
         Iterator<Cell> cellIterator = row.cellIterator();
         while (cellIterator.hasNext()) {

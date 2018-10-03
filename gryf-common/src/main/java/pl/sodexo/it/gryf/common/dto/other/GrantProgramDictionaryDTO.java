@@ -9,4 +9,5 @@ import lombok.Data;
 public class GrantProgramDictionaryDTO extends DictionaryDTO {
     private Long grantProgramOwnerId;
     private String grantProgramOwnerName;
+    private String programCode;
 }

@@ -123,4 +123,9 @@ public interface ApplicationParameters {
 
     String getStrongPasswordRegexp();
 
+    String getExternalOrderIdPatternRegexp();
+
+    String getCdnTitle();
+
+    String getImportTraningSearchPattern();
 }

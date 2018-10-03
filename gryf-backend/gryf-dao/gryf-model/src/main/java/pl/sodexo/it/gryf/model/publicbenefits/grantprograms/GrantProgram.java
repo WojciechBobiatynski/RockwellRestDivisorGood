@@ -1,7 +1,10 @@
 package pl.sodexo.it.gryf.model.publicbenefits.grantprograms;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
+import org.springframework.context.annotation.Configuration;
 import pl.sodexo.it.gryf.model.api.DictionaryEntity;
 import pl.sodexo.it.gryf.model.api.GryfEntity;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplicationInProgram;
@@ -32,6 +35,7 @@ public class GrantProgram extends GryfEntity implements DictionaryEntity {
     public static final String ID_ATTR_NAME = "id";
     public static final String PROGRAM_NAME_ATTR_NAME = "programName";
     public static final String PROGRAM_OWNER_ATTR_NAME = "grantOwnerId";
+    private static final String PROGRAM_CODE = "PROGRAM_CODE";
 
     //FIELDS
 
@@ -53,6 +57,11 @@ public class GrantProgram extends GryfEntity implements DictionaryEntity {
     @Column(name = "END_DATE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date endDate;
+
+    @Setter
+    @Getter
+    @Column(name = GrantProgram.PROGRAM_CODE)
+    private String programCode;
 
     @JsonManagedReference("programParams")
     @OneToMany(mappedBy = "grantProgram")

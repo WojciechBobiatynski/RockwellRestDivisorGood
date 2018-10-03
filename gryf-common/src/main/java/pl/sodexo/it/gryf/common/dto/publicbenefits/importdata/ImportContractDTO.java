@@ -1,14 +1,14 @@
 package pl.sodexo.it.gryf.common.dto.publicbenefits.importdata;
 
-import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
+import pl.sodexo.it.gryf.common.dto.other.GrantProgramDictionaryDTO;
+import pl.sodexo.it.gryf.common.validation.publicbenefits.ValidExternalOrderId;
+import pl.sodexo.it.gryf.common.validation.publicbenefits.reimbursement.ValidationGroupImportContract;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
@@ -17,12 +17,12 @@ import java.util.List;
  * Created by Isolution on 2016-11-30.
  */
 @ToString
+@ValidExternalOrderId (message = "Identyfikator umowy musi być w formacie kod programu/numer/numer")
 public class ImportContractDTO {
 
     @Getter
     @Setter
     @NotNull(message = "Identyfikator umowy nie może być pusty")
-    @Pattern(message = "Identyfikator umowy musi być w formacie WKK/numer/numer", regexp = "WKK/[0-9]+/[0-9]+")
     private String externalOrderId;
 
     @Getter
@@ -50,6 +50,11 @@ public class ImportContractDTO {
     @Size(message = "Kategorie usługi przydzielone uczestnikowi nie mogą być puste", min = 1)
     private List<String> contractTrainingCategories;
 
+    @Getter
+    @Setter
+    @NotNull(message = "Programu nie może być pusty")
+    private GrantProgramDictionaryDTO grantProgram;
+
     //EXTRA FIELDS
 
     private Long id;
@@ -66,3 +71,4 @@ public class ImportContractDTO {
     }
 
 }
+

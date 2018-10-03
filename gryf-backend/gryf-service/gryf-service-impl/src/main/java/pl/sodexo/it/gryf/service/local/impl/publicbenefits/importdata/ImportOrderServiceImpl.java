@@ -12,11 +12,9 @@ import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.contracts.ContractRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderRepository;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
-import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.Training;
-import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingCategory;
-import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstitution;
 import pl.sodexo.it.gryf.service.api.publicbenefits.orders.OrderService;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
+import pl.sodexo.it.gryf.service.local.api.publicbenefits.importdata.ImportDataService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.OrderServiceLocal;
 
 import java.util.Iterator;
@@ -25,7 +23,7 @@ import java.util.List;
 /**
  * Created by Isolution on 2016-12-02.
  */
-@Service(value = "importOrderService")
+@Service(value = ImportDataService.IMPORT_ORDER_SERVICE)
 public class ImportOrderServiceImpl extends ImportBaseDataServiceImpl {
 
     //PRIVATE FIELDS
