@@ -1,0 +1,40 @@
+######################
+# Eclipse
+######################
+.project
+.classpath
+.idea/**
+**/.idea
+**.settings**
+**/bin/**
+**/nbproject/**
+**/nb-configuration.xml
+**/nbactions.xml
+**.log
+*.iml
+target
+
+######################
+# Production minified scripts
+######################
+*.min.js
+*.min.css
+*.sublime-project
+*.sublime-workspace
+
+######################
+# Mergetool files
+######################
+*.orig
+
+######################
+# Liquibase generated files
+######################
+**/liquibase-diff-changeLog.xml
+
+######################
+# Sublime Text settings
+######################
+*.sublime-workspace
+*.sublime-project
+
