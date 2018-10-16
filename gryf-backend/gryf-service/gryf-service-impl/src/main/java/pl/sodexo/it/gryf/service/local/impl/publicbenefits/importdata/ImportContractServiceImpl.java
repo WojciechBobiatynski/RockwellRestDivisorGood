@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import pl.sodexo.it.gryf.common.dto.other.DictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.other.GrantProgramDictionaryDTO;
@@ -34,6 +35,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.api.ContactType;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.ContractType;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingCategory;
+import pl.sodexo.it.gryf.service.api.generator.IdentityGeneratorService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.contracts.ContractService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.enterprises.EnterpriseService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.individuals.IndividualService;
@@ -91,8 +93,12 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
     @Autowired
     private OrderService orderService;
 
-    //OVERRIDE
+    @Autowired
+    @Qualifier(IdentityGeneratorService.CONTRACT_IDENTITY_GENERATOR_CONTRACT_ID)
+    private IdentityGeneratorService identityGeneratorService;
 
+
+    //OVERRIDE
     @Override
     protected int saveEmptyExtraRows(Long importJobId, int rowNums) {
         return 0;
@@ -110,7 +116,7 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
 
         ContractType contractType = contractTypeRepository.get(importDTO.getContract().getContractType());
         List<TrainingCategory> trainingCategories = trainingCategoryRepository.findByIdList(importDTO.getContract().getContractTrainingCategories());
-        AccountContractPair pair = accountContractPairService.getValidAccountContractPairForUsed(importDTO.getContract().getId());
+        AccountContractPair pair = accountContractPairService.getValidAccountContractPairForUsed(importDTO.getContract().getId(identityGeneratorService.getGenerator(importDTO.getContract())));
 
         ZipCode zipCodeIndividualInvoice = zipCodeRepository.findActiveByCode(importDTO.getIndividual().getAddressInvoice().getZipCode());
         ZipCode zipCodeEnterpriseInvoice = importDTO.checkContractType(ContractType.TYPE_ENT) ?
@@ -201,30 +207,30 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
     }
 
 
-    private ImportResultDTO saveContractData(ImportComplexContractDTO importDTO, ImportParamsDTO paramsDTO,
+    private ImportResultDTO saveContractData(ImportComplexContractDTO importComplexContractDTO, ImportParamsDTO paramsDTO,
                                             ContractType contractType, List<TrainingCategory> trainingCategories, AccountContractPair pair,
                                             ZipCode zipCodeIndividualInvoice, ZipCode zipCodeEnterpriseInvoice){
 
-        Long contractId = importDTO.getContract().getId();
+        String contractId = importComplexContractDTO.getContract().getId(identityGeneratorService.getGenerator(importComplexContractDTO.getContract()));
         Long enterpriseId = null;
         Long individualId = null;
         Long orderId = null;
 
         //CREATE ENTERPRISE
-        if(ContractType.TYPE_ENT.equals(importDTO.getContract().getContractType())){
-            EnterpriseDto enterpriseDTO = createEnterpriseDTO(importDTO.getEnterprise(), pair, zipCodeEnterpriseInvoice);
+        if(ContractType.TYPE_ENT.equals(importComplexContractDTO.getContract().getContractType())){
+            EnterpriseDto enterpriseDTO = createEnterpriseDTO(importComplexContractDTO.getEnterprise(), pair, zipCodeEnterpriseInvoice);
             enterpriseId = enterpriseService.saveEnterpriseDto(enterpriseDTO, false, false);
         }
 
         //CREATE INDIVIDUAL
-        IndividualDto individualDTO = createIndividualDTO(importDTO.getIndividual(),
-                                        ContractType.TYPE_IND.equals(importDTO.getContract().getContractType()) ? pair : null,
+        IndividualDto individualDTO = createIndividualDTO(importComplexContractDTO.getIndividual(),
+                                        ContractType.TYPE_IND.equals(importComplexContractDTO.getContract().getContractType()) ? pair : null,
                                         zipCodeIndividualInvoice, enterpriseId);
         individualId = individualService.saveIndividual(individualDTO, true, false);
         individualRepository.get(individualId);
 
         //CREATE CONTRACT
-        ContractDTO contractDTO = createContractDTO(importDTO.getContract(), paramsDTO,
+        ContractDTO contractDTO = createContractDTO(importComplexContractDTO.getContract(), paramsDTO,
                                                 contractType, trainingCategories,
                                                 individualId, enterpriseId);
 
@@ -233,7 +239,7 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
 
         //CREATE ORDER
         Contract contract = contractRepository.get(contractId);
-        CreateOrderDTO orderDTO = createCreateOrderDTO(importDTO.getContract(), contract);
+        CreateOrderDTO orderDTO = createCreateOrderDTO(importComplexContractDTO.getContract(), contract);
         orderId = orderService.createOrder(orderDTO);
 
         ImportResultDTO result = new ImportResultDTO();
@@ -327,6 +333,10 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
                 case 22:
                     c.getEnterprise().setEmail(getStringCellValue(cell));
                     break;
+                case 23:
+                    c.getEnterprise().setEmail(getStringCellValue(cell));
+                    break;
+                //ToDo:
             }
         }
         return c;
@@ -408,15 +418,15 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
         return dto;
     }
 
-    private ContractDTO createContractDTO(ImportContractDTO importDTO, ImportParamsDTO paramsDTO,
-                                            ContractType contractType, List<TrainingCategory> trainingCategories,
-                                            Long individualId, Long enterpriseId){
+    private ContractDTO createContractDTO(ImportContractDTO importContractDTO, ImportParamsDTO paramsDTO,
+                                          ContractType contractType, List<TrainingCategory> trainingCategories,
+                                          Long individualId, Long enterpriseId){
         ContractDTO dto = new ContractDTO();
-        dto.setId(importDTO.getId());
-        dto.setSignDate(importDTO.getSignDate());
-        dto.setExpiryDate(importDTO.getExpiryDate());
-        dto.setTrainingCategory(importDTO.getContractTrainingCategories());
-        dto.setContractType(new DictionaryDTO(importDTO.getContractType()));
+        dto.setId(importContractDTO.getId(identityGeneratorService.getGenerator(importContractDTO)));
+        dto.setSignDate(importContractDTO.getSignDate());
+        dto.setExpiryDate(importContractDTO.getExpiryDate());
+        dto.setTrainingCategory(importContractDTO.getContractTrainingCategories());
+        dto.setContractType(new DictionaryDTO(importContractDTO.getContractType()));
 
         GrantProgramDictionaryDTO grantProgram = new GrantProgramDictionaryDTO();
         grantProgram.setId(paramsDTO.getGrantProgramId());

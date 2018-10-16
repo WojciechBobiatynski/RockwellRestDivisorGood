@@ -1,4 +1,4 @@
-package pl.sodexo.it.gryf.common.service.api.programs;
+package pl.sodexo.it.gryf.common.service.api.patterns;
 
 public class DefaultPatternContext implements PatternContext<Long, String, String> {
 

@@ -32,7 +32,7 @@ public class AccountContractPairRepositoryImpl extends GenericRepositoryImpl<Acc
     }
 
     @Override
-    public AccountContractPair findByContractId(Long contractId) {
+    public AccountContractPair findByContractId(String contractId) {
         try {
             TypedQuery<AccountContractPair> query = entityManager.createNamedQuery(AccountContractPair.FIND_BY_CONTRACT_ID, AccountContractPair.class);
             query.setParameter("contractId", contractId);

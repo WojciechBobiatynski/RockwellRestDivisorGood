@@ -15,13 +15,13 @@ public interface ContractService {
 
     List<GrantProgramDictionaryDTO> findGrantProgramsDictionaries();
 
-    ContractDTO findContract(Long id);
+    ContractDTO findContract(String id);
 
     List<ContractSearchResultDTO> findContracts(ContractSearchQueryDTO contractDto);
 
     ContractDTO createContract();
 
-    Long saveContract(ContractDTO contractDto);
+    String saveContract(ContractDTO contractDto);
 
     void updateContract(ContractDTO contractDto);
 

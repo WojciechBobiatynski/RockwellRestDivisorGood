@@ -16,7 +16,7 @@ import java.util.List;
 @ToString
 public class ContractDTO extends VersionableDto{
 
-    private Long id;
+    private String id;
     private Date signDate;
     private Date expiryDate;
     private List<String> trainingCategory;
@@ -26,11 +26,11 @@ public class ContractDTO extends VersionableDto{
     private IndividualSearchResultDTO individual;
     private EnterpriseSearchResultDTO enterprise;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

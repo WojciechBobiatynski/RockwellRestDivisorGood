@@ -5,9 +5,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import pl.sodexo.it.gryf.common.annotation.technical.asynch.ExtensionFeature;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.importdata.ImportContractDTO;
-import pl.sodexo.it.gryf.common.service.api.programs.DefaultPatternContext;
-import pl.sodexo.it.gryf.common.service.api.programs.PatternContext;
-import pl.sodexo.it.gryf.common.service.api.programs.PatternService;
+import pl.sodexo.it.gryf.common.service.api.patterns.DefaultPatternContext;
+import pl.sodexo.it.gryf.common.service.api.patterns.PatternContext;
+import pl.sodexo.it.gryf.common.service.api.patterns.PatternService;
 
 import javax.annotation.PostConstruct;
 import javax.validation.ConstraintValidator;
@@ -41,7 +41,7 @@ public class ExternalOrderIdValidator implements ConstraintValidator<ValidExtern
     @Override
     @ExtensionFeature(desc = "Czy rozubować o powiazanie z kodem programu pobranym z zewnatrz? Create builder z opcjami with*")
     public boolean isValid(ImportContractDTO importContractDTO, ConstraintValidatorContext constraintValidatorContext) {
-        PatternContext importContractContext = DefaultPatternContext.create().build();
+        PatternContext importContractContext =  DefaultPatternContext.create().withCode(importContractDTO.getGrantProgram().getProgramCode()).build();
         Pattern patternCompile = Pattern.compile(grantProgramPatternService.getPattern(importContractContext));
         Matcher matcher = patternCompile.matcher(importContractDTO.getExternalOrderId());
         return matcher.matches();

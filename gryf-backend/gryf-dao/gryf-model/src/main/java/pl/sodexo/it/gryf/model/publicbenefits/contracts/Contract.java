@@ -21,7 +21,7 @@ import java.util.List;
 @ToString(exclude = {"individual", "enterprise"})
 @Entity
 @Table(name = "CONTRACTS", schema = "APP_PBE")
-@SequenceGenerator(name="cnt_seq", schema = "eagle", sequenceName = "cnt_seq", allocationSize = 1)
+//@SequenceGenerator(name="cnt_seq", schema = "eagle", sequenceName = "cnt_seq", allocationSize = 1)
 public class Contract extends VersionableEntity {
 
     //STATIC FIELDS - ATRIBUTES
@@ -35,8 +35,13 @@ public class Contract extends VersionableEntity {
 
     @Id
     @Column(name = "ID")
-    @GeneratedValue(generator = "cnt_seq")
-    private Long id;
+    //Todo: to remove @GeneratedValue(generator = "cnt_seq")
+    private String id;
+
+    @PrePersist
+    public void ensureId(){
+        //todo:
+    }
 
     @ManyToOne
     @JoinColumn(name = "CONTRACT_TYPE_ID")
@@ -76,11 +81,11 @@ public class Contract extends VersionableEntity {
 
     //GETTERS && SETTERS
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

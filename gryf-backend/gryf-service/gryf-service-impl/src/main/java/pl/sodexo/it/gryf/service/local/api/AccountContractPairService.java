@@ -10,7 +10,7 @@ public interface AccountContractPairService {
 
     AccountContractPair getValidAccountContractPairForUsed(String account);
 
-    AccountContractPair getValidAccountContractPairForUsed(Long contractId);
+    AccountContractPair getValidAccountContractPairForUsedByContractId(String contractId);
 
     String generateAccount(String code);
 

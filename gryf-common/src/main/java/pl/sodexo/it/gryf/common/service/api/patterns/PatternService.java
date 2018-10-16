@@ -1,10 +1,12 @@
-package pl.sodexo.it.gryf.common.service.api.programs;
+package pl.sodexo.it.gryf.common.service.api.patterns;
 
 /**
  * Interfejs usługi wzorcw np. wyszukiwania danych
  *
  */
 public interface PatternService<ID extends  Long, CODE extends String, DEFAULT extends String> {
+
+    String CONNECTOR = "_";
 
     String GRANT_PROGRAM_PATTERN_SERVICE = "GrantProgramPatternServiceImpl";
     String IMPORT_TRAINING_PATTERN_SERVICE =  "ImportTrainingPatternServiceImpl";

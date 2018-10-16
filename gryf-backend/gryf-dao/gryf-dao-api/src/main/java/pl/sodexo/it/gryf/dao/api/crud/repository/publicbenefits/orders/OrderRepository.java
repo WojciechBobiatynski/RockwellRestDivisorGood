@@ -17,9 +17,9 @@ public interface OrderRepository extends GenericRepository<Order, Long> {
 
     Long findGrantedVoucherNumberForEntAndProgram(Long enterpriseId, Long grantProgramId);
 
-    Integer countNotCanceledOrdersByContract(Long contractId);
+    Integer countNotCanceledOrdersByContract(String contractId);
 
-    Integer sumProductInstanceNumInNotCanceledOrdersByContract(Long contractId);
+    Integer sumProductInstanceNumInNotCanceledOrdersByContract(String contractId);
 
     Integer countByGrantProgramAndExternalOrderId(Long grantProgramId, String externalOrderId);
 }

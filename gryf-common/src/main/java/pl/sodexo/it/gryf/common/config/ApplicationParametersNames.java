@@ -6,5 +6,5 @@ package pl.sodexo.it.gryf.common.config;
  *
  */
 public enum ApplicationParametersNames {
-    GRYF_EXTERNAL_ORDER_ID_PATTERN, GRYF_IMPORT_TRAINING_SEARCH_PATTERN;
+    GRYF_EXTERNAL_ORDER_ID_PATTERN, GRYF_IMPORT_TRAINING_SEARCH_PATT;
 }

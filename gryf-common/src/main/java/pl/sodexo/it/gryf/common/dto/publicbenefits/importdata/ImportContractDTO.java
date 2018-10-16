@@ -5,8 +5,8 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
 import pl.sodexo.it.gryf.common.dto.other.GrantProgramDictionaryDTO;
+import pl.sodexo.it.gryf.common.generator.IdentityGenerator;
 import pl.sodexo.it.gryf.common.validation.publicbenefits.ValidExternalOrderId;
-import pl.sodexo.it.gryf.common.validation.publicbenefits.reimbursement.ValidationGroupImportContract;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -55,19 +55,10 @@ public class ImportContractDTO {
     @NotNull(message = "Programu nie może być pusty")
     private GrantProgramDictionaryDTO grantProgram;
 
-    //EXTRA FIELDS
-
-    private Long id;
-
 
     //EXTRA GETETRS
-
-    public Long getId(){
-        if(id == null) {
-            String[] tab = externalOrderId.split("/");
-            id = Long.valueOf(tab[1]);
-        }
-        return id;
+    public String getId( IdentityGenerator<ImportContractDTO, String> identityGenerator){
+        return identityGenerator.generate(this);
     }
 
 }

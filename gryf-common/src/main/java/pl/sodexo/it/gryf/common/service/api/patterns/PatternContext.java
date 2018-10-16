@@ -1,4 +1,4 @@
-package pl.sodexo.it.gryf.common.service.api.programs;
+package pl.sodexo.it.gryf.common.service.api.patterns;
 
 
 /**

@@ -14,7 +14,7 @@ public class OrderElementComplexTypeBasicContractInfoDTO extends OrderElementDTO
 
     @Getter
     @Setter
-    private Long contractId;
+    private String contractId;
 
     @Getter
     @Setter

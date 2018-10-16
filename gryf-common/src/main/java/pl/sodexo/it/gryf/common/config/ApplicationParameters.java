@@ -128,4 +128,6 @@ public interface ApplicationParameters {
     String getCdnTitle();
 
     String getImportTraningSearchPattern();
+
+    String findParameterValueByCode(String toString);
 }

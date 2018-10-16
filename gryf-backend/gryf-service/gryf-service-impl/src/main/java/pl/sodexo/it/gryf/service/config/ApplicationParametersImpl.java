@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Set;
 
 import static pl.sodexo.it.gryf.common.config.ApplicationParametersNames.GRYF_EXTERNAL_ORDER_ID_PATTERN;
-import static pl.sodexo.it.gryf.common.config.ApplicationParametersNames.GRYF_IMPORT_TRAINING_SEARCH_PATTERN;
+import static pl.sodexo.it.gryf.common.config.ApplicationParametersNames.GRYF_IMPORT_TRAINING_SEARCH_PATT;
 
 /**
  * @author Marcel.GOLUNSKI
@@ -328,7 +328,7 @@ public class ApplicationParametersImpl implements ApplicationParameters {
             externalOrderIdPatternRegexp = dbExternalOrderIdPatternRegexp;
         }
 
-        String dbImportTrainingSearchPattern = (String) findParameter(GRYF_IMPORT_TRAINING_SEARCH_PATTERN.name()); //ToDo:
+        String dbImportTrainingSearchPattern = (String) findParameter(GRYF_IMPORT_TRAINING_SEARCH_PATT.name()); //ToDo:
         if (dbImportTrainingSearchPattern != null) {
             importTrainingSearchPattern = dbExternalOrderIdPatternRegexp;
         }
@@ -638,6 +638,11 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     @Override
     public String getImportTraningSearchPattern() {
         return this.importTrainingSearchPattern;
+    }
+
+    @Override
+    public String findParameterValueByCode(String findingParameter) {
+        return (String) findParameter(findingParameter);
     }
 
     //PRIVATE METHODS

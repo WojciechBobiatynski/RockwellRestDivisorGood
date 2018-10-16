@@ -14,9 +14,9 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsfo
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingInstanceExtDTO;
 import pl.sodexo.it.gryf.common.dto.user.GryfUser;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
-import pl.sodexo.it.gryf.common.service.api.programs.DefaultPatternContext;
-import pl.sodexo.it.gryf.common.service.api.programs.PatternContext;
-import pl.sodexo.it.gryf.common.service.api.programs.PatternService;
+import pl.sodexo.it.gryf.common.service.api.patterns.DefaultPatternContext;
+import pl.sodexo.it.gryf.common.service.api.patterns.PatternContext;
+import pl.sodexo.it.gryf.common.service.api.patterns.PatternService;
 import pl.sodexo.it.gryf.dao.api.crud.repository.asynch.AsynchronizeJobRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.importdata.ImportDataRowRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingCategoryRepository;

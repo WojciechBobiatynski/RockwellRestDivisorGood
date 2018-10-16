@@ -26,7 +26,7 @@ public class TrainingReservationDto {
     @Getter
     @Setter
     @NotNull(message = "Identyfikator umowy nie może być pusty")
-    private Long contractId;
+    private String contractId;
 
     @Getter
     @Setter

@@ -12,7 +12,7 @@ import java.util.List;
 public interface ImportDataService {
 
     String IMPORT_CONTRACT_SERVICE = "importContractService";
-    String IMPORT_ORDER_SERVICE = "importOrderWKKService";
+    String IMPORT_ORDER_SERVICE = "importOrderService";
     String IMPORT_TRAINING_INSTITUTION_SERVICE = "importTrainingInstitutionService";
     String IMPORT_TRAINING_SERVICE = "importTrainingService";
     String IMPORT_OPINION_DONE_SERVICE =  "importOpinionDoneService";

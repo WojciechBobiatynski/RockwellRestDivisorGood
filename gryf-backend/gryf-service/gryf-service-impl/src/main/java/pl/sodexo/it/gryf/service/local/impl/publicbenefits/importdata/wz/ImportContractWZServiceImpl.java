@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import pl.sodexo.it.gryf.common.dto.other.DictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.other.GrantProgramDictionaryDTO;
@@ -34,6 +35,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.api.ContactType;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.ContractType;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingCategory;
+import pl.sodexo.it.gryf.service.api.generator.IdentityGeneratorService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.contracts.ContractService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.enterprises.EnterpriseService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.individuals.IndividualService;
@@ -94,6 +96,10 @@ public class ImportContractWZServiceImpl extends ImportBaseDataServiceImpl {
     @Autowired
     private OrderService orderService;
 
+    @Autowired
+    @Qualifier(IdentityGeneratorService.CONTRACT_IDENTITY_GENERATOR_CONTRACT_ID)
+    private IdentityGeneratorService identityGeneratorService;
+
     //OVERRIDE
 
     @Override
@@ -113,7 +119,7 @@ public class ImportContractWZServiceImpl extends ImportBaseDataServiceImpl {
 
         ContractType contractType = contractTypeRepository.get(importDTO.getContract().getContractType());
         List<TrainingCategory> trainingCategories = trainingCategoryRepository.findByIdList(importDTO.getContract().getContractTrainingCategories());
-        AccountContractPair pair = accountContractPairService.getValidAccountContractPairForUsed(importDTO.getContract().getId());
+        AccountContractPair pair = accountContractPairService.getValidAccountContractPairForUsed(importDTO.getContract().getId(identityGeneratorService.getGenerator(importDTO.getContract())));
 
         ZipCode zipCodeIndividualInvoice = zipCodeRepository.findActiveByCode(importDTO.getIndividual().getAddressInvoice().getZipCode());
         ZipCode zipCodeEnterpriseInvoice = importDTO.checkContractType(ContractType.TYPE_ENT) ?
@@ -208,7 +214,7 @@ public class ImportContractWZServiceImpl extends ImportBaseDataServiceImpl {
                                             ContractType contractType, List<TrainingCategory> trainingCategories, AccountContractPair pair,
                                             ZipCode zipCodeIndividualInvoice, ZipCode zipCodeEnterpriseInvoice){
 
-        Long contractId = importDTO.getContract().getId();
+        String contractId = importDTO.getContract().getId(identityGeneratorService.getGenerator(importDTO.getContract()));
         Long enterpriseId = null;
         Long individualId = null;
         Long orderId = null;
@@ -412,10 +418,10 @@ public class ImportContractWZServiceImpl extends ImportBaseDataServiceImpl {
     }
 
     private ContractDTO createContractDTO(ImportContractDTO importDTO, ImportParamsDTO paramsDTO,
-                                            ContractType contractType, List<TrainingCategory> trainingCategories,
-                                            Long individualId, Long enterpriseId){
+                                          ContractType contractType, List<TrainingCategory> trainingCategories,
+                                          Long individualId, Long enterpriseId){
         ContractDTO dto = new ContractDTO();
-        dto.setId(importDTO.getId());
+        dto.setId(importDTO.getId(identityGeneratorService.getGenerator(importDTO)));
         dto.setSignDate(importDTO.getSignDate());
         dto.setExpiryDate(importDTO.getExpiryDate());
         dto.setTrainingCategory(importDTO.getContractTrainingCategories());
