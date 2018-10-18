@@ -24,7 +24,6 @@ public class ImportOrderDTO {
     @Getter
     @Setter
     @NotEmpty(message = "Id zamówienia nie może być puste")
-    //@Pattern(message = "Identyfikator zamówienia musi być w formacie WKK/numer/numer", regexp = "WKK/[0-9]+/[0-9]+")
     private String externalOrderId;
 
     @Getter

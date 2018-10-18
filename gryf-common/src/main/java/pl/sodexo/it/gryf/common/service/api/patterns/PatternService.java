@@ -20,6 +20,8 @@ public interface PatternService<ID extends  Long, CODE extends String, DEFAULT e
      */
     String getPattern(PatternContext<ID, CODE, DEFAULT> patternContext);
 
+    String findPatternUsingApplicationParameters(PatternContext<Long, String, String> patternContext);
+
     /**
      *
      * Wybierz kod wzorca na podstawie kontekstu

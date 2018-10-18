@@ -2,7 +2,8 @@
 --------------- MODYFIKACJA TABELI ${gryf.schema}.CONTRACT_TRAINING_CATEG_AUDIT ------------------------
 --------------- ---------------------- ------------------------
 
-CREATE TABLE APP  _PBE.BCP_PBE_CN_TR_CA_A AS SELECT * FROM ${gryf.schema}.CONTRACT_TRAINING_CATEG_AUDIT;
+
+CREATE TABLE ${gryf.schema}.BCP_PBE_CN_TR_CA_A AS SELECT * FROM ${gryf.schema}.CONTRACT_TRAINING_CATEG_AUDIT;
 
 ALTER TABLE ${gryf.schema}.CONTRACT_TRAINING_CATEG_AUDIT ADD CONTRACT_ID_COPY NUMBER;
 

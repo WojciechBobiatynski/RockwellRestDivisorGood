@@ -41,7 +41,8 @@ public class ExternalOrderIdValidator implements ConstraintValidator<ValidExtern
     @Override
     @ExtensionFeature(desc = "Czy rozubować o powiazanie z kodem programu pobranym z zewnatrz? Create builder z opcjami with*")
     public boolean isValid(ImportContractDTO importContractDTO, ConstraintValidatorContext constraintValidatorContext) {
-        PatternContext importContractContext =  DefaultPatternContext.create().withCode(importContractDTO.getGrantProgram().getProgramCode()).build();
+        PatternContext importContractContext =  DefaultPatternContext.create().withCode(importContractDTO.getGrantProgram().getProgramCode())
+                .withId((Long) importContractDTO.getGrantProgram().getId()).build();
         Pattern patternCompile = Pattern.compile(grantProgramPatternService.getPattern(importContractContext));
         Matcher matcher = patternCompile.matcher(importContractDTO.getExternalOrderId());
         return matcher.matches();

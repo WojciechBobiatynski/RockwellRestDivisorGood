@@ -1,6 +1,5 @@
 -- Nie jest potrzebne (BY MGU)
 --Insert into ${gryf.schema}.GRANT_OWNERS (ID,NAME,EMAIL_ADDRESSES_GRANT_APP_INFO) values (100,'Sodexo - Kierunek Kariera','marcel.golunski@sodexo.com');
-
 -- TODO: 1. Ustalić datę rozpoczęcia,
 -- TODO: 2. Ustlić z Fin: PROGRAM_CODE,
 -- TODO: 3. Ustlić z Fin: PROGRAM_CODE_TURN
@@ -9,8 +8,8 @@ Insert into ${gryf.schema}.GRANT_PROGRAMS
    (ID, GRANT_OWNER_ID, PROGRAM_NAME, START_DATE, END_DATE,
     PROGRAM_CODE, PROGRAM_CODE_TURN)
  Values
-   (GRANT_PROGRAMS_SEQ.NEXTVAL, 100, 'Kierunek Kariera Zawodowa', TO_DATE('10/04/2018 00:00:00', 'MM/DD/YYYY HH24:MI:SS'), NULL,
-    '${program.code.wupkkz}', '400001');
+   (GRANT_PROGRAMS_SEQ.NEXTVAL, 100, 'Kierunek Kariera Zawodowa', TO_DATE('11/07/2018 00:00:00', 'MM/DD/YYYY HH24:MI:SS'), NULL,
+    '${program.code.wupkkz}', '400002');
 
 
 

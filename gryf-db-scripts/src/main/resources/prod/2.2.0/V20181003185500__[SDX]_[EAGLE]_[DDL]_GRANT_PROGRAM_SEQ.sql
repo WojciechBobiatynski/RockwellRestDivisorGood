@@ -1,4 +1,5 @@
 --------------------------------------------SEQUENCE--------------------------------------------
+
 CREATE SEQUENCE ${eagle.schema}.GRANT_PROGRAMS_SEQ
 MINVALUE 1
 MAXVALUE 9999999999999999999999999999
@@ -13,4 +14,5 @@ BEGIN
 	dbms_output.put_line(SYS.PK_ADMIN.F_GRANT_TO_EAGLE(upper('${eagle.schema}'), 'DEVELOPER', 'GRANT_PROGRAMS_SEQ', 'SELECT'));
 END;
 /
+
 --------------------------------------------------------------------------------------------------

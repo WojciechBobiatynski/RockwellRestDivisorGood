@@ -64,8 +64,6 @@ public class IndividualDtoMapper extends VersionableDtoMapper<IndividualDto, Ind
         };
 
         entity.setId(dto.getId());
-        entity.setCode(dto.getCode());
-        entity.setAccountPayment(dto.getAccountPayment());
         entity.setAccountRepayment(dto.getAccountRepayment());
         entity.setFirstName(dto.getFirstName());
         entity.setLastName(dto.getLastName());

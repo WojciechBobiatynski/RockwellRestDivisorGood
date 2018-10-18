@@ -7,6 +7,7 @@ import pl.sodexo.it.gryf.common.enums.Privileges;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.common.exception.publicbenefits.VatRegNumEnterpriseExistException;
 import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
+import pl.sodexo.it.gryf.common.validation.ValidationGroupEnterprise;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.enterprises.EnterpriseRepository;
 import pl.sodexo.it.gryf.model.publicbenefits.enterprises.Enterprise;
 import pl.sodexo.it.gryf.model.publicbenefits.enterprises.EnterpriseContact;

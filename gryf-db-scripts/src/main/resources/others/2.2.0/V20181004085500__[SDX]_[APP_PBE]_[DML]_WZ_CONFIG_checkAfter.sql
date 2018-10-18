@@ -1,4 +1,5 @@
 -- Check if scripts V20181004085500__[SDX]_[APP_PBE]_[DML]_WZ_CONFIG was run !!!
+
 SELECT
     'select ''-------------------------> Start of '
     || table_name

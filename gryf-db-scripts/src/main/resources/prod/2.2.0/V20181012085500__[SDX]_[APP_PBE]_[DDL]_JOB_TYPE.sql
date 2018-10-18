@@ -66,6 +66,8 @@ COMMENT ON COLUMN ${gryf.schema}.JOB_TYPE.SERVICE_NAME IS 'Nazwa usługi impleme
 
 --------------------------------------------------------------------------------------------------
 
+
+
 -- uprawnienia
 BEGIN
 	dbms_output.put_line(SYS.PK_ADMIN.F_GRANT_TO_EAGLE(UPPER('${gryf.schema}'), 'SRV_EE', 'JOB_TYPE', 'ALL'));

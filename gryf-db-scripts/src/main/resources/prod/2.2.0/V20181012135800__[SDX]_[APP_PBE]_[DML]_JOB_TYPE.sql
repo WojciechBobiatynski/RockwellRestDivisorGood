@@ -1,4 +1,5 @@
 --------------------------------------------TABELA IMPORT TYPE --------------------------------------------
+
 INSERT INTO  ${gryf.schema}.JOB_TYPE VALUES (JOB_TYPE_seq.nextval, 'IMPORT_CON', (SELECT ID FROM ${gryf.schema}.GRANT_PROGRAMS WHERE PROGRAM_CODE ='WUPKKK' ), 'Import umów', 'asynchJobImportService', 'importContractService');
 INSERT INTO  ${gryf.schema}.JOB_TYPE VALUES (JOB_TYPE_seq.nextval, 'IMPORT_ORD', (SELECT ID FROM ${gryf.schema}.GRANT_PROGRAMS WHERE PROGRAM_CODE ='WUPKKK' ), 'Import zamówień', 'asynchJobImportService', 'importOrderService');
 INSERT INTO  ${gryf.schema}.JOB_TYPE VALUES (JOB_TYPE_seq.nextval, 'IMPORT_TRA_INS', (SELECT ID FROM ${gryf.schema}.GRANT_PROGRAMS WHERE PROGRAM_CODE ='WUPKKK' ), 'Import usługodawcy szkoleniowych', 'asynchJobImportService', 'importTrainingInstitutionService');

@@ -2,7 +2,9 @@ package pl.sodexo.it.gryf.model.publicbenefits.contracts;
 
 import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
+import pl.sodexo.it.gryf.model.accounts.AccountContractPairGenerable;
 import pl.sodexo.it.gryf.model.api.VersionableEntity;
+import pl.sodexo.it.gryf.model.dictionaries.ZipCode;
 import pl.sodexo.it.gryf.model.publicbenefits.enterprises.Enterprise;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
@@ -10,6 +12,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingCatego
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -21,8 +24,7 @@ import java.util.List;
 @ToString(exclude = {"individual", "enterprise"})
 @Entity
 @Table(name = "CONTRACTS", schema = "APP_PBE")
-//@SequenceGenerator(name="cnt_seq", schema = "eagle", sequenceName = "cnt_seq", allocationSize = 1)
-public class Contract extends VersionableEntity {
+public class Contract extends VersionableEntity implements AccountContractPairGenerable<String> {
 
     //STATIC FIELDS - ATRIBUTES
     public static final String ID_ATTR_NAME = "id";
@@ -32,16 +34,12 @@ public class Contract extends VersionableEntity {
     public static final String GRANT_PROGRAM_ATTR_NAME = "grantProgram";
     public static final String SIGN_DATE_ATTR_NAME = "signDate";
     public static final String EXPIRY_DATE_ATTR_NAME = "expiryDate";
+    public static final String CODE_ATTR_NAME = "code";
+    public static final String ACCOUNT_PAYMENT_ATTR_NAME = "accountPayment";
 
     @Id
     @Column(name = "ID")
-    //Todo: to remove @GeneratedValue(generator = "cnt_seq")
     private String id;
-
-    @PrePersist
-    public void ensureId(){
-        //todo:
-    }
 
     @ManyToOne
     @JoinColumn(name = "CONTRACT_TYPE_ID")
@@ -71,6 +69,39 @@ public class Contract extends VersionableEntity {
     @Temporal(TemporalType.TIMESTAMP)
     @NotNull(message = "Data ważności umowy nie może być pusta")
     private Date expiryDate;
+
+    @Column(name = "CODE")
+    @Size(max = 8, message = "Kod użytkownika musi zawierać maksymalnie 8 znaków")
+    private String code;
+
+
+    /**
+     * Numer konta do przelewów. Wypełniniany przez triger.
+     */
+    @Column(name = "ACCOUNT_PAYMENT")
+    @Size(max = 26, message = "Konto do wpłaty na bony musi zawierać maksymalnie 26 znaków")
+    private String accountPayment;
+
+    @Column(name = "ADDRESS_INVOICE")
+    @NotEmpty(message = "Adres do faktury nie może być pusty")
+    @Size(max = 200, message = "Adres do faktury MŚP musi zawierać maksymalnie 200 znaków")
+    private String addressInvoice;
+
+    @ManyToOne
+    @JoinColumn(name = "ZIP_CODE_INVOICE")
+    @NotNull(message = "Kod do faktury nie może być pusty")
+    private ZipCode zipCodeInvoice;
+
+    @Column(name = "ADDRESS_CORR")
+    @NotEmpty(message = "Adres korespondencyjny nie może być pusty")
+    @Size(max = 200, message = "Adres korespondencyjny MŚP musi zawierać maksymalnie 200 znaków")
+    private String addressCorr;
+
+    @ManyToOne
+    @JoinColumn(name = "ZIP_CODE_CORR")
+    @NotNull(message = "Kod korespondencyjny nie może być pusty")
+    private ZipCode zipCodeCorr;
+
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "CONTRACT_TRAINING_CATEGORIES", schema = "APP_PBE",
@@ -135,6 +166,54 @@ public class Contract extends VersionableEntity {
 
     public void setExpiryDate(Date expiryDate) {
         this.expiryDate = expiryDate;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getAccountPayment() {
+        return accountPayment;
+    }
+
+    public void setAccountPayment(String accountPayment) {
+        this.accountPayment = accountPayment;
+    }
+
+    public String getAddressInvoice() {
+        return addressInvoice;
+    }
+
+    public void setAddressInvoice(String addressInvoice) {
+        this.addressInvoice = addressInvoice;
+    }
+
+    public ZipCode getZipCodeInvoice() {
+        return zipCodeInvoice;
+    }
+
+    public void setZipCodeInvoice(ZipCode zipCodeInvoice) {
+        this.zipCodeInvoice = zipCodeInvoice;
+    }
+
+    public String getAddressCorr() {
+        return addressCorr;
+    }
+
+    public void setAddressCorr(String addressCorr) {
+        this.addressCorr = addressCorr;
+    }
+
+    public ZipCode getZipCodeCorr() {
+        return zipCodeCorr;
+    }
+
+    public void setZipCodeCorr(ZipCode zipCodeCorr) {
+        this.zipCodeCorr = zipCodeCorr;
     }
 
     //LIST METHODS

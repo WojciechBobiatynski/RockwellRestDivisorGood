@@ -17,15 +17,15 @@ import java.util.Date;
 import java.util.Objects;
 
 import static pl.sodexo.it.gryf.common.config.ApplicationParametersNames.GRYF_EXTERNAL_ORDER_ID_PATTERN;
-import static pl.sodexo.it.gryf.common.config.ApplicationParametersNames.GRYF_IMPORT_TRAINING_SEARCH_PATT;
 
-@Service(PatternService.IMPORT_TRAINING_PATTERN_SERVICE)
-@Transactional(readOnly = true)
-public class ImportTrainingPatternServiceImpl extends DefaultPatternService {
+public abstract class DefaultPatternService implements PatternService<Long, String, String> {
 
-    private final static String CACHE_PATTERN_SERVICE_GET_PATTERN_BY_ID = "ImportTrainingPatternServiceImpl.getPattern";
+    private final static String CACHE_PATTERN_SERVICE_GET_PATTERN_BY_ID = "ExternalOrderIdPatternServiceImpl.getPattern";
 
-    private final static String CACHE_PATTERN_SERVICE_GET_PATTERN_CODE = "ImportTrainingPatternServiceImpl.getPatternCode";
+    private final static String CACHE_PATTERN_SERVICE_GET_PATTERN_CODE = "ExternalOrderIdPatternServiceImpl.getPatternCode";
+
+    @Autowired
+    private ApplicationParameters applicationParameters;
 
     @Autowired
     private ParamInDateService paramInDateService;
@@ -36,7 +36,7 @@ public class ImportTrainingPatternServiceImpl extends DefaultPatternService {
     public String getPattern(PatternContext<Long, String, String> patternContext) {
 
         Long grantProgramId = patternContext.getId();
-        GrantProgramParam dbPatternGrantProgramPram = paramInDateService.findGrantProgramParam(grantProgramId, GrantProgramParamTypes.GRYF_IMPORT_TRAINING_SEARCH_PATT.name(), new Date(), false);
+        GrantProgramParam dbPatternGrantProgramPram = paramInDateService.findGrantProgramParam(grantProgramId, GrantProgramParamTypes.GRYF_EXTERNAL_ORDER_ID_PATTERN.name(), new Date(), false);
 
         if (Objects.nonNull(dbPatternGrantProgramPram)) {
             return dbPatternGrantProgramPram.getValue();
@@ -47,7 +47,20 @@ public class ImportTrainingPatternServiceImpl extends DefaultPatternService {
     }
 
     @Override
-    @ExtensionFeature(desc = "Docelowo implementacja per program")
+    public String findPatternUsingApplicationParameters(PatternContext<Long, String, String> patternContext) {
+        String findingPatternByCode = getPatternParameterCode(patternContext);
+
+        String foundPattern = applicationParameters.findParameterValueByCode(findingPatternByCode);
+        if (StringUtils.isEmpty(foundPattern)) {
+            //wybierz domyslny jezeli brak w konfiguracji
+            foundPattern = applicationParameters.getExternalOrderIdPatternRegexp();
+        }
+
+        return foundPattern;
+    }
+
+    @Override
+    @ExtensionFeature(desc = "Docelowo: Zbudowac mechanizm wyboru walidacji specyficzny")
     @Cacheable(cacheName = CACHE_PATTERN_SERVICE_GET_PATTERN_CODE)
     public String getPatternParameterCode(PatternContext<Long, String, String> patternContext) {
         StringBuffer findingPatternByCode = new StringBuffer();
@@ -57,13 +70,12 @@ public class ImportTrainingPatternServiceImpl extends DefaultPatternService {
         } else {
             findingPatternByCode.append(CONNECTOR);
         }
-        findingPatternByCode.append(GRYF_IMPORT_TRAINING_SEARCH_PATT.name());
+
+        findingPatternByCode.append(getCode());
 
         return findingPatternByCode.toString();
     }
 
-    @Override
-    String getCode() {
-        return GRYF_IMPORT_TRAINING_SEARCH_PATT.name();
-    }
+    abstract String getCode() ;
+
 }

@@ -109,7 +109,6 @@ public class IndividualServiceImpl implements IndividualService {
         IndividualUser user = createIndividualUser(individual, individualDto);
         individual.setIndividualUser(user);
         individualValidator.validateIndividual(individual, checkPeselDup, checkAccountRepayment);
-        individual = createIndividualByCode(individual);
         individualRepository.save(individual);
 
         return individual.getId();
@@ -124,21 +123,6 @@ public class IndividualServiceImpl implements IndividualService {
         user.setIndividual(individual);
         user.setRoles(roleDtoMapper.convert(individualDto.getRoles()));
         return user;
-    }
-
-    private Individual createIndividualByCode(Individual individual) {
-        if (hasNoCode(individual)) {
-            saveWithNewGeneratedCode(individual);
-        } else {
-            accountContractPairService.setIdAndAccountPayment(individual);
-        }
-        return individual;
-    }
-
-    private Individual saveWithNewGeneratedCode(Individual individual) {
-        individual = individualRepository.save(individual);
-        individual.setCode(accountContractPairService.generateCode(individual));
-        return individual;
     }
 
     @Override
@@ -179,7 +163,4 @@ public class IndividualServiceImpl implements IndividualService {
         return individualSearchDao.findDataForTrainingReservation(pesel);
     }
 
-    private boolean hasNoCode(Individual individual) {
-        return GryfStringUtils.isEmpty(individual.getCode());
-    }
 }

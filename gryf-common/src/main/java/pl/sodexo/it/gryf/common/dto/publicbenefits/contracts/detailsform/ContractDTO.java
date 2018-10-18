@@ -1,11 +1,14 @@
 package pl.sodexo.it.gryf.common.dto.publicbenefits.contracts.detailsform;
 
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import pl.sodexo.it.gryf.common.dto.api.VersionableDto;
 import pl.sodexo.it.gryf.common.dto.other.DictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.other.GrantProgramDictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.enterprises.searchform.EnterpriseSearchResultDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.searchform.IndividualSearchResultDTO;
+import pl.sodexo.it.gryf.common.dto.zipcodes.detailsform.ZipCodeDto;
 
 import java.util.Date;
 import java.util.List;
@@ -14,79 +17,62 @@ import java.util.List;
  * Created by Isolution on 2016-10-27.
  */
 @ToString
-public class ContractDTO extends VersionableDto{
+public class ContractDTO extends VersionableDto {
 
+    @Getter
+    @Setter
     private String id;
+
+    @Getter
+    @Setter
     private Date signDate;
+
+    @Getter
+    @Setter
     private Date expiryDate;
+
+    @Getter
+    @Setter
+    private String code;
+
+    @Getter
+    @Setter
+    private String accountPayment;
+
+    @Getter
+    @Setter
     private List<String> trainingCategory;
 
+    @Getter
+    @Setter
     private DictionaryDTO contractType;
+
+    @Getter
+    @Setter
     private GrantProgramDictionaryDTO grantProgram;
+
+    @Getter
+    @Setter
     private IndividualSearchResultDTO individual;
+
+    @Getter
+    @Setter
     private EnterpriseSearchResultDTO enterprise;
 
-    public String getId() {
-        return id;
-    }
+    @Getter
+    @Setter
+    private String addressInvoice;
 
-    public void setId(String id) {
-        this.id = id;
-    }
+    @Getter
+    @Setter
+    private ZipCodeDto zipCodeInvoice;
 
-    public Date getSignDate() {
-        return signDate;
-    }
+    @Getter
+    @Setter
+    private String addressCorr;
 
-    public void setSignDate(Date signDate) {
-        this.signDate = signDate;
-    }
+    @Getter
+    @Setter
+    private ZipCodeDto zipCodeCorr;
 
-    public Date getExpiryDate() {
-        return expiryDate;
-    }
-
-    public void setExpiryDate(Date expiryDate) {
-        this.expiryDate = expiryDate;
-    }
-
-    public List<String> getTrainingCategory() {
-        return trainingCategory;
-    }
-
-    public void setTrainingCategory(List<String> trainingCategory) {
-        this.trainingCategory = trainingCategory;
-    }
-
-    public DictionaryDTO getContractType() {
-        return contractType;
-    }
-
-    public void setContractType(DictionaryDTO contractType) {
-        this.contractType = contractType;
-    }
-
-    public GrantProgramDictionaryDTO getGrantProgram() {
-        return grantProgram;
-    }
-
-    public void setGrantProgram(GrantProgramDictionaryDTO grantProgram) {
-        this.grantProgram = grantProgram;
-    }
-
-    public IndividualSearchResultDTO getIndividual() {
-        return individual;
-    }
-
-    public void setIndividual(IndividualSearchResultDTO individual) {
-        this.individual = individual;
-    }
-
-    public EnterpriseSearchResultDTO getEnterprise() {
-        return enterprise;
-    }
-
-    public void setEnterprise(EnterpriseSearchResultDTO enterprise) {
-        this.enterprise = enterprise;
-    }
 }
