@@ -83,7 +83,7 @@ WHEN NOT MATCHED THEN INSERT (
 MERGE INTO ${eagle.schema}.adm_parameters ug USING
 ( WITH program_code AS (
     SELECT
-        'WUPKKK' AS code,
+        'WUPKK' AS code,
         'WKK' AS REGEXP_PREFIX
     FROM
         dual

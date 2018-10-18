@@ -52,6 +52,7 @@
                             <placeholders>
                                 <eagle.schema>${eagle.schema.name}</eagle.schema>
                                 <gryf.schema>${gryf.schema.name}</gryf.schema>
+                                <program.code.wupkkz>WUPKKZ</program.code.wupkkz>
                             </placeholders>
                         </configuration>
                         <dependencies>

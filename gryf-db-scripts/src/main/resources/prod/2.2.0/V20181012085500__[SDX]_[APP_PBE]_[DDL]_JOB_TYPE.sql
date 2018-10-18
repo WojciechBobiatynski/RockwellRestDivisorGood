@@ -9,8 +9,8 @@ NOORDER NOCYCLE;
 
 -- uprawnienia
 BEGIN
-	dbms_output.put_line(SYS.PK_ADMIN.F_GRANT_TO_EAGLE('${eagle.schema}', 'SRV_EE', 'JOB_TYPE_SEQ', 'ALL'));
-	dbms_output.put_line(SYS.PK_ADMIN.F_GRANT_TO_EAGLE('${eagle.schema}', 'DEVELOPER', 'JOB_TYPE_SEQ', 'SELECT'));
+	dbms_output.put_line(SYS.PK_ADMIN.F_GRANT_TO_EAGLE(upper('${eagle.schema}'), 'SRV_EE', 'JOB_TYPE_SEQ', 'ALL'));
+	dbms_output.put_line(SYS.PK_ADMIN.F_GRANT_TO_EAGLE(upper('${eagle.schema}'), 'DEVELOPER', 'JOB_TYPE_SEQ', 'SELECT'));
 END;
 /
 --------------------------------------------------------------------------------------------------
@@ -26,7 +26,7 @@ CREATE TABLE ${gryf.schema}.JOB_TYPE
 , SERVICE_NAME VARCHAR2(500 BYTE) NULL
 );
 
-CREATE UNIQUE INDEX ${gryf.schema}.JOB_TYPE_PK ON APP_PBE.JOB_TYPE (ID ASC);
+CREATE UNIQUE INDEX ${gryf.schema}.JOB_TYPE_PK ON ${gryf.schema}.JOB_TYPE (ID ASC);
 
 ALTER TABLE ${gryf.schema}.JOB_TYPE
 ADD CONSTRAINT JOB_TYPE_PK PRIMARY KEY
@@ -68,6 +68,6 @@ COMMENT ON COLUMN ${gryf.schema}.JOB_TYPE.SERVICE_NAME IS 'Nazwa usługi impleme
 
 -- uprawnienia
 BEGIN
-	dbms_output.put_line(SYS.PK_ADMIN.F_GRANT_TO_EAGLE('${gryf.schema}', 'SRV_EE', 'JOB_TYPE', 'ALL'));
+	dbms_output.put_line(SYS.PK_ADMIN.F_GRANT_TO_EAGLE(UPPER('${gryf.schema}'), 'SRV_EE', 'JOB_TYPE', 'ALL'));
 END;
 /
