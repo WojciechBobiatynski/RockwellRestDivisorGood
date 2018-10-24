@@ -1,31 +1,13 @@
 -- Nie jest potrzebne (BY MGU)
 --Insert into ${gryf.schema}.GRANT_OWNERS (ID,NAME,EMAIL_ADDRESSES_GRANT_APP_INFO) values (100,'Sodexo - Kierunek Kariera','marcel.golunski@sodexo.com');
--- TODO: 1. Ustalić datę rozpoczęcia,
--- TODO: 2. Ustlić z Fin: PROGRAM_CODE,
--- TODO: 3. Ustlić z Fin: PROGRAM_CODE_TURN
 
 Insert into ${gryf.schema}.GRANT_PROGRAMS
    (ID, GRANT_OWNER_ID, PROGRAM_NAME, START_DATE, END_DATE,
     PROGRAM_CODE, PROGRAM_CODE_TURN)
  Values
-   (GRANT_PROGRAMS_SEQ.NEXTVAL, 100, 'Kierunek Kariera Zawodowa', TO_DATE('11/07/2018 00:00:00', 'MM/DD/YYYY HH24:MI:SS'), NULL,
+   (GRANT_PROGRAMS_SEQ.NEXTVAL, 100, 'Kierunek Kariera Zawodowa', TO_DATE('07/11/2018 00:00:00', 'MM/DD/YYYY HH24:MI:SS'), NULL,
     '${program.code.wupkkz}', '400002');
 
-
-
-/* TODO: Upewnić się, że nie dodajemy nowych TYPÓW parametrów programu
-Insert into ${gryf.schema}.GRANT_PROGRAM_PARAM_TYPES (ID, NAME, DESCRIPRTION) values ('OWN_CONT_P','Procent wkładu własnego','Procent wkładu własnego jaką użytkownik musi wpłacić przy realizacji danego programu dofinansownaia. Wartoąść parametru musi być liczba bez znaku procent np: 13, 30.33, 12.341');
-Insert into ${gryf.schema}.GRANT_PROGRAM_PARAM_TYPES (ID, NAME, DESCRIPRTION) values ('SXO_NRB_RF','Rachunek bankowy Sxo do wypłat','Rachunek bankowy Sodexo, z którego wypłacane są środki w ramach programu');
-*/
-
-/* TODO: Ustalić, czy nie zmieniają się wartości parametrów:
-
-select PPT.NAME, PPT.DESCRIPRTION, PP.VALUE
-from   ${gryf.schema}.GRANT_PROGRAM_PARAMS PP
-       JOIN ${gryf.schema}.GRANT_PROGRAM_PARAM_TYPES PPT ON PPT.ID = PP.PARAM_ID
-WHERE  PP.ID NOT IN (5,13)
-
-*/
 
 Insert into ${gryf.schema}.GRANT_PROGRAM_PARAMS
    (ID, GRANT_PROGRAM_ID, PARAM_ID, VALUE, DATE_FROM,
@@ -73,13 +55,13 @@ Insert into ${gryf.schema}.GRANT_PROGRAM_PARAMS
    (ID, GRANT_PROGRAM_ID, PARAM_ID, VALUE, DATE_FROM,
     DATE_TO)
  Values
-   (${eagle.schema}.GRANT_PROGRAM_PARAMS_SEQ.nextval, (SELECT ID FROM ${gryf.schema}.GRANT_PROGRAMS WHERE PROGRAM_CODE ='${program.code.wupkkz}' ), 'SXO_NRB_RF', '32160010710003011205015002', NULL,
+   (${eagle.schema}.GRANT_PROGRAM_PARAMS_SEQ.nextval, (SELECT ID FROM ${gryf.schema}.GRANT_PROGRAMS WHERE PROGRAM_CODE ='${program.code.wupkkz}' ), 'SXO_NRB_RF', '05160010710003011205015003', NULL,
     NULL);
 Insert into ${gryf.schema}.GRANT_PROGRAM_PARAMS
    (ID, GRANT_PROGRAM_ID, PARAM_ID, VALUE, DATE_FROM,
     DATE_TO)
  Values
-   (${eagle.schema}.GRANT_PROGRAM_PARAMS_SEQ.nextval, (SELECT ID FROM ${gryf.schema}.GRANT_PROGRAMS WHERE PROGRAM_CODE ='${program.code.wupkkz}' ), 'E_DAY_LIM', '35', NULL,
+   (${eagle.schema}.GRANT_PROGRAM_PARAMS_SEQ.nextval, (SELECT ID FROM ${gryf.schema}.GRANT_PROGRAMS WHERE PROGRAM_CODE ='${program.code.wupkkz}' ), 'E_DAY_LIM', '60', NULL,
     NULL);
 Insert into ${gryf.schema}.GRANT_PROGRAM_PARAMS
    (ID, GRANT_PROGRAM_ID, PARAM_ID, VALUE, DATE_FROM,
@@ -88,38 +70,57 @@ Insert into ${gryf.schema}.GRANT_PROGRAM_PARAMS
    (${eagle.schema}.GRANT_PROGRAM_PARAMS_SEQ.nextval, (SELECT ID FROM ${gryf.schema}.GRANT_PROGRAMS WHERE PROGRAM_CODE ='${program.code.wupkkz}' ), 'ENROLL_GAP', '0', NULL,
     NULL);
 
-/*
-TODO: Upewnić się, że nie zmieniają się limity:
 
-SELECT *
-FROM   ${gryf.schema}.GRANT_PROGRAM_LIMITS
+Insert into APP_PBE.GRANT_PROGRAM_PARAM_TYPES
+   (ID, NAME, DESCRIPRTION)
+ Values
+   ('CTR_LST_ID', 'Ostatni użyty id kontraktu', 'Id kontraktu wykorzystywane do generacji APP_PBE.ACCOUNT_CONTRACT_PAIRS. Numer kontraktu ma struturę: <CTR_PREFIX>/<CTR_LAST_ID><CTR_PSTFIX>/[12] np.WKK/123Z/1');
 
-*/
+Insert into APP_PBE.GRANT_PROGRAM_PARAMS (ID, GRANT_PROGRAM_ID, PARAM_ID, VALUE, DATE_FROM, DATE_TO) Values  (${eagle.schema}.GRANT_PROGRAM_PARAMS_SEQ.nextval (SELECT ID FROM ${gryf.schema}.GRANT_PROGRAMS WHERE PROGRAM_CODE ='${program.code.wupkkz}' ), 'CTR_LST_ID', '0', NULL, NULL);
+
+Insert into APP_PBE.GRANT_PROGRAM_PARAM_TYPES
+   (ID, NAME, DESCRIPRTION)
+ Values
+   ('CTR_PSTFIX', 'Postfix w numerze kontraktu', 'Postfiks zawarty w numerze kontraktu. Numer kontraktu ma struturę: <CTR_PREFIX>/<CTR_LAST_ID><CTR_PSTFIX>/[12] np.WKK/123Z/1');
+
+Insert into APP_PBE.GRANT_PROGRAM_PARAMS (ID, GRANT_PROGRAM_ID, PARAM_ID, VALUE, DATE_FROM, DATE_TO) Values  (${eagle.schema}.GRANT_PROGRAM_PARAMS_SEQ.nextval, (SELECT ID FROM ${gryf.schema}.GRANT_PROGRAMS WHERE PROGRAM_CODE ='${program.code.wupkkz}' ), 'CTR_PSTFIX', 'Z', NULL, NULL);
+
+Insert into APP_PBE.GRANT_PROGRAM_PARAM_TYPES
+   (ID, NAME, DESCRIPRTION)
+ Values
+   ('CTR_PREFIX', 'Prefix w numerze kontraktu', 'Prefix zawarty w numerze kontraktu. Numer kontraktu ma struturę: <CTR_PREFIX>/<CTR_LAST_ID><CTR_PSTFIX>/[12] np.WKK/123Z/1');
+
+Insert into APP_PBE.GRANT_PROGRAM_PARAMS (ID, GRANT_PROGRAM_ID, PARAM_ID, VALUE, DATE_FROM, DATE_TO) Values  (${eagle.schema}.GRANT_PROGRAM_PARAMS_SEQ.nextval, (SELECT ID FROM ${gryf.schema}.GRANT_PROGRAMS WHERE PROGRAM_CODE ='${program.code.wupkkz}' ), 'CTR_PREFIX', 'WZ', NULL, NULL);
+
+Insert into APP_PBE.GRANT_PROGRAM_PARAM_TYPES
+   (ID, NAME, DESCRIPRTION)
+ Values
+   ('CODE_LST_N', 'Ostatni numer CODE', 'Używany przy generacji APP_PBE.ACCOUNT_CONTRACT_PAIRS.ACCOUNT_PAYMENT. Numer konta użyty w dalszej kolejności do ustalenia CODE  dla APP_PBE.INDIVIDUALS');
+
+Insert into APP_PBE.GRANT_PROGRAM_PARAMS (ID, GRANT_PROGRAM_ID, PARAM_ID, VALUE, DATE_FROM, DATE_TO) Values  (${eagle.schema}.GRANT_PROGRAM_PARAMS_SEQ.nextval, (SELECT ID FROM ${gryf.schema}.GRANT_PROGRAMS WHERE PROGRAM_CODE ='${program.code.wupkkz}' ), 'CODE_LST_N', '0', NULL, NULL);
+
+Insert into APP_PBE.GRANT_PROGRAM_PARAM_TYPES
+   (ID, NAME, DESCRIPRTION)
+ Values
+   ('CODE_PRFX', 'Przedrostek CODE', 'Używany przy generacji APP_PBE.ACCOUNT_CONTRACT_PAIRS.ACCOUNT_PAYMENT. Numer konta użyty w dalszej kolejności do ustalenia CODE  dla APP_PBE.INDIVIDUALS');
+
+Insert into APP_PBE.GRANT_PROGRAM_PARAMS (ID, GRANT_PROGRAM_ID, PARAM_ID, VALUE, DATE_FROM, DATE_TO) Values  (${eagle.schema}.GRANT_PROGRAM_PARAMS_SEQ.nextval, (SELECT ID FROM ${gryf.schema}.GRANT_PROGRAMS WHERE PROGRAM_CODE ='${program.code.wupkkz}' ), 'CODE_PRFX', '601', NULL, NULL);
+
 
 
 Insert into ${gryf.schema}.GRANT_PROGRAM_LIMITS
    (ID, GRANT_PROGRAM_ID, ENTERPRISE_SIZE_ID, LIMIT_TYPE, LIMIT_VALUE,
     DATE_FROM, DATE_TO)
  Values
-   (10, (SELECT ID FROM ${gryf.schema}.GRANT_PROGRAMS WHERE PROGRAM_CODE ='${program.code.wupkkz}' ), 'SELF', 'ORDVOULIM', 180,
+   (10, (SELECT ID FROM ${gryf.schema}.GRANT_PROGRAMS WHERE PROGRAM_CODE ='${program.code.wupkkz}' ), 'SELF', 'ORDVOULIM', 337,
     NULL, NULL);
-    
+
 Insert into ${gryf.schema}.GRANT_PROGRAM_LIMITS
    (ID, GRANT_PROGRAM_ID, ENTERPRISE_SIZE_ID, LIMIT_TYPE, LIMIT_VALUE,
     DATE_FROM, DATE_TO)
  Values
    (11, (SELECT ID FROM ${gryf.schema}.GRANT_PROGRAMS WHERE PROGRAM_CODE ='${program.code.wupkkz}' ), 'SELF', 'ORDNUMLIM', 2,
     NULL, NULL);
-
-/* TODO: Upewnić się że nie dodajemy nowych statusów (WAŻNE: jeśli nie, to zabiera to możliwość konfiguracji: INNE ${gryf.schema}.ORDER_FLOW_ELEMENTS )
-Insert into ${gryf.schema}.ORDER_FLOW_STATUSES (STATUS_ID,STATUS_NAME) values ('NEWKK', 'Nowe');
-Insert into ${gryf.schema}.ORDER_FLOW_STATUSES (STATUS_ID,STATUS_NAME) values ('PAIDKK', 'Opłacone');
-Insert into ${gryf.schema}.ORDER_FLOW_STATUSES (STATUS_ID,STATUS_NAME) values ('DOCGENKK', 'Wygenerowano dokumenty');
-Insert into ${gryf.schema}.ORDER_FLOW_STATUSES (STATUS_ID,STATUS_NAME) values ('PROCESSDKK', 'Zrealizowane');
-Insert into ${gryf.schema}.ORDER_FLOW_STATUSES (STATUS_ID,STATUS_NAME) values ('SENTKK', 'Wysłane');
-Insert into ${gryf.schema}.ORDER_FLOW_STATUSES (STATUS_ID,STATUS_NAME) values ('EKSPORTKK', 'Wyeksportowane');
-Insert into ${gryf.schema}.ORDER_FLOW_STATUSES (STATUS_ID,STATUS_NAME) values ('CANCELLDKK', 'Anulowane');
-*/
 
 
 Insert into ${gryf.schema}.ORDER_FLOWS (ID,NAME,INITIAL_STATUS_ID) values (101,'Przepyw zamówienia - Kierunek Kariera Zawodowa','NEWKK');
@@ -129,11 +130,6 @@ Insert into ${gryf.schema}.ORDER_FLOW_STATUS_PROPERTIES (ID, ORDER_FLOW_ID, STAT
 Insert into ${gryf.schema}.ORDER_FLOWS_FOR_GR_PROGRAMS(ID, GRANT_PROGRAM_ID, ORDER_FLOW_ID, DATE_FROM, DATE_TO) values (2, (SELECT ID FROM ${gryf.schema}.GRANT_PROGRAMS WHERE PROGRAM_CODE ='${program.code.wupkkz}' ), 101, null, null);
 
 
-/* TODO: Upewnić się, ze nie ma innych ${gryf.schema}.ORDER_FLOW_ALLOWED_DELAY_TYPES
-update ${gryf.schema}.ORDER_FLOW_ALLOWED_DELAY_TYPES set NAME = 'Dopuszczalne opóźnienie płatności po umowie', DESCRIPTION = 'Dopuszczalne opóźnienie na dokonanie płatności po podpisaniu umowy' where ID = 'PAYAFSIGN';
-*/
-
--- TODO: Potwierdzić wartości:
 /*
 select dt.name, DT.DESCRIPTION, d.*
 from   ${gryf.schema}.ORDER_FLOW_ALLOWED_DELAYS d
@@ -175,10 +171,6 @@ Insert into ${gryf.schema}.ORDER_FLOW_ALLOWED_DELAYS
     'Dozwolony czas na płatność po podpisaniu umowy - 14 dni robczych');
 
 
-/*
-TODO: Ustalić, czy zmieniać ACTION_ID
-TODO: Potwierdzić, że przepływ się nie zmienia
-*/
 Insert into ${gryf.schema}.ORDER_FLOW_STATUS_TRANSITIONS
    (ORDER_FLOW_ID, STATUS_ID, ACTION_ID, ACTION_NAME, ACTION_DESCRIPTION,
     ACTION_CLASS, NEXT_STATUS_ID, AUG_ID_REQUIRED, AUTOMATIC)
@@ -216,45 +208,20 @@ Insert into ${gryf.schema}.ORDER_FLOW_STATUS_TRANSITIONS
    (101, 'PAIDKK', 10025, 'Anuluj Zamówienie', 'Akcja anuluje zamówienie',
     NULL, 'CANCELLDKK', 'GRF_PBE_ORDERS_CANCEL', 'N');
 
-/* TODO: Upewnić się, - Jeśli nie dodajemy nowych statusów, to nie dodajemy tych wpisów
-Insert into ${gryf.schema}.ORDER_FLOW_ELEMENT_TYPES (ID,DESCRIPTION,COMPONENT_NAME) values ('C_CONTRA','Element złożony reprezentujący podstawowe dane o umowie. Front: html i JS, Backend: serwisy, DTOsy do obsługi elementu złożonego powoływane są dynamicznie na podstawie nazwy przechowywanej w kolumnie COMPONENT_NAME','ComplexTypeBasicContractInfo');
-...
-*/
 
-
-/* TODO: Upewnić się, - Jeśli nie dodajemy nowych statusów, to nie dodajemy tych wpisów
-Insert into ${gryf.schema}.ORDER_FLOW_ELEMENTS (ELEMENT_ID,ELEMENT_NAME,ELEMENT_TYPE_ID,ELEMENT_TYPE_PARAMS,ELEMENT_DESCRIPTION) values ('ORDINF_KK','Informacje o zamówieniu','C_BSORDIFO',null,'Element złożony przetrzymujący podstawowe informacje o zamówieniu');
-...
-*/
-
-
-/* TODO: Upewnić się, - Jeśli nie dodajemy nowych statusów, to nie dodajemy tych wpisów
-Insert into ${gryf.schema}.ORDER_FLOW_ELEMENTS_IN_STATUS (STATUS_ID,ELEMENT_ID,POS,FLAGS,AUG_ID_REQUIRED,ALLOWED_DELAY_TYPE_ID) values ('NEWKK',       'ORDINF_KK',1, null, null,null);
-...
-*/
-
--- TODO: Potwierdzić kod produktu
 Insert into ${gryf.schema}.GRANT_OWNER_AID_PRODUCTS
    (ID, GRANT_OWNER_ID, NAME, DESCRIPTION)
  Values
    ('BONELEKZ', 100, 'BONY KIERUNEK KARIERA ZAWODOWA', 'Bony dla WUP Krakow - Kierunek Kariera Zawodowa');
 
--- TODO: USTALIĆ PBE_PRD_ID - Nie wiadomo, co to oznacza (Poniżej zmieniłem kod???)
 Insert into ${gryf.schema}.GRANT_PROGRAM_PRODUCTS
    (ID, GRANT_PROGRAM_ID, PRD_ID, DATE_FROM, DATE_TO,
     AID_PRODUCT_ID, PBE_PRD_ID)
  Values
    (3, (SELECT ID FROM ${gryf.schema}.GRANT_PROGRAMS WHERE PROGRAM_CODE ='${program.code.wupkkz}' ), NULL, NULL, NULL,
-    'BONELEKZ', 'KZ_BON_EL');
+    'BONELEKZ', 'KKZ_BON_EL');
 
-/* TODO: Potwierdzić, że nie wymagane są inne załączniki:
-Insert into ${gryf.schema}.ATTACHMENT_TYPES
-   (CODE, NAME, ORDINAL, MAX_BYTES_PER_FILE, MAX_FILES_PER_TYPE)
- Values
-   ('INVOICE', 'Faktura', 1, 4194304, NULL);
-*/
 
-/* todo: potwierdzić, że wykorzystywane są te same załączniki */
 Insert into ${gryf.schema}.GRANT_PROGRAM_ATTACH_REQ
    (GRANT_PROGRAM_ID, ATTACH_TYPE, DATE_FROM, DATE_TO)
  Values
@@ -325,12 +292,4 @@ Insert into ${gryf.schema}.TI_TRAINING_CATEGORIES  (ID, NAME, ORDINAL, PARENT_ID
 Insert into ${gryf.schema}.TI_TRAINING_CATEGORY_PARAMS(ID, CATEGORY_ID, GRANT_PROGRAM_ID, PRODUCT_INSTANCE_FOR_HOUR, MAX_PRODUCT_INSTANCE, DATE_FROM, DATE_TO) Values (17, 'EGZKZ',  (SELECT ID FROM ${gryf.schema}.GRANT_PROGRAMS WHERE PROGRAM_CODE ='${program.code.wupkkz}' ), NULL, 80, TO_DATE('2018-10-08', 'YYYY-MM-DD'), NULL);
 
 
-
-Insert into ${eagle.schema}.ADM_DOCUMENTS    (MILLESIME, CODE, VALUE, REMARKS) Values   (PK_UTILS.Get_Param_Value('MILLESIME'), 'WP_PR_100', ${eagle.schema}.IND_SEQ.NEXTVAL-1, 'WUP Kierunek Kariera - Ostatni numer wykorzystany do ustalenia CODE w ${gryf.schema}.INDIVIDUALS (format 6000001)');
-
--- TODO: Ustalić 6010001, czy 6100001 
-Insert into ${eagle.schema}.ADM_DOCUMENTS    (MILLESIME, CODE, VALUE, REMARKS) Values   (PK_UTILS.Get_Param_Value('MILLESIME'), 'WP_PR_101', 0, 'WUP Kierunek Kariera Zawodowa - Ostatni numer wykorzystany do ustalenia CODE w ${gryf.schema}.INDIVIDUALS (format 6010001)');
-
--- W ODDZIELNYCH SKRYPTACH:
-  -- GENERACJA PAR
-  -- GENERACJA INSTANCJI PRODUKTÓW
+-- parametry programu
