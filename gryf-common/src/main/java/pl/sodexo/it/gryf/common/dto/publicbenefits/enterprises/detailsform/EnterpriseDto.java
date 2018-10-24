@@ -22,14 +22,6 @@ public class EnterpriseDto extends VersionableDto {
 
     @Getter
     @Setter
-    private String code;
-
-    @Getter
-    @Setter
-    private String accountPayment;
-
-    @Getter
-    @Setter
     private String accountRepayment;
 
     @Getter

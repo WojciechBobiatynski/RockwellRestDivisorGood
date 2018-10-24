@@ -36,7 +36,7 @@ import java.util.Objects;
         @NamedQuery(name = "Enterprise.getForUpdate", query = "select e from Enterprise e left join fetch e.contacts where e.id = :id"),
 })
 @OptimisticLocking(cascade=true)
-public class Enterprise extends VersionableEntity implements AccountContractPairGenerable {
+public class Enterprise extends VersionableEntity {
 
     //STATIC FIELDS - NAMED QUERY
 
@@ -46,8 +46,6 @@ public class Enterprise extends VersionableEntity implements AccountContractPair
     //STATIC FIELDS - ATRIBUTES
 
     public static final String ID_ATTR_NAME = "id";
-    public static final String CODE_ATTR_NAME = "code";
-    public static final String ACCOUNT_PAYMENT_ATTR_NAME = "accountPayment";
     public static final String ACCOUNT_REPAYMENT_NAME = "accountRepayment";
     public static final String NAME_ATTR_NAME = "name";
     public static final String VAT_REG_NUM_ATTR_NAME = "vatRegNum";
@@ -61,22 +59,10 @@ public class Enterprise extends VersionableEntity implements AccountContractPair
 
 
     //FIELDS
-
     @Id
     @Column(name = "ID")
     @GeneratedValue(generator = "ind_seq")
     private Long id;
-
-    @Column(name = "CODE")
-    @Size(max = 8, message = "Kod MŚP musi zawierać maksymalnie 8 znaków")
-    private String code;
-
-    /**
-     * Numer konta do przelewów. Wypełniniany przez triger.
-     */
-    @Column(name = "ACCOUNT_PAYMENT")
-    @Size(max = 26, message = "Konto do wpłaty na bony MŚP musi zawierać maksymalnie 26 znaków")
-    private String accountPayment;
 
     @Column(name = "ACCOUNT_REPAYMENT")
     @Pattern(message = "Numer bankowy musi zawierać 26 cyfr", regexp = "^[0-9]{26}$")
@@ -143,21 +129,6 @@ public class Enterprise extends VersionableEntity implements AccountContractPair
         this.id = id;
     }
 
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getAccountPayment() {
-        return accountPayment;
-    }
-
-    public void setAccountPayment(String accountPayment) {
-        this.accountPayment = accountPayment;
-    }
 
     public String getAccountRepayment() {
         return accountRepayment;

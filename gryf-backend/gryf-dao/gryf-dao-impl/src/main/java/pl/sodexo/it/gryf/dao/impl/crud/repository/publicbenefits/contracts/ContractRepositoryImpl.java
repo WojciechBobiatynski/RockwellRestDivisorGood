@@ -25,7 +25,7 @@ import java.util.List;
  * Created by Isolution on 2016-10-27.
  */
 @Repository
-public class ContractRepositoryImpl extends GenericRepositoryImpl<Contract, Long> implements ContractRepository {
+public class ContractRepositoryImpl extends GenericRepositoryImpl<Contract, String> implements ContractRepository {
 
     @Override
     public List<Contract> findContracts(ContractSearchQueryDTO dto) {

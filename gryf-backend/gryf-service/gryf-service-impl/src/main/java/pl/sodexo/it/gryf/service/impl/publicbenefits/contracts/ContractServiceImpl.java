@@ -31,7 +31,6 @@ import pl.sodexo.it.gryf.service.api.publicbenefits.contracts.ContractService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.ElectronicReimbursementsService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.pbeproductinstancepool.PbeProductInstancePoolService;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
-import pl.sodexo.it.gryf.service.local.api.publicbenefits.pbeproduct.PbeProductInstancePoolLocalService;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.contracts.ContractDtoMapper;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.dictionaries.DictionaryEntityMapper;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.contracts.ContractEntityMapper;
@@ -104,7 +103,7 @@ public class ContractServiceImpl implements ContractService {
         return grantProgramEntityMapper.convert(grantPrograms);
     }
     @Override
-    public ContractDTO findContract(Long id) {
+    public ContractDTO findContract(String id) {
         ContractDTO dto = contractEntityMapper.convert(contractRepository.get(id));
         return dto;
     }
@@ -121,7 +120,7 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
-    public Long saveContract(ContractDTO contractDto) {
+    public String saveContract(ContractDTO contractDto) {
         Contract contract = contractDtoMapper.convert(contractDto);
         fillContract(contract, contractDto);
         contractValidator.validateContractSave(contract);

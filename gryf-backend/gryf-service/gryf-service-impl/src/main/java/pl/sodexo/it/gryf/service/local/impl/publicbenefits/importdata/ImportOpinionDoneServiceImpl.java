@@ -10,6 +10,7 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.importdata.ImportResultDTO;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.TrainingInstanceService;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
+import pl.sodexo.it.gryf.service.local.api.publicbenefits.importdata.ImportDataService;
 
 import java.util.Iterator;
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.List;
 /**
  * Created by Isolution on 2017-01-03.
  */
-@Service(value = "importOpinionDoneService")
+@Service(value = ImportDataService.IMPORT_OPINION_DONE_SERVICE)
 public class ImportOpinionDoneServiceImpl extends ImportBaseDataServiceImpl {
 
     //PRIVATE FIELDS

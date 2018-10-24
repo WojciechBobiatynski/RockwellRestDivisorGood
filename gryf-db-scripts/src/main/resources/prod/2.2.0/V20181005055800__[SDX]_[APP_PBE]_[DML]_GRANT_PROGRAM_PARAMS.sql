@@ -1,0 +1,6 @@
+--------------------------------------------TABELA ${eagle.schema}.adm_parameters --------------------------------------------
+-- Kierunek Kariera Zawodowa - Prameter: GRYF_EXTERNAL_ORDER_ID_PATTERN
+-- Kierunek Kariera Zawodowa - Prameter: GRYF_IMPORT_TRAINING_SEARCH_PATT
+-- Kierunek Kariera
+-- Prameter: GRYF_EXTERNAL_ORDER_ID_PATTERN
+-- Prameter: GRYF_IMPORT_TRAINING_SEARCH_PATT

@@ -107,27 +107,16 @@ public class ContractValidator {
                 return;
             }
 
-            if(isIndividualContractType(contract)) {
-                Individual individual = contract.getIndividual();
-                if (individual.getAccountPayment().isEmpty()) {
-                    message = "Wybrany uczestnik nie ma przypisanego numeru subkonta";
+            String accountPayment = contract.getAccountPayment();
+            if (isIndividualContractType(contract) || isEnterpriseContainIndividual(contract)) {
+                String individualOrEnterprise = isIndividualContractType(contract) ? "uczestnik" : (isEnterpriseContainIndividual(contract) ? "MŚP" : "");
+                if (contract.getAccountPayment().isEmpty()) {
+                    message = String.format("Wybrany %s nie ma przypisanego numeru subkonta", individualOrEnterprise);
                     violations.add(new EntityConstraintViolation(Contract.ID_ATTR_NAME, message, null));
                     return;
                 }
-                if (!accountContractPair.getAccountPayment().equals(individual.getAccountPayment())) {
-                    message = "Numer subkonta przypisany do umowy jest inny niż posiadany przez uczestnika";
-                    violations.add(new EntityConstraintViolation(Contract.ID_ATTR_NAME, message, null));
-                    return;
-                }
-            }else if(isEnterpriseContainIndividual(contract)) {
-                Enterprise enterprise = contract.getEnterprise();
-                if (enterprise.getAccountPayment().isEmpty()) {
-                    message = "Wybrane MŚP nie ma przypisanego numeru subkonta";
-                    violations.add(new EntityConstraintViolation(Contract.ID_ATTR_NAME, message, null));
-                    return;
-                }
-                if (!accountContractPair.getAccountPayment().equals(enterprise.getAccountPayment())) {
-                    message = "Numer subkonta przypisany do umowy jest inny niż posiadany przez MŚP";
+                if (!accountContractPair.getAccountPayment().equals(accountPayment)) {
+                    message = String.format("Numer subkonta przypisany do umowy jest inny niż posiadany przez %s", individualOrEnterprise) ;
                     violations.add(new EntityConstraintViolation(Contract.ID_ATTR_NAME, message, null));
                     return;
                 }

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<!-- The contents of this file will be loaded for each web application -->
+<Context>
+
+    <!-- Default set of monitored resources. If one of these changes, the    -->
+    <!-- web application will be reloaded.                                   -->
+    <WatchedResource>WEB-INF/web.xml</WatchedResource>
+    <WatchedResource>WEB-INF/tomcat-web.xml</WatchedResource>
+    <WatchedResource>${catalina.base}/conf/web.xml</WatchedResource>
+
+    <!-- Uncomment this to disable session persistence across Tomcat restarts -->
+    <!--
+    <Manager pathname="" />
+    -->
+	
+	<!-- REMOTE -->
+
+	 <!-- <Resource factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
+		name="jdbc/EdaDS"
+		url="jdbc:sqlserver://192.168.28.161:1433;databaseName=mf_eda_tb;integratedSecurity=false;applicationName=MF_EDA_TB"
+		username="tburnicki"
+		password="ZFxKIVnMhoq78klC"
+		type="javax.sql.DataSource"
+		driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
+		initialSize="1"
+		maxActive="10"
+		maxIdle="2"
+		maxWait="30000"
+		testOnBorrow="true"
+		testOnConnect="true"
+		validationQuery="SELECT 1"
+		validationInterval="60000"
+	auth="Container"
+	/>
+	-->
+
+	  <Resource factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"        
+		type="javax.sql.DataSource"        
+		driverClassName="oracle.jdbc.driver.OracleDriver"        
+		username="${gryf_db_user}"
+		password="${gryf_db_pass}"
+		maxActive="5"        
+		maxIdle="5"        
+		maxWait="5000"       
+		removeAbandonedTimeout="60"        
+		removeAbandoned="true"       
+		logAbandoned="true"        
+		initialSize="2"        
+		testOnBorrow="true"        
+		validationQuery="SELECT 1 FROM dual"      
+		name="jdbc/srvee"        
+		auth="Container"        
+		url="jdbc:oracle:thin:@${gryf_db_ip}:${gryf_db_port}:${gryf_db_sid}" />
+		
+	<!--	<Resource factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
+		type="javax.sql.DataSource"        
+		driverClassName="oracle.jdbc.driver.OracleDriver"        
+		username="user_gryf"        
+		password="pass_gryf"       
+		maxActive="5"        
+		maxIdle="5"        
+		maxWait="5000"       
+		removeAbandonedTimeout="60"        
+		removeAbandoned="true"       
+		logAbandoned="true"        
+		initialSize="2"        
+		testOnBorrow="true"        
+		validationQuery="SELECT 1 FROM dual"      
+		name="jdbc/srvee"        
+		auth="Container"        
+		url="jdbc:oracle:thin:@select2.sodexo:49161:xe" />-->
+
+	
+</Context>

@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
+import pl.sodexo.it.gryf.common.generator.IdentityGenerator;
+import pl.sodexo.it.gryf.common.validation.publicbenefits.ValidExternalOrderId;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -16,12 +18,12 @@ import java.util.List;
  * Created by Isolution on 2016-12-02.
  */
 @ToString
+@ValidExternalOrderId(message = "Identyfikator umowy musi być w formacie kod programu/numer/numer")
 public class ImportOrderDTO {
 
     @Getter
     @Setter
     @NotEmpty(message = "Id zamówienia nie może być puste")
-    @Pattern(message = "Identyfikator zamówienia musi być w formacie WKK/numer/numer", regexp = "WKK/[0-9]+/[0-9]+")
     private String externalOrderId;
 
     @Getter
@@ -34,17 +36,8 @@ public class ImportOrderDTO {
     @NotNull(message = "Liczba bonów nie może być pusta")
     private Integer productInstanceNum;
 
-    //EXTRA FIELDS
-
-    private Long id;
-
     //EXTRA GETETRS
-
-    public Long getContractId(){
-        if(id == null) {
-            String[] tab = externalOrderId.split("/");
-            id = Long.valueOf(tab[1]);
-        }
-        return id;
+    public String getContractId(IdentityGenerator<ImportOrderDTO, String> identityGenerator){
+        return identityGenerator.generate(this);
     }
 }

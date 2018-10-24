@@ -5,11 +5,11 @@ package pl.sodexo.it.gryf.model.accounts;
  *
  * Created by akmiecinski on 01.12.2016.
  */
-public interface AccountContractPairGenerable {
+public interface AccountContractPairGenerable<ID> {
 
-    Long getId();
+    ID getId();
 
-    void setId(Long Id);
+    void setId(ID Id);
 
     String getCode();
 

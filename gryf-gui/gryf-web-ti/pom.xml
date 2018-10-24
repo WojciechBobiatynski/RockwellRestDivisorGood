@@ -165,7 +165,7 @@
                             <replacements>
                                 <replacement>
                                     <token>##BUILD_NUMBER</token>
-                                    <value>v ${gryf.version}, rev.${svn.revision} ${timestamp}</value>
+                                    <value>v ${gryf.version}, rev.${GIT_COMMIT} ${timestamp}</value>
                                 </replacement>
                             </replacements>
                         </configuration>

@@ -138,12 +138,12 @@ public final class OrderElementDTOProvider {
                 dto.setIndividualFirstName(contract.getIndividual().getFirstName());
                 dto.setIndividualLastName(contract.getIndividual().getLastName());
                 dto.setIndividualPesel(contract.getIndividual().getPesel());
-                dto.setAccountPayment(contract.getIndividual().getAccountPayment());
+                dto.setAccountPayment(contract.getAccountPayment());
             }
             if(contract.getEnterprise() != null){
                 dto.setEnterpriseName(contract.getEnterprise().getName());
                 dto.setEnterpriseVatRegNum(contract.getEnterprise().getVatRegNum());
-                dto.setAccountPayment(contract.getEnterprise().getAccountPayment());
+                dto.setAccountPayment(contract.getAccountPayment());
             }
         }
 
@@ -205,9 +205,7 @@ public final class OrderElementDTOProvider {
         Order order = builder.getOrder();
         dto.setGivenVouchersNumber(order.getVouchersNumber());
         dto.setPaymentAmount(paymentAmount);
-        dto.setPaymentAccount(order.getEnterprise() != null ? order.getEnterprise().getAccountPayment() :
-                        (order.getContract() != null && order.getContract().getIndividual() != null ?
-                                order.getContract().getIndividual().getAccountPayment() : null));
+        dto.setPaymentAccount(order.getContract() .getAccountPayment() );
         return dto;
     }
 

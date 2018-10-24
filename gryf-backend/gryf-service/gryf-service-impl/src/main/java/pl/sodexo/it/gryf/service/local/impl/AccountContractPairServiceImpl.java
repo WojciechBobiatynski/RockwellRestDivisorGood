@@ -59,7 +59,7 @@ public class AccountContractPairServiceImpl implements AccountContractPairServic
     }
 
     @Override
-    public AccountContractPair getValidAccountContractPairForUsed(Long contractId) {
+    public AccountContractPair getValidAccountContractPairForUsedByContractId(String contractId) {
         AccountContractPair accountContractPair = accountContractPairRepository.findByContractId(contractId);
         if (accountContractPair == null) {
             gryfValidator.validate(Individual.CODE_ATTR_NAME, "Niepoprawne znalezione powiązanie idnetyfikatora umowy oraz konta");

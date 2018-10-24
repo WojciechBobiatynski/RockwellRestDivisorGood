@@ -5,6 +5,7 @@ import com.google.common.collect.Lists;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.importdata.*;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.CreateOrderDTO;
@@ -12,11 +13,10 @@ import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.contracts.ContractRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderRepository;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
-import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.Training;
-import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingCategory;
-import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstitution;
+import pl.sodexo.it.gryf.service.api.generator.IdentityGeneratorService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.orders.OrderService;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
+import pl.sodexo.it.gryf.service.local.api.publicbenefits.importdata.ImportDataService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.OrderServiceLocal;
 
 import java.util.Iterator;
@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * Created by Isolution on 2016-12-02.
  */
-@Service(value = "importOrderService")
+@Service(value = ImportDataService.IMPORT_ORDER_SERVICE)
 public class ImportOrderServiceImpl extends ImportBaseDataServiceImpl {
 
     //PRIVATE FIELDS
@@ -45,6 +45,10 @@ public class ImportOrderServiceImpl extends ImportBaseDataServiceImpl {
     @Autowired
     protected OrderServiceLocal orderServiceLocal;
 
+    @Autowired
+    @Qualifier(IdentityGeneratorService.ORDER_IDENTITY_GENERATOR_CONTRACT_ID)
+    private IdentityGeneratorService identityGeneratorService;
+
     //OVERRIDE
 
     @Override
@@ -54,13 +58,13 @@ public class ImportOrderServiceImpl extends ImportBaseDataServiceImpl {
 
     @Override
     protected ImportResultDTO saveInternalNormalData(ImportParamsDTO paramsDTO, Row row, Long importJobId) {
-        ImportOrderDTO importDTO = createImportDTO(row);
-        validateImport(paramsDTO, importDTO);
+        ImportOrderDTO importOrderDTO = createImportDTO(row);
+        validateImport(paramsDTO, importOrderDTO);
 
-        Contract contract = contractRepository.get(importDTO.getContractId());
-        validateConnectedData(importDTO, contract);
+        Contract contract = contractRepository.get(importOrderDTO.getContractId(identityGeneratorService.getGenerator(importOrderDTO)));
+        validateConnectedData(importOrderDTO, contract);
 
-        CreateOrderDTO createOrderDTO = createCreateOrderDTO(importDTO, contract);
+        CreateOrderDTO createOrderDTO = createCreateOrderDTO(importOrderDTO, contract);
         Long orderId = orderService.createOrder(createOrderDTO);
 
         ImportResultDTO result = new ImportResultDTO();
@@ -84,11 +88,11 @@ public class ImportOrderServiceImpl extends ImportBaseDataServiceImpl {
         gryfValidator.validate(violations);
     }
 
-    private void validateConnectedData(ImportOrderDTO importDTO, Contract contract){
+    private void validateConnectedData(ImportOrderDTO importOrderDTO, Contract contract){
         List<EntityConstraintViolation> violations = Lists.newArrayList();
 
         if(contract == null){
-            violations.add(new EntityConstraintViolation(String.format("Nie znaleziono umowy o identyfikatorze (%s).", importDTO.getContractId())));
+            violations.add(new EntityConstraintViolation(String.format("Nie znaleziono umowy o identyfikatorze (%s).", importOrderDTO.getContractId(identityGeneratorService.getGenerator(importOrderDTO)))));
         }
         gryfValidator.validate(violations);
     }

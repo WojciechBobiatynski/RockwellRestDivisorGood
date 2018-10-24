@@ -66,7 +66,7 @@ public class OrdersRestController {
     }
 
     @RequestMapping(value = "/load/{contractId}", method = RequestMethod.GET)
-    public CreateOrderDTO createCreateOrderDTO(@PathVariable Long contractId) {
+    public CreateOrderDTO createCreateOrderDTO(@PathVariable String contractId) {
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_ORDERS_CREATE);
         return orderService.createCreateOrderDTO(contractId);
     }

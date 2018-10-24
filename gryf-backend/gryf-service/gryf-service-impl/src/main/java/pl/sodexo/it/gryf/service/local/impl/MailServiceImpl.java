@@ -195,7 +195,7 @@ public class MailServiceImpl implements MailService {
     //METHODS - SEND MAIL
 
     @Override
-    @Scheduled(initialDelay = 60 * 1000, fixedDelay= 60 * 1000)
+    @Scheduled(initialDelayString = "${gryf2.service.scheduler.mail.initialDelay:60000}", fixedDelayString = "${gryf2.service.scheduler.mail.fixedDelay:60000}")
     @NoLog
     public void sendMails(){
 

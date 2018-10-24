@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by Isolution on 2016-10-27.
  */
-public interface ContractRepository extends GenericRepository<Contract, Long> {
+public interface ContractRepository extends GenericRepository<Contract, String> {
 
     List<Contract> findContracts(ContractSearchQueryDTO dto);
 

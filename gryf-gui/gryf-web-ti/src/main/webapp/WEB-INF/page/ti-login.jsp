@@ -7,7 +7,7 @@
     <meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>System bonów szkoleniowych - Kierunek Kariera - Wojewódzki Urząd Pracy w Krakowie</title>
+    <title>${cdnTitle}</title>
 
     <link rel="stylesheet" href="${cdnUrl}css/gryf.css">
 
@@ -70,6 +70,7 @@
 
             <header>
                 <h2>Kierunek Kariera</h2>
+                <h2>Kierunek Kariera Zawodowa</h2>
             </header>
 
             <div class="content">
@@ -119,12 +120,22 @@
         </section>
     </div></div>
 
-    <div id="bottombar"><div class="grid">
+    <div>
+    <div id="bottombarKKK"><div class="grid">
         <h2>Telefoniczne Biuro Obsługi Klienta</h2>
+        <h2>Kierunek Kariera</h2>
         <h3 class="phone">+48 22 346 75 05</h3>
         <a class="mail" href="mailto:tbok.kk@sodexo.com" title="tbok.kk@sodexo.com">tbok.kk@sodexo.com</a>
         <p class="description">Wszystkie informacje o projekcie pn. „Kierunek Kariera” dostępne są na stronie<br><a href="http://www.pociagdokariery.pl" rel="external" title="Pociąg do Kariery">www.pociagdokariery.pl</a></p>
     </div></div>
+    <div id="bottombarKKZ"><div class="grid">
+        <h2>Telefoniczne Biuro Obsługi Klienta</h2>
+        <h2>Kierunek Kariera Zawodowa</h2>
+        <h3 class="phone">+48 22 346 05 75</h3>
+        <a class="mail" href="mailto:tbok.kk@sodexo.com" title="tbok.kk@sodexo.com">tbok.kk@sodexo.com</a>
+        <p class="description">Wszystkie informacje o projekcie pn. „Kierunek Kariera Zawodowa” dostępne są na stronie<br><a href="http://www.pociagdokariery.pl" rel="external" title="Pociąg do Kariery">www.pociagdokariery.pl</a></p>
+    </div></div>
+    </div>
 
     <div id="logobar"><div class="grid">
         <ul>

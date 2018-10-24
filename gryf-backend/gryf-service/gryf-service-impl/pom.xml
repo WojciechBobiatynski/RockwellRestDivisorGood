@@ -24,6 +24,11 @@
             <groupId>pl.sodexo.it</groupId>
             <artifactId>gryf-dao-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>pl.sodexo.it</groupId>
+            <artifactId>gryf-dao-impl</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
         <!-- SPRING -->
         <dependency>

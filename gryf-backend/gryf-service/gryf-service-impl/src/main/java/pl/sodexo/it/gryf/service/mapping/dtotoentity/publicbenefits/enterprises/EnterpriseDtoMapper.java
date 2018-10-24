@@ -30,8 +30,6 @@ public class EnterpriseDtoMapper extends VersionableDtoMapper<EnterpriseDto,Ente
     protected void map(EnterpriseDto dto, Enterprise entity) {
         super.map(dto, entity);
         entity.setId(dto.getId());
-        entity.setCode(dto.getCode());
-        entity.setAccountPayment(dto.getAccountPayment());
         entity.setAccountRepayment(dto.getAccountRepayment());
         entity.setName(dto.getName());
         entity.setVatRegNum(dto.getVatRegNum());

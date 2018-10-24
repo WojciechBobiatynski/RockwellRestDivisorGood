@@ -36,7 +36,7 @@ import java.util.Objects;
         @NamedQuery(name = "Individual.findById", query = "select i from Individual i where i.id= :id"),
 })
 @OptimisticLocking(cascade=true)
-public class Individual extends VersionableEntity implements AccountContractPairGenerable {
+public class Individual extends VersionableEntity {
 
     //STATIC FIELDS - NAMED QUERY
 
@@ -71,17 +71,6 @@ public class Individual extends VersionableEntity implements AccountContractPair
     @Column(name = "ID")
     @GeneratedValue(generator = "ind_seq")
     private Long id;
-
-    @Column(name = "CODE")
-    @Size(max = 8, message = "Kod użytkownika musi zawierać maksymalnie 8 znaków")
-    private String code;
-
-    /**
-     * Numer konta do przelewów. Wypełniniany przez triger.
-     */
-    @Column(name = "ACCOUNT_PAYMENT")
-    @Size(max = 26, message = "Konto do wpłaty na bony musi zawierać maksymalnie 26 znaków")
-    private String accountPayment;
 
     @Column(name = "ACCOUNT_REPAYMENT")
     @Pattern(message = "Numer bankowy musi zawierać 26 cyfr", regexp = "^[0-9]{26}$")
@@ -159,22 +148,6 @@ public class Individual extends VersionableEntity implements AccountContractPair
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getAccountPayment() {
-        return accountPayment;
-    }
-
-    public void setAccountPayment(String accountPayment) {
-        this.accountPayment = accountPayment;
     }
 
     public String getAccountRepayment() {
