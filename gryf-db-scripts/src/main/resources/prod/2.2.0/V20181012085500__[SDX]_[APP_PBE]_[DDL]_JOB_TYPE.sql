@@ -54,7 +54,7 @@ ADD CONSTRAINT JOB_TYPE_NAME_UK UNIQUE
 )
 ENABLE;
 
-COMMENT ON TABLE ${gryf.schema}.JOB_TYPE IS 'Tabela przechowuje konfiguracje typów zadań importu per Program/Projekt';
+COMMENT ON TABLE ${gryf.schema}.JOB_TYPE IS '@Author(Tomasz.Burnicki); @Project(Gryf-PBE); @Date(2018-10-10) ;@Purpose(Tabela przechowuje konfiguracje typów zadań importu per Program/Projekt);';
 
 COMMENT ON COLUMN ${gryf.schema}.JOB_TYPE.ID IS 'Klucz głowny generowany z sekwencji JOB_TYPE_seq';
 

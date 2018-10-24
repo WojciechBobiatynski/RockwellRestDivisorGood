@@ -6,7 +6,7 @@ DECLARE
   v_contract_char VARCHAR2(1) := 'Z';
   v_contract_id VARCHAR2(100);
   v_code_prefix   VARCHAR2(100);
-  v_program_id    NUMBER := 101;
+  v_program_id    NUMBER :=  NULL;
 
   -- Składanie całego numeru konta (wraz z cyfrą kontrolną)
   -- na motywach "${eagle.schema}.t$bank_account.GET_COR_SPP(v_code)"
@@ -56,6 +56,8 @@ DECLARE
     RETURN v_value;
   end;
 BEGIN
+
+  SELECT ID INTO v_program_id FROM ${gryf.schema}.GRANT_PROGRAMS WHERE PROGRAM_CODE ='${program.code.wupkkz}';
 
   v_code_prefix := GET_PARAM_VALUE( 'CODE_PRFX', v_program_id);
   v_contract_char := GET_PARAM_VALUE( 'CTR_PSTFIX', v_program_id);

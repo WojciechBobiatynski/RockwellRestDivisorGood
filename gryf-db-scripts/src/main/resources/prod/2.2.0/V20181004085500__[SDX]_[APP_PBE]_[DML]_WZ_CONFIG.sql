@@ -76,7 +76,7 @@ Insert into APP_PBE.GRANT_PROGRAM_PARAM_TYPES
  Values
    ('CTR_LST_ID', 'Ostatni użyty id kontraktu', 'Id kontraktu wykorzystywane do generacji APP_PBE.ACCOUNT_CONTRACT_PAIRS. Numer kontraktu ma struturę: <CTR_PREFIX>/<CTR_LAST_ID><CTR_PSTFIX>/[12] np.WKK/123Z/1');
 
-Insert into APP_PBE.GRANT_PROGRAM_PARAMS (ID, GRANT_PROGRAM_ID, PARAM_ID, VALUE, DATE_FROM, DATE_TO) Values  (${eagle.schema}.GRANT_PROGRAM_PARAMS_SEQ.nextval (SELECT ID FROM ${gryf.schema}.GRANT_PROGRAMS WHERE PROGRAM_CODE ='${program.code.wupkkz}' ), 'CTR_LST_ID', '0', NULL, NULL);
+Insert into APP_PBE.GRANT_PROGRAM_PARAMS (ID, GRANT_PROGRAM_ID, PARAM_ID, VALUE, DATE_FROM, DATE_TO) Values  (${eagle.schema}.GRANT_PROGRAM_PARAMS_SEQ.nextval, (SELECT ID FROM ${gryf.schema}.GRANT_PROGRAMS WHERE PROGRAM_CODE ='${program.code.wupkkz}' ), 'CTR_LST_ID', '0', NULL, NULL);
 
 Insert into APP_PBE.GRANT_PROGRAM_PARAM_TYPES
    (ID, NAME, DESCRIPRTION)
