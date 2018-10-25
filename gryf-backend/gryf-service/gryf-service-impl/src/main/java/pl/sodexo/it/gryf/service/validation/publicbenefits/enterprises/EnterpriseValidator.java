@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.service.validation.publicbenefits.enterprises;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.ContactDataValidationDTO;
@@ -15,7 +16,9 @@ import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
 import pl.sodexo.it.gryf.service.local.api.dictionaries.ContactTypeValidator;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.enterprises.searchform.EnterpriseEntityToSearchResultMapper;
+import pl.sodexo.it.gryf.service.validation.publicbenefits.AbstractValidator;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -25,8 +28,9 @@ import java.util.Objects;
  * Created by jbentyn on 2016-09-30.
  */
 @Component
-public class EnterpriseValidator {
+public class EnterpriseValidator extends AbstractValidator {
 
+    private static final String VIOLATIONS_PREFIX = "Dla MŚP: ";
     @Autowired
     private GryfValidator gryfValidator;
 
@@ -54,6 +58,7 @@ public class EnterpriseValidator {
         }
 
         //VALIDATE (EXCEPTION)
+        addPrefixMessage(VIOLATIONS_PREFIX, violations);
         gryfValidator.validate(violations);
 
         //VAT REG NUM EXIST - VALIDATION
@@ -101,4 +106,5 @@ public class EnterpriseValidator {
             throw new VatRegNumEnterpriseExistException("W systemie istnieja zapisane podmioty o danym numerze NIP", enterpriseEntityToSearchResultMapper.convert(enterprises));
         }
     }
+
 }
