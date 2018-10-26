@@ -66,7 +66,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-jar-plugin</artifactId>
-                        <version>3.0.1</version>
+                        <version>2.4</version>
                         <configuration>
                             <excludes>
                                 <exclude>**/logback.xml</exclude>
@@ -86,7 +86,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-jar-plugin</artifactId>
-                        <version>3.0.1</version>
+                        <version>2.4</version>
                         <configuration>
                             <excludes>
                                 <exclude>**/gryf2*.properties</exclude>

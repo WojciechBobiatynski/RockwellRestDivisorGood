@@ -35,6 +35,13 @@
   <profiles>
     <profile>
       <id>db-dev</id>
+      <properties>
+        <tablespace.index>tbs_sodexo_idx</tablespace.index>
+        <gryf.schema.name>app_pbe</gryf.schema.name>
+        <eagle.schema.name>eagle</eagle.schema.name>
+        <gryf.pbe_product_instances.number>${gryf.pbe_product_instances.number.value}</gryf.pbe_product_instances.number>
+        <program.code.wupkkz>${gryf.program.code.wkkz}</program.code.wupkkz>
+      </properties>
       <activation>
         <activeByDefault>true</activeByDefault>
       </activation>
@@ -61,6 +68,7 @@
                 <eagle.schema>${eagle.schema.name}</eagle.schema>
                 <gryf.schema>${gryf.schema.name}</gryf.schema>
                 <program.code.wupkkz>${gryf.program.code.wkkz}</program.code.wupkkz>
+                <gryf.pbe_product_instances.number>${gryf.pbe_product_instances.number.value}</gryf.pbe_product_instances.number>
               </placeholders>
             </configuration>
             <dependencies>

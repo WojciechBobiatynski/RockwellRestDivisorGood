@@ -29,9 +29,6 @@ ALTER TABLE ${gryf.schema}.CONTRACTS_AUDIT add (CODE VARCHAR2(8) default '-1' NO
 COMMENT ON COLUMN ${gryf.schema}.CONTRACTS.CODE IS 'Kod uczestnika/MSP';
 COMMENT ON COLUMN ${gryf.schema}.CONTRACTS.ACCOUNT_PAYMENT IS 'Subkonto uczestnika/MSP';
 
-
-ALTER TABLE ${gryf.schema}.CONTRACTS_AUDIT add (CODE VARCHAR2(8) default '-1' NOT NULL , ACCOUNT_PAYMENT VARCHAR2(26) default '-1' NOT NULL);
-
 -- IND - dane do Umowy z Individuals
 --- Uwaga: Kolejnosś jest wazna. 1st Ind 2nd Ent
 MERGE INTO ${gryf.schema}.CONTRACTS  contr USING (
