@@ -1,5 +1,7 @@
-package pl.sodexo.it.gryf.common.service.api.patterns;
+package pl.sodexo.it.gryf.service.api.patterns;
 
+
+import java.io.Serializable;
 
 /**
  * Interejs Kontekstu wzorcow
@@ -8,7 +10,7 @@ package pl.sodexo.it.gryf.common.service.api.patterns;
  * @param <Y>
  * @param <Z>
  */
-public interface PatternContext<T, Y, Z> {
+public interface PatternContext<T, Y, Z> extends Serializable {
 
     T getId();
 

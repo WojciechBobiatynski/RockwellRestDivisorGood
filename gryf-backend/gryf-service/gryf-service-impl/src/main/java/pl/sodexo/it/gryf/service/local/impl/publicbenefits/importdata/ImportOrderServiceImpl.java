@@ -6,6 +6,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.importdata.*;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.CreateOrderDTO;
@@ -18,6 +19,7 @@ import pl.sodexo.it.gryf.service.api.publicbenefits.orders.OrderService;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.importdata.ImportDataService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.OrderServiceLocal;
+import pl.sodexo.it.gryf.service.validation.publicbenefits.orders.OrderValidator;
 
 import java.util.Iterator;
 import java.util.List;
@@ -49,6 +51,13 @@ public class ImportOrderServiceImpl extends ImportBaseDataServiceImpl {
     @Qualifier(IdentityGeneratorService.ORDER_IDENTITY_GENERATOR_CONTRACT_ID)
     private IdentityGeneratorService identityGeneratorService;
 
+
+    @Autowired
+    private OrderValidator orderValidator;
+
+    @Value("${gryf2.service.pattern.externalOrderIdPatternRegexp.wkk:WKK/[0-9]+/[0-9]+}")
+    private String externalOrderIdPatternRegexp ;
+
     //OVERRIDE
 
     @Override
@@ -73,6 +82,7 @@ public class ImportOrderServiceImpl extends ImportBaseDataServiceImpl {
         return result;
     }
 
+
     //PRIVATE METHODS - VALIDATE
 
     private void validateImport(ImportParamsDTO paramsDTO, ImportOrderDTO importDTO){
@@ -85,6 +95,8 @@ public class ImportOrderServiceImpl extends ImportBaseDataServiceImpl {
                         + "dofinansowania istnieje zamówienie o idnetyfikatorze [%s].", importDTO.getExternalOrderId())));
             }
         }
+        //Walidacja identyfikator umowy
+        violations.addAll(orderValidator.validateContractIdAgreementWithPattern(paramsDTO.getGrantProgram(), importDTO.getExternalOrderId(), externalOrderIdPatternRegexp));
         gryfValidator.validate(violations);
     }
 

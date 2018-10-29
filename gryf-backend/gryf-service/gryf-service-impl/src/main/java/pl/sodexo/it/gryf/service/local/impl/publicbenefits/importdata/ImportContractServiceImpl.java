@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.dto.other.DictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.other.GrantProgramDictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.ContactTypeDto;
@@ -45,6 +46,7 @@ import pl.sodexo.it.gryf.service.local.api.AccountContractPairService;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.importdata.ImportDataService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.OrderServiceLocal;
+import pl.sodexo.it.gryf.service.validation.publicbenefits.contracts.ContractValidator;
 
 import java.util.*;
 
@@ -52,6 +54,7 @@ import java.util.*;
  * Created by Isolution on 2016-12-02.
  */
 @Service(value = ImportDataService.IMPORT_CONTRACT_SERVICE)
+@Transactional
 public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
 
     //PRIVATE METHODS
@@ -93,6 +96,9 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
     private OrderService orderService;
 
     @Autowired
+    private ContractValidator contractValidator;
+
+    @Autowired
     @Qualifier(IdentityGeneratorService.CONTRACT_IDENTITY_GENERATOR_CONTRACT_ID)
     private IdentityGeneratorService identityGeneratorService;
 
@@ -101,6 +107,9 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
 
     @Value("${gryf2.service.import.checkValRegDuplication:false}")
     private Boolean checkValRegDuplication;
+
+    @Value("${gryf2.service.pattern.externalOrderIdPatternRegexp.wkk:WKK/[0-9]+/[0-9]+}")
+    private String externalOrderIdPatternRegexp ;
 
     //OVERRIDE
     @Override
@@ -146,6 +155,8 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
         return importResult;
     }
 
+
+
     private void copyAddressDataEnterpriseToIndividual(ImportComplexContractDTO importComplexContractDTO) {
         if (Objects.nonNull(importComplexContractDTO)) {
             ImportEnterpriseDTO importEnterpriseDTO = importComplexContractDTO.getEnterprise();
@@ -173,10 +184,16 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
                 enterpriseViolations.add(new EntityConstraintViolation("Dla typu kontraktu 'IND' (osoba fizyczna) pola dla MŚP powinny być puste."));
             }
         }
+
         addPrefixMessage("Dla MŚP: ", enterpriseViolations);
 
         List<EntityConstraintViolation> allViolation = Lists.newArrayList();
+
         allViolation.addAll(contractViolations);
+        //walidacja identyfikatora kontraktu
+        allViolation.addAll(contractValidator.validateContractIdAgreementWithPattern(importDTO.getContract(), this.externalOrderIdPatternRegexp));
+
+
         allViolation.addAll(individualViolations);
         allViolation.addAll(enterpriseViolations);
         gryfValidator.validate(allViolation);

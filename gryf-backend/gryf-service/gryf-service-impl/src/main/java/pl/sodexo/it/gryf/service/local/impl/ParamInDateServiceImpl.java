@@ -2,6 +2,7 @@ package pl.sodexo.it.gryf.service.local.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.grantprograms.GrantProgramLimitRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.grantprograms.GrantProgramParamRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.grantprograms.GrantProgramProductRepository;
@@ -23,6 +24,7 @@ import java.util.List;
  * Created by Isolution on 2016-11-18.
  */
 @Service
+@Transactional
 public class ParamInDateServiceImpl implements ParamInDateService {
 
     @Autowired

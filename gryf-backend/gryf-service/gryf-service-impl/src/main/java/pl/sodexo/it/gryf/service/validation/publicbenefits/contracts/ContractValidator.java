@@ -1,23 +1,28 @@
 package pl.sodexo.it.gryf.service.validation.publicbenefits.contracts;
 
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.importdata.ImportContractDTO;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.dao.api.crud.repository.accounts.AccountContractPairRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.contracts.ContractRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.employments.EmploymentRepository;
-import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.enterprises.EnterpriseRepository;
-import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.individuals.IndividualRepository;
 import pl.sodexo.it.gryf.model.accounts.AccountContractPair;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
 import pl.sodexo.it.gryf.model.publicbenefits.employment.Employment;
-import pl.sodexo.it.gryf.model.publicbenefits.enterprises.Enterprise;
-import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
+import pl.sodexo.it.gryf.service.api.patterns.DefaultPatternContext;
+import pl.sodexo.it.gryf.service.api.patterns.PatternContext;
+import pl.sodexo.it.gryf.service.api.patterns.PatternService;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
 import pl.sodexo.it.gryf.service.validation.publicbenefits.AbstractValidator;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by adziobek on 07.11.2016.
@@ -37,16 +42,15 @@ public class ContractValidator extends AbstractValidator {
     private AccountContractPairRepository accountContractPairRepository;
 
     @Autowired
-    private IndividualRepository individualRepository;
-
-    @Autowired
-    private EnterpriseRepository enterpriseRepository;
-
-    @Autowired
     private EmploymentRepository employmentRepository;
 
     @Autowired
     private ContractRepository contractRepository;
+
+
+    @Autowired
+    @Qualifier(PatternService.GRANT_PROGRAM_PATTERN_SERVICE)
+    private PatternService grantProgramPatternService;
 
     public void validateContractSave(Contract contract) {
 
@@ -105,11 +109,11 @@ public class ContractValidator extends AbstractValidator {
                 violations.add(new EntityConstraintViolation(Contract.ID_ATTR_NAME, message, null));
                 return;
             }
-            if (!accountContractPair.isUsed()) {
+            /*if (!accountContractPair.isUsed()) {
                 message = "Para id umowy - subkonto istnieje ale nie została przypisana uczestnikowi";
                 violations.add(new EntityConstraintViolation(Contract.ID_ATTR_NAME, message, null));
                 return;
-            }
+            }*/
 
             String accountPayment = contract.getAccountPayment();
             if (isIndividualContractType(contract) || isEnterpriseContainIndividual(contract)) {
@@ -125,6 +129,8 @@ public class ContractValidator extends AbstractValidator {
                     return;
                 }
             }
+
+
 
         }
     }
@@ -174,4 +180,20 @@ public class ContractValidator extends AbstractValidator {
     private boolean isIndividualContractType(Contract contract) {
         return INDIVIDUAL_CONTRACT_TYPE_ID.equals(contract.getContractType().getId());
     }
+
+    public List<EntityConstraintViolation> validateContractIdAgreementWithPattern(ImportContractDTO importContractDTO, String externalOrderIdPatternRegexp) {
+        PatternContext importContractContext =  DefaultPatternContext.create().withCode(importContractDTO.getGrantProgram().getProgramCode())
+                .withId((Long) importContractDTO.getGrantProgram().getId()).withDefaultPattern(externalOrderIdPatternRegexp).build();
+        Pattern patternCompile = Pattern.compile(externalOrderIdPatternRegexp); //grantProgramPatternService.getPattern(importContractContext));
+        Matcher matcher = patternCompile.matcher(importContractDTO.getExternalOrderId());
+        if (!matcher.matches()) {
+            List<EntityConstraintViolation> contractViolations = Lists.newArrayList();
+            contractViolations.add(new EntityConstraintViolation("Identyfikator umowy musi być w formacie kod programu/numer/numer"));
+            addPrefixMessage(VIOLATIONS_PREFIX, contractViolations);
+            return contractViolations;
+        }
+        return Collections.EMPTY_LIST;
+    }
+
+
 }

@@ -3,6 +3,8 @@ package pl.sodexo.it.gryf.service.local.impl;
 import com.google.common.base.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.common.exception.EntityValidationException;
@@ -24,6 +26,7 @@ import java.util.Arrays;
  * Created by Isolution on 2016-12-01.
  */
 @Service
+@Transactional
 public class AccountContractPairServiceImpl implements AccountContractPairService {
 
     //STATIC FIELDS
@@ -65,7 +68,7 @@ public class AccountContractPairServiceImpl implements AccountContractPairServic
             gryfValidator.validate(Individual.CODE_ATTR_NAME, "Niepoprawne znalezione powiązanie idnetyfikatora umowy oraz konta");
         }
         if (accountContractPair.isUsed()) {
-            gryfValidator.validate(Individual.CODE_ATTR_NAME, "Wpisana para identyfiktor umowy - konto jest już zarezerwowana");
+            gryfValidator.validate(Individual.CODE_ATTR_NAME, "Wpisana para identyfiktor umowy - konto jest już użyte.");
         }
         return accountContractPair;
     }

@@ -23,6 +23,8 @@
     <gryf.pbe_product_instances.number.value.prod>5055000</gryf.pbe_product_instances.number.value.prod>
     <gryf.program.code.wkkz>WUPKKZ</gryf.program.code.wkkz>
     <program.code.wupkkz>${gryf.program.code.wkkz}</program.code.wupkkz>
+    <gryf.program.code.wkkk>WUPKKK</gryf.program.code.wkkk>
+    <program.code.wupkkk>${gryf.program.code.wkkk}</program.code.wupkkk>
   </properties>
 
   <dependencies>
@@ -68,6 +70,7 @@
                 <eagle.schema>${eagle.schema.name}</eagle.schema>
                 <gryf.schema>${gryf.schema.name}</gryf.schema>
                 <program.code.wupkkz>${gryf.program.code.wkkz}</program.code.wupkkz>
+                <program.code.wupkkk>${gryf.program.code.wkkk}</program.code.wupkkk>
                 <gryf.pbe_product_instances.number>${gryf.pbe_product_instances.number.value}</gryf.pbe_product_instances.number>
               </placeholders>
             </configuration>

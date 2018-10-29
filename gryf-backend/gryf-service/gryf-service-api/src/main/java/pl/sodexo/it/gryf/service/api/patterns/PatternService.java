@@ -1,4 +1,4 @@
-package pl.sodexo.it.gryf.common.service.api.patterns;
+package pl.sodexo.it.gryf.service.api.patterns;
 
 /**
  * Interfejs usługi wzorcw np. wyszukiwania danych
@@ -20,14 +20,8 @@ public interface PatternService<ID extends  Long, CODE extends String, DEFAULT e
      */
     String getPattern(PatternContext<ID, CODE, DEFAULT> patternContext);
 
-    String findPatternUsingApplicationParameters(PatternContext<Long, String, String> patternContext);
 
-    /**
-     *
-     * Wybierz kod wzorca na podstawie kontekstu
-     *
-     * @param pat
-     * @return
-     */
-    String getPatternParameterCode (PatternContext<ID, CODE, DEFAULT> pat);
+    String getCode();
+
+    String getPatternCodeName();
 }

@@ -12,7 +12,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Constraint(validatedBy = { ExternalOrderIdValidator.class })
 public @interface ValidExternalOrderId {
 
-    String message() default "{pl.sodexo.it.gryf.common.dto.publicbenefits.importdata.validation.ValidExternalOrderId.message}";
+    String message() default "Identyfikator umowy musi być w formacie kod programu/numer/numer";
 
     Class<?>[] groups() default {};
 

@@ -14,4 +14,6 @@ COPY ./lib/*.* /usr/local/tomcat/lib/
 
 WORKDIR /usr/local/tomcat/conf
 
+WORKDIR /usr/local/import
+
 ##RUN chmod +x configureNetwork.sh

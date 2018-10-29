@@ -42,24 +42,9 @@
            overflowToDisk="false" />
 
     <!-- Pattern Service -->
-    <cache name="ExternalOrderIdPatternServiceImpl.getPattern" eternal="false"
+    <cache name="DefaultPatternService.getPattern" eternal="false"
            timeToIdleSeconds="0" timeToLiveSeconds="86400"
            maxElementsInMemory="1000"
            overflowToDisk="false" />
 
-    <cache name="ExternalOrderIdPatternServiceImpl.getPatternCode" eternal="false"
-        timeToIdleSeconds="0" timeToLiveSeconds="86400"
-        maxElementsInMemory="1000"
-        overflowToDisk="false" />
-
-    <cache name="ImportTrainingPatternServiceImpl.getPattern" eternal="false"
-           timeToIdleSeconds="0" timeToLiveSeconds="86400"
-           maxElementsInMemory="1000"
-           overflowToDisk="false" />
-
-    <cache name="ImportTrainingPatternServiceImpl.getPatternCode" eternal="false"
-           timeToIdleSeconds="0" timeToLiveSeconds="86400"
-           maxElementsInMemory="1000"
-           overflowToDisk="false" />
-
-</ehcache>
+s</ehcache>

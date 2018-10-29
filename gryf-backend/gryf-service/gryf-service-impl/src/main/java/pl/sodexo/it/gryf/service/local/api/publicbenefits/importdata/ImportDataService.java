@@ -17,11 +17,11 @@ public interface ImportDataService {
     String IMPORT_TRAINING_SERVICE = "importTrainingService";
     String IMPORT_OPINION_DONE_SERVICE =  "importOpinionDoneService";
 
-    String WZ_IMPORT_CONTRACT_SERVICE = "importContractWZService";
-    String WZ_IMPORT_OPINION_DONE_SERVICE = "ImportOpinionDoneWZService";
-    String WZ_IMPORT_ORDER_SERVICE = "importOrderWZService";
-    String WZ_IMPORT_TRAINING_INSTITUTION_SERVICE = "importTrainingInstitutionWZService";
-    String WZ_IMPORT_TRAINING_SERVICE = "importTrainingWZService";
+    String WZ_IMPORT_CONTRACT_SERVICE = "WZImportContractService";
+    String WZ_IMPORT_OPINION_DONE_SERVICE = "importOpinionDoneService";
+    String WZ_IMPORT_ORDER_SERVICE = "WZImportOrderService";
+    String WZ_IMPORT_TRAINING_INSTITUTION_SERVICE = "importTrainingInstitutionService";
+    String WZ_IMPORT_TRAINING_SERVICE = "importTrainingService";
 
     int saveEmptyRows(Long importJobId, int rowNums);
 
