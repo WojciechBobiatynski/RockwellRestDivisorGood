@@ -66,12 +66,13 @@
               <validateOnMigrate>true</validateOnMigrate>
               <outOfOrder>true</outOfOrder>
               <encoding>windows-1250</encoding>
+              <sqlMigrationSuffix>.sql,.tps,.tpb,.pkb</sqlMigrationSuffix>
               <placeholders>
                 <eagle.schema>${eagle.schema.name}</eagle.schema>
                 <gryf.schema>${gryf.schema.name}</gryf.schema>
                 <program.code.wupkkz>${gryf.program.code.wkkz}</program.code.wupkkz>
-                <program.code.wupkkk>${gryf.program.code.wkkk}</program.code.wupkkk>
                 <gryf.pbe_product_instances.number>${gryf.pbe_product_instances.number.value}</gryf.pbe_product_instances.number>
+                <program.code.wupkkk>${gryf.program.code.wkkk}</program.code.wupkkk>
               </placeholders>
             </configuration>
             <dependencies>

@@ -8,23 +8,6 @@ DECLARE
   v_code_prefix   VARCHAR2(100);
   v_program_id    NUMBER :=  NULL;
 
-  -- Składanie całego numeru konta (wraz z cyfrą kontrolną)
-  -- na motywach "${eagle.schema}.t$bank_account.GET_COR_SPP(v_code)"
-  FUNCTION GET_COR_KKZ(a_code VARCHAR2) RETURN VARCHAR2
-  IS
-     bank VARCHAR2(8)       := '16001071';
-     account VARCHAR2(16)   := '87261111';
-  BEGIN
-     IF length(a_code) != 8 THEN
-         PK_ERROR.RAISE_ERROR(-20002, 'Zly parametr a_code='||a_code);
-     END IF;
-     account := account || a_code;
-     RETURN t$bank_account.crc(bank, account) || bank || account;
-  EXCEPTION
-      WHEN OTHERS THEN
-        PK_ERROR.RAISE_ERROR(sqlcode,sqlerrm,'BAC_GCS');
-  END;
-
   FUNCTION GET_NEXT_NUM(a_parameter_name IN VARCHAR2,
                         a_program_id     IN NUMBER) RETURN NUMBER IS
     v_num NUMBER;
@@ -69,8 +52,7 @@ BEGIN
 
     SELECT v_code_prefix ||TO_CHAR(v_code_no,'FM'||LPAD('0',8-LENGTH(v_code_prefix),'0')) into v_code FROM DUAL;
 
-    -- TODO: Po potwierdzeniu numeru konta przepisać do typu, analogicznie do: ${eagle.schema}.t$bank_account.GET_COR_SPP(v_code)
-    v_account_payment := GET_COR_KKZ(v_code);
+    v_account_payment := ${eagle.schema}.t$bank_account.GET_COR_SPP_WUP(a_grand_program_id => v_program_id, a_code => v_code);
 
     v_contract_id := GET_NEXT_NUM('CTR_LST_ID', v_program_id);
 

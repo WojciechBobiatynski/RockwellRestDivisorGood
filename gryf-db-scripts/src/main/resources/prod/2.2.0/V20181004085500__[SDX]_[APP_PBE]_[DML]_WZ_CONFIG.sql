@@ -135,6 +135,7 @@ select dt.name, DT.DESCRIPTION, d.*
 from   ${gryf.schema}.ORDER_FLOW_ALLOWED_DELAYS d
        join ${gryf.schema}.ORDER_FLOW_ALLOWED_DELAY_TYPES dt on DT.ID = D.DELAY_TYPE_ID
 */
+/*
 MERGE INTO ${gryf.schema}.ORDER_FLOW_ALLOWED_DELAY_TYPES  ug USING (
 SELECT
      'PAYAFORD'  id,
@@ -155,6 +156,7 @@ WHEN NOT MATCHED THEN INSERT (
     ins.description,
     ins.name,
     ins.DELAY_STARTING_POINT_TYPE_ID);
+*/
 
 Insert into ${gryf.schema}.ORDER_FLOW_ALLOWED_DELAYS
    (ID, ORDER_FLOW_ID, DELAY_TYPE_ID, DELAY_VALUE, DELAY_DAYS_TYPE,
