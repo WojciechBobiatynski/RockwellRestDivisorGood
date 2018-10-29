@@ -9,8 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>System bonów szkoleniowych - Kierunek Kariera - Wojewódzki Urząd Pracy w Krakowie</title>
-
-    <link rel="stylesheet" href="${cdnUrl}css/gryf.css">
+    <%--<link rel="stylesheet" href="${cdnUrl}css/gryf.css">--%>
+    <link rel="stylesheet" href="${cdnUrl}css/gryf-dev.css">
 
     <link href="//fonts.googleapis.com/css?family=Roboto:300,400,700&amp;subset=latin-ext" rel="stylesheet">
 
@@ -39,30 +39,32 @@
 
     <div id="accessbility"><div class="grid">
         <ol class="font">
-            <li><a href="#font-normal" title="ustaw małą czcionkę" rel="font" class="font-normal current">A</a></li>
-            <li><a href="#font-medium" title="ustaw średnią czcionkę" rel="font" class="font-medium">A</a></li>
-            <li><a href="#font-big" title="ustaw dużą czcionkę" rel="font" class="font-big">A</a></li>
-            <li><a href="#high-contrast" title="zmień kontrast" rel="contrast" class="contrast-high">zmień kontrast</a></li>
+            <li><a role="button" href="#font-normal" title="ustaw małą czcionkę" rel="font" class="font-normal current">A</a></li>
+            <li><a role="button" href="#font-medium" title="ustaw średnią czcionkę" rel="font" class="font-medium">A</a></li>
+            <li><a role="button" href="#font-big" title="ustaw dużą czcionkę" rel="font" class="font-big">A</a></li>
+            <li><a role="button" href="#high-contrast" title="zmień kontrast" rel="contrast" class="contrast-high">zmień kontrast</a></li>
         </ol>
     </div></div>
 
-    <header><div class="grid">
-        <div>
+    <header>
+        <div class="grid">
             <span class="description">System bonów szkoleniowych realizowany jest na zlecenie</span>
-            <h1 class="ci ci-wup">
-                <a title="Instytucja Województwa Małopolskiego, Wojewódzki Urząd Pracy w Krakowie" rel="home" href="${pageContext.request.contextPath}/" itemprop="name">Kierunek Kariera - Wojewódzki Urząd Pracy w Krakowie</a>
-            </h1>
+            <a href="${pageContext.request.contextPath}/">
+                <img src="${cdnUrl}img/gryf-dev.css" alt="Logo wojewódzkiego Urzędu Pracy w Krakowie z szarym konturem człowiek i zieloną strzałką pod nim, wskaruzującym na napisz Wojewódzki Urząd Pracy w Krakowie, po lewej napis Instytucja Województwa Małopolskiego">
+            </a>
+            <a href="https://www.malopolska.pl/">
+                <img src="" alt="Logo województwa małopolskiego, znak gór wykonany z fioletowych, niebieskich zielonych i zółtych prostokątów nachodzących na siebie tworzących podobiznę górskich szczytów">
+            </a>
+            <a href="http://europa.eu/european-union/index_pl">
+                <img src="" alt="Flaga Uni Europejskiej, ciemnoniebieskie tło z żółtymi gwiadkami i podpsiem podspodem Unia Europejska">
+            </a>
         </div>
-        <ol>
-            <li class="ci ci-malopolska-v"><a href="http://www.malopolska.pl/" rel="external" title="Małopolska">Małopolska</a></li>
-            <li class="ci ci-ue"><a href="http://europa.eu/european-union/index_pl" rel="external" title="Unia Europejska">Unia Europejska</a></li>
-        </ol>
-    </div></header>
+    </header>
 
     <nav><div class="grid">
         <ul>
-            <li><a href="#" class="current" title="Panel Logowania">Panel Logowania</a></li>
-            <li><a href="${pageContext.request.contextPath}/help" title="Pomoc">Pomoc</a></li>
+            <li><a role="button" href="#" class="current" title="Panel Logowania">Panel Logowania</a></li>
+            <li><a role="button" href="${pageContext.request.contextPath}/help" title="Pomoc">Pomoc</a></li>
         </ul>
     </div></nav>
 
@@ -72,6 +74,7 @@
 
             <header>
                 <h2>Kierunek Kariera</h2>
+                <h2>Kierunek Kariera Zawodowa</h2>
             </header>
 
             <div class="content">
@@ -112,7 +115,7 @@
                     </div>
 
                     <div class="msg">
-                        <a href="${pageContext.request.contextPath}/verification" title="Prześlij ponownie kod weryfikacyjny">Prześlij ponownie kod weryfikacyjny</a>
+                        <a aria-label="button" href="${pageContext.request.contextPath}/verification" tabindex="4" title="Prześlij ponownie kod weryfikacyjny">Prześlij ponownie kod weryfikacyjny</a>
                     </div>
 
                 </form>
@@ -120,12 +123,24 @@
         </section>
     </div></div>
 
-    <div id="bottombar"><div class="grid">
-        <h2>Telefoniczne Biuro Obsługi Klienta</h2>
-        <h3 class="phone">+48 22 346 75 05</h3>
-        <a class="mail" href="mailto:tbok.kk@sodexo.com" title="tbok.kk@sodexo.com">tbok.kk@sodexo.com</a>
-        <p class="description">Wszystkie informacje o projekcie pn. „Kierunek Kariera” dostępne są na stronie<br><a href="http://www.pociagdokariery.pl" rel="external" title="Pociąg do Kariery">www.pociagdokariery.pl</a></p>
-    </div></div>
+    <div id="bottombar">
+        <div class="grid">
+            <h2>Telefoniczne Biuro Obsługi Klienta</h2>
+            <h2>Kierunek Kariera</h2>
+            <h3 class="phone">+48 22 346 75 05</h3>
+            <a class="mail" href="mailto:tbok.kk@sodexo.com" title="tbok.kk@sodexo.com">tbok.kk@sodexo.com</a>
+            <p class="description">Wszystkie informacje o projekcie pn. „Kierunek Kariera” dostępne są na stronie<br><a href="http://www.pociagdokariery.pl" rel="external" title="Pociąg do Kariery">www.pociagdokariery.pl</a></p>
+        </div>
+
+        <div class="grid">
+            <h2>Telefoniczne Biuro Obsługi Klienta</h2>
+            <h2>Kierunek Kariera Zawodowa</h2>
+            <h3 class="phone">+48 22 346 75 05</h3>
+            <a class="mail" href="mailto:tbok.kk@sodexo.com" title="tbok.kk@sodexo.com">tbok.kk@sodexo.com</a>
+            <p class="description">Wszystkie informacje o projekcie pn. „Kierunek Kariera Zawodowa” dostępne są na stronie<br><a href="http://www.kierunek.pociagdokariery.pl" rel="external" title="Kierunek Pociąg do Kariery">www.kierunek.pociagdokariery.pl</a></p>
+        </div>
+
+    </div>
 
     <div id="logobar"><div class="grid">
         <ul>
@@ -148,5 +163,6 @@
     </div></footer>
 
     <script src="${cdnUrl}js/gryf.js"></script>
+    <script src="${cdnUrl}js/resizeTable.js"></script>
 
 </body></html>

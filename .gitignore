@@ -38,3 +38,8 @@ target
 *.sublime-workspace
 *.sublime-project
 
+# IntelliJ
+out/
+
+#
+**/.factorypath

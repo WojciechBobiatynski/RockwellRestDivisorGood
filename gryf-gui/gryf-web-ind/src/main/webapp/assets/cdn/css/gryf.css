@@ -142,10 +142,10 @@ body > nav a:hover, body > nav .current {background: #447ac9;}
 .page-login {background: #d6d6d6 url(../img/page-login.jpg) 50% 50% no-repeat; background-size: cover; min-height: 400px;}
 .page-login .grid {padding: 35px 0;}
 .form-big .field-submit button, .form-big {text-transform: uppercase;font-weight: 700; color: #fff;}
-.form-big > header, .form-big > .content {background: rgba(18,86,187,.8); color: #fff;margin: 0 auto; width: 500px; text-align: center;}
+.form-big > header, .form-big > .content {background: rgba(18,86,187,.8); color: #fff;margin: 0 auto; width: 50%; text-align: center;}
 .form-big > header {margin-bottom: 35px;}
 .form-big h2 {font-size: 49px; line-height: 99px;}
-.form-big h3 {font-size: 21px; line-height: 31px; margin: 31px 0 19px 0;display: inline-block;}
+.form-big h3 {font-size: 21px; line-height: 31px; margin: 31px 0 19px 0;display: block;}
 .form-big .label {font-size: 15px; line-height: 21px; margin-bottom: 5px;}
 .form-big .field {margin-bottom: 19px; display: inline-block;}
 .form-big .field-string input {border:1px solid #3a70c1;background: #fff; color: #322f31; font-size: 19px; line-height: 45px; text-align: center;}
@@ -153,18 +153,22 @@ body > nav a:hover, body > nav .current {background: #447ac9;}
 .form-big .field-submit button { font-size: 35px; line-height: 51px;}
 
 /* bottombar */
-#bottombar {text-align: center; padding: 19px;}
+#bottombar {text-align: center; padding: 19px; overflow: hidden;}
 #bottombar h2 {font-size: 19px; line-height: 21px;}
 #bottombar h3 {font-size: 41px; line-height: 61px;}
 #bottombar h2, #bottombar h3 {font-weight: 700;}
-#bottombar .description {padding-top: 13px; margin-top: 13px;}
-#bottombar .mail {position: relative;}
+#bottombar .description {padding-top: 13px; margin-top: 13px; font-size: 1rem; }
+#bottombar .mail {position: relative; font-size: 1.2rem;}
 #bottombar .mail::after {border: 1px dotted #4278c9; width: 60%; margin: 0 auto; position: absolute; height: 1px; bottom: -15px; left: 20%; display: block; content: '';}
-
+#bottombar .grid { float:left; width: 50%; maring: 0 15px; }
 /* logobar */
 #logobar .grid {text-align: center;}
 #logobar ul {display: inline-block; margin: 0 auto; }
 #logobar .ci {margin: 39px;}
+#logobar .ci.ci-pl { display: inline-block;  width: 99px; height: 74px;  background:none; }
+#logobar .ci.ci-pl .ci-pl-top { margin-top: 10px; height: 25px;  background-color: #e9e8e7; width: 100px; }
+#logobar .ci.ci-pl .ci-pl-bottom { height: 25px; background-color: #d4213d; width: 100px; }
+
 
 /* body > footer */
 body > footer, #accessbility {background: #f7f7f7;}

@@ -9,8 +9,9 @@
     <title>System bonów szkoleniowych - Kierunek Kariera - Wojewódzki Urząd Pracy w Krakowie</title>
 
     <!--deployed-->
+    <%--<link rel="stylesheet" href="${cdnUrl}css/gryf.css">--%>
+    <link rel="stylesheet" href="${cdnUrl}css/gryf-dev.css">
 
-    <link rel="stylesheet" href="${cdnUrl}css/gryf.css">
 
     <link href="//fonts.googleapis.com/css?family=Roboto:300,400,700&amp;subset=latin-ext" rel="stylesheet">
 
@@ -131,6 +132,10 @@
             <li class="ci ci-fepr"><a href="http://www.funduszeeuropejskie.gov.pl/" rel="external" title="Fundusze Europejskie - Program Regionalny">Fundusze Europejskie - Program Regionalny</a></li>
             <li class="ci ci-malopolska-h"><a href="http://www.malopolska.pl/" rel="external" title="Małopolska">Małopolska</a></li>
             <li class="ci ci-ueefs"><a href="http://www.funduszeeuropejskie.gov.pl/efs/" rel="external" title="Unia Europejska - Europejski Fundusz Społeczny">Unia Europejska - Europejski Fundusz Społeczny</a></li>
+            <li class="ci ci-pl">
+                <div class="ci-pl-top"></div>
+                <div class="ci-pl-bottom"></div>
+            </li>
         </ul>
     </div></div>
 
@@ -147,6 +152,7 @@
     </div></footer>
 
     <script src="${cdnUrl}js/gryf.js"></script>
+    <script src="${cdnUrl}js/resizeTable.js"></script>
     <script src="//code.angularjs.org/1.0.8/i18n/angular-locale_pl-pl.js"></script>
 
 </body></html>

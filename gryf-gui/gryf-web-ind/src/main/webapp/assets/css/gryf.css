@@ -181,14 +181,6 @@ body > nav li ul li a, body > nav li ul li a:hover {width: 100%;}
 #bottombar .mail::after {border: 1px dotted #4278c9; width: 60%; margin: 0 auto; position: absolute; height: 1px; bottom: -15px; left: 20%; display: block; content: '';}
 #bottombar .grid { float:left; width: 50%; maring: 0 15px; }
 
-#bottombarKKK {text-align: center; padding: 19px; overflow: hidden;}
-#bottombarKKK h2 {font-size: 19px; line-height: 21px;}
-#bottombarKKK h3 {font-size: 41px; line-height: 61px;}
-#bottombarKKK h2, #bottombarKKK h3 {font-weight: 700;}
-#bottombarKKK .description {padding-top: 13px; margin-top: 13px; font-size: 1rem; }
-#bottombarKKK .mail {position: relative; font-size: 1.2rem;}
-#bottombarKKK .mail::after {border: 1px dotted #4278c9; width: 60%; margin: 0 auto; position: absolute; height: 1px; bottom: -15px; left: 20%; display: block; content: '';}
-#bottombarKKK .grid { float:left; width: 50%; maring: 0 15px; }
 /* logobar */
 #logobar .grid {text-align: center;}
 #logobar ul {display: inline-block; margin: 0 auto; }
@@ -253,7 +245,6 @@ section:not(.section-gryf-web-ind-index):not(.section-important):not(.section-pr
 .section-important .fr {float: right;width: 60%;}
 .section-important .mail {margin-top: 5px; display: inline-block;}
 .section-important .description {margin-top: 7px; display: inline-block;}
-.section-contact-item {clear: both; padding-bottom: 10px; overflow: hidden; }
 
 .multiSection .block {padding:17px;}
 
@@ -332,6 +323,10 @@ input {transition: border 0.2s linear;}
 
 @media (min-width:1366px) {
 }
+
+
+
+
 
 
 /* isol */
@@ -714,76 +709,62 @@ button[disabled] {cursor: not-allowed;}
 
 
 /* accessbility */
-  html.contrast-high, .contrast-high body, .contrast-high a, .contrast-high a:hover, .contrast-high h1, .contrast-high h2, .contrast-high h3, .contrast-high h4, .contrast-high h5, .contrast-high abbr, .contrast-high header, .contrast-high section, .contrast-high td, .contrast-high th, .contrast-high footer, .contrast-high strong.label, .contrast-high nav, .contrast-high div, .contrast-high ul, .contrast-high li {color:#fffc00 !important; background: #000 !important; border-color: #000 !important; font-style: normal !important;}
-  .contrast-high a, .contrast-high .standardButton {color:#0ff !important; background: #000 !important;}
-  .contrast-high a:hover, .contrast-high .standardButton:hover {color:#0f0 !important;}
-  .contrast-high img {border-color: #000 !important;}
-  .contrast-high input, .contrast-high select, .contrast-high textarea {color:#000 !important; background: #fff !important;border-color: #000 !important;}
+html.contrast-high, .contrast-high body, .contrast-high a, .contrast-high a:hover, .contrast-high h1, .contrast-high h2, .contrast-high h3, .contrast-high h4, .contrast-high h5, .contrast-high abbr, .contrast-high header, .contrast-high section, .contrast-high td, .contrast-high th, .contrast-high footer, .contrast-high strong.label, .contrast-high nav, .contrast-high div, .contrast-high ul, .contrast-high li {color:#fffc00 !important; background: #000 !important; border-color: #000 !important; font-style: normal !important;}
+.contrast-high a, .contrast-high .standardButton {color:#0ff !important; background: #000 !important;}
+.contrast-high a:hover, .contrast-high .standardButton:hover {color:#0f0 !important;}
+.contrast-high img {border-color: #000 !important;}
+.contrast-high input, .contrast-high select, .contrast-high textarea {color:#000 !important; background: #fff !important;border-color: #000 !important;}
 
-  html.font-medium body {font-size: 15px; line-height: 19px;}
-  html.font-big body {font-size: 17px; line-height: 21px;}
+html.font-medium body {font-size: 15px; line-height: 19px;}
+html.font-big body {font-size: 17px; line-height: 21px;}
 
-  html.font-medium .msg-error, html.font-medium .textButton, html.font-medium body > header .description {font-size: 13px;}
-  html.font-medium .text .description {font-size:20px;line-height:25px;}
-  html.font-medium .text p, html.font-medium .text li {font-size:17px;}
-  html.font-medium .text sup, html.font-medium .text sub {font-size:12px;}
-  html.font-medium .text h1 {font-size:33px;}
-  html.font-medium .text h2 {font-size:23px;}
-  html.font-medium .text h3 {font-size:21px;}
-  html.font-medium .section-important h2, html.font-medium .section-promoted h2, html.font-medium .text h4 {font-size:19px;}
-  html.font-medium .text h5 {font-size:17px;line-height:21px;}
-  html.font-medium .text h6 {font-size:15px;line-height:17px;}
-  html.font-medium .form-big h2 {font-size: 51px; line-height: 99px;}
-  html.font-medium .form-big h3 {font-size: 23px; line-height: 31px;}
-  html.font-medium .form-big .label {font-size: 17px;}
-  html.font-medium .form-big .field-string input {font-size: 21px;}
-  html.font-medium .form-big .field-submit button { font-size: 37px;}
-  html.font-medium #bottombar h2 {font-size: 21px; line-height: 23px;}
-  html.font-medium #bottombar h3 {font-size: 43px;}
-  html.font-medium body > footer {font-size: 13px; line-height: 15px;}
-  html.font-medium section > strong.label, html.font-medium fieldset > strong.label {font-size: 27px;}
-  html.font-medium .section-important h3, html.font-medium .section-promoted h3 {font-size: 27px;}
-  html.font-medium .tableHeader-options input, html.font-medium .tableHeader-options select {font-size: 13px;}
-  html.font-medium .standardButton, html.font-medium .btn-sm, html.font-medium .btn-group-sm > .btn, html.font-medium .alert-text, html.font-medium .tableData, html.font-medium .block > div, html.font-medium .block > .label, html.font-medium .block > div > .label {font-size: 14px;}
+html.font-medium .msg-error, html.font-medium .textButton, html.font-medium body > header .description {font-size: 13px;}
+html.font-medium .text .description {font-size:20px;line-height:25px;}
+html.font-medium .text p, html.font-medium .text li {font-size:17px;}
+html.font-medium .text sup, html.font-medium .text sub {font-size:12px;}
+html.font-medium .text h1 {font-size:33px;}
+html.font-medium .text h2 {font-size:23px;}
+html.font-medium .text h3 {font-size:21px;}
+html.font-medium .section-important h2, html.font-medium .section-promoted h2, html.font-medium .text h4 {font-size:19px;}
+html.font-medium .text h5 {font-size:17px;line-height:21px;}
+html.font-medium .text h6 {font-size:15px;line-height:17px;}
+html.font-medium .form-big h2 {font-size: 51px; line-height: 99px;}
+html.font-medium .form-big h3 {font-size: 23px; line-height: 31px;}
+html.font-medium .form-big .label {font-size: 17px;}
+html.font-medium .form-big .field-string input {font-size: 21px;}
+html.font-medium .form-big .field-submit button { font-size: 37px;}
+html.font-medium #bottombar h2 {font-size: 21px; line-height: 23px;}
+html.font-medium #bottombar h3 {font-size: 43px;}
+html.font-medium body > footer {font-size: 13px; line-height: 15px;}
+html.font-medium section > strong.label, html.font-medium fieldset > strong.label {font-size: 27px;}
+html.font-medium .section-important h3, html.font-medium .section-promoted h3 {font-size: 27px;}
+html.font-medium .tableHeader-options input, html.font-medium .tableHeader-options select {font-size: 13px;}
+html.font-medium .standardButton, html.font-medium .btn-sm, html.font-medium .btn-group-sm > .btn, html.font-medium .alert-text, html.font-medium .tableData, html.font-medium .block > div, html.font-medium .block > .label, html.font-medium .block > div > .label {font-size: 14px;}
 
-  html.font-big .msg-error, html.font-big .textButton, html.font-big body > header .description {font-size: 15px;}
-  html.font-big .text .description {font-size:23px;line-height:29px;}
-  html.font-big .text p, html.font-big .text li {font-size:19px;}
-  html.font-big .text sup, html.font-big .text sub {font-size:14px;}
-  html.font-big .text h1 {font-size:35px;}
-  html.font-big .text h2 {font-size:25px;}
-  html.font-big .text h3 {font-size:23px;}
-  html.font-big .section-important h2, html.font-big .section-promoted h2, html.font-big .text h4 {font-size:22px;}
-  html.font-big .text h5 {font-size:19px;line-height:21px;}
-  html.font-big .text h6 {font-size:17px;line-height:19px;}
-  html.font-big .form-big h2 {font-size: 53px;}
-  html.font-big .form-big h3 {font-size: 25px;}
-  html.font-big .form-big .label {font-size: 19px;}
-  html.font-big .form-big .field-string input {font-size: 23px;}
-  html.font-big .form-big .field-submit button { font-size: 39px;}
-  html.font-big #bottombar h2 {font-size: 23px; line-height: 25px;}
-  html.font-big #bottombar h3 {font-size: 45px;}
-  html.font-big body > footer {font-size: 15px; line-height: 17px;}
-  html.font-big section > strong.label, html.font-big fieldset > strong.label {font-size: 29px;}
-  html.font-big .section-important h3, html.font-big .section-promoted h3 {font-size: 29px;}
-  html.font-big .tableHeader-options input, html.font-big .tableHeader-options select {font-size: 15px;}
-  html.font-big .standardButton, html.font-big .btn-sm, html.font-big .btn-group-sm > .btn, html.font-big .alert-text, html.font-big .tableData, html.font-big .block > div, html.font-big .block > .label, html.font-big .block > div > .label {font-size: 14px;}
-
-
-  .page-error {margin:81px 0;text-align: center;}
-  .page-error p {font-size:29px;line-height:39px;}
-  .page-error li {margin-top: 21px 0;}
-
-  /* H E L P   P A G E */
-  .page-pomoc p {
-      font-size:1.1rem;
-  }
+html.font-big .msg-error, html.font-big .textButton, html.font-big body > header .description {font-size: 15px;}
+html.font-big .text .description {font-size:23px;line-height:29px;}
+html.font-big .text p, html.font-big .text li {font-size:19px;}
+html.font-big .text sup, html.font-big .text sub {font-size:14px;}
+html.font-big .text h1 {font-size:35px;}
+html.font-big .text h2 {font-size:25px;}
+html.font-big .text h3 {font-size:23px;}
+html.font-big .section-important h2, html.font-big .section-promoted h2, html.font-big .text h4 {font-size:22px;}
+html.font-big .text h5 {font-size:19px;line-height:21px;}
+html.font-big .text h6 {font-size:17px;line-height:19px;}
+html.font-big .form-big h2 {font-size: 53px;}
+html.font-big .form-big h3 {font-size: 25px;}
+html.font-big .form-big .label {font-size: 19px;}
+html.font-big .form-big .field-string input {font-size: 23px;}
+html.font-big .form-big .field-submit button { font-size: 39px;}
+html.font-big #bottombar h2 {font-size: 23px; line-height: 25px;}
+html.font-big #bottombar h3 {font-size: 45px;}
+html.font-big body > footer {font-size: 15px; line-height: 17px;}
+html.font-big section > strong.label, html.font-big fieldset > strong.label {font-size: 29px;}
+html.font-big .section-important h3, html.font-big .section-promoted h3 {font-size: 29px;}
+html.font-big .tableHeader-options input, html.font-big .tableHeader-options select {font-size: 15px;}
+html.font-big .standardButton, html.font-big .btn-sm, html.font-big .btn-group-sm > .btn, html.font-big .alert-text, html.font-big .tableData, html.font-big .block > div, html.font-big .block > .label, html.font-big .block > div > .label {font-size: 14px;}
 
 
-  /* G L O B A L */
-    *:focus {
-        border: 3px solid darkred;
-    }
-    input:focus {
-        border: 3px solid darkred !important;
-    }
+.page-error {margin:81px 0;text-align: center;}
+.page-error p {font-size:29px;line-height:39px;}
+.page-error li {margin-top: 21px 0;}

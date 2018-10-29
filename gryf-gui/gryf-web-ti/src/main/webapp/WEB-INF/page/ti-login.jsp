@@ -121,27 +121,39 @@
     </div></div>
 
     <div>
-    <div id="bottombarKKK"><div class="grid">
-        <h2>Telefoniczne Biuro Obsługi Klienta</h2>
-        <h2>Kierunek Kariera</h2>
-        <h3 class="phone">+48 22 346 75 05</h3>
-        <a class="mail" href="mailto:tbok.kk@sodexo.com" title="tbok.kk@sodexo.com">tbok.kk@sodexo.com</a>
-        <p class="description">Wszystkie informacje o projekcie pn. „Kierunek Kariera” dostępne są na stronie<br><a href="http://www.pociagdokariery.pl" rel="external" title="Pociąg do Kariery">www.pociagdokariery.pl</a></p>
-    </div></div>
-    <div id="bottombarKKZ"><div class="grid">
-        <h2>Telefoniczne Biuro Obsługi Klienta</h2>
-        <h2>Kierunek Kariera Zawodowa</h2>
-        <h3 class="phone">+48 22 346 05 75</h3>
-        <a class="mail" href="mailto:tbok.kk@sodexo.com" title="tbok.kk@sodexo.com">tbok.kk@sodexo.com</a>
-        <p class="description">Wszystkie informacje o projekcie pn. „Kierunek Kariera Zawodowa” dostępne są na stronie<br><a href="http://www.pociagdokariery.pl" rel="external" title="Pociąg do Kariery">www.pociagdokariery.pl</a></p>
-    </div></div>
+        <div id="bottombarKKK">
+            <div class="grid">
+                <h2>Telefoniczne Biuro Obsługi Klienta</h2>
+                <h2>Kierunek Kariera</h2>
+                <h3 class="phone">+48 22 346 75 05</h3>
+                <a class="mail" href="mailto:tbok.kk@sodexo.com" title="tbok.kk@sodexo.com">tbok.kk@sodexo.com</a>
+                <p class="description">Wszystkie informacje o projekcie pn. „Kierunek Kariera” dostępne są na stronie<br><a href="http://www.pociagdokariery.pl" rel="external" title="Pociąg do Kariery">www.pociagdokariery.pl</a></p>
+            </div>
+
+            <div class="grid">
+                <h2>Telefoniczne Biuro Obsługi Klienta</h2>
+                <h2>Kierunek Kariera Zawodowa</h2>
+                <h3 class="phone">+48 22 346 05 75</h3>
+                <a class="mail" href="mailto:tbok.kk@sodexo.com" title="tbok.kk@sodexo.com">tbok.kk@sodexo.com</a>
+                <p class="description">Wszystkie informacje o projekcie pn. „Kierunek Kariera Zawodowa” dostępne są na stronie<br><a href="http://www.pociagdokariery.pl" rel="external" title="Pociąg do Kariery">www.pociagdokariery.pl</a></p>
+            </div>
+        </div>
     </div>
 
     <div id="logobar"><div class="grid">
         <ul>
-            <li class="ci ci-fepr"><a href="http://www.funduszeeuropejskie.gov.pl/" rel="external" title="Fundusze Europejskie - Program Regionalny">Fundusze Europejskie - Program Regionalny</a></li>
-            <li class="ci ci-malopolska-h"><a href="http://www.malopolska.pl/" rel="external" title="Małopolska">Małopolska</a></li>
-            <li class="ci ci-ueefs"><a href="http://www.funduszeeuropejskie.gov.pl/efs/" rel="external" title="Unia Europejska - Europejski Fundusz Społeczny">Unia Europejska - Europejski Fundusz Społeczny</a></li>
+            <li class="ci ci-fepr">
+                <a href="http://www.funduszeeuropejskie.gov.pl/" rel="external" title="Fundusze Europejskie - Program Regionalny">Fundusze Europejskie - Program Regionalny</a>
+            </li>
+            <li class="ci ci-malopolska-h">
+                <a href="http://www.malopolska.pl/" rel="external" title="Małopolska">Małopolska</a>
+            </li>
+            <li class="ci ci-ueefs">
+                <a href="http://www.funduszeeuropejskie.gov.pl/efs/" rel="external" title="Unia Europejska - Europejski Fundusz Społeczny">Unia Europejska - Europejski Fundusz Społeczny</a>
+            </li>
+            <li class="ci ci-pl">
+                <a href="http://www.funduszeeuropejskie.gov.pl/efs/" rel="external" title="Unia Europejska - Europejski Fundusz Społeczny">Unia Europejska - Europejski Fundusz Społeczny</a>
+            </li>
         </ul>
     </div></div>
 
