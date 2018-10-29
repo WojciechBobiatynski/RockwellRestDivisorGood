@@ -31,6 +31,7 @@ import pl.sodexo.it.gryf.service.validation.publicbenefits.individuals.Individua
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Service
@@ -114,6 +115,7 @@ public class IndividualServiceImpl implements IndividualService {
         return individual.getId();
     }
 
+
     private IndividualUser createIndividualUser(Individual individual, IndividualDto individualDto) {
         String newVerificationCode = gryfAccessCodeGenerator.createVerificationCode();
 
@@ -158,9 +160,27 @@ public class IndividualServiceImpl implements IndividualService {
         individualRepository.update(individual, individual.getId());
     }
 
-    @Override
+        @Override
     public UserTrainingReservationDataDto findUserTrainingReservationData(String pesel) {
         return individualSearchDao.findDataForTrainingReservation(pesel);
+    }
+
+    @Override
+    public IndividualDto validateAndSaveOrUpdate(IndividualDto individualDto, boolean checkPeselDup, boolean checkAccountRepayment) {
+        Individual individual = individualRepository.findByPesel(individualDto.getPesel());
+        if (Objects.isNull(individual)) {
+            //nowy
+            individual = individualDtoMapper.convert(individualDto);
+            IndividualUser user = createIndividualUser(individual, individualDto);
+            individual.setIndividualUser(user);
+            individualValidator.validateIndividual(individual, checkPeselDup, checkAccountRepayment);
+            individual = individualRepository.save(individual);
+        } else {
+            individualValidator.validateIndividual(individual, checkPeselDup, checkAccountRepayment);
+            individual = individualRepository.update(individual, individual.getId());
+        }
+
+        return individualEntityMapper.convert(individual);
     }
 
 }

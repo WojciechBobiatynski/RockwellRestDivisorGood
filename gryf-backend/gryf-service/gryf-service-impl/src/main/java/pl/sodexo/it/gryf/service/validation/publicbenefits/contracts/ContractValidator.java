@@ -14,6 +14,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.employment.Employment;
 import pl.sodexo.it.gryf.model.publicbenefits.enterprises.Enterprise;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
+import pl.sodexo.it.gryf.service.validation.publicbenefits.AbstractValidator;
 
 import java.util.Date;
 import java.util.List;
@@ -22,10 +23,12 @@ import java.util.List;
  * Created by adziobek on 07.11.2016.
  */
 @Component
-public class ContractValidator {
+public class ContractValidator extends AbstractValidator {
 
     private static final String INDIVIDUAL_CONTRACT_TYPE_ID = "IND";
     private static final String ENTERPRISE_CONTRACT_TYPE_ID = "ENT";
+
+    private static final String VIOLATIONS_PREFIX = "Dla Umowy: ";
 
     @Autowired
     private GryfValidator gryfValidator;
@@ -56,6 +59,7 @@ public class ContractValidator {
         validateEnterpriseParticipant(contract, violations);
 
         //VALIDATE (EXCEPTION)
+        addPrefixMessage(VIOLATIONS_PREFIX, violations);
         gryfValidator.validate(violations);
     }
 

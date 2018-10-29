@@ -20,4 +20,14 @@ public interface EnterpriseService {
     Long saveEnterpriseDto(EnterpriseDto enterpriseDto, boolean checkVatRegNumDup, boolean validateAccountRepayment);
 
     void updateEnterpriseDto(EnterpriseDto enterpriseDto, boolean checkVatRegNumDup, boolean validateAccountRepayment);
+
+    /**
+     * Zapisuje nowe MSP jezeli nie istnieje w bazie o zadanym numerze Regon
+     *
+     * @param enterprise
+     * @param checkVatRegNumDup
+     * @param validateAccountRepayment
+     * @return Obiekt reprezenytujacy Enterprise
+     */
+    EnterpriseDto validateAndSaveOrUpdate(EnterpriseDto enterprise, boolean checkVatRegNumDup, boolean validateAccountRepayment);
 }

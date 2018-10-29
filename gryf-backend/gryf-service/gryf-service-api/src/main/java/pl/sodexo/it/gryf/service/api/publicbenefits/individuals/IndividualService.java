@@ -48,4 +48,14 @@ public interface IndividualService {
 
     UserTrainingReservationDataDto findUserTrainingReservationData(String pesel);
 
+    /**
+     * Zapisuje nowego uczestnika, jezeli nie istnieje w bazie o zadanym numerze pesel
+     * i nie jest ustawiony parametr checkPeselDup = true.
+     *
+     * @param individualDto
+     * @param checkPeselDup
+     * @param checkAccountRepayment
+     * @return Obiekt DTO reprezentujacy Uczestnika
+     */
+    IndividualDto validateAndSaveOrUpdate(IndividualDto individualDto, boolean checkPeselDup, boolean checkAccountRepayment);
 }

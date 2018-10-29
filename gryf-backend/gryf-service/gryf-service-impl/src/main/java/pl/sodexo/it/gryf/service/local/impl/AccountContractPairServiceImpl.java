@@ -116,6 +116,11 @@ public class AccountContractPairServiceImpl implements AccountContractPairServic
         return String.format("%s%0" + params.getZeroCount() + "d", params.getPrefix(), entity.getId());
     }
 
+    @Override
+    public AccountContractPair findByContractId(String contractId) {
+        return accountContractPairRepository.findByContractId(contractId);
+    }
+
     private GenerableCodeParams getParamsByType(AccountContractPairGenerable entity){
         GenerableCodeParams params = new GenerableCodeParams();
         if(entity instanceof Enterprise){

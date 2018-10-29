@@ -31,6 +31,7 @@ import java.util.Objects;
 public class EnterpriseValidator extends AbstractValidator {
 
     private static final String VIOLATIONS_PREFIX = "Dla MŚP: ";
+
     @Autowired
     private GryfValidator gryfValidator;
 
