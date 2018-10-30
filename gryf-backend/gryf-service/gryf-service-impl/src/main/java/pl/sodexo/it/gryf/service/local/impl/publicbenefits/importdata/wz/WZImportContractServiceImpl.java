@@ -272,7 +272,9 @@ public class WZImportContractServiceImpl extends ImportBaseDataServiceImpl {
                                         zipCodeIndividualInvoice, enterpriseId);
 
         individualDTO = individualService.validateAndSaveOrUpdate(individualDTO, checkPeselDuplication, false);
+        individualId = individualDTO.getId();
         individualRepository.get(individualDTO.getId());
+
 
         //CREATE CONTRACT
         ContractDTO contractDTO = createContractDTO(importComplexContractDTO, paramsDTO,
