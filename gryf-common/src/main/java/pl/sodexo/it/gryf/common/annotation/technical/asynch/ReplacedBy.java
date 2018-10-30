@@ -16,6 +16,8 @@ import java.lang.annotation.Target;
 @Target(value = {ElementType.TYPE, ElementType.METHOD, ElementType.PARAMETER})
 public @interface ReplacedBy {
 
-    Class byWhat();
+    Class byWhat() default  Object.class;
+
+    String replaceBy() default "";
 
 }

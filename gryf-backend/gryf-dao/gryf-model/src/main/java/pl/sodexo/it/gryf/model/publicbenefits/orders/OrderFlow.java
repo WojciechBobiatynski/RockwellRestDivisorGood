@@ -2,6 +2,7 @@ package pl.sodexo.it.gryf.model.publicbenefits.orders;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.ToString;
+import pl.sodexo.it.gryf.common.annotation.technical.asynch.ReplacedBy;
 import pl.sodexo.it.gryf.model.api.GryfEntity;
 
 import javax.persistence.*;
@@ -106,6 +107,7 @@ public class OrderFlow extends GryfEntity {
         return getServiceBeanName(id);
     }
 
+    @ReplacedBy(replaceBy = "OrderFlowService")
     public static String getServiceBeanName(Long value){
         return (value != null) ? (ORDER_FLOW_SERVICE_PREFIX +
                 ((value < 0) ? "Test" : "") + Math.abs(value) +

@@ -55,7 +55,7 @@ public interface IndividualService {
      * @param individualDto
      * @param checkPeselDup
      * @param checkAccountRepayment
-     * @return Obiekt DTO reprezentujacy Uczestnika
+     * @return Klucz Uczestnika
      */
-    IndividualDto validateAndSaveOrUpdate(IndividualDto individualDto, boolean checkPeselDup, boolean checkAccountRepayment);
+    Long validateAndSaveOrUpdate(IndividualDto individualDto, boolean checkPeselDup, boolean checkAccountRepayment);
 }

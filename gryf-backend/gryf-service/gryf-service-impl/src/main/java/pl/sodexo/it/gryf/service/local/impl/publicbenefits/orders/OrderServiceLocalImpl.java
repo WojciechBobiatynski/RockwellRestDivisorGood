@@ -60,8 +60,15 @@ public class OrderServiceLocalImpl implements OrderServiceLocal {
         OrderFlowForGrantProgram orderForGrPr = paramInDateService.findOrderFlowForGrantProgram(grantProgram.getId(), new Date(), true);
         OrderFlow orderFlow = orderForGrPr.getOrderFlow();
 
-        OrderFlowService orderFlowService = (OrderFlowService) BeanUtils.findBean(context, orderFlow.getServiceBeanName());
+
+        OrderFlowService orderFlowService = (OrderFlowService) BeanUtils.findBean(context, getOrderFlowBeanName(grantProgram));
         return orderFlowService.createCreateOrderDTO(contract);
+    }
+
+    @Override
+    public String getOrderFlowBeanName(GrantProgram grantProgram) {
+        //ToDo: Do uzaleznienia od programu
+        return OrderFlowService.DEFAULT_ORDER_FLOW_SERVICE;
     }
 
     @Override

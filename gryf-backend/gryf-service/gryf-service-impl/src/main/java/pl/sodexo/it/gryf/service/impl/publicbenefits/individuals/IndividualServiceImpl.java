@@ -13,6 +13,7 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.UserTrainingR
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.searchform.IndividualSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.searchform.IndividualSearchResultDTO;
 import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.employments.EmploymentRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.individuals.IndividualRepository;
 import pl.sodexo.it.gryf.dao.api.search.dao.IndividualSearchDao;
 import pl.sodexo.it.gryf.model.publicbenefits.api.ContactType;
@@ -74,7 +75,7 @@ public class IndividualServiceImpl implements IndividualService {
     private RoleDtoMapper roleDtoMapper;
 
     @Autowired
-    private AccountContractPairService accountContractPairService;
+    private EmploymentRepository employmentRepository;
 
     //PUBLIC METHODS
 
@@ -166,7 +167,7 @@ public class IndividualServiceImpl implements IndividualService {
     }
 
     @Override
-    public IndividualDto validateAndSaveOrUpdate(IndividualDto individualDto, boolean checkPeselDup, boolean checkAccountRepayment) {
+    public Long validateAndSaveOrUpdate(IndividualDto individualDto, boolean checkPeselDup, boolean checkAccountRepayment) {
         Individual individual = individualRepository.findByPesel(individualDto.getPesel());
         if (Objects.isNull(individual)) {
             //nowy
@@ -175,12 +176,16 @@ public class IndividualServiceImpl implements IndividualService {
             individual.setIndividualUser(user);
             individualValidator.validateIndividual(individual, checkPeselDup, checkAccountRepayment);
             individual = individualRepository.save(individual);
+            return individual.getId();
         } else {
-            individualValidator.validateIndividual(individual, checkPeselDup, checkAccountRepayment);
-            individual = individualRepository.update(individual, individual.getId());
+            //ToDo: do refaktoringu individualDtoMapper - przeniesc do serwisu uzupenianie "Employment"
+            individualDto.setId(individual.getId());
+            Individual individualSaved = individualDtoMapper.convert(individualDto);
+            individualValidator.validateIndividual(individualSaved, checkPeselDup, checkAccountRepayment);
+            individualRepository.update(individualSaved, individualSaved.getId());
+            return individual.getId();
         }
 
-        return individualEntityMapper.convert(individual);
     }
 
 }

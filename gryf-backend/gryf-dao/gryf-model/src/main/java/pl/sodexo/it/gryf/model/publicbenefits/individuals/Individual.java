@@ -23,6 +23,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+import static pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual.EXISTS_PESEL;
+
 /**
  * Created by michal.szymczyk on 2016-02-26.
  */
@@ -32,6 +34,7 @@ import java.util.Objects;
 @SequenceGenerator(name="ind_seq", schema = "eagle", sequenceName = "ind_seq", allocationSize = 1)
 @NamedQueries({
         @NamedQuery(name = "Individual.findByPesel", query = "select i from Individual i where i.pesel = :pesel order by i.addressCorr"),
+        @NamedQuery(name = EXISTS_PESEL, query = "select count(i) from Individual i where i.pesel = :pesel order by i.addressCorr"),
         @NamedQuery(name = "Individual.getForUpdate", query = "select i from Individual i left join fetch i.contacts left join fetch i.individualUser.roles where i.id = :id"),
         @NamedQuery(name = "Individual.findById", query = "select i from Individual i where i.id= :id"),
 })
@@ -41,6 +44,7 @@ public class Individual extends VersionableEntity {
     //STATIC FIELDS - NAMED QUERY
 
     public static final String FIND_BY_PESEL = "Individual.findByPesel";
+    public static final String EXISTS_PESEL = "Individual.existPesel";
     public static final String GET_FOR_UPDATE = "Individual.getForUpdate";
     public static final String FIND_BY_ID= "Individual.findById";
 

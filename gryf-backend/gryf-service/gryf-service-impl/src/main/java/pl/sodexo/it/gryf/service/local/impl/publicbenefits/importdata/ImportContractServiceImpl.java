@@ -269,9 +269,8 @@ public class ImportContractServiceImpl extends ImportBaseDataServiceImpl {
         IndividualDto individualDTO = createIndividualDTO(importComplexContractDTO.getIndividual(),
                                         zipCodeIndividualInvoice, enterpriseId);
 
-        individualDTO = individualService.validateAndSaveOrUpdate(individualDTO, checkPeselDuplication, false);
-        individualId = individualDTO.getId();
-        individualRepository.get(individualDTO.getId());
+        individualId = individualService.validateAndSaveOrUpdate(individualDTO, checkPeselDuplication, false);
+        individualRepository.get(individualId);
 
         //CREATE CONTRACT
         ContractDTO contractDTO = createContractDTO(importComplexContractDTO, paramsDTO,

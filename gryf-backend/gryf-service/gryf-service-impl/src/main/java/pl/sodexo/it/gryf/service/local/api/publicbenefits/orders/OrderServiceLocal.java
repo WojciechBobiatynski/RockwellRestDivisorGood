@@ -4,6 +4,7 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.CreateOrde
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.elements.OrderElementDTO;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
 import pl.sodexo.it.gryf.model.publicbenefits.grantapplications.GrantApplication;
+import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElementDTOBuilder;
 
@@ -23,6 +24,8 @@ public interface OrderServiceLocal {
      * @return dto do tworzenia zamowienia
      */
     CreateOrderDTO createCreateOrderDTO(Contract contract);
+
+    String getOrderFlowBeanName(GrantProgram grantProgram);
 
     /**
      * Metoda tworzy i zapisuje do bazy obiekt zamowienia na podstawie dto.

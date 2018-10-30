@@ -2,6 +2,7 @@ package pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.orderflows.ve
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.CreateOrderDTO;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
@@ -12,8 +13,8 @@ import pl.sodexo.it.gryf.service.local.impl.publicbenefits.orders.orderflows.Ord
 /**
  * Created by Isolution on 2016-11-17.
  */
-@Service
-public class OrderFlow100Service extends OrderFlowBaseService {
+@Service (OrderFlowService.DEFAULT_ORDER_FLOW_SERVICE)
+public class OrderFlowService extends OrderFlowBaseService {
 
     //FIELDS
 
