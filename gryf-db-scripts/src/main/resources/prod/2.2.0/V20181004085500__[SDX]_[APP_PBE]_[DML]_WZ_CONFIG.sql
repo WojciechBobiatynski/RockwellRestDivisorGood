@@ -129,35 +129,6 @@ Insert into ${gryf.schema}.ORDER_FLOW_STATUS_PROPERTIES (ID, ORDER_FLOW_ID, STAT
 
 Insert into ${gryf.schema}.ORDER_FLOWS_FOR_GR_PROGRAMS(ID, GRANT_PROGRAM_ID, ORDER_FLOW_ID, DATE_FROM, DATE_TO) values (2, (SELECT ID FROM ${gryf.schema}.GRANT_PROGRAMS WHERE PROGRAM_CODE ='${program.code.wupkkz}' ), 101, null, null);
 
-
-/*
-select dt.name, DT.DESCRIPTION, d.*
-from   ${gryf.schema}.ORDER_FLOW_ALLOWED_DELAYS d
-       join ${gryf.schema}.ORDER_FLOW_ALLOWED_DELAY_TYPES dt on DT.ID = D.DELAY_TYPE_ID
-*/
-/*
-MERGE INTO ${gryf.schema}.ORDER_FLOW_ALLOWED_DELAY_TYPES  ug USING (
-SELECT
-     'PAYAFORD'  id,
-     'Dozwolony czas na płatność po podpisaniu umowy '    description,
-     'Dozwolony czas na płatność po podpisaniu umowy'  NAME,
-     'SIGNDATE' DELAY_STARTING_POINT_TYPE_ID
- FROM
-     dual
-) ins ON ( ug.id = ins.id )
-WHEN MATCHED THEN UPDATE SET ug.description = ins.description,
-ug.NAME = ins.NAME
-WHEN NOT MATCHED THEN INSERT (
-    id,
-    description,
-    name ,
-    DELAY_STARTING_POINT_TYPE_ID) VALUES (
-    ins.id,
-    ins.description,
-    ins.name,
-    ins.DELAY_STARTING_POINT_TYPE_ID);
-*/
-
 Insert into ${gryf.schema}.ORDER_FLOW_ALLOWED_DELAYS
    (ID, ORDER_FLOW_ID, DELAY_TYPE_ID, DELAY_VALUE, DELAY_DAYS_TYPE,
     REMARKS)

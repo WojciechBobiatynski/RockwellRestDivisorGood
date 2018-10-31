@@ -16,7 +16,7 @@ public class ContractSearchQueryDTO extends SearchDto {
 
     @Getter
     @Setter
-    private Long id;
+    private String id;
 
     @Getter
     @Setter

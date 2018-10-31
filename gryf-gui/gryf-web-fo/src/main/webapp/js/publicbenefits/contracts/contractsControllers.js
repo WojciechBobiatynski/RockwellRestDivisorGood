@@ -42,6 +42,11 @@ angular.module('gryf.contracts').controller("searchform.ContractsController",
                 return sortingType;
             }
         }
+
+        BrowseContractsService.getGrantProgramNames().then(function(response) {
+            $scope.grantPrograms = response.data;
+        });
+
     }]);
 var test;
 angular.module('gryf.contracts').controller("detailsform.ContractsController",

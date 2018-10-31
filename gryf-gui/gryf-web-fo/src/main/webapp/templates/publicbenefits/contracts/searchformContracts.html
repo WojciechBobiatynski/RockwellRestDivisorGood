@@ -16,7 +16,7 @@
                 <tr>
                     <th class="sortable" ng-class="getSortingTypeClass('id')">
                         <div ng-click="getSortedBy('id')">Id</div>
-                        <input placeholder="ID" type="text" force-digits
+                        <input placeholder="ID" type="text"
                                ng-model="searchObjModel.entity.id">
                     </th>
                     <th class="sortable" ng-class="getSortingTypeClass('contractType.name')">
@@ -87,12 +87,14 @@
                                search-on-enter/>
                     </th>
                     <th class="sortable" ng-class="getSortingTypeClass('grantProgram.programName')">
-                        <div ng-click="getSortedBy('grantProgram.programName')">
-                            Program dofinansowania
-                        </div>
-                        <input placeholder="Program dofinansowania"
-                               ng-model="searchObjModel.entity.grantProgramName">
+                        <div ng-click="getSortedBy('grantProgram.programName')">Program dofinansowania</div>
+                        <select
+                                ng-options="v.name as v.name for v in grantPrograms"
+                                ng-model="searchObjModel.entity.grantProgramName">
+                        </select>
                     </th>
+
+
                     <th class="sortable"
                         ng-class="getSortingTypeClass('grantProgram.grantOwnerId.name')">
                         <div ng-click="getSortedBy('grantProgram.grantOwnerId.name')">
