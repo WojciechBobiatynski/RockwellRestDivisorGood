@@ -35,13 +35,10 @@ public class EnterpriseServiceLocalImpl implements EnterpriseServiceLocal {
     @Autowired
     private EnterpriseValidator enterpriseValidator;
 
-    @Autowired
-    private AccountContractPairService accountContractPairService;
-
     @Override
     public Enterprise saveEnterprise(Enterprise enterprise, boolean checkVatRegNumDup, boolean validateAccountRepayment) {
         enterpriseValidator.validateEnterprise(enterprise, checkVatRegNumDup, validateAccountRepayment);
-        enterpriseRepository.update(enterprise, enterprise.getId());
+        enterpriseRepository.save(enterprise);
         return enterprise;
     }
 
