@@ -221,7 +221,7 @@ Insert into ${gryf.schema}.GRANT_PROGRAM_PRODUCTS
     AID_PRODUCT_ID, PBE_PRD_ID)
  Values
    (3, (SELECT ID FROM ${gryf.schema}.GRANT_PROGRAMS WHERE PROGRAM_CODE ='${program.code.wupkkz}' ), NULL, NULL, NULL,
-    'BONELEKZ', 'KKZ_BON_EL');
+    'BONELEKZ', 'KZ_BON_EL');
 
 
 Insert into ${gryf.schema}.GRANT_PROGRAM_ATTACH_REQ

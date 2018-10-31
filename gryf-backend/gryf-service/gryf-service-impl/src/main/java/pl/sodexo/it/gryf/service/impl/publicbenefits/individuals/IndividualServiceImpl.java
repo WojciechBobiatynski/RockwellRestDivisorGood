@@ -181,6 +181,7 @@ public class IndividualServiceImpl implements IndividualService {
             //ToDo: do refaktoringu individualDtoMapper - przeniesc do serwisu uzupenianie "Employment"
             individualDto.setId(individual.getId());
             Individual individualSaved = individualDtoMapper.convert(individualDto);
+            individualSaved.setVersion(individual.getVersion());
             individualValidator.validateIndividual(individualSaved, checkPeselDup, checkAccountRepayment);
             individualRepository.update(individualSaved, individualSaved.getId());
             return individual.getId();
