@@ -1,4 +1,3 @@
-
 function ResponsiveTable(tableSel, resolution) {
     this.tableSel = tableSel;
     this.resolution = resolution;
@@ -72,9 +71,9 @@ function ResponsiveTable(tableSel, resolution) {
      */
 
     this.hideThead = function () {
-        document.querySelectorAll(this.tableSel + ' thead').forEach(function(el){
+        document.querySelectorAll(this.tableSel + ' thead').forEach(function (el) {
             el.style.display = 'none';
-        })
+        });
     };
 
     /**
@@ -83,7 +82,7 @@ function ResponsiveTable(tableSel, resolution) {
     this.showThead = function () {
         document.querySelectorAll(this.tableSel + ' thead').forEach(function (el) {
             el.style.display = 'table-header-group';
-        })
+        });
     };
 
     /**
@@ -159,11 +158,5 @@ function ResponsiveTable(tableSel, resolution) {
     };
 
     this.init();
-
 }
-window.addEventListener('DOMContentLoaded', function() {
-    setTimeout( function(){
-        // ResponsiveTable('table', 760)
-    } , 1500)
 
-})

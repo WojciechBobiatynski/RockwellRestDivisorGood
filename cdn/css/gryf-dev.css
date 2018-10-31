@@ -133,7 +133,7 @@ body > header ol, body > footer ol, #accessbility ol {float:right;}
 
 /* body > header */
 body > header .grid {padding: 25px 0 19px;}
-body > header .description {color: #4a4a4a; font-size: 11px; line-height: 13px; float: left; text-transform: uppercase; margin-bottom: 6px;}
+body > header .description {color: #4a4a4a; font-size: 11px; line-height: 1.3em; float: left; text-transform: uppercase;  margin: 10px;}
 body > header > .grid > div, body > header h1 {clear: both; float: left;}
 body > header ol li:not(:first-child) {margin-left: 25px;}
 
@@ -239,7 +239,8 @@ section:not(.section-gryf-web-ind-index):not(.section-important):not(.section-pr
 .standardButton:hover, .button:hover, .textButton:hover {background: #00b9f2;}
 
 /* section-promoted */
-.grid > .section-promoted {background: #00b9f2; color: #fff; text-align: center; padding: 25px 0; }
+.grid > .section-promoted {background: #00b9f2; color: #fff; text-align: center; padding: 25px 0;
+    height: 280px}
 .section-promoted h2 {font-size: 17px; line-height: 25px; font-weight: 700;}
 .section-promoted h3 {font-size: 25px; line-height: 35px; margin-top: 5px; font-weight: 700;}
 
@@ -734,7 +735,21 @@ html.font-big .standardButton, html.font-big .btn-sm, html.font-big .btn-group-s
     font-size:1.1rem;
 }
 
+/* L O G O S   B A R  */
+.top-logos {
+    width:100%;
+    overflow: hidden;
+}
+.top-logos a:first-child {
+    float: left;
+}
 
+.top-logos a:nth-child(2) {
+    float:right
+}
+.top-logos a:last-child {
+    float:right;
+}
 /* G L O B A L */
 *:focus {
     border: 3px solid darkred;
@@ -742,18 +757,24 @@ html.font-big .standardButton, html.font-big .btn-sm, html.font-big .btn-group-s
 input:focus {
     border: 3px solid darkred !important;
 }
-
+body#ak > header {
+    overflow: hidden;
+}
 
 /* M E D I A   Q U E R I E S  */
 /*==========  Non-Mobile First Method  ==========*/
 /* Large Devices, Wide Screens */
 @media only screen and (max-width : 1200px) {
-
+    .grid > .section-promoted {
+        height: 330px;
+    }
 }
 
 /* Medium Devices, Desktops */
 @media only screen and (max-width : 992px) {
-
+    .grid > .section-promoted {
+        height: 355px;
+    }
 }
 
 /* Small Devices, Tablets */
@@ -763,6 +784,11 @@ input:focus {
         width: 100%;
         margin: 0 15px;
     }
+
+    #bottombar .grid:nth-child(2) {
+        margin-top: 30px;
+    }
+
     .form-big > header, .form-big > .content {
         background: rgba(18,86,187,.8);
         color: #fff;
@@ -775,6 +801,25 @@ input:focus {
         width: 100%;
         float: left;
         clear: none;
+    }
+    .grid > .section-promoted {
+        width: 100%;
+        height: auto;
+    }
+    .grid > .section-important {
+        width: 100%;
+    }
+    .section-important .fl {
+        float: none;
+        width: 100%;
+    }
+    .section-important .fr {
+        float: none;
+        width: 100%;
+    }
+    .section-important .mail {
+        margin-top: 5px;
+        display: block;
     }
 }
 

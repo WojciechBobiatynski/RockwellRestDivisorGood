@@ -10,7 +10,9 @@
 
     <title>System bonów szkoleniowych - Kierunek Kariera - Wojewódzki Urząd Pracy w Krakowie</title>
 
-    <link rel="stylesheet" href="${cdnUrl}css/gryf.css">
+    <%--<link rel="stylesheet" href="${cdnUrl}css/gryf.css">--%>
+    <%-- GRYF DEV CSS--%>
+    <link rel="stylesheet" href="${cdnUrl}css/gryf-dev.css">
 
     <link href="//fonts.googleapis.com/css?family=Roboto:300,400,700&amp;subset=latin-ext" rel="stylesheet">
 
@@ -119,18 +121,20 @@
         </ol>
     </div></div>
 
-    <header><div class="grid">
-        <div>
-            <span class="description">System bonów szkoleniowych realizowany jest na zlecenie</span>
-            <h1 class="ci ci-wup">
-                <a title="Instytucja Województwa Małopolskiego, Wojewódzki Urząd Pracy w Krakowie" rel="home" href="${pageContext.request.contextPath}/" itemprop="name">Kierunek Kariera - Wojewódzki Urząd Pracy w Krakowie</a>
-            </h1>
+    <header>
+        <span class="description">System bonów szkoleniowych realizowany jest na zlecenie</span>
+        <div class="top-logos">
+            <a href="${pageContext.request.contextPath}/" title="Logo wojewódzkiego Urzędu Pracy w Krakowie">
+                <img src="${cdnUrl}img/wup_logo.gif" alt="Logo wojewódzkiego Urzędu Pracy w Krakowie z szarym konturem człowiek i zieloną strzałką pod nim, wskaruzującym na napisz Wojewódzki Urząd Pracy w Krakowie, po lewej napis Instytucja Województwa Małopolskiego">
+            </a>
+            <a href="https://www.malopolska.pl/" title="Logo województwa małopolskiego">
+                <img src="${cdnUrl}img/malopolska_logo.gif" alt="Logo województwa małopolskiego, znak gór wykonany z fioletowych, niebieskich zielonych i zółtych prostokątów nachodzących na siebie tworzących podobiznę górskich szczytów">
+            </a>
+            <a href="http://europa.eu/european-union/index_pl" title="Flaga Uni Europejskiej">
+                <img src="${cdnUrl}img/eu_flag.gif" alt="Flaga Uni Europejskiej, ciemnoniebieskie tło z żółtymi gwiadkami i podpsiem podspodem Unia Europejska">
+            </a>
         </div>
-        <ol>
-            <li class="ci ci-malopolska-v"><a href="http://www.malopolska.pl/" rel="external" title="Małopolska">Małopolska</a></li>
-            <li class="ci ci-ue"><a href="http://europa.eu/european-union/index_pl" rel="external" title="Unia Europejska">Unia Europejska</a></li>
-        </ol>
-    </div></header>
+    </header>
 
     <nav><div class="grid">
         <ul>
@@ -155,13 +159,27 @@
         <p class="description">Wszystkie informacje o projekcie pn. „Kierunek Kariera” dostępne są na stronie<br><a href="http://www.pociagdokariery.pl" rel="external" title="Pociąg do Kariery">www.pociagdokariery.pl</a></p>
     </div></div>
 
-    <div id="logobar"><div class="grid">
-        <ul>
-            <li class="ci ci-fepr"><a href="http://www.funduszeeuropejskie.gov.pl/" rel="external" title="Fundusze Europejskie - Program Regionalny">Fundusze Europejskie - Program Regionalny</a></li>
-            <li class="ci ci-malopolska-h"><a href="http://www.malopolska.pl/" rel="external" title="Małopolska">Małopolska</a></li>
-            <li class="ci ci-ueefs"><a href="http://www.funduszeeuropejskie.gov.pl/efs/" rel="external" title="Unia Europejska - Europejski Fundusz Społeczny">Unia Europejska - Europejski Fundusz Społeczny</a></li>
-        </ul>
-    </div></div>
+    <div id="logobar">
+        <div class="grid">
+
+            <a href="http://www.funduszeeuropejskie.gov.pl/" rel="external" title="Fundusze Europejskie - Program Regionalny">
+                <img src="${cdnUrl}img/fu_logo.gif" alt="Logo Programu Regionalnego Fundusze Europejskie z logiem przedstawiającym na niebieskim tle trzy gwiazdki w kolorze zółtym, czerwonym i białym">
+            </a>
+
+            <a href="http://www.malopolska.pl/" rel="external" title="Rzeczypospolita polska">
+                <img src="${cdnUrl}img/rp_flag.jpg" alt="Flaga Rzczypospolitej Polskiej, biało-czerwona flaga po lewej stronie, po prawej napis Rzeczypospolita Polska">
+            </a>
+
+            <a href="http://www.malopolska.pl/" rel="external" title="Małopolska">
+                <img src="${cdnUrl}img/malo_hor_logo.gif" alt="Logo województwa małopolskiego, znak gór wykonany z fioletowych, niebieskich zielonych i zółtych prostokątów nachodzących na siebie tworzących podobiznę górskich szczytów">
+            </a>
+
+            <a href="http://www.funduszeeuropejskie.gov.pl/efs/" rel="external" title="Unia Europejska - Europejski Fundusz Społeczny">
+                <img src="${cdnUrl}img/eu_efs_logo.gif" alt="Napis Unia Europejska, Europejski Fundusz Społeczny po prawej, po lewej faga uni europejskiej - złote gwiazdki na ciemnoniebieskim tle">
+            </a>
+
+        </div>
+    </div>
 
     <footer><div class="grid">
 
