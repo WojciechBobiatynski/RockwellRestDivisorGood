@@ -513,7 +513,7 @@ public abstract class DefaultImportContractServiceImpl extends ImportBaseDataSer
             setFullAddress(dto, importEnterpriseDTO.getAddressInvoice(), zipCodeEnterpriseInvoice);
         } else if (ContractType.TYPE_IND.equals(contractType.getId())){
             ImportIndividualDTO importIndividualDTO = importComplexContractDTO.getIndividual();
-            setFullAddress(dto, importIndividualDTO.getAddressInvoice(), zipCodeEnterpriseInvoice);
+            setFullAddress(dto, importIndividualDTO.getAddressInvoice(), zipCodeIndividualInvoice);
         }
 
         return dto;
