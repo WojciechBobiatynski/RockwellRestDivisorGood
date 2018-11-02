@@ -182,7 +182,7 @@ public class ContractServiceImpl implements ContractService {
 
     @Override
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
-    public Long resign(Long contractId) {
+    public String resign(String contractId) {
         List<ContractPbeProductInstancePoolDto> contractPools = pbeProductInstancePoolService.findPoolInstancesByContractId(contractId);
         checkIfContainsAvaiablePool(contractPools);
 

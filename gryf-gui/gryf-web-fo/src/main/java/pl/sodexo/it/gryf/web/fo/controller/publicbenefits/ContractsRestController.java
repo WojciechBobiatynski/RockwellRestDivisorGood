@@ -87,14 +87,14 @@ public class ContractsRestController {
     }
 
     @RequestMapping(value = PATH_CONTRACTS_FIND_POOL_INSTANCES + "/{id}", method = RequestMethod.GET)
-    public List<ContractPbeProductInstancePoolDto> findContractPoolInstances(@PathVariable Long id) {
+    public List<ContractPbeProductInstancePoolDto> findContractPoolInstances(@PathVariable String id) {
         LOGGER.debug("findContractPoolInstances, contractId={}", id);
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_CONTRACTS);
         return pbeProductInstancePoolService.findPoolInstancesByContractId(id);
     }
 
     @RequestMapping(value = PATH_CONTRACTS_RESIGN + "/{id}", method = RequestMethod.POST)
-    public List<ContractPbeProductInstancePoolDto> resign(@PathVariable Long id) {
+    public List<ContractPbeProductInstancePoolDto> resign(@PathVariable String id) {
         LOGGER.debug("resign, contractId={}", id);
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_CONTRACTS);
         contractService.resign(id);

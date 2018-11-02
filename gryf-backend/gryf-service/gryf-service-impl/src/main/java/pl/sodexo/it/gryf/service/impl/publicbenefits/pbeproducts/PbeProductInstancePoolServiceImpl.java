@@ -43,7 +43,7 @@ public class PbeProductInstancePoolServiceImpl implements PbeProductInstancePool
     }
 
     @Override
-    public List<ContractPbeProductInstancePoolDto> findPoolInstancesByContractId(Long contractId) {
+    public List<ContractPbeProductInstancePoolDto> findPoolInstancesByContractId(String contractId) {
         return productInstancePoolSearchDao.findPoolInstancesByContractId(contractId);
     }
 

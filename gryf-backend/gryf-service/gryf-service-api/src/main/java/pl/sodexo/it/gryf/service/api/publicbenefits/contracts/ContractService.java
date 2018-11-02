@@ -34,5 +34,5 @@ public interface ContractService {
      * @param contractId - id umowy w trakcie rezygnacji
      * @return - id zaktualizowanej umowy
      */
-    Long resign(Long contractId);
+    String resign(String contractId);
 }
