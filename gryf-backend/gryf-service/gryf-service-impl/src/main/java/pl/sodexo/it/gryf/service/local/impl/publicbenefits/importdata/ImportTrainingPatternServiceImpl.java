@@ -51,7 +51,7 @@ public class ImportTrainingPatternServiceImpl implements  PatternService<Long, S
         String foundPattern = applicationParameters.findParameterValueByCode(findingPatternByCode);
         if (StringUtils.isEmpty(foundPattern)) {
             //wybierz domyslny jezeli brak w konfiguracji
-            foundPattern = applicationParameters.getExternalOrderIdPatternRegexp();
+            foundPattern = applicationParameters.getImportTraningSearchPattern();
         }
 
         return foundPattern;

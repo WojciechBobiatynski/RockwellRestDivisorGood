@@ -10,8 +10,8 @@ INSERT INTO  ${gryf.schema}.JOB_TYPE VALUES (JOB_TYPE_seq.nextval, 'ORDER_TRANS'
 INSERT INTO  ${gryf.schema}.JOB_TYPE VALUES (JOB_TYPE_seq.nextval, 'WZ_IMPORT_CON', (SELECT ID FROM ${gryf.schema}.GRANT_PROGRAMS WHERE PROGRAM_CODE ='WUPKKZ' ), 'Import umów (WZ)', 'asynchJobImportService', 'importContractService');
 INSERT INTO  ${gryf.schema}.JOB_TYPE VALUES (JOB_TYPE_seq.nextval, 'WZ_IMPORT_ORD', (SELECT ID FROM ${gryf.schema}.GRANT_PROGRAMS WHERE PROGRAM_CODE ='WUPKKZ' ), 'Import zamówień (WZ)', 'asynchJobImportService', 'importOrderService');
 INSERT INTO  ${gryf.schema}.JOB_TYPE VALUES (JOB_TYPE_seq.nextval, 'WZ_IMPORT_TRA_INS', (SELECT ID FROM ${gryf.schema}.GRANT_PROGRAMS WHERE PROGRAM_CODE ='WUPKKZ' ), 'Import usługodawcy szkoleniowych (WZ)', 'asynchJobImportService', 'importTrainingInstitutionService');
-INSERT INTO  ${gryf.schema}.JOB_TYPE VALUES (JOB_TYPE_seq.nextval, 'WZ_IMPORT_TRA', (SELECT ID FROM ${gryf.schema}.GRANT_PROGRAMS WHERE PROGRAM_CODE ='WUPKKZ' ),  'Import usług (WZ)', 'asynchJobImportService (WZ)', 'importTrainingService');
-INSERT INTO  ${gryf.schema}.JOB_TYPE VALUES (JOB_TYPE_seq.nextval, 'WZ_IMPORT_OPI', (SELECT ID FROM ${gryf.schema}.GRANT_PROGRAMS WHERE PROGRAM_CODE ='WUPKKZ' ), 'Import ocen (WZ)', 'asynchJobImportService (WZ)', 'ImportOpinionDoneService');
+INSERT INTO  ${gryf.schema}.JOB_TYPE VALUES (JOB_TYPE_seq.nextval, 'WZ_IMPORT_TRA', (SELECT ID FROM ${gryf.schema}.GRANT_PROGRAMS WHERE PROGRAM_CODE ='WUPKKZ' ),  'Import usług (WZ)', 'asynchJobImportService', 'importTrainingService');
+INSERT INTO  ${gryf.schema}.JOB_TYPE VALUES (JOB_TYPE_seq.nextval, 'WZ_IMPORT_OPI', (SELECT ID FROM ${gryf.schema}.GRANT_PROGRAMS WHERE PROGRAM_CODE ='WUPKKZ' ), 'Import ocen (WZ)', 'asynchJobImportService', 'ImportOpinionDoneService');
 
 --------------------------------------------------------------------------------------------------
 

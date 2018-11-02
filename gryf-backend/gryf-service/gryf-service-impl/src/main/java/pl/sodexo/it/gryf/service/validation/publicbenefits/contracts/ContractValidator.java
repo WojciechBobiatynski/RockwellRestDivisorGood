@@ -184,7 +184,7 @@ public class ContractValidator extends AbstractValidator {
     public List<EntityConstraintViolation> validateContractIdAgreementWithPattern(ImportContractDTO importContractDTO, String externalOrderIdPatternRegexp) {
         PatternContext importContractContext =  DefaultPatternContext.create().withCode(importContractDTO.getGrantProgram().getProgramCode())
                 .withId((Long) importContractDTO.getGrantProgram().getId()).withDefaultPattern(externalOrderIdPatternRegexp).build();
-        Pattern patternCompile = Pattern.compile(externalOrderIdPatternRegexp); //grantProgramPatternService.getPattern(importContractContext));
+        Pattern patternCompile = Pattern.compile(grantProgramPatternService.getPattern(importContractContext));
         Matcher matcher = patternCompile.matcher(importContractDTO.getExternalOrderId());
         if (!matcher.matches()) {
             List<EntityConstraintViolation> contractViolations = Lists.newArrayList();
