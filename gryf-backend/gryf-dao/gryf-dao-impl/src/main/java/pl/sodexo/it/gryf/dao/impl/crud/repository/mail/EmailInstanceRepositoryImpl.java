@@ -15,7 +15,7 @@ import java.util.List;
 public class EmailInstanceRepositoryImpl extends GenericRepositoryImpl<EmailInstance, Long> implements EmailInstanceRepository {
 
     @Override
-    public List<EmailInstance> findAvaiableToSend(String status){
+    public List<EmailInstance> findAvailableToSend(String status){
         TypedQuery<EmailInstance> query = entityManager.createNamedQuery("EmailInstance.findByStatus", EmailInstance.class);
         query.setParameter("status", status);
         return query.getResultList();

@@ -161,6 +161,7 @@
         JOIN APP_PBE.GRANT_PROGRAMS gr_pr ON gr_pr.ID = #{grantProgramId}
         JOIN APP_PBE.GRANT_OWNERS gr_own ON gr_own.ID = gr_pr.GRANT_OWNER_ID
         JOIN APP_PBE.PBE_PRODUCTS prd ON prd.GRANT_OWNER_ID = gr_own.ID
+        JOIN APP_PBE.GRANT_PROGRAM_PRODUCTS gpp ON (gpp.pbe_prd_id = prd.prd_id and gpp.grant_program_id = #{grantProgramId})
         <where>
             <if test="trainingId != null">
                 t.ID = #{trainingId}

@@ -200,7 +200,7 @@ public class MailServiceImpl implements MailService {
     public void sendMails(){
 
         //POBRANIE INSTANCJI MAILA
-        List<EmailInstance> emails = emailInstanceRepository.findAvaiableToSend(EmailInstance.STATUS_PENDING);
+        List<EmailInstance> emails = emailInstanceRepository.findAvailableToSend(EmailInstance.STATUS_PENDING);
         if(!emails.isEmpty()) {
             LOGGER.info("Uruchominie zadania wysyłajacego maile. Ilość maili do wysłania jest równa[{}]", emails.size());
         }
