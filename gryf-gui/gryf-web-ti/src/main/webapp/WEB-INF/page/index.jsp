@@ -32,7 +32,8 @@
     </script>
 
     <script src="${pageContext.request.contextPath}/js/components/gryf/gryf-sessionStorage.js"></script>
-    <script src="${pageContext.request.contextPath}/js/vendor/angular/angular.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/components/gryf/gryf-resizeTable.js"></script>
+    <script src="${pageContext.request.contextPath}/js/vendor/angular/angular.js"></script>
     <script src="${pageContext.request.contextPath}/js/vendor/angular/angular-animate.min.js"></script>
     <script src="${pageContext.request.contextPath}/js/vendor/bootstrap/ui-bootstrap.min.js"></script>
     <script src="${pageContext.request.contextPath}/js/vendor/bootstrap/ui-bootstrap-tpls.min.js"></script>

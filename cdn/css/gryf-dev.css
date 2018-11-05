@@ -821,6 +821,46 @@ body#ak > header {
         margin-top: 5px;
         display: block;
     }
+
+    .gryf-web-ti #content {
+        width: 100%;
+    }
+
+    .gryf-web-ti button {
+        margin:10px 5px 10px 0;
+    }
+
+    .gryf-web-ti .grid-100 .left {
+        float: none;
+    }
+
+    .gryf-web-ti .grid-100 .right {
+        margin-top: 20px;
+        float: none;
+    }
+    .gryf-web-ti .multiSection .grid-40 {
+        width: 100%;
+    }
+    .gryf-web-ti .multiSection .grid-33 {
+        width: 100%
+    }
+
+    .gryf-web-ti .multiSection .grid-35 {
+        width: 100%
+    }
+    .gryf-web-ti .grid-50 {
+        width: 100%
+    }
+    .gryf-web-ti .multiSection {
+        font-size: 1.1em;
+    }
+    .gryf-web-ti .multiSection .label{
+        padding: 10px;
+        margin: 10px;
+    }
+    .gryf-web-ti .multiSection input {
+        margin-left: 10px
+    }
 }
 
 /* Extra Small Devices, Phones */
