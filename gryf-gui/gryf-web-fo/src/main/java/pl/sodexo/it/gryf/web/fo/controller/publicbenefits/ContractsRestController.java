@@ -71,7 +71,7 @@ public class ContractsRestController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json")
-    public String updateContract(@PathVariable Long id, @RequestBody ContractDTO contractDTO) {
+    public String updateContract(@PathVariable String id, @RequestBody ContractDTO contractDTO) {
         LOGGER.debug("updateContract, id={}, contractDTO={}", id, contractDTO);
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_CONTRACTS_MOD);
         GryfUtils.checkForUpdate(id, contractDTO.getId());
