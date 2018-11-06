@@ -111,7 +111,10 @@
    <table id="reservation-table">
       <thead>
       <tr class="grid-100 tableHeader-names">
-         <th class="sortable grid-20" ng-class="getSortingTypeClass('name')">
+         <th class="sortable grid-10" ng-class="getSortingTypeClass('name')">
+            <div >Program odfinansowania</div>
+         </th>
+         <th class="sortable grid-10" ng-class="getSortingTypeClass('name')">
             <div ng-click="getSortedBy('name')">Nazwa usługi</div>
          </th>
          <th class="sortable grid-10" ng-class="getSortingTypeClass('externalId')">
@@ -137,7 +140,10 @@
          </th>
       </tr>
       <tr class="grid-100 tableHeader-options">
-         <th class="grid-20">
+         <th class="grid-10">
+
+         </th>
+         <th class="grid-10">
             <input type="text" ng-model="searchDTO.entity.name">
          </th>
          <th class="grid-10">
@@ -190,6 +196,7 @@
       </thead>
       <tbody class="tableData">
       <tr ng-repeat="item in searchDTO.searchResultList | limitTo: searchResultOptions.displayLimit" ng-class="{'row-even': $even, 'row-odd': $odd}">
+         <td>program placeholder</td>
          <td>{{::item.name}}</td>
          <td>{{::item.externalId}}</td>
          <td>{{::item.price}}</td>

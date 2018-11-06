@@ -4,9 +4,10 @@ angular.module("gryf.ti").controller("TrainingReservationController",
 
     $scope.individualUser = UserService.getIndividualUser();
     $scope.userTrainingReservationData = TrainingReservationService.getUserTrainingReservationData();
-    console.log($scope.userTrainingReservationData)
+    console.log('userTrainingReservationData ', $scope.userTrainingReservationData )
     $scope.violations = TrainingReservationService.getNewViolations();
     $scope.searchDTO = TrainingSearchService.getSearchDTO();
+    console.log('searchDTO ', $scope.searchDTO )
     $scope.searchResultOptions = TrainingSearchService.getSearchResultOptions();
 
     $scope.dictionaries = {};
@@ -95,5 +96,6 @@ angular.module("gryf.ti").controller("TrainingReservationController",
             "grantProgramId": $scope.userTrainingReservationData.data.contracts[0].grantProgram.id
         });
     };
+
     $scope.clear();
 }]);
