@@ -184,11 +184,12 @@ public class ContractValidator extends AbstractValidator {
     public List<EntityConstraintViolation> validateContractIdAgreementWithPattern(ImportContractDTO importContractDTO, String externalOrderIdPatternRegexp) {
         PatternContext importContractContext =  DefaultPatternContext.create().withCode(importContractDTO.getGrantProgram().getProgramCode())
                 .withId((Long) importContractDTO.getGrantProgram().getId()).withDefaultPattern(externalOrderIdPatternRegexp).build();
-        Pattern patternCompile = Pattern.compile(grantProgramPatternService.getPattern(importContractContext));
+        String grantProgramPatternServicePattern = grantProgramPatternService.getPattern(importContractContext);
+        Pattern patternCompile = Pattern.compile(grantProgramPatternServicePattern);
         Matcher matcher = patternCompile.matcher(importContractDTO.getExternalOrderId());
         if (!matcher.matches()) {
             List<EntityConstraintViolation> contractViolations = Lists.newArrayList();
-            contractViolations.add(new EntityConstraintViolation("Identyfikator umowy musi być w formacie kod programu/numer/numer"));
+            contractViolations.add(new EntityConstraintViolation(String.format("Identyfikator umowy musi być w formacie kod programu/numer/numer wg wzoru: %s"), grantProgramPatternServicePattern));
             addPrefixMessage(VIOLATIONS_PREFIX, contractViolations);
             return contractViolations;
         }
