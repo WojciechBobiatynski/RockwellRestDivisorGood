@@ -38,10 +38,6 @@ public class IndividualSearchDaoImpl implements IndividualSearchDao {
     public UserTrainingReservationDataDto findDataForTrainingReservation(String pesel) {
         UserTrainingReservationDataDto reservationDataDto = individualSearchMapper.findDataForTrainingReservation(pesel);
 
-        if (Objects.nonNull(reservationDataDto) && !CollectionUtils.isEmpty(reservationDataDto.getContracts())) {
-            reservationDataDto.getContracts().addAll(reservationDataDto.getContracts());
-        }
-
         return reservationDataDto;
     }
 
