@@ -189,7 +189,7 @@ public class ContractValidator extends AbstractValidator {
         Matcher matcher = patternCompile.matcher(importContractDTO.getExternalOrderId());
         if (!matcher.matches()) {
             List<EntityConstraintViolation> contractViolations = Lists.newArrayList();
-            contractViolations.add(new EntityConstraintViolation(String.format("Identyfikator umowy musi być w formacie kod programu/numer/numer wg wzoru: %s"), grantProgramPatternServicePattern));
+            contractViolations.add(new EntityConstraintViolation(String.format("Identyfikator umowy musi być w formacie kod programu/numer/numer dla danego programu")));
             addPrefixMessage(VIOLATIONS_PREFIX, contractViolations);
             return contractViolations;
         }
