@@ -110,10 +110,15 @@
             con.ID AS contractId,
             gpr.ID AS programId,
             gpr.PROGRAM_NAME AS programName
-        FROM APP_PBE.INDIVIDUALS ind
-            LEFT JOIN APP_PBE.CONTRACTS con ON con.INDIVIDUAL_ID = ind.ID
-            LEFT JOIN APP_PBE.GRANT_PROGRAMS gpr ON gpr.ID = con.GRANT_PROGRAM_ID
-            LEFT JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOLS pip ON pip.INDIVIDUAL_ID = ind.ID
+        FROM
+            app_pbe.individuals ind
+            LEFT JOIN app_pbe.contracts con ON con.individual_id = ind.id
+            LEFT JOIN app_pbe.grant_programs gpr ON gpr.id = con.grant_program_id
+            LEFT JOIN app_pbe.orders ord ON ord.grant_program_id = con.grant_program_id
+            JOIN app_pbe.pbe_product_instance_pools pip ON pip.individual_id = ind.id
+                                                           AND ord.id = pip.order_id
+            LEFT JOIN app_pbe.grant_program_products gpp ON ( gpp.pbe_prd_id = pip.prd_id
+                                                              AND gpp.grant_program_id = con.grant_program_id )
         WHERE
             ind.PESEL = #{pesel}
         ORDER BY pip.EXPIRY_DATE DESC
