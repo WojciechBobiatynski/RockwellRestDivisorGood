@@ -4,6 +4,7 @@ function($scope, $stateParams, TrainingSearchService, DictionaryService) {
     $scope.training = {data: null};
 
     TrainingSearchService.findDetailsById($stateParams.trainingId).success(function(data) {
+        // @todo add grant program name to data
         DictionaryService.getRecordById(DictionaryService.DICTIONARY.TRAINING_CATEGORIES, data.category).then(function(record) {
             $scope.training.data.category = record.name;
         });
