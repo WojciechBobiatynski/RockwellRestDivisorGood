@@ -20,7 +20,7 @@
             CASE t.ACTIVE WHEN 'Y' THEN 1 ELSE 0 END as active,
             t.version                   version,
             gp.id                       grantProgramId,
-            gp.program_name                     grantProgramName
+            gp.program_name             grantProgramName
         FROM
             app_pbe.ti_trainings t
             JOIN app_pbe.ti_training_categories c ON c.id = t.training_category_id

@@ -74,5 +74,5 @@ public class TrainingSearchResultDTO {
 
     @Getter
     @Setter
-    private String grantProgramId;
+    private Long grantProgramId;
 }
