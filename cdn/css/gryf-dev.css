@@ -735,6 +735,24 @@ html.font-big .standardButton, html.font-big .btn-sm, html.font-big .btn-group-s
     font-size:1.1rem;
 }
 
+/* GRYF-WEB-TI */
+.gryf-web-ti .reservation-personal-info > div:nth-child(2) {
+    margin-top: 20px;
+}
+
+.gryf-web-ti .reservation-item > div {
+    float:left;
+    margin-top: 10px;
+}
+
+.gryf-web-ti .reservation-item > div:first-child {
+    margin-top: 0;
+}
+
+.gryf-web-ti .reservation-item > div:last-child {
+    padding-left: 15px;
+}
+
 /* L O G O S   B A R  */
 .top-logos {
     width:100%;
@@ -765,30 +783,29 @@ body#ak > header {
 /*==========  Non-Mobile First Method  ==========*/
 /* Large Devices, Wide Screens */
 @media only screen and (max-width : 1200px) {
-    .grid > .section-promoted {
-        height: 330px;
+    .gryf-web-ind .grid > .section-promoted {
+        height: 280px;
     }
 }
 
 /* Medium Devices, Desktops */
 @media only screen and (max-width : 992px) {
-    .grid > .section-promoted {
+    .gryf-web-ind .grid > .section-promoted {
         height: 355px;
     }
 }
 
 /* Small Devices, Tablets */
 @media only screen and (max-width : 768px) {
+    /*GRYF IND*/
     #bottombar .grid {
         float: left;
         width: 100%;
         margin: 0 15px;
     }
-
     #bottombar .grid:nth-child(2) {
         margin-top: 30px;
     }
-
     .form-big > header, .form-big > .content {
         background: rgba(18,86,187,.8);
         color: #fff;
@@ -821,21 +838,32 @@ body#ak > header {
         margin-top: 5px;
         display: block;
     }
-
+    .gryf-web-ind .grid > .section-promoted {
+        height: auto;
+    }
+    /* GRYF TI Reservation*/
+    .gryf-web-ti .grid > .section-promoted {
+        height: auto;
+    }
+    .gryf-web-ti .reservation-personal-info, .gryf-web-ti .reservation-items, .gryf-web-ti .reservation-button {
+        width: 100%;
+    }
+    .gryf-web-ti .reservation-item div {
+        width:100%;
+    }
     .gryf-web-ti #content {
         width: 100%;
     }
-
     .gryf-web-ti button {
         margin:10px 5px 10px 0;
     }
-
     .gryf-web-ti .grid-100 .left {
         float: none;
+        width: 100%;
     }
-
     .gryf-web-ti .grid-100 .right {
         margin-top: 20px;
+        width: 100%;
         float: none;
     }
     .gryf-web-ti .multiSection .grid-40 {
@@ -844,7 +872,6 @@ body#ak > header {
     .gryf-web-ti .multiSection .grid-33 {
         width: 100%
     }
-
     .gryf-web-ti .multiSection .grid-35 {
         width: 100%
     }
@@ -855,11 +882,95 @@ body#ak > header {
         font-size: 1.1em;
     }
     .gryf-web-ti .multiSection .label{
-        padding: 10px;
+        /*padding: 0 10px;*/
+        display: block;
         margin: 10px;
+    }
+    .gryf-web-ti .reservation-personal-info .label, .gryf-web-ti .reservation-items .label, .gryf-web-ti .reservation-button .label {
+        margin: 10px 0;
     }
     .gryf-web-ti .multiSection input {
         margin-left: 10px
+    }
+    .gryf-web-ti .reservation-item > div:last-child {
+        padding-left: 0px;
+    }
+    .gryf-web-ti .block > table > thead > tr > th, .gryf-web-ti .tableHeader-names > th, .gryf-web-ti .tableHeader-options > th, .gryf-web-ti .block > table > tbody > tr > td, .gryf-web-ti .tableData > tr > td {
+        display: block;
+    }
+    /* GRYF TI ConfirmPin*/
+    .gryf-web-ti .tableHeader-names, .tableHeader-options{
+        display:block;
+        width: 50%;
+        float:left;
+        overflow: hidden;
+    }
+    .gryf-web-ti .tableHeader-names th {
+        /*   border: 1px solid red; */
+        display: block;
+        width: 100%;
+        padding: 18px 10px;
+        border-bottom:none;
+    }
+    .gryf-web-ti .tableHeader-options th {
+        /*! border: 1px solid blue; */
+        display: block;
+        width: 100% !important;
+        border-bottom:none;
+    }
+    .gryf-web-ti tr.grid-100:nth-child(2) > th:nth-child(6), .gryf-web-ti tr.grid-100:nth-child(2) > th:nth-child(7){
+        overflow: hidden;
+        padding: 15px 5px
+    }
+    .gryf-web-ti tr.grid-100:nth-child(2) > th:nth-child(6) input, .gryf-web-ti tr.grid-100:nth-child(2) > th:nth-child(7) input {
+        float: left;
+        width: 50%
+    }
+    .gryf-web-ti #confirm-pin tbody tr td::before {
+        content:'xxxx: ';
+        display: inline-block;
+        margin-right: 5px;
+        font-weight: bold;
+
+    }
+    .gryf-web-ti #confirm-pin tbody tr td:first-child::before {
+        content:'Nazwa usługi: ';
+    }
+    .gryf-web-ti #confirm-pin tbody tr td:nth-child(2)::before {
+        content:'Numer usługi: ';
+    }
+    .gryf-web-ti #confirm-pin tbody tr td:nth-child(3)::before {
+        content:'PESEL uczestnika: ';
+    }
+    .gryf-web-ti #confirm-pin tbody tr td:nth-child(4)::before {
+        content:'Imię usługi: ';
+    }
+    .gryf-web-ti #confirm-pin tbody tr td:nth-child(5)::before {
+        content:'Nazwisko usługi: ';
+    }
+    .gryf-web-ti #confirm-pin tbody tr td:nth-child(6)::before {
+        content:'Data rozpoczęcia: ';
+    }
+    .gryf-web-ti #confirm-pin tbody tr td:nth-child(7)::before {
+        content:'Data zakończenia: ';
+    }
+    .gryf-web-ti #confirm-pin tbody tr td:nth-child(8)::before {
+        content:'Status usługi: ';
+    }
+    .gryf-web-ti #confirm-pin tbody tr td:last-child::before {
+        content:'';
+    }
+    .gryf-web-ti #confirm-pin tbody tr td .textButton {
+        padding: 10px;
+    }
+    /*Bottom BAR*/
+    #bottombarKKK .grid {
+        float:left;
+        width: 100%;
+        margin: 10px 15px;
+    }
+    #bottombarKKK .grid:nth-child(2) {
+        margin: 30px 15px 10px 15px;
     }
 }
 

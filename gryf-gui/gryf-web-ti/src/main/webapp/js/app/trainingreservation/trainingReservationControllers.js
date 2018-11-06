@@ -4,6 +4,7 @@ angular.module("gryf.ti").controller("TrainingReservationController",
 
     $scope.individualUser = UserService.getIndividualUser();
     $scope.userTrainingReservationData = TrainingReservationService.getUserTrainingReservationData();
+    console.log($scope.userTrainingReservationData)
     $scope.violations = TrainingReservationService.getNewViolations();
     $scope.searchDTO = TrainingSearchService.getSearchDTO();
     $scope.searchResultOptions = TrainingSearchService.getSearchResultOptions();
@@ -94,6 +95,5 @@ angular.module("gryf.ti").controller("TrainingReservationController",
             "grantProgramId": $scope.userTrainingReservationData.data.contracts[0].grantProgram.id
         });
     };
-
     $scope.clear();
 }]);
