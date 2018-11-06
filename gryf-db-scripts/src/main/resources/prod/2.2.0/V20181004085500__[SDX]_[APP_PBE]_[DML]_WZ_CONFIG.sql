@@ -265,4 +265,11 @@ Insert into ${gryf.schema}.TI_TRAINING_CATEGORIES  (ID, NAME, ORDINAL, PARENT_ID
 Insert into ${gryf.schema}.TI_TRAINING_CATEGORY_PARAMS(ID, CATEGORY_ID, GRANT_PROGRAM_ID, PRODUCT_INSTANCE_FOR_HOUR, MAX_PRODUCT_INSTANCE, DATE_FROM, DATE_TO) Values (17, 'EGZKZ',  (SELECT ID FROM ${gryf.schema}.GRANT_PROGRAMS WHERE PROGRAM_CODE ='${program.code.wupkkz}' ), NULL, 80, TO_DATE('2018-10-08', 'YYYY-MM-DD'), NULL);
 
 
+--4.  Szkolenia rozliczane 1h - max 1 bonem KFW
+
+Insert into ${gryf.schema}.TI_TRAINING_CATEGORIES  (ID, NAME, ORDINAL, PARENT_ID, CATALOG_ID) Values   ('KFW', 'Kwalifikacja wstępna', 1, NULL, 'CAT_KZ');
+
+Insert into ${gryf.schema}.TI_TRAINING_CATEGORY_PARAMS(ID, CATEGORY_ID, GRANT_PROGRAM_ID, PRODUCT_INSTANCE_FOR_HOUR, MAX_PRODUCT_INSTANCE, DATE_FROM, DATE_TO) Values (18, 'KFW',  (SELECT ID FROM ${gryf.schema}.GRANT_PROGRAMS WHERE PROGRAM_CODE ='${program.code.wupkkz}' ), 1, NULL, TO_DATE('2018-10-08', 'YYYY-MM-DD'), NULL);
+
+
 -- parametry programu
