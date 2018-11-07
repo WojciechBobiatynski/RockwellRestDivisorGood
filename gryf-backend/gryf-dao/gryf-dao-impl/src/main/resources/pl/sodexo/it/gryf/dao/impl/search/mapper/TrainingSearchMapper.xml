@@ -157,9 +157,11 @@
     <select id="findTrainingPrecalculatedDetails" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingPrecalculatedDetailsDto">
         SELECT
         <include refid="trainingDetailsData"/>,
-        cat.PRODUCT_INSTANCE_FOR_HOUR	  productInstanceForHour,
+        cat.PRODUCT_INSTANCE_FOR_HOUR	   productInstanceForHour,
         cat.MAX_PRODUCT_INSTANCE          maxProductInstance,
-        prd.VALUE                         prdValue
+        prd.VALUE                         prdValue,
+        gr_pr.id                          grantProgramId,
+        gr_pr.program_name                grantProgramName
         FROM APP_PBE.TI_TRAININGS t
         JOIN APP_PBE.TRAINING_INSTITUTIONS i on i.ID = t.TRAINING_INSTITUTION_ID
         JOIN APP_PBE.TI_TRAINING_CATEGORY_PARAMS cat ON (t.TRAINING_CATEGORY_ID = cat.CATEGORY_ID AND cat.GRANT_PROGRAM_ID = #{grantProgramId})

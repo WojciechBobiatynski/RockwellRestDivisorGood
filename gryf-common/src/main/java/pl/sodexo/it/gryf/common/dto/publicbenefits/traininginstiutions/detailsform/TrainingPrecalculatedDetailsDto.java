@@ -65,6 +65,14 @@ public class TrainingPrecalculatedDetailsDto extends ProductCalculationsDto {
     @Setter
     private Integer version;
 
+    @Getter
+    @Setter
+    private String grantProgramName;
+
+    @Setter
+    @Getter
+    private Long grantProgramId;
+
     public Integer getMaxProductsNumber() {
         return super.getMaxProductsNumber(this.price, this.hoursNumber);
     }

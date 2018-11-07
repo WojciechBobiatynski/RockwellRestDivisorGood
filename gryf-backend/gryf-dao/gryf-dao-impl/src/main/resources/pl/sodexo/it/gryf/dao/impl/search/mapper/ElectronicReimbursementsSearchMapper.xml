@@ -136,6 +136,7 @@
 
     <select id="findCalculationChargesParamsForTrInstId" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CalculationChargesParamsDto">
         SELECT
+         DISTINCT
           tr.HOUR_PRICE                                 trainingHourPrice,
           tr_cat_par.PRODUCT_INSTANCE_FOR_HOUR          productInstanceForHour,
           tr_cat_par.MAX_PRODUCT_INSTANCE               maxProductInstance,
