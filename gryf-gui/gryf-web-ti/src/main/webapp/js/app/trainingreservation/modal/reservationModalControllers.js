@@ -12,7 +12,8 @@ angular.module("gryf.ti").controller("ReservationModalController", ["$scope", "$
     TrainingSearchService.findPrecalculatedDetailsById($stateParams.trainingId, $stateParams.grantProgramId).success(function(data) {
         //@ todo add grant program name to data
         $scope.training.data = data;
-        console.log(data)
+        console.log(data);
+        console.log($stateParams)
         DictionaryService.getRecordById(DictionaryService.DICTIONARY.TRAINING_CATEGORIES, data.category).then(function(record) {
             $scope.training.data.category = record.name;
         });
