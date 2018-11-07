@@ -86,6 +86,7 @@ angular.module("gryf.ti").factory("TrainingSearchService", [ "$http", "GryfModal
         promise.finally(function() {
             GryfModals.closeModal(modalInstance);
         });
+        debugger
         return promise;
     };
 

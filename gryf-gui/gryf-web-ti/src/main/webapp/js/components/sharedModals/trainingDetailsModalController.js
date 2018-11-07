@@ -8,6 +8,7 @@ function($scope, $stateParams, TrainingSearchService, DictionaryService) {
         DictionaryService.getRecordById(DictionaryService.DICTIONARY.TRAINING_CATEGORIES, data.category).then(function(record) {
             $scope.training.data.category = record.name;
         });
+        debugger
         $scope.training.data = data;
     });
 }]);
