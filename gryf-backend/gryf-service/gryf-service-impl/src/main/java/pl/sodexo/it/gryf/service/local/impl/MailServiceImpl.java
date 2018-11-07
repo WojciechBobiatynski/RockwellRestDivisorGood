@@ -24,6 +24,7 @@ import pl.sodexo.it.gryf.model.mail.EmailInstance;
 import pl.sodexo.it.gryf.model.mail.EmailInstanceAttachment;
 import pl.sodexo.it.gryf.model.mail.EmailTemplate;
 import pl.sodexo.it.gryf.model.mail.EmailType;
+import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
 import pl.sodexo.it.gryf.service.local.api.MailService;
 
 import javax.activation.DataHandler;
@@ -149,7 +150,7 @@ public class MailServiceImpl implements MailService {
     }
 
     @Override
-    public MailDTO scheduleMail(MailDTO mailDTO){
+    public MailDTO scheduleMail(MailDTO mailDTO, GrantProgram grantProgram){
         EmailTemplate emailTemplate = (mailDTO.getTemplateId() != null) ? emailTemplateRepository.get(mailDTO.getTemplateId()) : null;
 
         if(GryfStringUtils.isEmpty(mailDTO.getAddressesFrom())){
@@ -170,7 +171,10 @@ public class MailServiceImpl implements MailService {
             if(emailTemplate != null && !Strings.isNullOrEmpty(emailTemplate.getEmailBodyHtmlTemplate())){
                 MailPlaceholders mailPlaceholders =
                         createPlaceholders("emailPlainBodyTemplates", mailDTO.getBody().replaceAll("(\r\n|\n)", "<br />"))
-                        .add("emailPlainSubjectTemplates", mailDTO.getSubject());
+                                .add("emailPlainSubjectTemplates", mailDTO.getSubject());
+                if (grantProgram != null){
+                    mailPlaceholders.add("emailGrantProgramName", grantProgram.getProgramName());
+                }
                 mailDTO.setBody(mailPlaceholders.replace(emailTemplate.getEmailBodyHtmlTemplate()));
             }
         }
@@ -190,6 +194,11 @@ public class MailServiceImpl implements MailService {
         emailInstanceRepository.save(em);
         mailDTO.setEmailInstanceId(em.getId());
         return mailDTO;
+    }
+
+    @Override
+    public MailDTO scheduleMail(MailDTO mailDTO){
+        return scheduleMail(mailDTO, null);
     }
 
     //METHODS - SEND MAIL

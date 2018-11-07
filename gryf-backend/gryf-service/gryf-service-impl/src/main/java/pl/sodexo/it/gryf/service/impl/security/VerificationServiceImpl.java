@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.config.ApplicationParameters;
+import pl.sodexo.it.gryf.common.dto.mail.MailDTO;
 import pl.sodexo.it.gryf.common.dto.security.individuals.GryfIndUserDto;
 import pl.sodexo.it.gryf.common.dto.security.individuals.VerificationDto;
 import pl.sodexo.it.gryf.common.dto.security.trainingInstitutions.GryfTiUserDto;
@@ -167,7 +168,8 @@ public class VerificationServiceImpl implements VerificationService {
         TiUserResetAttemptDto attemptDto = createNewAttemptForTiUser(user.getId());
         tiUserResetAttemptService.saveTiUserResetAttempt(attemptDto);
         GrantProgram grantProgram = grantProgramRepository.get(grantProgramId);
-        mailService.scheduleMail(mailDtoCreator.createMailDTOForTiAccess(grantProgram, user, attemptDto.getTurId()));
+        MailDTO mailDto = mailDtoCreator.createMailDTOForTiAccess(grantProgram, user, attemptDto.getTurId());
+        mailService.scheduleMail(mailDto, grantProgram);
     }
 
     private GryfTiUserDto findActiveTiUserDto(String email) {
