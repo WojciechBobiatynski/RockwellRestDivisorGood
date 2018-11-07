@@ -1,8 +1,8 @@
 
 --------------------------------------------------------------------------------------
 -----------------------------------KK_ORDER-------------------------------------------
----------1.6	Email do Uczestnika o przydzieleniu bonów – systemowy/automatyczny-------
-----------------------3.2	Email do OsFiz/MŚP o przydzieleniu bonów--------------------
+---------1.6    Email do Uczestnika o przydzieleniu bonów – systemowy/automatyczny-------
+----------------------3.2    Email do OsFiz/MŚP o przydzieleniu bonów--------------------
 --------------------------------------OK-----------------------------------------------
 
 MERGE INTO APP_PBE.EMAIL_TEMPLATES msg USING (SELECT 'KK_ORDER' ID ,'Sz. P. {$firstName} {$lastName},
@@ -45,7 +45,7 @@ THEN INSERT (ID, EMAIL_BODY_TEMPLATE, EMAIL_SUBJECT_TEMPLATE, DESCRIPTION) VALUE
 
 ---------------------------------------------------------------------------------------------------
 -----------------------------------VC_SEND---------------------------------------------------------
----------1.21	Email do Uczestnika – ponowna wysyłka kodu weryfikacyjnego –systemowy/automatyczny---
+---------1.21    Email do Uczestnika – ponowna wysyłka kodu weryfikacyjnego –systemowy/automatyczny---
 -----------------------Dane do logowania dla osoby fizycznej---------------------------------------
 ---------------------------------------OK----------------------------------------------------------
 
@@ -138,9 +138,9 @@ BEGIN
     <td valign="top" style="background: #ffffff;"><table cellpadding="0" cellspacing="0" border="0" align="center" width="640" style="background: #ffffff;">
         <tr>
           <td valign="top" style="background-color: #ffffff; color:#696668; font-size: 13px; line-height: 19px; padding:0 29px;">
-			  <p style="font-size: 13px; line-height: 19px;">{$emailPlainBodyTemplates}</p>
-		  </td>
-		</tr>
+              <p style="font-size: 13px; line-height: 19px;">{$emailPlainBodyTemplates}</p>
+          </td>
+        </tr>
       </table></td>
   </tr>
   <tr>
@@ -181,7 +181,7 @@ BEGIN
   <tr>
     <td valign="top" style="background: #ffffff;"><table cellpadding="0" cellspacing="0" border="0" align="center" width="640" style="background: #ffffff;">
         <tr>
-          <td valign="top" style="background-color: #f7f7f7; color:#696668; font-size: 13px; line-height: 19px; padding:0 29px; text-align: center;"><p style="font-size: 13px; line-height: 19px;">&copy; 2017 <a style="color:#696668;font-size: 13px; line-height: 19px;" href="http://www.sodexo.pl/" title="Sodexo Benefits and Rewards Services Polska Sp. z o.o.">Sodexo Benefits and Rewards Services Polska Sp. z o.o.</a></p></td>
+          <td valign="top" style="background-color: #f7f7f7; color:#696668; font-size: 13px; line-height: 19px; padding:0 29px; text-align: center;"><p style="font-size: 13px; line-height: 19px;">'||chr(38)||'copy; 2017 <a style="color:#696668;font-size: 13px; line-height: 19px;" href="http://www.sodexo.pl/" title="Sodexo Benefits and Rewards Services Polska Sp. z o.o.">Sodexo Benefits and Rewards Services Polska Sp. z o.o.</a></p></td>
         </tr>
       </table></td>
   </tr>
@@ -193,3 +193,7 @@ set EMAIL_BODY_HTML_TEMPLATE = large_txt
 where ID in (
   'KK_ORDER',
   'VC_SEND');
+  
+
+END;
+/
