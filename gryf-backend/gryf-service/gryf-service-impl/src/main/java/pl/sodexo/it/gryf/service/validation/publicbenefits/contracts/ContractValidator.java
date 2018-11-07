@@ -1,31 +1,39 @@
 package pl.sodexo.it.gryf.service.validation.publicbenefits.contracts;
 
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.importdata.ImportContractDTO;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.dao.api.crud.repository.accounts.AccountContractPairRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.contracts.ContractRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.employments.EmploymentRepository;
-import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.enterprises.EnterpriseRepository;
-import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.individuals.IndividualRepository;
 import pl.sodexo.it.gryf.model.accounts.AccountContractPair;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
 import pl.sodexo.it.gryf.model.publicbenefits.employment.Employment;
-import pl.sodexo.it.gryf.model.publicbenefits.enterprises.Enterprise;
-import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
+import pl.sodexo.it.gryf.service.api.patterns.DefaultPatternContext;
+import pl.sodexo.it.gryf.service.api.patterns.PatternContext;
+import pl.sodexo.it.gryf.service.api.patterns.PatternService;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
+import pl.sodexo.it.gryf.service.validation.publicbenefits.AbstractValidator;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by adziobek on 07.11.2016.
  */
 @Component
-public class ContractValidator {
+public class ContractValidator extends AbstractValidator {
 
     private static final String INDIVIDUAL_CONTRACT_TYPE_ID = "IND";
     private static final String ENTERPRISE_CONTRACT_TYPE_ID = "ENT";
+
+    private static final String VIOLATIONS_PREFIX = "Dla Umowy: ";
 
     @Autowired
     private GryfValidator gryfValidator;
@@ -34,16 +42,15 @@ public class ContractValidator {
     private AccountContractPairRepository accountContractPairRepository;
 
     @Autowired
-    private IndividualRepository individualRepository;
-
-    @Autowired
-    private EnterpriseRepository enterpriseRepository;
-
-    @Autowired
     private EmploymentRepository employmentRepository;
 
     @Autowired
     private ContractRepository contractRepository;
+
+
+    @Autowired
+    @Qualifier(PatternService.GRANT_PROGRAM_PATTERN_SERVICE)
+    private PatternService grantProgramPatternService;
 
     public void validateContractSave(Contract contract) {
 
@@ -56,6 +63,7 @@ public class ContractValidator {
         validateEnterpriseParticipant(contract, violations);
 
         //VALIDATE (EXCEPTION)
+        addPrefixMessage(VIOLATIONS_PREFIX, violations);
         gryfValidator.validate(violations);
     }
 
@@ -101,37 +109,28 @@ public class ContractValidator {
                 violations.add(new EntityConstraintViolation(Contract.ID_ATTR_NAME, message, null));
                 return;
             }
-            if (!accountContractPair.isUsed()) {
+            /*if (!accountContractPair.isUsed()) {
                 message = "Para id umowy - subkonto istnieje ale nie została przypisana uczestnikowi";
                 violations.add(new EntityConstraintViolation(Contract.ID_ATTR_NAME, message, null));
                 return;
+            }*/
+
+            String accountPayment = contract.getAccountPayment();
+            if (isIndividualContractType(contract) || isEnterpriseContainIndividual(contract)) {
+                String individualOrEnterprise = isIndividualContractType(contract) ? "uczestnik" : (isEnterpriseContainIndividual(contract) ? "MŚP" : "");
+                if (contract.getAccountPayment().isEmpty()) {
+                    message = String.format("Wybrany %s nie ma przypisanego numeru subkonta", individualOrEnterprise);
+                    violations.add(new EntityConstraintViolation(Contract.ID_ATTR_NAME, message, null));
+                    return;
+                }
+                if (!accountContractPair.getAccountPayment().equals(accountPayment)) {
+                    message = String.format("Numer subkonta przypisany do umowy jest inny niż posiadany przez %s", individualOrEnterprise) ;
+                    violations.add(new EntityConstraintViolation(Contract.ID_ATTR_NAME, message, null));
+                    return;
+                }
             }
 
-            if(isIndividualContractType(contract)) {
-                Individual individual = contract.getIndividual();
-                if (individual.getAccountPayment().isEmpty()) {
-                    message = "Wybrany uczestnik nie ma przypisanego numeru subkonta";
-                    violations.add(new EntityConstraintViolation(Contract.ID_ATTR_NAME, message, null));
-                    return;
-                }
-                if (!accountContractPair.getAccountPayment().equals(individual.getAccountPayment())) {
-                    message = "Numer subkonta przypisany do umowy jest inny niż posiadany przez uczestnika";
-                    violations.add(new EntityConstraintViolation(Contract.ID_ATTR_NAME, message, null));
-                    return;
-                }
-            }else if(isEnterpriseContainIndividual(contract)) {
-                Enterprise enterprise = contract.getEnterprise();
-                if (enterprise.getAccountPayment().isEmpty()) {
-                    message = "Wybrane MŚP nie ma przypisanego numeru subkonta";
-                    violations.add(new EntityConstraintViolation(Contract.ID_ATTR_NAME, message, null));
-                    return;
-                }
-                if (!accountContractPair.getAccountPayment().equals(enterprise.getAccountPayment())) {
-                    message = "Numer subkonta przypisany do umowy jest inny niż posiadany przez MŚP";
-                    violations.add(new EntityConstraintViolation(Contract.ID_ATTR_NAME, message, null));
-                    return;
-                }
-            }
+
 
         }
     }
@@ -181,4 +180,21 @@ public class ContractValidator {
     private boolean isIndividualContractType(Contract contract) {
         return INDIVIDUAL_CONTRACT_TYPE_ID.equals(contract.getContractType().getId());
     }
+
+    public List<EntityConstraintViolation> validateContractIdAgreementWithPattern(ImportContractDTO importContractDTO, String externalOrderIdPatternRegexp) {
+        PatternContext importContractContext =  DefaultPatternContext.create().withCode(importContractDTO.getGrantProgram().getProgramCode())
+                .withId((Long) importContractDTO.getGrantProgram().getId()).withDefaultPattern(externalOrderIdPatternRegexp).build();
+        String grantProgramPatternServicePattern = grantProgramPatternService.getPattern(importContractContext);
+        Pattern patternCompile = Pattern.compile(grantProgramPatternServicePattern);
+        Matcher matcher = patternCompile.matcher(importContractDTO.getExternalOrderId());
+        if (!matcher.matches()) {
+            List<EntityConstraintViolation> contractViolations = Lists.newArrayList();
+            contractViolations.add(new EntityConstraintViolation(String.format("Identyfikator umowy musi być w formacie kod programu/numer/numer dla danego programu")));
+            addPrefixMessage(VIOLATIONS_PREFIX, contractViolations);
+            return contractViolations;
+        }
+        return Collections.EMPTY_LIST;
+    }
+
+
 }

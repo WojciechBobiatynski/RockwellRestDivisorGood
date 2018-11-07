@@ -50,4 +50,11 @@ public class TrainingDto extends VersionableDto {
     String trainingStatusId;
 
 
+    @Getter
+    @Setter
+    private String grantProgramName;
+
+    @Setter
+    @Getter
+    private Long grantProgramId;
 }

@@ -91,24 +91,11 @@
 
             </div>
             <div class="grid-100">
-                <div class="grid-20">
-                    &nbsp;
-                </div>
                 <div class="grid-80">
                     <strong class="label">Konto MŚP do zwrotu środków</strong>
                     <input type="text" ng-model="model.entity.accountRepayment"  maxlength="26"
                            ng-disabled="hasNotPrivilege('GRF_ENTERPRISE_REPAY_ACC_MOD')">
                     <gryf-validation-msg path="accountRepayment"></gryf-validation-msg>
-                </div>
-            </div>
-            <div class="grid-100">
-                <div class="grid-20">
-                    <strong class="label">Kod MŚP</strong>
-                    <input type="text" ng-model="model.entity.code" maxlength="8" data-ng-disabled="model.entity.id != null">
-                </div>
-                <div class="grid-80">
-                    <strong class="label">Subkonto MŚP do wpłat za bony</strong>
-                    <input type="text" ng-model="model.entity.accountPayment" disabled="disabled">
                 </div>
             </div>
             <div class="grid-100">

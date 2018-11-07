@@ -64,3 +64,4 @@ document.querySelector('#accessbility .font a[rel="contrast"]').addEventListener
   readCookie('contrastHigh')?eraseCookie('contrastHigh'):createCookie('contrastHigh', true, 30);
   htmlTag.classList.toggle('contrast-high');
 });
+

@@ -1,0 +1,62 @@
+INFO]
+[INFO] ------------------------------------------------------------------------
+[INFO] Building gryf-db-scripts 1.0.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO]
+[INFO] --- flyway-maven-plugin:3.1:migrate (default-cli) @ gryf-db-scripts ---
+[INFO] Database: jdbc:oracle:thin:@10.48.0.20:1521:dev1 (Oracle 11.2)
+[INFO] Validated 148 migrations (execution time 00:00.928s)
+[INFO] Current version of schema "EAGLE": 20181017135800
+[WARNING] outOfOrder mode is active. Migration of schema "EAGLE" may not be reproducible.
+[INFO] Migrating schema "EAGLE" to version 20181017115500 (out of order)
+[ERROR] Migration of schema "EAGLE" to version 20181017115500 failed! Please restore backups and roll back database and code!
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 02:36 min
+[INFO] Finished at: 2018-10-18T13:30:43+02:00
+[INFO] Final Memory: 11M/205M
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.flywaydb:flyway-maven-plugin:3.1:migrate (default-cli) on project gryf-db-scripts: org.flywaydb.core.internal.dbsupport.FlywaySqlScriptException:
+[ERROR] Migration V20181017115500__[SDX]_[APP_PBE]_[DML]_GEN_PRD_INSTANCES.sql failed
+[ERROR] -----------------------------------------------------------------------------
+[ERROR] SQL State  : 72000
+[ERROR] Error Code : 1654
+[ERROR] Message    : ORA-01654: nie można rozszerzyć indeksu APP_PBE.PBE_PRD_IN_PK o 1024 w przestrzeni tabel EAGLEPRO
+[ERROR]
+[ERROR] Location   : Z:/Projects/Gryf/svn_git/GitMigration/Gryf/Gryf2.0/gryf-db-scripts/src/main/resources/prod/2.2.0/V20181017115500__[SDX]_[APP_PBE]_[DML]_GEN_PRD_INSTANCES.sql (Z:\Projects\Gryf\svn_git\G
+itMigration\Gryf\Gryf2.0\gryf-db-scripts\src\main\resources\prod\2.2.0\V20181017115500__[SDX]_[APP_PBE]_[DML]_GEN_PRD_INSTANCES.sql)
+[ERROR] Line       : 29
+[ERROR] Statement  : insert into app_pbe.PBE_PRODUCT_INSTANCES (PRD_ID, NUM, STATUS_ID, EXPIRY_DATE, PRINT_NUM, CRC, PRODUCT_EMISSION_ID, VERSION, CREATED_USER, CREATED_TIMESTAMP, MODIFIED_USER, MODIFIED_TI
+MESTAMP)
+[ERROR] WITH num ( n ) AS (
+[ERROR]     SELECT
+[ERROR]         1
+[ERROR]     FROM
+[ERROR]         dual
+[ERROR]     UNION ALL
+[ERROR]     SELECT
+[ERROR]         n + 1
+[ERROR]     FROM
+[ERROR]         num
+[ERROR]     WHERE
+[ERROR]         n <= 5055000
+[ERROR] )
+[ERROR] SELECT
+[ERROR]     'KZ_BON_EL',
+[ERROR]     n,
+[ERROR]     'EMI',
+[ERROR]     NULL,
+[ERROR]     NULL,
+[ERROR]     NULL,
+[ERROR]     '1',
+[ERROR]     3,
+[ERROR]     user,
+[ERROR]     SYSDATE,
+[ERROR]     user,
+[ERROR]     SYSDATE
+[ERROR] FROM
+[ERROR]     num
+[ERROR]
+[ERROR] -> [Help 1]
+[ERROR]

@@ -15,13 +15,13 @@ public interface ContractService {
 
     List<GrantProgramDictionaryDTO> findGrantProgramsDictionaries();
 
-    ContractDTO findContract(Long id);
+    ContractDTO findContract(String id);
 
     List<ContractSearchResultDTO> findContracts(ContractSearchQueryDTO contractDto);
 
     ContractDTO createContract();
 
-    Long saveContract(ContractDTO contractDto);
+    String saveContract(ContractDTO contractDto);
 
     void updateContract(ContractDTO contractDto);
 
@@ -34,5 +34,5 @@ public interface ContractService {
      * @param contractId - id umowy w trakcie rezygnacji
      * @return - id zaktualizowanej umowy
      */
-    Long resign(Long contractId);
+    String resign(String contractId);
 }

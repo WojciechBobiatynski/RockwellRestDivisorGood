@@ -4,8 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.validation.Valid;
-
 /**
  * Created by Isolution on 2016-11-30.
  */

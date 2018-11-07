@@ -24,6 +24,7 @@ import pl.sodexo.it.gryf.model.mail.EmailInstance;
 import pl.sodexo.it.gryf.model.mail.EmailInstanceAttachment;
 import pl.sodexo.it.gryf.model.mail.EmailTemplate;
 import pl.sodexo.it.gryf.model.mail.EmailType;
+import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
 import pl.sodexo.it.gryf.service.local.api.MailService;
 
 import javax.activation.DataHandler;
@@ -149,7 +150,7 @@ public class MailServiceImpl implements MailService {
     }
 
     @Override
-    public MailDTO scheduleMail(MailDTO mailDTO){
+    public MailDTO scheduleMail(MailDTO mailDTO, GrantProgram grantProgram){
         EmailTemplate emailTemplate = (mailDTO.getTemplateId() != null) ? emailTemplateRepository.get(mailDTO.getTemplateId()) : null;
 
         if(GryfStringUtils.isEmpty(mailDTO.getAddressesFrom())){
@@ -170,7 +171,10 @@ public class MailServiceImpl implements MailService {
             if(emailTemplate != null && !Strings.isNullOrEmpty(emailTemplate.getEmailBodyHtmlTemplate())){
                 MailPlaceholders mailPlaceholders =
                         createPlaceholders("emailPlainBodyTemplates", mailDTO.getBody().replaceAll("(\r\n|\n)", "<br />"))
-                        .add("emailPlainSubjectTemplates", mailDTO.getSubject());
+                                .add("emailPlainSubjectTemplates", mailDTO.getSubject());
+                if (grantProgram != null){
+                    mailPlaceholders.add("emailGrantProgramName", grantProgram.getProgramName());
+                }
                 mailDTO.setBody(mailPlaceholders.replace(emailTemplate.getEmailBodyHtmlTemplate()));
             }
         }
@@ -192,15 +196,20 @@ public class MailServiceImpl implements MailService {
         return mailDTO;
     }
 
+    @Override
+    public MailDTO scheduleMail(MailDTO mailDTO){
+        return scheduleMail(mailDTO, null);
+    }
+
     //METHODS - SEND MAIL
 
     @Override
-    @Scheduled(initialDelay = 60 * 1000, fixedDelay= 60 * 1000)
+    @Scheduled(initialDelayString = "${gryf2.service.scheduler.mail.initialDelay:60000}", fixedDelayString = "${gryf2.service.scheduler.mail.fixedDelay:60000}")
     @NoLog
     public void sendMails(){
 
         //POBRANIE INSTANCJI MAILA
-        List<EmailInstance> emails = emailInstanceRepository.findAvaiableToSend(EmailInstance.STATUS_PENDING);
+        List<EmailInstance> emails = emailInstanceRepository.findAvailableToSend(EmailInstance.STATUS_PENDING);
         if(!emails.isEmpty()) {
             LOGGER.info("Uruchominie zadania wysyłajacego maile. Ilość maili do wysłania jest równa[{}]", emails.size());
         }

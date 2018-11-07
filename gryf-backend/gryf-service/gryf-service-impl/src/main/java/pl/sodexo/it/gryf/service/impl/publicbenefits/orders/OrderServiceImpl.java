@@ -80,7 +80,7 @@ public class OrderServiceImpl implements OrderService {
     //PUBLIC METHODS
 
     @Override
-    public CreateOrderDTO createCreateOrderDTO(Long contractId){
+    public CreateOrderDTO createCreateOrderDTO(String contractId){
         Contract contract = contractRepository.get(contractId);
         return orderServiceLocal.createCreateOrderDTO(contract);
     }

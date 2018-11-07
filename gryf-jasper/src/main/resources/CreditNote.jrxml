@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2016-12-21T11:33:58 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CreditNote" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c47102d5-6475-400f-afbb-092533f8b264">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="JDBC gryf"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value="IkFQUF9QQkUiLiJHUkFOVF9BUFBMSUNBVElPTlMiICwyMzAsMjAsZDgzMTBmZGQtMGQ2ZS00ODdm&#xA;LTgwM2ItYmVjMDAzMjI5Mzk2OyJBUFBfUEJFIi4iR1JBTlRfT1dORVJTIiAsMjMwLDEwOTksZGI0&#xA;ODA5MTYtNzY1MS00NmJhLThhYzItNTc0MzUzNDlmZWY5OyJBUFBfUEJFIi4iRU5URVJQUklTRVMi&#xA;ICwyNjUsNDMzLGRmZTE4MjIwLTI1OTUtNDk5NC1iYTIxLTQ3YjM1ZDVhM2U2NjsiQVBQX1BCRSIu&#xA;Ik9SREVSUyIgLDIwLDc1Niw4ODA2MjYzMS0yY2Y1LTRmNzctOWNlYy01ODE2ODZmZDIyZWY7IlpJ&#xA;UF9DT0RFUyIgLDIzMCwxMjMxLGZjZWUyZTE5LTg5NTQtNDM0Zi1hOGRhLTU5MGRjZmM5MDc5Mjsi&#xA;QVBQX1BCRSIuIkdSQU5UX1BST0dSQU1TIiAsMjMwLDkxNCxiYTZlNTNjMC0xOTAxLTQ1YjMtYjZi&#xA;OS0yZTEwNGY5MmJkMTM7"/>
+	<parameter name="rmbsId" class="java.lang.Long">
+		<parameterDescription><![CDATA[Id rozliczenia elektronicznego]]></parameterDescription>
+	</parameter>
+	<parameter name="companyName" class="java.lang.String"/>
+	<parameter name="companyAddress1" class="java.lang.String"/>
+	<parameter name="companyAddress2" class="java.lang.String"/>
+	<parameter name="companyVatRegNum" class="java.lang.String"/>
+	<parameter name="companyBankName" class="java.lang.String"/>
+	<parameter name="imagesPath" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[Select
+			o.CONTRACT_ID,
+			o.EXTERNAL_ORDER_ID,
+			inv.ID                  as ID,
+			inv.INVOICE_NUMBER      as INVOICE_NUMBER,
+			inv.INVOICE_DATE        as DOCUMENT_DATE,
+			inv.COR_NAME            as CUSTOMER_NAME,
+			inv.COR_AD_LINE_1       as CUSTOMER_ADDRESS_1,
+			inv.COR_AD_LINE_4       as CUSTOMER_ADDRESS_4,
+			inv.VAT_REG_NUM         as CUSTOMER_VAT_REG_NUM,
+			
+			il.NAME                 as LINE_DESCRIPTION,
+			il.QUANTITY             as LINE_QUANTITY,
+			il.GROSS_AMOUNT         as LINE_AMOUNT,
+			
+			inv.GROSS_AMOUNT        						 as SUM_AMOUNT,
+			PK_GRF_UTILS.amount_verbally(inv.GROSS_AMOUNT )  as SUM_AMOUNT_IN_WORD,
+			inv.cus_id              as CUSTOMER_NUMBER
+			
+			from app_fin.invoices inv   
+			left join  app_fin.invoice_lines il on il.INV_ID = inv.ID
+			left join  APP_PBE.E_REIMBURSEMENT_INVOICES eri ON inv.ID = eri.INVOICE_ID
+			LEFT JOIN APP_PBE.E_REIMBURSEMENTS er ON eri.E_REIMBURSEMENT_ID = er.ID
+			LEFT JOIN APP_PBE.TI_TRAINING_INSTANCES ti ON er.TI_TR_INST_ID = ti.ID
+			LEFT JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOL_USES pipu ON ti.ID = pipu.TRAINING_INSTANCE_ID
+			LEFT JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOLS pip ON pipu.PRODUCT_INSTANCE_POOL_ID = pip.ID
+			LEFT JOIN APP_PBE.ORDERS o ON pip.ORDER_ID = o.ID
+			where  eri.E_REIMBURSEMENT_ID = $P{rmbsId}]]>
+	</queryString>
+	<field name="CONTRACT_ID" class="java.math.BigDecimal"/>
+	<field name="EXTERNAL_ORDER_ID" class="java.lang.String"/>
+	<field name="INVOICE_NUMBER" class="java.lang.String"/>
+	<field name="DOCUMENT_DATE" class="java.sql.Timestamp"/>
+	<field name="CUSTOMER_NAME" class="java.lang.String"/>
+	<field name="CUSTOMER_ADDRESS_1" class="java.lang.String"/>
+	<field name="CUSTOMER_ADDRESS_4" class="java.lang.String"/>
+	<field name="CUSTOMER_VAT_REG_NUM" class="java.lang.String"/>
+	<field name="LINE_DESCRIPTION" class="java.lang.String"/>
+	<field name="LINE_QUANTITY" class="java.math.BigDecimal"/>
+	<field name="LINE_AMOUNT" class="java.lang.Double"/>
+	<field name="SUM_AMOUNT" class="java.lang.Double"/>
+	<field name="SUM_AMOUNT_IN_WORD" class="java.lang.String"/>
+	<field name="CUSTOMER_NUMBER" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="330" splitType="Stretch">
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="200" y="50" width="100" height="18" uuid="dd83e487-df2c-4d3a-a4a4-63d78b15a3cd"/>
+				<textElement>
+					<font fontName="SansSerif" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[NOTA UZNANIOWA]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="300" y="50" width="100" height="19" uuid="ccec2330-793a-42b7-adc9-9d9772ba4286"/>
+				<textElement>
+					<font fontName="SansSerif" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{INVOICE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="80" width="100" height="20" uuid="52483e60-7835-4610-8e2c-b7cca990171f"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="12" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Sprzedawca:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="320" y="80" width="100" height="20" uuid="f9353870-c1bd-4363-af43-9366399bfa87"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="12" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Nabywca:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="320" y="100" width="230" height="20" uuid="26b6588c-8069-4472-8012-f1b05675962a"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CUSTOMER_NAME}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="360" y="140" width="190" height="30" uuid="44939f95-dfd9-4dda-971f-81fe4c5ef965"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CUSTOMER_VAT_REG_NUM} == null ? "" : $F{CUSTOMER_VAT_REG_NUM}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="100" width="268" height="20" uuid="eb38685e-c369-4ead-961f-750df0362ba4"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{companyName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="120" width="150" height="20" uuid="c2daea38-373f-402a-9ee3-9d7c4a91cd8b"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{companyAddress1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="140" width="150" height="20" uuid="0a2ed004-e06c-4870-9e45-5346f1798d2d"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{companyAddress2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="20" y="160" width="150" height="20" uuid="bf73671f-faac-445b-a7e7-b5dc34751d62"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{companyVatRegNum}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="160" width="19" height="20" uuid="759ccc7a-1e22-4789-b1c2-6de6988bb5d6"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[NIP]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="180" width="185" height="17" uuid="2cf8c544-a35b-4351-8c26-6089fa2fde2b"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{companyBankName}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="260" width="110" height="31" uuid="8f038360-ff14-420e-b4ae-d365a09bd944"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Nr umowy]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="240" y="260" width="138" height="31" uuid="b5a0f56e-63b7-4125-8eb9-5b240ca55043"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="12" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Nr zamówienia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="378" y="260" width="177" height="31" uuid="4050c779-d6de-4359-91fe-c0c9ac59af32"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Data wystawienia]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="291" width="110" height="30" uuid="a3b795b5-9225-4822-bd9b-479bded45b46"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CONTRACT_ID}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="240" y="291" width="138" height="30" uuid="65469335-bc20-4d42-8ed8-6459fae73b2a"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{EXTERNAL_ORDER_ID}]]></textFieldExpression>
+			</textField>
+			<textField pattern="yyyy-MM-dd" isBlankWhenNull="true">
+				<reportElement x="378" y="291" width="177" height="30" uuid="d9ae877d-94b0-4a89-8601-27ca889ac477"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DOCUMENT_DATE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="110" y="260" width="130" height="31" uuid="fe678e3e-925d-4a7e-88f7-a1f82df40047"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Nr klienta]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="110" y="291" width="130" height="30" uuid="1150d326-10cc-4df1-9a6e-1068c6e83191"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CUSTOMER_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="320" y="120" width="230" height="20" uuid="9278a4b2-7813-49e0-95b9-89ba9e3c1c0b"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CUSTOMER_ADDRESS_1} +  ", "+ $F{CUSTOMER_ADDRESS_4}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="320" y="140" width="40" height="30" uuid="7710c45a-c25e-4547-a24c-974f81f0bc4e"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CUSTOMER_VAT_REG_NUM} == null ? "" : "NIP:"]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="210" y="0" width="160" height="40" uuid="76e3a4c4-f830-431e-b0b2-809c0643a85a"/>
+				<imageExpression><![CDATA[$P{imagesPath} + "Invoice_1024px-Sodexo.svg.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="22" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="32" splitType="Stretch">
+			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.HorizontalRowLayout"/>
+			<staticText>
+				<reportElement x="0" y="0" width="185" height="32" uuid="8f0ff319-5aaf-46eb-a387-c5507084b223">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Nazwa towaru lub usługi]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="185" y="0" width="185" height="32" uuid="322cefe2-992f-4ab4-aaa6-4567e416bf09"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Ilość]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="370" y="0" width="185" height="32" uuid="63ace8a8-dc58-4bf9-a120-c8d0a17ea83e"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Wartość]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="40" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<textField isBlankWhenNull="true">
+				<reportElement x="370" y="0" width="185" height="40" uuid="74feb19d-cccf-49f9-94e9-b8e511cc2285"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat(" #,##0.00").format(Double.valueOf($F{LINE_AMOUNT})) + " zł"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="185" y="0" width="185" height="40" uuid="6c381298-42c2-4946-96f1-ab1681590d38"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[1]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="185" height="40" uuid="3d32d99e-83c9-458d-9823-69978702e83b"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LINE_DESCRIPTION}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="162" splitType="Stretch">
+			<staticText>
+				<reportElement x="185" y="0" width="185" height="32" uuid="5066691c-b975-4833-ab70-53cd09238356"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[RAZEM]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="370" y="0" width="185" height="32" uuid="5bce7b77-d90d-4f30-8569-26a4fee50ad3"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat(" #,##0.00").format(Double.valueOf($F{SUM_AMOUNT})) + " zł"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="70" width="150" height="20" uuid="e5e903af-3a65-4db9-a222-999f32a2ea67"/>
+				<textElement>
+					<font isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Słownie:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="150" y="70" width="278" height="20" uuid="38a22849-3727-4ba4-88fc-eb4bddc80516"/>
+				<textElement textAlignment="Left">
+					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SUM_AMOUNT_IN_WORD}]]></textFieldExpression>
+			</textField>
+			<frame>
+				<reportElement x="0" y="100" width="554" height="46" uuid="0e8b89d3-5431-431e-8e05-a13d0010cd86"/>
+				<staticText>
+					<reportElement x="69" y="30" width="100" height="16" uuid="96cc78eb-76de-4fd7-ab6c-08430e2f3191"/>
+					<textElement textAlignment="Center"/>
+					<text><![CDATA[wystawca]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="380" y="30" width="100" height="16" uuid="4c2c4774-a4ee-4f37-b512-d76abc8dc4ea"/>
+					<textElement textAlignment="Center"/>
+					<text><![CDATA[nabywca]]></text>
+				</staticText>
+				<line>
+					<reportElement x="10" y="31" width="219" height="1" uuid="882470b4-ea77-406a-8ffe-89803bca2795"/>
+				</line>
+				<line>
+					<reportElement x="320" y="30" width="219" height="1" uuid="e591b808-adaf-4f64-b61d-49e606886961"/>
+				</line>
+			</frame>
+			<staticText>
+				<reportElement x="0" y="50" width="140" height="20" uuid="23fda446-b810-4b72-a71a-b4bd3425d426"/>
+				<textElement>
+					<font isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Uznajemy Państwa na kwotę :]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="140" y="50" width="118" height="20" uuid="4b43dfa3-b5ed-4267-bd72-43b3f15fabbf"/>
+				<textElement textAlignment="Left">
+					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat(" #,##0.00").format(Double.valueOf($F{SUM_AMOUNT})) + " zł"]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

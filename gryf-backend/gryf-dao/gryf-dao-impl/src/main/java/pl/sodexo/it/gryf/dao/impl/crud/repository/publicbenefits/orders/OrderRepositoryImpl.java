@@ -189,7 +189,7 @@ public class OrderRepositoryImpl extends GenericRepositoryImpl<Order, Long> impl
     }
 
     @Override
-    public Integer countNotCanceledOrdersByContract(Long contractId){
+    public Integer countNotCanceledOrdersByContract(String contractId){
         TypedQuery<Long> query = entityManager.createNamedQuery("Order.countNotCanceledOrdersByContract", Long.class);
         query.setParameter("contractId", contractId);
 
@@ -198,7 +198,7 @@ public class OrderRepositoryImpl extends GenericRepositoryImpl<Order, Long> impl
     }
 
     @Override
-    public Integer sumProductInstanceNumInNotCanceledOrdersByContract(Long contractId){
+    public Integer sumProductInstanceNumInNotCanceledOrdersByContract(String contractId){
         TypedQuery<Long> query = entityManager.createNamedQuery("Order.sumProductInstanceNumInNotCanceledOrdersByContract", Long.class);
         query.setParameter("contractId", contractId);
 

@@ -27,6 +27,6 @@ public interface ProductInstancePoolSearchMapper {
      * @param contractId - id umowy
      * @return lista puli bonów
      */
-    List<ContractPbeProductInstancePoolDto> findPoolInstancesByContractId(@Param("criteria") UserCriteria criteria, @Param("contractId") Long contractId);
+    List<ContractPbeProductInstancePoolDto> findPoolInstancesByContractId(@Param("criteria") UserCriteria criteria, @Param("contractId") String contractId);
 
 }

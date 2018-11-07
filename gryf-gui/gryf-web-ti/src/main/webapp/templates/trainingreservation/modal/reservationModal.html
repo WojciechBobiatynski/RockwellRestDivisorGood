@@ -15,27 +15,27 @@
                 <strong class="label">PESEL</strong>
                 <div>{{userTrainingReservationData.data.pesel}}</div>
             </div>
-            <div class="grid-30">
+            <div class="grid-40">
                 <table>
                     <thead class="text-left" style="vertical-align: top;">
-                    <th class="grid-10">
-                        <strong class="label">Liczba bonów</strong>
-                    </th>
-                    <th class="grid-10">
-                        <strong class="label">Data ważności</strong>
-                    </th>
+                        <th class="grid-10">
+                            <strong class="label">Liczba bonów</strong>
+                        </th>
+                        <th class="grid-10">
+                            <strong class="label">Data ważności</strong>
+                        </th>
+                        <th class="grid-10">
+                            <strong class="label">Program Dofinansowania</strong>
+                        </th>
                     </thead>
                     <tbody class="tableData">
-                    <tr ng-repeat="pool in userTrainingReservationData.data.productInstancePools" ng-class="{'row-even': $even, 'row-odd': $odd}">
-                        <td>{{::pool.availableNum}}</td>
-                        <td>{{::pool.expiryDate  | date:'yyyy-MM-dd'}}</td>
-                    </tr>
+                        <tr ng-repeat="pool in userTrainingReservationData.data.productInstancePools" ng-class="{'row-even': $even, 'row-odd': $odd}">
+                            <td>{{::pool.availableNum}}</td>
+                            <td>{{::pool.expiryDate  | date:'yyyy-MM-dd'}}</td>
+                            <td>{{::pool.grantProgramName}}</td>
+                        </tr>
                     </tbody>
                 </table>
-            </div>
-            <div class="grid-20">
-                <strong class="label">Program dofinansowania</strong>
-                <div ng-repeat="contract in userTrainingReservationData.data.contracts">{{contract.grantProgram.name}}</div>
             </div>
             <div class="grid-20 centered">
                 <strong class="label">Liczba rezerwowanych bonów (minimum 1)</strong>
@@ -48,26 +48,28 @@
     <div class="row-30"></div>
     <table>
         <thead>
-        <tr class="grid-100 tableHeader-names">
-            <th class="grid-20">Nazwa usługi</th>
-            <th class="grid-10">Nr usługi</th>
-            <th class="grid-10">Kategoria usługi</th>
-            <th class="grid-15">Data rozpoczęcia</th>
-            <th class="grid-15">Data zakończenia</th>
-            <th class="grid-10">Maks. liczba bonów do zarezerwowania</th>
-            <th class="grid-10">Mnożnik bonów dla kategorii</th>
-        </tr>
+            <tr class="grid-100 tableHeader-names">
+                <th class="grid-10">Program Dofinansowania</th>
+                <th class="grid-10">Nazwa usługi</th>
+                <th class="grid-10">Nr usługi</th>
+                <th class="grid-10">Kategoria usługi</th>
+                <th class="grid-15">Data rozpoczęcia</th>
+                <th class="grid-15">Data zakończenia</th>
+                <th class="grid-10">Maks. liczba bonów do zarezerwowania</th>
+                <th class="grid-10">Mnożnik bonów dla kategorii</th>
+            </tr>
         </thead>
         <tbody class="tableData">
-        <tr>
-            <td>{{training.data.name}}</td>
-            <td>{{training.data.externalId}}</td>
-            <td>{{training.data.category}}</td>
-            <td>{{training.data.startDate  | date:'yyyy-MM-dd'}}</td>
-            <td>{{training.data.endDate  | date:'yyyy-MM-dd'}}</td>
-            <td>{{training.data.maxProductsNumber}}</td>
-            <td>x{{training.data.productInstanceForHour}}</td>
-        </tr>
+            <tr>
+                <td>{{training.data.grantProgramName}}</td>
+                <td>{{training.data.name}}</td>
+                <td>{{training.data.externalId}}</td>
+                <td>{{training.data.category}}</td>
+                <td>{{training.data.startDate  | date:'yyyy-MM-dd'}}</td>
+                <td>{{training.data.endDate  | date:'yyyy-MM-dd'}}</td>
+                <td>{{training.data.maxProductsNumber}}</td>
+                <td>x{{training.data.productInstanceForHour}}</td>
+            </tr>
         </tbody>
     </table>
     <div class="row-30"></div>

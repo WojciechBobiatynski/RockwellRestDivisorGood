@@ -6,6 +6,8 @@
 angular.module("gryf.contracts").factory("BrowseContractsService",
     ["$http", "GryfModals", "GryfHelpers", "GryfTables", function($http, GryfModals, GryfHelpers, GryfTables) {
         var FIND_CONTRACTS_URL = contextPath + "/rest/publicBenefits/contract/list";
+        var FIND_GRANT_PROGRAM_NAMES_URL = contextPath + "/rest/publicBenefits/grantPrograms";
+
         var searchDTO = new SearchObjModel();
         var searchResultOptions = new SearchResultOptions();
 
@@ -98,6 +100,10 @@ angular.module("gryf.contracts").factory("BrowseContractsService",
             return find();
         };
 
+        var getGrantProgramNames = function () {
+            return $http.get(FIND_GRANT_PROGRAM_NAMES_URL);
+        }
+
         return {
             getSearchDTO: getSearchDTO,
             getSearchResultOptions: getSearchResultOptions,
@@ -106,7 +112,8 @@ angular.module("gryf.contracts").factory("BrowseContractsService",
             findSortedBy: findSortedBy,
             resetSearchResultOptions: resetSearchResultOptions,
             getNewSearchDTO: getNewSearchDTO,
-            loadMore: loadMore
+            loadMore: loadMore,
+            getGrantProgramNames: getGrantProgramNames
         };
     }]);
 

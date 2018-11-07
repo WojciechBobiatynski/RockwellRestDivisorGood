@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2016-12-20T17:04:33 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="BankTransferConfirmation" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c47102d5-6475-400f-afbb-092533f8b264">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="JDBC gryf"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value="IkFQUF9QQkUiLiJHUkFOVF9BUFBMSUNBVElPTlMiICwyMzAsMjAsZDgzMTBmZGQtMGQ2ZS00ODdm&#xA;LTgwM2ItYmVjMDAzMjI5Mzk2OyJBUFBfUEJFIi4iR1JBTlRfT1dORVJTIiAsMjMwLDEwOTksZGI0&#xA;ODA5MTYtNzY1MS00NmJhLThhYzItNTc0MzUzNDlmZWY5OyJBUFBfUEJFIi4iRU5URVJQUklTRVMi&#xA;ICwyNjUsNDMzLGRmZTE4MjIwLTI1OTUtNDk5NC1iYTIxLTQ3YjM1ZDVhM2U2NjsiQVBQX1BCRSIu&#xA;Ik9SREVSUyIgLDIwLDc1Niw4ODA2MjYzMS0yY2Y1LTRmNzctOWNlYy01ODE2ODZmZDIyZWY7IlpJ&#xA;UF9DT0RFUyIgLDIzMCwxMjMxLGZjZWUyZTE5LTg5NTQtNDM0Zi1hOGRhLTU5MGRjZmM5MDc5Mjsi&#xA;QVBQX1BCRSIuIkdSQU5UX1BST0dSQU1TIiAsMjMwLDkxNCxiYTZlNTNjMC0xOTAxLTQ1YjMtYjZi&#xA;OS0yZTEwNGY5MmJkMTM7"/>
+	<parameter name="rmbsId" class="java.lang.Long">
+		<parameterDescription><![CDATA[Id rozliczenia elektronicznego]]></parameterDescription>
+	</parameter>
+	<parameter name="companyName" class="java.lang.String"/>
+	<parameter name="companyAddress1" class="java.lang.String"/>
+	<parameter name="companyAddress2" class="java.lang.String"/>
+	<parameter name="companyVatRegNum" class="java.lang.String"/>
+	<parameter name="companyBankName" class="java.lang.String"/>
+	<parameter name="imagesPath" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT 
+			er.TI_REIMB_ACCOUNT_NUMBER as TI_ACCOUNT_NUMBER,
+			er.SXO_TI_AMOUNT_DUE_TOTAL,
+			er.REIMBURSEMENT_DATE,
+			tin.NAME as TI_NAME,
+			tin.ADDRESS_INVOICE as TI_ADDRESS_INVOICE,
+			eri.INVOICE_ID,
+			gpp.VALUE as ACCOUNT_NUMBER_COMPANY
+			FROM APP_PBE.E_REIMBURSEMENTS er
+			LEFT JOIN APP_PBE.TI_TRAINING_INSTANCES ti ON er.TI_TR_INST_ID = ti.ID
+			LEFT JOIN APP_PBE.TI_TRAININGS t ON ti.TRAINING_ID = t.ID
+			LEFT JOIN APP_PBE.TRAINING_INSTITUTIONS  tin ON t.TRAINING_INSTITUTION_ID = tin.ID
+			LEFT JOIN APP_PBE.E_REIMBURSEMENT_INVOICES eri ON er.ID = eri.E_REIMBURSEMENT_ID
+			LEFT JOIN APP_PBE.GRANT_PROGRAMS gp  ON ti.GRANT_PROGRAM_ID = gp.ID
+			LEFT JOIN APP_PBE.GRANT_PROGRAM_PARAMS gpp ON gp.ID = gpp.GRANT_PROGRAM_ID
+			WHERE er.ID = $P{rmbsId} AND gpp.PARAM_ID = 'SXO_NRB_RF']]>
+	</queryString>
+	<field name="TI_ACCOUNT_NUMBER" class="java.lang.String"/>
+	<field name="SXO_TI_AMOUNT_DUE_TOTAL" class="java.lang.Double"/>
+	<field name="REIMBURSEMENT_DATE" class="java.sql.Timestamp"/>
+	<field name="TI_NAME" class="java.lang.String"/>
+	<field name="TI_ADDRESS_INVOICE" class="java.lang.String"/>
+	<field name="INVOICE_ID" class="java.math.BigDecimal"/>
+	<field name="ACCOUNT_NUMBER_COMPANY" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="553" splitType="Stretch">
+			<staticText>
+				<reportElement x="190" y="70" width="180" height="30" uuid="7ea74dfe-21f6-4013-8dfe-4a9d6ad0a2ed"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Potwierdzenie realizacji przelewu]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="281" width="160" height="20" uuid="9c0c20b7-b4e3-4d10-b068-20a2d3cddd4b"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Nadawca przelewu:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="300" y="281" width="160" height="20" uuid="8f6e23c2-c746-4da9-9999-8c6b5e127c74"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Odbiorca przelewu:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="311" width="70" height="19" uuid="d50bdbe2-862e-46a9-ac6c-99bcaa7b8a35"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Nr Rachunku:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="331" width="70" height="19" uuid="cff0da30-a8bb-491d-be3f-267803d7adb5"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Nazwa Banku:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="300" y="311" width="70" height="20" uuid="c4a83788-396b-42c6-a47e-da797a0eda1e"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Nr Rachunku:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="300" y="331" width="70" height="20" uuid="31b27d9f-24f2-45c2-8056-7a31cac61c5e"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Odbiorca:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="451" width="119" height="20" uuid="8725a465-1fd0-4ec7-9cb1-6854a179521e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Szczegóły płatności:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="471" width="119" height="20" uuid="53ca35ed-e1bd-4f37-985d-1a4e0690423b"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Kwota:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="491" width="119" height="20" uuid="c47acdf3-e6eb-45f2-85dc-45415ef792db"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Data realizacji:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="370" y="311" width="184" height="20" uuid="a2ec19f8-d1dd-4e99-b83f-2e85ad72a101"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TI_ACCOUNT_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="370" y="330" width="184" height="20" uuid="c1a8753b-2a5f-4a67-b85a-c585e348cdee"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TI_NAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="370" y="350" width="184" height="20" uuid="3f54db16-2578-4b57-9b34-491d5d8ced04"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TI_ADDRESS_INVOICE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="139" y="451" width="100" height="20" uuid="3e5eb08d-1668-495e-929f-f53033909a34"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{INVOICE_ID}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="139" y="471" width="100" height="20" uuid="bd937562-b2f3-47d6-805f-3bb9d23a6409"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat(" #,##0.00").format(Double.valueOf($F{SXO_TI_AMOUNT_DUE_TOTAL})) + " zł"]]></textFieldExpression>
+			</textField>
+			<textField pattern="yyyy-MM-dd">
+				<reportElement x="139" y="491" width="100" height="20" uuid="38a790d8-e1cb-401f-b07a-9ed672cb9ad7"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{REIMBURSEMENT_DATE}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="210" y="20" width="120" height="50" uuid="6ad15fa7-f63e-4183-8649-72d8ad932ded"/>
+				<imageExpression><![CDATA[$P{imagesPath} + "Invoice_1024px-Sodexo.svg.png"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="90" y="311" width="190" height="20" uuid="f3a011c6-e668-4d1f-a659-22518e765d21"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ACCOUNT_NUMBER_COMPANY}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="21" y="210" width="150" height="20" uuid="2a3a218c-c1bf-46f7-a937-e1547f98763b"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{companyAddress2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="21" y="190" width="150" height="20" uuid="810f367a-80f5-45c2-accd-d445faae34ad"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{companyAddress1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="21" y="170" width="268" height="20" uuid="87f03fbd-9743-47c1-a74b-473d31f93663"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{companyName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="90" y="350" width="200" height="20" uuid="1bb099d7-5e28-4711-a06b-f3389fb3068f"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="false" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{companyName}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="20" y="350" width="70" height="19" uuid="d83ffda9-0226-4483-b0df-9fc8a035f0df"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Nadawca:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="90" y="332" width="185" height="17" uuid="4de4e823-2b56-4ab7-a0cb-91d634934ee7"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{companyBankName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="90" y="370" width="150" height="20" uuid="12720b3b-fb16-4322-830c-493c408f5216"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{companyAddress1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="90" y="390" width="150" height="20" uuid="56fe5c8e-9adf-4e55-a483-27c7a0cf1fe4"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{companyAddress2}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="34" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="17" splitType="Stretch">
+			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.HorizontalRowLayout"/>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="32" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="33" splitType="Stretch"/>
+	</summary>
+</jasperReport>

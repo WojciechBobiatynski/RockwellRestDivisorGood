@@ -27,14 +27,6 @@ public class IndividualDto extends VersionableDto implements Verifiable {
 
     @Getter
     @Setter
-    private String code;
-
-    @Getter
-    @Setter
-    private String accountPayment;
-
-    @Getter
-    @Setter
     private String accountRepayment;
 
     @Getter

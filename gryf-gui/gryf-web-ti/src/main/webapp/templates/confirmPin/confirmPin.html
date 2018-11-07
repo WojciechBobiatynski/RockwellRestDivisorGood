@@ -1,5 +1,5 @@
 <section>
-   <table>
+   <table id="confirm-pin">
       <thead>
       <tr class="grid-100 tableHeader-names">
          <th class="sortable grid-15" ng-class="getSortingTypeClass('trainingName')">
@@ -86,8 +86,8 @@
          <td>{{::item.trainingStatus}}</td>
          <td>
             <ul class="text-center no-margin-padding">
-               <li class="textButton green" ui-sref="confirmPin.trainingInstanceDetails({trainingInstanceId: item.trainingInstanceId})">SZCZEGÓŁY</li>
-               <li class="textButton green" ui-sref="confirmPinModal({trainingInstanceId: item.trainingInstanceId})">PODAJ PIN</li>
+               <li role="button" class="textButton green" ui-sref="confirmPin.trainingInstanceDetails({trainingInstanceId: item.trainingInstanceId})">SZCZEGÓŁY</li>
+               <li role="button" class="textButton green" ui-sref="confirmPinModal({trainingInstanceId: item.trainingInstanceId})">PODAJ PIN</li>
             </ul>
          </td>
       </tr>

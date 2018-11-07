@@ -15,6 +15,7 @@ import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
 import pl.sodexo.it.gryf.service.local.api.dictionaries.ContactTypeValidator;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.individuals.searchform.IndividualEntityToSearchResultMapper;
+import pl.sodexo.it.gryf.service.validation.publicbenefits.AbstractValidator;
 
 import java.util.List;
 import java.util.Objects;
@@ -25,9 +26,10 @@ import java.util.Objects;
  * Created by jbentyn on 2016-09-30.
  */
 @Component
-public class IndividualValidator {
+public class IndividualValidator extends AbstractValidator {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(IndividualValidator.class);
+    private static final String VIOLATIONS_PREFIX = "Dla uczestnika: ";
 
     @Autowired
     private GryfValidator gryfValidator;
@@ -63,6 +65,7 @@ public class IndividualValidator {
         validateRole(individual, violations);
 
         //VALIDATE (EXCEPTION)
+        addPrefixMessage(VIOLATIONS_PREFIX, violations);
         gryfValidator.validate(violations);
 
     }

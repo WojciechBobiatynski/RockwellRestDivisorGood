@@ -23,6 +23,6 @@ public interface ProductInstancePoolSearchDao {
      * @param contractId - id umowy
      * @return lista puli bonów
      */
-    List<ContractPbeProductInstancePoolDto> findPoolInstancesByContractId(Long contractId);
+    List<ContractPbeProductInstancePoolDto> findPoolInstancesByContractId(String contractId);
 
 }

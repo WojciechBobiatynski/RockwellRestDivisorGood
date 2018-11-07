@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 import static pl.sodexo.it.gryf.common.utils.JsonMapperUtils.writeValueAsString;
-import static pl.sodexo.it.gryf.web.common.util.PageUtil.getURLWithContextPath;
 import static pl.sodexo.it.gryf.web.fo.utils.FoPageConstant.VER_CODE_GENERATE_PATH;
 import static pl.sodexo.it.gryf.web.fo.utils.FoPageConstant.VER_CODE_SEND_PATH;
 

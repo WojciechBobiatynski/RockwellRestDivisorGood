@@ -34,7 +34,7 @@ public class UnreservedPoolReimbursementServiceImpl implements UnreservedPoolRei
     private ElectronicReimbursementsDao electronicReimbursementsDao;
 
     @Override
-    @Scheduled(cron = "0 0 6 * * ?")
+    @Scheduled(cron = "${gryf2.service.scheduler.createReimbursementForExpiredInstancesPool}")
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public void createReimbursementForExpiredInstancesPool() {
         List<PbeProductInstancePoolDto> expiredPoolInstances = pbeProductInstancePoolLocalService.findExpiredPoolInstances();

@@ -29,37 +29,52 @@
    <strong class="label">Dane Uczestnika i liczba bonów</strong>
    <div class="block borderTop green">
       <div class="multiSection">
-         <div class="grid-20">
-            <strong class="label">Imię i nazwisko uczestnika</strong>
-            <div>{{userTrainingReservationData.data.firstName + " " + userTrainingReservationData.data.lastName}}</div>
+
+         <div class="grid-20 reservation-personal-info">
+
+            <div class="grid-100">
+               <strong class="label">Imię i nazwisko uczestnika</strong>
+               <div>{{userTrainingReservationData.data.firstName + " " + userTrainingReservationData.data.lastName}}</div>
+            </div>
+
+            <div class="grid-100">
+               <strong class="label">PESEL</strong>
+               <div>{{userTrainingReservationData.data.pesel}}</div>
+            </div>
+
          </div>
-         <div class="grid-10">
-            <strong class="label">PESEL</strong>
-            <div>{{userTrainingReservationData.data.pesel}}</div>
+
+
+
+         <div class="grid-60 reservation-items">
+
+            <div class="grid-100 reservation-item">
+               <div class="grid-70">
+                  <table>
+                     <thead class="text-left">
+                        <th class="grid-10">
+                           <strong class="label">Liczba dostępnych bonów</strong>
+                        </th>
+                        <th class="grid-10">
+                           <strong class="label">Data ważności</strong>
+                        </th>
+                        <th class="grid-10">
+                           <strong class="label">Program Dofinansowania</strong>
+                        </th>
+                     </thead>
+                     <tbody class="tableData">
+                        <tr ng-repeat="pool in userTrainingReservationData.data.productInstancePools" ng-class="{'row-even': $even, 'row-odd': $odd}">
+                           <td>{{::pool.availableNum}}</td>
+                           <td>{{::pool.expiryDate  | date:'yyyy-MM-dd'}}</td>
+                           <td>{{::pool.grantProgramName }}</td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </div>
+            </div>
          </div>
-         <div class="grid-30">
-            <table>
-               <thead class="text-left">
-                  <th class="grid-10">
-                     <strong class="label">Liczba dostępnych bonów</strong>
-                  </th>
-                  <th class="grid-10">
-                     <strong class="label">Data ważności</strong>
-                  </th>
-               </thead>
-               <tbody class="tableData">
-                  <tr ng-repeat="pool in userTrainingReservationData.data.productInstancePools" ng-class="{'row-even': $even, 'row-odd': $odd}">
-                     <td>{{::pool.availableNum}}</td>
-                     <td>{{::pool.expiryDate  | date:'yyyy-MM-dd'}}</td>
-                  </tr>
-               </tbody>
-            </table>
-         </div>
-         <div class="grid-20">
-            <strong class="label">Program dofinansowania</strong>
-            <div ng-repeat="contract in userTrainingReservationData.data.contracts">{{contract.grantProgram.name}}</div>
-         </div>
-         <div class="grid-20 text-right">
+
+         <div class="grid-20 reservation-button text-right">
                <button class="standardButton" data-ng-click="reserveTrainingForAnotherUser()">Rezerwuj usługę dla innego uczestnika</button>
          </div>
       </div>
@@ -67,10 +82,13 @@
 </section>
 <div class="row-30"></div>
 <section ng-show="userTrainingReservationData.data">
-   <table>
+   <table id="reservation-table">
       <thead>
       <tr class="grid-100 tableHeader-names">
-         <th class="sortable grid-20" ng-class="getSortingTypeClass('name')">
+         <th class="sortable grid-10" ng-class="getSortingTypeClass('name')">
+            <div >Program Dofinansowania</div>
+         </th>
+         <th class="sortable grid-10" ng-class="getSortingTypeClass('name')">
             <div ng-click="getSortedBy('name')">Nazwa usługi</div>
          </th>
          <th class="sortable grid-10" ng-class="getSortingTypeClass('externalId')">
@@ -96,7 +114,10 @@
          </th>
       </tr>
       <tr class="grid-100 tableHeader-options">
-         <th class="grid-20">
+         <th class="grid-10">
+            <input type="text" ng-model="searchDTO.entity.grantProgramName">
+         </th>
+         <th class="grid-10">
             <input type="text" ng-model="searchDTO.entity.name">
          </th>
          <th class="grid-10">
@@ -149,6 +170,7 @@
       </thead>
       <tbody class="tableData">
       <tr ng-repeat="item in searchDTO.searchResultList | limitTo: searchResultOptions.displayLimit" ng-class="{'row-even': $even, 'row-odd': $odd}">
+         <td>{{::item.grantProgramName}}</td>
          <td>{{::item.name}}</td>
          <td>{{::item.externalId}}</td>
          <td>{{::item.price}}</td>

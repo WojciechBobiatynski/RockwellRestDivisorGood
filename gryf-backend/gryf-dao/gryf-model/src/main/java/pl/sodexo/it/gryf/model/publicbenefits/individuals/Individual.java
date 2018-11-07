@@ -23,6 +23,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+import static pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual.EXISTS_PESEL;
+
 /**
  * Created by michal.szymczyk on 2016-02-26.
  */
@@ -32,15 +34,17 @@ import java.util.Objects;
 @SequenceGenerator(name="ind_seq", schema = "eagle", sequenceName = "ind_seq", allocationSize = 1)
 @NamedQueries({
         @NamedQuery(name = "Individual.findByPesel", query = "select i from Individual i where i.pesel = :pesel order by i.addressCorr"),
+        @NamedQuery(name = EXISTS_PESEL, query = "select count(i) from Individual i where i.pesel = :pesel order by i.addressCorr"),
         @NamedQuery(name = "Individual.getForUpdate", query = "select i from Individual i left join fetch i.contacts left join fetch i.individualUser.roles where i.id = :id"),
         @NamedQuery(name = "Individual.findById", query = "select i from Individual i where i.id= :id"),
 })
 @OptimisticLocking(cascade=true)
-public class Individual extends VersionableEntity implements AccountContractPairGenerable {
+public class Individual extends VersionableEntity {
 
     //STATIC FIELDS - NAMED QUERY
 
     public static final String FIND_BY_PESEL = "Individual.findByPesel";
+    public static final String EXISTS_PESEL = "Individual.existPesel";
     public static final String GET_FOR_UPDATE = "Individual.getForUpdate";
     public static final String FIND_BY_ID= "Individual.findById";
 
@@ -71,17 +75,6 @@ public class Individual extends VersionableEntity implements AccountContractPair
     @Column(name = "ID")
     @GeneratedValue(generator = "ind_seq")
     private Long id;
-
-    @Column(name = "CODE")
-    @Size(max = 8, message = "Kod użytkownika musi zawierać maksymalnie 8 znaków")
-    private String code;
-
-    /**
-     * Numer konta do przelewów. Wypełniniany przez triger.
-     */
-    @Column(name = "ACCOUNT_PAYMENT")
-    @Size(max = 26, message = "Konto do wpłaty na bony musi zawierać maksymalnie 26 znaków")
-    private String accountPayment;
 
     @Column(name = "ACCOUNT_REPAYMENT")
     @Pattern(message = "Numer bankowy musi zawierać 26 cyfr", regexp = "^[0-9]{26}$")
@@ -159,22 +152,6 @@ public class Individual extends VersionableEntity implements AccountContractPair
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getAccountPayment() {
-        return accountPayment;
-    }
-
-    public void setAccountPayment(String accountPayment) {
-        this.accountPayment = accountPayment;
     }
 
     public String getAccountRepayment() {

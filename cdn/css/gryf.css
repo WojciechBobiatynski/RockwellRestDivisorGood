@@ -155,10 +155,10 @@ body > nav li ul li a, body > nav li ul li a:hover {width: 100%;}
 .page-login .grid {padding: 35px 0;}
 .form-big .field-submit button, .grid > .form-big {text-transform: uppercase;font-weight: 700; color: #fff;}
 .grid > .form-big {float: none;}
-.form-big > header, .form-big > .content {background: rgba(18,86,187,.8); color: #fff;margin: 0 auto; width: 500px; text-align: center;}
+.form-big > header, .form-big > .content {background: rgba(18,86,187,.8); color: #fff;margin: 0 auto; width: 50%; text-align: center;}
 .form-big > header {margin-bottom: 35px;}
 .form-big h2 {font-size: 49px; line-height: 99px;}
-.form-big h3 {font-size: 21px; line-height: 31px; margin: 11px 0 19px 0;display: inline-block;}
+.form-big h3 {font-size: 21px; line-height: 31px; margin: 31px 0 19px 0;display: block;}
 .form-big .label {font-size: 15px; line-height: 21px; margin-bottom: 5px;}
 .form-big .field {margin-bottom: 19px;}
 .gryf-web-ind .form-big .field {display: inline-block;}
@@ -172,18 +172,30 @@ body > nav li ul li a, body > nav li ul li a:hover {width: 100%;}
 .gryf-web-ind .form-login .field-string input {width: 190px;}
 
 /* bottombar */
-#bottombar {text-align: center; padding: 19px;}
+#bottombar {text-align: center; padding: 19px; overflow: hidden;}
 #bottombar h2 {font-size: 19px; line-height: 21px;}
 #bottombar h3 {font-size: 41px; line-height: 61px;}
 #bottombar h2, #bottombar h3 {font-weight: 700;}
-#bottombar .description {padding-top: 13px; margin-top: 13px;}
-#bottombar .mail {position: relative;}
+#bottombar .description {padding-top: 13px; margin-top: 13px; font-size: 1rem; }
+#bottombar .mail {position: relative; font-size: 1.2rem;}
 #bottombar .mail::after {border: 1px dotted #4278c9; width: 60%; margin: 0 auto; position: absolute; height: 1px; bottom: -15px; left: 20%; display: block; content: '';}
+#bottombar .grid { float:left; width: 50%; maring: 0 15px; }
 
+#bottombarKKK {text-align: center; padding: 19px; overflow: hidden;}
+#bottombarKKK h2 {font-size: 19px; line-height: 21px;}
+#bottombarKKK h3 {font-size: 41px; line-height: 61px;}
+#bottombarKKK h2, #bottombarKKK h3 {font-weight: 700;}
+#bottombarKKK .description {padding-top: 13px; margin-top: 13px; font-size: 1rem; }
+#bottombarKKK .mail {position: relative; font-size: 1.2rem;}
+#bottombarKKK .mail::after {border: 1px dotted #4278c9; width: 60%; margin: 0 auto; position: absolute; height: 1px; bottom: -15px; left: 20%; display: block; content: '';}
+#bottombarKKK .grid { float:left; width: 50%; maring: 0 15px; }
 /* logobar */
 #logobar .grid {text-align: center;}
 #logobar ul {display: inline-block; margin: 0 auto; }
 #logobar .ci {margin: 39px;}
+#logobar .ci.ci-pl { display: inline-block;  width: 99px; height: 74px;  background:none; }
+#logobar .ci.ci-pl .ci-pl-top { margin-top: 10px; height: 25px;  background-color: #e9e8e7; width: 100px; }
+#logobar .ci.ci-pl .ci-pl-bottom { height: 25px; background-color: #d4213d; width: 100px; }
 
 .modal-footer {text-align: center; margin: 13px;}
 li.textButton + li.textButton {margin-top: 5px;}
@@ -241,6 +253,7 @@ section:not(.section-gryf-web-ind-index):not(.section-important):not(.section-pr
 .section-important .fr {float: right;width: 60%;}
 .section-important .mail {margin-top: 5px; display: inline-block;}
 .section-important .description {margin-top: 7px; display: inline-block;}
+.section-contact-item {clear: both; padding-bottom: 10px; overflow: hidden; }
 
 .multiSection .block {padding:17px;}
 
@@ -319,10 +332,6 @@ input {transition: border 0.2s linear;}
 
 @media (min-width:1366px) {
 }
-
-
-
-
 
 
 /* isol */
@@ -764,3 +773,17 @@ button[disabled] {cursor: not-allowed;}
   .page-error {margin:81px 0;text-align: center;}
   .page-error p {font-size:29px;line-height:39px;}
   .page-error li {margin-top: 21px 0;}
+
+  /* H E L P   P A G E */
+  .page-pomoc p {
+      font-size:1.1rem;
+  }
+
+
+  /* G L O B A L */
+    *:focus {
+        border: 3px solid darkred;
+    }
+    input:focus {
+        border: 3px solid darkred !important;
+    }

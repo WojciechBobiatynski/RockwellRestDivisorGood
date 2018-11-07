@@ -27,6 +27,7 @@ import java.util.Objects;
                                                                                 "JOIN o.status ofs " +
                                                                                 "JOIN ofs.orderFlowStatusTransitions ofst " +
                                                                                 "WHERE o.id = :id " +
+                                                                                "AND o.orderFlow.id = ofst.orderFlow.id " +
                                                                                 "ORDER BY ofst.id.actionId"),
         @NamedQuery(name = "OrderFlowStatusTransition.countAutomaticTransitionByOrder", query = "select count(o) from OrderEntity o join o.status s join s.orderFlowStatusTransitions t " +
                                                                     "where o.id = :orderId and t.automatic = true ")})

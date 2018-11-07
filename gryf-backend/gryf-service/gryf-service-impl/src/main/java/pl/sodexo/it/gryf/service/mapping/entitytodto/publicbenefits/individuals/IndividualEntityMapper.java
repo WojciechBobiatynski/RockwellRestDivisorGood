@@ -41,8 +41,6 @@ public class IndividualEntityMapper extends VersionableEntityMapper<Individual, 
         super.map(entity, dto);
 
         dto.setId(entity.getId());
-        dto.setCode(entity.getCode());
-        dto.setAccountPayment(entity.getAccountPayment());
         dto.setAccountRepayment(entity.getAccountRepayment());
         dto.setFirstName(entity.getFirstName());
         dto.setLastName(entity.getLastName());

@@ -1,0 +1,9 @@
+/src/main/resources/*/war/*.*
+
+/src/main/resources/*/conf/*_origin.*
+
+/src/main/resources/*/frontend/.build
+
+/src/main/resources/*/lib/*.*
+
+/target/

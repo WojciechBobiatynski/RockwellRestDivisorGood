@@ -5,6 +5,7 @@ import pl.sodexo.it.gryf.common.dto.mail.MailDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.MailAttachmentDTO;
 import pl.sodexo.it.gryf.common.mail.MailPlaceholders;
 import pl.sodexo.it.gryf.model.mail.EmailInstance;
+import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
 
 import java.util.List;
 
@@ -36,6 +37,8 @@ public interface MailService {
     MailDTO scheduleMail(String emailTemplateId, String subject, String body, String addressesTo, String addressesCC, EmailSourceType sourceType, Long sourceId, List<MailAttachmentDTO> attachments);
 
     MailDTO scheduleMail(MailDTO mailDTO);
+
+    MailDTO scheduleMail(MailDTO mailDTO, GrantProgram grantProgram);
 
     void sendMails();
 

@@ -35,7 +35,12 @@ public class AuthModelAttribute {
     public String cdnUrl(){
         return aps.getCdnUrl();
     }
-    
+
+    @ModelAttribute("cdnTitle")
+    public String cdnTitle(){
+        return aps.getCdnTitle();
+    }
+
     @ModelAttribute("resourcesUrl")    
     public String resourcesUrl(){
         return aps.getResourcesUrl();

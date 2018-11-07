@@ -57,21 +57,21 @@ public class ContractsRestController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public Long saveContract(@RequestBody ContractDTO contractDTO) {
+    public String saveContract(@RequestBody ContractDTO contractDTO) {
         LOGGER.debug("saveContract, contractDTO={}", contractDTO);
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_CONTRACTS_MOD);
         return contractService.saveContract(contractDTO);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ContractDTO getContract(@PathVariable Long id) {
+    public ContractDTO getContract(@PathVariable String id) {
         LOGGER.debug("getContract, id={}", id);
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_CONTRACTS);
         return contractService.findContract(id);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json")
-    public Long updateContract(@PathVariable Long id, @RequestBody ContractDTO contractDTO) {
+    public String updateContract(@PathVariable String id, @RequestBody ContractDTO contractDTO) {
         LOGGER.debug("updateContract, id={}, contractDTO={}", id, contractDTO);
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_CONTRACTS_MOD);
         GryfUtils.checkForUpdate(id, contractDTO.getId());
@@ -87,14 +87,14 @@ public class ContractsRestController {
     }
 
     @RequestMapping(value = PATH_CONTRACTS_FIND_POOL_INSTANCES + "/{id}", method = RequestMethod.GET)
-    public List<ContractPbeProductInstancePoolDto> findContractPoolInstances(@PathVariable Long id) {
+    public List<ContractPbeProductInstancePoolDto> findContractPoolInstances(@PathVariable String id) {
         LOGGER.debug("findContractPoolInstances, contractId={}", id);
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_CONTRACTS);
         return pbeProductInstancePoolService.findPoolInstancesByContractId(id);
     }
 
     @RequestMapping(value = PATH_CONTRACTS_RESIGN + "/{id}", method = RequestMethod.POST)
-    public List<ContractPbeProductInstancePoolDto> resign(@PathVariable Long id) {
+    public List<ContractPbeProductInstancePoolDto> resign(@PathVariable String id) {
         LOGGER.debug("resign, contractId={}", id);
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_CONTRACTS);
         contractService.resign(id);

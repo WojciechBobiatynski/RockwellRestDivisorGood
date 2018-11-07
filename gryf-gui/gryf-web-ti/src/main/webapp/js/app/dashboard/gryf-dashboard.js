@@ -8,4 +8,5 @@ angular.module("gryf.ti").config(["$stateProvider", "$urlRouterProvider", functi
         templateUrl: contextPath + "/templates/dashboard/dashboard.html",
         controller: "DashboardController"
     });
+
 }]);

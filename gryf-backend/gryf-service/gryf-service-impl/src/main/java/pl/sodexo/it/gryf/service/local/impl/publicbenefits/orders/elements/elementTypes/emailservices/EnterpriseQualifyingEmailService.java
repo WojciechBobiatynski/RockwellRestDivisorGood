@@ -37,8 +37,8 @@ public class EnterpriseQualifyingEmailService implements EmailDTOService {
         MailPlaceholders mailPlaceholders = mailService.createPlaceholders("grantProgramName", order.getApplication().getProgram().getProgramName())
                                                                    .add("grantedVouchersNumber",order.getVouchersNumber().toString())
                                                                    .add("paymentAmount", NumberFormat.getCurrencyInstance().format(orderServiceLocal.getPaymentAmount(order)))
-                                                                   .add("accountNumber", order.getEnterprise() != null ? order.getEnterprise().getAccountPayment() : (order.getContract() != null && order.getContract().getIndividual() != null ?
-                                                                                                                            order.getContract().getIndividual().getAccountPayment() : null)  )
+                                                                   .add("accountNumber", order.getEnterprise() != null ? order.getContract().getAccountPayment() : (order.getContract() != null && order.getContract().getIndividual() != null ?
+                                                                                                                            order.getContract().getAccountPayment() : null)  )
                                                                    .add("grantAppAddressCorr", order.getApplication().getBasicData().getAddressCorr())
                                                                    .add("grantAppZipCorr", order.getApplication().getBasicData().getZipCodeCorr().getZipCode())
                                                                    .add("grantAppCityCorr", order.getApplication().getBasicData().getZipCodeCorr().getCityName());

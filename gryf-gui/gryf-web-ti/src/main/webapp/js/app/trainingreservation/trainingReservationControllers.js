@@ -4,8 +4,10 @@ angular.module("gryf.ti").controller("TrainingReservationController",
 
     $scope.individualUser = UserService.getIndividualUser();
     $scope.userTrainingReservationData = TrainingReservationService.getUserTrainingReservationData();
+    console.log('userTrainingReservationData ', $scope.userTrainingReservationData )
     $scope.violations = TrainingReservationService.getNewViolations();
     $scope.searchDTO = TrainingSearchService.getSearchDTO();
+    console.log('searchDTO ', $scope.searchDTO )
     $scope.searchResultOptions = TrainingSearchService.getSearchResultOptions();
 
     $scope.dictionaries = {};
@@ -14,6 +16,15 @@ angular.module("gryf.ti").controller("TrainingReservationController",
     $scope.loadUserTrainingReservationData = function() {
         resetViolations();
         TrainingReservationService.loadUserTrainingReservationData($scope.individualUser.data);
+    };
+
+    $scope.getUsersContractName = function() {
+
+        var usersContractsName = [];
+
+        // $scope.userTrainingReservationData.data.productInstancePools;
+
+        return;
     };
 
     DictionaryService.loadDictionary(DictionaryService.DICTIONARY.TRAINING_CATEGORIES).then(function(data) {
@@ -91,7 +102,7 @@ angular.module("gryf.ti").controller("TrainingReservationController",
 
         $state.go("reservationModal", {
             "trainingId": item.trainingId,
-            "grantProgramId": $scope.userTrainingReservationData.data.contracts[0].grantProgram.id
+            "grantProgramId": item.grantProgramId
         });
     };
 

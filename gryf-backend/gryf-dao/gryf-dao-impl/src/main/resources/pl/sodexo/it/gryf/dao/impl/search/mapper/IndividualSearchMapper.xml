@@ -15,7 +15,7 @@
             AND TRIM(ind.PESEL) = #{verification.pesel}
     </select>
     <select id="findIndividualAfterLogin" resultMap="indDto">
-        SELECT
+         SELECT
             ind.ID                          individualId,
             ind.FIRST_NAME                  firstName,
             ind.LAST_NAME                   lastName,
@@ -41,16 +41,20 @@
             training.END_DATE               trainingEndDate,
             trainingInstitution.NAME        trainingInstitutionName,
             trainingInstanceStatus.NAME     trainingStatus,
-            trainingInstanceStatus.ID       trainingStatusId
+            trainingInstanceStatus.ID       trainingStatusId,
+            gp.id                           grantProgramId,
+            gp.program_name                 grantProgramName
         FROM APP_PBE.INDIVIDUALS ind
               LEFT OUTER JOIN APP_PBE.INDIVIDUAL_CONTACTS indcont ON ind.ID = indcont.IND_ID
               LEFT OUTER JOIN APP_PBE.CONTRACTS con ON ind.ID = con.INDIVIDUAL_ID
+              LEFT JOIN app_pbe.grant_programs gp ON gp.id = con.grant_program_id
               LEFT OUTER JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOLS pool ON ind.ID = pool.INDIVIDUAL_ID
-              LEFT OUTER JOIN APP_PBE.TI_TRAINING_INSTANCES trainingInstance ON ind.ID = trainingInstance.INDIVIDUAL_ID
-              LEFT OUTER JOIN APP_PBE.ORDERS orders ON pool.ORDER_ID = orders.ID
+              LEFT OUTER JOIN APP_PBE.TI_TRAINING_INSTANCES trainingInstance ON ind.ID = trainingInstance.INDIVIDUAL_ID AND trainingInstance.grant_program_id = gp.id
+              LEFT OUTER JOIN APP_PBE.ORDERS orders ON pool.ORDER_ID = orders.ID and gp.id = orders.grant_program_id
               LEFT OUTER JOIN APP_PBE.CONTRACT_TRAINING_CATEGORIES contrTrainCateg ON con.ID = contrTrainCateg.CONTRACT_ID
               LEFT OUTER JOIN APP_PBE.TI_TRAINING_CATEGORIES traintCateg ON contrTrainCateg.TRAINING_CATEGORY_ID = traintCateg.ID
-              LEFT OUTER JOIN APP_PBE.TI_TRAININGS training ON trainingInstance.TRAINING_ID = training.ID
+              LEFT OUTER JOIN APP_PBE.ti_training_category_params tcp ON tcp.category_id = traintCateg.id and tcp.grant_program_id = gp.id
+              JOIN APP_PBE.TI_TRAININGS training ON trainingInstance.TRAINING_ID = training.ID
               LEFT OUTER JOIN APP_PBE.TRAINING_INSTITUTIONS trainingInstitution ON training.TRAINING_INSTITUTION_ID = trainingInstitution.ID
               LEFT OUTER JOIN APP_PBE.TI_TRAINING_INSTANCE_STATUSES trainingInstanceStatus ON trainingInstance.STATUS_ID = trainingInstanceStatus.ID
         WHERE
@@ -83,6 +87,8 @@
             <result property="usedProductsCount" column="usedProductsCount"/>
             <result property="orderDate" column="orderDate"/>
             <result property="orderId" column="orderId"/>
+            <result property="grantProgramId" column="grantProgramId"/>
+            <result property="grantProgramName" column="grantProgramName"/>
         </collection>
         <collection property="trainings" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.TrainingDto"
                     autoMapping="true">
@@ -95,6 +101,8 @@
             <result property="endDate" column="trainingEndDate"/>
             <result property="trainingStatus" column="trainingStatus"/>
             <result property="trainingStatusId" column="trainingStatusId"/>
+            <result property="grantProgramId" column="grantProgramId"/>
+            <result property="grantProgramName" column="grantProgramName"/>
         </collection>
     </resultMap>
     
@@ -110,10 +118,15 @@
             con.ID AS contractId,
             gpr.ID AS programId,
             gpr.PROGRAM_NAME AS programName
-        FROM APP_PBE.INDIVIDUALS ind
-            LEFT JOIN APP_PBE.CONTRACTS con ON con.INDIVIDUAL_ID = ind.ID
-            LEFT JOIN APP_PBE.GRANT_PROGRAMS gpr ON gpr.ID = con.GRANT_PROGRAM_ID
-            LEFT JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOLS pip ON pip.INDIVIDUAL_ID = ind.ID
+        FROM
+            app_pbe.individuals ind
+            LEFT JOIN app_pbe.contracts con ON con.individual_id = ind.id
+            LEFT JOIN app_pbe.grant_programs gpr ON gpr.id = con.grant_program_id
+            LEFT JOIN app_pbe.orders ord ON ord.grant_program_id = con.grant_program_id
+            JOIN app_pbe.pbe_product_instance_pools pip ON pip.individual_id = ind.id
+                                                           AND ord.id = pip.order_id
+            LEFT JOIN app_pbe.grant_program_products gpp ON ( gpp.pbe_prd_id = pip.prd_id
+                                                              AND gpp.grant_program_id = con.grant_program_id )
         WHERE
             ind.PESEL = #{pesel}
         ORDER BY pip.EXPIRY_DATE DESC
@@ -129,6 +142,8 @@
             <id property="id" column="poolId"/>
             <result property="availableNum" column="poolAvailableNum"/>
             <result property="expiryDate" column="poolExpiryDate"/>
+            <result property="grantProgramId" column="programId"/>
+            <result property="grantProgramName" column="programName"/>
         </collection>
 
         <collection property="contracts" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.contracts.searchform.ContractSearchResultDTO" autoMapping="true">

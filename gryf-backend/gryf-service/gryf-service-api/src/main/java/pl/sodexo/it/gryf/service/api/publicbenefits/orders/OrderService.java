@@ -18,7 +18,7 @@ public interface OrderService {
      * @param contractId identyfikator umowy
      * @return obiekt dto
      */
-    CreateOrderDTO createCreateOrderDTO(Long contractId);
+    CreateOrderDTO createCreateOrderDTO(String contractId);
 
     /**
      * Metoda tworzy i zapisuje obiekt zamowienia na podstawie dto.

@@ -30,7 +30,7 @@ public class ProductInstancePoolSearchDaoImpl implements ProductInstancePoolSear
     }
 
     @Override
-    public List<ContractPbeProductInstancePoolDto> findPoolInstancesByContractId(Long contractId) {
+    public List<ContractPbeProductInstancePoolDto> findPoolInstancesByContractId(String contractId) {
         return productInstancePoolSearchMapper.findPoolInstancesByContractId(new UserCriteria(), contractId);
     }
 }
