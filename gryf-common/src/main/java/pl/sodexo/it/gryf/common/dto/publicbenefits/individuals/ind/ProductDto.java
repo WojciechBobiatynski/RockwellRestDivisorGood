@@ -31,4 +31,12 @@ public class ProductDto extends ProductHeadDto {
     @Getter
     @Setter
     private Date orderDate;
+
+    @Getter
+    @Setter
+    private String grantProgramName;
+
+    @Setter
+    @Getter
+    private Long grantProgramId;
 }

@@ -87,6 +87,8 @@
             <result property="usedProductsCount" column="usedProductsCount"/>
             <result property="orderDate" column="orderDate"/>
             <result property="orderId" column="orderId"/>
+            <result property="grantProgramId" column="grantProgramId"/>
+            <result property="grantProgramName" column="grantProgramName"/>
         </collection>
         <collection property="trainings" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.TrainingDto"
                     autoMapping="true">

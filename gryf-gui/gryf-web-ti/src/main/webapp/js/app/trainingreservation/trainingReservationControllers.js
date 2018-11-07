@@ -93,7 +93,7 @@ angular.module("gryf.ti").controller("TrainingReservationController",
 
         $state.go("reservationModal", {
             "trainingId": item.trainingId,
-            "grantProgramId": $scope.userTrainingReservationData.data.contracts[0].grantProgram.id
+            "grantProgramId": item.grantProgramId
         });
     };
 

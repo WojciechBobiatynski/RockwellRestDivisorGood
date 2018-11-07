@@ -90,7 +90,7 @@
 
     <select id="findTrainingInstanceDetails" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceDetailsDto">
         SELECT
-        distinct 
+        distinct
         tin.ID                                            trainingInstanceId,
         tin.STATUS_ID                                     trainingInstanceStatusId,
         tin.ASSIGNED_NUM                                  productAssignedNum,
@@ -140,6 +140,7 @@
 
     <select id="findTrainingInstanceDetailsWithPinCode" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceDetailsDto">
         SELECT
+        distinct 
         tin.ID                                            trainingInstanceId,
         tin.STATUS_ID                                     trainingInstanceStatusId,
         tin.ASSIGNED_NUM                                  productAssignedNum,
@@ -168,8 +169,7 @@
         tin.GRANT_PROGRAM_ID                              grantProgramId,
         gr_pr.PROGRAM_NAME                                grantProgramName,
         tra.REIMBURSMENT_CONDITIONS                       reimbursmentConditions,
-        tin.REIMBURSMENT_PIN pinCode,
-        IND.CODE participantCode
+        tin.REIMBURSMENT_PIN pinCode
         FROM APP_PBE.TI_TRAINING_INSTANCES tin
         JOIN APP_PBE.TI_TRAININGS tra ON tra.ID = tin.TRAINING_ID
         JOIN APP_PBE.TI_TRAINING_CATEGORIES cat ON cat.ID = tra.TRAINING_CATEGORY_ID

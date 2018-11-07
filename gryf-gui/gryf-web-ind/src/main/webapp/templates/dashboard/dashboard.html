@@ -66,7 +66,7 @@
                 <tbody class="tableData">
                 <tr ng-repeat="product in model.entity.products" ng-class="{'row-even': $even, 'row-odd': $odd}">
 
-                    <td>Projekt Placeholder</td>
+                    <td>{{product.grantProgramName}}</td>
                     <td>{{product.expirationDate  | date:'yyyy-MM-dd'}}</td>
                     <td>{{product.grantedProductsCount}}</td>
                     <td>{{product.reservedProductsCount}}</td>
@@ -119,7 +119,7 @@
                 </thead>
                 <tbody class="tableData">
                 <tr ng-repeat="tra in model.entity.trainings" ng-class="{'row-even': $even, 'row-odd': $odd}">
-                    <td>Projekt Placeholder</td>
+                    <td>{{tra.grantProgramName}}</td>
                     <td>{{tra.name}}</td>
                     <td>{{tra.trainingInstitutionName}}</td>
                     <td>{{tra.productsCount}}</td>
