@@ -3,12 +3,14 @@ function($scope, $stateParams, TrainingSearchService, DictionaryService) {
     $scope.close = $scope.$close;
     $scope.training = {data: null};
 
-    TrainingSearchService.findDetailsById($stateParams.trainingId).success(function(data) {
-        // @todo add grant program name to data
-        DictionaryService.getRecordById(DictionaryService.DICTIONARY.TRAINING_CATEGORIES, data.category).then(function(record) {
-            $scope.training.data.category = record.name;
-        });
-        debugger
-        $scope.training.data = data;
-    });
+    TrainingSearchService.findDetailsById($stateParams.trainingId)
+        .success(function(data) {
+            // @todo add grant program name to data
+            DictionaryService.getRecordById(DictionaryService.DICTIONARY.TRAINING_CATEGORIES, data.category).then(function(record) {
+                $scope.training.data.category = record.name;
+            });
+
+            $scope.training.data = data;
+            }
+        );
 }]);

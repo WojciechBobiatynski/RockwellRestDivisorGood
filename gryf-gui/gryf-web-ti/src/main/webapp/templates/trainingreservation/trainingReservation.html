@@ -48,7 +48,6 @@
 
          <div class="grid-60 reservation-items">
 
-            <!--  @TODO Prob will be ng-repeat-->
             <div class="grid-100 reservation-item">
                <div class="grid-70">
                   <table>
@@ -59,43 +58,18 @@
                         <th class="grid-10">
                            <strong class="label">Data ważności</strong>
                         </th>
+                        <th class="grid-10">
+                           <strong class="label">Program Dofinansowania</strong>
+                        </th>
                      </thead>
                      <tbody class="tableData">
                         <tr ng-repeat="pool in userTrainingReservationData.data.productInstancePools" ng-class="{'row-even': $even, 'row-odd': $odd}">
                            <td>{{::pool.availableNum}}</td>
                            <td>{{::pool.expiryDate  | date:'yyyy-MM-dd'}}</td>
+                           <td>{{::pool.grantProgramName }}</td>
                         </tr>
                      </tbody>
                   </table>
-               </div>
-               <div class="grid-30">
-                  <strong class="label">Program dofinansowania</strong>
-                  <div ng-repeat="contract in userTrainingReservationData.data.contracts">{{contract.grantProgram.name}}</div>
-               </div>
-            </div>
-
-            <div class="grid-100 reservation-item">
-               <div class="grid-70">
-                  <table>
-                     <thead class="text-left">
-                     <th class="grid-10">
-                        <strong class="label">Liczba dostępnych bonów</strong>
-                     </th>
-                     <th class="grid-10">
-                        <strong class="label">Data ważności</strong>
-                     </th>
-                     </thead>
-                     <tbody class="tableData">
-                     <tr ng-repeat="pool in userTrainingReservationData.data.productInstancePools" ng-class="{'row-even': $even, 'row-odd': $odd}">
-                        <td>{{::pool.availableNum}}</td>
-                        <td>{{::pool.expiryDate  | date:'yyyy-MM-dd'}}</td>
-                     </tr>
-                     </tbody>
-                  </table>
-               </div>
-               <div class="grid-30">
-                  <strong class="label">Program dofinansowania</strong>
-                  <div ng-repeat="contract in userTrainingReservationData.data.contracts">{{contract.grantProgram.name}}</div>
                </div>
             </div>
          </div>
@@ -112,7 +86,7 @@
       <thead>
       <tr class="grid-100 tableHeader-names">
          <th class="sortable grid-10" ng-class="getSortingTypeClass('name')">
-            <div >Program odfinansowania</div>
+            <div >Program Dofinansowania</div>
          </th>
          <th class="sortable grid-10" ng-class="getSortingTypeClass('name')">
             <div ng-click="getSortedBy('name')">Nazwa usługi</div>

@@ -18,6 +18,15 @@ angular.module("gryf.ti").controller("TrainingReservationController",
         TrainingReservationService.loadUserTrainingReservationData($scope.individualUser.data);
     };
 
+    $scope.getUsersContractName = function() {
+
+        var usersContractsName = [];
+
+        // $scope.userTrainingReservationData.data.productInstancePools;
+
+        return;
+    };
+
     DictionaryService.loadDictionary(DictionaryService.DICTIONARY.TRAINING_CATEGORIES).then(function(data) {
         $scope.dictionaries.trainingCategories = data;
     });
