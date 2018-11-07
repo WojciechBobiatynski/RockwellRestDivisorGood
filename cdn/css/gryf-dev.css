@@ -252,6 +252,7 @@ section:not(.section-gryf-web-ind-index):not(.section-important):not(.section-pr
 .section-important > div {padding: 25px 0; text-align: center; }
 .section-important .fl {float: left;width: 40%;}
 .section-important .fr {float: right;width: 60%;}
+.section-important .fr a, .section-important .fr p { font-size: 1.1em; display: block; width: 100%; text-align: center; }
 .section-important .mail {margin-top: 5px; display: inline-block;}
 .section-important .description {margin-top: 7px; display: inline-block;}
 .section-contact-item {clear: both; padding-bottom: 10px; overflow: hidden; }
