@@ -10,5 +10,5 @@ import java.util.List;
  */
 public interface EmailInstanceRepository extends GenericRepository<EmailInstance, Long> {
 
-    List<EmailInstance> findAvaiableToSend(String status);
+    List<EmailInstance> findAvailableToSend(String status);
 }

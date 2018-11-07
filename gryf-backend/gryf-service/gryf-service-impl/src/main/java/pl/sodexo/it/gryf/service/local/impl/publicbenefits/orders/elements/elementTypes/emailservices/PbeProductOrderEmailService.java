@@ -11,6 +11,7 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.individuals.Indi
 import pl.sodexo.it.gryf.model.publicbenefits.api.ContactType;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
+import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgramParam;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.IndividualContact;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
@@ -18,9 +19,11 @@ import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderElementDTOBuilder;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderInvoice;
 import pl.sodexo.it.gryf.model.security.individuals.IndividualUser;
 import pl.sodexo.it.gryf.service.local.api.MailService;
+import pl.sodexo.it.gryf.service.local.api.ParamInDateService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.elements.elementTypes.emailservices.EmailDTOService;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import static pl.sodexo.it.gryf.common.utils.GryfConstants.*;
@@ -40,6 +43,9 @@ public class PbeProductOrderEmailService implements EmailDTOService {
     @Autowired
     private IndividualContactRepository individualContactRepository;
 
+    @Autowired
+    private ParamInDateService paramInDateService;
+
     @Override
     public MailDTO createMailDTO(OrderElementDTOBuilder builder) {
         Order order = builder.getOrder();
@@ -48,12 +54,14 @@ public class PbeProductOrderEmailService implements EmailDTOService {
         IndividualUser individualUser = individual.getIndividualUser();
         GrantProgram granProgram = contract.getGrantProgram();
         OrderInvoice orderInvoice = getOrderInvoice(order);
+        GrantProgramParam programParam = paramInDateService.findGrantProgramParam(granProgram.getId(), PHONE_FOR_GRANT_PROGRAM_PARAM_NAME, new Date(), false);
 
         IndividualContact verEmailContact = individualContactRepository.findByIndividualAndContactType(individual.getId(), ContactType.TYPE_VER_EMAIL);
 
         MailPlaceholders mailPlaceholders = mailService.createPlaceholders("firstName", individual.getFirstName());
         mailPlaceholders.add("lastName", individual.getLastName());
         mailPlaceholders.add("grantProgramName", granProgram.getProgramName());
+        mailPlaceholders.add("grantProgramPhone", programParam.getValue());
         mailPlaceholders.add("grantedVouchersNumber", order.getVouchersNumber().toString());
         mailPlaceholders.add("IndividualWebAppURL", applicationParameters.getIndUserUrl());
         mailPlaceholders.add("IndividualWebAppLogin", individual.getPesel());

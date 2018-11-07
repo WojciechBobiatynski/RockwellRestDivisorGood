@@ -29,6 +29,7 @@ public class LoggingAspect {
     public void executionOfAnyServiceMethod() {
     }
 
+
     @Pointcut("execution(* pl.sodexo.it.gryf.service.api.security.UserService.findPrivilegesForFoLogin(..)) || " +
             "execution(* pl.sodexo.it.gryf.service.api.security.UserService.findPrivilegesForTiLogin(..)) || " +
             "execution(* pl.sodexo.it.gryf.service.api.security.UserService.findPrivilegesForIndPesel(..)) || " +

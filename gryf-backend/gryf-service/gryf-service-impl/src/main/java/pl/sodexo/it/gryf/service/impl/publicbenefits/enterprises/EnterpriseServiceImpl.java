@@ -1,6 +1,7 @@
 package pl.sodexo.it.gryf.service.impl.publicbenefits.enterprises;
 
 import com.googlecode.ehcache.annotations.Cacheable;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,6 +71,20 @@ public class EnterpriseServiceImpl implements EnterpriseService {
     public void updateEnterpriseDto(EnterpriseDto enterpriseDto, boolean checkVatRegNumDup, boolean validateAccountRepayment) {
         Enterprise enterprise = enterpriseDtoMapper.convert(enterpriseDto);
         enterpriseServiceLocal.updateEnterprise(enterprise,checkVatRegNumDup, validateAccountRepayment);
+    }
+
+    @Override
+    public EnterpriseDto validateAndSaveOrUpdate(EnterpriseDto enterpriseDto, boolean checkVatRegNumDup, boolean validateAccountRepayment) {
+        Enterprise enterprise = enterpriseDtoMapper.convert(enterpriseDto);
+        List<Enterprise> enterpriseRepositoryByVatRegNum = enterpriseRepository.findByVatRegNum(enterprise.getVatRegNum());
+        if (CollectionUtils.isNotEmpty(enterpriseRepositoryByVatRegNum)) {
+            enterprise = enterpriseRepositoryByVatRegNum.stream().findFirst().get();
+            enterpriseServiceLocal.updateEnterprise(enterprise, checkVatRegNumDup, validateAccountRepayment);
+        } else {
+            enterprise = enterpriseServiceLocal.saveEnterprise(enterprise, checkVatRegNumDup, validateAccountRepayment);
+        }
+
+        return enterpriseEntityMapper.convert(enterprise);
     }
 
 }

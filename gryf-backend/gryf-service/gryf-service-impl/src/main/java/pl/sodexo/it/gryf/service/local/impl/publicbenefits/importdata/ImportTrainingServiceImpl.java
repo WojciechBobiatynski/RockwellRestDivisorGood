@@ -5,14 +5,16 @@ import com.google.common.collect.Lists;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.importdata.ImportParamsDTO;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.importdata.ImportResultDTO;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.importdata.ImportTrainingDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.importdata.*;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingInstanceExtDTO;
 import pl.sodexo.it.gryf.common.dto.user.GryfUser;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
+import pl.sodexo.it.gryf.service.api.patterns.DefaultPatternContext;
+import pl.sodexo.it.gryf.service.api.patterns.PatternContext;
+import pl.sodexo.it.gryf.service.api.patterns.PatternService;
 import pl.sodexo.it.gryf.dao.api.crud.repository.asynch.AsynchronizeJobRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.importdata.ImportDataRowRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingCategoryRepository;
@@ -27,6 +29,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstit
 import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.TrainingService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.TrainingInstanceExtService;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
+import pl.sodexo.it.gryf.service.local.api.publicbenefits.importdata.ImportDataService;
 
 import java.math.BigDecimal;
 import java.util.Iterator;
@@ -37,9 +40,8 @@ import java.util.regex.Pattern;
 /**
  * Created by Isolution on 2016-12-02.
  */
-@Service(value = "importTrainingService")
+@Service(value = ImportDataService.IMPORT_TRAINING_SERVICE)
 public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
-
     //PRIVATE FIELDS
 
     @Autowired
@@ -69,6 +71,10 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
 
     @Autowired
     private TrainingCategoryRepository trainingCategoryRepository;
+
+    @Autowired
+    @Qualifier (PatternService.IMPORT_TRAINING_PATTERN_SERVICE)
+    private PatternService importPatternService;
 
     //OVERRIDE
 
@@ -167,7 +173,10 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
         if (importDTO.getReimbursmentCondition2() == null) {
             violations.add(new EntityConstraintViolation("Brak identyfikatora wsparcia"));
         } else {
-            String searchPattern = "WKK/[0-9]+/1$";
+            //Wybor wzorca per program z parametrami
+            PatternContext importTrainingPatternContext = DefaultPatternContext.create().build();
+            String searchPattern = importPatternService.getPattern(importTrainingPatternContext);
+
             Pattern r = Pattern.compile(searchPattern);
             Matcher m = r.matcher(importDTO.getReimbursmentCondition2());
             if (!m.find()) {

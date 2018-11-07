@@ -13,6 +13,7 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.UserTrainingR
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.searchform.IndividualSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.searchform.IndividualSearchResultDTO;
 import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.employments.EmploymentRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.individuals.IndividualRepository;
 import pl.sodexo.it.gryf.dao.api.search.dao.IndividualSearchDao;
 import pl.sodexo.it.gryf.model.publicbenefits.api.ContactType;
@@ -31,6 +32,7 @@ import pl.sodexo.it.gryf.service.validation.publicbenefits.individuals.Individua
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Service
@@ -73,7 +75,7 @@ public class IndividualServiceImpl implements IndividualService {
     private RoleDtoMapper roleDtoMapper;
 
     @Autowired
-    private AccountContractPairService accountContractPairService;
+    private EmploymentRepository employmentRepository;
 
     //PUBLIC METHODS
 
@@ -109,11 +111,11 @@ public class IndividualServiceImpl implements IndividualService {
         IndividualUser user = createIndividualUser(individual, individualDto);
         individual.setIndividualUser(user);
         individualValidator.validateIndividual(individual, checkPeselDup, checkAccountRepayment);
-        individual = createIndividualByCode(individual);
         individualRepository.save(individual);
 
         return individual.getId();
     }
+
 
     private IndividualUser createIndividualUser(Individual individual, IndividualDto individualDto) {
         String newVerificationCode = gryfAccessCodeGenerator.createVerificationCode();
@@ -124,21 +126,6 @@ public class IndividualServiceImpl implements IndividualService {
         user.setIndividual(individual);
         user.setRoles(roleDtoMapper.convert(individualDto.getRoles()));
         return user;
-    }
-
-    private Individual createIndividualByCode(Individual individual) {
-        if (hasNoCode(individual)) {
-            saveWithNewGeneratedCode(individual);
-        } else {
-            accountContractPairService.setIdAndAccountPayment(individual);
-        }
-        return individual;
-    }
-
-    private Individual saveWithNewGeneratedCode(Individual individual) {
-        individual = individualRepository.save(individual);
-        individual.setCode(accountContractPairService.generateCode(individual));
-        return individual;
     }
 
     @Override
@@ -174,12 +161,32 @@ public class IndividualServiceImpl implements IndividualService {
         individualRepository.update(individual, individual.getId());
     }
 
-    @Override
+        @Override
     public UserTrainingReservationDataDto findUserTrainingReservationData(String pesel) {
         return individualSearchDao.findDataForTrainingReservation(pesel);
     }
 
-    private boolean hasNoCode(Individual individual) {
-        return GryfStringUtils.isEmpty(individual.getCode());
+    @Override
+    public Long validateAndSaveOrUpdate(IndividualDto individualDto, boolean checkPeselDup, boolean checkAccountRepayment) {
+        Individual individual = individualRepository.findByPesel(individualDto.getPesel());
+        if (Objects.isNull(individual)) {
+            //nowy
+            individual = individualDtoMapper.convert(individualDto);
+            IndividualUser user = createIndividualUser(individual, individualDto);
+            individual.setIndividualUser(user);
+            individualValidator.validateIndividual(individual, checkPeselDup, checkAccountRepayment);
+            individual = individualRepository.save(individual);
+            return individual.getId();
+        } else {
+            //ToDo: do refaktoringu individualDtoMapper - przeniesc do serwisu uzupenianie "Employment"
+            individualDto.setId(individual.getId());
+            Individual individualSaved = individualDtoMapper.convert(individualDto);
+            individualSaved.setVersion(individual.getVersion());
+            individualValidator.validateIndividual(individualSaved, checkPeselDup, checkAccountRepayment);
+            individualRepository.update(individualSaved, individualSaved.getId());
+            return individual.getId();
+        }
+
     }
+
 }

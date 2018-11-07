@@ -20,5 +20,6 @@ public class GrantProgramEntityMapper extends GryfEntityMapper<GrantProgram, Gra
         dto.setName(entity.getProgramName());
         dto.setGrantProgramOwnerId(entity.getGrantOwner().getId());
         dto.setGrantProgramOwnerName(entity.getGrantOwner().getName());
+        dto.setProgramCode(entity.getProgramCode());
     }
 }

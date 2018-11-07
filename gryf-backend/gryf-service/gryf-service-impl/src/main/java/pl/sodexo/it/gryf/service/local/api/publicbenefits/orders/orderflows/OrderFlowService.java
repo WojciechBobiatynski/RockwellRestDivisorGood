@@ -14,6 +14,10 @@ import pl.sodexo.it.gryf.model.publicbenefits.orders.OrderFlow;
  */
 public interface OrderFlowService {
 
+    String ORDER_FLOW_SERVICE_PREFIX = "orderFlow";
+    String ORDER_FLOW_SERVICE_SUFFIX = "Service";
+    String DEFAULT_ORDER_FLOW_SERVICE = "orderFlowService";
+
     /**
      * Tworzy zamówienie dla danego wnioosku w danym order flow.
      * Nie dodaje elementów do zamówienia na podstawie inicjalnego statusu.

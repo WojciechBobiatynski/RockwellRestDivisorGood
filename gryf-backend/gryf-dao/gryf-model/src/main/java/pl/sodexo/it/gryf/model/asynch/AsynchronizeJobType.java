@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.model.asynch;
 
+import pl.sodexo.it.gryf.common.annotation.technical.asynch.ReplacedBy;
 import pl.sodexo.it.gryf.model.api.DictionaryEntity;
 
 import java.util.HashMap;
@@ -9,6 +10,7 @@ import java.util.Optional;
 /**
  * Created by Isolution on 2016-12-01.
  */
+@ReplacedBy(byWhat = JobType.class)
 public enum AsynchronizeJobType implements DictionaryEntity {
 
     IMPORT_CON(100l, "Import umów", "asynchJobImportService", "importContractService"),

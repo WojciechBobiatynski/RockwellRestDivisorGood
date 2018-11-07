@@ -10,6 +10,7 @@ angular.module("gryf.ti").factory("TrainingSearchService", [ "$http", "GryfModal
     function SearchObjModel() {
         this.searchResultList = [];
         this.entity = {
+            grantProgramName:  null,
             trainingId: null,
             institutionId: null,
             institutionName: null,

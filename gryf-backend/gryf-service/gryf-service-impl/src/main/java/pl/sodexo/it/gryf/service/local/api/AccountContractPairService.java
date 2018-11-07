@@ -10,7 +10,15 @@ public interface AccountContractPairService {
 
     AccountContractPair getValidAccountContractPairForUsed(String account);
 
-    AccountContractPair getValidAccountContractPairForUsed(Long contractId);
+    /**
+     * Szuka powiazania umowa->konto na podstawie identyfikatora zewnetrznego umowy
+     * a jak znajdzie to sprawdza czy nie jest użyte.
+     *
+     *
+     * @param contractId Identyfikator zewnetrzny umowy
+     * @return Konto przypisane do kontratku, jeżeli nie jest użyte
+     */
+    AccountContractPair getValidAccountContractPairForUsedByContractId(String contractId);
 
     String generateAccount(String code);
 
@@ -25,10 +33,20 @@ public interface AccountContractPairService {
      */
     AccountContractPairGenerable setIdAndAccountPayment(AccountContractPairGenerable entity);
 
+
+
     /**
      * Generuje kod typu podmiotu dla przekazanego typu (OsFiz/MŚP)
      * @param entity - encja typu podmiotu
      * @return wygenerowany kod
      */
     String generateCode(AccountContractPairGenerable entity);
+
+    /**
+     * Znajdz pare kontrakt, konto na podstawie identyfikatora umowy
+     *
+     * @param contractId Identyfikator zewnetrzny umowy
+     * @return Konto/Umowa
+     */
+    AccountContractPair findByContractId(String contractId);
 }

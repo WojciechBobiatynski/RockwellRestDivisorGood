@@ -18,10 +18,15 @@
             t.HOUR_PRICE                hourPrice,
             c.name                      category,
             CASE t.ACTIVE WHEN 'Y' THEN 1 ELSE 0 END as active,
-            t.version                   version
-        FROM APP_PBE.TI_TRAININGS t
-            JOIN APP_PBE.TI_TRAINING_CATEGORIES c on c.ID = t.TRAINING_CATEGORY_ID
-            JOIN APP_PBE.TRAINING_INSTITUTIONS i on i.ID = t.TRAINING_INSTITUTION_ID
+            t.version                   version,
+            gp.id                       grantProgramId,
+            gp.program_name             grantProgramName
+        FROM
+            app_pbe.ti_trainings t
+            JOIN app_pbe.ti_training_categories c ON c.id = t.training_category_id
+            JOIN app_pbe.training_institutions i ON i.id = t.training_institution_id
+            JOIN APP_PBE.ti_training_category_params ttcp ON ttcp.category_id = c.id
+            JOIN app_pbe.grant_programs gp ON gp.id = ttcp.grant_program_id
         <where>
             <if test="searchParams.trainingId != null">
                 t.ID = #{searchParams.trainingId}
@@ -152,15 +157,18 @@
     <select id="findTrainingPrecalculatedDetails" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingPrecalculatedDetailsDto">
         SELECT
         <include refid="trainingDetailsData"/>,
-        cat.PRODUCT_INSTANCE_FOR_HOUR	  productInstanceForHour,
+        cat.PRODUCT_INSTANCE_FOR_HOUR	   productInstanceForHour,
         cat.MAX_PRODUCT_INSTANCE          maxProductInstance,
-        prd.VALUE                         prdValue
+        prd.VALUE                         prdValue,
+        gr_pr.id                          grantProgramId,
+        gr_pr.program_name                grantProgramName
         FROM APP_PBE.TI_TRAININGS t
         JOIN APP_PBE.TRAINING_INSTITUTIONS i on i.ID = t.TRAINING_INSTITUTION_ID
         JOIN APP_PBE.TI_TRAINING_CATEGORY_PARAMS cat ON (t.TRAINING_CATEGORY_ID = cat.CATEGORY_ID AND cat.GRANT_PROGRAM_ID = #{grantProgramId})
         JOIN APP_PBE.GRANT_PROGRAMS gr_pr ON gr_pr.ID = #{grantProgramId}
         JOIN APP_PBE.GRANT_OWNERS gr_own ON gr_own.ID = gr_pr.GRANT_OWNER_ID
         JOIN APP_PBE.PBE_PRODUCTS prd ON prd.GRANT_OWNER_ID = gr_own.ID
+        JOIN APP_PBE.GRANT_PROGRAM_PRODUCTS gpp ON (gpp.pbe_prd_id = prd.prd_id and gpp.grant_program_id = #{grantProgramId})
         <where>
             <if test="trainingId != null">
                 t.ID = #{trainingId}

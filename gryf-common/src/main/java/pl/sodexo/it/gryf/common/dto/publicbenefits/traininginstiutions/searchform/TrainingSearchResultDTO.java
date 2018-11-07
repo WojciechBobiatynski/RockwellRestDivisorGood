@@ -68,4 +68,11 @@ public class TrainingSearchResultDTO {
     @Setter
     private Integer version;
 
+    @Getter
+    @Setter
+    private String grantProgramName;
+
+    @Getter
+    @Setter
+    private Long grantProgramId;
 }

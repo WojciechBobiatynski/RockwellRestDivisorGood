@@ -7,6 +7,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingCategory;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.VersionableEntityMapper;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.dictionaries.DictionaryEntityMapper;
+import pl.sodexo.it.gryf.service.mapping.entitytodto.dictionaries.ZipCodeEntityMapper;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.enterprises.searchform.EnterpriseEntityToSearchResultMapper;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.grantprograms.GrantProgramEntityMapper;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.individuals.searchform.IndividualEntityToSearchResultMapper;
@@ -32,6 +33,9 @@ public class ContractEntityMapper extends VersionableEntityMapper<Contract, Cont
     @Autowired
     private EnterpriseEntityToSearchResultMapper enterpriseEntityToSearchResultMapper;
 
+    @Autowired
+    private ZipCodeEntityMapper zipCodeEntityMapper;
+
     @Override
     protected ContractDTO initDestination() {
         return new ContractDTO();
@@ -55,5 +59,15 @@ public class ContractEntityMapper extends VersionableEntityMapper<Contract, Cont
 
         dto.setSignDate(entity.getSignDate());
         dto.setExpiryDate(entity.getExpiryDate());
+
+        dto.setCode(entity.getCode());
+        dto.setAccountPayment(entity.getAccountPayment());
+
+        dto.setAddressInvoice(entity.getAddressInvoice());
+        dto.setZipCodeInvoice(zipCodeEntityMapper.convert(entity.getZipCodeInvoice()));
+        dto.setAddressCorr(entity.getAddressCorr());
+        dto.setZipCodeCorr(zipCodeEntityMapper.convert(entity.getZipCodeCorr()));
+
+
     }
 }

@@ -41,4 +41,10 @@
            maxElementsInMemory="1000"
            overflowToDisk="false" />
 
-</ehcache>
+    <!-- Pattern Service -->
+    <cache name="DefaultPatternService.getPattern" eternal="false"
+           timeToIdleSeconds="0" timeToLiveSeconds="86400"
+           maxElementsInMemory="1000"
+           overflowToDisk="false" />
+
+s</ehcache>

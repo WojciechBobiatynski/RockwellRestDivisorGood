@@ -11,6 +11,18 @@ import java.util.List;
  */
 public interface ImportDataService {
 
+    String IMPORT_CONTRACT_SERVICE = "importContractService";
+    String IMPORT_ORDER_SERVICE = "importOrderService";
+    String IMPORT_TRAINING_INSTITUTION_SERVICE = "importTrainingInstitutionService";
+    String IMPORT_TRAINING_SERVICE = "importTrainingService";
+    String IMPORT_OPINION_DONE_SERVICE =  "importOpinionDoneService";
+
+    String WZ_IMPORT_CONTRACT_SERVICE = "WZImportContractService";
+    String WZ_IMPORT_OPINION_DONE_SERVICE = "importOpinionDoneService";
+    String WZ_IMPORT_ORDER_SERVICE = "WZImportOrderService";
+    String WZ_IMPORT_TRAINING_INSTITUTION_SERVICE = "importTrainingInstitutionService";
+    String WZ_IMPORT_TRAINING_SERVICE = "importTrainingService";
+
     int saveEmptyRows(Long importJobId, int rowNums);
 
     void saveImportDataRowBeforeSaveData(Long importJobId, ImportParamsDTO paramsDTO, Row row);

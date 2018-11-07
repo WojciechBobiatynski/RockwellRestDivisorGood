@@ -14,7 +14,7 @@ public class ImportResultDTO {
 
     @Getter
     @Setter
-    private Long contractId;
+    private String contractId;
 
     @Getter
     @Setter

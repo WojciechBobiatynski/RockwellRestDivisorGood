@@ -23,6 +23,7 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.enterprises.Ente
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.grantprograms.GrantProgramRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.individuals.IndividualRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingCategoryRepository;
+import pl.sodexo.it.gryf.model.accounts.AccountContractPair;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.ContractType;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
@@ -30,8 +31,8 @@ import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingCatego
 import pl.sodexo.it.gryf.service.api.publicbenefits.contracts.ContractService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.ElectronicReimbursementsService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.pbeproductinstancepool.PbeProductInstancePoolService;
+import pl.sodexo.it.gryf.service.local.api.AccountContractPairService;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
-import pl.sodexo.it.gryf.service.local.api.publicbenefits.pbeproduct.PbeProductInstancePoolLocalService;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.contracts.ContractDtoMapper;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.dictionaries.DictionaryEntityMapper;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.contracts.ContractEntityMapper;
@@ -98,13 +99,17 @@ public class ContractServiceImpl implements ContractService {
     @Autowired
     private ElectronicReimbursementsService electronicReimbursementsService;
 
+    @Autowired
+    private AccountContractPairService accountContractPairService;
+
+
     @Override
     public List<GrantProgramDictionaryDTO> findGrantProgramsDictionaries() {
         List<GrantProgram> grantPrograms = grantProgramRepository.findProgramsByDate(new Date());
         return grantProgramEntityMapper.convert(grantPrograms);
     }
     @Override
-    public ContractDTO findContract(Long id) {
+    public ContractDTO findContract(String id) {
         ContractDTO dto = contractEntityMapper.convert(contractRepository.get(id));
         return dto;
     }
@@ -121,10 +126,12 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
-    public Long saveContract(ContractDTO contractDto) {
+    public String saveContract(ContractDTO contractDto) {
         Contract contract = contractDtoMapper.convert(contractDto);
         fillContract(contract, contractDto);
         contractValidator.validateContractSave(contract);
+        AccountContractPair accountContractPair = accountContractPairService.findByContractId(contractDto.getId());
+        accountContractPairService.use(accountContractPair);
         return contractRepository.save(contract).getId();
     }
 
@@ -175,7 +182,7 @@ public class ContractServiceImpl implements ContractService {
 
     @Override
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
-    public Long resign(Long contractId) {
+    public String resign(String contractId) {
         List<ContractPbeProductInstancePoolDto> contractPools = pbeProductInstancePoolService.findPoolInstancesByContractId(contractId);
         checkIfContainsAvaiablePool(contractPools);
 

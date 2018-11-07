@@ -47,7 +47,7 @@ public class FileAttachmentServiceImpl implements FileAttachmentService {
     @Autowired
     private CorrectionAttachmentService correctionAttachmentService;
 
-    @Scheduled(cron = "0 0 0 * * ?")
+    @Scheduled(cron = "${gryf2.service.scheduler.file.deleteUnnecessaryFiles:0 0 0 * * ?}")
     public void deleteUnnecessaryFiles(){
         List<AttachmentFileDto> attachmentsToDelete = attachmentFileSearchDao.findAttachmentsToDelete();
         attachmentsToDelete.stream().forEach(attachmentFileDto -> {

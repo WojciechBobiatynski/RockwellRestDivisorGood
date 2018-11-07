@@ -22,9 +22,10 @@ import pl.sodexo.it.gryf.common.logging.NoLog;
 import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.asynch.AsynchronizeJobRepository;
 import pl.sodexo.it.gryf.dao.api.search.dao.AsynchJobSearchDao;
+import pl.sodexo.it.gryf.dao.api.crud.repository.asynch.JobTypeRepository;
 import pl.sodexo.it.gryf.model.asynch.AsynchronizeJob;
 import pl.sodexo.it.gryf.model.asynch.AsynchronizeJobStatus;
-import pl.sodexo.it.gryf.model.asynch.AsynchronizeJobType;
+import pl.sodexo.it.gryf.model.asynch.JobType;
 import pl.sodexo.it.gryf.model.importdata.ImportDataRowStatus;
 import pl.sodexo.it.gryf.service.api.asynchjobs.AsynchJobFileService;
 import pl.sodexo.it.gryf.service.api.asynchjobs.AsynchJobSchedulerService;
@@ -33,10 +34,8 @@ import pl.sodexo.it.gryf.service.utils.BeanUtils;
 import pl.sodexo.it.gryf.service.validation.asynchjobs.AsynchJobValidator;
 
 import javax.annotation.PostConstruct;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by Isolution on 2016-12-02.
@@ -66,6 +65,9 @@ public class AsynchJobSchedulerServiceImpl implements AsynchJobSchedulerService 
     @Autowired
     private AsynchJobFileService asynchJobFileService;
 
+    @Autowired
+    private JobTypeRepository jobTypeRepository;
+
     private AsynchJobSchedulerService asynchJobSchedulerService;
 
     //LIFECYCLE METHODS
@@ -84,7 +86,8 @@ public class AsynchJobSchedulerServiceImpl implements AsynchJobSchedulerService 
         asynchJobValidator.validateJobProperties(createDTO);
 
         AsynchronizeJob job = new AsynchronizeJob();
-        job.setType(AsynchronizeJobType.valueOf(createDTO.getType()));
+        JobType jobType = jobTypeRepository.findByGrantProgramIdAndName(createDTO.getGrantProgramId(), createDTO.getType());
+        job.setType(jobType.getName());
         job.setStatus(AsynchronizeJobStatus.N);
         job = asynchronizeJobRepository.save(job);
 
@@ -97,7 +100,7 @@ public class AsynchJobSchedulerServiceImpl implements AsynchJobSchedulerService 
         return job.getId();
     }
     @Override
-    @Scheduled(initialDelay = 15 * 1000, fixedDelay= 5 * 1000)
+    @Scheduled(initialDelayString = "${gryf2.service.scheduler.asynchJobImport.initialDelay:15000}", fixedDelayString = "${gryf2.service.scheduler.asynchJobImport.fixedDelay:5000}")
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     @NoLog
     public void processAsynchronizeJob(){
@@ -163,11 +166,12 @@ public class AsynchJobSchedulerServiceImpl implements AsynchJobSchedulerService 
     @Transactional(propagation = Propagation.REQUIRED)
     public AsynchronizeJobInfoDTO getAsynchronizeJobInfoDTO(Long jobId){
         AsynchronizeJob job = asynchronizeJobRepository.get(jobId);
+        JobType jobType = jobTypeRepository.findByName(job.getType());
         if(job != null) {
             AsynchronizeJobInfoDTO dto = new AsynchronizeJobInfoDTO();
             dto.setId(job.getId());
-            dto.setServiceName(job.getType().getServiceName());
-            dto.setTypeParams(job.getType().getParams());
+            dto.setServiceName(jobType.getJobName());
+            dto.setTypeParams(jobType.getServiceNname());
             dto.setParams(job.getParams());
             dto.setOrderId(job.getOrderId());
             return dto;
@@ -226,7 +230,13 @@ public class AsynchJobSchedulerServiceImpl implements AsynchJobSchedulerService 
 
     @Override
     public Map<String, String> getJobTypes(Optional<Long> grantProgramId, boolean onlyImportJobs) {
-        return AsynchronizeJobType.getAsMap(grantProgramId, onlyImportJobs);
+        List<JobType> jobTypes;
+        if (onlyImportJobs && grantProgramId.isPresent()) {
+            jobTypes = jobTypeRepository.findByGrantProgramId(grantProgramId.get().longValue());
+        } else {
+           jobTypes = jobTypeRepository.findAll();
+        }
+        return jobTypes.stream().collect(Collectors.toMap(jobType -> jobType.getName(), jobType -> jobType.getLabel()));
     }
 
     @Override

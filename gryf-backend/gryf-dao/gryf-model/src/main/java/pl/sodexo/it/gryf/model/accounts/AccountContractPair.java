@@ -33,7 +33,7 @@ public class AccountContractPair extends VersionableEntity {
     @Column(name = "CONTRACT_ID")
     @Getter
     @Setter
-    private Long contractId;
+    private String contractId;
 
     @Column(name = "ACCOUNT_PAYMENT")
     @Getter

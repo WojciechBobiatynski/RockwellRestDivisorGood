@@ -37,4 +37,8 @@ public class PbeProductInstancePoolDto extends VersionableDto implements Seriali
     @Getter
     @Setter
     private Long grantProgramId;
+
+    @Getter
+    @Setter
+    private String grantProgramName;
 }

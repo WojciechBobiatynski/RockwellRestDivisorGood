@@ -3,6 +3,7 @@ package pl.sodexo.it.gryf.service.config;
 import lombok.ToString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
@@ -13,6 +14,9 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.List;
 import java.util.Set;
+
+import static pl.sodexo.it.gryf.common.config.ApplicationParametersNames.GRYF_EXTERNAL_ORDER_ID_PATTERN;
+import static pl.sodexo.it.gryf.common.config.ApplicationParametersNames.GRYF_IMPORT_TRAINING_SEARCH_PATT;
 
 /**
  * @author Marcel.GOLUNSKI
@@ -82,6 +86,12 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     private Set<String> ereimbursmentAttachmentFileExtensionSet = GryfStringUtils.createExtensionSet("pdf;doc;docx;xls;xlsx;png;jpg;gif");
     private Set<String> ereimbursmentAttachmentContentTypeSet = GryfStringUtils.createExtensionSet("application/pdf;application/msword;application/vnd.openxmlformats-officedocument.wordprocessingml.document;application/vnd.ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;image/png;image/jpeg;image/gif");
     private String strongPasswordRegexp = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[\\\\-_!@#$%^&*.])[a-zA-Z0-9\\\\-_!@#$%^&*.]{8,}$";
+
+    @Value("${gryf2.service.pattern.externalOrderIdPatternRegexp:(WKK/WZ)/[0-9]+/[0-9]+}")
+    private String externalOrderIdPatternRegexp ;
+
+    @Value("${gryf2.service.pattern.importTrainingSearchPattern:(WKK|WZ)/[0-9]+/1$}")
+    private String importTrainingSearchPattern;
 
     //LIFECYCLE METHODS
 
@@ -311,6 +321,16 @@ public class ApplicationParametersImpl implements ApplicationParameters {
         String dbStrongPasswordRegexp = (String) findParameter("GRYF_STRONG_PASSWORD_REGEXP");
         if (dbStrongPasswordRegexp != null) {
             strongPasswordRegexp = dbStrongPasswordRegexp;
+        }
+
+        String dbExternalOrderIdPatternRegexp = (String) findParameter(GRYF_EXTERNAL_ORDER_ID_PATTERN.name()); //ToDo:
+        if (dbExternalOrderIdPatternRegexp != null) {
+            externalOrderIdPatternRegexp = dbExternalOrderIdPatternRegexp;
+        }
+
+        String dbImportTrainingSearchPattern = (String) findParameter(GRYF_IMPORT_TRAINING_SEARCH_PATT.name()); //ToDo:
+        if (dbImportTrainingSearchPattern != null) {
+            importTrainingSearchPattern = dbExternalOrderIdPatternRegexp;
         }
     }
 
@@ -603,6 +623,26 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     @Override
     public String getStrongPasswordRegexp() {
         return strongPasswordRegexp;
+    }
+
+    @Override
+    public String getExternalOrderIdPatternRegexp() {
+        return this.externalOrderIdPatternRegexp;
+    }
+
+    @Override
+    public String getCdnTitle() {
+        return "System bonów szkoleniowych - Kierunek Kariera/Kierunek Kariera Zawodowa - Wojewódzki Urząd Pracy w Krakowie";//Todo:
+    }
+
+    @Override
+    public String getImportTraningSearchPattern() {
+        return this.importTrainingSearchPattern;
+    }
+
+    @Override
+    public String findParameterValueByCode(String findingParameter) {
+        return (String) findParameter(findingParameter);
     }
 
     //PRIVATE METHODS

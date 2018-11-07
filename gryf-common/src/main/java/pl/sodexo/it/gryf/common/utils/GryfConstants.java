@@ -7,8 +7,6 @@ package pl.sodexo.it.gryf.common.utils;
  */
 public final class GryfConstants {
 
-    private GryfConstants(){};
-
     public static final String FLAG_TRUE = "Y";
     public static final String FLAG_FALSE = "N";
 
@@ -80,4 +78,8 @@ public final class GryfConstants {
 
     public static final String BUSINESS_DAYS_FOR_REIMBURSEMENT_PARAM_NAME = "D_FOR_REIM";
     public static final String BUSINESS_DAYS_FOR_CORRECTION_PARAM_NAME = "D_FOR_CORR";
+
+    public static final String PHONE_FOR_GRANT_PROGRAM_PARAM_NAME = "PROG_PHONE";
+
+    private GryfConstants(){};
 }

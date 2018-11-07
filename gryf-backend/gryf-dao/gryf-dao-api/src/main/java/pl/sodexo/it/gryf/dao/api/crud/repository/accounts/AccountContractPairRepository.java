@@ -22,6 +22,6 @@ public interface AccountContractPairRepository extends GenericRepository<Account
      * @param contractId
      * @return
      */
-    AccountContractPair findByContractId(Long contractId);
+    AccountContractPair findByContractId(String contractId);
 
 }

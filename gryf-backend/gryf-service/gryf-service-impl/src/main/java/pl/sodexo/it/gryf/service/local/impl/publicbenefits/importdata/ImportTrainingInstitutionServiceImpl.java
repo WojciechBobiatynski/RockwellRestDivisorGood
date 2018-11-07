@@ -28,6 +28,7 @@ import pl.sodexo.it.gryf.model.security.trainingInstitutions.TrainingInstitution
 import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.TrainingInstitutionService;
 import pl.sodexo.it.gryf.service.api.security.VerificationService;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
+import pl.sodexo.it.gryf.service.local.api.publicbenefits.importdata.ImportDataService;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.traininginstiutions.TrainingInstitutionContactEntityMapper;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.security.traininginstitutions.TrainingInstitutionUserEntityMapper;
 
@@ -38,7 +39,7 @@ import java.util.List;
 /**
  * Created by Isolution on 2016-12-02.
  */
-@Service(value = "importTrainingInstitutionService")
+@Service(value = ImportDataService.IMPORT_TRAINING_INSTITUTION_SERVICE)
 public class ImportTrainingInstitutionServiceImpl extends ImportBaseDataServiceImpl {
 
     //PRIVATE FIELDS

@@ -1,14 +1,13 @@
 package pl.sodexo.it.gryf.common.dto.publicbenefits.importdata;
 
-import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
+import pl.sodexo.it.gryf.common.dto.other.GrantProgramDictionaryDTO;
+import pl.sodexo.it.gryf.common.generator.IdentityGenerator;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
@@ -22,7 +21,6 @@ public class ImportContractDTO {
     @Getter
     @Setter
     @NotNull(message = "Identyfikator umowy nie może być pusty")
-    @Pattern(message = "Identyfikator umowy musi być w formacie WKK/numer/numer", regexp = "WKK/[0-9]+/[0-9]+")
     private String externalOrderId;
 
     @Getter
@@ -50,19 +48,16 @@ public class ImportContractDTO {
     @Size(message = "Kategorie usługi przydzielone uczestnikowi nie mogą być puste", min = 1)
     private List<String> contractTrainingCategories;
 
-    //EXTRA FIELDS
-
-    private Long id;
+    @Getter
+    @Setter
+    @NotNull(message = "Programu nie może być pusty")
+    private GrantProgramDictionaryDTO grantProgram;
 
 
     //EXTRA GETETRS
-
-    public Long getId(){
-        if(id == null) {
-            String[] tab = externalOrderId.split("/");
-            id = Long.valueOf(tab[1]);
-        }
-        return id;
+    public String getId( IdentityGenerator<ImportContractDTO, String> identityGenerator){
+        return identityGenerator.generate(this);
     }
 
 }
+

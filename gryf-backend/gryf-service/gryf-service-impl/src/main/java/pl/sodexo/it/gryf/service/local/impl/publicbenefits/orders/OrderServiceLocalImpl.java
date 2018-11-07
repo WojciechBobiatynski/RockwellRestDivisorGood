@@ -60,8 +60,15 @@ public class OrderServiceLocalImpl implements OrderServiceLocal {
         OrderFlowForGrantProgram orderForGrPr = paramInDateService.findOrderFlowForGrantProgram(grantProgram.getId(), new Date(), true);
         OrderFlow orderFlow = orderForGrPr.getOrderFlow();
 
-        OrderFlowService orderFlowService = (OrderFlowService) BeanUtils.findBean(context, orderFlow.getServiceBeanName());
+
+        OrderFlowService orderFlowService = (OrderFlowService) BeanUtils.findBean(context, getOrderFlowBeanName(grantProgram));
         return orderFlowService.createCreateOrderDTO(contract);
+    }
+
+    @Override
+    public String getOrderFlowBeanName(GrantProgram grantProgram) {
+        //ToDo: Do uzaleznienia od programu
+        return OrderFlowService.DEFAULT_ORDER_FLOW_SERVICE;
     }
 
     @Override
@@ -76,7 +83,7 @@ public class OrderServiceLocalImpl implements OrderServiceLocal {
         OrderFlowForGrantProgram orderForGrPr = paramInDateService.findOrderFlowForGrantProgram(grantProgram.getId(), new Date(), true);
         OrderFlow orderFlow = orderForGrPr.getOrderFlow();
 
-        OrderFlowService orderFlowService = (OrderFlowService) BeanUtils.findBean(context, orderFlow.getServiceBeanName());
+        OrderFlowService orderFlowService = (OrderFlowService) BeanUtils.findBean(context, getOrderFlowBeanName(grantProgram));
         Order order = orderFlowService.createOrder(contract, orderFlow, dto);
         orderFlowElementService.addElementsByOrderStatus(order);
         return orderRepository.save(order);
@@ -88,7 +95,7 @@ public class OrderServiceLocalImpl implements OrderServiceLocal {
         OrderFlowForGrantApplicationVersion orderFlowForGraAppVer = paramInDateService.findOrderFlowForGrantApplicationVersion(grantApplicationVersion.getId(), new Date(), true);
         OrderFlow orderFlow = orderFlowForGraAppVer.getOrderFlow();
 
-        OrderFlowService orderFlowService = (OrderFlowService) BeanUtils.findBean(context, orderFlow.getServiceBeanName());
+        OrderFlowService orderFlowService = (OrderFlowService) BeanUtils.findBean(context, getOrderFlowBeanName(grantApplication.getProgram()));
         Order order = orderFlowService.createOrder(grantApplication, orderFlow);
         orderFlowElementService.addElementsByOrderStatus(order);
         return order;
