@@ -5,7 +5,7 @@ Insert into ${gryf.schema}.GRANT_PROGRAMS
    (ID, GRANT_OWNER_ID, PROGRAM_NAME, START_DATE, END_DATE,
     PROGRAM_CODE, PROGRAM_CODE_TURN)
  Values
-   (GRANT_PROGRAMS_SEQ.NEXTVAL, 100, 'Kierunek Kariera Zawodowa', TO_DATE('07/11/2018 00:00:00', 'MM/DD/YYYY HH24:MI:SS'), NULL,
+   (${eagle.schema}.GRANT_PROGRAMS_SEQ.NEXTVAL, 100, 'Kierunek Kariera Zawodowa', TO_DATE('07/11/2018 00:00:00', 'MM/DD/YYYY HH24:MI:SS'), NULL,
     '${program.code.wupkkz}', '400002');
 
 
