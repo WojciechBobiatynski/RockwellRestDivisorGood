@@ -5,6 +5,7 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 public class TrainingReservationDto {
 
@@ -38,4 +39,21 @@ public class TrainingReservationDto {
     @NotNull(message = "Wersja nie może być pusta")
     private Integer version;
 
+    @Getter
+    @Setter
+    @NotNull(message = "Nazwa programu nie może być pusta")
+    private String grantProgramName;
+
+    @Getter
+    @Setter
+    @NotNull(message = "Identyfikator programu nie może być pusty")
+    private Long grantProgramId;
+
+    @Getter
+    @Setter
+    private Date startDate;
+
+    @Getter
+    @Setter
+    private Date endDate;
 }

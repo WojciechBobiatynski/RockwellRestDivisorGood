@@ -6,9 +6,11 @@ import com.googlecode.ehcache.annotations.Cacheable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.sodexo.it.gryf.common.GenericBuilder;
 import pl.sodexo.it.gryf.common.authentication.AEScryptographer;
 import pl.sodexo.it.gryf.common.criteria.traininginstance.TrainingInstanceCriteria;
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
+import pl.sodexo.it.gryf.common.dto.other.GrantProgramDictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceDetailsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceUseDto;
@@ -32,6 +34,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.individuals.IndividualContact;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.Training;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstance;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstanceStatus;
+import pl.sodexo.it.gryf.service.api.publicbenefits.contracts.ContractService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.TrainingInstanceService;
 import pl.sodexo.it.gryf.service.api.utils.GryfAccessCodeGenerator;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
@@ -94,6 +97,9 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
     @Autowired
     private ParamInDateService paramInDateService;
 
+    @Autowired
+    private ContractService contractService;
+
     //PUBLIC METHODS
 
     @Override
@@ -140,18 +146,24 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
     //PUBLIC METHODS - ACTIONS
 
     @Override
-    public void createTrainingInstance(TrainingReservationDto reservationDto) {
-        validateTrainingReservation(reservationDto);
+    public void createTrainingInstance(TrainingReservationDto trainingReservationDto) {
+        //wybranie
+        GrantProgramDictionaryDTO grantProgramDictionaryDTO = GenericBuilder.of(GrantProgramDictionaryDTO::new)
+                .with(GrantProgramDictionaryDTO::setId, trainingReservationDto.getGrantProgramId()).build();
+        Contract contract = contractRepository.findContractIndividualByProgramAndDate(grantProgramDictionaryDTO, trainingReservationDto.getIndividualId(), trainingReservationDto.getStartDate(), trainingReservationDto.getEndDate() );
+        trainingReservationDto.setContractId(contract.getId());
+
+        //walidacja danych
+        validateTrainingReservation(trainingReservationDto);
 
         //POBRANIE DANYCH
-        Training training = trainingRepository.get(reservationDto.getTrainingId());
-        Individual individual = individualRepository.get(reservationDto.getIndividualId());
-        Contract contract = contractRepository.get(reservationDto.getContractId());
-        int toReservedNum = reservationDto.getToReservedNum();
-        String verificationCode = reservationDto.getVerificationCode();
+        Training training = trainingRepository.get(trainingReservationDto.getTrainingId());
+        Individual individual = individualRepository.get(trainingReservationDto.getIndividualId());
+        int toReservedNum = trainingReservationDto.getToReservedNum();
+        String verificationCode = trainingReservationDto.getVerificationCode();
 
         //VALIDACJA
-        validateTrainingVersion(training, reservationDto.getVersion());
+        validateTrainingVersion(training, trainingReservationDto.getVersion());
         validateTrainingReservation(individual, verificationCode);
         validateTrainingReservation(training, individual, contract, verificationCode);
 
@@ -241,7 +253,7 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
         validateUpdateOpinionDone(externalId, pesel);
 
         List<TrainingInstance> trainnigInstances = trainingInstanceRepository.findByExternalIdAndPesel(externalId, pesel,
-                                                                                Collections.singletonList(TrainingInstanceStatus.CANCEL_CODE));
+                Collections.singletonList(TrainingInstanceStatus.CANCEL_CODE));
         validateUpdateOpinionDone(trainnigInstances, externalId, pesel);
 
         TrainingInstance ti = trainnigInstances.get(0);
