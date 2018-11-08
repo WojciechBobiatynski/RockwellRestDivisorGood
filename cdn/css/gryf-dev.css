@@ -38,7 +38,11 @@ ol,ul{list-style:none;}
 caption,th{text-align:left;}
 textarea{font-family:inherit;font-size:inherit;resize:none;resize:vertical;}
 dfn{font-style:italic;}
-
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
 @media print{
     *,*::before,*::after,*:first-letter,*:first-line{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important;}
     a,a:visited{text-decoration:underline;}
@@ -141,7 +145,7 @@ body > header ol li:not(:first-child) {margin-left: 25px;}
 /* body > nav */
 body > nav, body > nav ul, #bottombar {background: #1256bb;color: #fff;}
 body > nav li {float: left;}
-body > nav a, body > nav a:hover {line-height: 50px; padding: 0 17px; text-transform: uppercase; font-weight: 700; display: inline-block;}
+body > nav a, body > nav a:hover {line-height: 50px; padding: 0 17px; text-transform: uppercase; font-weight: 700; display: inline-block;border: 3px solid transparent; }
 body > nav a:hover, body > nav .current {background: #447ac9;}
 
 body > nav li {position: relative;}
@@ -155,9 +159,11 @@ body > nav li ul li a, body > nav li ul li a:hover {width: 100%;}
 .page-login .grid {padding: 35px 0;}
 .form-big .field-submit button, .grid > .form-big {text-transform: uppercase;font-weight: 700; color: #fff;}
 .grid > .form-big {float: none;}
-.form-big > header, .form-big > .content {background: rgba(18,86,187,.8); color: #fff;margin: 0 auto; width: 50%; min-width: 760px; text-align: center;}
+.form-big > header, .form-big > .content {background: rgba(18,86,187,.8); color: #fff;margin: 0 auto; width: 50%; min-width: 760px; text-align: center; max-width: 760px;}
 .form-big > header {margin-bottom: 35px;}
-.form-big h2 {font-size: 49px; line-height: 99px;}
+.form-big h2 { font-size: 49px; padding: 10px; line-height: 1em;}
+.form-big h2:first-child { padding-bottom: 5px; }
+.form-big h2:last-child { padding-top: 5px; }
 .form-big h3 {font-size: 21px; line-height: 31px; margin: 31px 0 19px 0;display: block;}
 .form-big .label {font-size: 15px; line-height: 21px; margin-bottom: 5px;}
 .form-big .field {margin-bottom: 19px;}
@@ -239,8 +245,7 @@ section:not(.section-gryf-web-ind-index):not(.section-important):not(.section-pr
 .standardButton:hover, .button:hover, .textButton:hover {background: #00b9f2;}
 
 /* section-promoted */
-.grid > .section-promoted {background: #00b9f2; color: #fff; text-align: center; padding: 25px 0;
-    height: 280px}
+.grid > .section-promoted {background: #00b9f2; color: #fff; text-align: center; padding: 25px 0; height: 202px}
 .section-promoted h2 {font-size: 17px; line-height: 25px; font-weight: 700;}
 .section-promoted h3 {font-size: 25px; line-height: 35px; margin-top: 5px; font-weight: 700;}
 
@@ -249,9 +254,9 @@ section:not(.section-gryf-web-ind-index):not(.section-important):not(.section-pr
 .section-important a:hover {color: #ffc20e;}
 .section-important h2 {font-size: 17px; line-height: 25px; font-weight: 700;}
 .section-important h3 {font-size: 25px; line-height: 35px; margin-top: 5px; font-weight: 700;}
-.section-important > div {padding: 25px 0; text-align: center; }
-.section-important .fl {float: left;width: 40%;}
-.section-important .fr {float: right;width: 60%;}
+.section-important > div {padding: 25px 0; text-align: center; font-size: 1.1em; }
+.section-important .fl {float: left;width: 50%;}
+.section-important .fr {float: right;width: 100%;}
 .section-important .fr a, .section-important .fr p { font-size: 1.1em; display: block; width: 100%; text-align: center; }
 .section-important .mail {margin-top: 5px; display: inline-block;}
 .section-important .description {margin-top: 7px; display: inline-block;}
@@ -770,12 +775,18 @@ html.font-big .standardButton, html.font-big .btn-sm, html.font-big .btn-group-s
     float:right;
 }
 /* G L O B A L */
-*:focus {
-    border: 3px solid darkred;
-}
-input:focus {
-    border: 3px solid darkred !important;
-}
+    *:focus {
+        border: 3px solid darkred;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+    }
+    input:focus {
+        border: 3px solid darkred !important;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+    }
 body#ak > header {
     overflow: hidden;
 }
@@ -785,14 +796,14 @@ body#ak > header {
 /* Large Devices, Wide Screens */
 @media only screen and (max-width : 1200px) {
     .gryf-web-ind .grid > .section-promoted {
-        height: 280px;
+        height: 202px;
     }
 }
 
 /* Medium Devices, Desktops */
 @media only screen and (max-width : 992px) {
     .gryf-web-ind .grid > .section-promoted {
-        height: 355px;
+        height: 220px;
     }
 }
 
