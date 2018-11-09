@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2016-12-20T17:04:33 -->
+<!-- 2017-01-27T09:35:14 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="BankTransferConfirmation" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c47102d5-6475-400f-afbb-092533f8b264">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="JDBC gryf"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="WARE.xml"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value="IkFQUF9QQkUiLiJHUkFOVF9BUFBMSUNBVElPTlMiICwyMzAsMjAsZDgzMTBmZGQtMGQ2ZS00ODdm&#xA;LTgwM2ItYmVjMDAzMjI5Mzk2OyJBUFBfUEJFIi4iR1JBTlRfT1dORVJTIiAsMjMwLDEwOTksZGI0&#xA;ODA5MTYtNzY1MS00NmJhLThhYzItNTc0MzUzNDlmZWY5OyJBUFBfUEJFIi4iRU5URVJQUklTRVMi&#xA;ICwyNjUsNDMzLGRmZTE4MjIwLTI1OTUtNDk5NC1iYTIxLTQ3YjM1ZDVhM2U2NjsiQVBQX1BCRSIu&#xA;Ik9SREVSUyIgLDIwLDc1Niw4ODA2MjYzMS0yY2Y1LTRmNzctOWNlYy01ODE2ODZmZDIyZWY7IlpJ&#xA;UF9DT0RFUyIgLDIzMCwxMjMxLGZjZWUyZTE5LTg5NTQtNDM0Zi1hOGRhLTU5MGRjZmM5MDc5Mjsi&#xA;QVBQX1BCRSIuIkdSQU5UX1BST0dSQU1TIiAsMjMwLDkxNCxiYTZlNTNjMC0xOTAxLTQ1YjMtYjZi&#xA;OS0yZTEwNGY5MmJkMTM7"/>
 	<parameter name="rmbsId" class="java.lang.Long">
 		<parameterDescription><![CDATA[Id rozliczenia elektronicznego]]></parameterDescription>
@@ -15,17 +15,22 @@
 	<parameter name="imagesPath" class="java.lang.String"/>
 	<queryString language="SQL">
 		<![CDATA[SELECT 
-			er.TI_REIMB_ACCOUNT_NUMBER as TI_ACCOUNT_NUMBER,
-			er.SXO_TI_AMOUNT_DUE_TOTAL,
-			er.REIMBURSEMENT_DATE,
-			tin.NAME as TI_NAME,
-			tin.ADDRESS_INVOICE as TI_ADDRESS_INVOICE,
-			eri.INVOICE_ID,
-			gpp.VALUE as ACCOUNT_NUMBER_COMPANY
+			er.TI_REIMB_ACCOUNT_NUMBER as TI_ACCOUNT_NUMBER,                    --Numer rachunku bankowego IS (odbiorca)
+			er.SXO_TI_AMOUNT_DUE_TOTAL,                                         --Kwota   
+			er.REIMBURSEMENT_DATE,                                              --Data realizacji przelewu     
+			tin.NAME as TI_NAME,                                                --Nazwa IS (Odbiorca)    
+			tin.ADDRESS_INVOICE as TI_ADDRESS_INVOICE,                          --Adres IS (Odbiorca)
+      		tinzip.ZIP_CODE || ' ' || tinzip.CITY_NAME TI_ADDRESS_INVOICE_ZIP,  --Adres IS (Odbiorca)
+			
+			eri.INVOICE_NUMBER,                               --Numer faktury (Szczegóły płatnosci) 
+			gpp.VALUE as ACCOUNT_NUMBER_COMPANY               --Numer numer rachunku nadawcy (Sodexo)
+			
 			FROM APP_PBE.E_REIMBURSEMENTS er
 			LEFT JOIN APP_PBE.TI_TRAINING_INSTANCES ti ON er.TI_TR_INST_ID = ti.ID
 			LEFT JOIN APP_PBE.TI_TRAININGS t ON ti.TRAINING_ID = t.ID
 			LEFT JOIN APP_PBE.TRAINING_INSTITUTIONS  tin ON t.TRAINING_INSTITUTION_ID = tin.ID
+      		LEFT JOIN EAGLE.ZIP_CODES tinzip ON tin.ZIP_CODE_INVOICE = tinzip.ID
+      
 			LEFT JOIN APP_PBE.E_REIMBURSEMENT_INVOICES eri ON er.ID = eri.E_REIMBURSEMENT_ID
 			LEFT JOIN APP_PBE.GRANT_PROGRAMS gp  ON ti.GRANT_PROGRAM_ID = gp.ID
 			LEFT JOIN APP_PBE.GRANT_PROGRAM_PARAMS gpp ON gp.ID = gpp.GRANT_PROGRAM_ID
@@ -36,192 +41,343 @@
 	<field name="REIMBURSEMENT_DATE" class="java.sql.Timestamp"/>
 	<field name="TI_NAME" class="java.lang.String"/>
 	<field name="TI_ADDRESS_INVOICE" class="java.lang.String"/>
-	<field name="INVOICE_ID" class="java.math.BigDecimal"/>
+	<field name="TI_ADDRESS_INVOICE_ZIP" class="java.lang.String"/>
+	<field name="INVOICE_NUMBER" class="java.lang.String"/>
 	<field name="ACCOUNT_NUMBER_COMPANY" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="553" splitType="Stretch">
-			<staticText>
-				<reportElement x="190" y="70" width="180" height="30" uuid="7ea74dfe-21f6-4013-8dfe-4a9d6ad0a2ed"/>
-				<textElement verticalAlignment="Middle">
-					<font size="11" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<text><![CDATA[Potwierdzenie realizacji przelewu]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="20" y="281" width="160" height="20" uuid="9c0c20b7-b4e3-4d10-b068-20a2d3cddd4b"/>
-				<textElement verticalAlignment="Middle">
-					<font size="11" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<text><![CDATA[Nadawca przelewu:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="300" y="281" width="160" height="20" uuid="8f6e23c2-c746-4da9-9999-8c6b5e127c74"/>
-				<textElement verticalAlignment="Middle">
-					<font size="11" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<text><![CDATA[Odbiorca przelewu:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="20" y="311" width="70" height="19" uuid="d50bdbe2-862e-46a9-ac6c-99bcaa7b8a35"/>
-				<textElement verticalAlignment="Middle">
-					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<text><![CDATA[Nr Rachunku:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="20" y="331" width="70" height="19" uuid="cff0da30-a8bb-491d-be3f-267803d7adb5"/>
-				<textElement verticalAlignment="Middle">
-					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<text><![CDATA[Nazwa Banku:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="300" y="311" width="70" height="20" uuid="c4a83788-396b-42c6-a47e-da797a0eda1e"/>
-				<textElement verticalAlignment="Middle">
-					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<text><![CDATA[Nr Rachunku:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="300" y="331" width="70" height="20" uuid="31b27d9f-24f2-45c2-8056-7a31cac61c5e"/>
-				<textElement verticalAlignment="Middle">
-					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<text><![CDATA[Odbiorca:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="20" y="451" width="119" height="20" uuid="8725a465-1fd0-4ec7-9cb1-6854a179521e"/>
-				<textElement verticalAlignment="Middle">
-					<font size="11" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<text><![CDATA[Szczegóły płatności:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="20" y="471" width="119" height="20" uuid="53ca35ed-e1bd-4f37-985d-1a4e0690423b"/>
-				<textElement verticalAlignment="Middle">
-					<font size="11" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<text><![CDATA[Kwota:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="20" y="491" width="119" height="20" uuid="c47acdf3-e6eb-45f2-85dc-45415ef792db"/>
-				<textElement verticalAlignment="Middle">
-					<font size="11" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<text><![CDATA[Data realizacji:]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="370" y="311" width="184" height="20" uuid="a2ec19f8-d1dd-4e99-b83f-2e85ad72a101"/>
-				<textElement verticalAlignment="Middle">
-					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{TI_ACCOUNT_NUMBER}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="370" y="330" width="184" height="20" uuid="c1a8753b-2a5f-4a67-b85a-c585e348cdee"/>
-				<textElement verticalAlignment="Middle">
-					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{TI_NAME}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="370" y="350" width="184" height="20" uuid="3f54db16-2578-4b57-9b34-491d5d8ced04"/>
-				<textElement verticalAlignment="Middle">
-					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{TI_ADDRESS_INVOICE}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="139" y="451" width="100" height="20" uuid="3e5eb08d-1668-495e-929f-f53033909a34"/>
-				<textElement verticalAlignment="Middle">
-					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{INVOICE_ID}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="139" y="471" width="100" height="20" uuid="bd937562-b2f3-47d6-805f-3bb9d23a6409"/>
-				<textElement verticalAlignment="Middle">
-					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<textFieldExpression><![CDATA[new java.text.DecimalFormat(" #,##0.00").format(Double.valueOf($F{SXO_TI_AMOUNT_DUE_TOTAL})) + " zł"]]></textFieldExpression>
-			</textField>
-			<textField pattern="yyyy-MM-dd">
-				<reportElement x="139" y="491" width="100" height="20" uuid="38a790d8-e1cb-401f-b07a-9ed672cb9ad7"/>
-				<textElement verticalAlignment="Middle">
-					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{REIMBURSEMENT_DATE}]]></textFieldExpression>
-			</textField>
-			<image>
-				<reportElement x="210" y="20" width="120" height="50" uuid="6ad15fa7-f63e-4183-8649-72d8ad932ded"/>
-				<imageExpression><![CDATA[$P{imagesPath} + "Invoice_1024px-Sodexo.svg.png"]]></imageExpression>
-			</image>
-			<textField>
-				<reportElement x="90" y="311" width="190" height="20" uuid="f3a011c6-e668-4d1f-a659-22518e765d21"/>
-				<textElement verticalAlignment="Middle">
-					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{ACCOUNT_NUMBER_COMPANY}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="21" y="210" width="150" height="20" uuid="2a3a218c-c1bf-46f7-a937-e1547f98763b"/>
-				<textElement verticalAlignment="Middle">
-					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{companyAddress2}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="21" y="190" width="150" height="20" uuid="810f367a-80f5-45c2-accd-d445faae34ad"/>
-				<textElement verticalAlignment="Middle">
-					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{companyAddress1}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="21" y="170" width="268" height="20" uuid="87f03fbd-9743-47c1-a74b-473d31f93663"/>
-				<textElement verticalAlignment="Middle">
-					<font isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{companyName}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="90" y="350" width="200" height="20" uuid="1bb099d7-5e28-4711-a06b-f3389fb3068f"/>
-				<textElement verticalAlignment="Middle">
-					<font isBold="false" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{companyName}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="20" y="350" width="70" height="19" uuid="d83ffda9-0226-4483-b0df-9fc8a035f0df"/>
-				<textElement verticalAlignment="Middle">
-					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<text><![CDATA[Nadawca:]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="90" y="332" width="185" height="17" uuid="4de4e823-2b56-4ab7-a0cb-91d634934ee7"/>
-				<textElement verticalAlignment="Middle">
-					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{companyBankName}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="90" y="370" width="150" height="20" uuid="12720b3b-fb16-4322-830c-493c408f5216"/>
-				<textElement verticalAlignment="Middle">
-					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{companyAddress1}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="90" y="390" width="150" height="20" uuid="56fe5c8e-9adf-4e55-a483-27c7a0cf1fe4"/>
-				<textElement verticalAlignment="Middle">
-					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{companyAddress2}]]></textFieldExpression>
-			</textField>
+		<band height="544" splitType="Stretch">
+			<frame>
+				<reportElement x="0" y="0" width="555" height="139" uuid="1d93ae0e-6620-41ff-9782-4c31c284a52e">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<image>
+					<reportElement x="208" y="40" width="120" height="40" uuid="d8e962c5-ceb6-4dde-aa3a-e94d8373cb2d"/>
+					<imageExpression><![CDATA[$P{imagesPath} + "Invoice_1024px-Sodexo.svg.png"]]></imageExpression>
+				</image>
+				<textField>
+					<reportElement x="0" y="104" width="555" height="25" uuid="157a81df-6f3e-40b5-b0ae-d866f5ef407b">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<textElement textAlignment="Center">
+						<font size="19" isBold="true" pdfEncoding="Cp1250"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Potwierdzenie realizacji przelewu"]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement x="0" y="181" width="555" height="45" uuid="f65ca09d-e5d9-4783-8a69-ff13ffcad235">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textField isBlankWhenNull="true">
+					<reportElement x="0" y="0" width="480" height="15" uuid="950fcf3a-fbb3-416e-9a06-4f981744ab0d">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					</reportElement>
+					<textElement>
+						<font pdfEncoding="Cp1250"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{companyName}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="0" y="15" width="480" height="15" uuid="7f2b1501-a814-4562-b78f-96a1f90570bf">
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<textElement>
+						<font pdfEncoding="Cp1250"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{companyAddress1}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="0" y="30" width="480" height="15" uuid="c450344b-188a-4186-acbc-86c83f0cb9cd">
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<textElement>
+						<font pdfEncoding="Cp1250"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{companyAddress2}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement x="0" y="271" width="555" height="105" uuid="6b15472d-a1c3-47ce-849c-85b3112db7e2">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<staticText>
+					<reportElement x="0" y="0" width="290" height="20" uuid="93782186-9543-4e2b-9fda-a5d2c80bd59a">
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<textElement>
+						<font size="8" isBold="true" pdfEncoding="Cp1250"/>
+					</textElement>
+					<text><![CDATA[Nadawca przelewu:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="290" y="0" width="265" height="20" uuid="968dd27a-f47b-4741-bbac-1c7ea71f18c6">
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					</reportElement>
+					<textElement>
+						<font size="8" isBold="true" pdfEncoding="Cp1250"/>
+					</textElement>
+					<text><![CDATA[Odbiorca przelewu:]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement x="60" y="50" width="230" height="15" uuid="b9fb51f5-b8f4-43d4-8496-2e37ff0f52a9">
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<textElement>
+						<font size="8" pdfEncoding="Cp1250"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{companyName}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="20" width="60" height="15" uuid="0854c9ad-8b0a-4cb3-a410-a74c83fa667e">
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<textElement>
+						<font size="8" isBold="false" pdfEncoding="Cp1250"/>
+					</textElement>
+					<text><![CDATA[Nr rachunku:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="35" width="60" height="15" uuid="c9611419-bff2-49fd-86c2-eac394e7c835">
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<textElement>
+						<font size="8" isBold="false" pdfEncoding="Cp1250"/>
+					</textElement>
+					<text><![CDATA[Nazwa banku:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="50" width="60" height="15" uuid="0a303594-07dd-4682-b4f4-1ed5437fdfe3">
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<textElement>
+						<font size="8" isBold="false" pdfEncoding="Cp1250"/>
+					</textElement>
+					<text><![CDATA[Nadawca:]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement x="60" y="35" width="230" height="15" uuid="cea3ca85-0f3a-4134-85fb-34fedf7dc7d2">
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<textElement>
+						<font size="8" pdfEncoding="Cp1250"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{companyBankName}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="60" y="20" width="230" height="15" uuid="9f5d2710-c439-475b-b135-146585a2fc25">
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<textElement>
+						<font size="8" pdfEncoding="Cp1250"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{ACCOUNT_NUMBER_COMPANY}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="60" y="65" width="230" height="15" uuid="7399e827-1db2-4a95-9f77-ffe50fa545e6">
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<textElement>
+						<font size="8" pdfEncoding="Cp1250"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{companyAddress1}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="60" y="80" width="230" height="15" uuid="37eced77-7657-49b0-a0a0-954f61abfae7">
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
+					<textElement>
+						<font size="8" pdfEncoding="Cp1250"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{companyAddress2}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="290" y="20" width="60" height="15" uuid="eaa53273-0a9c-4a54-983f-71ea0fdc3bcf">
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<textElement>
+						<font size="8" isBold="false" pdfEncoding="Cp1250"/>
+					</textElement>
+					<text><![CDATA[Nr rachunku:]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement x="350" y="20" width="205" height="15" uuid="c8180bc9-cacd-41b6-9da3-df40519d3e07">
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<textElement>
+						<font size="8" pdfEncoding="Cp1250"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{TI_ACCOUNT_NUMBER}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="290" y="35" width="60" height="15" uuid="9df54c2e-ff16-4d7d-94a1-2b16642300d4">
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<textElement>
+						<font size="8" isBold="false" pdfEncoding="Cp1250"/>
+					</textElement>
+					<text><![CDATA[Odbiorca:]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement x="350" y="35" width="205" height="15" uuid="4093e7ba-7eb9-4e61-b8e2-de34ea6a6273">
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<textElement>
+						<font size="8" pdfEncoding="Cp1250"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{TI_NAME}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="350" y="50" width="205" height="15" uuid="53aca954-c22b-47a7-bd1d-b832408b65bf">
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
+					<textElement>
+						<font size="8" pdfEncoding="Cp1250"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{TI_ADDRESS_INVOICE}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="350" y="67" width="205" height="15" uuid="62149498-9950-4f95-bfb9-5656a1e0fcbe">
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
+					<textElement>
+						<font size="8" pdfEncoding="Cp1250"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{TI_ADDRESS_INVOICE_ZIP}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement x="0" y="425" width="555" height="45" uuid="349614f2-3780-47dd-9adc-e20f3826e830">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<staticText>
+					<reportElement x="0" y="0" width="90" height="15" uuid="4632c259-d78f-49b7-a377-cf8eee2d3c2c">
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<textElement>
+						<font size="8" isBold="false" pdfEncoding="Cp1250"/>
+					</textElement>
+					<text><![CDATA[Szczegóły płatności:]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement x="90" y="0" width="465" height="15" uuid="2d60af1a-86d5-4e37-8590-d3dca39026ce">
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
+					<textElement>
+						<font size="8" pdfEncoding="Cp1250"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{INVOICE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="15" width="90" height="15" uuid="9466c13d-2c19-4d1f-aa76-ed2c26f06f4d">
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<textElement>
+						<font size="8" isBold="false" pdfEncoding="Cp1250"/>
+					</textElement>
+					<text><![CDATA[Kwota:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="30" width="90" height="15" uuid="34b01994-e59a-4eae-ad35-eb2b5c3efd01">
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<textElement>
+						<font size="8" isBold="false" pdfEncoding="Cp1250"/>
+					</textElement>
+					<text><![CDATA[Data realizacji:]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement x="90" y="15" width="465" height="15" uuid="ca3f9a32-1228-41ba-b8f7-8800fa52b5f1">
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
+					<textElement>
+						<font size="8" pdfEncoding="Cp1250"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.text.DecimalFormat("#,##0.00").format(Double.valueOf($F{SXO_TI_AMOUNT_DUE_TOTAL})) + " zł"]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="90" y="30" width="400" height="15" uuid="005656cf-af64-4854-8d57-1055c0ec5eb2">
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
+					<textElement>
+						<font size="8" pdfEncoding="Cp1250"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("yyyy-MM-dd").format($F{REIMBURSEMENT_DATE})]]></textFieldExpression>
+				</textField>
+			</frame>
 		</band>
 	</title>
 	<pageHeader>
