@@ -758,8 +758,13 @@ html.font-big .standardButton, html.font-big .btn-sm, html.font-big .btn-group-s
 .gryf-web-ti .reservation-item > div:last-child {
     padding-left: 15px;
 }
-
-/* L O G O S   B A R  */
+.gryf-web-ti #content .grid-35.multiSection div .label{
+    display: block;
+}
+.gryf-web-ti .tableHeader-options input, .gryf-web-ti .tableHeader-options select {
+    width: 100%;
+}
+    /* L O G O S   B A R  */
 .top-logos {
     width:100%;
     overflow: hidden;
@@ -797,6 +802,9 @@ body#ak > header {
 @media only screen and (max-width : 1200px) {
     .gryf-web-ind .grid > .section-promoted {
         height: 202px;
+    }
+    .gryf-web-ti div.multiSection div.grid-35.multiSection {
+        width: 100%;
     }
 }
 
@@ -852,6 +860,79 @@ body#ak > header {
     }
     .gryf-web-ind .grid > .section-promoted {
         height: auto;
+    }
+    /*GRYF-IND responsive table*/
+    table thead {
+        display: block;
+    }
+
+    table tbody tr td {
+        display: block;
+        width: 100%;
+    }
+
+    table tbody tr td:before {
+        content: ': ';
+        display: inline-block;
+        margin-right: 10px;
+        font-weight: bold;
+
+    }
+    /* dodać do tableki #ind-services-table */
+    table#ind-services-table  tbody tr td:nth-child(1):before {
+        content: 'Projekt: ';
+    }
+    table#ind-services-table  tbody tr td:nth-child(2):before {
+        content: 'Nazwa usługi: ';
+    }
+    table#ind-services-table  tbody tr td:nth-child(3):before {
+        content: 'Nazwa Usługodawcy: ';
+    }
+    table#ind-services-table  tbody tr td:nth-child(4):before {
+        content: 'Liczba bonów: ';
+    }
+    table#ind-services-table  tbody tr td:nth-child(5):before {
+        content: 'Data zapisu: ';
+    }
+    table#ind-services-table tbody tr td:nth-child(6):before {
+        content: 'Data rozpoczęcia: ';
+    }
+    table#ind-services-table tbody tr td:nth-child(7):before {
+        content: 'Data zakończenia: ';
+    }
+    table#ind-services-table tbody tr td:nth-child(8):before {
+        content: 'Status: ';
+    }
+    table#ind-services-table tbody tr td:nth-child(9):before {
+        content: 'Akcje: ';
+    }
+    /* dodać do tableki #ind-vou-table */
+    table#ind-vou-table tbody tr td:nth-child(1):before {
+        content: 'Projekt: ';
+    }
+    table#ind-vou-table tbody tr td:nth-child(2):before {
+        content: 'Data Ważności: ';
+    }
+    table#ind-vou-table tbody tr td:nth-child(3):before {
+        content: 'Wszystkie: ';
+    }
+    table#ind-vou-table tbody tr td:nth-child(4):before {
+        content: 'Zarezerwowane: ';
+    }
+    table#ind-vou-table tbody tr td:nth-child(5):before {
+        content: 'Dostępne: ';
+    }
+    table#ind-vou-table tbody tr td:nth-child(6):before {
+        content: 'Wykorzystane: ';
+    }
+    table#ind-vou-table tbody tr td:nth-child(7):before {
+        content: 'Zwrócone: ';
+    }
+    table#ind-vou-table tbody tr td:nth-child(8):before {
+        content: 'Data zamówienia: ';
+    }
+    table#ind-vou-table tbody tr td:nth-child(9):before {
+        content: 'ID zamówienia: ';
     }
     /* GRYF TI Reservation*/
     .gryf-web-ti .grid > .section-promoted {

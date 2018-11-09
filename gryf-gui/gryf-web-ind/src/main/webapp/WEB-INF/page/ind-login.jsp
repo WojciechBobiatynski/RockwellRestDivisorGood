@@ -38,25 +38,27 @@
 
 <body id="ak">
 
-    <div id="accessbility"><div class="grid">
-        <ol class="font">
-            <li><a role="button" href="#font-normal" title="ustaw małą czcionkę" rel="font" class="font-normal current">A</a></li>
-            <li><a role="button" href="#font-medium" title="ustaw średnią czcionkę" rel="font" class="font-medium">A</a></li>
-            <li><a role="button" href="#font-big" title="ustaw dużą czcionkę" rel="font" class="font-big">A</a></li>
-            <li><a role="button" href="#high-contrast" title="zmień kontrast" rel="contrast" class="contrast-high">zmień kontrast</a></li>
-        </ol>
-    </div></div>
-
+    <div id="accessbility">
+        <div class="grid">
+            <ol class="font">
+                <li><a tabindex="5" role="button" href="#font-normal" title="ustaw małą czcionkę" rel="font" class="font-normal current">A</a></li>
+                <li><a tabindex="6" role="button" href="#font-medium" title="ustaw średnią czcionkę" rel="font" class="font-medium">A</a></li>
+                <li><a tabindex="7" role="button" href="#font-big" title="ustaw dużą czcionkę" rel="font" class="font-big">A</a></li>
+                <li><a tabindex="8" role="button" href="#high-contrast" title="zmień kontrast" rel="contrast" class="contrast-high">zmień kontrast</a></li>
+            </ol>
+        </div>
+    </div>
+    <div style="clear: both;"></div>
     <header>
         <span class="description">System bonów szkoleniowych realizowany jest na zlecenie</span>
         <div class="top-logos">
             <a href="${pageContext.request.contextPath}/" title="Logo wojewódzkiego Urzędu Pracy w Krakowie">
                 <img src="${cdnUrl}img/wup_logo.gif" alt="Logo wojewódzkiego Urzędu Pracy w Krakowie z szarym konturem człowiek i zieloną strzałką pod nim, wskaruzującym na napisz Wojewódzki Urząd Pracy w Krakowie, po lewej napis Instytucja Województwa Małopolskiego">
             </a>
-            <a href="https://www.malopolska.pl/" title="Logo województwa małopolskiego">
+            <a href="https://www.malopolska.pl/" target="_blank" title="Logo województwa małopolskiego">
                 <img src="${cdnUrl}img/malopolska_logo.gif" alt="Logo województwa małopolskiego, znak gór wykonany z fioletowych, niebieskich zielonych i zółtych prostokątów nachodzących na siebie tworzących podobiznę górskich szczytów">
             </a>
-            <a href="http://europa.eu/european-union/index_pl" title="Flaga Uni Europejskiej">
+            <a href="http://europa.eu/european-union/index_pl" target="_blank" title="Flaga Uni Europejskiej">
                 <img src="${cdnUrl}img/eu_flag.gif" alt="Flaga Uni Europejskiej, ciemnoniebieskie tło z żółtymi gwiadkami i podpsiem podspodem Unia Europejska">
             </a>
         </div>
@@ -130,7 +132,7 @@
             <h2>Kierunek Kariera</h2>
             <h3 class="phone">+48 22 346 75 05</h3>
             <a class="mail" href="mailto:tbok.kk@sodexo.com" title="tbok.kk@sodexo.com">tbok.kk@sodexo.com</a>
-            <p class="description">Wszystkie informacje o projekcie pn. „Kierunek Kariera” dostępne są na stronie<br><a href="http://www.pociagdokariery.pl" rel="external" title="Pociąg do Kariery">www.pociagdokariery.pl</a></p>
+            <p class="description">Wszystkie informacje o projekcie pn. „Kierunek Kariera” dostępne są na stronie<br><a target="_blank" href="http://www.pociagdokariery.pl" rel="external" title="Pociąg do Kariery">www.pociagdokariery.pl</a></p>
         </div>
 
         <div class="grid">
@@ -138,7 +140,7 @@
             <h2>Kierunek Kariera Zawodowa</h2>
             <h3 class="phone">+48 22 346 75 15</h3>
             <a class="mail" href="mailto:tbok.kk@sodexo.com" title="tbok.kk@sodexo.com">tbok.kk@sodexo.com</a>
-            <p class="description">Wszystkie informacje o projekcie pn. „Kierunek Kariera Zawodowa” dostępne są na stronie<br><a href="http://www.kierunek.pociagdokariery.pl" rel="external" title="Kierunek Pociąg do Kariery">www.kierunek.pociagdokariery.pl</a></p>
+            <p class="description">Wszystkie informacje o projekcie pn. „Kierunek Kariera Zawodowa” dostępne są na stronie<br><a target="_blank" href="http://www.kierunek.pociagdokariery.pl" rel="external" title="Kierunek Pociąg do Kariery">www.kierunek.pociagdokariery.pl</a></p>
         </div>
 
     </div>
@@ -146,21 +148,21 @@
     <div id="logobar">
         <div class="grid">
 
-            <a href="http://www.funduszeeuropejskie.gov.pl/" rel="external" title="Fundusze Europejskie - Program Regionalny">
+            <%--<a href="http://www.funduszeeuropejskie.gov.pl/" rel="external" title="Fundusze Europejskie - Program Regionalny">--%>
                 <img src="${cdnUrl}img/fu_logo.gif" alt="Logo Programu Regionalnego Fundusze Europejskie z logiem przedstawiającym na niebieskim tle trzy gwiazdki w kolorze zółtym, czerwonym i białym">
-            </a>
+            <%--</a>--%>
 
-            <a href="http://www.malopolska.pl/" rel="external" title="Rzeczypospolita polska">
+            <%--<a href="http://www.malopolska.pl/" rel="external" title="Rzeczypospolita polska">--%>
                 <img src="${cdnUrl}img/rp_flag.jpg" alt="Flaga Rzczypospolitej Polskiej, biało-czerwona flaga po lewej stronie, po prawej napis Rzeczypospolita Polska">
-            </a>
+            <%--</a>--%>
 
-            <a href="http://www.malopolska.pl/" rel="external" title="Małopolska">
+            <%--<a href="http://www.malopolska.pl/" rel="external" title="Małopolska">--%>
                 <img src="${cdnUrl}img/malo_hor_logo.gif" alt="Logo województwa małopolskiego, znak gór wykonany z fioletowych, niebieskich zielonych i zółtych prostokątów nachodzących na siebie tworzących podobiznę górskich szczytów">
-            </a>
+            <%--</a>--%>
 
-            <a href="http://www.funduszeeuropejskie.gov.pl/efs/" rel="external" title="Unia Europejska - Europejski Fundusz Społeczny">
+            <%--<a href="http://www.funduszeeuropejskie.gov.pl/efs/" rel="external" title="Unia Europejska - Europejski Fundusz Społeczny">--%>
                 <img src="${cdnUrl}img/eu_efs_logo.gif" alt="Napis Unia Europejska, Europejski Fundusz Społeczny po prawej, po lewej faga uni europejskiej - złote gwiazdki na ciemnoniebieskim tle">
-            </a>
+            <%--</a>--%>
 
         </div>
     </div>
@@ -168,11 +170,11 @@
     <footer><div class="grid">
 
         <ul>
-            <li>&copy; <span itemprop="copyrightYear">2017</span>&nbsp;<a title="Sodexo Benefits and Rewards Services Polska Sp. z o.o." rel="external" itemprop="copyrightHolder" href="http://www.sodexo.pl/">Sodexo Benefits and Rewards Services Polska Sp.&nbsp;z&nbsp;o.o.</a></li>
+            <li>&copy; <span itemprop="copyrightYear">2017</span>&nbsp;<a target="_blank" title="Sodexo Benefits and Rewards Services Polska Sp. z o.o." rel="external" itemprop="copyrightHolder" href="http://www.sodexo.pl/">Sodexo Benefits and Rewards Services Polska Sp.&nbsp;z&nbsp;o.o.</a></li>
         </ul>
 
         <ol>
-            <li><span>Operator Finansowy: </span><a title="Sodexo Benefits and Rewards Services Polska Sp. z o.o. | ##BUILD_NUMBER" rel="external" href="http://www.sodexo.pl/">Sodexo</a></li>
+            <li><span>Operator Finansowy: </span><a target="_blank" title="Sodexo Benefits and Rewards Services Polska Sp. z o.o. | ##BUILD_NUMBER" rel="external" href="http://www.sodexo.pl/">Sodexo</a></li>
         </ol>
 
     </div></footer>

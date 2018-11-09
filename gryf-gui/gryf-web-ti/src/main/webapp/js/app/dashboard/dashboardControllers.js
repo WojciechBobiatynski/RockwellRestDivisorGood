@@ -7,6 +7,4 @@ angular.module("gryf.ti").controller("DashboardController", ["$scope", "Dashboar
 
     $scope.loadUserTrainingReservationData = TrainingReservationService.loadUserTrainingReservationData;
 
-    /* wstawić funkcje do zmiany tabelek na responsywne*/
-    ResponsiveTable('table', 760);
 }]);
