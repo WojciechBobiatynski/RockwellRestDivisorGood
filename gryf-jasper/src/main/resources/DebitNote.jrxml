@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.2.0.final using JasperReports Library version 6.2.0  -->
-<!-- 2018-10-30T17:38:02 -->
+<!-- Created with Jaspersoft Studio version 6.0.0.final using JasperReports Library version 6.0.0  -->
+<!-- 2018-11-09T11:49:46 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DebitNote" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c47102d5-6475-400f-afbb-092533f8b264">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="TestDB"/>
 	<parameter name="orderId" class="java.lang.Long">
 		<parameterDescription><![CDATA[Id zamówienia]]></parameterDescription>
 	</parameter>
@@ -14,40 +15,36 @@
 	<parameter name="imagesPath" class="java.lang.String"/>
 	<queryString language="SQL">
 		<![CDATA[Select
-      inv.ID                  as ID,
-	    inv.INVOICE_NUMBER      as INVOICE_NUMBER,       --NUMER NOTY
-      inv.cor_name            as CUSTOMER_NAME,        --NAZWA NABYWCY
-      inv.COR_AD_LINE_1       as CUSTOMER_ADDRESS_1,   --ADRES 1
-      inv.COR_AD_LINE_4       as CUSTOMER_ADDRESS_4,   --ADRES 2
-      inv.VAT_REG_NUM         as CUSTOMER_VAT_REG_NUM, --NIP
-      inv.ACCOUNT             as ACCOUNT,     --NRB
-	  
-	  
-      --NVL(e.CODE, i.CODE)       as CUSTOMER_NUMBER,    --to jest NULL? Justyna mówi ze to powinien być kod uzytwkonika (kod na podstawie którego jest konto)
-      c.CODE                      AS CUSTOMER_NUMBER, 
-	    c.CONTRACT_TYPE_ID  	    as CONTRACT_TYPE_ID,   --typ kontracty IND/ENT
-      o.External_order_id       as EXTERNAL_ORDER_ID,  --Nr umowy  
-      inv.invoice_date          as DOCUMENT_DATE,   --Data wystawienia
-      
-      il.name                                         as LINE_DESCRIPTION,  --Nazwa towaru lub usługi
-      oe_one_prod.VALUE_NUMBER                        as LINE_NOMINAL,   --Nominał
-      il.quantity                                     as LINE_QUANTITY,  --Ilość bonów
-      oe_zam_amo.VALUE_NUMBER                         as LINE_NET,     --Wartość bonów
-      oe_per.VALUE_NUMBER                             as LINE_OWN_PERCENT, --% wkładu własnego
-      il.gross_amount                                 as LINE_OWN_AMOUNT,  --Wartość wkładu wąłsnego
-      PK_GRF_UTILS.amount_verbally(il.gross_amount)   as LINE_OWN_AMOUNT_IN_WORD
-FROM app_fin.invoices inv   
-LEFT JOIN  app_fin.invoice_lines il on il.INV_ID = inv.ID
-
-LEFT JOIN APP_PBE.ORDER_INVOICES eri ON inv.ID = eri.INVOICE_ID
-LEFT JOIN APP_PBE.ORDERS o ON eri.ORDER_ID = o.ID
-LEFT JOIN APP_PBE.CONTRACTS c on o.CONTRACT_ID = c.ID
-LEFT jOIN APP_PBE.INDIVIDUALS i on c.INDIVIDUAL_ID = i.ID
-LEFT jOIN APP_PBE.ENTERPRISES e on c.ENTERPRISE_ID = e.ID
-LEFT JOIN APP_PBE.ORDER_ELEMENTS oe_per ON o.ID = oe_per.ORDER_ID and oe_per.ELEMENT_ID  = 'OWNCONP_KK'               --Procent wkładu własnego
-LEFT JOIN APP_PBE.ORDER_ELEMENTS oe_one_prod ON o.ID = oe_one_prod.ORDER_ID and oe_one_prod.ELEMENT_ID  = 'PRDAMO_KK' --Cena za 1 bon
-LEFT JOIN APP_PBE.ORDER_ELEMENTS oe_zam_amo ON o.ID = oe_zam_amo.ORDER_ID and oe_zam_amo.ELEMENT_ID  ='ORDAMO_KK'     --Kwota zamówienia  
-where o.id = $P{orderId}]]>
+	      inv.ID                  as ID,
+		    inv.INVOICE_NUMBER      as INVOICE_NUMBER,       --NUMER NOTY
+	      inv.cor_name            as CUSTOMER_NAME,        --NAZWA NABYWCY
+	      inv.COR_AD_LINE_1       as CUSTOMER_ADDRESS_1,   --ADRES 1
+	      inv.COR_AD_LINE_4       as CUSTOMER_ADDRESS_4,   --ADRES 2
+	      inv.VAT_REG_NUM         as CUSTOMER_VAT_REG_NUM, --NIP
+	      inv.ACCOUNT             as ACCOUNT,     --NRB
+	      c.CODE                      AS CUSTOMER_NUMBER,
+		  c.CONTRACT_TYPE_ID  	    as CONTRACT_TYPE_ID,   --typ kontracty IND/ENT
+	      o.External_order_id       as EXTERNAL_ORDER_ID,  --Nr umowy  
+	      inv.invoice_date          as DOCUMENT_DATE,   --Data wystawienia
+	      il.name                                         as LINE_DESCRIPTION,  --Nazwa towaru lub usługi
+	      oe_one_prod.VALUE_NUMBER                        as LINE_NOMINAL,   --Nominał
+	      il.quantity                                     as LINE_QUANTITY,  --Ilość bonów
+	      oe_zam_amo.VALUE_NUMBER                         as LINE_NET,     --Wartość bonów
+	      oe_per.VALUE_NUMBER                             as LINE_OWN_PERCENT, --% wkładu własnego
+	      il.gross_amount                                 as LINE_OWN_AMOUNT,  --Wartość wkładu wąłsnego
+	      PK_GRF_UTILS.amount_verbally(il.gross_amount)   as LINE_OWN_AMOUNT_IN_WORD
+		FROM app_fin.invoices inv   
+		LEFT JOIN  app_fin.invoice_lines il on il.INV_ID = inv.ID
+		
+		LEFT JOIN APP_PBE.ORDER_INVOICES eri ON inv.ID = eri.INVOICE_ID
+		LEFT JOIN APP_PBE.ORDERS o ON eri.ORDER_ID = o.ID
+		LEFT JOIN APP_PBE.CONTRACTS c on o.CONTRACT_ID = c.ID
+		LEFT jOIN APP_PBE.INDIVIDUALS i on c.INDIVIDUAL_ID = i.ID
+		LEFT jOIN APP_PBE.ENTERPRISES e on c.ENTERPRISE_ID = e.ID
+		LEFT JOIN APP_PBE.ORDER_ELEMENTS oe_per ON o.ID = oe_per.ORDER_ID and oe_per.ELEMENT_ID  = 'OWNCONP_KK'               --Procent wkładu własnego
+		LEFT JOIN APP_PBE.ORDER_ELEMENTS oe_one_prod ON o.ID = oe_one_prod.ORDER_ID and oe_one_prod.ELEMENT_ID  = 'PRDAMO_KK' --Cena za 1 bon
+		LEFT JOIN APP_PBE.ORDER_ELEMENTS oe_zam_amo ON o.ID = oe_zam_amo.ORDER_ID and oe_zam_amo.ELEMENT_ID  ='ORDAMO_KK'     --Kwota zamówienia  
+		where o.id = $P{orderId}]]>
 	</queryString>
 	<field name="ID" class="java.math.BigDecimal"/>
 	<field name="INVOICE_NUMBER" class="java.lang.String"/>

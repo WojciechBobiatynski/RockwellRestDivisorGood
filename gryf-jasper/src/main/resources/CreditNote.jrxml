@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.2.0.final using JasperReports Library version 6.2.0  -->
-<!-- 2018-10-30T17:35:12 -->
+<!-- Created with Jaspersoft Studio version 6.0.0.final using JasperReports Library version 6.0.0  -->
+<!-- 2018-11-09T11:41:33 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DebitNote" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c47102d5-6475-400f-afbb-092533f8b264">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="WARE.xml"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value="IkFQUF9QQkUiLiJHUkFOVF9BUFBMSUNBVElPTlMiICwyMzAsMjAsZDgzMTBmZGQtMGQ2ZS00ODdm&#xA;LTgwM2ItYmVjMDAzMjI5Mzk2OyJBUFBfUEJFIi4iR1JBTlRfT1dORVJTIiAsMjMwLDEwOTksZGI0&#xA;ODA5MTYtNzY1MS00NmJhLThhYzItNTc0MzUzNDlmZWY5OyJBUFBfUEJFIi4iRU5URVJQUklTRVMi&#xA;ICwyNjUsNDMzLGRmZTE4MjIwLTI1OTUtNDk5NC1iYTIxLTQ3YjM1ZDVhM2U2NjsiQVBQX1BCRSIu&#xA;Ik9SREVSUyIgLDIwLDc1Niw4ODA2MjYzMS0yY2Y1LTRmNzctOWNlYy01ODE2ODZmZDIyZWY7IlpJ&#xA;UF9DT0RFUyIgLDIzMCwxMjMxLGZjZWUyZTE5LTg5NTQtNDM0Zi1hOGRhLTU5MGRjZmM5MDc5Mjsi&#xA;QVBQX1BCRSIuIkdSQU5UX1BST0dSQU1TIiAsMjMwLDkxNCxiYTZlNTNjMC0xOTAxLTQ1YjMtYjZi&#xA;OS0yZTEwNGY5MmJkMTM7"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="TestDB"/>
 	<parameter name="rmbsId" class="java.lang.Long">
 		<parameterDescription><![CDATA[Id rozliczenia elektronicznego]]></parameterDescription>
 	</parameter>
@@ -14,47 +14,38 @@
 	<parameter name="companyBankName" class="java.lang.String"/>
 	<parameter name="imagesPath" class="java.lang.String"/>
 	<queryString language="SQL">
-		<![CDATA[Select
-
-			NVL(o.CONTRACT_ID, o_ret.CONTRACT_ID)                    as CONTRACT_ID,
-			NVL(o.EXTERNAL_ORDER_ID, o_ret.EXTERNAL_ORDER_ID)        as EXTERNAL_ORDER_ID,
-			inv.ID                                                   as ID,
-			inv.INVOICE_NUMBER                                       as INVOICE_NUMBER,
-			inv.INVOICE_DATE                                         as DOCUMENT_DATE,
-            NVL(c.CONTRACT_TYPE_ID, c_ret.CONTRACT_TYPE_ID)  	     as CONTRACT_TYPE_ID,   
-            --NVL(NVL(e.CODE, i.CODE), NVL(e_ret.CODE, i_ret.CODE))    as CUSTOMER_NUMBER, 
-            NVL(C.code, c_ret.code)                                  as CUSTOMER_NUMBER,
-			inv.COR_NAME                                             as CUSTOMER_NAME,
-			inv.COR_AD_LINE_1                                        as CUSTOMER_ADDRESS_1,
-			inv.COR_AD_LINE_4                                        as CUSTOMER_ADDRESS_4,
-			inv.VAT_REG_NUM                                          as CUSTOMER_VAT_REG_NUM,
-			inv.ACCOUNT                                              as ACCOUNT,     
-			il.NAME                                                  as LINE_DESCRIPTION,
-			il.QUANTITY                                              as LINE_QUANTITY,
-			il.GROSS_AMOUNT                                          as LINE_AMOUNT,
-			inv.GROSS_AMOUNT        					             as SUM_AMOUNT,
-			PK_GRF_UTILS.amount_verbally(inv.GROSS_AMOUNT )          as SUM_AMOUNT_IN_WORD
-      
-			from app_fin.invoices inv   
-			left join  app_fin.invoice_lines il on il.INV_ID = inv.ID
-			left join  APP_PBE.E_REIMBURSEMENT_INVOICES eri ON inv.ID = eri.INVOICE_ID
-			LEFT JOIN APP_PBE.E_REIMBURSEMENTS er ON eri.E_REIMBURSEMENT_ID = er.ID
-			
-      LEFT JOIN APP_PBE.TI_TRAINING_INSTANCES ti ON er.TI_TR_INST_ID = ti.ID
-	  LEFT JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOL_USES pipu ON ti.ID = pipu.TRAINING_INSTANCE_ID
-      LEFT JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOLS pip ON pipu.PRODUCT_INSTANCE_POOL_ID = pip.ID
-      LEFT JOIN APP_PBE.ORDERS o ON pip.ORDER_ID = o.ID
-      LEFT JOIN APP_PBE.CONTRACTS c on o.CONTRACT_ID = c.ID
-      --LEFT jOIN APP_PBE.INDIVIDUALS i on c.INDIVIDUAL_ID = i.ID
-      --LEFT jOIN APP_PBE.ENTERPRISES e on c.ENTERPRISE_ID = e.ID
-      
-      LEFT JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOLS pip_ret ON er.PRODUCT_INSTANCE_POOL_ID = pip_ret.ID
-      LEFT JOIN APP_PBE.ORDERS o_ret ON pip_ret.ORDER_ID = o_ret.ID
-      LEFT JOIN APP_PBE.CONTRACTS c_ret on o_ret.CONTRACT_ID = c_ret.ID
-      --LEFT jOIN APP_PBE.INDIVIDUALS i_ret on c_ret.INDIVIDUAL_ID = i_ret.ID
-      --LEFT jOIN APP_PBE.ENTERPRISES e_ret on c_ret.ENTERPRISE_ID = e_ret.ID
-          
-	  where  eri.E_REIMBURSEMENT_ID = $P{rmbsId} and rownum <= 1 --może być wiele umów ale bierzemy jedna dlatego rownum <= 1
+		<![CDATA[SELECT
+		    nvl(o.contract_id, o_ret.contract_id) AS contract_id,
+		    nvl(o.external_order_id, o_ret.external_order_id) AS external_order_id,
+		    inv.id               AS id,
+		    inv.invoice_number   AS invoice_number,
+		    inv.invoice_date     AS document_date,
+		    nvl(c.contract_type_id, c_ret.contract_type_id) AS contract_type_id,
+		    nvl(c.code, c_ret.code) AS customer_number,
+		    inv.cor_name         AS customer_name,
+		    inv.cor_ad_line_1    AS customer_address_1,
+		    inv.cor_ad_line_4    AS customer_address_4,
+		    inv.vat_reg_num      AS customer_vat_reg_num,
+		    inv.account          AS account,
+		    il.name              AS line_description,
+		    il.quantity          AS line_quantity,
+		    il.gross_amount      AS line_amount,
+		    inv.gross_amount     AS sum_amount,
+		    pk_grf_utils.amount_verbally(inv.gross_amount) AS sum_amount_in_word
+		FROM
+		    app_fin.invoices inv
+		    LEFT JOIN app_fin.invoice_lines il ON il.inv_id = inv.id
+		    LEFT JOIN app_pbe.e_reimbursement_invoices eri ON inv.id = eri.invoice_id
+		    LEFT JOIN app_pbe.e_reimbursements er ON eri.e_reimbursement_id = er.id
+		    LEFT JOIN app_pbe.ti_training_instances ti ON er.ti_tr_inst_id = ti.id
+		    LEFT JOIN app_pbe.pbe_product_instance_pool_uses pipu ON ti.id = pipu.training_instance_id
+		    LEFT JOIN app_pbe.pbe_product_instance_pools pip ON pipu.product_instance_pool_id = pip.id
+		    LEFT JOIN app_pbe.orders o ON pip.order_id = o.id
+		    LEFT JOIN app_pbe.contracts c ON o.contract_id = c.id
+		    LEFT JOIN app_pbe.pbe_product_instance_pools pip_ret ON er.product_instance_pool_id = pip_ret.id
+		    LEFT JOIN app_pbe.orders o_ret ON pip_ret.order_id = o_ret.id
+		    LEFT JOIN app_pbe.contracts c_ret ON o_ret.contract_id = c_ret.id
+		WHERE  eri.E_REIMBURSEMENT_ID = $P{rmbsId} and rownum <= 1 --może być wiele umów ale bierzemy jedna dlatego rownum <= 1
       order by o.ORDER_DATE]]>
 	</queryString>
 	<field name="ID" class="java.lang.String"/>
