@@ -474,7 +474,7 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
             // Walidacja, czy numer umowy był w pliku z BUR
             int fileLineQuantity = trainingInstanceExtRepository.countByIndOrderExternalId(orderFromPools.getExternalOrderId());
             if (fileLineQuantity == 0) {
-                violations.add(new EntityConstraintViolation(String.format("Dla Umowy %s: Uczestnik nie dokonał zapisu w BUR na wybrane szkolenie. Uczestnik zobowiązany jest do uprzedniego zarezerwowania usługi w BUR. W razie wątpliwości prosimy o kontakt z Operatorem Finansowym."), orderFromPools.getExternalOrderId()));
+                violations.add(new EntityConstraintViolation("Uczestnik nie dokonał zapisu w BUR na wybrane szkolenie. Uczestnik zobowiązany jest do uprzedniego zarezerwowania usługi w BUR. W razie wątpliwości prosimy o kontakt z Operatorem Finansowym."));
             }
             for(PbeProductInstancePool pool : pools){
                 Contract contract = pool.getOrder().getContract();
