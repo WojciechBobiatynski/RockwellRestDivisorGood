@@ -3,6 +3,9 @@
       <thead>
       <tr class="grid-100 tableHeader-names">
          <th class="sortable grid-10" ng-class="getSortingTypeClass('name')">
+            <div ng-click="getSortedBy('name')">Projekt Dofinansowania</div>
+         </th>
+         <th class="sortable grid-10" ng-class="getSortingTypeClass('name')">
             <div ng-click="getSortedBy('name')">Nazwa usługi</div>
          </th>
          <th class="sortable grid-10" ng-class="getSortingTypeClass('externalId')">
@@ -31,6 +34,9 @@
          </th>
       </tr>
       <tr class="grid-100 tableHeader-options">
+         <th class="grid-10">
+            <input type="text" disabled>
+         </th>
          <th class="grid-10">
             <input type="text" ng-model="searchDTO.entity.name">
          </th>
@@ -90,6 +96,7 @@
       </thead>
       <tbody class="tableData">
       <tr ng-repeat="item in searchDTO.searchResultList | limitTo: searchResultOptions.displayLimit" ng-class="{'row-even': $even, 'row-odd': $odd}">
+         <td>{{::item.grantProgramName}}</td>
          <td>{{::item.name}}</td>
          <td>{{::item.externalId}}</td>
          <td>{{::item.price}}</td>
