@@ -11,7 +11,7 @@
     <!--deployed-->
     <%--<link rel="stylesheet" href="${cdnUrl}css/gryf.css">--%>
     <%-- GRYF DEV CSS--%>
-    <link rel="stylesheet" href="${cdnUrl}css/gryf-dev.css">
+    <link rel="stylesheet" href="${cdnUrl}css/gryf-dev.css?v=##CSS_VERSION">
 
 
     <link href="//fonts.googleapis.com/css?family=Roboto:300,400,700&amp;subset=latin-ext" rel="stylesheet">
@@ -93,62 +93,66 @@
 
         <p><span id="prolongSession">Przedłuż sesję</span></p>
     </section>
-    <div id="accessbility"><div class="grid">
-        <ol class="font">
-            <li><a href="#font-normal" title="ustaw małą czcionkę" rel="font" class="font-normal current">A</a></li>
-            <li><a href="#font-medium" title="ustaw średnią czcionkę" rel="font" class="font-medium">A</a></li>
-            <li><a href="#font-big" title="ustaw dużą czcionkę" rel="font" class="font-big">A</a></li>
-            <li><a href="#high-contrast" title="zmień kontrast" rel="contrast" class="contrast-high">zmień kontrast</a></li>
-        </ol>
-    </div></div>
-
+    <div id="accessbility">
+        <div class="grid">
+            <ol class="font">
+                <li><a role="button" tabindex="4" href="#font-normal" title="ustaw małą czcionkę" rel="font" class="font-normal current">A</a></li>
+                <li><a role="button" tabindex="5" href="#font-medium" title="ustaw średnią czcionkę" rel="font" class="font-medium">A</a></li>
+                <li><a role="button" tabindex="6" href="#font-big" title="ustaw dużą czcionkę" rel="font" class="font-big">A</a></li>
+                <li><a role="button" tabindex="7" href="#high-contrast" title="zmień kontrast" rel="contrast" class="contrast-high">zmień kontrast</a></li>
+            </ol>
+        </div>
+    </div>
+    <div style="clear:both;"></div>
     <header>
         <span class="description">System bonów szkoleniowych realizowany jest na zlecenie</span>
         <div class="top-logos">
-            <a href="${pageContext.request.contextPath}/" title="Logo wojewódzkiego Urzędu Pracy w Krakowie">
+            <a href="${pageContext.request.contextPath}/" target="_blank"    title="Logo wojewódzkiego Urzędu Pracy w Krakowie">
                 <img src="${cdnUrl}img/wup_logo.gif" alt="Logo wojewódzkiego Urzędu Pracy w Krakowie z szarym konturem człowiek i zieloną strzałką pod nim, wskaruzującym na napisz Wojewódzki Urząd Pracy w Krakowie, po lewej napis Instytucja Województwa Małopolskiego">
             </a>
-            <a href="https://www.malopolska.pl/" title="Logo województwa małopolskiego">
+            <a href="https://www.malopolska.pl/" target="_blank" title="Logo województwa małopolskiego">
                 <img src="${cdnUrl}img/malopolska_logo.gif" alt="Logo województwa małopolskiego, znak gór wykonany z fioletowych, niebieskich zielonych i zółtych prostokątów nachodzących na siebie tworzących podobiznę górskich szczytów">
             </a>
-            <a href="http://europa.eu/european-union/index_pl" title="Flaga Uni Europejskiej">
+            <a href="http://europa.eu/european-union/index_pl" target="_blank" title="Flaga Uni Europejskiej">
                 <img src="${cdnUrl}img/eu_flag.gif" alt="Flaga Uni Europejskiej, ciemnoniebieskie tło z żółtymi gwiadkami i podpsiem podspodem Unia Europejska">
             </a>
         </div>
     </header>
 
-    <nav><div class="grid">
-        <ul id="menu" ng-controller="MenuController">
-            <li ng-class="{'current': isActive('dashboard')}"><a ui-sref="dashboard" title="Kierunek Kariera">Kierunek Kariera</a></li>
-            <li ng-class="{'current': isActive('help')}"><a ui-sref="help" title="Pomoc">Pomoc</a></li>
-            <li><a onclick="document.getElementById('logoutForm').submit();" title="Pomoc">Wyloguj</a>
-                <form id="logoutForm" action="${pageContext.request.contextPath}/logout" method="POST">
-                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                </form>
-            </li>
-        </ul>
-    </div></nav>
+    <nav>
+        <div class="grid">
+            <ul id="menu" ng-controller="MenuController">
+                <li tabindex="1" role="button" ng-class="{'current': isActive('dashboard')}"><a ui-sref="dashboard" title="Kierunek Kariera">Kierunek Kariera</a></li>
+                <li tabindex="2" role="button" ng-class="{'current': isActive('help')}"><a ui-sref="help" title="Pomoc">Pomoc</a></li>
+                <li tabindex="3" role="button" ><a onclick="document.getElementById('logoutForm').submit();" title="Pomoc">Wyloguj</a>
+                    <form id="logoutForm" action="${pageContext.request.contextPath}/logout" method="POST">
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </nav>
 
     <div id="content" class="content grid" ui-view></div>
 
     <div id="logobar">
         <div class="grid">
 
-            <a href="http://www.funduszeeuropejskie.gov.pl/" rel="external" title="Fundusze Europejskie - Program Regionalny">
+            <%--<a href="http://www.funduszeeuropejskie.gov.pl/" rel="external" title="Fundusze Europejskie - Program Regionalny">--%>
                 <img src="${cdnUrl}img/fu_logo.gif" alt="Logo Programu Regionalnego Fundusze Europejskie z logiem przedstawiającym na niebieskim tle trzy gwiazdki w kolorze zółtym, czerwonym i białym">
-            </a>
+            <%--</a>--%>
 
-            <a href="http://www.malopolska.pl/" rel="external" title="Rzeczypospolita polska">
+            <%--<a href="http://www.malopolska.pl/" rel="external" title="Rzeczypospolita polska">--%>
                 <img src="${cdnUrl}img/rp_flag.jpg" alt="Flaga Rzczypospolitej Polskiej, biało-czerwona flaga po lewej stronie, po prawej napis Rzeczypospolita Polska">
-            </a>
+            <%--</a>--%>
 
-            <a href="http://www.malopolska.pl/" rel="external" title="Małopolska">
+            <%--<a href="http://www.malopolska.pl/" rel="external" title="Małopolska">--%>
                 <img src="${cdnUrl}img/malo_hor_logo.gif" alt="Logo województwa małopolskiego, znak gór wykonany z fioletowych, niebieskich zielonych i zółtych prostokątów nachodzących na siebie tworzących podobiznę górskich szczytów">
-            </a>
+            <%--</a>--%>
 
-            <a href="http://www.funduszeeuropejskie.gov.pl/efs/" rel="external" title="Unia Europejska - Europejski Fundusz Społeczny">
+            <%--<a href="http://www.funduszeeuropejskie.gov.pl/efs/" rel="external" title="Unia Europejska - Europejski Fundusz Społeczny">--%>
                 <img src="${cdnUrl}img/eu_efs_logo.gif" alt="Napis Unia Europejska, Europejski Fundusz Społeczny po prawej, po lewej faga uni europejskiej - złote gwiazdki na ciemnoniebieskim tle">
-            </a>
+            <%--</a>--%>
 
         </div>
     </div>
@@ -156,11 +160,11 @@
     <footer>
         <div class="grid">
             <ul>
-                <li>&copy; <span itemprop="copyrightYear">2017</span>&nbsp;<a title="Sodexo Benefits and Rewards Services Polska Sp. z o.o." rel="external" itemprop="copyrightHolder" href="http://www.sodexo.pl/">Sodexo Benefits and Rewards Services Polska Sp.&nbsp;z&nbsp;o.o.</a></li>
+                <li>&copy; <span itemprop="copyrightYear">2017</span>&nbsp;<a target="_blank" title="Sodexo Benefits and Rewards Services Polska Sp. z o.o." rel="external" itemprop="copyrightHolder" href="http://www.sodexo.pl/">Sodexo Benefits and Rewards Services Polska Sp.&nbsp;z&nbsp;o.o.</a></li>
             </ul>
 
             <ol>
-                <li><span>Operator Finansowy: </span><a title="Sodexo Benefits and Rewards Services Polska Sp. z o.o. | ##BUILD_NUMBER" rel="external" href="http://www.sodexo.pl/">Sodexo</a></li>
+                <li><span>Operator Finansowy: </span><a target="_blank" title="Sodexo Benefits and Rewards Services Polska Sp. z o.o. | ##BUILD_NUMBER" rel="external" href="http://www.sodexo.pl/">Sodexo</a></li>
             </ol>
 
         </div>

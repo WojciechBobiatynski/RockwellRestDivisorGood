@@ -12,7 +12,7 @@
 
     <%--<link rel="stylesheet" href="${cdnUrl}css/gryf.css">--%>
     <%-- GRYF DEV CSS--%>
-    <link rel="stylesheet" href="${cdnUrl}css/gryf-dev.css">
+    <link rel="stylesheet" href="${cdnUrl}css/gryf-dev.css?v=##CSS_VERSION>
 
     <link href="//fonts.googleapis.com/css?family=Roboto:300,400,700&amp;subset=latin-ext" rel="stylesheet">
 
