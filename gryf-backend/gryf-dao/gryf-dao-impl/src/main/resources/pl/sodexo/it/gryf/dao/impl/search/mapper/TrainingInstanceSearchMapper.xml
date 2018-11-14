@@ -19,10 +19,13 @@
             ti.START_DATE                 startDate,
             ti.END_DATE                   endDate,
             status.ID                     trainingStatusId,
-            status.NAME                   trainingStatus
+            status.NAME                   trainingStatus,
+            gp.id                         grantProgramId,
+            gp.program_name               grantProgramName
         FROM
             APP_PBE.TI_TRAINING_INSTANCES ti_in
             JOIN APP_PBE.TI_TRAININGS ti ON ti.ID = ti_in.TRAINING_ID
+            JOIN APP_PBE.GRANT_PROGRAMS gp ON ti_in.grant_program_id = gp.id
             JOIN APP_PBE.TRAINING_INSTITUTIONS tri ON tri.ID = ti.TRAINING_INSTITUTION_ID
             LEFT JOIN APP_PBE.INDIVIDUALS ind ON ind.ID = ti_in.INDIVIDUAL_ID
             LEFT JOIN APP_PBE.TI_TRAINING_INSTANCE_STATUSES status ON status.ID = ti_in.STATUS_ID
@@ -74,6 +77,12 @@
             </if>
             <if test="criteria.gryfUser.userType == 'TRAINING_INSTITUTION'">
                 AND ti.TRAINING_INSTITUTION_ID = #{criteria.gryfUser.trainingInstitutionId}
+            </if>
+            <if test="criteria.grantProgramName != null and criteria.grantProgramName != ''">
+                AND LOWER(gp.program_name) like '%' || LOWER(#{criteria.grantProgramName}) || '%'
+            </if>
+            <if test="criteria.grantProgramId != null">
+                AND gp.id  =  #{criteria.grantProgramId}
             </if>
         </where>
         <if test="criteria.sortColumns != null">
