@@ -3,6 +3,7 @@ angular.module("gryf.ti").factory("TrainingSearchService", [ "$http", "GryfModal
     var FIND_TRAINING_TO_RESERVE_URL = contextPath + "/rest/training/listToReserve/";
     var FIND_TRAINING_DETAILS_URL = contextPath + "/rest/training/";
     var FIND_PRECALCULATED_TRAINING_DETAILS_URL = contextPath + "/rest/training/precalculated/";
+    var FIND_GRANT_PROGRAM_NAMES_URL = contextPath + "/rest/grantPrograms/list";
 
     var searchDTO = new SearchObjModel();
     var searchResultOptions = new SearchResultOptions();
@@ -11,6 +12,7 @@ angular.module("gryf.ti").factory("TrainingSearchService", [ "$http", "GryfModal
         this.searchResultList = [];
         this.entity = {
             grantProgramName:  null,
+            grantProgramId: null,
             trainingId: null,
             institutionId: null,
             institutionName: null,
@@ -157,6 +159,9 @@ angular.module("gryf.ti").factory("TrainingSearchService", [ "$http", "GryfModal
         return findToReserve(grantProgramId);
     };
 
+    var getGrantProgramNames = function () {
+        return $http.get(FIND_GRANT_PROGRAM_NAMES_URL);
+    }
 
 
     return {
@@ -172,7 +177,7 @@ angular.module("gryf.ti").factory("TrainingSearchService", [ "$http", "GryfModal
         findToReserveSortedBy: findToReserveSortedBy,
         findDetailsById: findDetailsById,
         findPrecalculatedDetailsById: findPrecalculatedDetailsById,
-        getSortingTypeClass: getSortingTypeClass
-
+        getSortingTypeClass: getSortingTypeClass,
+        getGrantProgramNames: getGrantProgramNames
     };
 }]);

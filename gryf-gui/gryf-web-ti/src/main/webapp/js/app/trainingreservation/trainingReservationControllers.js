@@ -48,9 +48,15 @@ angular.module("gryf.ti").controller("TrainingReservationController",
             return;
         }
 
+        if(!$scope.searchDTO.entity.grantProgramId) {
+            GryfModals.openModal(GryfModals.MODALS_URL.ERROR_INFO,
+                {message: "Wybierz projekt dofinansowania."});
+            return;
+        }
+
         $scope.searchResultOptions = TrainingSearchService.getNewSearchResultOptions();
         $scope.searchDTO.entity.limit = 10;
-        TrainingSearchService.findToReserve($scope.userTrainingReservationData.data.contracts[0].grantProgram.id);
+        TrainingSearchService.findToReserve( $scope.searchDTO.entity.grantProgramId);
     };
 
     $scope.getSortedBy = function(sortColumnName) {
@@ -60,7 +66,7 @@ angular.module("gryf.ti").controller("TrainingReservationController",
             return;
         }
 
-        TrainingSearchService.findToReserveSortedBy($scope.userTrainingReservationData.data.contracts[0].grantProgram.id, sortColumnName);
+        TrainingSearchService.findToReserveSortedBy($scope.userTrainingReservationData.data.grantProgramId, sortColumnName);
     };
 
     $scope.getSortingTypeClass = function(columnName) {
@@ -107,4 +113,5 @@ angular.module("gryf.ti").controller("TrainingReservationController",
     };
 
     $scope.clear();
+
 }]);
