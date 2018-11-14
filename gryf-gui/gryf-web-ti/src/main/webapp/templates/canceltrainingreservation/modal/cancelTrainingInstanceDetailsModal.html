@@ -11,7 +11,8 @@
     <table>
         <thead>
         <tr class="grid-100 tableHeader-names">
-            <th class="grid-20">Nazwa usługi</th>
+            <th class="grid-10">Projekt dofinansowania</th>
+            <th class="grid-10">Nazwa usługi</th>
             <th class="grid-10">Nr usługi</th>
             <th class="grid-10">PESEL</th>
             <th class="grid-10">Imię</th>
@@ -23,6 +24,7 @@
         </thead>
         <tbody class="tableData">
         <tr>
+            <td>{{trainingInstance.data.grantProgramName}}</td>
             <td>{{trainingInstance.data.trainingName}}</td>
             <td>{{trainingInstance.data.trainingExternalId}}</td>
             <td>{{trainingInstance.data.participantPesel}}</td>

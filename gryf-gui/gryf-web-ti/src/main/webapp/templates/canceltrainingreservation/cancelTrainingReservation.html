@@ -2,7 +2,10 @@
    <table>
       <thead>
       <tr class="grid-100 tableHeader-names">
-         <th class="sortable grid-15" ng-class="getSortingTypeClass('trainingName')">
+         <th class="sortable grid-10" ng-class="getSortingTypeClass('trainingName')">
+            <div ng-click="getSortedBy('trainingName')">Projekt Dofinansowania</div>
+         </th>
+         <th class="sortable grid-10" ng-class="getSortingTypeClass('trainingName')">
             <div ng-click="getSortedBy('trainingName')">Nazwa usługi</div>
          </th>
          <th class="sortable grid-15" ng-class="getSortingTypeClass('trainingExternalId')">
@@ -28,7 +31,10 @@
          </th>
       </tr>
       <tr class="grid-100 tableHeader-options">
-         <th class="grid-15">
+         <th class="grid-10">
+            <input type="text" disabled>
+         </th>
+         <th class="grid-10">
             <input type="text" ng-model="trainingCriteria.trainingName">
          </th>
          <th class="grid-15">
@@ -76,6 +82,7 @@
       </thead>
       <tbody class="tableData">
       <tr ng-repeat="item in trainingModel.foundTrainings | limitTo: searchResultOptions.displayLimit" ng-class="{'row-even': $even, 'row-odd': $odd}">
+         <td>{{::item.grantProgramName}}</td>
          <td>{{::item.trainingName}}</td>
          <td>{{::item.trainingExternalId}}</td>
          <td>{{::item.participantPesel}}</td>
