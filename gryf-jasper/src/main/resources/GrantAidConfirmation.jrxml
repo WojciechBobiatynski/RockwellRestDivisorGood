@@ -1,17 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<!-- Created with Jaspersoft Studio version 6.0.0.final using JasperReports Library version 6.0.0  -->
+<!-- 2018-11-14T12:28:22 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="GrantAidConfirmation" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c47102d5-6475-400f-afbb-092533f8b264">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
-	<property name="com.jaspersoft.studio.data.sql.tables">
-		<![CDATA[IkFQUF9QQkUiLiJHUkFOVF9BUFBMSUNBVElPTlMiICwyMzAsMjAsZDgzMTBmZGQtMGQ2ZS00ODdm
-LTgwM2ItYmVjMDAzMjI5Mzk2OyJBUFBfUEJFIi4iR1JBTlRfT1dORVJTIiAsMjMwLDEwOTksZGI0
-ODA5MTYtNzY1MS00NmJhLThhYzItNTc0MzUzNDlmZWY5OyJBUFBfUEJFIi4iRU5URVJQUklTRVMi
-ICwyNjUsNDMzLGRmZTE4MjIwLTI1OTUtNDk5NC1iYTIxLTQ3YjM1ZDVhM2U2NjsiQVBQX1BCRSIu
-Ik9SREVSUyIgLDIwLDc1Niw4ODA2MjYzMS0yY2Y1LTRmNzctOWNlYy01ODE2ODZmZDIyZWY7IlpJ
-UF9DT0RFUyIgLDIzMCwxMjMxLGZjZWUyZTE5LTg5NTQtNDM0Zi1hOGRhLTU5MGRjZmM5MDc5Mjsi
-QVBQX1BCRSIuIkdSQU5UX1BST0dSQU1TIiAsMjMwLDkxNCxiYTZlNTNjMC0xOTAxLTQ1YjMtYjZi
-OS0yZTEwNGY5MmJkMTM7]]>
-	</property>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="TestDB"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value="IkFQUF9QQkUiLiJHUkFOVF9BUFBMSUNBVElPTlMiICwyMzAsMjAsZDgzMTBmZGQtMGQ2ZS00ODdm&#xA;LTgwM2ItYmVjMDAzMjI5Mzk2OyJBUFBfUEJFIi4iR1JBTlRfT1dORVJTIiAsMjMwLDEwOTksZGI0&#xA;ODA5MTYtNzY1MS00NmJhLThhYzItNTc0MzUzNDlmZWY5OyJBUFBfUEJFIi4iRU5URVJQUklTRVMi&#xA;ICwyNjUsNDMzLGRmZTE4MjIwLTI1OTUtNDk5NC1iYTIxLTQ3YjM1ZDVhM2U2NjsiQVBQX1BCRSIu&#xA;Ik9SREVSUyIgLDIwLDc1Niw4ODA2MjYzMS0yY2Y1LTRmNzctOWNlYy01ODE2ODZmZDIyZWY7IlpJ&#xA;UF9DT0RFUyIgLDIzMCwxMjMxLGZjZWUyZTE5LTg5NTQtNDM0Zi1hOGRhLTU5MGRjZmM5MDc5Mjsi&#xA;QVBQX1BCRSIuIkdSQU5UX1BST0dSQU1TIiAsMjMwLDkxNCxiYTZlNTNjMC0xOTAxLTQ1YjMtYjZi&#xA;OS0yZTEwNGY5MmJkMTM7"/>
 	<parameter name="reimbId" class="java.lang.Long">
 		<parameterDescription><![CDATA[Id rozliczenia]]></parameterDescription>
 	</parameter>
@@ -23,62 +15,82 @@ OS0yZTEwNGY5MmJkMTM7]]>
 	<parameter name="place" class="java.lang.String"/>
 	<parameter name="imagesPath" class="java.lang.String"/>
 	<queryString language="SQL">
-		<![CDATA[select
-c.ID,
-SYSDATE                              as CREATE_DOCUMENT_DATE,                 --data stworzenia dokumentu        
-e.NAME                               as ENTERPRISE_IDENTIFIER,                --identyfikacja Przedsiębiorcy
-c.ID                                 as CONTRACT_NUMBER,                      --identyfikacja Przedsiębiorcy
-c.SIGN_DATE                          as CONTRACT_SIGN_DATE,                   --data zawarcia umowy
-ti.NAME                              as TRAINING_NAME,                        --nazwa szkolenia
-tr_instit.NAME                       as TRAINING_INSTITUTION_NAME,            --identyfikacja Instytucji Szkoleniowej
-ti.START_DATE                        as TRAINING_START_DATE,                  --czas trwania szkolenia
-ti.END_DATE                          as TRAINING_END_DATE,                    --czas trwania szkolenia
-ti.PLACE                             as TRAINING_PLACE,                       --miejsce odbytego szkolenia
-      
-ti.PRICE                             as TRAINING_PRICE,                       --Koszt szkolenia
-REIMB.IND_TI_AMOUNT_DUE_TOTAL        as PAY_FROM_ENTERPRISE_TO_IS,            --Kwota zaliczki przekazanej przez Przedsiębiorcę do Usługodawcy(nie wiemy skad)
-REIMB.SXO_TI_AMOUNT_DUE_TOTAL        as PRICE_TO_REIMB_WITH_SODEXO,           --Koszt usługi do rozliczenia z Operatorem (nie wiemy skad)
-
-(select sum(oe_own_con_pay.VALUE_NUMBER)
-from APP_PBE.ORDERS o_in 
-left join APP_PBE.ORDER_ELEMENTS oe_own_con_pay on oe_own_con_pay.ORDER_ID = o_in.ID and oe_own_con_pay.ELEMENT_ID = 'PAYAMA_KK'
-where o_in.CONTRACT_ID = c.ID and o_in.STATUS_ID NOT IN (SELECT sp.STATUS_ID 
-                                                        FROM APP_PBE.ORDER_FLOW_STATUS_PROPERTIES sp 
-                                                        WHERE sp.ORDER_FLOW_ID = o.ORDER_FLOW_ID 
-                                                        AND sp.FINAL_STATUS = 'Y' and sp.SUCCESS_STATUS = 'N')) as PAY_TO_SODEXO, --Kwota wkładu własnego wpłacona do Operatora (suma zamówień z danej umowy)                                              
-(select min(oe_own_con_date.VALUE_DATE)
-from APP_PBE.ORDERS o_in
-left join APP_PBE.ORDER_ELEMENTS oe_own_con_date on oe_own_con_date.ORDER_ID = o_in.ID and oe_own_con_date.ELEMENT_ID = 'PAYD_KK'
-where o_in.CONTRACT_ID = c.ID and o_in.STATUS_ID NOT IN (SELECT sp.STATUS_ID 
-                                                        FROM APP_PBE.ORDER_FLOW_STATUS_PROPERTIES sp 
-                                                        WHERE sp.ORDER_FLOW_ID = o.ORDER_FLOW_ID 
-                                                        AND sp.FINAL_STATUS = 'Y' and sp.SUCCESS_STATUS = 'N')) as DATE_TO_SODEXO, --Data przekazania wkładu własnego do Operatora (suma zamówień z danej umowy)
-
-
-TRA_INS.ASSIGNED_NUM                 as PRODUCT_NUMBER,                       --Ilosć bonów
-TRA_INS.ASSIGNED_NUM * prd.VALUE     as PRODUCT_VALUE,                        --Wartośc bonów - czy to wartośc produktu wynikajaca z grant programu (15PLN) czy faktyczna cena (np. 12.50PLN)
-      
-REIMB.SXO_TI_AMOUNT_DUE_TOTAL        as AMMOUNT_PAY_BY_SODEXO_TO_TI,          --Kwota uregulowana przez Operatora przekazana Usługodawcy  
-REIMB.IND_OWN_CONTRIBUTION_USED      as OWN_CONTR_ENTERPRISE,                 --Kwota uregulowana przez Operatora przekazana Usługodawcy: wkład własny Przedsiębiorcy  
-REIMB.IND_SUBSIDY_VALUE                as GRANT_AMOUNT,                       --Kwota uregulowana przez Operatora przekazana Usługodawcy: kwota dotacji
-      
-REIMB.REIMBURSEMENT_DATE             as TRANSFER_DATE_TO_IS,                  --Data dokonania przelewu do Usługodawcy
-REIMB.SXO_IND_AMOUNT_DUE_TOTAL       as AMOUNT_RETURN_TO_ENTERPRISE,          --Kwota wkładu własnego zwrócona Przedsiębiorcy
-REIMB.REIMBURSEMENT_DATE             as DATE_RETURN_TO_ENTERPRISE             --Data zwrotu do Przedsiębiorcy
-gpr.program_name                     as PROGRAM_NAME                          --Nazwa programu dofinansowania
-
-from APP_PBE.E_REIMBURSEMENTS REIMB
-left join  APP_PBE.TI_TRAINING_INSTANCES TRA_INS on  REIMB.TI_TR_INST_ID = TRA_INS.ID
-left join  APP_PBE.TI_TRAININGS ti on  TRA_INS.TRAINING_ID = ti.ID
-left join  APP_PBE.TRAINING_INSTITUTIONS tr_instit on ti.TRAINING_INSTITUTION_ID = tr_instit.ID
-left join APP_PBE.PBE_PRODUCT_INSTANCE_POOL_USES pipu on TRA_INS.ID = pipu.TRAINING_INSTANCE_ID
-left join APP_PBE.PBE_PRODUCT_INSTANCE_POOLS pip on pipu.PRODUCT_INSTANCE_POOL_ID = pip.ID
-left join APP_PBE.ORDERS o on pip.ORDER_ID = o.ID
-join app_pbe.grant_programs gpr on (o.grant_program_id  = gpr.id) 
-left join APP_PBE.PBE_PRODUCTS prd on o.PBE_PRD_ID = prd.PRD_ID
-left join APP_PBE.CONTRACTS c on o.CONTRACT_ID = c.ID
-left join APP_PBE.ENTERPRISES e on o.ENTERPRISE_ID = e.ID
-where REIMB.ID = $P{reimbId} and rownum <= 1 --może być wiele umów ale bierzemy jedna dlatego rownum <= 1]]>
+		<![CDATA[SELECT
+    c.id,
+    SYSDATE                           AS create_document_date,                 --data stworzenia dokumentu        
+    e.name                            AS enterprise_identifier,                --identyfikacja Przedsiębiorcy
+    c.id                              AS contract_number,                      --identyfikacja Przedsiębiorcy
+    c.sign_date                       AS contract_sign_date,                   --data zawarcia umowy
+    ti.name                           AS training_name,                        --nazwa szkolenia
+    tr_instit.name                    AS training_institution_name,            --identyfikacja Instytucji Szkoleniowej
+    ti.start_date                     AS training_start_date,                  --czas trwania szkolenia
+    ti.end_date                       AS training_end_date,                    --czas trwania szkolenia
+    ti.place                          AS training_place,                       --miejsce odbytego szkolenia
+    ti.price                          AS training_price,                       --Koszt szkolenia
+    reimb.ind_ti_amount_due_total     AS pay_from_enterprise_to_is,            --Kwota zaliczki przekazanej przez Przedsiębiorcę do Usługodawcy(nie wiemy skad)
+    reimb.sxo_ti_amount_due_total     AS price_to_reimb_with_sodexo,           --Koszt usługi do rozliczenia z Operatorem (nie wiemy skad)
+    (
+        SELECT
+            SUM(oe_own_con_pay.value_number)
+        FROM
+            app_pbe.orders o_in
+            LEFT JOIN app_pbe.order_elements oe_own_con_pay ON oe_own_con_pay.order_id = o_in.id
+                                                               AND oe_own_con_pay.element_id = 'PAYAMA_KK'
+        WHERE
+            o_in.contract_id = c.id
+            AND o_in.status_id NOT IN (
+                SELECT
+                    sp.status_id
+                FROM
+                    app_pbe.order_flow_status_properties sp
+                WHERE
+                    sp.order_flow_id = o.order_flow_id
+                    AND sp.final_status = 'Y'
+                    AND sp.success_status = 'N'
+            )
+    ) AS pay_to_sodexo, --Kwota wkładu własnego wpłacona do Operatora (suma zamówień z danej umowy)                                              
+    (
+        SELECT
+            MIN(oe_own_con_date.value_date)
+        FROM
+            app_pbe.orders o_in
+            LEFT JOIN app_pbe.order_elements oe_own_con_date ON oe_own_con_date.order_id = o_in.id
+                                                                AND oe_own_con_date.element_id = 'PAYD_KK'
+        WHERE
+            o_in.contract_id = c.id
+            AND o_in.status_id NOT IN (
+                SELECT
+                    sp.status_id
+                FROM
+                    app_pbe.order_flow_status_properties sp
+                WHERE
+                    sp.order_flow_id = o.order_flow_id
+                    AND sp.final_status = 'Y'
+                    AND sp.success_status = 'N'
+            )
+    ) AS date_to_sodexo, --data przekazania wkładu własnego do Operatora (suma zamówień z danej umowy)
+    tra_ins.assigned_num              AS product_number,                       --Ilosć bonów
+    tra_ins.assigned_num * prd.value AS product_value,                        --Wartośc bonów - czy to wartośc produktu wynikajaca z grant programu (15PLN) czy faktyczna cena (np. 12.50PLN)
+    reimb.sxo_ti_amount_due_total     AS ammount_pay_by_sodexo_to_ti,          --Kwota uregulowana przez Operatora przekazana Usługodawcy  
+    reimb.ind_own_contribution_used   AS own_contr_enterprise,                 --Kwota uregulowana przez Operatora przekazana Usługodawcy: wkład własny Przedsiębiorcy  
+    reimb.ind_subsidy_value           AS grant_amount,                       --Kwota uregulowana przez Operatora przekazana Usługodawcy: kwota dotacji
+    reimb.reimbursement_date          AS transfer_date_to_is,                  --Data dokonania przelewu do Usługodawcy
+    reimb.sxo_ind_amount_due_total    AS amount_return_to_enterprise,          --Kwota wkładu własnego zwrócona Przedsiębiorcy
+    reimb.reimbursement_date          AS date_return_to_enterprise             --Data zwrotu do Przedsiębiorcy
+FROM
+    app_pbe.e_reimbursements reimb
+    LEFT JOIN app_pbe.ti_training_instances tra_ins ON reimb.ti_tr_inst_id = tra_ins.id
+    LEFT JOIN app_pbe.ti_trainings ti ON tra_ins.training_id = ti.id
+    LEFT JOIN app_pbe.training_institutions tr_instit ON ti.training_institution_id = tr_instit.id
+    LEFT JOIN app_pbe.pbe_product_instance_pool_uses pipu ON tra_ins.id = pipu.training_instance_id
+    LEFT JOIN app_pbe.pbe_product_instance_pools pip ON pipu.product_instance_pool_id = pip.id
+    LEFT JOIN app_pbe.orders o ON pip.order_id = o.id
+    LEFT JOIN app_pbe.pbe_products prd ON o.pbe_prd_id = prd.prd_id
+    LEFT JOIN app_pbe.contracts c ON o.contract_id = c.id
+    LEFT JOIN app_pbe.enterprises e ON o.enterprise_id = e.id
+WHERE
+    reimb.id = $P{reimbId}
+    AND ROWNUM <= 1]]>
 	</queryString>
 	<field name="CREATE_DOCUMENT_DATE" class="java.util.Date"/>
 	<field name="ENTERPRISE_IDENTIFIER" class="java.lang.String"/>
@@ -102,7 +114,6 @@ where REIMB.ID = $P{reimbId} and rownum <= 1 --może być wiele umów ale bierze
 	<field name="TRANSFER_DATE_TO_IS" class="java.util.Date"/>
 	<field name="AMOUNT_RETURN_TO_ENTERPRISE" class="java.math.BigDecimal"/>
 	<field name="DATE_RETURN_TO_ENTERPRISE" class="java.util.Date"/>
-	<field name="PROGRAM_NAME" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -483,7 +494,7 @@ where REIMB.ID = $P{reimbId} and rownum <= 1 --może być wiele umów ale bierze
 					</frame>
 				</frame>
 				<staticText>
-					<reportElement x="0" y="70" width="400" height="50" uuid="bade5849-3cd1-4985-949c-2d60afcd64c0">
+					<reportElement x="0" y="70" width="400" height="60" uuid="bade5849-3cd1-4985-949c-2d60afcd64c0">
 						<property name="local_mesure_unitheight" value="pixel"/>
 						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
@@ -493,15 +504,8 @@ where REIMB.ID = $P{reimbId} and rownum <= 1 --może być wiele umów ale bierze
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="15" isBold="true" pdfEncoding="Cp1250"/>
 					</textElement>
-					<text><![CDATA[Potwierdzenie realizacji dofinansowania usługi w ramach projektu pn.]]></text>
+					<text><![CDATA[Potwierdzenie realizacji dofinansowania usługi w ramach projektu pn. „Kierunek Kariera”]]></text>
 				</staticText>
-				<textField>
-					<reportElement x="0" y="120" width="400" height="30" uuid="12570bef-a83f-4545-9908-512a86dfb74e"/>
-					<textElement textAlignment="Center">
-						<font size="15" isBold="true"/>
-					</textElement>
-					<textFieldExpression><![CDATA["„" + $F{PROGRAM_NAME} + "”"]]></textFieldExpression>
-				</textField>
 			</frame>
 		</band>
 	</title>
