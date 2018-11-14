@@ -90,6 +90,12 @@
             <if test="criteria.gryfUser.userType == 'TRAINING_INSTITUTION'">
                 AND t.TRAINING_INSTITUTION_ID = #{criteria.gryfUser.trainingInstitutionId}
             </if>
+            <if test="searchParams.grantProgramName != null and searchParams.grantProgramName != ''">
+                AND LOWER(gp.program_name) like '%' || LOWER(#{searchParams.grantProgramName}) || '%'
+            </if>
+            <if test="searchParams.grantProgramId != null">
+                AND gp.id  =  #{searchParams.grantProgramId}
+            </if>
         </where>
         <if test="searchParams.sortColumns != null">
             <foreach item="columnName" index="index" collection="searchParams.sortColumns" open="ORDER BY " separator="," close="">

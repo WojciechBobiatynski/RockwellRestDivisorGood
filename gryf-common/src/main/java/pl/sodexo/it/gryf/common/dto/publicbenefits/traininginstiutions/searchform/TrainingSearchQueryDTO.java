@@ -100,6 +100,14 @@ public class TrainingSearchQueryDTO extends SearchDto {
     @Setter
     private Boolean active;
 
+    @Getter
+    @Setter
+    private String grantProgramName;
+
+    @Getter
+    @Setter
+    private Long grantProgramId;
+
     public String getActiveStr(){
         if(active == null){
             return null;

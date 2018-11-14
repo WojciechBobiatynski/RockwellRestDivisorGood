@@ -47,4 +47,10 @@ angular.module("gryf.ti").controller("OurTrainingsController",
     };
 
     $scope.clear();
+
+    //Po czysczeniu wszystkich
+    TrainingSearchService.getGrantProgramNames().then(function(response) {
+       $scope.grantPrograms = response.data;
+    });
+
 }]);

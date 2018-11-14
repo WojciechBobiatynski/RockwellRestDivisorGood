@@ -105,10 +105,10 @@
                 AND trainingInstitutionId = #{criteria.gryfUser.trainingInstitutionId}
             </if>
             <if test="criteria.grantProgramName != null and criteria.grantProgramName != ''">
-                AND LOWER(gp.program_name) like '%' || LOWER(#{criteria.grantProgramName}) || '%'
+                AND LOWER(grantProgramName) like '%' || LOWER(#{criteria.grantProgramName}) || '%'
             </if>
             <if test="criteria.grantProgramId != null">
-                AND gp.id  =  #{criteria.grantProgramId}
+                AND grantProgramId  =  #{criteria.grantProgramId}
             </if>
         </where>
         <if test="criteria.sortColumns != null">
