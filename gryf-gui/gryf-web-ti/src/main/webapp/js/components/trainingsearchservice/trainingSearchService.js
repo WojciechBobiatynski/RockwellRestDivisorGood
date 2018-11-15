@@ -1,6 +1,6 @@
 angular.module("gryf.ti").factory("TrainingSearchService", [ "$http", "GryfModals", "GryfTables", "GryfHelpers", "GryfPopups" ,function($http, GryfModals, GryfTables, GryfHelpers, GryfPopups) {
     var FIND_TRAINING_URL = contextPath + "/rest/training/list";
-    var FIND_TRAINING_TO_RESERVE_URL = contextPath + "/rest/training/listToReserve/";
+    var FIND_TRAINING_TO_RESERVE_URL = contextPath + "/rest/training/listToReserve/{0}/{1}";
     var FIND_TRAINING_DETAILS_URL = contextPath + "/rest/training/";
     var FIND_PRECALCULATED_TRAINING_DETAILS_URL = contextPath + "/rest/training/precalculated/";
     var FIND_GRANT_PROGRAM_NAMES_URL = contextPath + "/rest/grantPrograms/list";
@@ -91,11 +91,11 @@ angular.module("gryf.ti").factory("TrainingSearchService", [ "$http", "GryfModal
         return promise;
     };
 
-    var findToReserve = function(grantProgramId, restUrl) {
+    var findToReserve = function(grantProgramId, indId, restUrl) {
         var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING);
         GryfHelpers.transformDatesToString(searchDTO.entity);
         if (!restUrl) {
-            restUrl = FIND_TRAINING_TO_RESERVE_URL + grantProgramId;
+            restUrl = GryfHelpers.stringFormat(FIND_TRAINING_TO_RESERVE_URL, grantProgramId, indId); //FIND_TRAINING_TO_RESERVE_URL + grantProgramId;
         }
         var promise = $http.get(restUrl, {params: searchDTO.entity});
         promise.then(function(response) {

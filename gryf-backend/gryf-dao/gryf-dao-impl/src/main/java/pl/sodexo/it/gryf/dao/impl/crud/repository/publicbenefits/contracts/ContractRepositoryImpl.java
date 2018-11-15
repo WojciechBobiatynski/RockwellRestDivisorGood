@@ -109,5 +109,14 @@ public class ContractRepositoryImpl extends GenericRepositoryImpl<Contract, Stri
         query.setParameter(Contract.FIND_BY_PROGRAM_PARAMS_IND_ID, individualId);
         return query.getSingleResult();
     }
+
+    @Override
+    public List<Contract> findIndividualContractsByProgramAndDate(Long grantProgramId, Long individual, Date startDateFrom) {
+        TypedQuery<Contract> query = entityManager.createNamedQuery(Contract.FIND_BY_PROGRAM_DATES, Contract.class);
+        query.setParameter(Contract.FIND_BY_PROGRAM_DATES_PARAMS_PROGRAM_ID, grantProgramId);
+        query.setParameter(Contract.FIND_BY_PROGRAM_DATES_PARAMS_START_DATE, startDateFrom);
+        query.setParameter(Contract.FIND_BY_PROGRAM_PARAMS_IND_ID, individual);
+        return query.getResultList();
+    }
 }
 

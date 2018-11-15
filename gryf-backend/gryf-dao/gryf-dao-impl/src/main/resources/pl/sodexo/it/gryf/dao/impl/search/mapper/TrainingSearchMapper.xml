@@ -27,6 +27,7 @@
             JOIN app_pbe.training_institutions i ON i.id = t.training_institution_id
             JOIN APP_PBE.ti_training_category_params ttcp ON ttcp.category_id = c.id
             JOIN app_pbe.grant_programs gp ON gp.id = ttcp.grant_program_id
+            JOIN app_pbe.TI_TRAINING_INSTANCES_EXT ti_ex ON ti_ex.TI_EXTERNAL_ID = i.id
         <where>
             <if test="searchParams.trainingId != null">
                 t.ID = #{searchParams.trainingId}
@@ -95,6 +96,12 @@
             </if>
             <if test="searchParams.grantProgramId != null">
                 AND gp.id  =  #{searchParams.grantProgramId}
+            </if>
+            <if test="searchParams.indOrderExternalIds != null">
+                <foreach item="item" index="index" collection="searchParams.indOrderExternalIds"
+                         open="AND ( " separator=" OR " close=" ) ">
+                    ti_ex.IND_ORDER_EXTERNAL_ID like '%' ||  #{item}  || '%'
+                </foreach>
             </if>
         </where>
         <if test="searchParams.sortColumns != null">

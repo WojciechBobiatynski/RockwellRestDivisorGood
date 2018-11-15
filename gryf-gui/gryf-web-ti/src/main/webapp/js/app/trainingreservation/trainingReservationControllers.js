@@ -56,7 +56,9 @@ angular.module("gryf.ti").controller("TrainingReservationController",
 
         $scope.searchResultOptions = TrainingSearchService.getNewSearchResultOptions();
         $scope.searchDTO.entity.limit = 10;
-        TrainingSearchService.findToReserve( $scope.searchDTO.entity.grantProgramId);
+        var grantProgramId = $scope.searchDTO.entity.grantProgramId;
+        var indId = $scope.userTrainingReservationData.data.id;
+        TrainingSearchService.findToReserve( grantProgramId, indId);
     };
 
     $scope.getSortedBy = function(sortColumnName) {

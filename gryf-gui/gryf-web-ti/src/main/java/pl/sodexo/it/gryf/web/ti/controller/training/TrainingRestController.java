@@ -45,11 +45,12 @@ public class TrainingRestController {
         return trainingService.findTrainings(dto);
     }
 
-    @RequestMapping(value = "/listToReserve/{grantProgramId}", method = RequestMethod.GET)
-    public List<TrainingSearchResultDTO> findTrainingsToReserve(@PathVariable("grantProgramId") Long grantProgramId, TrainingSearchQueryDTO dto) {
+    @RequestMapping(value = "/listToReserve/{grantProgramId}/{indId}", method = RequestMethod.GET)
+    public List<TrainingSearchResultDTO> findTrainingsToReserve(@PathVariable("grantProgramId") Long grantProgramId, @PathVariable("indId") Long indId, TrainingSearchQueryDTO dto) {
         dto.setStartDateFrom(trainingInstanceService.findReservationDatePossibility(grantProgramId, new Date()));
         dto.setActive(true);
-        return trainingService.findTrainings(dto);
+        dto.setIndividualId(indId);
+        return trainingService.findTrainingsByProgramIdAndIndividualIdUsingContractsIds(dto);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -60,7 +61,7 @@ public class TrainingRestController {
 
     @RequestMapping(value = "/precalculated/{id}/{grantProgramId}", method = RequestMethod.GET)
     public TrainingPrecalculatedDetailsDto findTrainingPrecalculatedDetails(@PathVariable("id") Long trainingId,
-                                                               @PathVariable("grantProgramId") Long grantProgramId) {
+                                                                            @PathVariable("grantProgramId") Long grantProgramId) {
         securityChecker.assertTiUserAccessTraining(trainingId);
         return trainingService.findTrainingPrecalculatedDetails(trainingId, grantProgramId);
     }
@@ -81,11 +82,11 @@ public class TrainingRestController {
 
     //PRIVATE METHODS
 
-    private Date getStartDateFromToReservation(TrainingSearchQueryDTO dto){
+    private Date getStartDateFromToReservation(TrainingSearchQueryDTO dto) {
         Date nextDay = GryfUtils.getStartDay(GryfUtils.addDays(new Date(), 1));
-        if(dto.getStartDateFrom() == null){
+        if (dto.getStartDateFrom() == null) {
             return nextDay;
-        }else if(dto.getStartDateFrom().before(nextDay)){
+        } else if (dto.getStartDateFrom().before(nextDay)) {
             return nextDay;
         }
         return dto.getStartDateFrom();

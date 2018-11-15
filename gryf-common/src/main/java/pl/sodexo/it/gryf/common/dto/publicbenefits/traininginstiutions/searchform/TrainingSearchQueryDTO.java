@@ -108,6 +108,23 @@ public class TrainingSearchQueryDTO extends SearchDto {
     @Setter
     private Long grantProgramId;
 
+    /**
+     *  nr umowy uczestnika / ID wsparcia
+     *
+     * @link  pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstanceExt.indOrderExternalId  )
+     */
+    @Setter
+    @Getter
+    private List<String> indOrderExternalIds;
+
+    /**
+     * Identyfikator wewnętrzny uczestnika
+     *
+     */
+    @Setter
+    @Getter
+    private Long individualId;
+
     public String getActiveStr(){
         if(active == null){
             return null;

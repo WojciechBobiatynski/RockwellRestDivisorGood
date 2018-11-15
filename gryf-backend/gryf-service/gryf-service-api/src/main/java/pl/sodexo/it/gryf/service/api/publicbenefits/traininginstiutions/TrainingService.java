@@ -61,4 +61,15 @@ public interface TrainingService {
      * @return
      */
     List<SimpleDictionaryDto> findTrainingCategoriesInCatalog(String catalogId);
+
+    /**
+     * Szukanie szkoleń przy zadanych kryteriach:
+     * - Jeżeli jest ustawiony identyfikator uczestnika
+     *      to wybieramy szkolenia dla danego uczestnika
+     *      z zadanego prgoramu
+     *
+     * @param dto
+     * @return Szkolenia dla danego uczestnika
+     */
+    List<TrainingSearchResultDTO> findTrainingsByProgramIdAndIndividualIdUsingContractsIds(TrainingSearchQueryDTO dto);
 }

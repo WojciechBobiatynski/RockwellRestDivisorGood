@@ -1,6 +1,7 @@
 package pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.contracts;
 
 import pl.sodexo.it.gryf.common.dto.other.GrantProgramDictionaryDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.contracts.detailsform.ContractDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.contracts.searchform.ContractSearchQueryDTO;
 import pl.sodexo.it.gryf.dao.api.crud.repository.GenericRepository;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
@@ -29,4 +30,15 @@ public interface ContractRepository extends GenericRepository<Contract, String> 
      * @return Kontrakt/Umowa dla danego programu aktualna na dzień startDates
      */
     Contract findContractIndividualByProgramAndDate(GrantProgramDictionaryDTO grantProgramDictionaryDTO, Long individualId, Date startDate, Date endDate);
+
+    /**
+     * Wybiera liste kontraktow dla programu i uczestnika
+     *
+     * @param grantProgramId
+     * @param individual
+     * @param startDateFrom
+     * @return Kontrakty/Umowy uczestnika z danego projektu/programu na dany dzien
+     */
+    List<Contract> findIndividualContractsByProgramAndDate(Long grantProgramId, Long individual, Date startDateFrom);
+
 }
