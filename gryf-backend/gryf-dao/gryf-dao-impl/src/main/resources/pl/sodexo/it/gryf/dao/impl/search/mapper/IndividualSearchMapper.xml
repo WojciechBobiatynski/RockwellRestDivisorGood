@@ -47,14 +47,14 @@
         FROM APP_PBE.INDIVIDUALS ind
               LEFT OUTER JOIN APP_PBE.INDIVIDUAL_CONTACTS indcont ON ind.ID = indcont.IND_ID
               LEFT OUTER JOIN APP_PBE.CONTRACTS con ON ind.ID = con.INDIVIDUAL_ID
-              LEFT JOIN app_pbe.grant_programs gp ON gp.id = con.grant_program_id
+              LEFT OUTER JOIN app_pbe.grant_programs gp ON gp.id = con.grant_program_id
               LEFT OUTER JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOLS pool ON ind.ID = pool.INDIVIDUAL_ID
               LEFT OUTER JOIN APP_PBE.TI_TRAINING_INSTANCES trainingInstance ON ind.ID = trainingInstance.INDIVIDUAL_ID AND trainingInstance.grant_program_id = gp.id
               LEFT OUTER JOIN APP_PBE.ORDERS orders ON pool.ORDER_ID = orders.ID and gp.id = orders.grant_program_id
               LEFT OUTER JOIN APP_PBE.CONTRACT_TRAINING_CATEGORIES contrTrainCateg ON con.ID = contrTrainCateg.CONTRACT_ID
               LEFT OUTER JOIN APP_PBE.TI_TRAINING_CATEGORIES traintCateg ON contrTrainCateg.TRAINING_CATEGORY_ID = traintCateg.ID
               LEFT OUTER JOIN APP_PBE.ti_training_category_params tcp ON tcp.category_id = traintCateg.id and tcp.grant_program_id = gp.id
-              JOIN APP_PBE.TI_TRAININGS training ON trainingInstance.TRAINING_ID = training.ID
+              LEFT OUTER JOIN APP_PBE.TI_TRAININGS training ON trainingInstance.TRAINING_ID = training.ID
               LEFT OUTER JOIN APP_PBE.TRAINING_INSTITUTIONS trainingInstitution ON training.TRAINING_INSTITUTION_ID = trainingInstitution.ID
               LEFT OUTER JOIN APP_PBE.TI_TRAINING_INSTANCE_STATUSES trainingInstanceStatus ON trainingInstance.STATUS_ID = trainingInstanceStatus.ID
         WHERE
