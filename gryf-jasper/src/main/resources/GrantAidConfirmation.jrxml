@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2016-12-28T14:08:49 -->
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="GrantAidConfirmation" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c47102d5-6475-400f-afbb-092533f8b264">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
-	<property name="com.jaspersoft.studio.data.sql.tables" value="IkFQUF9QQkUiLiJHUkFOVF9BUFBMSUNBVElPTlMiICwyMzAsMjAsZDgzMTBmZGQtMGQ2ZS00ODdm&#xA;LTgwM2ItYmVjMDAzMjI5Mzk2OyJBUFBfUEJFIi4iR1JBTlRfT1dORVJTIiAsMjMwLDEwOTksZGI0&#xA;ODA5MTYtNzY1MS00NmJhLThhYzItNTc0MzUzNDlmZWY5OyJBUFBfUEJFIi4iRU5URVJQUklTRVMi&#xA;ICwyNjUsNDMzLGRmZTE4MjIwLTI1OTUtNDk5NC1iYTIxLTQ3YjM1ZDVhM2U2NjsiQVBQX1BCRSIu&#xA;Ik9SREVSUyIgLDIwLDc1Niw4ODA2MjYzMS0yY2Y1LTRmNzctOWNlYy01ODE2ODZmZDIyZWY7IlpJ&#xA;UF9DT0RFUyIgLDIzMCwxMjMxLGZjZWUyZTE5LTg5NTQtNDM0Zi1hOGRhLTU5MGRjZmM5MDc5Mjsi&#xA;QVBQX1BCRSIuIkdSQU5UX1BST0dSQU1TIiAsMjMwLDkxNCxiYTZlNTNjMC0xOTAxLTQ1YjMtYjZi&#xA;OS0yZTEwNGY5MmJkMTM7"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.data.sql.tables">
+		<![CDATA[IkFQUF9QQkUiLiJHUkFOVF9BUFBMSUNBVElPTlMiICwyMzAsMjAsZDgzMTBmZGQtMGQ2ZS00ODdm
+LTgwM2ItYmVjMDAzMjI5Mzk2OyJBUFBfUEJFIi4iR1JBTlRfT1dORVJTIiAsMjMwLDEwOTksZGI0
+ODA5MTYtNzY1MS00NmJhLThhYzItNTc0MzUzNDlmZWY5OyJBUFBfUEJFIi4iRU5URVJQUklTRVMi
+ICwyNjUsNDMzLGRmZTE4MjIwLTI1OTUtNDk5NC1iYTIxLTQ3YjM1ZDVhM2U2NjsiQVBQX1BCRSIu
+Ik9SREVSUyIgLDIwLDc1Niw4ODA2MjYzMS0yY2Y1LTRmNzctOWNlYy01ODE2ODZmZDIyZWY7IlpJ
+UF9DT0RFUyIgLDIzMCwxMjMxLGZjZWUyZTE5LTg5NTQtNDM0Zi1hOGRhLTU5MGRjZmM5MDc5Mjsi
+QVBQX1BCRSIuIkdSQU5UX1BST0dSQU1TIiAsMjMwLDkxNCxiYTZlNTNjMC0xOTAxLTQ1YjMtYjZi
+OS0yZTEwNGY5MmJkMTM7]]>
+	</property>
 	<parameter name="reimbId" class="java.lang.Long">
 		<parameterDescription><![CDATA[Id rozliczenia]]></parameterDescription>
 	</parameter>
@@ -16,8 +24,9 @@
 	<parameter name="imagesPath" class="java.lang.String"/>
 	<queryString language="SQL">
 		<![CDATA[select
+c.ID,
 SYSDATE                              as CREATE_DOCUMENT_DATE,                 --data stworzenia dokumentu        
-'IDENTYFIKATOR_PRZEDSIEBIORCY'       as ENTERPRISE_IDENTIFIER,                --identyfikacja Przedsiębiorcy
+e.NAME                               as ENTERPRISE_IDENTIFIER,                --identyfikacja Przedsiębiorcy
 c.ID                                 as CONTRACT_NUMBER,                      --identyfikacja Przedsiębiorcy
 c.SIGN_DATE                          as CONTRACT_SIGN_DATE,                   --data zawarcia umowy
 ti.NAME                              as TRAINING_NAME,                        --nazwa szkolenia
@@ -27,22 +36,37 @@ ti.END_DATE                          as TRAINING_END_DATE,                    --
 ti.PLACE                             as TRAINING_PLACE,                       --miejsce odbytego szkolenia
       
 ti.PRICE                             as TRAINING_PRICE,                       --Koszt szkolenia
-100                                  as PAY_FROM_ENTERPRISE_TO_IS,            --Kwota przekazanej zaliczki przez Przedsiębiorcę do Instytucji Szkoleniowej |(nie wiemy skad)
-100                                  as PRICE_TO_REIMB_WITH_SODEXO,           --Koszt szkolenia  do rozliczenia z Operatorem (nie wiemy skad)
-100                                  as PAY_TO_SODEXO,                        --Kwota zaliczki wpłacona do Operatora (nie wiemy skad)
-SYSDATE                              as DATE_TO_SODEXO,                       --Data przekazania zaliczki do Operatora (nie wiemy skąd wziąc)
-TRA_INS.ASSIGNED_NUM                 as PRODUCT_NUMBER,                       --Ilosć bonów
-100                                  as PRODUCT_VALUE,                        --Wartośc bonów - czy to wartośc produktu wynikajaca z grant programu (15PLN) czy faktyczna cena (np. 12.50PLN)
-      
-REIMB.SXO_TI_AMOUNT_DUE_TOTAL        as AMMOUNT_PAY_BY_SODEXO_TO_TI,          --Kwota uregulowana przez Operatora przekazana Instytucji Szkoleniowej  
-REIMB.IND_OWN_CONTRIBUTION_USED      as OWN_CONTR_ENTERPRISE,                 --Kwota uregulowana przez Operatora przekazana Instytucji Szkoleniowej: wkład własny Przedsiębiorcy  
-REIMB.IND_SUBSIDY_VALUE                as GRANT_AMOUNT,                         --Kwota uregulowana przez Operatora przekazana Instytucji Szkoleniowej: kwota dotacji
-      
-REIMB.REIMBURSEMENT_DATE             as TRANSFER_DATE_TO_IS,                  --Data dokonania przelewu do IS
-REIMB.SXO_IND_AMOUNT_DUE_TOTAL       as AMOUNT_RETURN_TO_ENTERPRISE,          --Zwrócona kwota Przedsiębiorcy
-REIMB.REIMBURSEMENT_DATE             as DATE_RETURN_TO_ENTERPRISE             --Data zwrotu do Przedsiębiorcy
+REIMB.IND_TI_AMOUNT_DUE_TOTAL        as PAY_FROM_ENTERPRISE_TO_IS,            --Kwota zaliczki przekazanej przez Przedsiębiorcę do Usługodawcy(nie wiemy skad)
+REIMB.SXO_TI_AMOUNT_DUE_TOTAL        as PRICE_TO_REIMB_WITH_SODEXO,           --Koszt usługi do rozliczenia z Operatorem (nie wiemy skad)
 
- 
+(select sum(oe_own_con_pay.VALUE_NUMBER)
+from APP_PBE.ORDERS o_in 
+left join APP_PBE.ORDER_ELEMENTS oe_own_con_pay on oe_own_con_pay.ORDER_ID = o_in.ID and oe_own_con_pay.ELEMENT_ID = 'PAYAMA_KK'
+where o_in.CONTRACT_ID = c.ID and o_in.STATUS_ID NOT IN (SELECT sp.STATUS_ID 
+                                                        FROM APP_PBE.ORDER_FLOW_STATUS_PROPERTIES sp 
+                                                        WHERE sp.ORDER_FLOW_ID = o.ORDER_FLOW_ID 
+                                                        AND sp.FINAL_STATUS = 'Y' and sp.SUCCESS_STATUS = 'N')) as PAY_TO_SODEXO, --Kwota wkładu własnego wpłacona do Operatora (suma zamówień z danej umowy)                                              
+(select min(oe_own_con_date.VALUE_DATE)
+from APP_PBE.ORDERS o_in
+left join APP_PBE.ORDER_ELEMENTS oe_own_con_date on oe_own_con_date.ORDER_ID = o_in.ID and oe_own_con_date.ELEMENT_ID = 'PAYD_KK'
+where o_in.CONTRACT_ID = c.ID and o_in.STATUS_ID NOT IN (SELECT sp.STATUS_ID 
+                                                        FROM APP_PBE.ORDER_FLOW_STATUS_PROPERTIES sp 
+                                                        WHERE sp.ORDER_FLOW_ID = o.ORDER_FLOW_ID 
+                                                        AND sp.FINAL_STATUS = 'Y' and sp.SUCCESS_STATUS = 'N')) as DATE_TO_SODEXO, --Data przekazania wkładu własnego do Operatora (suma zamówień z danej umowy)
+
+
+TRA_INS.ASSIGNED_NUM                 as PRODUCT_NUMBER,                       --Ilosć bonów
+TRA_INS.ASSIGNED_NUM * prd.VALUE     as PRODUCT_VALUE,                        --Wartośc bonów - czy to wartośc produktu wynikajaca z grant programu (15PLN) czy faktyczna cena (np. 12.50PLN)
+      
+REIMB.SXO_TI_AMOUNT_DUE_TOTAL        as AMMOUNT_PAY_BY_SODEXO_TO_TI,          --Kwota uregulowana przez Operatora przekazana Usługodawcy  
+REIMB.IND_OWN_CONTRIBUTION_USED      as OWN_CONTR_ENTERPRISE,                 --Kwota uregulowana przez Operatora przekazana Usługodawcy: wkład własny Przedsiębiorcy  
+REIMB.IND_SUBSIDY_VALUE                as GRANT_AMOUNT,                       --Kwota uregulowana przez Operatora przekazana Usługodawcy: kwota dotacji
+      
+REIMB.REIMBURSEMENT_DATE             as TRANSFER_DATE_TO_IS,                  --Data dokonania przelewu do Usługodawcy
+REIMB.SXO_IND_AMOUNT_DUE_TOTAL       as AMOUNT_RETURN_TO_ENTERPRISE,          --Kwota wkładu własnego zwrócona Przedsiębiorcy
+REIMB.REIMBURSEMENT_DATE             as DATE_RETURN_TO_ENTERPRISE             --Data zwrotu do Przedsiębiorcy
+gpr.program_name                     as PROGRAM_NAME                          --Nazwa programu dofinansowania
+
 from APP_PBE.E_REIMBURSEMENTS REIMB
 left join  APP_PBE.TI_TRAINING_INSTANCES TRA_INS on  REIMB.TI_TR_INST_ID = TRA_INS.ID
 left join  APP_PBE.TI_TRAININGS ti on  TRA_INS.TRAINING_ID = ti.ID
@@ -50,8 +74,11 @@ left join  APP_PBE.TRAINING_INSTITUTIONS tr_instit on ti.TRAINING_INSTITUTION_ID
 left join APP_PBE.PBE_PRODUCT_INSTANCE_POOL_USES pipu on TRA_INS.ID = pipu.TRAINING_INSTANCE_ID
 left join APP_PBE.PBE_PRODUCT_INSTANCE_POOLS pip on pipu.PRODUCT_INSTANCE_POOL_ID = pip.ID
 left join APP_PBE.ORDERS o on pip.ORDER_ID = o.ID
+join app_pbe.grant_programs gpr on (o.grant_program_id  = gpr.id) 
+left join APP_PBE.PBE_PRODUCTS prd on o.PBE_PRD_ID = prd.PRD_ID
 left join APP_PBE.CONTRACTS c on o.CONTRACT_ID = c.ID
-where REIMB.ID = $P{reimbId} and rownum <= 1    --może być wiele umów ale bierzemy jedna dlatego rownum <= 1]]>
+left join APP_PBE.ENTERPRISES e on o.ENTERPRISE_ID = e.ID
+where REIMB.ID = $P{reimbId} and rownum <= 1 --może być wiele umów ale bierzemy jedna dlatego rownum <= 1]]>
 	</queryString>
 	<field name="CREATE_DOCUMENT_DATE" class="java.util.Date"/>
 	<field name="ENTERPRISE_IDENTIFIER" class="java.lang.String"/>
@@ -75,556 +102,407 @@ where REIMB.ID = $P{reimbId} and rownum <= 1    --może być wiele umów ale bie
 	<field name="TRANSFER_DATE_TO_IS" class="java.util.Date"/>
 	<field name="AMOUNT_RETURN_TO_ENTERPRISE" class="java.math.BigDecimal"/>
 	<field name="DATE_RETURN_TO_ENTERPRISE" class="java.util.Date"/>
+	<field name="PROGRAM_NAME" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="766" splitType="Stretch">
-			<staticText>
-				<reportElement x="30" y="110" width="470" height="50" uuid="7ea74dfe-21f6-4013-8dfe-4a9d6ad0a2ed"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="11" isBold="true" isUnderline="true" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<text><![CDATA[Potwierdzenie realizacji dofinansowania 
-usługi edukacyjno-szkoleniowej w ramach systemu „PFK – Podmiotowe finansowania kształcenia”]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="30" y="356" width="160" height="20" uuid="900481a0-a173-442b-98e4-2ca050280632"/>
-				<textElement verticalAlignment="Middle">
-					<font size="11" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<text><![CDATA[Rozliczenie szkolenia:]]></text>
-			</staticText>
+		<band height="757" splitType="Stretch">
 			<frame>
-				<reportElement x="30" y="48" width="525" height="48" uuid="2b9578d6-260f-46f5-a386-6268a2bb0af3"/>
-				<textField>
-					<reportElement x="20" y="32" width="150" height="16" uuid="5a53db53-741e-460c-8274-cc3e1cdee5ca">
-						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-					</reportElement>
-					<textElement verticalAlignment="Middle">
-						<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$P{companyAddress2}]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement x="20" y="0" width="278" height="16" uuid="8ea82b3d-2230-4515-accd-2bf0e62de3bc">
-						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-					</reportElement>
-					<textElement verticalAlignment="Middle">
-						<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$P{companyName}]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement x="20" y="16" width="150" height="16" uuid="08f4b43b-07a4-42c0-850f-9f7191388e3e">
-						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-					</reportElement>
-					<textElement verticalAlignment="Middle">
-						<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$P{companyAddress1}]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement x="377" y="0" width="47" height="16" uuid="5b9b46e6-b029-4c94-badd-9ed958f3a88c">
-						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-					</reportElement>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$P{place}]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement x="424" y="0" width="9" height="16" uuid="8f218115-c28f-45df-b29b-13105ab86809">
-						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-					</reportElement>
-					<textElement verticalAlignment="Middle">
-						<font isBold="false" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-					</textElement>
-					<text><![CDATA[,]]></text>
-				</staticText>
-				<textField isBlankWhenNull="true">
-					<reportElement x="433" y="0" width="92" height="16" uuid="953a744b-ca07-4ea7-a27d-210407d96902">
-						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-					</reportElement>
-					<box>
-						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					</box>
-					<textElement textAlignment="Left" verticalAlignment="Middle">
-						<font isBold="false" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-					</textElement>
-					<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("yyyy-MM-dd").format($F{CREATE_DOCUMENT_DATE})]]></textFieldExpression>
-				</textField>
-			</frame>
-			<staticText>
-				<reportElement x="30" y="190" width="230" height="16" uuid="74760d94-6cbe-4e96-a5d0-9fa4dd697065">
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<font isBold="false" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<text><![CDATA[Potwierdzam realizację dofinansowania dla]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="30" y="260" width="50" height="16" uuid="babdbfa0-b414-432e-9625-ba3d34f78f94">
+				<reportElement x="79" y="30" width="400" height="710" uuid="5d25ba76-3682-4097-9c7d-0fc891298b19">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<text><![CDATA[Szkolenie]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="30" y="381" width="70" height="16" uuid="60a3092e-a75e-4db2-807e-e44050f47594"/>
-				<textElement>
-					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<text><![CDATA[Koszt szkolenia]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="30" y="397" width="340" height="16" uuid="65c3ccc4-36e0-43d3-a1dc-3690ad18e59f"/>
-				<textElement>
-					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<text><![CDATA[Kwota przekazanej zaliczki przez Przedsiębiorcę do Instytucji Szkoleniowej]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="30" y="412" width="210" height="16" uuid="e1a014e2-ce5f-43ff-ad85-ba88d570c417"/>
-				<textElement>
-					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<text><![CDATA[Koszt szkolenia  do rozliczenia z Operatorem:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="30" y="428" width="180" height="16" uuid="ff4481e0-1c51-462f-8b17-dabdd09cfc34"/>
-				<textElement>
-					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<text><![CDATA[Kwota zaliczki wpłacona do Operatora:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="30" y="444" width="180" height="16" uuid="abac1366-7c56-4387-ab6d-f19e3e523fc3"/>
-				<textElement>
-					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<text><![CDATA[Data przekazania zaliczki do Operatora:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="30" y="484" width="160" height="16" uuid="9c141d07-3db7-49a9-a620-437735f74e8d"/>
-				<textElement>
-					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<text><![CDATA[Ilość i wartość otrzymanych bonów]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="30" y="500" width="260" height="16" uuid="a55d0844-3b1a-430c-ad65-84be6fce8476"/>
-				<textElement>
-					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<text><![CDATA[Kwota uregulowana przez Operatora przekazana Instytucji Szkoleniowej]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="30" y="516" width="40" height="16" uuid="ee66654c-bbc0-44e7-a418-13d4edc60ee6"/>
-				<textElement>
-					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<text><![CDATA[w tym: ]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="70" y="546" width="60" height="16" uuid="4a9de5ad-f5ec-4024-925f-b2eb2d520abd"/>
-				<textElement>
-					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<text><![CDATA[kwota dotacji]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="70" y="530" width="130" height="16" uuid="62032a5f-0166-40ca-a1a5-7196d7f1ffc9"/>
-				<textElement>
-					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<text><![CDATA[wkład własny Przedsiębiorcy]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="30" y="603" width="150" height="16" uuid="07f34d2b-e7e4-493a-adb5-3a612e3a66f5"/>
-				<textElement>
-					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<text><![CDATA[Zwrócona kwota Przedsiębiorcy:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="30" y="584" width="150" height="16" uuid="ef2049de-2a94-47e7-a64a-3b0c513a4bb4"/>
-				<textElement>
-					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<text><![CDATA[Data dokonania przelewu do IS:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="30" y="620" width="150" height="16" uuid="bf51c8c7-4139-410b-ac5e-9f17b71a7b04"/>
-				<textElement>
-					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<text><![CDATA[Data zwrotu do Przedsiębiorcy:]]></text>
-			</staticText>
-			<frame>
-				<reportElement x="180" y="667" width="370" height="99" uuid="698243c2-a002-4444-afe1-e999459e0fe8"/>
+				<frame>
+					<reportElement x="0" y="10" width="400" height="45" uuid="d120b063-dc70-471a-ae98-73466660194a">
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					</reportElement>
+					<textField isBlankWhenNull="true">
+						<reportElement x="0" y="0" width="250" height="15" uuid="d860e784-fc18-4004-a60c-a7fedc1eb089">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						</reportElement>
+						<textElement>
+							<font pdfEncoding="Cp1250"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$P{companyName}]]></textFieldExpression>
+					</textField>
+					<textField isBlankWhenNull="true">
+						<reportElement x="0" y="15" width="250" height="15" uuid="04e991e3-d2d7-47c8-93bf-560d290c41f4">
+							<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						</reportElement>
+						<textElement>
+							<font pdfEncoding="Cp1250"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$P{companyAddress1}]]></textFieldExpression>
+					</textField>
+					<textField isBlankWhenNull="true">
+						<reportElement x="0" y="30" width="250" height="15" uuid="585d72d6-3898-4760-8e4a-ceb12ac1c671">
+							<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						</reportElement>
+						<textElement>
+							<font pdfEncoding="Cp1250"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$P{companyAddress2}]]></textFieldExpression>
+					</textField>
+					<textField isBlankWhenNull="true">
+						<reportElement x="250" y="0" width="150" height="15" uuid="d786a878-aced-4eb9-8869-08d3fbe75ddd">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						</reportElement>
+						<textElement textAlignment="Right">
+							<font pdfEncoding="Cp1250"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$P{place} + ", " + new java.text.SimpleDateFormat("yyyy-MM-dd").format($F{CREATE_DOCUMENT_DATE})]]></textFieldExpression>
+					</textField>
+				</frame>
+				<frame>
+					<reportElement x="0" y="150" width="400" height="45" uuid="f1f88039-5b03-442a-b43a-0d84f39bfa40">
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<textField isBlankWhenNull="true">
+						<reportElement x="0" y="0" width="400" height="15" uuid="a40fb353-9bd2-4617-ba0d-ae8b73c4318c">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						</reportElement>
+						<textElement>
+							<font pdfEncoding="Cp1250"/>
+						</textElement>
+						<textFieldExpression><![CDATA["Potwierdzam realizację dofinansowania dla " + $F{ENTERPRISE_IDENTIFIER}]]></textFieldExpression>
+					</textField>
+					<textField isBlankWhenNull="true">
+						<reportElement x="0" y="15" width="400" height="15" uuid="dc7e80cb-81ab-4dbd-9364-2abfb8ae0bf4">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						</reportElement>
+						<textElement>
+							<font pdfEncoding="Cp1250"/>
+						</textElement>
+						<textFieldExpression><![CDATA["zgodnie  z  zawartą umową o dofinansowanie " + $F{CONTRACT_NUMBER} + ", " + "(" + new java.text.SimpleDateFormat("yyyy-MM-dd").format($F{CONTRACT_SIGN_DATE}) + ")."]]></textFieldExpression>
+					</textField>
+				</frame>
+				<frame>
+					<reportElement x="0" y="215" width="400" height="60" uuid="d370ec6b-7120-4fe3-923c-e3b663f99bb0">
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<textField isBlankWhenNull="true">
+						<reportElement x="0" y="0" width="400" height="15" uuid="7399110e-a2ae-4a87-b1fd-4e29fc1780c5">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						</reportElement>
+						<textElement>
+							<font pdfEncoding="Cp1250"/>
+						</textElement>
+						<textFieldExpression><![CDATA["Usługa " + $F{TRAINING_NAME}]]></textFieldExpression>
+					</textField>
+					<textField isBlankWhenNull="true">
+						<reportElement x="0" y="15" width="400" height="15" uuid="7758f9f5-3892-401f-873d-6b11c7f30057">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						</reportElement>
+						<textElement>
+							<font pdfEncoding="Cp1250"/>
+						</textElement>
+						<textFieldExpression><![CDATA["realizowana była przez  " + $F{TRAINING_INSTITUTION_NAME}]]></textFieldExpression>
+					</textField>
+					<textField isBlankWhenNull="true">
+						<reportElement x="0" y="30" width="400" height="15" uuid="7997d4ad-3a10-4826-940d-5a317d6f28bb">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						</reportElement>
+						<textElement>
+							<font pdfEncoding="Cp1250"/>
+						</textElement>
+						<textFieldExpression><![CDATA["w okresie  " + new java.text.SimpleDateFormat("yyyy-MM-dd").format($F{TRAINING_START_DATE}) + " - " + new java.text.SimpleDateFormat("yyyy-MM-dd").format($F{TRAINING_END_DATE}) + " w " + $F{TRAINING_PLACE} + "."]]></textFieldExpression>
+					</textField>
+				</frame>
+				<frame>
+					<reportElement x="0" y="295" width="400" height="105" uuid="ce109be0-e79a-4aec-909d-3832c5be2376">
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<textField isBlankWhenNull="true">
+						<reportElement x="0" y="15" width="400" height="15" uuid="020de4f2-782a-4a49-8fbb-a4e9efff78a4">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						</reportElement>
+						<textElement>
+							<font pdfEncoding="Cp1250"/>
+						</textElement>
+						<textFieldExpression><![CDATA["Koszt usługi: " + new java.text.DecimalFormat(" #,##0.00").format($F{TRAINING_PRICE}) + " zł" + "."]]></textFieldExpression>
+					</textField>
+					<textField isBlankWhenNull="true">
+						<reportElement x="0" y="30" width="400" height="15" uuid="cbd3375b-ac49-45db-8eb9-a80fd437fce9">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						</reportElement>
+						<textElement>
+							<font pdfEncoding="Cp1250"/>
+						</textElement>
+						<textFieldExpression><![CDATA["Kwota zaliczki przekazanej przez Przedsiębiorcę do Usługodawcy:  " + new java.text.DecimalFormat(" #,##0.00").format($F{PAY_FROM_ENTERPRISE_TO_IS}) + " zł" + "."]]></textFieldExpression>
+					</textField>
+					<textField isBlankWhenNull="true">
+						<reportElement x="0" y="45" width="400" height="15" uuid="83522c39-551d-41b7-b8e0-4fa43120605a">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						</reportElement>
+						<textElement>
+							<font pdfEncoding="Cp1250"/>
+						</textElement>
+						<textFieldExpression><![CDATA["Koszt usługi do rozliczenia z Operatorem: " + new java.text.DecimalFormat(" #,##0.00").format($F{PRICE_TO_REIMB_WITH_SODEXO}) + " zł" + "."]]></textFieldExpression>
+					</textField>
+					<staticText>
+						<reportElement x="0" y="0" width="400" height="15" uuid="60710aae-249d-466f-a201-2fd7f8d62910">
+							<property name="local_mesure_unitheight" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						</reportElement>
+						<textElement>
+							<font size="10" isBold="true" pdfEncoding="Cp1250"/>
+						</textElement>
+						<text><![CDATA[Rozliczenie usługi:]]></text>
+					</staticText>
+					<textField isBlankWhenNull="true">
+						<reportElement x="0" y="60" width="400" height="15" uuid="5fc74b5b-3318-4db9-8940-46f16f789250">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						</reportElement>
+						<textElement>
+							<font pdfEncoding="Cp1250"/>
+						</textElement>
+						<textFieldExpression><![CDATA["Kwota wkładu własnego wpłacona do Operatora: " + new java.text.DecimalFormat(" #,##0.00").format($F{PAY_TO_SODEXO}) + " zł" + "."]]></textFieldExpression>
+					</textField>
+					<textField isBlankWhenNull="true">
+						<reportElement x="0" y="75" width="400" height="15" uuid="d4d5e8cb-a264-4844-a3a8-210c438bcd27">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						</reportElement>
+						<textElement>
+							<font pdfEncoding="Cp1250"/>
+						</textElement>
+						<textFieldExpression><![CDATA["Data przekazania wkładu własnego do Operatora: " + new java.text.SimpleDateFormat("yyyy-MM-dd").format($F{DATE_TO_SODEXO}) + "."]]></textFieldExpression>
+					</textField>
+				</frame>
+				<frame>
+					<reportElement x="0" y="425" width="400" height="105" uuid="4650e155-622e-4ec6-9b0f-67cdcd33ac90">
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<textField isBlankWhenNull="true">
+						<reportElement x="0" y="0" width="400" height="15" uuid="4ceb0a2d-0676-46e0-b36c-475e256f2787">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						</reportElement>
+						<textElement>
+							<font pdfEncoding="Cp1250"/>
+						</textElement>
+						<textFieldExpression><![CDATA["Ilość i wartość otrzymanych bonów: " + $F{PRODUCT_NUMBER} + ", " + new java.text.DecimalFormat(" #,##0.00").format($F{PRODUCT_VALUE}) + " zł" + "."]]></textFieldExpression>
+					</textField>
+					<textField isBlankWhenNull="true">
+						<reportElement x="0" y="15" width="400" height="15" uuid="fd795ae4-e825-412b-abab-fec0d52f0af5">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						</reportElement>
+						<textElement>
+							<font pdfEncoding="Cp1250"/>
+						</textElement>
+						<textFieldExpression><![CDATA["Kwota uregulowana przez Operatora przekazana Usługodawcy: " + new java.text.DecimalFormat(" #,##0.00").format($F{AMMOUNT_PAY_BY_SODEXO_TO_TI}) + " zł" + ","]]></textFieldExpression>
+					</textField>
+					<textField isBlankWhenNull="true">
+						<reportElement x="0" y="30" width="400" height="15" uuid="5ec3a86c-bff8-4be9-8a30-4660cd1c129e">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						</reportElement>
+						<textElement>
+							<font pdfEncoding="Cp1250"/>
+						</textElement>
+						<textFieldExpression><![CDATA["w tym: "]]></textFieldExpression>
+					</textField>
+					<textField isBlankWhenNull="true">
+						<reportElement x="50" y="45" width="350" height="15" uuid="18203914-772a-4bea-b166-52c694e57725">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						</reportElement>
+						<textElement>
+							<font pdfEncoding="Cp1250"/>
+						</textElement>
+						<textFieldExpression><![CDATA["wkład własny Przedsiębiorcy: " + new java.text.DecimalFormat(" #,##0.00").format($F{OWN_CONTR_ENTERPRISE}) + " zł"]]></textFieldExpression>
+					</textField>
+					<textField isBlankWhenNull="true">
+						<reportElement x="50" y="60" width="350" height="15" uuid="ba681c64-9694-4a4f-bacc-0501c037d4b7">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						</reportElement>
+						<textElement>
+							<font pdfEncoding="Cp1250"/>
+						</textElement>
+						<textFieldExpression><![CDATA["kwota dotacji: " + new java.text.DecimalFormat(" #,##0.00").format($F{GRANT_AMOUNT}) + " zł"]]></textFieldExpression>
+					</textField>
+					<textField isBlankWhenNull="true">
+						<reportElement x="0" y="75" width="400" height="15" uuid="2649ca22-7c39-4d8c-9d78-82a5b9294f8a">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						</reportElement>
+						<textElement>
+							<font pdfEncoding="Cp1250"/>
+						</textElement>
+						<textFieldExpression><![CDATA["Data dokonania przelewu do Usługodawcy: " + new java.text.SimpleDateFormat("yyyy-MM-dd").format($F{TRANSFER_DATE_TO_IS}) + "."]]></textFieldExpression>
+					</textField>
+				</frame>
+				<frame>
+					<reportElement x="0" y="555" width="400" height="45" uuid="82a15ed6-5fb0-4eaf-b044-421226b927a4">
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<textField isBlankWhenNull="true">
+						<reportElement x="0" y="0" width="400" height="15" uuid="fba3c4d4-9fd6-4b7b-9df9-3769d453f575">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						</reportElement>
+						<textElement>
+							<font pdfEncoding="Cp1250"/>
+						</textElement>
+						<textFieldExpression><![CDATA["Kwota wkładu własnego zwrócona Przedsiębiorcy: " + new java.text.DecimalFormat(" #,##0.00").format($F{AMOUNT_RETURN_TO_ENTERPRISE}) + " zł" + "."]]></textFieldExpression>
+					</textField>
+					<textField isBlankWhenNull="true">
+						<reportElement x="0" y="15" width="400" height="15" uuid="e5d77e49-dfc8-4f97-a4a7-e7f9a190d791">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						</reportElement>
+						<textElement>
+							<font pdfEncoding="Cp1250"/>
+						</textElement>
+						<textFieldExpression><![CDATA["Data zwrotu do Przedsiębiorcy: " + new java.text.SimpleDateFormat("yyyy-MM-dd").format($F{DATE_RETURN_TO_ENTERPRISE}) + "."]]></textFieldExpression>
+					</textField>
+				</frame>
+				<frame>
+					<reportElement x="0" y="627" width="400" height="65" uuid="22c0e42e-4d3f-4534-ae1e-2b62ef6aaf1d">
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<frame>
+						<reportElement x="100" y="0" width="300" height="65" uuid="ab206945-258c-47ad-ba89-a423aaa8fab9">
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						</reportElement>
+						<staticText>
+							<reportElement x="0" y="0" width="300" height="15" uuid="af44fbb4-a1a8-4e5b-888f-87411fe1d214">
+								<property name="local_mesure_unitheight" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							</reportElement>
+							<textElement textAlignment="Center">
+								<font size="10" isBold="false" pdfEncoding="Cp1250"/>
+							</textElement>
+							<text><![CDATA[Zatwierdzam]]></text>
+						</staticText>
+						<line>
+							<reportElement x="36" y="33" width="220" height="1" uuid="39a5ed5e-0445-42b7-bd45-55968ff54563"/>
+							<graphicElement>
+								<pen lineWidth="2.0" lineStyle="Dotted"/>
+							</graphicElement>
+						</line>
+						<staticText>
+							<reportElement x="0" y="50" width="300" height="15" uuid="544dd525-5208-488d-a9ee-899c4c93abc9">
+								<property name="local_mesure_unitheight" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							</reportElement>
+							<textElement textAlignment="Center">
+								<font size="7" isBold="false" pdfEncoding="Cp1250"/>
+							</textElement>
+							<text><![CDATA[(pieczątka i podpis zatwierdzającego uprawnionego przez Operatora finansowego)]]></text>
+						</staticText>
+					</frame>
+				</frame>
 				<staticText>
-					<reportElement x="145" y="10" width="100" height="20" uuid="7ac4c470-6901-429f-ae51-c7076ae8cd80"/>
+					<reportElement x="0" y="70" width="400" height="50" uuid="bade5849-3cd1-4985-949c-2d60afcd64c0">
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+						<font size="15" isBold="true" pdfEncoding="Cp1250"/>
 					</textElement>
-					<text><![CDATA[Zatwierdzam]]></text>
+					<text><![CDATA[Potwierdzenie realizacji dofinansowania usługi w ramach projektu pn.]]></text>
 				</staticText>
-				<line>
-					<reportElement x="80" y="60" width="220" height="1" uuid="4f4b9dec-0896-4100-956f-b3b50bd79c55"/>
-					<graphicElement>
-						<pen lineWidth="2.0" lineStyle="Dotted"/>
-					</graphicElement>
-				</line>
-				<staticText>
-					<reportElement x="20" y="70" width="350" height="16" uuid="6cc04ffd-38fe-4b13-9618-ac8deb0b040b"/>
+				<textField>
+					<reportElement x="0" y="120" width="400" height="30" uuid="12570bef-a83f-4545-9908-512a86dfb74e"/>
 					<textElement textAlignment="Center">
-						<font size="9" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
+						<font size="15" isBold="true"/>
 					</textElement>
-					<text><![CDATA[(pieczątka i podpis zatwierdzającego uprawnionego przez Operatora finansowego)]]></text>
-				</staticText>
+					<textFieldExpression><![CDATA["„" + $F{PROGRAM_NAME} + "”"]]></textFieldExpression>
+				</textField>
 			</frame>
-			<staticText>
-				<reportElement x="30" y="206" width="210" height="16" uuid="dae6894f-e94b-4909-84e8-384a7b193ecc"/>
-				<textElement verticalAlignment="Middle">
-					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<text><![CDATA[zgodnie  z  zawartą umową o dofinansowanie]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="30" y="276" width="110" height="16" uuid="6f0db279-b5c6-477c-8d71-64b4409b9a47">
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<text><![CDATA[realizowane było przez]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="30" y="292" width="40" height="16" uuid="f1349ab6-453d-407a-b727-24b5d0a646e6"/>
-				<textElement verticalAlignment="Middle">
-					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<text><![CDATA[okresie]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="150" y="292" width="10" height="16" uuid="a1c85f2d-a9ae-4370-90c9-baf8d82eac08">
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<font size="6" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<text><![CDATA[-]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="240" y="292" width="14" height="16" uuid="d90f2a79-9fcb-4589-add6-9bbbe834d42f">
-					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<text><![CDATA[w]]></text>
-			</staticText>
-			<textField isBlankWhenNull="true">
-				<reportElement x="261" y="190" width="264" height="16" uuid="a43b3830-8d7e-4a3f-90e4-fcfa2ed49637">
-					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
-				</reportElement>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{ENTERPRISE_IDENTIFIER}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="240" y="206" width="40" height="16" uuid="0c42dee3-376c-464b-8466-86d3292b059d">
-					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
-				</reportElement>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{CONTRACT_NUMBER}]]></textFieldExpression>
-			</textField>
-			<textField pattern="yyyy-MM-dd">
-				<reportElement x="280" y="206" width="165" height="16" uuid="ce454b42-d0dd-40c4-8268-3a4e6c6f3b90">
-					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-				</reportElement>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<textFieldExpression><![CDATA["(" + new java.text.SimpleDateFormat("yyyy-MM-dd").format($F{CONTRACT_SIGN_DATE}) + ")"]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="80" y="260" width="350" height="16" uuid="f7502f8a-d40f-4241-b74f-5a441493f83f">
-					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
-				</reportElement>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{TRAINING_NAME}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="140" y="276" width="350" height="16" uuid="c1dc64ab-19b2-4fbc-9145-2f349c320ce2">
-					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
-				</reportElement>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{TRAINING_INSTITUTION_NAME}]]></textFieldExpression>
-			</textField>
-			<textField pattern="yyyy-MM-dd">
-				<reportElement x="70" y="292" width="80" height="16" uuid="b8ed05cb-f6ac-493d-b7f3-949df4f87bc7">
-					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-				</reportElement>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("yyyy-MM-dd").format($F{TRAINING_START_DATE})]]></textFieldExpression>
-			</textField>
-			<textField pattern="yyyy-MM-dd">
-				<reportElement x="160" y="292" width="80" height="16" uuid="6771552a-45b2-4321-855e-88a355613b20">
-					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-				</reportElement>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("yyyy-MM-dd").format($F{TRAINING_END_DATE})]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="250" y="292" width="240" height="16" uuid="c2457a95-3b81-4348-9438-d32666cced6b">
-					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-				</reportElement>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{TRAINING_PLACE}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="103" y="381" width="92" height="16" uuid="43adaf72-f781-4504-9806-e1d24fd9e7b0">
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-				</reportElement>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Left" verticalAlignment="Top">
-					<font isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<textFieldExpression><![CDATA[new java.text.DecimalFormat(" #,##0.00").format($F{TRAINING_PRICE}) + " zł"]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="370" y="397" width="92" height="16" uuid="bb1d7b1c-d1cf-4649-9834-4e5daa485691">
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-				</reportElement>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Left" verticalAlignment="Top">
-					<font isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<textFieldExpression><![CDATA[new java.text.DecimalFormat(" #,##0.00").format($F{PAY_FROM_ENTERPRISE_TO_IS}) + " zł"]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="240" y="412" width="92" height="16" uuid="c97da41e-f195-4cf1-8056-5b524400a1b5">
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-				</reportElement>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Left" verticalAlignment="Top">
-					<font isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<textFieldExpression><![CDATA[new java.text.DecimalFormat(" #,##0.00").format($F{PRICE_TO_REIMB_WITH_SODEXO}) + " zł"]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="210" y="428" width="92" height="16" uuid="75fc7ba5-934e-407b-81b5-bc7576ed9fb8">
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-				</reportElement>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Left" verticalAlignment="Top">
-					<font isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<textFieldExpression><![CDATA[new java.text.DecimalFormat(" #,##0.00").format($F{PAY_TO_SODEXO}) + " zł"]]></textFieldExpression>
-			</textField>
-			<textField pattern="yyyy-MM-dd">
-				<reportElement x="214" y="444" width="80" height="16" uuid="55a89e87-3990-4d9b-8a5d-5e4f14a5ddd0">
-					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-				</reportElement>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Left" verticalAlignment="Top">
-					<font isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("yyyy-MM-dd").format($F{DATE_TO_SODEXO})]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="230" y="484" width="92" height="16" uuid="c31e4e3d-fa2f-4c43-a3f6-5aa3339a0f44">
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-				</reportElement>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Left" verticalAlignment="Top">
-					<font isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<textFieldExpression><![CDATA[new java.text.DecimalFormat(" #,##0.00").format($F{PRODUCT_VALUE}) + " zł"]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="195" y="484" width="25" height="16" uuid="1a18fa10-6691-49c1-98f2-13f0c2a2d9fc">
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-				</reportElement>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Right" verticalAlignment="Top">
-					<font isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{PRODUCT_NUMBER}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="220" y="484" width="10" height="16" uuid="ce79d40f-fddc-4994-a07a-3c2936ca140f"/>
-				<textElement>
-					<font pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<text><![CDATA[, ]]></text>
-			</staticText>
-			<textField isBlankWhenNull="true">
-				<reportElement x="200" y="530" width="92" height="16" uuid="7be131bc-20de-4872-a249-718804bf2761">
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-				</reportElement>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Left" verticalAlignment="Top">
-					<font isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<textFieldExpression><![CDATA[new java.text.DecimalFormat(" #,##0.00").format($F{OWN_CONTR_ENTERPRISE}) + " zł"]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="130" y="546" width="92" height="16" uuid="8b61605a-8b1a-4195-8488-1d5bc658eb26">
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-				</reportElement>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Left" verticalAlignment="Top">
-					<font isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<textFieldExpression><![CDATA[new java.text.DecimalFormat(" #,##0.00").format($F{GRANT_AMOUNT}) + " zł"]]></textFieldExpression>
-			</textField>
-			<textField pattern="yyyy-MM-dd">
-				<reportElement x="180" y="584" width="80" height="16" uuid="e641fee8-60a1-4b6e-9bdc-297d62606792">
-					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-				</reportElement>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Left" verticalAlignment="Top">
-					<font isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("yyyy-MM-dd").format($F{TRANSFER_DATE_TO_IS})]]></textFieldExpression>
-			</textField>
-			<textField pattern="yyyy-MM-dd">
-				<reportElement x="180" y="620" width="80" height="16" uuid="a85fcd0a-aa47-4587-827c-6aa0450bcb00">
-					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-				</reportElement>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Left" verticalAlignment="Top">
-					<font isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("yyyy-MM-dd").format($F{DATE_RETURN_TO_ENTERPRISE})]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="180" y="603" width="92" height="16" uuid="05fd9577-4075-4bcf-92b3-0ddcc2ef8a8e">
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-				</reportElement>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Left" verticalAlignment="Top">
-					<font isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1250"/>
-				</textElement>
-				<textFieldExpression><![CDATA[new java.text.DecimalFormat(" #,##0.00").format($F{AMOUNT_RETURN_TO_ENTERPRISE}) + " zł"]]></textFieldExpression>
-			</textField>
 		</band>
 	</title>
 	<columnFooter>
