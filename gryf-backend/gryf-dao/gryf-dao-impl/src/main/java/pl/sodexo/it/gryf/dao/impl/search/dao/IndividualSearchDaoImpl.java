@@ -1,19 +1,20 @@
 package pl.sodexo.it.gryf.dao.impl.search.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import pl.sodexo.it.gryf.common.criteria.UserCriteria;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.contracts.searchform.ContractSearchResultDTO;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.IndDto;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.UserTrainingReservationDataDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.*;
 import pl.sodexo.it.gryf.common.dto.security.individuals.VerificationDto;
 import pl.sodexo.it.gryf.dao.api.search.dao.IndividualSearchDao;
 import pl.sodexo.it.gryf.dao.api.search.mapper.IndividualSearchMapper;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -42,7 +43,17 @@ public class IndividualSearchDaoImpl implements IndividualSearchDao {
     }
 
     @Override
-    public IndDto findIndividualAfterLogin() {
+    public List<ProductDto> findProductInstancePoolsByIndividual() {
+        return individualSearchMapper.findProductInstancePoolsByIndividual(new UserCriteria());
+    }
+
+    @Override
+    public List<TrainingDto> findTrainingsByIndividual() {
+        return individualSearchMapper.findTrainingsByIndividual(new UserCriteria());
+    }
+
+    @Override
+    public IndividualWithContactDto findIndividualAfterLogin() {
         return individualSearchMapper.findIndividualAfterLogin(new UserCriteria());
     }
 }

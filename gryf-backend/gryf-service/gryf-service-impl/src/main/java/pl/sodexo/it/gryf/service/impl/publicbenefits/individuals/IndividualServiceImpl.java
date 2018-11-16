@@ -3,12 +3,15 @@ package pl.sodexo.it.gryf.service.impl.publicbenefits.individuals;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.sodexo.it.gryf.common.GenericBuilder;
 import pl.sodexo.it.gryf.common.authentication.AEScryptographer;
 import pl.sodexo.it.gryf.common.config.ApplicationParameters;
+import pl.sodexo.it.gryf.common.dto.other.GrantProgramDictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.ContactTypeDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.detailsForm.IndividualContactDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.detailsForm.IndividualDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.IndDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.IndividualWithContactDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.UserTrainingReservationDataDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.searchform.IndividualSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.searchform.IndividualSearchResultDTO;
@@ -48,9 +51,6 @@ public class IndividualServiceImpl implements IndividualService {
     private IndividualSearchDao individualSearchDao;
 
     @Autowired
-    private ApplicationParameters applicationParameters;
-
-    @Autowired
     private IndividualEntityMapper individualEntityMapper;
 
     @Autowired
@@ -86,7 +86,25 @@ public class IndividualServiceImpl implements IndividualService {
 
     @Override
     public IndDto findIndividualAfterLogin() {
-        return individualSearchDao.findIndividualAfterLogin();
+
+        //1- Wybierz dane Uczestnika
+        IndividualWithContactDto individualWithContactDto = individualSearchDao.findIndividualAfterLogin();
+
+        IndDto individualWithProductPoolsAndTrainings = GenericBuilder.of(IndDto::new)
+                .with(IndDto::setId, individualWithContactDto.getId())
+                .with(IndDto::setFirstName, individualWithContactDto.getFirstName())
+                .with(IndDto::setLastName, individualWithContactDto.getLastName())
+                .with(IndDto::setPesel, individualWithContactDto.getPesel())
+                .with(IndDto::setVerificationEmail, individualWithContactDto.getVerificationEmail())
+                .build();
+
+        //2 - Wybierz dane o bonach (pule)
+        individualWithProductPoolsAndTrainings.setProducts(individualSearchDao.findProductInstancePoolsByIndividual());
+
+        //3-  Wybierz dane o uslugach
+        individualWithProductPoolsAndTrainings.setTrainings(individualSearchDao.findTrainingsByIndividual());
+
+        return individualWithProductPoolsAndTrainings;
     }
 
     @Override
