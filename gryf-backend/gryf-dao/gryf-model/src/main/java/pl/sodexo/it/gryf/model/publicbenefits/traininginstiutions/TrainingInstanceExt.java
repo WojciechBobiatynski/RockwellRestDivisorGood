@@ -24,7 +24,7 @@ import static pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.Trainin
 @NamedQueries({
         @NamedQuery(name = QUERY_TRAINING_INSTANCE_EXT_DELETE_ALL_TRAINING_INSTANCE_EXT, query = "delete from TrainingInstanceExt t " +
                 " where t.importJobId < :importJobId " +
-                " and t.importJobId in (select aj.id from AsynchronizeJob  aj, JobType  jt " +
+                " and t.importJobId in (select aj.id from AsynchronizeJob  aj JOIN aj.type jt " +
                 "                        where  jt.grantProgramId = :grantProgramId )"),
         @NamedQuery(name = "TrainingInstanceExt.findByIndOrderExternalId", query = "select count(t) from TrainingInstanceExt t where t.indOrderExternalId like CONCAT('%',:externalOrderId,'%') "),
 })

@@ -29,12 +29,12 @@ import static pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.Trainin
                 + "tt.deactivateJob = :importJob, tt.version = (tt.version + 1), tt.modifiedTimestamp = CURRENT_TIMESTAMP, tt.modifiedUser = :modifiedUser "
                 + "where tt.active = true " +
                 "   and tt.id not in "
-                + "(select r.training.id from ImportDataRow r, AsynchronizeJob  aj, JobType  jt " +
+                + "(select r.training.id from ImportDataRow r JOIN r.importJob  aj JOIN aj.type jt " +
                 "     where  r.training.id is not null and r.importJob = :importJob" +
                 "            AND jt.grantProgramId = :grantProgramId " +
                 "  )" +
                 "   and tt.id in " /* Szkolenia pochadza z tego samego programu co importowany*/
-                + "(select r.training.id from ImportDataRow r, AsynchronizeJob  aj, JobType  jt " +
+                + "(select r.training.id from ImportDataRow r JOIN r.importJob  aj JOIN aj.type jt " +
                 "     where  r.training.id is not null and r.importJob != :importJob" +
                 "            AND jt.grantProgramId = :grantProgramId " +
                 "  )"),
