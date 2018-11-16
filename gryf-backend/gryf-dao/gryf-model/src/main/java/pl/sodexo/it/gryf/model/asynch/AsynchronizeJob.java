@@ -31,9 +31,8 @@ public class AsynchronizeJob extends VersionableEntity {
     @GeneratedValue(generator = "asyn_job_seq")
     private Long id;
 
-   // @Enumerated(EnumType.STRING) //Toddo
     @ManyToOne
-    @JoinColumn(name = "TYPE")
+    @JoinColumn(name = "TYPE", referencedColumnName ="NAME")
     private JobType type;
 
     @Column(name = "PARAMS")
