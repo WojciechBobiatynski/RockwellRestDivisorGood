@@ -11,6 +11,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
 
+import static pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstanceExt.QUERY_TRAINING_INSTANCE_EXT_DELETE_ALL_TRAINING_INSTANCE_EXT;
+
 
 /**
  * Wpisy z pliku importu usług
@@ -20,13 +22,20 @@ import java.util.Objects;
 @Entity
 @Table(name = "TI_TRAINING_INSTANCES_EXT", schema = "APP_PBE")
 @NamedQueries({
-        @NamedQuery(name = "TrainingInstanceExt.deleteAllTrainingInstanceExt", query = "delete from TrainingInstanceExt t where t.importJobId < :importJobId "),
+        @NamedQuery(name = QUERY_TRAINING_INSTANCE_EXT_DELETE_ALL_TRAINING_INSTANCE_EXT, query = "delete from TrainingInstanceExt t " +
+                " where t.importJobId < :importJobId " +
+                " and t.importJobId in (select aj.id from AsynchronizeJob  aj, JobType  jt " +
+                "                        where  jt.grantProgramId = :grantProgramId )"),
         @NamedQuery(name = "TrainingInstanceExt.findByIndOrderExternalId", query = "select count(t) from TrainingInstanceExt t where t.indOrderExternalId like CONCAT('%',:externalOrderId,'%') "),
 })
 @ToString
 public class TrainingInstanceExt extends VersionableEntity {
 
     public static final String END_DATE_ATTR_NAME = "endDate";
+
+    public static final String QUERY_TRAINING_INSTANCE_EXT_DELETE_ALL_TRAINING_INSTANCE_EXT = "TrainingInstanceExt.deleteAllTrainingInstanceExt";
+    public static final String PARAMETER_GRANT_PROGRAM_ID = "grantProgramId";
+
 
     @Id
     @Column(name = "ID")

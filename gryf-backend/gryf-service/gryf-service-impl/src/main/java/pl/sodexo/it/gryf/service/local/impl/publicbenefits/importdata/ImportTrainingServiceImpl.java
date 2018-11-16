@@ -131,9 +131,9 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
 
     @Override
     protected String saveInternalExtraData(ImportParamsDTO paramsDTO, ImportDataRow importDataRow){
-        int updateNum = trainingRepository.deactiveTrainings(importDataRow.getImportJob(), GryfUser.getLoggedUserLoginOrDefault());
+        int updateNum = trainingRepository.deactiveTrainings(paramsDTO.getGrantProgramId(), importDataRow.getImportJob(), GryfUser.getLoggedUserLoginOrDefault());
 
-        int deleteNum = trainingInstanceExtRepository.deleteAllTrainingsInstanceExt(importDataRow.getImportJob().getId());
+        int deleteNum = trainingInstanceExtRepository.deleteAllTrainingsInstanceExt(paramsDTO.getGrantProgramId(), importDataRow.getImportJob().getId());
 
         return updateNum > 0 ? String.format("Poprawnie deaktywowano usługi: ilość zmienionych usług (%s).", updateNum) :
                                 "Brak deaktywowanych usług.";

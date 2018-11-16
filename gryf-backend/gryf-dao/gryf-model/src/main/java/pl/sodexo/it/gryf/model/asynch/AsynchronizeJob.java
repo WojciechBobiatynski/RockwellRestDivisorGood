@@ -32,8 +32,9 @@ public class AsynchronizeJob extends VersionableEntity {
     private Long id;
 
    // @Enumerated(EnumType.STRING) //Toddo
-    @Column(name = "TYPE")
-    private String type;
+    @ManyToOne
+    @JoinColumn(name = "TYPE")
+    private JobType type;
 
     @Column(name = "PARAMS")
     private String params;
@@ -70,11 +71,11 @@ public class AsynchronizeJob extends VersionableEntity {
         this.id = id;
     }
 
-    public String getType() {
+    public JobType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(JobType type) {
         this.type = type;
     }
 
