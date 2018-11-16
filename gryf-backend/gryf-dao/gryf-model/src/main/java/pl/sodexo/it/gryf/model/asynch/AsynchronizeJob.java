@@ -33,7 +33,7 @@ public class AsynchronizeJob extends VersionableEntity {
 
    // @Enumerated(EnumType.STRING) //Toddo
     @ManyToOne
-    @JoinColumn(name = "TYPE")
+    @JoinColumn(name = "TYPE", referencedColumnName ="NAME")
     private JobType type;
 
     @Column(name = "PARAMS")
