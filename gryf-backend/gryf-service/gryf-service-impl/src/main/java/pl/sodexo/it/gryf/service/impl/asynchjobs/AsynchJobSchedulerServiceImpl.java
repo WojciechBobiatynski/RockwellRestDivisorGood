@@ -87,7 +87,7 @@ public class AsynchJobSchedulerServiceImpl implements AsynchJobSchedulerService 
 
         AsynchronizeJob job = new AsynchronizeJob();
         JobType jobType = jobTypeRepository.findByGrantProgramIdAndName(createDTO.getGrantProgramId(), createDTO.getType());
-        job.setType(jobType.getName());
+        job.setType(jobType);
         job.setStatus(AsynchronizeJobStatus.N);
         job = asynchronizeJobRepository.save(job);
 
@@ -166,7 +166,7 @@ public class AsynchJobSchedulerServiceImpl implements AsynchJobSchedulerService 
     @Transactional(propagation = Propagation.REQUIRED)
     public AsynchronizeJobInfoDTO getAsynchronizeJobInfoDTO(Long jobId){
         AsynchronizeJob job = asynchronizeJobRepository.get(jobId);
-        JobType jobType = jobTypeRepository.findByName(job.getType());
+        JobType jobType = job.getType();
         if(job != null) {
             AsynchronizeJobInfoDTO dto = new AsynchronizeJobInfoDTO();
             dto.setId(job.getId());

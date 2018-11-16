@@ -25,10 +25,11 @@ public class TrainingRepositoryImpl extends GenericRepositoryImpl<Training, Long
     }
 
     @Override
-    public int deactiveTrainings(AsynchronizeJob importJob, String modifiedUser){
-        Query query = entityManager.createNamedQuery("Training.deactiveTrainings");
+    public int deactiveTrainings(Long grantProgramId, AsynchronizeJob importJob, String modifiedUser){
+        Query query = entityManager.createNamedQuery(Training.QUERY_TRAINING_DEACTIVATE_TRAININGS);
         query.setParameter("importJob", importJob);
         query.setParameter("modifiedUser", modifiedUser);
+        query.setParameter( Training.PARAMETER_GRANT_PROGRAM_ID, grantProgramId);
         return query.executeUpdate();
     }
 
