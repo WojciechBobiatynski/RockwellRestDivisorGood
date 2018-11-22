@@ -138,6 +138,8 @@
             <h2>Kierunek Kariera Zawodowa</h2>
             <h3 class="phone">+48 22 346 75 15</h3>
             <a class="mail" href="mailto:tbok.kk@sodexo.com" title="tbok.kk@sodexo.com">tbok.kk@sodexo.com</a>
+            <p class="description"/>
+            <h3 class="phone">+48 22 346 75 05</h3>
             <p class="description">Wszystkie informacje o projekcie pn. „Kierunek Kariera Zawodowa” dostępne są na stronie<br><a href="http://www.kierunek.pociagdokariery.pl" rel="external" title="Kierunek Pociąg do Kariery">www.kierunek.pociagdokariery.pl</a></p>
         </div>
 
@@ -150,8 +152,8 @@
                 <img src="${cdnUrl}img/fu_logo.gif" alt="Logo Programu Regionalnego Fundusze Europejskie z logiem przedstawiającym na niebieskim tle trzy gwiazdki w kolorze zółtym, czerwonym i białym">
             </a>
 
-            <a href="http://www.malopolska.pl/" rel="external" title="Rzeczypospolita polska">
-                <img src="${cdnUrl}img/rp_flag.jpg" alt="Flaga Rzczypospolitej Polskiej, biało-czerwona flaga po lewej stronie, po prawej napis Rzeczypospolita Polska">
+            <a href="http://www.malopolska.pl/" rel="external" title="Rzeczpospolita Polska">
+                <img src="${cdnUrl}img/rp_flag.jpg" alt="Flaga Rzeczpospolitej Polskiej, biało-czerwona flaga po lewej stronie, po prawej napis Rzeczpospolita Polska">
             </a>
 
             <a href="http://www.malopolska.pl/" rel="external" title="Małopolska">

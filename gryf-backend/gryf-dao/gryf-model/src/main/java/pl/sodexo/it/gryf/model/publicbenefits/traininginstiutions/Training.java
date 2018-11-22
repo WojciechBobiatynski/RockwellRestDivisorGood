@@ -13,6 +13,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
 
+import static pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.Training.QUERY_TRAINING_DEACTIVATE_TRAININGS;
+
 /**
  * Encja reprezentuająca usługa
  *
@@ -23,10 +25,19 @@ import java.util.Objects;
 @SequenceGenerator(name = "ti_tra_seq", schema = "eagle", sequenceName = "ti_tra_seq", allocationSize = 1)
 @NamedQueries({
         @NamedQuery(name = "Training.findByExternalId", query = "select e from Training e where e.externalId = :externalId "),
-        @NamedQuery(name = "Training.deactiveTrainings", query = "update Training tt set tt.active = false, tt.deactivateDate = CURRENT_TIMESTAMP, "
+        @NamedQuery(name = QUERY_TRAINING_DEACTIVATE_TRAININGS, query = "update Training tt set tt.active = false, tt.deactivateDate = CURRENT_TIMESTAMP, "
                 + "tt.deactivateJob = :importJob, tt.version = (tt.version + 1), tt.modifiedTimestamp = CURRENT_TIMESTAMP, tt.modifiedUser = :modifiedUser "
-                + "where tt.active = true and tt.id not in "
-                + "(select r.training.id from ImportDataRow r where  r.training.id is not null and r.importJob = :importJob)"),
+                + "where tt.active = true " +
+                "   and tt.id not in "
+                + "(select r.training.id from ImportDataRow r JOIN r.importJob  aj JOIN aj.type jt " +
+                "     where  r.training.id is not null and r.importJob = :importJob" +
+                "            AND jt.grantProgramId = :grantProgramId " +
+                "  )" +
+                "   and tt.id in " /* Szkolenia pochadza z tego samego programu co importowany*/
+                + "(select r.training.id from ImportDataRow r JOIN r.importJob  aj JOIN aj.type jt " +
+                "     where  r.training.id is not null and r.importJob != :importJob" +
+                "            AND jt.grantProgramId = :grantProgramId " +
+                "  )"),
         @NamedQuery(name = "Training.isInUserInstitution", query = "select count(e) "
                 + "from Training e join e.trainingInstitution ti "
                 + "join ti.trainingInstitutionUsers tiu "
@@ -37,6 +48,9 @@ import java.util.Objects;
 public class Training extends VersionableEntity {
 
     public static final String END_DATE_ATTR_NAME = "endDate";
+
+    public static final String QUERY_TRAINING_DEACTIVATE_TRAININGS = "Training.deactiveTrainings";
+    public static final String PARAMETER_GRANT_PROGRAM_ID = "grantProgramId";
 
     @Id
     @Column(name = "ID")
