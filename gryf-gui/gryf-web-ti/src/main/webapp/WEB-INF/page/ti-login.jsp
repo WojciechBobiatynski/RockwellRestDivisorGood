@@ -141,6 +141,7 @@
                 <h2>Kierunek Kariera Zawodowa</h2>
                 <h3 class="phone">+48 22 346 75 15</h3>
                 <a class="mail" href="mailto:tbok.kk@sodexo.com" title="tbok.kk@sodexo.com">tbok.kk@sodexo.com</a>
+                <p class="description"/>
                 <h3 class="phone">+48 22 346 75 05</h3>
                 <p class="description">Wszystkie informacje o projekcie pn. „Kierunek Kariera Zawodowa” dostępne są na stronie<br><a href="http://www.pociagdokariery.pl" rel="external" title="Pociąg do Kariery">www.pociagdokariery.pl</a></p>
             </div>
