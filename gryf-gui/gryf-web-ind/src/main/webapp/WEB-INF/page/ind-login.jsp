@@ -38,17 +38,15 @@
 
 <body id="ak">
 
-    <div id="accessbility">
-        <div class="grid">
-            <ol class="font">
-                <li><a tabindex="5" role="button" href="#font-normal" title="ustaw małą czcionkę" rel="font" class="font-normal current">A</a></li>
-                <li><a tabindex="6" role="button" href="#font-medium" title="ustaw średnią czcionkę" rel="font" class="font-medium">A</a></li>
-                <li><a tabindex="7" role="button" href="#font-big" title="ustaw dużą czcionkę" rel="font" class="font-big">A</a></li>
-                <li><a tabindex="8" role="button" href="#high-contrast" title="zmień kontrast" rel="contrast" class="contrast-high">zmień kontrast</a></li>
-            </ol>
-        </div>
-    </div>
-    <div style="clear: both;"></div>
+    <div id="accessbility"><div class="grid">
+        <ol class="font">
+            <li><a role="button" href="#font-normal" title="ustaw małą czcionkę" rel="font" class="font-normal current">A</a></li>
+            <li><a role="button" href="#font-medium" title="ustaw średnią czcionkę" rel="font" class="font-medium">A</a></li>
+            <li><a role="button" href="#font-big" title="ustaw dużą czcionkę" rel="font" class="font-big">A</a></li>
+            <li><a role="button" href="#high-contrast" title="zmień kontrast" rel="contrast" class="contrast-high">zmień kontrast</a></li>
+        </ol>
+    </div></div>
+
     <header>
         <span class="description">System bonów szkoleniowych realizowany jest na zlecenie</span>
         <div class="top-logos">
@@ -152,8 +150,8 @@
                 <img src="${cdnUrl}img/fu_logo.gif" alt="Logo Programu Regionalnego Fundusze Europejskie z logiem przedstawiającym na niebieskim tle trzy gwiazdki w kolorze zółtym, czerwonym i białym">
             <%--</a>--%>
 
-            <%--<a href="http://www.malopolska.pl/" rel="external" title="Rzeczypospolita polska">--%>
-                <img src="${cdnUrl}img/rp_flag.jpg" alt="Flaga Rzczypospolitej Polskiej, biało-czerwona flaga po lewej stronie, po prawej napis Rzeczypospolita Polska">
+            <%--<a href="http://www.malopolska.pl/" rel="external" title="Rzeczpospolita Polska">--%>
+                <img src="${cdnUrl}img/rp_flag.jpg" alt="Flaga Rzeczpospolitej Polskiej, biało-czerwona flaga po lewej stronie, po prawej napis Rzeczpospolita Polska">
             <%--</a>--%>
 
             <%--<a href="http://www.malopolska.pl/" rel="external" title="Małopolska">--%>
@@ -161,7 +159,7 @@
             <%--</a>--%>
 
             <%--<a href="http://www.funduszeeuropejskie.gov.pl/efs/" rel="external" title="Unia Europejska - Europejski Fundusz Społeczny">--%>
-                <img src="${cdnUrl}img/eu_efs_logo.gif" alt="Napis Unia Europejska, Europejski Fundusz Społeczny po prawej, po lewej faga uni europejskiej - złote gwiazdki na ciemnoniebieskim tle">
+                <img src="${cdnUrl}img/eu_efs_logo.gif" alt="Napis Unia Europejska, Europejski Fundusz Społeczny po prawej, po lewej flaga uni europejskiej - złote gwiazdki na ciemnoniebieskim tle">
             <%--</a>--%>
 
         </div>
