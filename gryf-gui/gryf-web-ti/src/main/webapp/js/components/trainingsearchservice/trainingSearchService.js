@@ -153,10 +153,10 @@ angular.module("gryf.ti").factory("TrainingSearchService", [ "$http", "GryfModal
         return find();
     };
 
-    var loadMoreToReserve = function(grantProgramId) {
+    var loadMoreToReserve = function(grantProgramId, indId) {
         searchDTO.entity.limit += searchResultOptions.displayLimitIncrementer;
         searchResultOptions.displayLimit += searchResultOptions.displayLimitIncrementer;
-        return findToReserve(grantProgramId);
+        return findToReserve(grantProgramId, indId);
     };
 
     var getGrantProgramNames = function () {

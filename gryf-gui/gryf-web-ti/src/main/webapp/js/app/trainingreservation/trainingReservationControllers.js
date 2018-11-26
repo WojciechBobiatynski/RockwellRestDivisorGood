@@ -98,7 +98,17 @@ angular.module("gryf.ti").controller("TrainingReservationController",
             return;
         }
 
-        TrainingSearchService.loadMoreToReserve($scope.userTrainingReservationData.data.contracts[0].grantProgram.id);
+        if(!$scope.searchDTO.entity.grantProgramId) {
+            GryfModals.openModal(GryfModals.MODALS_URL.ERROR_INFO,
+                {message: "Wybierz projekt dofinansowania."});
+            return;
+        }
+
+        var grantProgramId = $scope.searchDTO.entity.grantProgramId;
+        var indId = $scope.userTrainingReservationData.data.id;
+
+        TrainingSearchService.loadMoreToReserve(grantProgramId, indId);
+
     };
 
     $scope.reserveTraining = function(item) {
