@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingInstanceExtDTO;
 import pl.sodexo.it.gryf.dao.api.crud.repository.asynch.AsynchronizeJobRepository;
+import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.Training;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstanceExt;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingCategory;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstitution;
@@ -27,6 +28,11 @@ public class TrainingInstanceExtDtoMapper extends VersionableDtoMapper<TrainingI
         if (dto.getTrainingInstitution() != null) {
             entity.setTrainingInstitution(new TrainingInstitution());
             entity.getTrainingInstitution().setId(dto.getTrainingInstitution());
+        }
+
+        if (dto.getTrainingId() != null) {
+            entity.setTraining(new Training());
+            entity.getTraining().setId(dto.getTrainingId());
         }
 
         entity.setVatRegNum(dto.getVatRegNum());

@@ -2,9 +2,10 @@ package pl.sodexo.it.gryf.service.local.impl.publicbenefits.importdata;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -46,6 +47,9 @@ import java.util.regex.Pattern;
  */
 @Service(value = ImportDataService.IMPORT_TRAINING_SERVICE)
 public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ImportTrainingServiceImpl.class);
+
     //PRIVATE FIELDS
 
     @Autowired
@@ -119,13 +123,14 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
 
         if(training == null){
             Long trainingId = trainingService.saveTraining(trainingDTO);
-            Long trainingInstanceExtId = trainingInstanceExtService.saveTrainingInstanceExt(trainingInstanceExt, importJobId);
+            trainingInstanceExt.setTrainingId(trainingId);
+            trainingInstanceExtService.saveTrainingInstanceExt(trainingInstanceExt, importJobId);
             result.setTrainingId(trainingId);
             result.setDescrption(String.format("Poprawnie utworzono dane: usługa (%s).", getIdToDescription(trainingId)));
 
         }else{
             trainingService.updateTraining(trainingDTO);
-            Long trainingInstanceExtId = trainingInstanceExtService.saveTrainingInstanceExt(trainingInstanceExt, importJobId);
+            trainingInstanceExtService.saveTrainingInstanceExt(trainingInstanceExt, importJobId);
             result.setTrainingId(trainingDTO.getTrainingId());
             result.setDescrption(String.format("Poprawnie zaktualizowano dane: usługa (%s).", trainingDTO.getTrainingId()));
         }
@@ -138,6 +143,8 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
         int updateNum = trainingRepository.deactiveTrainings(paramsDTO.getGrantProgramId(), importDataRow.getImportJob(), GryfUser.getLoggedUserLoginOrDefault());
 
         int deleteNum = trainingInstanceExtRepository.deleteAllTrainingsInstanceExt(paramsDTO.getGrantProgramId(), importDataRow.getImportJob().getId());
+
+        LOGGER.debug("trainingInstanceExtRepository.deleteAllTrainingsInstanceExt Result = {} ", deleteNum);
 
         return updateNum > 0 ? String.format("Poprawnie deaktywowano usługi: ilość zmienionych usług (%s).", updateNum) :
                                 "Brak deaktywowanych usług.";

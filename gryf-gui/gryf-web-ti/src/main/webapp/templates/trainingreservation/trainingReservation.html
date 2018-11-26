@@ -117,7 +117,7 @@
          <th class="sortable" ng-class="getSortingTypeClass('grantProgram.programName')">
             <div ng-click="getSortedBy('grantProgram.programName')"></div>
             <select
-                    ng-options="v.grantProgramId as v.grantProgramName for v in userTrainingReservationData.data.productInstancePools"
+                    ng-options="v.grantProgram.id as v.grantProgram.name for v in userTrainingReservationData.data.contracts"
                     ng-model="searchDTO.entity.grantProgramId">
             </select>
          </th>
