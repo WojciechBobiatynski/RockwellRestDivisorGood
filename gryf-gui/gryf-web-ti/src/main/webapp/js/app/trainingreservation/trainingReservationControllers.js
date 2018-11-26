@@ -116,4 +116,9 @@ angular.module("gryf.ti").controller("TrainingReservationController",
 
     $scope.clear();
 
+        //Po czysczeniu wszystkich
+        TrainingReservationService.getGrantProgramNames().then(function(response) {
+            $scope.grantPrograms = response.data;
+        });
+
 }]);
