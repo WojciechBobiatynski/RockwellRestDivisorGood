@@ -57,4 +57,6 @@ public class ContractSearchQueryDTO extends SearchDto {
     @Getter
     @Setter
     private String grantProgramOwnerName;
+
+
 }

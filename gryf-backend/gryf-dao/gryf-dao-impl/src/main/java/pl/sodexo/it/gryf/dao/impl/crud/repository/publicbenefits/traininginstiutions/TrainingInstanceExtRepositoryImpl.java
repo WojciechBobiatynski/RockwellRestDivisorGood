@@ -1,7 +1,6 @@
 package pl.sodexo.it.gryf.dao.impl.crud.repository.publicbenefits.traininginstiutions;
 
 import org.springframework.stereotype.Repository;
-import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstanceExtRepository;
 import pl.sodexo.it.gryf.dao.impl.crud.repository.GenericRepositoryImpl;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstanceExt;
@@ -16,9 +15,10 @@ import javax.persistence.TypedQuery;
 public class TrainingInstanceExtRepositoryImpl extends GenericRepositoryImpl<TrainingInstanceExt, Long> implements TrainingInstanceExtRepository {
 
     @Override
-    public int deleteAllTrainingsInstanceExt(Long importJobId) {
-        Query query = entityManager.createNamedQuery("TrainingInstanceExt.deleteAllTrainingInstanceExt");
+    public int deleteAllTrainingsInstanceExt(Long grantProgramId, Long importJobId) {
+        Query query = entityManager.createNamedQuery(TrainingInstanceExt.QUERY_TRAINING_INSTANCE_EXT_DELETE_ALL_TRAINING_INSTANCE_EXT);
         query.setParameter("importJobId", importJobId);
+        query.setParameter( TrainingInstanceExt.PARAMETER_GRANT_PROGRAM_ID, grantProgramId);
         return query.executeUpdate();
     }
 

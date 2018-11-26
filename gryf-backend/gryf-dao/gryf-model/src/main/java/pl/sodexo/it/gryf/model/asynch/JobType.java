@@ -26,7 +26,7 @@ import static pl.sodexo.it.gryf.model.asynch.JobType.*;
 @SequenceGenerator(name = IMPORT_TYPE_SEQ, schema = "eagle", sequenceName = IMPORT_TYPE_SEQ, allocationSize = 1)
 public class JobType {
 
-    public final static String IMPORT_TYPE_SEQ = "import_type_seq";
+    public final static String IMPORT_TYPE_SEQ = "job_type_seq";
 
     //Queries Names
     public final static String QUERY_FIND_BY_GRANT_PROGRAM_ID_AND_NAME = "JobType.findByGrantProgramIdAndName";

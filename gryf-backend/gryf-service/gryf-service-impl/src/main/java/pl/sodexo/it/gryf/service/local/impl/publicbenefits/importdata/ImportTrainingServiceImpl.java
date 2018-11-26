@@ -4,17 +4,19 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.importdata.*;
+import pl.sodexo.it.gryf.common.GenericBuilder;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.importdata.ImportParamsDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.importdata.ImportResultDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.importdata.ImportTrainingDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingInstanceExtDTO;
 import pl.sodexo.it.gryf.common.dto.user.GryfUser;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
-import pl.sodexo.it.gryf.service.api.patterns.DefaultPatternContext;
-import pl.sodexo.it.gryf.service.api.patterns.PatternContext;
-import pl.sodexo.it.gryf.service.api.patterns.PatternService;
 import pl.sodexo.it.gryf.dao.api.crud.repository.asynch.AsynchronizeJobRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.importdata.ImportDataRowRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingCategoryRepository;
@@ -26,8 +28,11 @@ import pl.sodexo.it.gryf.model.importdata.ImportDataRowStatus;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.Training;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingCategory;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstitution;
-import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.TrainingService;
+import pl.sodexo.it.gryf.service.api.patterns.DefaultPatternContext;
+import pl.sodexo.it.gryf.service.api.patterns.PatternContext;
+import pl.sodexo.it.gryf.service.api.patterns.PatternService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.TrainingInstanceExtService;
+import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.TrainingService;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.importdata.ImportDataService;
 
@@ -42,6 +47,9 @@ import java.util.regex.Pattern;
  */
 @Service(value = ImportDataService.IMPORT_TRAINING_SERVICE)
 public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ImportTrainingServiceImpl.class);
+
     //PRIVATE FIELDS
 
     @Autowired
@@ -102,7 +110,7 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
     @Override
     protected ImportResultDTO saveInternalNormalData(ImportParamsDTO paramsDTO, Row row, Long importJobId) {
         ImportTrainingDTO importDTO = createImportDTO(row);
-        validateImport(importDTO);
+        validateImport(paramsDTO, importDTO);
 
         TrainingInstitution trainingInstitution = trainingInstitutionRepository.findByExternalId(importDTO.getTrainingInstitutionExternalId());
         Training training = trainingRepository.findByExternalId(importDTO.getExternalId());
@@ -115,13 +123,14 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
 
         if(training == null){
             Long trainingId = trainingService.saveTraining(trainingDTO);
-            Long trainingInstanceExtId = trainingInstanceExtService.saveTrainingInstanceExt(trainingInstanceExt, importJobId);
+            trainingInstanceExt.setTrainingId(trainingId);
+            trainingInstanceExtService.saveTrainingInstanceExt(trainingInstanceExt, importJobId);
             result.setTrainingId(trainingId);
             result.setDescrption(String.format("Poprawnie utworzono dane: usługa (%s).", getIdToDescription(trainingId)));
 
         }else{
             trainingService.updateTraining(trainingDTO);
-            Long trainingInstanceExtId = trainingInstanceExtService.saveTrainingInstanceExt(trainingInstanceExt, importJobId);
+            trainingInstanceExtService.saveTrainingInstanceExt(trainingInstanceExt, importJobId);
             result.setTrainingId(trainingDTO.getTrainingId());
             result.setDescrption(String.format("Poprawnie zaktualizowano dane: usługa (%s).", trainingDTO.getTrainingId()));
         }
@@ -131,9 +140,11 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
 
     @Override
     protected String saveInternalExtraData(ImportParamsDTO paramsDTO, ImportDataRow importDataRow){
-        int updateNum = trainingRepository.deactiveTrainings(importDataRow.getImportJob(), GryfUser.getLoggedUserLoginOrDefault());
+        int updateNum = trainingRepository.deactiveTrainings(paramsDTO.getGrantProgramId(), importDataRow.getImportJob(), GryfUser.getLoggedUserLoginOrDefault());
 
-        int deleteNum = trainingInstanceExtRepository.deleteAllTrainingsInstanceExt(importDataRow.getImportJob().getId());
+        int deleteNum = trainingInstanceExtRepository.deleteAllTrainingsInstanceExt(paramsDTO.getGrantProgramId(), importDataRow.getImportJob().getId());
+
+        LOGGER.debug("trainingInstanceExtRepository.deleteAllTrainingsInstanceExt Result = {} ", deleteNum);
 
         return updateNum > 0 ? String.format("Poprawnie deaktywowano usługi: ilość zmienionych usług (%s).", updateNum) :
                                 "Brak deaktywowanych usług.";
@@ -168,13 +179,14 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
 
     //PRIVATE METHODS - VALIDATE & SAVE
 
-    private void validateImport(ImportTrainingDTO importDTO){
+    private void validateImport(ImportParamsDTO paramsDTO, ImportTrainingDTO importDTO){
         List<EntityConstraintViolation> violations = gryfValidator.generateViolation(importDTO);
         if (importDTO.getReimbursmentCondition2() == null) {
             violations.add(new EntityConstraintViolation("Brak identyfikatora wsparcia"));
         } else {
             //Wybor wzorca per program z parametrami
-            PatternContext importTrainingPatternContext = DefaultPatternContext.create().build();
+            PatternContext importTrainingPatternContext = GenericBuilder.of(() -> new DefaultPatternContext(paramsDTO.getGrantProgramId(), paramsDTO.getGrantProgram().getProgramCode(), ""))
+                    .with(DefaultPatternContext::setId, paramsDTO.getGrantProgramId()).build();
             String searchPattern = importPatternService.getPattern(importTrainingPatternContext);
 
             Pattern r = Pattern.compile(searchPattern);

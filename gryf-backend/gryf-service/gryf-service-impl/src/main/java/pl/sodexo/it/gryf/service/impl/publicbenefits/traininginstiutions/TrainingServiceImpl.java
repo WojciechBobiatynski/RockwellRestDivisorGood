@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.contracts.detailsform.ContractDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingPrecalculatedDetailsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchQueryDTO;
@@ -16,6 +17,7 @@ import pl.sodexo.it.gryf.dao.api.search.dao.TrainingSearchDao;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.Training;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingCategory;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingCategoryCatalog;
+import pl.sodexo.it.gryf.service.api.publicbenefits.contracts.ContractService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.TrainingService;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.traininginstiutions.TrainingDtoMapper;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.traininginstiutions.TraningCategoryCatalogEntityMapper;
@@ -23,6 +25,8 @@ import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.traininginst
 import pl.sodexo.it.gryf.service.validation.publicbenefits.traininginstiutions.TrainingValidator;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * Created by Isolution on 2016-10-26.
@@ -30,6 +34,9 @@ import java.util.List;
 @Service
 @Transactional
 public class TrainingServiceImpl implements TrainingService {
+
+    @Autowired
+    private ContractService contractService;
 
     @Autowired
     private TrainingSearchDao trainingSearchDao;
@@ -114,6 +121,17 @@ public class TrainingServiceImpl implements TrainingService {
     public List<SimpleDictionaryDto> findTrainingCategoriesInCatalog(String catalogId) {
         List<TrainingCategory> trainingCategories = trainingCategoryRepository.findByCatalogId(catalogId);
         return traningCategoryEntityMapper.convert(trainingCategories);
+    }
+
+    @Override
+    public List<TrainingSearchResultDTO> findTrainingsByProgramIdAndIndividualIdUsingContractsIds(TrainingSearchQueryDTO dto) {
+        if (Objects.nonNull(dto)) {
+            if (dto.getIndividualId() != null) {
+                List<ContractDTO> individualOrders = contractService.findIndividualContracts(dto.getGrantProgramId(), dto.getIndividualId(), dto.getStartDateFrom());
+                dto.setIndOrderExternalIds(individualOrders.stream().map(orderDTO -> orderDTO.getId()).collect(Collectors.toList()));
+            }
+        }
+        return trainingSearchDao.findTrainings(dto);
     }
 
     @Override

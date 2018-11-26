@@ -98,4 +98,12 @@ public class TrainingInstanceCriteria extends UserCriteria {
     @Getter
     @Setter
     protected List<SortType> sortTypes;
+
+    @Getter
+    @Setter
+    private String grantProgramName;
+
+    @Setter
+    @Getter
+    private Long grantProgramId;
 }

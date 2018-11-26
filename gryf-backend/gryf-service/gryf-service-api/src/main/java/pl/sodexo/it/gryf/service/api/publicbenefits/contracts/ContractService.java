@@ -6,6 +6,7 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.contracts.detailsform.Contrac
 import pl.sodexo.it.gryf.common.dto.publicbenefits.contracts.searchform.ContractSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.contracts.searchform.ContractSearchResultDTO;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -35,4 +36,14 @@ public interface ContractService {
      * @return - id zaktualizowanej umowy
      */
     String resign(String contractId);
+
+
+    /**
+     * Kontrakty uczestnika z zadanego programu
+     *
+     * @param individualId
+     * @param startDateFrom
+     * @return Lista kontraktow danego programu
+     */
+    List<ContractDTO> findIndividualContracts(Long grantProgramId, Long individualId, Date startDateFrom);
 }

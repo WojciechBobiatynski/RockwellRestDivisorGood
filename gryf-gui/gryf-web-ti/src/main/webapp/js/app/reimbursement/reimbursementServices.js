@@ -5,12 +5,14 @@ angular.module("gryf.ti").factory("ReimbursementsService",
         var PATH_RMBS = "/rest/reimbursements";
         var FIND_RMBS_LIST_URL = contextPath + PATH_RMBS + "/list";
         var FIND_RMBS_STATUSES_LIST_URL = contextPath + PATH_RMBS + "/statuses";
+        var FIND_GRANT_PROGRAM_NAMES_URL = contextPath + "/rest/grantPrograms/list";
 
         var elctRmbsCriteria = new ElctRmbsCriteria();
         var searchResultOptions = new SearchResultOptions();
         var elctRmbsModel = new ElctRmbsModel();
 
         function ElctRmbsCriteria() {
+            this.grantProgramId = null,
             this.rmbsNumber = null,
             this.trainingName = null,
             this.pesel = null,
@@ -100,6 +102,10 @@ angular.module("gryf.ti").factory("ReimbursementsService",
             return GryfTables.getSortingTypeClass(entity, columnName);
         };
 
+        var getGrantProgramNames = function () {
+            return $http.get(FIND_GRANT_PROGRAM_NAMES_URL);
+        }
+
         return {
             getNewCriteria: getNewElctRmbsCriteria,
             getSearchResultOptions: getSearchResultOptions,
@@ -109,7 +115,8 @@ angular.module("gryf.ti").factory("ReimbursementsService",
             find: find,
             loadMore: loadMore,
             findSortedBy: findSortedBy,
-            getSortingTypeClass: getSortingTypeClass
+            getSortingTypeClass: getSortingTypeClass,
+            getGrantProgramNames: getGrantProgramNames
         };
     }]);
 

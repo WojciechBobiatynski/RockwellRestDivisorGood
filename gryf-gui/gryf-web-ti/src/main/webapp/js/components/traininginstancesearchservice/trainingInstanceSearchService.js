@@ -5,12 +5,15 @@ angular.module("gryf.ti").factory("TrainingInstanceSearchService",
         var FIND_TRAINING_STATUSES_LIST_URL = contextPath + "/rest/trainingToReimburse/statuses";
         var FIND_TRAINING_INSTANCE_LIST_URL = contextPath + "/rest/trainingInstance/list";
         var FIND_TRAINING_INSTANCE_DETAILS_URL = contextPath + "/rest/trainingInstance/details/";
+        var FIND_GRANT_PROGRAM_NAMES_URL = contextPath + "/rest/grantPrograms/list";
 
         var trainingCriteria = new TrainingCriteria();
         var searchResultOptions = new SearchResultOptions();
         var trainingModel = new TrainingModel();
 
         function TrainingCriteria() {
+            this.grantProgramName =  null,
+            this.grantProgramId = null,
             this.trainingName = null,
             this.trainingExternalId = null,
             this.participantPesel = null,
@@ -109,6 +112,10 @@ angular.module("gryf.ti").factory("TrainingInstanceSearchService",
             return find();
         };
 
+        var getGrantProgramNames = function () {
+            return $http.get(FIND_GRANT_PROGRAM_NAMES_URL);
+        }
+
         return {
             getNewCriteria: getNewTrainingCriteria,
             getSearchResultOptions: getSearchResultOptions,
@@ -119,6 +126,7 @@ angular.module("gryf.ti").factory("TrainingInstanceSearchService",
             findSortedBy: findSortedBy,
             findDetailsById: findDetailsById,
             getSortingTypeClass: getSortingTypeClass,
-            loadMore: loadMore
+            loadMore: loadMore,
+            getGrantProgramNames: getGrantProgramNames
         };
     }]);

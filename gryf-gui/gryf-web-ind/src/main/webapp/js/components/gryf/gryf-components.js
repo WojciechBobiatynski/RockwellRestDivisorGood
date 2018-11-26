@@ -113,7 +113,7 @@ angular.module('gryf.modals').factory('GryfModals', ['$rootScope', '$modal', fun
         modalInstance.opened.then(function() {
             setTimeout(function() {
                 modalInstance.close();
-                ResponsiveTable('table', 760)
+
             }, 300);
         });
     };

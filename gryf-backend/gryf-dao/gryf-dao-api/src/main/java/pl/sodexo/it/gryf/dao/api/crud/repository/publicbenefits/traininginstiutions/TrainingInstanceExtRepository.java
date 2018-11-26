@@ -8,7 +8,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstan
  */
 public interface TrainingInstanceExtRepository extends GenericRepository<TrainingInstanceExt, Long> {
 
-    int deleteAllTrainingsInstanceExt(Long importJobId);
+    int deleteAllTrainingsInstanceExt(Long grantProgramId, Long importJobId);
 
     // Zlicza, czy w ostatnim pliku z BUR była umowa o podanym id
     int countByIndOrderExternalId(String externalOrderId);

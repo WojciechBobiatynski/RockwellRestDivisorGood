@@ -12,7 +12,7 @@
 
     <%--<link rel="stylesheet" href="${cdnUrl}css/gryf.css">--%>
     <%-- GRYF DEV CSS--%>
-    <link rel="stylesheet" href="${cdnUrl}css/gryf-dev.css">
+    <link rel="stylesheet" href="${cdnUrl}css/gryf-dev.css?v=##CSS_VERSION">
 
     <link href="//fonts.googleapis.com/css?family=Roboto:300,400,700&amp;subset=latin-ext" rel="stylesheet">
 
@@ -100,8 +100,8 @@
                 <img src="${cdnUrl}img/fu_logo.gif" alt="Logo Programu Regionalnego Fundusze Europejskie z logiem przedstawiającym na niebieskim tle trzy gwiazdki w kolorze zółtym, czerwonym i białym">
             </a>
 
-            <a href="http://www.malopolska.pl/" rel="external" title="Rzeczypospolita polska">
-                <img src="${cdnUrl}img/rp_flag.jpg" alt="Flaga Rzczypospolitej Polskiej, biało-czerwona flaga po lewej stronie, po prawej napis Rzeczypospolita Polska">
+            <a href="http://www.malopolska.pl/" rel="external" title="Rzeczpospolita Polska">
+                <img src="${cdnUrl}img/rp_flag.jpg" alt="Flaga Rzeczpospolitej Polskiej, biało-czerwona flaga po lewej stronie, po prawej napis Rzeczpospolita Polska">
             </a>
 
             <a href="http://www.malopolska.pl/" rel="external" title="Małopolska">
@@ -109,7 +109,7 @@
             </a>
 
             <a href="http://www.funduszeeuropejskie.gov.pl/efs/" rel="external" title="Unia Europejska - Europejski Fundusz Społeczny">
-                <img src="${cdnUrl}img/eu_efs_logo.gif" alt="Napis Unia Europejska, Europejski Fundusz Społeczny po prawej, po lewej faga uni europejskiej - złote gwiazdki na ciemnoniebieskim tle">
+                <img src="${cdnUrl}img/eu_efs_logo.gif" alt="Napis Unia Europejska, Europejski Fundusz Społeczny po prawej, po lewej flaga uni europejskiej - złote gwiazdki na ciemnoniebieskim tle">
             </a>
 
         </div>

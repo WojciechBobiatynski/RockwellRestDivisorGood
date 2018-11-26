@@ -18,10 +18,10 @@ angular.module("gryf.ind").config(["$stateProvider", "$urlRouterProvider", funct
                     controller: "SendPinModalController"
                 }).result.finally(function() {
                     $state.go("^");
-                    ResponsiveTable('table', 760)
+
                 });
             }]
         });
 
-    ResponsiveTable('table', 760)
+
 }]);

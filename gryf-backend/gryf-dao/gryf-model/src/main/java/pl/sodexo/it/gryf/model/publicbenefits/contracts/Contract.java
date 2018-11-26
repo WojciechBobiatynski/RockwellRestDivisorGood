@@ -4,6 +4,7 @@ import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
 import pl.sodexo.it.gryf.model.accounts.AccountContractPairGenerable;
 import pl.sodexo.it.gryf.model.api.VersionableEntity;
+import pl.sodexo.it.gryf.model.dictionaries.State;
 import pl.sodexo.it.gryf.model.dictionaries.ZipCode;
 import pl.sodexo.it.gryf.model.publicbenefits.enterprises.Enterprise;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
@@ -24,6 +25,10 @@ import java.util.List;
 @ToString(exclude = {"individual", "enterprise"})
 @Entity
 @Table(name = "CONTRACTS", schema = "APP_PBE")
+@NamedQueries({
+        @NamedQuery(name = Contract.FIND_BY_PROGRAM_DATES, query = "SELECT c FROM Contract c where c.grantProgram.id = :grantProgramId " +
+                " and c.individual.id = :individualId " +
+                " and :startDate BETWEEN c.signDate AND c.expiryDate")})
 public class Contract extends VersionableEntity implements AccountContractPairGenerable<String> {
 
     //STATIC FIELDS - ATRIBUTES
@@ -36,6 +41,10 @@ public class Contract extends VersionableEntity implements AccountContractPairGe
     public static final String EXPIRY_DATE_ATTR_NAME = "expiryDate";
     public static final String CODE_ATTR_NAME = "code";
     public static final String ACCOUNT_PAYMENT_ATTR_NAME = "accountPayment";
+    public static final String FIND_BY_PROGRAM_DATES = "contract.findContractByProgramAndDate";
+    public static final String FIND_BY_PROGRAM_DATES_PARAMS_PROGRAM_ID = "grantProgramId";
+    public static final String FIND_BY_PROGRAM_DATES_PARAMS_START_DATE = "startDate" ;
+    public static final String FIND_BY_PROGRAM_PARAMS_IND_ID = "individualId" ;
 
     @Id
     @Column(name = "ID")

@@ -24,4 +24,8 @@ public final class UrlConstants {
     public static final String PATH_REIMBURSEMENTS_DOWNLOAD_ATT = "/downloadAttachment";
 
     public static final String PATH_TRAINING_TO_REIMBURSE_REST = "/rest/trainingToReimburse";
+
+    public static final String PATH_PROGRAMS_REST = "/rest/grantPrograms";
+
+    public static final String PATH_PROGRAMS_LIST = "/list";
 }

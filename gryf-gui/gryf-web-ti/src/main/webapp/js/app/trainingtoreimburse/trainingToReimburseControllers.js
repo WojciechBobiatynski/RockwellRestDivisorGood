@@ -57,9 +57,18 @@ angular.module("gryf.ti").controller("TrainingToReimburseController",
         };
 
         $scope.clear = function() {
+            var trainingStatusId =  $scope.trainingCriteria.trainingStatusId;
+            $scope.trainingCriteria = TrainingInstanceSearchService.getNewCriteria();
+            $scope.trainingCriteria.trainingStatusId = trainingStatusId;
+
             $scope.trainingModel = TrainingInstanceSearchService.getNewTrainingModel();
             $scope.searchResultOptions = TrainingInstanceSearchService.getNewSearchResultOptions();
         };
 
         $scope.clear();
+
+        //Po czysczeniu wszystkich
+        TrainingInstanceSearchService.getGrantProgramNames().then(function(response) {
+            $scope.grantPrograms = response.data;
+        });
 }]);

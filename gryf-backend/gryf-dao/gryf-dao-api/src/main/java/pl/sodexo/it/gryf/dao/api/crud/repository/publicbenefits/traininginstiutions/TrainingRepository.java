@@ -11,7 +11,7 @@ public interface TrainingRepository extends GenericRepository<Training, Long> {
 
     Training findByExternalId(String externalId);
 
-    int deactiveTrainings(AsynchronizeJob importJob, String modifiedUser);
+    int deactiveTrainings(Long grantProgramId, AsynchronizeJob importJob, String modifiedUser);
 
     boolean isInUserInstitution(Long id, String tiUserLogin);
 }

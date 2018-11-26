@@ -40,9 +40,9 @@ public class TrainingReservationRestController {
     //PUBLIC METHODS - ACTIONS
 
     @RequestMapping(value = "/reserveTraining", method = RequestMethod.POST)
-    public void reserveTraining(@RequestBody TrainingReservationDto reservationDto) {
-        securityChecker.assertTiUserAccessTraining(reservationDto.getTrainingId());
-        trainingInstanceService.createTrainingInstance(reservationDto);
+    public void reserveTraining(@RequestBody TrainingReservationDto trainingReservationDto) {
+        securityChecker.assertTiUserAccessTraining(trainingReservationDto.getTrainingId());
+        trainingInstanceService.createTrainingInstance(trainingReservationDto);
     }
 
     @RequestMapping(value = "/cancelTrainingReservation/{id}/{version}", method = RequestMethod.PUT)

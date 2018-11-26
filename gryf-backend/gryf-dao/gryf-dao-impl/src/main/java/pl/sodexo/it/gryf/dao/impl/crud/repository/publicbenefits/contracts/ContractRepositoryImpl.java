@@ -1,6 +1,7 @@
 package pl.sodexo.it.gryf.dao.impl.crud.repository.publicbenefits.contracts;
 
 import org.springframework.stereotype.Repository;
+import pl.sodexo.it.gryf.common.dto.other.GrantProgramDictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.contracts.searchform.ContractSearchQueryDTO;
 import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.contracts.ContractRepository;
@@ -98,6 +99,24 @@ public class ContractRepositoryImpl extends GenericRepositoryImpl<Contract, Stri
         } else {
             return result.get(0);
         }
+    }
+
+    @Override
+    public Contract findContractIndividualByProgramAndDate(GrantProgramDictionaryDTO grantProgramDictionaryDTO, Long individualId, Date startDate, Date endDate) {
+        TypedQuery<Contract> query = entityManager.createNamedQuery(Contract.FIND_BY_PROGRAM_DATES, Contract.class);
+        query.setParameter(Contract.FIND_BY_PROGRAM_DATES_PARAMS_PROGRAM_ID, grantProgramDictionaryDTO.getId());
+        query.setParameter(Contract.FIND_BY_PROGRAM_DATES_PARAMS_START_DATE, startDate);
+        query.setParameter(Contract.FIND_BY_PROGRAM_PARAMS_IND_ID, individualId);
+        return query.getSingleResult();
+    }
+
+    @Override
+    public List<Contract> findIndividualContractsByProgramAndDate(Long grantProgramId, Long individual, Date startDateFrom) {
+        TypedQuery<Contract> query = entityManager.createNamedQuery(Contract.FIND_BY_PROGRAM_DATES, Contract.class);
+        query.setParameter(Contract.FIND_BY_PROGRAM_DATES_PARAMS_PROGRAM_ID, grantProgramId);
+        query.setParameter(Contract.FIND_BY_PROGRAM_DATES_PARAMS_START_DATE, startDateFrom);
+        query.setParameter(Contract.FIND_BY_PROGRAM_PARAMS_IND_ID, individual);
+        return query.getResultList();
     }
 }
 
