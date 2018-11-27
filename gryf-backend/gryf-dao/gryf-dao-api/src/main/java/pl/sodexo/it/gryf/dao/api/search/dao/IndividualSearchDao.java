@@ -1,8 +1,9 @@
 package pl.sodexo.it.gryf.dao.api.search.dao;
 
-import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.IndDto;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.UserTrainingReservationDataDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.*;
 import pl.sodexo.it.gryf.common.dto.security.individuals.VerificationDto;
+
+import java.util.List;
 
 /**
  * Dao związane z osobą fizyczną
@@ -22,7 +23,7 @@ public interface IndividualSearchDao {
      * Wyszukuje dane zalogowanego uczestnika
      * @return
      */
-    IndDto findIndividualAfterLogin();
+    IndividualWithContactDto findIndividualAfterLogin();
 
     /**
      * Wyszukuje dane osoby fizycznej niezbędne na formatce rezerwacji usługi
@@ -30,4 +31,18 @@ public interface IndividualSearchDao {
      * @return date osoby fizycznej niezbędne do rezerwacji usługi
      */
     UserTrainingReservationDataDto findDataForTrainingReservation(String pesel);
+
+    /**
+     * Wyszukuje instancje puli produktów dla danego Uczestnika
+     *
+     * @return Instancje Puli produktów
+     */
+    List<ProductDto> findProductInstancePoolsByIndividual();
+
+    /**
+     * Wyszukiwanie szkoleń dla danego uczestnika
+     *
+     * @return Szkolenia Uczestnika
+     */
+    List<TrainingDto> findTrainingsByIndividual();
 }

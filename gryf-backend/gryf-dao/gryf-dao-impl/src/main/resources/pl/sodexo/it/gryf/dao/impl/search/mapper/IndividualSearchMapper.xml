@@ -14,15 +14,22 @@
             AND TRIM(contact.CONTACT_DATA) = #{verification.email}
             AND TRIM(ind.PESEL) = #{verification.pesel}
     </select>
-    <select id="findIndividualAfterLogin" resultMap="indDto">
+    <select id="findIndividualAfterLogin" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.IndividualWithContactDto">
          SELECT
             ind.ID                          individualId,
             ind.FIRST_NAME                  firstName,
             ind.LAST_NAME                   lastName,
             ind.PESEL                       pesel,
-            indcont.CONTACT_DATA            verificationEmail,
-            con.ID                          contractId,
-            con.SIGN_DATE                   signingDate,
+            indcont.CONTACT_DATA            verificationEmail
+        FROM APP_PBE.INDIVIDUALS ind
+              LEFT OUTER JOIN APP_PBE.INDIVIDUAL_CONTACTS indcont ON ind.ID = indcont.IND_ID
+        WHERE
+            ind.ID = #{criteria.gryfUser.individualId}
+            AND indcont.CONTACT_TYPE = 'VER_EMAIL'
+    </select>
+
+    <select id="findProductInstancePoolsByIndividual" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.ProductDto" parameterType="list">
+          SELECT
             pool.ID                         poolId,
             pool.EXPIRY_DATE                expirationDate,
             pool.ALL_NUM                    grantedProductsCount,
@@ -31,10 +38,23 @@
             pool.USED_NUM + REMBURS_NUM     usedProductsCount,
             pool.RETURNED_NUM + EXPIRED_NUM returnedProductsCount,
             pool.ORDER_ID                   orderId,
+            orders.ORDER_DATE               orderDate,
+            gp.id                           grantProgramId,
+            gp.program_name                 grantProgramName
+        FROM
+              APP_PBE.PBE_PRODUCTS prd
+              JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOLS pool ON prd.prd_id = pool.prd_id
+              JOIN APP_PBE.GRANT_PROGRAMS gp ON prd.grant_program_id = gp.id
+              LEFT OUTER JOIN APP_PBE.ORDERS orders ON pool.ORDER_ID = orders.ID and gp.id = orders.grant_program_id
+        WHERE
+            pool.INDIVIDUAL_ID = #{criteria.gryfUser.individualId}
+    </select>
+
+    <select id="findTrainingsByIndividual" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.TrainingDto" parameterType="list">
+         SELECT
             trainingInstance.ID             trainingId,
             trainingInstance.ASSIGNED_NUM   productsCount,
             trainingInstance.REGISTER_DATE  signDate,
-            orders.ORDER_DATE               orderDate,
             traintCateg.NAME                trainingCategoriesNames,
             training.NAME                   trainingName,
             training.START_DATE             trainingStartDate,
@@ -44,68 +64,20 @@
             trainingInstanceStatus.ID       trainingStatusId,
             gp.id                           grantProgramId,
             gp.program_name                 grantProgramName
-        FROM APP_PBE.INDIVIDUALS ind
-              LEFT OUTER JOIN APP_PBE.INDIVIDUAL_CONTACTS indcont ON ind.ID = indcont.IND_ID
-              LEFT OUTER JOIN APP_PBE.CONTRACTS con ON ind.ID = con.INDIVIDUAL_ID
-              LEFT OUTER JOIN app_pbe.grant_programs gp ON gp.id = con.grant_program_id
-              LEFT OUTER JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOLS pool ON ind.ID = pool.INDIVIDUAL_ID
-              LEFT OUTER JOIN APP_PBE.TI_TRAINING_INSTANCES trainingInstance ON ind.ID = trainingInstance.INDIVIDUAL_ID AND trainingInstance.grant_program_id = gp.id
-              LEFT OUTER JOIN APP_PBE.ORDERS orders ON pool.ORDER_ID = orders.ID and gp.id = orders.grant_program_id
+        FROM    APP_PBE.CONTRACTS con
+              LEFT JOIN app_pbe.grant_programs gp ON gp.id = con.grant_program_id
+              LEFT OUTER JOIN APP_PBE.ORDERS orders ON con.id = orders.contract_id and gp.id = orders.grant_program_id
+              LEFT OUTER JOIN APP_PBE.TI_TRAINING_INSTANCES trainingInstance ON con.INDIVIDUAL_ID = trainingInstance.INDIVIDUAL_ID AND trainingInstance.grant_program_id = gp.id
               LEFT OUTER JOIN APP_PBE.CONTRACT_TRAINING_CATEGORIES contrTrainCateg ON con.ID = contrTrainCateg.CONTRACT_ID
               LEFT OUTER JOIN APP_PBE.TI_TRAINING_CATEGORIES traintCateg ON contrTrainCateg.TRAINING_CATEGORY_ID = traintCateg.ID
               LEFT OUTER JOIN APP_PBE.ti_training_category_params tcp ON tcp.category_id = traintCateg.id and tcp.grant_program_id = gp.id
-              LEFT OUTER JOIN APP_PBE.TI_TRAININGS training ON trainingInstance.TRAINING_ID = training.ID
+              JOIN APP_PBE.TI_TRAININGS training ON trainingInstance.TRAINING_ID = training.ID and training.training_category_id = traintcateg.id
               LEFT OUTER JOIN APP_PBE.TRAINING_INSTITUTIONS trainingInstitution ON training.TRAINING_INSTITUTION_ID = trainingInstitution.ID
               LEFT OUTER JOIN APP_PBE.TI_TRAINING_INSTANCE_STATUSES trainingInstanceStatus ON trainingInstance.STATUS_ID = trainingInstanceStatus.ID
         WHERE
-            ind.ID = #{criteria.gryfUser.individualId}
-            AND indcont.CONTACT_TYPE = 'VER_EMAIL'
+            con.INDIVIDUAL_ID =  #{criteria.gryfUser.individualId}
     </select>
 
-    <resultMap id="indDto" type="pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.IndDto" autoMapping="true">
-        <id property="id" column="individualId"/>
-        <result property="firstName" column="firstName"/>
-        <result property="lastName" column="lastName"/>
-        <result property="pesel" column="pesel"/>
-        <result property="verificationEmail" column="verificationEmail"/>
-        <collection property="agreements" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.AgreementDto"
-                    autoMapping="true">
-            <id property="id" column="contractId"/>
-            <result property="signingDate" column="signingDate"/>
-            <collection property="trainingCategoriesNames" ofType="java.lang.String" javaType="list"
-            autoMapping="true">
-                <result property="trainingCategoriesNames" column="trainingCategoriesNames"/>
-            </collection>
-        </collection>
-        <collection property="products" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.ProductDto"
-                    autoMapping="true">
-            <id property="id" column="poolId"/>
-            <result property="expirationDate" column="expirationDate"/>
-            <result property="grantedProductsCount" column="grantedProductsCount"/>
-            <result property="reservedProductsCount" column="reservedProductsCount"/>
-            <result property="availableProductsCount" column="availableProductsCount"/>
-            <result property="usedProductsCount" column="usedProductsCount"/>
-            <result property="orderDate" column="orderDate"/>
-            <result property="orderId" column="orderId"/>
-            <result property="grantProgramId" column="grantProgramId"/>
-            <result property="grantProgramName" column="grantProgramName"/>
-        </collection>
-        <collection property="trainings" ofType="pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.TrainingDto"
-                    autoMapping="true">
-            <id property="id" column="trainingId"/>
-            <result property="name" column="trainingName"/>
-            <result property="trainingInstitutionName" column="trainingInstitutionName"/>
-            <result property="productsCount" column="productsCount"/>
-            <result property="signDate" column="signDate"/>
-            <result property="startDate" column="trainingStartDate"/>
-            <result property="endDate" column="trainingEndDate"/>
-            <result property="trainingStatus" column="trainingStatus"/>
-            <result property="trainingStatusId" column="trainingStatusId"/>
-            <result property="grantProgramId" column="grantProgramId"/>
-            <result property="grantProgramName" column="grantProgramName"/>
-        </collection>
-    </resultMap>
-    
     <select id="findDataForTrainingReservation" resultMap="userTrainingReservationData">
          SELECT
             ind.FIRST_NAME AS firstName,
