@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.0.0.final using JasperReports Library version 6.0.0  -->
-<!-- 2018-11-09T11:41:33 -->
+<!-- 2018-11-26T09:25:08 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DebitNote" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c47102d5-6475-400f-afbb-092533f8b264">
 	<property name="com.jaspersoft.studio.data.sql.tables" value="IkFQUF9QQkUiLiJHUkFOVF9BUFBMSUNBVElPTlMiICwyMzAsMjAsZDgzMTBmZGQtMGQ2ZS00ODdm&#xA;LTgwM2ItYmVjMDAzMjI5Mzk2OyJBUFBfUEJFIi4iR1JBTlRfT1dORVJTIiAsMjMwLDEwOTksZGI0&#xA;ODA5MTYtNzY1MS00NmJhLThhYzItNTc0MzUzNDlmZWY5OyJBUFBfUEJFIi4iRU5URVJQUklTRVMi&#xA;ICwyNjUsNDMzLGRmZTE4MjIwLTI1OTUtNDk5NC1iYTIxLTQ3YjM1ZDVhM2U2NjsiQVBQX1BCRSIu&#xA;Ik9SREVSUyIgLDIwLDc1Niw4ODA2MjYzMS0yY2Y1LTRmNzctOWNlYy01ODE2ODZmZDIyZWY7IlpJ&#xA;UF9DT0RFUyIgLDIzMCwxMjMxLGZjZWUyZTE5LTg5NTQtNDM0Zi1hOGRhLTU5MGRjZmM5MDc5Mjsi&#xA;QVBQX1BCRSIuIkdSQU5UX1BST0dSQU1TIiAsMjMwLDkxNCxiYTZlNTNjMC0xOTAxLTQ1YjMtYjZi&#xA;OS0yZTEwNGY5MmJkMTM7"/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="TestDB"/>
@@ -51,7 +51,7 @@
 	<field name="ID" class="java.lang.String"/>
 	<field name="ACCOUNT" class="java.lang.String"/>
 	<field name="CONTRACT_TYPE_ID" class="java.lang.String"/>
-	<field name="CONTRACT_ID" class="java.math.BigDecimal"/>
+	<field name="CONTRACT_ID" class="java.lang.String"/>
 	<field name="EXTERNAL_ORDER_ID" class="java.lang.String"/>
 	<field name="INVOICE_NUMBER" class="java.lang.String"/>
 	<field name="DOCUMENT_DATE" class="java.sql.Timestamp"/>

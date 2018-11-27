@@ -167,6 +167,10 @@
                                     <token>##BUILD_NUMBER</token>
                                     <value>v ${gryf.version}, rev.${GIT_COMMIT} ${timestamp}</value>
                                 </replacement>
+                                <replacement>
+                                    <token>##CSS_VERSION</token>
+                                    <value>${GIT_COMMIT}</value>
+                                </replacement>
                             </replacements>
                         </configuration>
                     </execution>

@@ -86,4 +86,12 @@ public class TrainingInstanceDto implements Serializable {
     @Getter
     @Setter
     protected List<SortType> sortTypes;
+
+    @Getter
+    @Setter
+    private String grantProgramName;
+
+    @Setter
+    @Getter
+    private Long grantProgramId;
 }

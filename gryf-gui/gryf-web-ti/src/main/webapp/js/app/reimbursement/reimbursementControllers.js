@@ -46,6 +46,12 @@ angular.module("gryf.ti").controller("ReimbursementsController", ["$scope", "Rei
         $scope.isInState = function(foundRmbs, stateCode) {
             return foundRmbs.rmbsStatusId != null && foundRmbs.rmbsStatusId === stateCode;
         }
+
+        //Po czysczeniu wszystkich
+        ReimbursementsService.getGrantProgramNames().then(function(response) {
+            $scope.grantPrograms = response.data;
+        });
+
 }]);
 
 angular.module("gryf.ti").controller("ReimbursementModifyController", ["$scope", "$state", "ReimbursementsServiceModify", "DictionaryService","$stateParams","TrainingInstanceSearchService", "prevStateName",

@@ -27,6 +27,7 @@
             JOIN app_pbe.training_institutions i ON i.id = t.training_institution_id
             JOIN APP_PBE.ti_training_category_params ttcp ON ttcp.category_id = c.id
             JOIN app_pbe.grant_programs gp ON gp.id = ttcp.grant_program_id
+            JOIN app_pbe.TI_TRAINING_INSTANCES_EXT ti_ex ON ti_ex.training_id = t.id
         <where>
             <if test="searchParams.trainingId != null">
                 t.ID = #{searchParams.trainingId}
@@ -89,6 +90,18 @@
             </if>
             <if test="criteria.gryfUser.userType == 'TRAINING_INSTITUTION'">
                 AND t.TRAINING_INSTITUTION_ID = #{criteria.gryfUser.trainingInstitutionId}
+            </if>
+            <if test="searchParams.grantProgramName != null and searchParams.grantProgramName != ''">
+                AND LOWER(gp.program_name) like '%' || LOWER(#{searchParams.grantProgramName}) || '%'
+            </if>
+            <if test="searchParams.grantProgramId != null">
+                AND gp.id  =  #{searchParams.grantProgramId}
+            </if>
+            <if test="searchParams.indOrderExternalIds != null">
+                <foreach item="item" index="index" collection="searchParams.indOrderExternalIds"
+                         open="AND ( " separator=" OR " close=" ) ">
+                    UPPER(ti_ex.IND_ORDER_EXTERNAL_ID) like UPPER('%' ||  #{item}  || '%')
+                </foreach>
             </if>
         </where>
         <if test="searchParams.sortColumns != null">

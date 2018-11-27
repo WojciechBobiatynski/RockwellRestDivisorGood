@@ -2,6 +2,9 @@
     <table>
         <thead>
         <tr class="grid-100 tableHeader-names">
+            <th class="sortable grid-10" ng-class="getSortingTypeClass('name')">
+                <div >Projekt Dofinansowania</div>
+            </th>
             <th class="sortable grid-15" ng-class="getSortingTypeClass('rmbsNumber')">
                 <div ng-click="getSortedBy('rmbsNumber')">Numer rozliczenia</div>
             </th>
@@ -28,6 +31,11 @@
             </th>
         </tr>
         <tr class="grid-100 tableHeader-options">
+            <th class="grid-10">
+                <select
+                        ng-options="v.id as v.name for v in grantPrograms"
+                        ng-model="elctRmbsCriteria.grantProgramId"></select>
+            </th>
             <th class="grid-15">
                 <input type="text" ng-model="elctRmbsCriteria.rmbsNumber">
             </th>
@@ -64,12 +72,18 @@
                 </select>
             </th>
             <th>
-                <button class="standardButton" ng-click="find()">Wyszukaj</button>
+                <div>
+                    <button class="button button-refresh" ng-click="clear()">Wyczyść</button>
+                </div>
+                <div>
+                    <button class="standardButton" ng-click="find()">Wyszukaj</button>
+                </div>
             </th>
         </tr>
         </thead>
         <tbody class="tableData">
         <tr ng-repeat="item in elctRmbsModel.foundRmbs | limitTo: searchResultOptions.displayLimit" ng-class="{'row-even': $even, 'row-odd': $odd}">
+            <td>{{::item.grantProgramName}}</td>
             <td>{{::item.rmbsNumber}}</td>
             <td>{{::item.trainingName}}</td>
             <td>{{::item.trainingExternalId}}</td>

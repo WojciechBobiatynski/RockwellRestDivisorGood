@@ -67,6 +67,9 @@ public class ContractServiceImpl implements ContractService {
     private ContractDtoMapper contractDtoMapper;
 
     @Autowired
+    private ContractEntityMapper contractEntityMapper;
+
+    @Autowired
     private IndividualRepository individualRepository;
 
     @Autowired
@@ -80,9 +83,6 @@ public class ContractServiceImpl implements ContractService {
 
     @Autowired
     private ContractEntityToSearchResultMapper contractEntityToSearchResultMapper;
-
-    @Autowired
-    private ContractEntityMapper contractEntityMapper;
 
     @Autowired
     private TrainingCategoryRepository trainingCategoryRepository;
@@ -207,6 +207,11 @@ public class ContractServiceImpl implements ContractService {
         };
         contractPools.stream().forEach(pInsPoolCons);
         return contractId;
+    }
+
+    @Override
+    public List<ContractDTO> findIndividualContracts(Long grantProgramId, Long individual, Date startDateFrom) {
+        return contractEntityMapper.convert(contractRepository.findIndividualContractsByProgramAndDate(grantProgramId, individual, startDateFrom));
     }
 
     private void checkIfContainsAvaiablePool(List<ContractPbeProductInstancePoolDto> pools) {

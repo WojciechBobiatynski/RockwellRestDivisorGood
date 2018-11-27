@@ -68,4 +68,12 @@ public class ElctRmbsDto implements Serializable {
     @Getter
     @Setter
     private String noteNumber;
+
+    @Getter
+    @Setter
+    private String grantProgramName;
+
+    @Setter
+    @Getter
+    private Long grantProgramId;
 }

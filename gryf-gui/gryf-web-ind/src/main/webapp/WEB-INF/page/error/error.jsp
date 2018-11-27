@@ -12,7 +12,7 @@
 
     <%--<link rel="stylesheet" href="${cdnUrl}css/gryf.css">--%>
     <%-- GRYF DEV CSS--%>
-    <link rel="stylesheet" href="${cdnUrl}css/gryf-dev.css">
+    <link rel="stylesheet" href="${cdnUrl}css/gryf-dev.css?v=##CSS_VERSION>
 
     <link href="//fonts.googleapis.com/css?family=Roboto:300,400,700&amp;subset=latin-ext" rel="stylesheet">
 
@@ -139,7 +139,7 @@
         </a>
 
         <a href="http://www.funduszeeuropejskie.gov.pl/efs/" rel="external" title="Unia Europejska - Europejski Fundusz Społeczny">
-            <img src="${cdnUrl}img/eu_efs_logo.gif" alt="Napis Unia Europejska, Europejski Fundusz Społeczny po prawej, po lewej faga uni europejskiej - złote gwiazdki na ciemnoniebieskim tle">
+            <img src="${cdnUrl}img/eu_efs_logo.gif" alt="Napis Unia Europejska, Europejski Fundusz Społeczny po prawej, po lewej flaga uni europejskiej - złote gwiazdki na ciemnoniebieskim tle">
         </a>
 
     </div>

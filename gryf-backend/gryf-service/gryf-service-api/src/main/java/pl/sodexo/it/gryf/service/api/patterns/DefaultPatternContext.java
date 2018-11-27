@@ -1,5 +1,8 @@
 package pl.sodexo.it.gryf.service.api.patterns;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class DefaultPatternContext implements PatternContext<Long, String, String> {
 
     private Long id;
@@ -13,6 +16,10 @@ public class DefaultPatternContext implements PatternContext<Long, String, Strin
         this.id = id;
         this.code = code;
         this.defaultPattern = defaultPattern;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     @Override

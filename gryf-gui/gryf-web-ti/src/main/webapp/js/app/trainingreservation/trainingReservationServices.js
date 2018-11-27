@@ -1,6 +1,8 @@
 angular.module("gryf.ti").factory("TrainingReservationService", [ "$http", "GryfModals", "GryfPopups", "GryfExceptionHandler" ,function($http, GryfModals, GryfPopups, GryfExceptionHandler) {
 
     var TRAINING_RESERVATION_URL = contextPath + "/rest/trainingreservation";
+    var FIND_GRANT_PROGRAM_NAMES_URL = contextPath + "/rest/grantPrograms/list";
+
     var userTrainingReservationData = {data: null};
     var violations = {};
 
@@ -95,6 +97,10 @@ angular.module("gryf.ti").factory("TrainingReservationService", [ "$http", "Gryf
         });
     };
 
+    var getGrantProgramNames = function () {
+        return $http.get(FIND_GRANT_PROGRAM_NAMES_URL);
+    }
+
     return {
         loadUserTrainingReservationData: loadUserTrainingReservationData,
         getUserTrainingReservationData: getUserTrainingReservationData,
@@ -102,6 +108,7 @@ angular.module("gryf.ti").factory("TrainingReservationService", [ "$http", "Gryf
         getNewViolations: getNewViolations,
         reserveTraining: reserveTraining,
         cancelTrainingReservation: cancelTrainingReservation,
-        confirmPin: confirmPin
+        confirmPin: confirmPin,
+        getGrantProgramNames: getGrantProgramNames
     }
 }]);

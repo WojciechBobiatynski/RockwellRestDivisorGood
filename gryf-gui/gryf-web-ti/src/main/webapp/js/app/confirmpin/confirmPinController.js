@@ -53,6 +53,9 @@ angular.module("gryf.ti").controller("ConfirmPinController", ["$scope", "Trainin
         };
 
         $scope.clear = function() {
+            var trainingStatusId =  $scope.trainingCriteria.trainingStatusId;
+            $scope.trainingCriteria = TrainingInstanceSearchService.getNewCriteria();
+            $scope.trainingCriteria.trainingStatusId = trainingStatusId;
             $scope.trainingModel = TrainingInstanceSearchService.getNewTrainingModel();
             $scope.searchResultOptions = TrainingInstanceSearchService.getNewSearchResultOptions();
         };
@@ -62,5 +65,10 @@ angular.module("gryf.ti").controller("ConfirmPinController", ["$scope", "Trainin
         };
 
         $scope.clear();
+
+        //Po czysczeniu wszystkich
+        TrainingInstanceSearchService.getGrantProgramNames().then(function(response) {
+            $scope.grantPrograms = response.data;
+        });
 
 }]);

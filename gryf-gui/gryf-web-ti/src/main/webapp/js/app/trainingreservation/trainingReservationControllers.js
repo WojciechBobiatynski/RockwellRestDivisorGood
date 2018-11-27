@@ -48,9 +48,17 @@ angular.module("gryf.ti").controller("TrainingReservationController",
             return;
         }
 
+        if(!$scope.searchDTO.entity.grantProgramId) {
+            GryfModals.openModal(GryfModals.MODALS_URL.ERROR_INFO,
+                {message: "Wybierz projekt dofinansowania."});
+            return;
+        }
+
         $scope.searchResultOptions = TrainingSearchService.getNewSearchResultOptions();
         $scope.searchDTO.entity.limit = 10;
-        TrainingSearchService.findToReserve($scope.userTrainingReservationData.data.contracts[0].grantProgram.id);
+        var grantProgramId = $scope.searchDTO.entity.grantProgramId;
+        var indId = $scope.userTrainingReservationData.data.id;
+        TrainingSearchService.findToReserve( grantProgramId, indId);
     };
 
     $scope.getSortedBy = function(sortColumnName) {
@@ -60,7 +68,7 @@ angular.module("gryf.ti").controller("TrainingReservationController",
             return;
         }
 
-        TrainingSearchService.findToReserveSortedBy($scope.userTrainingReservationData.data.contracts[0].grantProgram.id, sortColumnName);
+        TrainingSearchService.findToReserveSortedBy($scope.userTrainingReservationData.data.grantProgramId, sortColumnName);
     };
 
     $scope.getSortingTypeClass = function(columnName) {
@@ -90,7 +98,17 @@ angular.module("gryf.ti").controller("TrainingReservationController",
             return;
         }
 
-        TrainingSearchService.loadMoreToReserve($scope.userTrainingReservationData.data.contracts[0].grantProgram.id);
+        if(!$scope.searchDTO.entity.grantProgramId) {
+            GryfModals.openModal(GryfModals.MODALS_URL.ERROR_INFO,
+                {message: "Wybierz projekt dofinansowania."});
+            return;
+        }
+
+        var grantProgramId = $scope.searchDTO.entity.grantProgramId;
+        var indId = $scope.userTrainingReservationData.data.id;
+
+        TrainingSearchService.loadMoreToReserve(grantProgramId, indId);
+
     };
 
     $scope.reserveTraining = function(item) {
@@ -107,4 +125,10 @@ angular.module("gryf.ti").controller("TrainingReservationController",
     };
 
     $scope.clear();
+
+        //Po czysczeniu wszystkich
+        TrainingReservationService.getGrantProgramNames().then(function(response) {
+            $scope.grantPrograms = response.data;
+        });
+
 }]);

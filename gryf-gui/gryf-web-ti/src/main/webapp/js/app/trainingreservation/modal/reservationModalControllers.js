@@ -26,9 +26,11 @@ angular.module("gryf.ti").controller("ReservationModalController", ["$scope", "$
         trainingReservationDto.trainingId = $scope.training.data.trainingId;
         trainingReservationDto.individualId = $scope.userTrainingReservationData.data.id;
         trainingReservationDto.verificationCode = $scope.individualUser.data.verificationCode;
-        if($scope.userTrainingReservationData.data.contracts[0]) {
-            trainingReservationDto.contractId = $scope.userTrainingReservationData.data.contracts[0].id;
-        }
+        trainingReservationDto.grantProgramId = $scope.training.data.grantProgramId;
+        trainingReservationDto.grantProgramName = $scope.training.data.grantProgramName;
+        trainingReservationDto.startDate    = $scope.training.data.startDate;
+        trainingReservationDto.endDate    = $scope.training.data.endDate;
+
         trainingReservationDto.toReservedNum = $scope.toReservedNum;
         trainingReservationDto.version = $scope.training.data.version;
 
