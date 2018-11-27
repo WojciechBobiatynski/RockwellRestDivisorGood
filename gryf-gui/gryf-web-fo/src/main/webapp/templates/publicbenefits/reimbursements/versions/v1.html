@@ -189,7 +189,9 @@
             <div class="grid-80">
                 <div class="grid-100">
                     <strong class="label">Powód korekty</strong>
-                    <textarea ng-model="entityObject.correctionReason"
+                    <textarea
+                              maxlength="250"
+                              ng-model="entityObject.correctionReason"
                               ng-disabled="!(isInStatus('CORRECTED')) && !(isInStatus('ANNOUNCED'))"
                               rows="5">
                     </textarea>
