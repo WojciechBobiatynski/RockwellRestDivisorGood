@@ -5,6 +5,7 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiuti
 import pl.sodexo.it.gryf.dao.impl.crud.repository.GenericRepositoryImpl;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingCategory;
 
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
@@ -29,10 +30,22 @@ public class TrainingCategoryRepositoryImpl extends GenericRepositoryImpl<Traini
     }
 
     @Override
-    public List<TrainingCategory> findByIdList(List<String> idList){
+    public List<TrainingCategory> findByIdList(List<String> idList) {
         TypedQuery<TrainingCategory> query = entityManager.createNamedQuery("TrainingCategory.findByIdList", TrainingCategory.class);
         query.setParameter("idList", idList);
         return query.getResultList();
+    }
+
+    @Override
+    public TrainingCategory findByGrantProgramAndName(Long grantProgramId, String name) {
+        try {
+            TypedQuery<TrainingCategory> query = entityManager.createNamedQuery(TrainingCategory.QUERY_FIND_BY_GRANT_PROGRAM_AND_NAME, TrainingCategory.class);
+            query.setParameter("grantProgramId", grantProgramId);
+            query.setParameter(TrainingCategory.PARAMETER_NAME, name);
+            return query.getSingleResult();
+        } catch (NoResultException exception) {
+            return null;
+        }
     }
 
 }

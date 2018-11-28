@@ -9,6 +9,9 @@ import pl.sodexo.it.gryf.model.api.GryfEntity;
 import javax.persistence.*;
 import java.util.Objects;
 
+import static pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingCategory.QUERY_FIND_BY_GRANT_PROGRAM;
+import static pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingCategory.QUERY_FIND_BY_GRANT_PROGRAM_AND_NAME;
+
 /**
  * Encja reprezentuająca kategorię usługi
  *
@@ -17,17 +20,23 @@ import java.util.Objects;
 @Entity
 @Table(name = "TI_TRAINING_CATEGORIES", schema = "APP_PBE")
 @ToString
-@NamedQueries({@NamedQuery(name = "TrainingCategory.findByGrantProgram", query = "select distinct tc from TrainingCategoryCatalogGrantProgram tccgp " +
+@NamedQueries({@NamedQuery(name = QUERY_FIND_BY_GRANT_PROGRAM, query = "select distinct tc from TrainingCategoryCatalogGrantProgram tccgp " +
         "join tccgp.catalog c join c.trainingCategories tc " +
         "where tccgp.grantProgram.id = :grantProgramId "),
         @NamedQuery(name = "TrainingCategory.findByCatalogId", query = "select tcc.trainingCategories from TrainingCategoryCatalog tcc " +
         "where tcc.id = :catalogId "),
         @NamedQuery(name = "TrainingCategory.findByIdList", query = "select tc from TrainingCategory tc " +
-                "where tc.id in :idList ")
-
-
+                "where tc.id in :idList "),
+        @NamedQuery(name = QUERY_FIND_BY_GRANT_PROGRAM_AND_NAME, query = "select distinct tc from TrainingCategoryCatalogGrantProgram tccgp " +
+                "join tccgp.catalog c join c.trainingCategories tc " +
+                "where tccgp.grantProgram.id = :grantProgramId " +
+                " and tc.name = :name")
 })
 public class TrainingCategory extends GryfEntity implements DictionaryEntity {
+
+    public static final String QUERY_FIND_BY_GRANT_PROGRAM = "TrainingCategory.findByGrantProgram";
+    public static final String QUERY_FIND_BY_GRANT_PROGRAM_AND_NAME = "QUERY_FIND_BY_GRANT_PROGRAM_AND_NAME";
+    public static final String PARAMETER_NAME = "name";
 
     public static final String EGZ_TYPE = "EGZ";
 

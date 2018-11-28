@@ -12,4 +12,6 @@ public interface TrainingCategoryRepository extends GenericRepository<TrainingCa
     List<TrainingCategory> findByGrantProgram(Long grantProgramId);
     List<TrainingCategory> findByCatalogId(String catalogId);
     List<TrainingCategory> findByIdList(List<String> idList);
+
+    TrainingCategory findByGrantProgramAndName(Long grantProgramId, String name);
 }
