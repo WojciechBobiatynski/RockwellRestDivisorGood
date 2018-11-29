@@ -1,6 +1,5 @@
 package pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.ToString;
 import pl.sodexo.it.gryf.model.api.DictionaryEntity;
@@ -10,7 +9,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 import static pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingCategory.QUERY_FIND_BY_GRANT_PROGRAM;
-import static pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingCategory.QUERY_FIND_BY_GRANT_PROGRAM_AND_NAME;
+import static pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingCategory.QUERY_FIND_BY_GRANT_PROGRAM_AND_ID;
 
 /**
  * Encja reprezentuająca kategorię usługi
@@ -27,16 +26,16 @@ import static pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.Trainin
         "where tcc.id = :catalogId "),
         @NamedQuery(name = "TrainingCategory.findByIdList", query = "select tc from TrainingCategory tc " +
                 "where tc.id in :idList "),
-        @NamedQuery(name = QUERY_FIND_BY_GRANT_PROGRAM_AND_NAME, query = "select distinct tc from TrainingCategoryCatalogGrantProgram tccgp " +
+        @NamedQuery(name = QUERY_FIND_BY_GRANT_PROGRAM_AND_ID, query = "select distinct tc from TrainingCategoryCatalogGrantProgram tccgp " +
                 "join tccgp.catalog c join c.trainingCategories tc " +
                 "where tccgp.grantProgram.id = :grantProgramId " +
-                " and tc.name = :name")
+                " and UPPER(tc.id) = UPPER(:id)")
 })
 public class TrainingCategory extends GryfEntity implements DictionaryEntity {
 
     public static final String QUERY_FIND_BY_GRANT_PROGRAM = "TrainingCategory.findByGrantProgram";
-    public static final String QUERY_FIND_BY_GRANT_PROGRAM_AND_NAME = "QUERY_FIND_BY_GRANT_PROGRAM_AND_NAME";
-    public static final String PARAMETER_NAME = "name";
+    public static final String QUERY_FIND_BY_GRANT_PROGRAM_AND_ID = "QUERY_FIND_BY_GRANT_PROGRAM_AND_ID";
+    public static final String PARAMETER_ID = "id";
 
     public static final String EGZ_TYPE = "EGZ";
 

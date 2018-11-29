@@ -39,9 +39,9 @@ public class TrainingCategoryRepositoryImpl extends GenericRepositoryImpl<Traini
     @Override
     public TrainingCategory findByGrantProgramAndName(Long grantProgramId, String name) {
         try {
-            TypedQuery<TrainingCategory> query = entityManager.createNamedQuery(TrainingCategory.QUERY_FIND_BY_GRANT_PROGRAM_AND_NAME, TrainingCategory.class);
+            TypedQuery<TrainingCategory> query = entityManager.createNamedQuery(TrainingCategory.QUERY_FIND_BY_GRANT_PROGRAM_AND_ID, TrainingCategory.class);
             query.setParameter("grantProgramId", grantProgramId);
-            query.setParameter(TrainingCategory.PARAMETER_NAME, name);
+            query.setParameter(TrainingCategory.PARAMETER_ID, name);
             return query.getSingleResult();
         } catch (NoResultException exception) {
             return null;
