@@ -16,7 +16,7 @@
     </select>
     <select id="findIndividualAfterLogin" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.IndividualWithContactDto">
          SELECT
-            ind.ID                          individualId,
+            ind.ID                          id,
             ind.FIRST_NAME                  firstName,
             ind.LAST_NAME                   lastName,
             ind.PESEL                       pesel,
@@ -30,7 +30,7 @@
 
     <select id="findProductInstancePoolsByIndividual" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.ProductDto" parameterType="list">
           SELECT
-            pool.ID                         poolId,
+            pool.ID                         id,
             pool.EXPIRY_DATE                expirationDate,
             pool.ALL_NUM                    grantedProductsCount,
             pool.RESERVED_NUM               reservedProductsCount,
@@ -52,7 +52,7 @@
 
     <select id="findTrainingsByIndividual" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.ind.TrainingDto" parameterType="list">
          SELECT
-            trainingInstance.ID             trainingId,
+            trainingInstance.ID             id,
             trainingInstance.ASSIGNED_NUM   productsCount,
             trainingInstance.REGISTER_DATE  signDate,
             traintCateg.NAME                trainingCategoriesNames,
@@ -66,7 +66,6 @@
             gp.program_name                 grantProgramName
         FROM    APP_PBE.CONTRACTS con
               LEFT JOIN app_pbe.grant_programs gp ON gp.id = con.grant_program_id
-              LEFT OUTER JOIN APP_PBE.ORDERS orders ON con.id = orders.contract_id and gp.id = orders.grant_program_id
               LEFT OUTER JOIN APP_PBE.TI_TRAINING_INSTANCES trainingInstance ON con.INDIVIDUAL_ID = trainingInstance.INDIVIDUAL_ID AND trainingInstance.grant_program_id = gp.id
               LEFT OUTER JOIN APP_PBE.CONTRACT_TRAINING_CATEGORIES contrTrainCateg ON con.ID = contrTrainCateg.CONTRACT_ID
               LEFT OUTER JOIN APP_PBE.TI_TRAINING_CATEGORIES traintCateg ON contrTrainCateg.TRAINING_CATEGORY_ID = traintCateg.ID
