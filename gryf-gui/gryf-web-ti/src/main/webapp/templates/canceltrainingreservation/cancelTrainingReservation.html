@@ -8,7 +8,7 @@
          <th class="sortable grid-10" ng-class="getSortingTypeClass('trainingName')">
             <div ng-click="getSortedBy('trainingName')">Nazwa usługi</div>
          </th>
-         <th class="sortable grid-15" ng-class="getSortingTypeClass('trainingExternalId')">
+         <th class="sortable grid-10" ng-class="getSortingTypeClass('trainingExternalId')">
             <div ng-click="getSortedBy('trainingExternalId')">Nr usługi</div>
          </th>
          <th class="sortable grid-15" ng-class="getSortingTypeClass('participantPesel')">
@@ -17,7 +17,7 @@
          <th class="sortable grid-10" ng-class="getSortingTypeClass('participantName')">
             <div ng-click="getSortedBy('participantName')">Imię uczestnika</div>
          </th>
-         <th class="sortable grid-15" ng-class="getSortingTypeClass('participantSurname')">
+         <th class="sortable grid-10" ng-class="getSortingTypeClass('participantSurname')">
             <div ng-click="getSortedBy('participantSurname')">Nazwisko uczestnika</div>
          </th>
          <th class="sortable grid-15" ng-class="getSortingTypeClass('startDate')">
@@ -26,7 +26,7 @@
          <th class="sortable grid-15" ng-class="getSortingTypeClass('endDate')">
             <div ng-click="getSortedBy('endDate')">Data zakończenia</div>
          </th>
-         <th class="sortable grid-15" ng-class="getSortingTypeClass('trainingStatus')">
+         <th class="sortable grid-25" ng-class="getSortingTypeClass('trainingStatus')">
             <div ng-click="getSortedBy('trainingStatus')">Status usługi</div>
          </th>
       </tr>
@@ -34,12 +34,14 @@
          <th class="grid-10">
             <select
                     ng-options="v.id as v.name for v in grantPrograms"
-                    ng-model="trainingCriteria.grantProgramId"></select>
+                    ng-model="trainingCriteria.grantProgramId">
+               
+            </select>
          </th>
          <th class="grid-10">
             <input type="text" ng-model="trainingCriteria.trainingName">
          </th>
-         <th class="grid-15">
+         <th class="grid-10">
             <input type="text" ng-model="trainingCriteria.trainingExternalId">
          </th>
          <th class="grid-15">
@@ -48,7 +50,7 @@
          <th class="grid-10">
             <input type="text" ng-model="trainingCriteria.participantName">
          </th>
-         <th class="grid-15">
+         <th class="grid-10">
             <input ng-model="trainingCriteria.participantSurname">
          </th>
          <th class="grid-15">
@@ -73,7 +75,7 @@
                    close-text="Zamknij" clear-text="Czyść" current-text="Dziś"
                    ng-click="openDatepicker('isEndDateToOpened')"/>
          </th>
-         <th class="grid-15">
+         <th class="grid-25">
             <select ng-model="trainingCriteria.trainingStatusId"
                     ng-options="v.id as v.name for v in trainingStatuses.data" data-ng-disabled="true"></select>
          </th>
