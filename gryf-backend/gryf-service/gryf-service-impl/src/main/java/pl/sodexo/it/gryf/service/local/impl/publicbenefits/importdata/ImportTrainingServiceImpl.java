@@ -31,6 +31,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstit
 import pl.sodexo.it.gryf.service.api.patterns.DefaultPatternContext;
 import pl.sodexo.it.gryf.service.api.patterns.PatternContext;
 import pl.sodexo.it.gryf.service.api.patterns.PatternService;
+import pl.sodexo.it.gryf.service.api.publicbenefits.importdata.ImportTrainingValidator;
 import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.TrainingInstanceExtService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.TrainingService;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
@@ -83,6 +84,9 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
     @Autowired
     @Qualifier (PatternService.IMPORT_TRAINING_PATTERN_SERVICE)
     private PatternService importPatternService;
+
+    @Autowired
+    private List<ImportTrainingValidator> importTrainingValidators;
 
     //OVERRIDE
 
@@ -179,9 +183,9 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
 
     //PRIVATE METHODS - VALIDATE & SAVE
 
-    private void validateImport(ImportParamsDTO paramsDTO, ImportTrainingDTO importDTO){
-        List<EntityConstraintViolation> violations = gryfValidator.generateViolation(importDTO);
-        if (importDTO.getReimbursmentCondition2() == null) {
+    private void validateImport(ImportParamsDTO paramsDTO, ImportTrainingDTO importTrainingDTO){
+        List<EntityConstraintViolation> violations = gryfValidator.generateViolation(importTrainingDTO);
+        if (importTrainingDTO.getReimbursmentCondition2() == null) {
             violations.add(new EntityConstraintViolation("Brak identyfikatora wsparcia"));
         } else {
             //Wybor wzorca per program z parametrami
@@ -190,33 +194,36 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
             String searchPattern = importPatternService.getPattern(importTrainingPatternContext);
 
             Pattern r = Pattern.compile(searchPattern);
-            Matcher m = r.matcher(importDTO.getReimbursmentCondition2());
+            Matcher m = r.matcher(importTrainingDTO.getReimbursmentCondition2());
             if (!m.find()) {
-                violations.add(new EntityConstraintViolation("Błędny format identyfikatora wsparcia " + importDTO.getReimbursmentCondition2()));
+                violations.add(new EntityConstraintViolation("Błędny format identyfikatora wsparcia " + importTrainingDTO.getReimbursmentCondition2()));
             }
         }
 
-        if(!TrainingCategory.EGZ_TYPE.equals(importDTO.getCategory())) {
+        if(!TrainingCategory.EGZ_TYPE.equals(importTrainingDTO.getCategory())) {
 
-            if(importDTO.getHoursNumber() == null){
+            if(importTrainingDTO.getHoursNumber() == null){
                 violations.add(new EntityConstraintViolation("Ilość godzin lekcyjnych nie może być pusta"));
             }
-            if(importDTO.getHourPrice() == null){
+            if(importTrainingDTO.getHourPrice() == null){
                 violations.add(new EntityConstraintViolation("Cena 1h usługi nie może być pusta"));
             }
-            if (importDTO.getHourPrice() != null && importDTO.getHoursNumber() != null && importDTO.getPrice() != null) {
-                BigDecimal calcHourPrice = importDTO.getHourPrice().multiply(BigDecimal.valueOf(importDTO.getHoursNumber()));
-                if (calcHourPrice.compareTo(importDTO.getPrice()) != 0) {
+            if (importTrainingDTO.getHourPrice() != null && importTrainingDTO.getHoursNumber() != null && importTrainingDTO.getPrice() != null) {
+                BigDecimal calcHourPrice = importTrainingDTO.getHourPrice().multiply(BigDecimal.valueOf(importTrainingDTO.getHoursNumber()));
+                if (calcHourPrice.compareTo(importTrainingDTO.getPrice()) != 0) {
                     violations.add(new EntityConstraintViolation(
-                            String.format("Cena usługi (%sPLN) nie zgadza się z iloscią godzin (%s) " + "oraz cena za 1h usługi (%sPLN). Otrzymany wynik: %sPLN", importDTO.getPrice(), importDTO.getHoursNumber(),
-                                    importDTO.getHourPrice(), calcHourPrice)));
+                            String.format("Cena usługi (%sPLN) nie zgadza się z iloscią godzin (%s) " + "oraz cena za 1h usługi (%sPLN). Otrzymany wynik: %sPLN", importTrainingDTO.getPrice(), importTrainingDTO.getHoursNumber(),
+                                    importTrainingDTO.getHourPrice(), calcHourPrice)));
                 }
             }
         }
 
-        if(Strings.isNullOrEmpty(importDTO.getReimbursmentCondition1()) && Strings.isNullOrEmpty(importDTO.getReimbursmentCondition2())){
-            violations.add(new EntityConstraintViolation("Pola 'Warunek rozliczrenia 1' oraz 'Warunek rozliczenia 2' nie moga być jednocześnie puste."));
+        if(Strings.isNullOrEmpty(importTrainingDTO.getReimbursmentCondition1()) && Strings.isNullOrEmpty(importTrainingDTO.getReimbursmentCondition2())){
+            violations.add(new EntityConstraintViolation("Pola 'Warunek rozliczenia 1' oraz 'Warunek rozliczenia 2' nie moga być jednocześnie puste."));
         }
+
+        //Walidacja importu
+        importTrainingValidators.forEach(importTrainingValidator -> violations.addAll(importTrainingValidator.validate(paramsDTO.getGrantProgram(), importTrainingDTO)));
 
         gryfValidator.validate(violations);
     }
@@ -232,7 +239,7 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
         if(trainingInstitution != null && training != null){
             if(!training.getTrainingInstitution().equals(trainingInstitution)){
                 violations.add(new EntityConstraintViolation(String.format("Usługa (%s) jest połączone z usługodawcyą szkoleniową (%s). "
-                        + "Nie można zmienić przynależności takiego usługi do innej usługodawcy (%s).",
+                        + "Nie można zmienić przynależności takiej usługi do innej usługodawcy (%s).",
                         training.getExternalId(), training.getTrainingInstitution().getExternalId(), trainingInstitution.getExternalId())));
             }
         }

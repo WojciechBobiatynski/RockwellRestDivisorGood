@@ -1,8 +1,11 @@
 package pl.sodexo.it.gryf.model.publicbenefits.pbeproduct;
 
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import pl.sodexo.it.gryf.model.api.GryfEntity;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantOwner;
+import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -43,6 +46,12 @@ public class PbeProduct extends GryfEntity{
     @Column(name = "CREATION_DATE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
+
+    @JoinColumn(name = "GRANT_PROGRAM_ID", referencedColumnName = "ID")
+    @ManyToOne
+    @Setter
+    @Getter
+    private GrantProgram grantProgram;
 
     //GETTERS & SETTERS
 

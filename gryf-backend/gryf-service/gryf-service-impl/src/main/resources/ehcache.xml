@@ -41,6 +41,11 @@
            maxElementsInMemory="1000"
            overflowToDisk="false" />
 
+    <cache name="trainingCategoryService.findByGrantProgramAndName" eternal="false"
+           timeToIdleSeconds="0" timeToLiveSeconds="3600"
+           maxElementsInMemory="1000"
+           overflowToDisk="false" />
+
     <!-- Pattern Service -->
     <cache name="DefaultPatternService.getPattern" eternal="false"
            timeToIdleSeconds="0" timeToLiveSeconds="86400"
