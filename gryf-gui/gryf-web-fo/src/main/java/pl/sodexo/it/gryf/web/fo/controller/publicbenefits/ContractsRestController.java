@@ -3,6 +3,7 @@ package pl.sodexo.it.gryf.web.fo.controller.publicbenefits;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import pl.sodexo.it.gryf.common.dto.other.DictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.other.GrantProgramDictionaryDTO;
@@ -70,7 +71,7 @@ public class ContractsRestController {
         return contractService.findContract(id);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json")
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
     public String updateContract(@PathVariable String id, @RequestBody ContractDTO contractDTO) {
         LOGGER.debug("updateContract, id={}, contractDTO={}", id, contractDTO);
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_CONTRACTS_MOD);
