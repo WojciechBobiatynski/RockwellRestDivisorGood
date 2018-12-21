@@ -1,10 +1,13 @@
 package pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions;
 
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
 import pl.sodexo.it.gryf.model.api.BooleanConverter;
 import pl.sodexo.it.gryf.model.api.VersionableEntity;
 import pl.sodexo.it.gryf.model.asynch.AsynchronizeJob;
+import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -13,6 +16,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
 
+import static pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.Training.QUERY_FIND_BY_EXTERNAL_ID_AND_PROGRAM_ID;
 import static pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.Training.QUERY_TRAINING_DEACTIVATE_TRAININGS;
 
 /**
@@ -24,7 +28,7 @@ import static pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.Trainin
 @Table(name = "TI_TRAININGS", schema = "APP_PBE")
 @SequenceGenerator(name = "ti_tra_seq", schema = "eagle", sequenceName = "ti_tra_seq", allocationSize = 1)
 @NamedQueries({
-        @NamedQuery(name = "Training.findByExternalId", query = "select e from Training e where e.externalId = :externalId "),
+        @NamedQuery(name = QUERY_FIND_BY_EXTERNAL_ID_AND_PROGRAM_ID, query = "select e from Training e where e.externalId = :externalId and e.grantProgram.id = :grantProgramId"),
         @NamedQuery(name = QUERY_TRAINING_DEACTIVATE_TRAININGS, query = "update Training tt set tt.active = false, tt.deactivateDate = CURRENT_TIMESTAMP, "
                 + "tt.deactivateJob = :importJob, tt.version = (tt.version + 1), tt.modifiedTimestamp = CURRENT_TIMESTAMP, tt.modifiedUser = :modifiedUser "
                 + "where tt.active = true " +
@@ -50,6 +54,8 @@ public class Training extends VersionableEntity {
     public static final String END_DATE_ATTR_NAME = "endDate";
 
     public static final String QUERY_TRAINING_DEACTIVATE_TRAININGS = "Training.deactiveTrainings";
+    public static final String QUERY_FIND_BY_EXTERNAL_ID_AND_PROGRAM_ID = "Training.findByExternalIdAndProgramId";
+
     public static final String PARAMETER_GRANT_PROGRAM_ID = "grantProgramId";
 
     @Id
@@ -120,6 +126,12 @@ public class Training extends VersionableEntity {
     @ManyToOne
     @JoinColumn(name = "DEACTIVATE_JOB_ID")
     private AsynchronizeJob deactivateJob;
+
+    @JoinColumn(name = "GRANT_PROGRAM_ID", referencedColumnName = "ID")
+    @ManyToOne
+    @Setter
+    @Getter
+    private GrantProgram grantProgram;
 
     //GETTERS & SETTERS
 
