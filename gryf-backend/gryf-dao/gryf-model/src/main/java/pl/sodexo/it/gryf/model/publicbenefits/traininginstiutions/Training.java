@@ -37,11 +37,8 @@ import static pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.Trainin
                 "     where  r.training.id is not null and r.importJob = :importJob" +
                 "            AND r.importJob.type.grantProgramId = :grantProgramId " +
                 "  )" +
-                "   and tt.id in " /* Szkolenia pochadza z tego samego programu co importowany*/
-                + "(select r.training.id from ImportDataRow r " +
-                "     where  r.training.id is not null and r.importJob != :importJob" +
-                "            AND r.importJob.type.grantProgramId = :grantProgramId " +
-                "  )"),
+                "   and tt.grantProgram.id  = :grantProgramId" /* Szkolenia pochadza z tego samego programu co importowany*/
+                ),
         @NamedQuery(name = "Training.isInUserInstitution", query = "select count(e) "
                 + "from Training e join e.trainingInstitution ti "
                 + "join ti.trainingInstitutionUsers tiu "
