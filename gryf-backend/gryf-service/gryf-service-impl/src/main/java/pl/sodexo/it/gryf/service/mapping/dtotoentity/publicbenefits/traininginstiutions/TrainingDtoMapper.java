@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingDTO;
 import pl.sodexo.it.gryf.dao.api.crud.repository.asynch.AsynchronizeJobRepository;
+import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.Training;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingCategory;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingCategoryCatalog;
@@ -52,5 +53,11 @@ public class TrainingDtoMapper extends VersionableDtoMapper<TrainingDTO, Trainin
         entity.setDeactivateUser(dto.getDeactivateUser());
         entity.setDeactivateDate(dto.getDeactivateDate());
         entity.setDeactivateJob(dto.getDeactivateJobId() != null ? asynchronizeJobRepository.get(dto.getDeactivateJobId()) : null);
+
+        //set GrantProgram
+        if (dto.getGrantProgramId() != null) {
+            entity.setGrantProgram(new GrantProgram());
+            entity.getGrantProgram().setId(dto.getGrantProgramId());
+        }
     }
 }
