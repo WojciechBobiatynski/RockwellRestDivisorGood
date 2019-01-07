@@ -17,9 +17,10 @@ import java.util.List;
 public class TrainingRepositoryImpl extends GenericRepositoryImpl<Training, Long> implements TrainingRepository {
 
     @Override
-    public Training findByExternalId(String externalId){
-        TypedQuery<Training> query = entityManager.createNamedQuery("Training.findByExternalId", Training.class);
+    public Training findByExternalIdAndProgramId(String externalId, Long programId){
+        TypedQuery<Training> query = entityManager.createNamedQuery(Training.QUERY_FIND_BY_EXTERNAL_ID_AND_PROGRAM_ID, Training.class);
         query.setParameter("externalId", externalId);
+        query.setParameter( Training.PARAMETER_GRANT_PROGRAM_ID, programId);
         List<Training> result = query.getResultList();
         return result.isEmpty() ? null : result.get(0);
     }

@@ -107,7 +107,13 @@ public class ContractRepositoryImpl extends GenericRepositoryImpl<Contract, Stri
         query.setParameter(Contract.FIND_BY_PROGRAM_DATES_PARAMS_PROGRAM_ID, grantProgramDictionaryDTO.getId());
         query.setParameter(Contract.FIND_BY_PROGRAM_DATES_PARAMS_START_DATE, startDate);
         query.setParameter(Contract.FIND_BY_PROGRAM_PARAMS_IND_ID, individualId);
-        return query.getSingleResult();
+
+        List<Contract> result = query.getResultList();
+        if(result.isEmpty()) {
+            return null;
+        } else {
+            return result.get(0);
+        }
     }
 
     @Override
