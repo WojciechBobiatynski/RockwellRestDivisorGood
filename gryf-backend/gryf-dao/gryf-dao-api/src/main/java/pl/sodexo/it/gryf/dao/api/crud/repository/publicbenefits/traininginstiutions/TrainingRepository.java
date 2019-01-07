@@ -9,9 +9,10 @@ import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.Training;
  */
 public interface TrainingRepository extends GenericRepository<Training, Long> {
 
-    Training findByExternalId(String externalId);
+    Training findByExternalIdAndProgramId(String externalId, Long programId);
 
     int deactiveTrainings(Long grantProgramId, AsynchronizeJob importJob, String modifiedUser);
 
     boolean isInUserInstitution(Long id, String tiUserLogin);
 }
+
