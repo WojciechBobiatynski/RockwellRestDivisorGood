@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
 
     <properties>
-        <gryf.version>2.3.6</gryf.version>
+        <gryf.version>2.4.0</gryf.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <gryf.datasource.jndiName>java:comp/env/jdbc/srvee</gryf.datasource.jndiName>
         
@@ -187,16 +187,17 @@
                     </execution>
                 </executions>
             </plugin>
+            <!--Niezbędny do kompilacji metadanych JPA-->
             <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.5.1</version>
-                <configuration>
-                    <encoding>UTF-8</encoding>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                    <compilerArgument>-parameters</compilerArgument>
-                </configuration>
-            </plugin>
+               <artifactId>maven-compiler-plugin</artifactId>
+               <version>2.5.1</version>
+               <configuration>
+                   <encoding>UTF-8</encoding>
+                   <source>1.8</source>
+                   <target>1.8</target>
+                   <compilerArgument>-parameters</compilerArgument>
+               </configuration>
+           </plugin>
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>2.5</version>

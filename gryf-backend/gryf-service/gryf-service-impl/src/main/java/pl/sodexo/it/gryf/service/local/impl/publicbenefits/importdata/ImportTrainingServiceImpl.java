@@ -104,7 +104,7 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
     @Override
     protected ImportResultDTO saveInternalImportDataRowBeforeSaveData(ImportParamsDTO paramsDTO, Row row){
         String externalId = getExternalId(row);
-        Training training = externalId != null ? trainingRepository.findByExternalId(externalId) : null;
+        Training training = externalId != null ? trainingRepository.findByExternalIdAndProgramId(externalId, paramsDTO.getGrantProgramId()) : null;
 
         ImportResultDTO result = new ImportResultDTO();
         result.setTrainingId(training != null ? training.getId() : null);
@@ -117,7 +117,7 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
         validateImport(paramsDTO, importDTO);
 
         TrainingInstitution trainingInstitution = trainingInstitutionRepository.findByExternalId(importDTO.getTrainingInstitutionExternalId());
-        Training training = trainingRepository.findByExternalId(importDTO.getExternalId());
+        Training training = trainingRepository.findByExternalIdAndProgramId(importDTO.getExternalId(), paramsDTO.getGrantProgramId());
         TrainingCategory trainingCategory = trainingCategoryRepository.get(importDTO.getCategory());
         validateConnectedData(importDTO, trainingInstitution, training, trainingCategory);
 
