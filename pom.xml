@@ -10,10 +10,10 @@
     <packaging>pom</packaging>
 
     <properties>
-        <gryf.version>2.4.0</gryf.version>
+        <gryf.version>2.4.1</gryf.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <gryf.datasource.jndiName>java:comp/env/jdbc/srvee</gryf.datasource.jndiName>
-        
+
         <spring.version>4.1.5.RELEASE</spring.version>
         <eclipselink.version>2.5.2</eclipselink.version>
         <spring.security.version>3.2.6.RELEASE</spring.security.version>

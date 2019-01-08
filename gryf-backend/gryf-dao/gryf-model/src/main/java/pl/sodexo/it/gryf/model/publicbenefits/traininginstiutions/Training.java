@@ -128,6 +128,7 @@ public class Training extends VersionableEntity {
     @ManyToOne
     @Setter
     @Getter
+    @NotNull(message = "Usługa nie ma przypisanego programu/projektu")
     private GrantProgram grantProgram;
 
     //GETTERS & SETTERS

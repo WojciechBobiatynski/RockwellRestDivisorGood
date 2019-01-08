@@ -122,7 +122,7 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
         validateConnectedData(importDTO, trainingInstitution, training, trainingCategory);
 
         ImportResultDTO result = new ImportResultDTO();
-        TrainingDTO trainingDTO = createTrainingDTO(training, trainingInstitution, trainingCategory, importDTO);
+        TrainingDTO trainingDTO = createTrainingDTO(training, trainingInstitution, trainingCategory, importDTO, paramsDTO);
         TrainingInstanceExtDTO trainingInstanceExt = createTrainingInstanceExtDTO(training, trainingInstitution, trainingCategory, importDTO);
 
         if(training == null){
@@ -325,7 +325,7 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
     //PRIVATE METHODS - CREATE BUSSINESS DTO
 
     private TrainingDTO createTrainingDTO(Training training, TrainingInstitution trainingInstitution,
-                                        TrainingCategory trainingCategory, ImportTrainingDTO importDTO){
+                                          TrainingCategory trainingCategory, ImportTrainingDTO importDTO, ImportParamsDTO paramsDTO){
         TrainingDTO dto = new TrainingDTO();
         dto.setTrainingId(training != null ? training.getId() : null);
         dto.setExternalTrainingId(importDTO.getExternalId());
@@ -351,6 +351,9 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
         dto.setCreatedTimestamp(training != null ? training.getCreatedTimestamp() : null);
         dto.setModifiedUser(training != null ? training.getModifiedUser() : null);
         dto.setModifiedTimestamp(training != null ? training.getModifiedTimestamp() : null);
+
+        dto.setGrantProgramId(paramsDTO.getGrantProgramId());
+
         return dto;
     }
 
