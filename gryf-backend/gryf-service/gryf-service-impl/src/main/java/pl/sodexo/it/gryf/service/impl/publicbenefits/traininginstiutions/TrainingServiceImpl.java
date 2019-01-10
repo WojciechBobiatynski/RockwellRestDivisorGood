@@ -9,6 +9,7 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsfo
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingPrecalculatedDetailsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchResultDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingWithExternalIdSearchResultDTO;
 import pl.sodexo.it.gryf.common.dto.user.GryfUser;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingCategoryCatalogRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingCategoryRepository;
@@ -70,6 +71,11 @@ public class TrainingServiceImpl implements TrainingService {
     @Override
     public List<TrainingSearchResultDTO> findTrainings(TrainingSearchQueryDTO dto) {
         return trainingSearchDao.findTrainings(dto);
+    }
+
+    @Override
+    public List<TrainingWithExternalIdSearchResultDTO> findTrainingsWithExternalId(TrainingSearchQueryDTO dto) {
+        return trainingSearchDao.findTrainingsWithExternalId(dto);
     }
 
     @Override

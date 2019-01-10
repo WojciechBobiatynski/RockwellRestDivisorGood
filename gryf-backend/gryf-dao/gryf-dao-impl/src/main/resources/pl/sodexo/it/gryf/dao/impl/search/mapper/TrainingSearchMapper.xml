@@ -116,6 +116,124 @@
         </where>
     </select>
 
+    <select id="findTrainingsWithExternalId" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingWithExternalIdSearchResultDTO" parameterType="list">
+        SELECT * FROM
+        (SELECT
+        t.ID                        trainingId,
+        t.TRAINING_INSTITUTION_ID   institutionId,
+        i.NAME                      institutionName,
+        t.NAME                      name,
+        t.EXTERNAL_ID               externalId,
+        t.PRICE                     price,
+        t.START_DATE                startDate,
+        t.END_DATE                  endDate,
+        t.PLACE                     place,
+        t.HOURS_NUMBER              hoursNumber,
+        t.HOUR_PRICE                hourPrice,
+        c.name                      category,
+        CASE t.ACTIVE WHEN 'Y' THEN 1 ELSE 0 END as active,
+        t.version                   version,
+        gp.id                       grantProgramId,
+        gp.program_name             grantProgramName,
+        ti_ex.IND_ORDER_EXTERNAL_ID    indOrderExternalId
+        FROM
+        app_pbe.ti_trainings t
+        JOIN app_pbe.ti_training_categories c ON c.id = t.training_category_id
+        JOIN app_pbe.training_institutions i ON i.id = t.training_institution_id
+        JOIN APP_PBE.ti_training_category_params ttcp ON ttcp.category_id = c.id
+        JOIN app_pbe.grant_programs gp ON gp.id = ttcp.grant_program_id
+        LEFT JOIN app_pbe.TI_TRAINING_INSTANCES_EXT ti_ex ON ti_ex.training_id = t.id
+        <where>
+            <if test="searchParams.trainingId != null">
+                t.ID = #{searchParams.trainingId}
+            </if>
+            <if test="searchParams.institutionId != null">
+                AND t.TRAINING_INSTITUTION_ID = #{searchParams.institutionId}
+            </if>
+            <if test="searchParams.institutionName != null and searchParams.institutionName != ''">
+                AND LOWER(i.NAME) like '%' || LOWER(#{searchParams.institutionName}) || '%'
+            </if>
+            <if test="searchParams.name != null and searchParams.name != ''">
+                AND LOWER(t.NAME) like '%' || LOWER(#{searchParams.name}) || '%'
+            </if>
+            <if test="searchParams.externalId != null and searchParams.externalId != ''">
+                AND LOWER(t.EXTERNAL_ID) like '%' || LOWER(#{searchParams.externalId}) || '%'
+            </if>
+            <if test="searchParams.priceFrom != null">
+                AND t.PRICE >= #{searchParams.priceFrom}
+            </if>
+            <if test="searchParams.priceTo != null">
+                AND t.PRICE &lt;= #{searchParams.priceTo}
+            </if>
+            <if test="searchParams.startDateFrom != null">
+                AND #{searchParams.startDateFrom} &lt;= t.START_DATE
+            </if>
+            <if test="searchParams.startDateTo != null">
+                AND t.START_DATE &lt;= #{searchParams.startDateTo}
+            </if>
+            <if test="searchParams.endDateFrom != null">
+                AND #{searchParams.endDateFrom} &lt;= t.END_DATE
+            </if>
+            <if test="searchParams.endDateTo != null">
+                AND t.END_DATE &lt;= #{searchParams.endDateTo}
+            </if>
+            <if test="searchParams.place != null and searchParams.place != ''">
+                AND LOWER(t.PLACE) like '%' || LOWER(#{searchParams.place}) || '%'
+            </if>
+            <if test="searchParams.hoursNumberFrom != null">
+                AND t.HOURS_NUMBER >= #{searchParams.hoursNumberFrom}
+            </if>
+            <if test="searchParams.hoursNumberTo != null">
+                AND t.HOURS_NUMBER &lt;= #{searchParams.hoursNumberTo}
+            </if>
+            <if test="searchParams.hourPriceFrom != null">
+                AND t.HOUR_PRICE >= #{searchParams.hourPriceFrom}
+            </if>
+            <if test="searchParams.hourPriceTo != null">
+                AND t.HOUR_PRICE &lt;= #{searchParams.hourPriceTo}
+            </if>
+            <if test="searchParams.categoryCodes != null and searchParams.categoryCodes.size() > 0">
+                <foreach item="code" index="index" collection="searchParams.categoryCodes" open="AND (" separator=" OR " close=")">
+                    t.TRAINING_CATEGORY_ID like #{code}
+                </foreach>
+            </if>
+            <if test="searchParams.categoryName != null and searchParams.categoryName != ''">
+                AND LOWER(c.NAME) like '%' || LOWER(#{searchParams.categoryName}) || '%'
+            </if>
+            <if test="searchParams.active != null">
+                AND t.ACTIVE = #{searchParams.activeStr}
+            </if>
+            <if test="criteria.gryfUser.userType == 'TRAINING_INSTITUTION'">
+                AND t.TRAINING_INSTITUTION_ID = #{criteria.gryfUser.trainingInstitutionId}
+            </if>
+            <if test="searchParams.grantProgramName != null and searchParams.grantProgramName != ''">
+                AND LOWER(gp.program_name) like '%' || LOWER(#{searchParams.grantProgramName}) || '%'
+            </if>
+            <if test="searchParams.grantProgramId != null">
+                AND gp.id  =  #{searchParams.grantProgramId}
+            </if>
+            <if test="searchParams.indOrderExternalIds != null">
+                <foreach item="item" index="index" collection="searchParams.indOrderExternalIds"
+                         open="AND ( " separator=" OR " close=" ) ">
+                    UPPER(ti_ex.IND_ORDER_EXTERNAL_ID) like UPPER('%' ||  #{item}  || '%')
+                </foreach>
+            </if>
+            <if test="searchParams.indOrderExternalId != null">
+                AND UPPER(ti_ex.IND_ORDER_EXTERNAL_ID) like UPPER('%' ||  #{searchParams.indOrderExternalId} || '%')
+            </if>
+        </where>
+        <if test="searchParams.sortColumns != null">
+            <foreach item="columnName" index="index" collection="searchParams.sortColumns" open="ORDER BY " separator="," close="">
+                ${columnName} ${searchParams.sortTypes[index]}
+            </foreach>
+        </if>)
+        <where>
+            <if test="searchParams.limit != null">
+                ROWNUM &lt;= #{searchParams.limit} + 1
+            </if>
+        </where>
+    </select>
+
     <select id="findTrainingCategories" resultType="pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto" parameterType="list">
         SELECT id, ordinal, name
         FROM APP_PBE.TI_TRAINING_CATEGORIES
@@ -145,7 +263,8 @@
         CASE t.ACTIVE WHEN 'Y' THEN 1 ELSE 0 END        active,
         t.DEACTIVATE_USER                               deactivateUser,
         t.DEACTIVATE_DATE                               deactivateDate,
-        t.DEACTIVATE_JOB_ID                             deactivateJobId
+        t.DEACTIVATE_JOB_ID                             deactivateJobId,
+        t.GRANT_PROGRAM_ID                              grantProgramId
         FROM APP_PBE.TI_TRAININGS t
             JOIN APP_PBE.TRAINING_INSTITUTIONS i on i.ID = t.TRAINING_INSTITUTION_ID
             JOIN APP_PBE.TI_TRAINING_CATEGORIES c on c.id = t.TRAINING_CATEGORY_ID

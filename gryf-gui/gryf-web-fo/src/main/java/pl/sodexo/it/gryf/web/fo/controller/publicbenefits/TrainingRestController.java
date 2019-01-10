@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingWithExternalIdSearchResultDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchQueryDTO;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchResultDTO;
 import pl.sodexo.it.gryf.common.enums.Privileges;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.TrainingService;
@@ -56,9 +56,9 @@ public class TrainingRestController {
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public List<TrainingSearchResultDTO> findTrainings(TrainingSearchQueryDTO dto) {
+    public List<TrainingWithExternalIdSearchResultDTO> findTrainingsWithExternalId(TrainingSearchQueryDTO dto) {
         securityChecker.assertServicePrivilege(Privileges.GRF_PBE_TI_TRAININGS);
-        return trainingService.findTrainings(dto);
+        return trainingService.findTrainingsWithExternalId(dto);
     }
 
     @RequestMapping(value = "/getTrainingCategoriesDict/{grantProgramId}", method = RequestMethod.POST)

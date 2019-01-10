@@ -118,6 +118,14 @@ public class TrainingSearchQueryDTO extends SearchDto {
     private List<String> indOrderExternalIds;
 
     /**
+     * Zewnętrzny identyfikator zamówienia (tzw identyfikator wsparcia)
+     *
+     */
+    @Setter
+    @Getter
+    private String indOrderExternalId;
+
+    /**
      * Identyfikator wewnętrzny uczestnika
      *
      */

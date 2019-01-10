@@ -146,7 +146,7 @@
                                 <ul>
                                     <li>
                                         <a ng-href="${pageContext.request.contextPath}/publicBenefits/training/"
-                                           gryf-link-privilege="GRF_PBE_TI_TRAININGS">Lista usług</a>
+                                           gryf-link-privilege="GRF_PBE_TI_TRAININGS">Lista usług z BUR</a>
                                     <li>
                                         <a ng-href="${pageContext.request.contextPath}/publicBenefits/training/#/modify"
                                            gryf-link-privilege="GRF_PBE_TI_TRAININGS_MOD">Nowe usługa</a>

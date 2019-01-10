@@ -8,6 +8,7 @@ import pl.sodexo.it.gryf.common.criteria.UserCriteria;
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingPrecalculatedDetailsDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingWithExternalIdSearchResultDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchResultDTO;
 import pl.sodexo.it.gryf.dao.api.search.dao.TrainingSearchDao;
@@ -29,6 +30,11 @@ public class TrainingSearchDaoImpl implements TrainingSearchDao {
     @Override
     public List<TrainingSearchResultDTO> findTrainings(TrainingSearchQueryDTO dto) {
         return trainingSearchMapper.findTrainings(new UserCriteria(), dto);
+    }
+
+    @Override
+    public List<TrainingWithExternalIdSearchResultDTO> findTrainingsWithExternalId(TrainingSearchQueryDTO dto) {
+        return trainingSearchMapper.findTrainingsWithExternalId(new UserCriteria(), dto);
     }
 
     @Override

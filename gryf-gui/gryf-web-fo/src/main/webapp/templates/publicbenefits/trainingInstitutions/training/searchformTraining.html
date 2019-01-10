@@ -129,6 +129,11 @@
                             <option value="false">Nie</option>
                         </select>
                     </th>
+                    <th class="sortable grid-10" ng-class="getSortingTypeClass('indOrderExternalId')">
+                        <div ng-click="getSortedBy('indOrderExternalId')">Id wsparcia</div>
+                        <input placeholder="Id wsparcia"
+                               ng-model="searchDTO.entity.indOrderExternalId">
+                    </th>
                     <th>
                         <a ng-click="find()"
                            class="button button-search">szukaj</a>
@@ -150,6 +155,7 @@
                     <td>{{::item.hourPrice}}</td>
                     <td>{{::item.category}}</td>
                     <td>{{::item.active ? 'Tak' : 'Nie'}}</td>
+                    <td>{{::item.indOrderExternalId}}</td>
                     <td>
                         <ul class="buttons">
                             <li><a ng-href="#/modify/{{item.trainingId}}"

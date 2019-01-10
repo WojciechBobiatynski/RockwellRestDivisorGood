@@ -5,6 +5,7 @@ import pl.sodexo.it.gryf.common.criteria.UserCriteria;
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingPrecalculatedDetailsDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingWithExternalIdSearchResultDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchQueryDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchResultDTO;
 
@@ -16,6 +17,8 @@ import java.util.List;
 public interface TrainingSearchMapper {
 
     List<TrainingSearchResultDTO> findTrainings(@Param("criteria") UserCriteria criteria, @Param("searchParams") TrainingSearchQueryDTO trainingSearchQueryDto);
+
+    List<TrainingWithExternalIdSearchResultDTO> findTrainingsWithExternalId(@Param("criteria") UserCriteria criteria, @Param("searchParams") TrainingSearchQueryDTO trainingSearchQueryDto);
 
     List<SimpleDictionaryDto> findTrainingCategories(@Param("criteria") UserCriteria criteria);
 
