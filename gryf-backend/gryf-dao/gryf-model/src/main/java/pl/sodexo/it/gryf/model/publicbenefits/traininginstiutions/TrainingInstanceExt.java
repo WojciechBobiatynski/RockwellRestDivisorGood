@@ -39,7 +39,7 @@ public class TrainingInstanceExt extends VersionableEntity {
 
     @Id
     @Column(name = "ID")
-    @GeneratedValue(generator = "ti_tra_seq")
+    @GeneratedValue(generator = "ti_tra_ins_ext_seq")
     private Long id;
 
     //IS - zewnętrzne id

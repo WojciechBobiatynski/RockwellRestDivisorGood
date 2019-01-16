@@ -47,6 +47,7 @@ import pl.sodexo.it.gryf.service.validation.publicbenefits.trainingreservation.T
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by Isolution on 2016-10-26.
@@ -152,6 +153,11 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
                 .with(GrantProgramDictionaryDTO::setId, trainingReservationDto.getGrantProgramId()).build();
         Contract contract = contractRepository.findContractIndividualByProgramAndDate(grantProgramDictionaryDTO, trainingReservationDto.getIndividualId(), trainingReservationDto.getStartDate(), trainingReservationDto.getEndDate() );
         trainingReservationDto.setContractId(contract.getId());
+
+        if (!Objects.isNull(contract)) {
+            // Znaleziono kontrakt
+            trainingReservationDto.setContractId(contract.getId());
+        }
 
         //walidacja danych
         validateTrainingReservation(trainingReservationDto);
