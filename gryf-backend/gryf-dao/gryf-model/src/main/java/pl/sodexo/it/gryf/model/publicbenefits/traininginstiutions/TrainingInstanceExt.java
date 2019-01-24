@@ -21,6 +21,7 @@ import static pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.Trainin
  */
 @Entity
 @Table(name = "TI_TRAINING_INSTANCES_EXT", schema = "APP_PBE")
+@SequenceGenerator(name = "ti_tra_ins_ext_seq", schema = "eagle", sequenceName = "ti_tra_ins_ext_seq", allocationSize = 1)
 @NamedQueries({
         @NamedQuery(name = QUERY_TRAINING_INSTANCE_EXT_DELETE_ALL_TRAINING_INSTANCE_EXT, query = "delete from TrainingInstanceExt t " +
                 " where t.importJobId < :importJobId " +
