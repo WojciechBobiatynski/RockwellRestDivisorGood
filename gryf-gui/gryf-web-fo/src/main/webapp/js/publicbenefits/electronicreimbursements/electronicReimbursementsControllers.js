@@ -53,6 +53,10 @@ angular.module('gryf.electronicreimbursements').controller("searchform.electroni
             return detailsLink;
         };
 
+        electronicReimbursementSearchService.getGrantProgramNames().then(function(response) {
+            $scope.grantPrograms = response.data;
+        });
+
     }]);
 
 angular.module('gryf.electronicreimbursements').controller("announce.electronicReimbursementsController",

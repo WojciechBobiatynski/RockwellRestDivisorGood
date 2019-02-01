@@ -4,6 +4,7 @@ angular.module('gryf.electronicreimbursements').factory("electronicReimbursement
         var FIND_RMBS_LIST_URL = contextPath + "/rest/publicBenefits/electronic/reimbursements/list";
         var FIND_RMBS_STATUSES_LIST_URL = contextPath + "/rest/publicBenefits/electronic/reimbursements/statuses";
         var FIND_RMBS_TYPES_LIST_URL = contextPath + "/rest/publicBenefits/electronic/reimbursements/types";
+        var FIND_GRANT_PROGRAM_NAMES_URL = contextPath + "/rest/publicBenefits/grantPrograms";
 
 
         var elctRmbsCriteria = new ElctRmbsCriteria();
@@ -13,6 +14,7 @@ angular.module('gryf.electronicreimbursements').factory("electronicReimbursement
 
         function ElctRmbsCriteria() {
             this.rmbsNumber =  null,
+            this.grantProgramId = null,
             this.rmbsType =  null,
             this.trainingName= null,
             this.pesel= null,
@@ -116,6 +118,10 @@ angular.module('gryf.electronicreimbursements').factory("electronicReimbursement
             return promise;
         };
 
+        var getGrantProgramNames = function () {
+            return $http.get(FIND_GRANT_PROGRAM_NAMES_URL);
+        }
+
         var findSortedBy = function(sortColumnName) {
             GryfTables.sortByColumn(elctRmbsCriteria, sortColumnName);
             return find();
@@ -135,7 +141,8 @@ angular.module('gryf.electronicreimbursements').factory("electronicReimbursement
             find: find,
             loadMore: loadMore,
             findSortedBy: findSortedBy,
-            getSortingTypeClass: getSortingTypeClass
+            getSortingTypeClass: getSortingTypeClass,
+            getGrantProgramNames: getGrantProgramNames
         };
     }]);
 

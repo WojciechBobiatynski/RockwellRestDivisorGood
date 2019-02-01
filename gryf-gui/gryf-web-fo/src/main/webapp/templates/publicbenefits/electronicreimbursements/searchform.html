@@ -16,6 +16,16 @@
                     <input placeholder="Numer rozliczenia" type="text"
                            force-digits ng-model="elctRmbsCriteria.rmbsNumber">
                 </th>
+                <th class="sortable grid-10" ng-class="getSortingTypeClass('grantProgramName')">
+                    <div ng-click="getSortedBy('grantProgramName')">
+                        Program dofinansowania
+                    </div>
+                    <select
+                            ng-options="v.id as v.name for v in grantPrograms"
+                            ng-model="elctRmbsCriteria.grantProgramId">
+                        <option label="-wybierz-"></option>
+                    </select>
+                </th>
                 <th class="sortable grid-10" ng-class="getSortingTypeClass('rmbsType')">
                     <div ng-click="getSortedBy('rmbsType')">
                         Typ rozliczenia
@@ -101,6 +111,7 @@
             <tbody>
             <tr ng-repeat="item in elctRmbsModel.foundRmbs | limitTo: searchResultOptions.displayLimit">
                 <td>{{::item.rmbsNumber}}</td>
+                <td>{{::item.grantProgramName}}</td>
                 <td>{{::item.rmbsType}}</td>
                 <td>{{::item.trainingName}}</td>
                 <td>{{::item.trainingExternalId}}</td>
