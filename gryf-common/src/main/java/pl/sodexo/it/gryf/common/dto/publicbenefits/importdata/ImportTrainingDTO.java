@@ -81,4 +81,8 @@ public class ImportTrainingDTO {
     @Setter
     private String reimbursmentCondition2;
 
+    @Getter
+    @Setter
+    private String priceValidateType;
+
 }

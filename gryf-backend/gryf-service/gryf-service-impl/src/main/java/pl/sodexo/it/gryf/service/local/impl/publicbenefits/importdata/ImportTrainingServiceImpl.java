@@ -36,8 +36,10 @@ import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.Training
 import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.TrainingService;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.importdata.ImportDataService;
+import pl.sodexo.it.gryf.service.local.impl.dictionaries.PriceValidationType;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -209,11 +211,20 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
                 violations.add(new EntityConstraintViolation("Cena 1h usługi nie może być pusta"));
             }
             if (importTrainingDTO.getHourPrice() != null && importTrainingDTO.getHoursNumber() != null && importTrainingDTO.getPrice() != null) {
-                BigDecimal calcHourPrice = importTrainingDTO.getHourPrice().multiply(BigDecimal.valueOf(importTrainingDTO.getHoursNumber()));
-                if (calcHourPrice.compareTo(importTrainingDTO.getPrice()) != 0) {
-                    violations.add(new EntityConstraintViolation(
-                            String.format("Cena usługi (%sPLN) nie zgadza się z iloscią godzin (%s) " + "oraz cena za 1h usługi (%sPLN). Otrzymany wynik: %sPLN", importTrainingDTO.getPrice(), importTrainingDTO.getHoursNumber(),
-                                    importTrainingDTO.getHourPrice(), calcHourPrice)));
+                String importPriceValidateType = importTrainingDTO.getPriceValidateType();
+                if (importPriceValidateType != null && PriceValidationType.PRICE_ROUNDED.getCode().equals(importPriceValidateType)) {
+                    BigDecimal calcHourPrice = importTrainingDTO.getPrice().divide(BigDecimal.valueOf(importTrainingDTO.getHoursNumber()), 2, RoundingMode.HALF_UP);
+                    if (calcHourPrice.compareTo(importTrainingDTO.getHourPrice()) != 0) {
+                        violations.add(new EntityConstraintViolation(
+                                String.format("Zaimportowana zaokrąglona cena za 1h usługi (%sPLN) nie zgadza się z wyliczoną ceną: %sPLN", importTrainingDTO.getHourPrice(), calcHourPrice)));
+                    }
+                } else {
+                    BigDecimal calcHourPrice = importTrainingDTO.getHourPrice().multiply(BigDecimal.valueOf(importTrainingDTO.getHoursNumber()));
+                    if (calcHourPrice.compareTo(importTrainingDTO.getPrice()) != 0) {
+                        violations.add(new EntityConstraintViolation(
+                                String.format("Cena usługi (%sPLN) nie zgadza się z iloscią godzin (%s) " + "oraz cena za 1h usługi (%sPLN). Otrzymany wynik: %sPLN", importTrainingDTO.getPrice(), importTrainingDTO.getHoursNumber(),
+                                        importTrainingDTO.getHourPrice(), calcHourPrice)));
+                    }
                 }
             }
         }
@@ -301,6 +312,9 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
                     break;
                 case 13:
                     t.setReimbursmentCondition2(getStringCellValue(cell));
+                    break;
+                case 14:
+                    t.setPriceValidateType(getStringCellValue(cell));
                     break;
             }
         }
