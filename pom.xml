@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
 
     <properties>
-        <gryf.version>2.6.3-SNAPSHOT</gryf.version>
+        <gryf.version>2.6.4-SNAPSHOT</gryf.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <gryf.datasource.jndiName>java:comp/env/jdbc/srvee</gryf.datasource.jndiName>
         
