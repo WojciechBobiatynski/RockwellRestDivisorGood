@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import pl.sodexo.it.gryf.common.GenericBuilder;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.importdata.ImportParamsDTO;
@@ -38,10 +37,10 @@ import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.Training
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.importdata.ImportDataService;
 import pl.sodexo.it.gryf.service.local.impl.dictionaries.PriceValidationType;
+import pl.sodexo.it.gryf.service.validation.publicbenefits.traininginstiutions.TrainingValidator;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -92,8 +91,8 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
     @Autowired
     private List<ImportTrainingValidator> importTrainingValidators;
 
-    @Value("#{'${gryf2.service.import.training.process.validatingHourPrice.excludedCategory}'.split(',')}")
-    private List<String> excludedCategoriesFromValidatingHoursAndPrices;
+    @Autowired
+    private TrainingValidator trainingValidator;
 
     //OVERRIDE
 
@@ -207,7 +206,7 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
             }
         }
 
-        if(!checkCategory(importTrainingDTO.getCategory())){
+        if(!trainingValidator.isExcludedCategoryFromPriceValidating(importTrainingDTO.getCategory())){
 
             if(importTrainingDTO.getHoursNumber() == null){
                 violations.add(new EntityConstraintViolation("Ilość godzin lekcyjnych nie może być pusta"));
@@ -242,15 +241,6 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
         importTrainingValidators.forEach(importTrainingValidator -> violations.addAll(importTrainingValidator.validate(paramsDTO.getGrantProgram(), importTrainingDTO)));
 
         gryfValidator.validate(violations);
-    }
-
-    /**
-     * Sprawdza czy kod kategorii nie podlega walidacji cen i godzin
-     * @param category
-     * @return
-     */
-    private boolean checkCategory(String category) {
-        return excludedCategoriesFromValidatingHoursAndPrices.stream().anyMatch(category::equals);
     }
 
     private void validateConnectedData(ImportTrainingDTO importDTO, TrainingInstitution trainingInstitution,

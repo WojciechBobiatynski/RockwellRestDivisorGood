@@ -4,6 +4,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.googlecode.ehcache.annotations.Cacheable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.GenericBuilder;
@@ -22,6 +23,7 @@ import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.contracts.ContractRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.individuals.IndividualContactRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.individuals.IndividualRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingCategoryProdInsCalcTypeRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstanceRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstanceStatusRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingRepository;
@@ -31,10 +33,9 @@ import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgramParam;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.IndividualContact;
-import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.Training;
-import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstance;
-import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstanceStatus;
+import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.*;
 import pl.sodexo.it.gryf.service.api.publicbenefits.contracts.ContractService;
+import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.TrainingCategoryProdInsCalcTypeService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.TrainingInstanceService;
 import pl.sodexo.it.gryf.service.api.utils.GryfAccessCodeGenerator;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
@@ -42,6 +43,7 @@ import pl.sodexo.it.gryf.service.local.api.MailService;
 import pl.sodexo.it.gryf.service.local.api.ParamInDateService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.pbeproduct.PbeProductInstancePoolLocalService;
 import pl.sodexo.it.gryf.service.mapping.MailDtoCreator;
+import pl.sodexo.it.gryf.service.utils.BeanUtils;
 import pl.sodexo.it.gryf.service.validation.publicbenefits.trainingreservation.TrainingReservationValidator;
 
 import java.util.Collections;
@@ -100,6 +102,9 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
 
     @Autowired
     private ContractService contractService;
+
+    @Autowired
+    private TrainingCategoryProdInsCalcTypeService trainingCategoryProdInsCalcTypeService;
 
     //PUBLIC METHODS
 
@@ -182,6 +187,7 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
         trainingInstance.setAssignedNum(toReservedNum);
         trainingInstance.setRegisterDate(new Date());
         trainingInstance.setReimbursmentPin(AEScryptographer.encrypt(gryfAccessCodeGenerator.createReimbursmentPin()));
+        trainingInstance.setProductInstanceCalcForHour(trainingCategoryProdInsCalcTypeService.getCalculateProductInstanceForHour(trainingReservationDto));
         trainingInstance = trainingInstanceRepository.save(trainingInstance);
 
         //RESERVE POOLS

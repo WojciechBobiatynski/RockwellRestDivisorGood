@@ -1,6 +1,7 @@
 package pl.sodexo.it.gryf.service.validation.publicbenefits.traininginstiutions;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.Training;
@@ -15,6 +16,9 @@ public class TrainingValidator {
     @Autowired
     private GryfValidator gryfValidator;
 
+    @Value("#{'${gryf2.service.import.training.process.validatingHourPrice.excludedCategory}'.split(',')}")
+    private List<String> excludedCategoriesFromValidatingHoursAndPrices;
+
     public void validateTraining(Training training) {
 
         //GENERAL VALIDATION
@@ -27,6 +31,15 @@ public class TrainingValidator {
         gryfValidator.validate(violations);
     }
 
+    /**
+     * Sprawdza czy kod kategorii nie podlega walidacji cen i godzin
+     * @param categoryId kod sprawdzanej kategorii
+     * @return true - kategoria nie podlega walidacji cen
+     */
+    public boolean isExcludedCategoryFromPriceValidating(String categoryId) {
+        return excludedCategoriesFromValidatingHoursAndPrices.stream().anyMatch(categoryId::equals);
+    }
+
     private void validateTrainingDates(Training training, List<EntityConstraintViolation> violations) {
         if(training.getStartDate() != null && training.getEndDate() != null && training.getEndDate().before(training.getStartDate())) {
             violations.add(new EntityConstraintViolation(Training.END_DATE_ATTR_NAME,
@@ -35,7 +48,7 @@ public class TrainingValidator {
     }
 
     private void validateTrainingPrices(Training training, List<EntityConstraintViolation> violations) {
-        if(training.getCategory() != null && !TrainingCategory.EGZ_TYPE.equals(training.getCategory().getId())) {
+        if(training.getCategory() != null && !isExcludedCategoryFromPriceValidating(training.getCategory().getId())) {
 
             if(training.getHoursNumber() == null){
                 violations.add(new EntityConstraintViolation("Ilość godzin lekcyjnych nie może być pusta"));

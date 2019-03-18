@@ -1,5 +1,7 @@
 package pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions;
 
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import pl.sodexo.it.gryf.model.api.BooleanConverter;
 import pl.sodexo.it.gryf.model.api.VersionableEntity;
@@ -69,6 +71,11 @@ public class TrainingInstance extends VersionableEntity {
 
     @OneToMany(mappedBy = "trainingInstance")
     private List<PbeProductInstancePoolUse> pollUses;
+
+    @Getter
+    @Setter
+    @Column(name = "PRODUCT_INSTANCE_CALC_FOR_HOUR")
+    private Integer productInstanceCalcForHour;
 
     //GETTERS & SETTERS
 

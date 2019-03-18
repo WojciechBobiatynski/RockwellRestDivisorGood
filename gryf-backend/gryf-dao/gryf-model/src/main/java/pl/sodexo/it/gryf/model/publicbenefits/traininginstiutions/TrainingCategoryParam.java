@@ -1,5 +1,7 @@
 package pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions;
 
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import pl.sodexo.it.gryf.model.api.GryfEntity;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgram;
@@ -48,6 +50,12 @@ public class TrainingCategoryParam extends GryfEntity {
     @Column(name = "DATE_TO")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateTo;
+
+    @ManyToOne
+    @JoinColumn(name = "PRODUCT_INSTANCE_CALC_TYPE", referencedColumnName = "ID")
+    @Setter
+    @Getter
+    private TrainingCategoryProdInsCalcType productInstanceCalcType;
 
     //GETTERS & SETTERS
 

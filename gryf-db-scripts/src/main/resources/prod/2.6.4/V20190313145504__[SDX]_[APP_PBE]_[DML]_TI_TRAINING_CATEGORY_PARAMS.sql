@@ -1,0 +1,11 @@
+
+MERGE INTO ${gryf.schema}.TI_TRAINING_CATEGORY_PARAMS tcp
+     USING (SELECT TTCP.ID, CASE 
+                      WHEN TTCP.PRODUCT_INSTANCE_FOR_HOUR IS NULL THEN 'CONST'
+                      ELSE 'DYNAMIC'
+                   END TYPE
+              FROM ${gryf.schema}.TI_TRAINING_CATEGORY_PARAMS ttcp) A
+        ON (TCP.id = A.id)
+WHEN MATCHED
+THEN
+   UPDATE SET TCP.PRODUCT_INSTANCE_CALC_TYPE = A.TYPE;

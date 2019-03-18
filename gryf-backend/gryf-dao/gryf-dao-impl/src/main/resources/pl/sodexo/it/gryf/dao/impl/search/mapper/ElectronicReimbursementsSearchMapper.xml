@@ -150,7 +150,7 @@
         SELECT
          DISTINCT
           tr.HOUR_PRICE                                 trainingHourPrice,
-          tr_cat_par.PRODUCT_INSTANCE_FOR_HOUR          productInstanceForHour,
+          tr_in.PRODUCT_INSTANCE_CALC_FOR_HOUR          productInstanceForHour,
           tr_cat_par.MAX_PRODUCT_INSTANCE               maxProductInstance,
           tr_in.ASSIGNED_NUM                            usedProductsNumber,
           prd.VALUE                                     productValue,
