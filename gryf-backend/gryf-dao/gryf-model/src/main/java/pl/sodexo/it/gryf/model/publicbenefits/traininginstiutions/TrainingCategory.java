@@ -37,8 +37,6 @@ public class TrainingCategory extends GryfEntity implements DictionaryEntity {
     public static final String QUERY_FIND_BY_GRANT_PROGRAM_AND_ID = "QUERY_FIND_BY_GRANT_PROGRAM_AND_ID";
     public static final String PARAMETER_ID = "id";
 
-    public static final String EGZ_TYPE = "EGZ";
-
     @Id
     @Column(name = "ID")
     private String id;

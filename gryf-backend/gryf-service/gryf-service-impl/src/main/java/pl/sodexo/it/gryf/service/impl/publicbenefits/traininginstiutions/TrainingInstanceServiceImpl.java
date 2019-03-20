@@ -4,7 +4,6 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.googlecode.ehcache.annotations.Cacheable;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.GenericBuilder;
@@ -12,6 +11,7 @@ import pl.sodexo.it.gryf.common.authentication.AEScryptographer;
 import pl.sodexo.it.gryf.common.criteria.traininginstance.TrainingInstanceCriteria;
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.other.GrantProgramDictionaryDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.products.ProductCalculateDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceDetailsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceUseDto;
@@ -23,7 +23,6 @@ import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.contracts.ContractRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.individuals.IndividualContactRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.individuals.IndividualRepository;
-import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingCategoryProdInsCalcTypeRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstanceRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstanceStatusRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingRepository;
@@ -43,7 +42,6 @@ import pl.sodexo.it.gryf.service.local.api.MailService;
 import pl.sodexo.it.gryf.service.local.api.ParamInDateService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.pbeproduct.PbeProductInstancePoolLocalService;
 import pl.sodexo.it.gryf.service.mapping.MailDtoCreator;
-import pl.sodexo.it.gryf.service.utils.BeanUtils;
 import pl.sodexo.it.gryf.service.validation.publicbenefits.trainingreservation.TrainingReservationValidator;
 
 import java.util.Collections;
@@ -187,7 +185,7 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
         trainingInstance.setAssignedNum(toReservedNum);
         trainingInstance.setRegisterDate(new Date());
         trainingInstance.setReimbursmentPin(AEScryptographer.encrypt(gryfAccessCodeGenerator.createReimbursmentPin()));
-        trainingInstance.setProductInstanceCalcForHour(trainingCategoryProdInsCalcTypeService.getCalculateProductInstanceForHour(trainingReservationDto));
+        trainingInstance.setProductInstanceCalcForHour(getProductInstanceForHour(trainingReservationDto));
         trainingInstance = trainingInstanceRepository.save(trainingInstance);
 
         //RESERVE POOLS
@@ -442,5 +440,22 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
         }else {
             return String.format("Użytkownika można zapisać na szkolenie najpóźniej do %s dni przed rozpoczęciem", Math.abs(reservationDayNum));
         }
+    }
+
+    /**
+     * Wyliczenie liczby bonów rozliczających jedną godzinę usług szkoleniowych
+     *
+     * @param trainingReservationDto dane potrzebne do rezerwacji szkolenia
+     * @return liczba bonów rozliczajca godzinę szkolenia
+     */
+    private Integer getProductInstanceForHour(TrainingReservationDto trainingReservationDto) {
+        Training training = trainingRepository.get(trainingReservationDto.getTrainingId());
+        ProductCalculateDto productCalculateDto = GenericBuilder.of(ProductCalculateDto::new)
+                .with(ProductCalculateDto::setCategoryId, training.getCategory().getId())
+                .with(ProductCalculateDto::setGrantProgramId, trainingReservationDto.getGrantProgramId())
+                .with(ProductCalculateDto::setDate, trainingReservationDto.getStartDate())
+                .with(ProductCalculateDto::setTrainingId, trainingReservationDto.getTrainingId())
+                .build();
+        return trainingCategoryProdInsCalcTypeService.getCalculateProductInstanceForHour(productCalculateDto);
     }
 }

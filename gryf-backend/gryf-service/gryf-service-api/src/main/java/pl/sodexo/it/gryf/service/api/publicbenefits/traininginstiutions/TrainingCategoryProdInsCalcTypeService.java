@@ -1,6 +1,6 @@
 package pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions;
 
-import pl.sodexo.it.gryf.common.dto.publicbenefits.trainingreservation.TrainingReservationDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.products.ProductCalculateDto;
 
 
 /**
@@ -11,8 +11,8 @@ public interface TrainingCategoryProdInsCalcTypeService {
     /**
      * Wylicza liczbę bonów za godzinę szkolenia do rozliczenia szkoleń
      *
-     * @param trainingReservationDto - rezerwacja szkolenia
+     * @param productCalculateDto - dane potrzebne do wyliczenia liczby bonow
      * @return liczba bonów za godzinę dla szkolenia
      */
-    Integer getCalculateProductInstanceForHour(TrainingReservationDto trainingReservationDto);
+    Integer getCalculateProductInstanceForHour(ProductCalculateDto productCalculateDto);
 }

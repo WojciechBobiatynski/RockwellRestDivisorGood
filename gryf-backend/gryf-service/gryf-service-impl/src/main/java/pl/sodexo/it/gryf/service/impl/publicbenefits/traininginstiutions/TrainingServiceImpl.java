@@ -3,8 +3,10 @@ package pl.sodexo.it.gryf.service.impl.publicbenefits.traininginstiutions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.sodexo.it.gryf.common.GenericBuilder;
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.contracts.detailsform.ContractDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.products.ProductCalculateDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingDTO;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingPrecalculatedDetailsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingSearchQueryDTO;
@@ -19,12 +21,14 @@ import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.Training;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingCategory;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingCategoryCatalog;
 import pl.sodexo.it.gryf.service.api.publicbenefits.contracts.ContractService;
+import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.TrainingCategoryProdInsCalcTypeService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.TrainingService;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.traininginstiutions.TrainingDtoMapper;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.traininginstiutions.TraningCategoryCatalogEntityMapper;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.traininginstiutions.TraningCategoryEntityMapper;
 import pl.sodexo.it.gryf.service.validation.publicbenefits.traininginstiutions.TrainingValidator;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -62,6 +66,9 @@ public class TrainingServiceImpl implements TrainingService {
 
     @Autowired
     private TraningCategoryCatalogEntityMapper traningCategoryCatalogEntityMapper;
+
+    @Autowired
+    private TrainingCategoryProdInsCalcTypeService trainingCategoryProdInsCalcTypeService;
 
     @Override
     public TrainingDTO findTraining(Long id) {
@@ -114,7 +121,9 @@ public class TrainingServiceImpl implements TrainingService {
 
     @Override
     public TrainingPrecalculatedDetailsDto findTrainingPrecalculatedDetails(Long id, Long grantProgramId) {
-        return trainingSearchDao.findTrainingPrecalculatedDetails(id, grantProgramId);
+        TrainingPrecalculatedDetailsDto trainingPrecalculatedDetailsDto = trainingSearchDao.findTrainingPrecalculatedDetails(id, grantProgramId);
+        trainingPrecalculatedDetailsDto.setProductInstanceForHour(getCalculateProdForHour(id, grantProgramId));
+        return trainingPrecalculatedDetailsDto;
     }
 
     @Override
@@ -144,5 +153,23 @@ public class TrainingServiceImpl implements TrainingService {
     public List<SimpleDictionaryDto> findAllTrainingCategoryCatalogs() {
         List<TrainingCategoryCatalog> trainingCategoryCatalogs = trainingCategoryCatalogRepository.findAll();
         return traningCategoryCatalogEntityMapper.convert(trainingCategoryCatalogs);
+    }
+
+    /**
+     * Wyliczenie liczby bonów rozliczających jedną godzinę usług szkoleniowych
+     *
+     * @param id id szkolenia
+     * @param grantProgramId id programu
+     * @return liczba bonów rozliczajca godzinę szkolenia
+     */
+    private Integer getCalculateProdForHour(Long id, Long grantProgramId) {
+        Training training = trainingRepository.get(id);
+        ProductCalculateDto productCalculateDto = GenericBuilder.of(ProductCalculateDto::new)
+                .with(ProductCalculateDto::setCategoryId, training.getCategory().getId())
+                .with(ProductCalculateDto::setGrantProgramId, grantProgramId)
+                .with(ProductCalculateDto::setDate, new Date())
+                .with(ProductCalculateDto::setTrainingId, id)
+                .build();
+        return trainingCategoryProdInsCalcTypeService.getCalculateProductInstanceForHour(productCalculateDto);
     }
 }
