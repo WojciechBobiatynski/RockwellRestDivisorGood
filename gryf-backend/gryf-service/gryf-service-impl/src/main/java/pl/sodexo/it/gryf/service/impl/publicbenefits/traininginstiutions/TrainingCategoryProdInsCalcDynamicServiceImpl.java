@@ -34,7 +34,7 @@ public class TrainingCategoryProdInsCalcDynamicServiceImpl implements TrainingCa
 
         //If not found product then will be throw exception
         GrantProgramProduct gpProduct = paramInDateService.findGrantProgramProduct(productCalculateDto.getGrantProgramId(),
-                GrantProgramProduct.Type.PRODUCT, productCalculateDto.getDate(), true);
+                GrantProgramProduct.Type.PBE_PRODUCT, productCalculateDto.getDate(), true);
 
         //Value of 1 bon
         BigDecimal bonValue = gpProduct.getPbeProduct().getValue();
