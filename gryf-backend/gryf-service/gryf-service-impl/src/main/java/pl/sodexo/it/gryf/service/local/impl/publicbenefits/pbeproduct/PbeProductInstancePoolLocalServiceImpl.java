@@ -4,9 +4,11 @@ import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.sodexo.it.gryf.common.GenericBuilder;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.pbeproductinstancepool.PbeProductInstancePoolDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.products.PrintNumberDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.products.PrintNumberResultDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.products.ProductCalculateDto;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
 import pl.sodexo.it.gryf.dao.api.crud.repository.other.GryfPLSQLRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementRepository;
@@ -23,6 +25,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.pbeproduct.*;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.Training;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingCategoryParam;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstance;
+import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.TrainingCategoryProdInsCalcTypeService;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
 import pl.sodexo.it.gryf.service.local.api.ParamInDateService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.pbeproduct.PbeProductInstancePoolLocalService;
@@ -88,6 +91,9 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
 
     @Autowired
     TrainingInstanceExtRepository trainingInstanceExtRepository;
+
+    @Autowired
+    private TrainingCategoryProdInsCalcTypeService trainingCategoryProdInsCalcTypeService;
 
     //PUBLIC METHODS
 
@@ -503,6 +509,8 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
         TrainingCategoryParam tccParam = paramInDateService.findTrainingCategoryParam(training.getCategory().getId(),
                 grantProgram.getId(), new Date(), true);
 
+        tccParam.setProductInstanceForHour(getCalculateProdForHour(training));
+
         //WALIDACJE PO GODZINACH SZKOLENIA (TYPOWE SZKOLENIE)
         if (tccParam.getProductInstanceForHour() != null) {
             int productInstanceForHour = tccParam.getProductInstanceForHour();
@@ -641,5 +649,21 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
         }
         return instances;
 
+    }
+
+    /**
+     * Wyliczenie liczby bonów rozliczających jedną godzinę usług szkoleniowych
+     *
+     * @param training szkolenie
+     * @return liczba bonów rozliczajca godzinę szkolenia
+     */
+    private Integer getCalculateProdForHour(Training training) {
+        ProductCalculateDto productCalculateDto = GenericBuilder.of(ProductCalculateDto::new)
+                .with(ProductCalculateDto::setCategoryId, training.getCategory().getId())
+                .with(ProductCalculateDto::setGrantProgramId, training.getGrantProgram().getId())
+                .with(ProductCalculateDto::setDate, new Date())
+                .with(ProductCalculateDto::setTrainingId, training.getId())
+                .build();
+        return trainingCategoryProdInsCalcTypeService.getCalculateProductInstanceForHour(productCalculateDto);
     }
 }
