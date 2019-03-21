@@ -42,7 +42,7 @@ public class TrainingCategoryProdInsCalcDynamicServiceImpl implements TrainingCa
         BigDecimal trainingHourPrice = training.getHourPrice();
 
         // Number of bon calculated using hour price
-        Integer numberCalculatedBon = trainingHourPrice.divide(bonValue, BigDecimal.ROUND_CEILING).intValue();
+        Integer numberCalculatedBon = trainingHourPrice.divide(bonValue, 0, BigDecimal.ROUND_CEILING).intValue();
 
         /**
          *  Algorithm:
