@@ -509,12 +509,10 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
         TrainingCategoryParam tccParam = paramInDateService.findTrainingCategoryParam(training.getCategory().getId(),
                 grantProgram.getId(), new Date(), true);
 
-        tccParam.setProductInstanceForHour(getCalculateProdForHour(training));
+        Integer productInstanceForHour = getCalculateProdForHour(training);
 
         //WALIDACJE PO GODZINACH SZKOLENIA (TYPOWE SZKOLENIE)
-        if (tccParam.getProductInstanceForHour() != null) {
-            int productInstanceForHour = tccParam.getProductInstanceForHour();
-
+        if (productInstanceForHour != null) {
             if (training.getHoursNumber() != null) {
 
                 //ILOSC BONÓW KTÓRĄ CHCEMY PRZEZNACZY PRZEKRACZA ILOSC BOBNÓW JAKA JEST POTRZEBNA NA WSZYSTKIE GODZINY SZKOLENIA
