@@ -13,10 +13,8 @@ import pl.sodexo.it.gryf.service.api.security.SecurityChecker;
 import pl.sodexo.it.gryf.service.api.security.VerificationService;
 import pl.sodexo.it.gryf.web.fo.utils.UrlConstants;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-import static pl.sodexo.it.gryf.web.common.util.PageUtil.getURLWithContextPath;
 import static pl.sodexo.it.gryf.web.fo.utils.FoPageConstant.SEND_RESET_PASSWORD_LINK;
 
 /**

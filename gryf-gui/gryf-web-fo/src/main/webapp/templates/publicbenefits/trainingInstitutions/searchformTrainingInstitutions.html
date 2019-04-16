@@ -5,6 +5,16 @@
             <li><a href="#/modify/" class="button button-new">Nowe IS</a></li>
             <li><a ng-click="clear()" class="button button-refresh">wyczyść</a></li>
         </ul>
+        <ol class="your-ti-info">
+            <li class="">Twoja instytucja:</li>
+            <li>
+                <a class="ti-name text-ellipsis" ng-class="{disabledLink: loggedUserTiModel.entity.id === null}"
+                   ng-href="#/modify/{{loggedUserTiModel.entity.id}}">{{loggedUserTiModel.entity.name}}
+                </a>
+                <span class="text-muted" ng-class="{hidden: loggedUserTiModel.entity.id !== null}">Brak</span>
+            </li>
+            <li><a class="ti-action" ng-click="showSwitchUserTiModal()">zmień</a></li>
+        </ol>
     </header>
 
     <div class="one-column">

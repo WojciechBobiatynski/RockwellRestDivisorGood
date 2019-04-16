@@ -1018,3 +1018,29 @@ table th[class*="col-"] {
 input.ng-valid {
     box-shadow: none;
 }
+
+.text-ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.your-ti-info {
+    font-family: SansaProNormal, sans-serif;
+}
+
+.your-ti-info li {
+    margin-right: 5px !important;
+}
+
+.your-ti-info .ti-name {
+    display: inline-block;
+    color: #d5001c;
+    max-width: 100px;
+}
+
+.your-ti-info .ti-action {
+    color: #abada9;
+    padding: 0 6px;
+    border-left: 1px solid #d5d6d6;
+}

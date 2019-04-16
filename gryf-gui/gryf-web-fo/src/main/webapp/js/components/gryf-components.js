@@ -47,6 +47,7 @@ angular.module('gryf.modals').factory('GryfModals', ['$rootScope', '$modal', fun
         },
         ERROR_INFO: contextPath + "/templates/modals/modal-error.html",
         INVALID_OBJECT_ID: contextPath + "/templates/modals/modal-invalid-object-id.html",
+        SWITCH_USER_TI: contextPath + "/templates/modals/modal-trainingInstitution-select.html",
     };
     var MODAL_RESULT = {
         REFRESH: "refresh",

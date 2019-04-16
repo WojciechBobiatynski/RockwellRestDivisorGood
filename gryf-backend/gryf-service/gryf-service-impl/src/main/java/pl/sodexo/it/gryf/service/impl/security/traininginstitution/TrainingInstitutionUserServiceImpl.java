@@ -7,8 +7,10 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.common.dto.security.trainingInstitutions.GryfTiUserDto;
+import pl.sodexo.it.gryf.common.exception.NoAppropriateData;
 import pl.sodexo.it.gryf.common.exception.verification.GryfInvalidTokenException;
 import pl.sodexo.it.gryf.common.utils.GryfStringUtils;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.operator.OperatorUserRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TiUserResetAttemptRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstitutionUserRepository;
 import pl.sodexo.it.gryf.model.security.trainingInstitutions.TiUserResetAttempt;
@@ -16,6 +18,7 @@ import pl.sodexo.it.gryf.model.security.trainingInstitutions.TrainingInstitution
 import pl.sodexo.it.gryf.service.api.security.trainingInstitutions.TrainingInstitutionUserService;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.security.traininginstitutions.GryfTiUserDtoMapper;
 import pl.sodexo.it.gryf.service.mapping.entitytodto.security.traininginstitutions.TrainingInstitutionUserEntityMapper;
+import pl.sodexo.it.gryf.service.utils.FoUserParameterCodes;
 
 /**
  * Implementacja serwius zajmującego się operacjami związanymi z użytkownikiem Usługodawcy
@@ -37,6 +40,9 @@ public class TrainingInstitutionUserServiceImpl implements TrainingInstitutionUs
 
     @Autowired
     private TiUserResetAttemptRepository tiUserResetAttemptRepository;
+
+    @Autowired
+    private OperatorUserRepository operatorUserRepository;
 
     @Autowired
     private ApplicationParameters applicationParameters;
@@ -82,5 +88,19 @@ public class TrainingInstitutionUserServiceImpl implements TrainingInstitutionUs
     public boolean isPasswordStrong(String password){
         String strongPasswordRegexp = applicationParameters.getStrongPasswordRegexp();
         return GryfStringUtils.isRegexpMatch(strongPasswordRegexp, password);
+    }
+
+    @Override
+    public GryfTiUserDto findTiUserForFoLogin(String foUserLogin) {
+        String tiIdParam = operatorUserRepository
+                .findUserParameterValueByLoginAndKey(foUserLogin, FoUserParameterCodes.TI_USER_ID.toString());
+        if (tiIdParam == null) {
+            throw new NoAppropriateData("Brak powiązanego użytkownika Usługodawcy.");
+        }
+        TrainingInstitutionUser tiUser = trainingInstitutionUserRepository.get(Long.parseLong(tiIdParam));
+        if (tiUser == null) {
+            throw new NoAppropriateData("Użytkownik nie istnieje.");
+        }
+        return trainingInstitutionUserEntityMapper.convert(tiUser);
     }
 }

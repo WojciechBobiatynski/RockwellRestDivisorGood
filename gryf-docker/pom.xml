@@ -9,9 +9,52 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
+  <repositories>
+    <repository>
+      <id>Datanucleus</id>
+      <name>Datanucleus Repository</name>
+      <url>http://www.datanucleus.org/downloads/maven2/</url>
+    </repository>
+  </repositories>
+
+  <properties>
+    <libs.dir>${project.build.directory}/libs</libs.dir>
+  </properties>
+
   <artifactId>gryf-docker</artifactId>
+
   <build>
     <finalName>${artifactId}-${gryf.version}</finalName>
+
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>2.1</version>
+        <executions>
+          <execution>
+            <phase>validate</phase>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${libs.dir}</outputDirectory>
+              <silent>true</silent>
+              <artifactItems>
+                <artifactItem>
+                  <!-- https://mvnrepository.com/artifact/oracle/ojdbc6 -->
+                  <groupId>oracle</groupId>
+                  <artifactId>ojdbc6</artifactId>
+                  <version>11.2.0.3</version>
+                  <type>jar</type>
+                  <destFileName>ojdbc6.jar</destFileName>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
   </build>
 
 </project>

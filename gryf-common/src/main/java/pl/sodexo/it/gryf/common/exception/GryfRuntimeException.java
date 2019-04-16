@@ -11,7 +11,7 @@ public abstract class GryfRuntimeException extends RuntimeException {
 
     public GryfRuntimeException(){
         super();
-    };
+    }
 
     public GryfRuntimeException(String message) {
         super(message);
@@ -21,5 +21,10 @@ public abstract class GryfRuntimeException extends RuntimeException {
     public GryfRuntimeException(String message, Throwable cause) {
         super(message, cause);
         this.message = message;
+    }
+
+    @Override
+    public String getMessage() {
+        return message;
     }
 }

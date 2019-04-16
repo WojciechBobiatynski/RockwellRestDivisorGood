@@ -3,7 +3,11 @@
 angular.module("gryf.trainingInstitutions").factory("BrowseTrainingInsService",
     ["$http", "GryfModals", "GryfTables", function($http, GryfModals, GryfTables) {
         var FIND_TRAINING_INS_URL = contextPath + "/rest/publicBenefits/trainingInstitution/list";
+        var PATH_USER_TI = contextPath + "/rest/publicBenefits/fo/userTi";
+        var PATH_RESET_USER_TI = contextPath + "/rest/publicBenefits/fo/resetTi";
+
         var searchDTO = new SearchObjModel();
+        var loggedUserTI = new TrainingInstitutionSearchModel();
         var searchResultOptions = new SearchResultOptions();
 
         function SearchObjModel() {
@@ -23,6 +27,21 @@ angular.module("gryf.trainingInstitutions").factory("BrowseTrainingInsService",
                 limit: 10,
                 sortColumns: [],
                 sortTypes: []
+            }
+        }
+
+        function TrainingInstitutionSearchModel() {
+            this.entity = {
+                id: null,
+                externalId: null,
+                name: null,
+                vatRegNum: null,
+                addressInvoice: null,
+                zipCodeInvoiceCode: null,
+                zipCodeInvoiceCity: null,
+                addressCorr: null,
+                zipCodeCorrCode: null,
+                zipCodeCorrCity: null
             }
         }
 
@@ -94,6 +113,32 @@ angular.module("gryf.trainingInstitutions").factory("BrowseTrainingInsService",
             return find();
         };
 
+        var getLoggedUserTI = function () {
+            return loggedUserTI;
+        };
+
+        var loadLoggedUserTI = function () {
+            var promise = $http.get(PATH_USER_TI);
+            promise.then(function (response) {
+                if (response.data) {
+                    loggedUserTI.entity = response.data;
+                }
+            })
+        };
+
+        var resetLoggedUserTI = function () {
+            var promise = $http.put(PATH_RESET_USER_TI);
+            promise.then(function (response) {
+                loadLoggedUserTI();
+            },function (error) {
+                if (error.status === 404) {
+                    GryfModals.openModal(GryfModals.MODALS_URL.INVALID_OBJECT_ID,
+                        {message: error.data.message});
+                }
+            });
+            return promise;
+        };
+
         return {
             getSearchDTO: getSearchDTO,
             getSearchResultOptions: getSearchResultOptions,
@@ -102,7 +147,10 @@ angular.module("gryf.trainingInstitutions").factory("BrowseTrainingInsService",
             resetSearchResultOptions: resetSearchResultOptions,
             getNewSearchDTO: getNewSearchDTO,
             loadMore: loadMore,
-            findById: findById
+            findById: findById,
+            getLoggedUserTI: getLoggedUserTI,
+            loadLoggedUserTI: loadLoggedUserTI,
+            resetLoggedUserTI: resetLoggedUserTI
         }
     }]);
 
@@ -115,6 +163,8 @@ angular.module("gryf.trainingInstitutions").factory("ModifyTrainingInsService",
 
         var PATH_SECURITY = "/security";
         var PATH_TI_USER_ROLES = "/ti/roles";
+
+        var PATH_JOIN_TI = contextPath + "/rest/publicBenefits/fo/joinTi/";
 
         var violations = {};
         var trainingInsObject = new TrainingInsObject();
@@ -272,6 +322,32 @@ angular.module("gryf.trainingInstitutions").factory("ModifyTrainingInsService",
             return promise;
         };
 
+        var joinTi = function (id) {
+            if (!($routeParams.id || id)) {
+                return;
+            }
+            var requestId = $routeParams.id ? $routeParams.id : id;
+            var promise = $http.put(PATH_JOIN_TI + requestId);
+            promise.then(function (response) {
+                if (response.data) {
+                    var filteredUsers = trainingInsObject.entity.users.filter(function (user) {
+                        return user.id === response.data.id;
+                    });
+                    if (filteredUsers.length === 0) {
+                        trainingInsObject.entity.users.push(response.data);
+                        GryfPopups.setPopup("success", "Sukces", "Dołączyłeś do IS.");
+                        GryfPopups.showPopup();
+                    }
+                }
+            }, function (error) {
+                if (error.status === 404) {
+                    GryfModals.openModal(GryfModals.MODALS_URL.INVALID_OBJECT_ID,
+                        {message: error.data.message});
+                }
+            });
+            return promise;
+        };
+
         return {
             load: load,
             loadContactTypes: loadContactTypes,
@@ -285,6 +361,7 @@ angular.module("gryf.trainingInstitutions").factory("ModifyTrainingInsService",
             openZipCodesLov: openZipCodesLov,
             addTiUserToList: addTiUserToList,
             sendResetLink: sendResetLink,
-            loadTiUserRoles: loadTiUserRoles
+            loadTiUserRoles: loadTiUserRoles,
+            joinTi: joinTi
         }
     }]);

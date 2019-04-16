@@ -3,9 +3,11 @@
 var scopeBrowseController;
 
 angular.module("gryf.trainingInstitutions").controller("searchform.TrainingInsController",
-    ["$scope", "BrowseTrainingInsService", 'GryfPopups', function ($scope, BrowseTrainingInsService, GryfPopups) {
+    ["$scope", "BrowseTrainingInsService", 'GryfPopups', 'GryfModals',
+        function ($scope, BrowseTrainingInsService, GryfPopups, GryfModals) {
         scopeBrowseController = $scope;
         $scope.searchObjModel = BrowseTrainingInsService.getSearchDTO();
+        $scope.loggedUserTiModel = BrowseTrainingInsService.getLoggedUserTI();
         $scope.searchResultOptions = BrowseTrainingInsService.getSearchResultOptions();
         gryfSessionStorage.setUrlToSessionStorage();
         GryfPopups.showPopup();
@@ -34,6 +36,20 @@ angular.module("gryf.trainingInstitutions").controller("searchform.TrainingInsCo
             if (columnName == $scope.searchObjModel.entity.sortColumns[0]) {
                 return sortingType;
             }
+        };
+
+        $scope.loadLoggedUserTI = function () {
+            BrowseTrainingInsService.loadLoggedUserTI();
+        };
+        $scope.loadLoggedUserTI();
+
+        $scope.showSwitchUserTiModal = function () {
+            GryfModals.openModal(GryfModals.MODALS_URL.SWITCH_USER_TI, {message: "Resetuj do domyślnego IS."})
+                .result.then(function (result) {
+                    if (result === 'reset') {
+                        BrowseTrainingInsService.resetLoggedUserTI();
+                    }
+            })
         }
     }]);
 
@@ -146,5 +162,14 @@ angular.module("gryf.trainingInstitutions").controller("detailsform.TrainingInsC
                 var index = $scope.model.entity.users.indexOf(user);
                 $scope.model.entity.users.splice(index, 1);
             };
+
+            $scope.joinTi = function () {
+                if ($scope.model.entity.id !== null) {
+                    var callback = function () {
+                            ModifyTrainingInsService.joinTi();
+                    };
+                    $scope.showAcceptModal("Wywołując tę akcję stracisz niezapisane dane", callback);
+                }
+            }
 
         }]);

@@ -51,4 +51,11 @@ public interface TrainingInstitutionUserService {
      * @return
      */
     boolean isPasswordStrong(String password);
+
+    /**
+     * Znajdowanie użytkownika Usługodawcy (TI) przypisanego do użytkownika Operatora (FO)
+     * @param foUserLogin login użytkownika FO
+     * @return dto użytkowanika Usługodawcy
+     */
+    GryfTiUserDto findTiUserForFoLogin(String foUserLogin);
 }

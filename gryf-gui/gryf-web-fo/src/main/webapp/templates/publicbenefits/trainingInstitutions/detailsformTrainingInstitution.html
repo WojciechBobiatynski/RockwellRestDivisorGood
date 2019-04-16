@@ -24,6 +24,10 @@
                     <a ng-href="#" ng-click="newTrainingInstitution()" class="button button-new"
                        target="_self">Nowe IS</a>
                 </li>
+                <li>
+                    <a ng-click="joinTi()" class="button button-new"
+                       ng-class="{disabledLink: model.entity.id === null}">Dołącz do IS</a>
+                </li>
             </ol>
         </header>
 

@@ -137,7 +137,7 @@ public class UserServiceImpl implements UserService {
             throw new GryfUserNotActiveException("Twoje konto jest nieaktywne. Zgłoś sie do administratora");
         }
 
-        if (!verificationCode.equals(user.getVerificationCode())){
+        if (!verificationCode.equals(user.getVerificationCode())) {
             LOGGER.warn("Niepoprawne hasło, PESEL={}", pesel);
             throw new GryfBadCredentialsException("Niepoprawny PESEL lub/i hasło");
         }
