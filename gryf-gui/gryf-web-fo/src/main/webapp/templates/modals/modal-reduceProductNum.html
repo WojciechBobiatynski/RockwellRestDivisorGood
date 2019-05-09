@@ -1,0 +1,49 @@
+<div id="modal-confirm">
+    <div class="modal-head green">
+        <h3 class="modal-title">Zmniejszenie liczby bonów</h3>
+    </div>
+    <div class="modal-body text">
+        <p>Zamierzasz zmniejszyć liczbę zarezerwowanych bonów Uczestnika we wskazanej poniżej usłudze</p>
+    </div>
+    <div class="grid-100">
+        <section class="grid-30">
+            <strong class="label">Nowa ilość bonów</strong>
+            <input type="text" force-digits ng-model="trainingInstanceModel.entity.newReservationNum">
+            <gryf-validation-msg path="newReservationNum"></gryf-validation-msg>
+        </section>
+        <table class="table table-condensed">
+            <thead>
+            <tr>
+                <th>Nazwa usługi</th>
+                <th>Nr usługi</th>
+                <th>PESEL</th>
+                <th>Imię</th>
+                <th>Nazwisko</th>
+                <th>Liczba potwierdzonych bonów</th>
+                <th>Data rozpoczęcia</th>
+                <th>Data zakończenia</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{{trainingInstanceModel.entity.trainingName}}</td>
+                <td>{{trainingInstanceModel.entity.trainingExternalId}}</td>
+                <td>{{trainingInstanceModel.entity.participantPesel}}</td>
+                <td>{{trainingInstanceModel.entity.participantName}}</td>
+                <td>{{trainingInstanceModel.entity.participantSurname}}</td>
+                <td>{{trainingInstanceModel.entity.productAssignedNum}}</td>
+                <td>{{trainingInstanceModel.entity.startDate  | date:'yyyy-MM-dd'}}</td>
+                <td>{{trainingInstanceModel.entity.endDate  | date:'yyyy-MM-dd'}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="modalscop-footer">
+        <div class="centered-ul">
+            <ul>
+                <li ng-if="isNewProductNum()"><a class="button button-force" ng-click="confirmReduceProductAssignedNum()">Zatwierdź</a></li>
+                <li><a class="button button-cancel button-gray" ng-click="$dismiss()">Anuluj</a></li>
+            </ul>
+        </div>
+    </div>
+</div>

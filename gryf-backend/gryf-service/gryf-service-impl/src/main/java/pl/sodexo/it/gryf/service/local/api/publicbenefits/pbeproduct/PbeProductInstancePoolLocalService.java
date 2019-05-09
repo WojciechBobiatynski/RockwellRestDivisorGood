@@ -18,6 +18,8 @@ public interface PbeProductInstancePoolLocalService {
 
     void lowerReservationPools(TrainingInstance instance, int newReservationNum);
 
+    void reduceUsedPools(TrainingInstance instance, int newUsedNum);
+
     void returnReservedPools(TrainingInstance trainingInstance);
 
     void usePools(TrainingInstance instance);
@@ -29,6 +31,8 @@ public interface PbeProductInstancePoolLocalService {
     void expirePools(Long ermbsId);
 
     void returnAvaiablePools(Ereimbursement ereimbursement);
+
+    void cancelReimbursPools(TrainingInstance trainingInstance);
 
     /**
      * Znajduje wszystkie przeterminowane pule bonów dla kierunku kariera

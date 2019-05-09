@@ -211,9 +211,50 @@ function ($http, GryfModals, GryfPopups, GryfExceptionHandler, GryfHelpers, Gryf
         return violations;
     };
 
+    var cancelTrainingReimbursement = function(trainingInstanceId, trainingInstanceVersion) {
+        var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING, {label: "Zapisuję"});
+
+        return $http.put(TRAINING_RESERVATION_URL + "cancelTrainingReimbursement/" + trainingInstanceId + "/" + trainingInstanceVersion
+        ).success(function() {
+            GryfPopups.setPopup("success", "Sukces", "Anulowano rozliczenie.");
+            GryfPopups.showPopup();
+        }).error(function(error) {
+            GryfPopups.setPopup("error", "Błąd", "Nie udało się anulować rozliczenia");
+            GryfPopups.showPopup();
+
+            GryfExceptionHandler.handleSavingError(error, violations, null);
+
+        }).finally(function() {
+            GryfModals.closeModal(modalInstance);
+        });
+    };
+
+    var reduceProductAssignedNum = function(trainingInstanceId, trainingInstanceVersion, newReservationNum) {
+        var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING, {label: "Zapisuję"});
+
+        return $http.put(TRAINING_RESERVATION_URL + "reduceProductAssignedNum",
+            {id: trainingInstanceId, version: trainingInstanceVersion, newReservationNum: newReservationNum}
+        ).success(function() {
+            GryfPopups.setPopup("success", "Sukces", "Zmniejszono liczbę zarezerwowanych bonów");
+            GryfPopups.showPopup();
+            TrainingInstanceSearchService.findDetailsById(TrainingInstanceSearchService.getTrainingInstanceModel().entity.trainingInstanceId);
+        }).error(function(error) {
+            GryfPopups.setPopup("error", "Błąd", "Nie udało się zmniejszyć liczby zarezerwowanych bonów");
+            GryfPopups.showPopup();
+
+            GryfExceptionHandler.handleSavingError(error, violations, null);
+
+        }).finally(function() {
+            GryfModals.closeModal(modalInstance);
+        });
+
+    };
+
     return {
         confirmPin: confirmPin,
         cancelTrainingReservation: cancelTrainingReservation,
-        getViolations: getViolations
+        getViolations: getViolations,
+        cancelTrainingReimbursement: cancelTrainingReimbursement,
+        reduceProductAssignedNum: reduceProductAssignedNum
     };
 }]);

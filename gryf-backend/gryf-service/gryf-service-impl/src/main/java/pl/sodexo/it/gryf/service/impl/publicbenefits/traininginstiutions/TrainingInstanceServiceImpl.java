@@ -11,6 +11,7 @@ import pl.sodexo.it.gryf.common.authentication.AEScryptographer;
 import pl.sodexo.it.gryf.common.criteria.traininginstance.TrainingInstanceCriteria;
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
 import pl.sodexo.it.gryf.common.dto.other.GrantProgramDictionaryDTO;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.products.ProductCalculateDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceDetailsDto;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstances.TrainingInstanceDto;
@@ -26,6 +27,7 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.individuals.Indi
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstanceRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstanceStatusRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingRepository;
+import pl.sodexo.it.gryf.dao.api.search.dao.ElectronicReimbursementsDao;
 import pl.sodexo.it.gryf.dao.api.search.dao.TrainingInstanceSearchDao;
 import pl.sodexo.it.gryf.model.publicbenefits.api.ContactType;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
@@ -34,6 +36,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
 import pl.sodexo.it.gryf.model.publicbenefits.individuals.IndividualContact;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.*;
 import pl.sodexo.it.gryf.service.api.publicbenefits.contracts.ContractService;
+import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.ElectronicReimbursementsService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.TrainingCategoryProdInsCalcTypeService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.traininginstiutions.TrainingInstanceService;
 import pl.sodexo.it.gryf.service.api.utils.GryfAccessCodeGenerator;
@@ -103,6 +106,12 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
 
     @Autowired
     private TrainingCategoryProdInsCalcTypeService trainingCategoryProdInsCalcTypeService;
+
+    @Autowired
+    private ElectronicReimbursementsService electronicReimbursementsService;
+
+    @Autowired
+    private ElectronicReimbursementsDao electronicReimbursementsDao;
 
     //PUBLIC METHODS
 
@@ -207,6 +216,7 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
         validateTrainingInstanceVersion(trainingInstance, useDto.getVersion());
         validateTrainingInstance(trainingInstance, TrainingInstanceStatus.RES_CODE);
         validateUseTrainingInstance(trainingInstance, useDto);
+        validateReduceProductNumTrainingInstance(trainingInstance, useDto);
         trainingInstance.setStatus(trainingInstStatUse);
 
         //LOWER RESERVATION POOLS
@@ -256,6 +266,40 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
         validateTrainingInstance(trainingInstance);
         IndividualContact individualContact = individualContactRepository.findByIndividualAndContactType(trainingInstance.getIndividual().getId(), ContactType.TYPE_VER_EMAIL);
         mailService.scheduleMail(mailDtoCreator.createMailDTOForPinResend(trainingInstance, individualContact.getContactData()));
+    }
+
+    @Override
+    public void reduceProductAssignedNum(TrainingInstanceUseDto useDto) {
+        validateTrainingInstance(useDto.getId());
+
+        //GET DATA
+        TrainingInstance trainingInstance = trainingInstanceRepository.get(useDto.getId());
+
+        //VALIDATE
+        validateTrainingInstanceVersion(trainingInstance, useDto.getVersion());
+        validateTrainingInstance(trainingInstance, TrainingInstanceStatus.DONE_CODE);
+        validateReduceProductNumTrainingInstance(trainingInstance, useDto);
+
+        //REDUCE PRODUCT NUM
+        pbeProductInstancePoolLocalService.reduceUsedPools(trainingInstance, useDto.getNewReservationNum());
+        trainingInstance.setAssignedNum(useDto.getNewReservationNum());
+    }
+
+    @Override
+    public void cancelTrainingReimbursement(Long trainingInstanceId, Integer version) {
+        validateTrainingInstance(trainingInstanceId);
+
+        //GET DATA
+        TrainingInstance trainingInstance = trainingInstanceRepository.get(trainingInstanceId);
+        ElctRmbsHeadDto elctRmbsHeadDto = electronicReimbursementsDao.findEcltRmbsByTrainingInstanceId(trainingInstanceId);
+
+        //VALIDATE
+        validateTrainingInstanceVersion(trainingInstance, version);
+        validateTrainingInstance(trainingInstance, TrainingInstanceStatus.REIMB_CODE);
+
+        //SET TRAINING DONE
+        electronicReimbursementsService.cancel(elctRmbsHeadDto.getErmbsId());
+        pbeProductInstancePoolLocalService.cancelReimbursPools(trainingInstance);
     }
 
     @Override
@@ -342,6 +386,14 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
             if (!trainingPin.equals(useDto.getPin())) {
                 violations.add(new EntityConstraintViolation("Pin nie jest zgodny z pinem ze usługi"));
             }
+        }
+        gryfValidator.validate(violations);
+    }
+
+    private void validateReduceProductNumTrainingInstance(TrainingInstance trainingInstance, TrainingInstanceUseDto useDto) {
+        List<EntityConstraintViolation> violations = Lists.newArrayList();
+
+        if(trainingInstance != null) {
             if(trainingInstance.getAssignedNum() < useDto.getNewReservationNum()){
                 violations.add(new EntityConstraintViolation("Nie można zwiększyć ilości zarezerwowanych bonów (możliwe jest tylko zmniejszenie)."));
             }

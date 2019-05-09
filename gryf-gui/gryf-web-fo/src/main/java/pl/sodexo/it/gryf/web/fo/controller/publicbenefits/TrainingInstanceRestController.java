@@ -64,4 +64,16 @@ public class TrainingInstanceRestController {
         trainingInstanceService.useTrainingInstance(useDto);
     }
 
+    @RequestMapping(value = "/cancelTrainingReimbursement/{id}/{version}", method = RequestMethod.PUT)
+    public void cancelTrainingReimbursement(@PathVariable("id") Long trainingInstanceId, @PathVariable("version") Integer version) {
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_TI_TRAINING_INSTANCES_STATUS_MOD);
+        trainingInstanceService.cancelTrainingReimbursement(trainingInstanceId, version);
+    }
+
+    @RequestMapping(value = "/reduceProductAssignedNum", method = RequestMethod.PUT)
+    public void reduceProductAssignedNum(@RequestBody TrainingInstanceUseDto useDto) {
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_TI_TRAINING_INSTANCES_STATUS_MOD);
+        trainingInstanceService.reduceProductAssignedNum(useDto);
+    }
+
 }

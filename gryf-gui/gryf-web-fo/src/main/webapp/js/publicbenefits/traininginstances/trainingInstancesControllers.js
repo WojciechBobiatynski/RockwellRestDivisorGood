@@ -126,4 +126,55 @@ function ($scope, $routeParams, GryfModals, GryfModulesUrlProvider, BrowseTraini
         });
     };
 
+    $scope.cancelTrainingReimbursement = function() {
+        var messageText = {
+            message: "Rozliczenie szkolenia zostanie anulowane. Status rezerwacji szkolenia zmieni się z 'Rozliczone' na 'Odbyte'. Czy potwierdzasz operację?"
+        };
+        GryfModals.openModal(GryfModals.MODALS_URL.CONFIRM, messageText).result.then(function (result) {
+            if (!result) {
+                return;
+            }
+            TrainingInstanceModifyService.cancelTrainingReimbursement($scope.trainingInstanceModel.entity.trainingInstanceId,
+                $scope.trainingInstanceModel.entity.trainingInstanceVersion)
+                .then(function() {
+                    TrainingInstanceSearchService.findDetailsById($routeParams.id);
+                });
+        });
+    };
+
+    $scope.openReduceModal = function(){
+        var reduceModalInstance = $modal.open({
+            templateUrl: contextPath + "/templates/modals/modal-reduceProductNum.html",
+            controller: "TrainingInstanceModifyController",
+            resolve: {
+                data: function () {
+                    return $scope.trainingInstanceModel;
+                }
+            }
+        });
+    };
+
+    $scope.confirmReduceProductAssignedNum = function() {
+        var messageTextNoChange = {
+            message: "Ilość bonów nie została zmieniona."
+        };
+        var messageTextChange = {
+            message: "Ilość bonów została zmieniona. Potwierdzasz decyzję?"
+        };
+        if($scope.trainingInstanceModel.entity.newReservationNum != $scope.trainingInstanceModel.entity.productAssignedNum) {
+            GryfModals.openModal(GryfModals.MODALS_URL.CONFIRM, messageTextChange).result.then(function (result) {
+                if (result) {
+                    TrainingInstanceModifyService.reduceProductAssignedNum($scope.trainingInstanceModel.entity.trainingInstanceId,
+                        $scope.trainingInstanceModel.entity.trainingInstanceVersion, $scope.trainingInstanceModel.entity.newReservationNum);
+                } else {
+                    return;
+                }
+            });
+        }
+    };
+
+    $scope.isNewProductNum = function() {
+        return (($scope.trainingInstanceModel.entity.newReservationNum) && ($scope.trainingInstanceModel.entity.productAssignedNum != $scope.trainingInstanceModel.entity.newReservationNum));
+    };
+
 }]);

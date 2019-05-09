@@ -74,6 +74,19 @@ public interface TrainingInstanceService {
     void resendReimbursmentPin(Long trainingInstanceId);
 
     /**
+     * Zmienia liczbę zarezerwowanych bonów dla odbytego szkolenia
+     * @param useDto
+     */
+    void reduceProductAssignedNum(TrainingInstanceUseDto useDto);
+
+    /**
+     * Anuluje rozliczenie i zmienia status instancji usługi na odbyte.
+     * @param trainingInstanceId
+     * @param version
+     */
+    void cancelTrainingReimbursement(Long trainingInstanceId, Integer version);
+
+    /**
      * uaktualnai znacznik czy została dokonana ocena usługi
      * @param externalId
      * @param pesel
