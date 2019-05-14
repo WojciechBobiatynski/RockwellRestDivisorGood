@@ -17,3 +17,12 @@ INSERT INTO APP_PBE.PBE_PRODUCT_INSTANCE_E_T (ID,
              71,
              'APP_PBE.TRAINING_INSTANCES');
 
+INSERT INTO APP_PBE.PBE_PRODUCT_INSTANCE_E_T (ID,
+                                              NAME,
+                                              ORDINAL,
+                                              SOURCE_TYPE)
+     VALUES ('CNCLUSE',
+             'Anulowanie odbytego szkolenia',
+             62,
+             'APP_PBE.TRAINING_INSTANCES');
+

@@ -303,6 +303,23 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
     }
 
     @Override
+    public void cancelTrainingInstanceDone(Long trainingInstanceId, Integer version){
+        validateTrainingInstance(trainingInstanceId);
+
+        //GET DATA
+        TrainingInstanceStatus trainingInstStatCancel = trainingInstanceStatusRepository.get(TrainingInstanceStatus.CANCEL_CODE);
+        TrainingInstance trainingInstance = trainingInstanceRepository.get(trainingInstanceId);
+
+        //VALIDATE
+        validateTrainingInstanceVersion(trainingInstance, version);
+        validateTrainingInstance(trainingInstance, TrainingInstanceStatus.DONE_CODE);
+
+        //SET CANCEL
+        trainingInstance.setStatus(trainingInstStatCancel);
+        pbeProductInstancePoolLocalService.cancelTrainingInstanceUsedPools(trainingInstance);
+    }
+
+    @Override
     public Long updateOpinionDone(String externalId, String pesel, boolean opinionDone){
         validateUpdateOpinionDone(externalId, pesel);
 

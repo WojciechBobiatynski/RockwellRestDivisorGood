@@ -17,3 +17,12 @@ INSERT INTO APP_PBE.PBE_PRODUCT_INSTANCE_POOL_E_T (ID,
              'Anulowanie rozliczenia - zwolnienie bonów',
              61,
              'APP_PBE.TRAINING_INSTANCES');
+
+INSERT INTO APP_PBE.PBE_PRODUCT_INSTANCE_POOL_E_T (ID,
+                                                   NAME,
+                                                   ORDINAL,
+                                                   SOURCE_TYPE)
+     VALUES ('CNCLUSE',
+             'Anulowanie odbytego szkolenia - zwolnienie bonów',
+             52,
+             'APP_PBE.TRAINING_INSTANCES');

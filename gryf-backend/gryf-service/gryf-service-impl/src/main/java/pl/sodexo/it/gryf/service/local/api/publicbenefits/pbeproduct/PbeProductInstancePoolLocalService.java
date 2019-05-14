@@ -26,6 +26,12 @@ public interface PbeProductInstancePoolLocalService {
 
     void returnUsedPools(Ereimbursement ereimbursement);
 
+    /**
+     * Anulowanie użycia puli bonów w związku z anulowaniem odbytego szkolenia. Użycie jest usuwane. Bony zmieniają status na "przypisane".
+     * @param trainingInstance instancja szkolenia, która jest anulowana
+     */
+    void cancelTrainingInstanceUsedPools(TrainingInstance trainingInstance);
+
     void reimbursPools(Ereimbursement ereimbursement);
 
     void expirePools(Long ermbsId);

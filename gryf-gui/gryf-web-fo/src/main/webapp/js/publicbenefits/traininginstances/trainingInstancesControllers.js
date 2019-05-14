@@ -142,6 +142,22 @@ function ($scope, $routeParams, GryfModals, GryfModulesUrlProvider, BrowseTraini
         });
     };
 
+    $scope.cancelTrainingInstanceDone = function() {
+        var messageText = {
+            message: "Odbyte szkolenie zostanie anulowane. Status rezerwacji szkolenia zmieni się z 'Odbyte' na 'Anulowane'. Czy potwierdzasz operację?"
+        };
+        GryfModals.openModal(GryfModals.MODALS_URL.CONFIRM, messageText).result.then(function (result) {
+            if (!result) {
+                return;
+            }
+            TrainingInstanceModifyService.cancelTrainingInstanceDone($scope.trainingInstanceModel.entity.trainingInstanceId,
+                $scope.trainingInstanceModel.entity.trainingInstanceVersion)
+                .then(function() {
+                    TrainingInstanceSearchService.findDetailsById($routeParams.id);
+                });
+        });
+    };
+
     $scope.openReduceModal = function(){
         var reduceModalInstance = $modal.open({
             templateUrl: contextPath + "/templates/modals/modal-reduceProductNum.html",

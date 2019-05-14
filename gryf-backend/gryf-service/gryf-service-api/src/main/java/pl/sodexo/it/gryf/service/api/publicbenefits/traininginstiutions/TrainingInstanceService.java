@@ -87,6 +87,13 @@ public interface TrainingInstanceService {
     void cancelTrainingReimbursement(Long trainingInstanceId, Integer version);
 
     /**
+     * Anuluje szkolenie. Instancja zmienia status z Odbyte na Anulowane.
+     * @param trainingInstanceId
+     * @param version
+     */
+    void cancelTrainingInstanceDone(Long trainingInstanceId, Integer version);
+
+    /**
      * uaktualnai znacznik czy została dokonana ocena usługi
      * @param externalId
      * @param pesel

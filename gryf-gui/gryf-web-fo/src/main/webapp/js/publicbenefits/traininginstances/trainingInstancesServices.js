@@ -250,11 +250,30 @@ function ($http, GryfModals, GryfPopups, GryfExceptionHandler, GryfHelpers, Gryf
 
     };
 
+    var cancelTrainingInstanceDone = function(trainingInstanceId, trainingInstanceVersion) {
+        var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING, {label: "Zapisuję"});
+
+        return $http.put(TRAINING_RESERVATION_URL + "cancelTrainingInstanceDone/" + trainingInstanceId + "/" + trainingInstanceVersion
+        ).success(function() {
+            GryfPopups.setPopup("success", "Sukces", "Anulowano szkolenie.");
+            GryfPopups.showPopup();
+        }).error(function(error) {
+            GryfPopups.setPopup("error", "Błąd", "Nie udało się anulować szkolenia");
+            GryfPopups.showPopup();
+
+            GryfExceptionHandler.handleSavingError(error, violations, null);
+
+        }).finally(function() {
+            GryfModals.closeModal(modalInstance);
+        });
+    };
+
     return {
         confirmPin: confirmPin,
         cancelTrainingReservation: cancelTrainingReservation,
         getViolations: getViolations,
         cancelTrainingReimbursement: cancelTrainingReimbursement,
-        reduceProductAssignedNum: reduceProductAssignedNum
+        reduceProductAssignedNum: reduceProductAssignedNum,
+        cancelTrainingInstanceDone: cancelTrainingInstanceDone
     };
 }]);

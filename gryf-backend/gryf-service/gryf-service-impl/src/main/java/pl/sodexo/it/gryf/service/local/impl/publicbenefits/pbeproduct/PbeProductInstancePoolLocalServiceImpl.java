@@ -308,6 +308,28 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
     }
 
     @Override
+    public void cancelTrainingInstanceUsedPools(TrainingInstance trainingInstance){
+
+        PbeProductInstanceStatus productInstStatAssigned = productInstanceStatusRepository.get(PbeProductInstanceStatus.ASSIGNED_CODE);
+        PbeProductInstanceEventType cancelUseEventType = productInstanceEventTypeRepository.get(PbeProductInstanceEventType.CNCLUSE_CODE);
+        PbeProductInstancePoolEventType cancelUsePoolEventType = productInstancePoolEventTypeRepository.get(PbeProductInstancePoolEventType.CNCLUSE_CODE);
+
+        List<PbeProductInstancePoolUse> poolUses = trainingInstance.getPollUses();
+        for (PbeProductInstancePoolUse poolUse : poolUses) {
+            reduceUsedProductInstancePool(trainingInstance.getId(), cancelUsePoolEventType, poolUse, poolUse.getAssignedNum());
+            List<PbeProductInstance> instances = poolUse.getPollUses();
+            for(int i = instances.size() - 1; i >= 0; i--){
+                PbeProductInstance pbeProductInstance = instances.get(i);
+                pbeProductInstance.setStatus(productInstStatAssigned);
+                poolUse.removePollUse(pbeProductInstance);
+                productInstanceEventBuilder.saveEvent(pbeProductInstance, cancelUseEventType, trainingInstance.getId());
+            }
+            productInstancePoolUseRepository.delete(poolUse);
+        }
+
+    }
+
+    @Override
     public void returnUsedPools(Ereimbursement ereimbursement){
         TrainingInstance instance = ereimbursement.getTrainingInstance();
 

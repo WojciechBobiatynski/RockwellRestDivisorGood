@@ -76,4 +76,10 @@ public class TrainingInstanceRestController {
         trainingInstanceService.reduceProductAssignedNum(useDto);
     }
 
+    @RequestMapping(value = "/cancelTrainingInstanceDone/{id}/{version}", method = RequestMethod.PUT)
+    public void cancelTrainingInstanceDone(@PathVariable("id") Long trainingInstanceId, @PathVariable("version") Integer version) {
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_TI_TRAINING_INSTANCES_STATUS_MOD);
+        trainingInstanceService.cancelTrainingInstanceDone(trainingInstanceId, version);
+    }
+
 }
