@@ -71,7 +71,7 @@ public class ImportTrainingDTO {
 
     private Date registrationDate;
 
-    @NotEmpty(message = "Maksymalna liczba uczestników nie może być pusta")
+    @NotNull(message = "Maksymalna liczba uczestników nie może być pusta")
     private Integer maxParticipantsCount;
 
     private String priceValidateType;

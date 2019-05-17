@@ -143,6 +143,7 @@ public class TrainingInstanceExt extends VersionableEntity {
     private String qualificationCode;
 
     @Column(name = "REGISTRATION_DATE")
+    @Temporal(TemporalType.DATE)
     private Date registrationDate;
 
     @NotEmpty(message = "Maksymalna liczba uczestników nie może być pusta")
