@@ -1,5 +1,7 @@
 package pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions;
 
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
 import pl.sodexo.it.gryf.model.api.VersionableEntity;
@@ -30,6 +32,8 @@ import static pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.Trainin
         @NamedQuery(name = "TrainingInstanceExt.findByIndOrderExternalId", query = "select count(t) from TrainingInstanceExt t where UPPER(t.indOrderExternalId) like UPPER(CONCAT('%',:externalOrderId,'%')) "),
 })
 @ToString
+@Getter
+@Setter
 public class TrainingInstanceExt extends VersionableEntity {
 
     public static final String END_DATE_ATTR_NAME = "endDate";
@@ -102,6 +106,18 @@ public class TrainingInstanceExt extends VersionableEntity {
     @NotNull(message = "Należy wybrać kategorię usługi")
     private TrainingCategory category;
 
+    @Column(name = "SUBCATEGORY_NAME")
+    @Size(max = 200)
+    private String subcategory;
+
+    @Column(name = "EXAM")
+    @Size(max = 20)
+    private String isExam;
+
+    @Column(name = "CERTIFICATE")
+    @Size(max = 200)
+    private String certificate;
+
     @Column(name = "CERTIFICATE_REMARK")
     @Size(max = 200, message = "Pole Certyfikat - opis musi zawierać maksymalnie 200 znaków")
     private String certificateRemark;
@@ -110,146 +126,35 @@ public class TrainingInstanceExt extends VersionableEntity {
     @Size(max = 200, message = "Pole Identyfikator wsparcia musi zawierać maksymalnie 200 znaków")
     private String indOrderExternalId;
 
+    @Column(name = "STATUS")
+    @Size(max = 40)
+    private String status;
+
+    @Column(name = "QUALIFICATION")
+    @Size(max = 200)
+    private String isQualification;
+
+    @Column(name = "OTHER_QUALIFICATION")
+    @Size(max = 200)
+    private String isOtherQualification;
+
+    @Column(name = "QUALIFICATION_CODE")
+    @Size(max = 200)
+    private String qualificationCode;
+
+    @Column(name = "REGISTRATION_DATE")
+    private Date registrationDate;
+
+    @NotEmpty(message = "Maksymalna liczba uczestników nie może być pusta")
+    @Column(name = "MAX_PARTICIPANTS_COUNT")
+    private Integer maxParticipantsCount;
+
+    @Column(name = "PRICE_VALIDATE_TYPE")
+    @Size(max = 20)
+    private String priceValidateType;
+
     @Column(name = "IMPORT_JOB_ID")
     private Long importJobId;
-
-    //GETTERS & SETTERS
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTrainingExternalId() {
-        return trainingExternalId;
-    }
-
-    public void setTrainingExternalId(String trainingExternalId) {
-        this.trainingExternalId = trainingExternalId;
-    }
-
-    public TrainingInstitution getTrainingInstitution() {
-        return trainingInstitution;
-    }
-
-    public void setTrainingInstitution(TrainingInstitution trainingInstitution) {
-        this.trainingInstitution = trainingInstitution;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
-
-    public String getPlace() {
-        return place;
-    }
-
-    public void setPlace(String place) {
-        this.place = place;
-    }
-
-    public Integer getHoursNumber() {
-        return hoursNumber;
-    }
-
-    public void setHoursNumber(Integer hoursNumber) {
-        this.hoursNumber = hoursNumber;
-    }
-
-    public BigDecimal getHourPrice() {
-        return hourPrice;
-    }
-
-    public void setHourPrice(BigDecimal hourPrice) {
-        this.hourPrice = hourPrice;
-    }
-
-    public String getCertificateRemark() {
-        return certificateRemark;
-    }
-
-    public void setCertificateRemark(String certificateRemark) {
-        this.certificateRemark = certificateRemark;
-    }
-
-    public String getIndOrderExternalId() {
-        return indOrderExternalId;
-    }
-
-    public void setIndOrderExternalId(String indOrderExternalId) {
-        this.indOrderExternalId = indOrderExternalId;
-    }
-
-    public TrainingCategory getCategory() {
-        return category;
-    }
-
-    public void setCategory(TrainingCategory category) {
-        this.category = category;
-    }
-
-    public String getVatRegNum() {
-        return vatRegNum;
-    }
-
-    public void setVatRegNum(String vatRegNum) {
-        this.vatRegNum = vatRegNum;
-    }
-
-    public Training getTraining() {
-        return training;
-    }
-
-    public void setTraining(Training training) {
-        this.training = training;
-    }
-
-    public String getTrainingName() {
-        return trainingName;
-    }
-
-    public void setTrainingName(String trainingName) {
-        this.trainingName = trainingName;
-    }
-
-    public Long getImportJobId() {
-        return importJobId;
-    }
-
-    public void setImportJobId(Long importJobId) {
-        this.importJobId = importJobId;
-    }
 
     //EQUALS & HASH CODE
 

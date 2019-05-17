@@ -14,6 +14,8 @@ import java.util.Objects;
  * Created by Isolution on 2016-11-10.
  */
 @Entity
+@Setter
+@Getter
 @ToString(exclude = {"grantProgram", "category"})
 @Table(name = "TI_TRAINING_CATEGORY_PARAMS", schema = "APP_PBE")
 @NamedQueries(
@@ -35,6 +37,9 @@ public class TrainingCategoryParam extends GryfEntity {
     @Column(name = "MAX_PRODUCT_INSTANCE")
     private Integer maxProductInstance;
 
+    @Column(name = "INDIVIDUAL_PRODUCT_INSTANCE")
+    private Integer individualProductInstance;
+
     @ManyToOne
     @JoinColumn(name = "CATEGORY_ID", insertable=false, updatable=false)
     private TrainingCategory category;
@@ -53,67 +58,7 @@ public class TrainingCategoryParam extends GryfEntity {
 
     @ManyToOne
     @JoinColumn(name = "PRODUCT_INSTANCE_CALC_TYPE", referencedColumnName = "ID")
-    @Setter
-    @Getter
     private TrainingCategoryProdInsCalcType productInstanceCalcType;
-
-    //GETTERS & SETTERS
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Integer getProductInstanceForHour() {
-        return productInstanceForHour;
-    }
-
-    public void setProductInstanceForHour(Integer productInstanceForHour) {
-        this.productInstanceForHour = productInstanceForHour;
-    }
-
-    public Integer getMaxProductInstance() {
-        return maxProductInstance;
-    }
-
-    public void setMaxProductInstance(Integer maxProductInstance) {
-        this.maxProductInstance = maxProductInstance;
-    }
-
-    public TrainingCategory getCategory() {
-        return category;
-    }
-
-    public void setCategory(TrainingCategory category) {
-        this.category = category;
-    }
-
-    public GrantProgram getGrantProgram() {
-        return grantProgram;
-    }
-
-    public void setGrantProgram(GrantProgram grantProgram) {
-        this.grantProgram = grantProgram;
-    }
-
-    public Date getDateFrom() {
-        return dateFrom;
-    }
-
-    public void setDateFrom(Date dateFrom) {
-        this.dateFrom = dateFrom;
-    }
-
-    public Date getDateTo() {
-        return dateTo;
-    }
-
-    public void setDateTo(Date dateTo) {
-        this.dateTo = dateTo;
-    }
 
     //EQUALS & HASH CODE
 

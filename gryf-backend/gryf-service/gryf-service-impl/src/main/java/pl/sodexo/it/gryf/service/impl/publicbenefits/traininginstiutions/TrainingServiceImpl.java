@@ -169,6 +169,7 @@ public class TrainingServiceImpl implements TrainingService {
                 .with(ProductCalculateDto::setGrantProgramId, grantProgramId)
                 .with(ProductCalculateDto::setDate, new Date())
                 .with(ProductCalculateDto::setTrainingId, id)
+                .with(ProductCalculateDto::setIndividualTraining, training.isIndividual())
                 .build();
         return trainingCategoryProdInsCalcTypeService.getCalculateProductInstanceForHour(productCalculateDto);
     }

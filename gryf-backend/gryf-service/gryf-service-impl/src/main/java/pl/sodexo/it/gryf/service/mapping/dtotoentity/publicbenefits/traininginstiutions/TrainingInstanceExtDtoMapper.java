@@ -49,7 +49,17 @@ public class TrainingInstanceExtDtoMapper extends VersionableDtoMapper<TrainingI
             entity.setCategory(new TrainingCategory());
             entity.getCategory().setId(dto.getCategory());
         }
+        entity.setSubcategory(dto.getSubcategory());
+        entity.setIsExam(dto.getIsExam());
+        entity.setCertificate(dto.getCertificate());
         entity.setCertificateRemark(dto.getCertificateRemark());
         entity.setIndOrderExternalId(dto.getIndOrderExternalId());
+        entity.setStatus(dto.getStatus());
+        entity.setIsQualification(dto.getIsQualification());
+        entity.setIsOtherQualification(dto.getIsOtherQualification());
+        entity.setQualificationCode(dto.getQualificationCode());
+        entity.setRegistrationDate(dto.getRegistrationDate());
+        entity.setMaxParticipantsCount(dto.getMaxParticipantsCount());
+        entity.setPriceValidateType(dto.getPriceValidateType());
     }
 }

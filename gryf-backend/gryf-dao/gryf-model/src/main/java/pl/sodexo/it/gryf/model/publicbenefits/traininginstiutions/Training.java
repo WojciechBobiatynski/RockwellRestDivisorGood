@@ -46,6 +46,8 @@ import static pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.Trainin
 
 })
 @ToString
+@Getter
+@Setter
 public class Training extends VersionableEntity {
 
     public static final String END_DATE_ATTR_NAME = "endDate";
@@ -126,140 +128,12 @@ public class Training extends VersionableEntity {
 
     @JoinColumn(name = "GRANT_PROGRAM_ID", referencedColumnName = "ID")
     @ManyToOne
-    @Setter
-    @Getter
     @NotNull(message = "Usługa nie ma przypisanego programu/projektu")
     private GrantProgram grantProgram;
 
-    //GETTERS & SETTERS
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getExternalId() {
-        return externalId;
-    }
-
-    public void setExternalId(String externalId) {
-        this.externalId = externalId;
-    }
-
-    public TrainingInstitution getTrainingInstitution() {
-        return trainingInstitution;
-    }
-
-    public void setTrainingInstitution(TrainingInstitution trainingInstitution) {
-        this.trainingInstitution = trainingInstitution;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
-
-    public String getPlace() {
-        return place;
-    }
-
-    public void setPlace(String place) {
-        this.place = place;
-    }
-
-    public Integer getHoursNumber() {
-        return hoursNumber;
-    }
-
-    public void setHoursNumber(Integer hoursNumber) {
-        this.hoursNumber = hoursNumber;
-    }
-
-    public BigDecimal getHourPrice() {
-        return hourPrice;
-    }
-
-    public void setHourPrice(BigDecimal hourPrice) {
-        this.hourPrice = hourPrice;
-    }
-
-    public TrainingCategory getCategory() {
-        return category;
-    }
-
-    public void setCategory(TrainingCategory category) {
-        this.category = category;
-    }
-
-    public String getReimbursmentConditions() {
-        return reimbursmentConditions;
-    }
-
-    public void setReimbursmentConditions(String reimbursmentConditions) {
-        this.reimbursmentConditions = reimbursmentConditions;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public String getDeactivateUser() {
-        return deactivateUser;
-    }
-
-    public void setDeactivateUser(String deactivateUser) {
-        this.deactivateUser = deactivateUser;
-    }
-
-    public Date getDeactivateDate() {
-        return deactivateDate;
-    }
-
-    public void setDeactivateDate(Date deactivateDate) {
-        this.deactivateDate = deactivateDate;
-    }
-
-    public AsynchronizeJob getDeactivateJob() {
-        return deactivateJob;
-    }
-
-    public void setDeactivateJob(AsynchronizeJob deactivateJob) {
-        this.deactivateJob = deactivateJob;
-    }
+    @Convert(converter = BooleanConverter.class)
+    @Column(name = "INDIVIDUAL")
+    private boolean isIndividual;
 
     //EQUALS & HASH CODE
 

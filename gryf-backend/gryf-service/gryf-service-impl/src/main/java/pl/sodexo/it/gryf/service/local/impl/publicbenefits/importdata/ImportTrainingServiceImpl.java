@@ -191,7 +191,7 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
 
     private void validateImport(ImportParamsDTO paramsDTO, ImportTrainingDTO importTrainingDTO){
         List<EntityConstraintViolation> violations = gryfValidator.generateViolation(importTrainingDTO);
-        if (importTrainingDTO.getReimbursmentCondition2() == null) {
+        if (importTrainingDTO.getIndOrderExternalId() == null) {
             violations.add(new EntityConstraintViolation("Brak identyfikatora wsparcia"));
         } else {
             //Wybor wzorca per program z parametrami
@@ -200,9 +200,9 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
             String searchPattern = importPatternService.getPattern(importTrainingPatternContext);
 
             Pattern r = Pattern.compile(searchPattern);
-            Matcher m = r.matcher(importTrainingDTO.getReimbursmentCondition2());
+            Matcher m = r.matcher(importTrainingDTO.getIndOrderExternalId());
             if (!m.find()) {
-                violations.add(new EntityConstraintViolation("Błędny format identyfikatora wsparcia " + importTrainingDTO.getReimbursmentCondition2()));
+                violations.add(new EntityConstraintViolation("Błędny format identyfikatora wsparcia " + importTrainingDTO.getIndOrderExternalId()));
             }
         }
 
@@ -233,8 +233,8 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
             }
         }
 
-        if(Strings.isNullOrEmpty(importTrainingDTO.getReimbursmentCondition1()) && Strings.isNullOrEmpty(importTrainingDTO.getReimbursmentCondition2())){
-            violations.add(new EntityConstraintViolation("Pola 'Warunek rozliczenia 1' oraz 'Warunek rozliczenia 2' nie moga być jednocześnie puste."));
+        if(Strings.isNullOrEmpty(importTrainingDTO.getCertificateRemark()) && Strings.isNullOrEmpty(importTrainingDTO.getIndOrderExternalId())){
+            violations.add(new EntityConstraintViolation("Pola 'Certyfikat - opis' oraz 'Identyfikatora wsparcia' nie moga być jednocześnie puste."));
         }
 
         //Walidacja importu
@@ -267,6 +267,11 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
 
     //PRIVATE METHODS - CREATE IMPORT DTO
 
+    /**
+     * Odczyt rekordu/wiersza z pliku importu usług
+     * @param row rekord z danymi
+     * @return ImportTrainingDTO
+     */
     private ImportTrainingDTO createImportDTO(Row row){
         ImportTrainingDTO t = new ImportTrainingDTO();
 
@@ -312,12 +317,39 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
                     t.setCategory(getStringCellValue(cell));
                     break;
                 case 12:
-                    t.setReimbursmentCondition1(getStringCellValue(cell));
+                    t.setSubcategory(getStringCellValue(cell));
                     break;
                 case 13:
-                    t.setReimbursmentCondition2(getStringCellValue(cell));
+                    t.setIsExam(getStringCellValue(cell));
                     break;
                 case 14:
+                    t.setCertificate(getStringCellValue(cell));
+                    break;
+                case 15:
+                    t.setCertificateRemark(getStringCellValue(cell));
+                    break;
+                case 16:
+                    t.setIndOrderExternalId(getStringCellValue(cell));
+                    break;
+                case 17:
+                    t.setStatus(getStringCellValue(cell));
+                    break;
+                case 18:
+                    t.setIsQualification(getStringCellValue(cell));
+                    break;
+                case 19:
+                    t.setIsOtherQualification(getStringCellValue(cell));
+                    break;
+                case 20:
+                    t.setQualificationCode(getStringCellValue(cell));
+                    break;
+                case 21:
+                    t.setRegistrationDate(getDateCellValue(cell));
+                    break;
+                case 22:
+                    t.setMaxParticipantsCount(getIntegerCellValue(cell));
+                    break;
+                case 23:
                     t.setPriceValidateType(getStringCellValue(cell));
                     break;
             }
@@ -358,7 +390,9 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
         dto.setHourPrice(importDTO.getHourPrice());
         dto.setCategory(trainingCategory.getId());
         dto.setTrainingCategoryCatalogId(trainingCategory.getTrainingCategoryCatalog().getId());
-        dto.setReimbursmentConditions(concateReimbursmentConditions(importDTO.getReimbursmentCondition1(), importDTO.getReimbursmentCondition2()));
+        dto.setReimbursmentConditions(concateReimbursmentConditions(importDTO.getCertificateRemark(), importDTO.getIndOrderExternalId()));
+        dto.setIndividual(isIndividualTraining(importDTO));
+
         dto.setActive(true);
         dto.setDeactivateUser(null);
         dto.setDeactivateDate(null);
@@ -373,6 +407,15 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
         dto.setGrantProgramId(paramsDTO.getGrantProgramId());
 
         return dto;
+    }
+
+    /**
+     * Sprawdzenie czy importowana usługa jest indywidualna, tzn. czy jest tylko dla 1 uczestnika.
+     * @param importDTO DTO importowanej usługi
+     * @return
+     */
+    private boolean isIndividualTraining(ImportTrainingDTO importDTO) {
+        return importDTO.getMaxParticipantsCount() == 1 ? true : false;
     }
 
     private TrainingInstanceExtDTO createTrainingInstanceExtDTO(Training training, TrainingInstitution trainingInstitution,
@@ -391,8 +434,18 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
         dto.setHoursNumber(importDTO.getHoursNumber());
         dto.setHourPrice(importDTO.getHourPrice());
         dto.setCategory(trainingCategory.getId());
-        dto.setCertificateRemark(importDTO.getReimbursmentCondition1());
-        dto.setIndOrderExternalId(importDTO.getReimbursmentCondition2());
+        dto.setCertificateRemark(importDTO.getCertificateRemark());
+        dto.setIndOrderExternalId(importDTO.getIndOrderExternalId());
+        dto.setSubcategory(importDTO.getSubcategory());
+        dto.setIsExam(importDTO.getIsExam());
+        dto.setCertificate(importDTO.getCertificate());
+        dto.setStatus(importDTO.getStatus());
+        dto.setIsQualification(importDTO.getIsQualification());
+        dto.setIsOtherQualification(importDTO.getIsOtherQualification());
+        dto.setQualificationCode(importDTO.getQualificationCode());
+        dto.setRegistrationDate(importDTO.getRegistrationDate());
+        dto.setMaxParticipantsCount(importDTO.getMaxParticipantsCount());
+        dto.setPriceValidateType(importDTO.getPriceValidateType());
         return dto;
     }
     private String concateReimbursmentConditions(String s1, String s2){

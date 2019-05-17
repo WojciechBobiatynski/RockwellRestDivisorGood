@@ -741,6 +741,7 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
                 .with(ProductCalculateDto::setGrantProgramId, training.getGrantProgram().getId())
                 .with(ProductCalculateDto::setDate, new Date())
                 .with(ProductCalculateDto::setTrainingId, training.getId())
+                .with(ProductCalculateDto::setIndividualTraining, training.isIndividual())
                 .build();
         return trainingCategoryProdInsCalcTypeService.getCalculateProductInstanceForHour(productCalculateDto);
     }

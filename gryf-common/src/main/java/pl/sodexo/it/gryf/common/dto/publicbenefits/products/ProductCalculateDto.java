@@ -10,23 +10,19 @@ import java.util.Date;
  *
  * Created by Damian.PTASZYNSKI on 2019-03-19.
  */
+@Getter
+@Setter
 public class ProductCalculateDto {
 
-    @Getter
-    @Setter
     private Long trainingId;
 
-    @Getter
-    @Setter
     private String categoryId;
 
-    @Getter
-    @Setter
     private Long grantProgramId;
 
-    @Getter
-    @Setter
     private Date date;
+
+    private boolean isIndividualTraining;
 
 
 }
