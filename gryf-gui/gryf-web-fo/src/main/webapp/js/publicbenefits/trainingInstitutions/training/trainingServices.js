@@ -187,7 +187,8 @@ angular.module("gryf.training").factory("ModifyTrainingService",
                 active: true,
                 deactivateUser: null,
                 deactivateDate: null,
-                deactivateJobId: null
+                deactivateJobId: null,
+                isIndividual: null
             }
         }
 
