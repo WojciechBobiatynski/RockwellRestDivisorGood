@@ -149,6 +149,13 @@ public interface ElectronicReimbursementsService {
     Long reject(RejectionDto rejectionDto);
 
     /**
+     * Odrzuca rozliczenie dla już rozliczonego szkolenia.
+     * @param rmbsId - id rozliczenia
+     * @return id rozliczenia zaktualizowanego
+     */
+    Long rejectForReimbursementTraining(Long rmbsId);
+
+    /**
      * Sprawdza czy dla danego rozliczenia ma być automatyczny proces
      * @param ermbs
      * @return

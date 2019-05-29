@@ -274,6 +274,7 @@ public class ErmbsValidator {
 
             if(EreimbursementStatus.SETTLED.equals(currentStatus)){
                 availableTransitiveStatuses.add(EreimbursementStatus.CANCELED);
+                availableTransitiveStatuses.add(EreimbursementStatus.REJECTED);
             }
 
             return availableTransitiveStatuses;

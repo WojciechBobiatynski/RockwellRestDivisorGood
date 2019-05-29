@@ -158,6 +158,22 @@ function ($scope, $routeParams, GryfModals, GryfModulesUrlProvider, BrowseTraini
         });
     };
 
+    $scope.rejectTrainingInstanceReimb = function() {
+        var messageText = {
+            message: "Rozliczenie szkolenia zostanie odrzucone. Status szkolenia zmieni się z 'Rozliczone' na 'Nie rozliczone'. Czy potwierdzasz operację?"
+        };
+        GryfModals.openModal(GryfModals.MODALS_URL.CONFIRM, messageText).result.then(function (result) {
+            if (!result) {
+                return;
+            }
+            TrainingInstanceModifyService.rejectTrainingInstanceReimb($scope.trainingInstanceModel.entity.trainingInstanceId,
+                $scope.trainingInstanceModel.entity.trainingInstanceVersion)
+                .then(function() {
+                    TrainingInstanceSearchService.findDetailsById($routeParams.id);
+                });
+        });
+    };
+
     $scope.openReduceModal = function(){
         var reduceModalInstance = $modal.open({
             templateUrl: contextPath + "/templates/modals/modal-reduceProductNum.html",

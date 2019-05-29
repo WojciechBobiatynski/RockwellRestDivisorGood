@@ -500,6 +500,17 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     }
 
     @Override
+    public Long rejectForReimbursementTraining(Long rmbsId) {
+        ermbsValidator.isCorrectStatusTransition(rmbsId, EreimbursementStatus.REJECTED);
+        Ereimbursement ereimbursement = ereimbursementRepository.get(rmbsId);
+        ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.REJECTED));
+        ereimbursement.setRejectionDate(new Date());
+        ereimbursementRepository.update(ereimbursement, ereimbursement.getId());
+        setNotReimbReimburseStatusForTiInstance(ereimbursement);
+        return ereimbursement.getId();
+    }
+
+    @Override
     public boolean isAutomaticErmbs(Long ermbs) {
         return electronicReimbursementsDao.isAutomaticErmbs(ermbs);
     }

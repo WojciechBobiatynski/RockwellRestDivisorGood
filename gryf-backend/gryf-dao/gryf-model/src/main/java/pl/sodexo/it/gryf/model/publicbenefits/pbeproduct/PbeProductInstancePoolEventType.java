@@ -26,6 +26,7 @@ public class PbeProductInstancePoolEventType extends GryfEntity implements Dicti
     public static final String USE_CODE = "USE";
     public static final String CNCLUSE_CODE = "CNCLUSE";
     public static final String REJECTRMB_CODE = "REJECTRMB";
+    public static final String REJECTRMBTRA_CODE = "RJCTRMBTRA";
     public static final String REIMB_CODE = "REIMB";
     public static final String CNCLREIMB_CODE = "CNCLREIMB";
     public static final String EXPIRATION_CODE = "EXPIRATION";

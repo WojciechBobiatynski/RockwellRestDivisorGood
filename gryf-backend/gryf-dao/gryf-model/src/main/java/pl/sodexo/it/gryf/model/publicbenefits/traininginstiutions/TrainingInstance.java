@@ -70,7 +70,7 @@ public class TrainingInstance extends VersionableEntity {
     private boolean opinionDone;
 
     @OneToMany(mappedBy = "trainingInstance")
-    private List<PbeProductInstancePoolUse> pollUses;
+    private List<PbeProductInstancePoolUse> poolUses;
 
     @Getter
     @Setter
@@ -154,12 +154,12 @@ public class TrainingInstance extends VersionableEntity {
     //LIST METHODS
 
     private List<PbeProductInstancePoolUse> getInitializedPollUsesList() {
-        if (pollUses == null)
-            pollUses = new ArrayList<>();
-        return pollUses;
+        if (poolUses == null)
+            poolUses = new ArrayList<>();
+        return poolUses;
     }
 
-    public List<PbeProductInstancePoolUse> getPollUses() {
+    public List<PbeProductInstancePoolUse> getPoolUses() {
         return Collections.unmodifiableList(getInitializedPollUsesList());
     }
 

@@ -82,4 +82,10 @@ public class TrainingInstanceRestController {
         trainingInstanceService.cancelTrainingInstanceDone(trainingInstanceId, version);
     }
 
+    @RequestMapping(value = "/rejectTrainingInstanceReimb/{id}/{version}", method = RequestMethod.PUT)
+    public void rejectTrainingInstanceReimb(@PathVariable("id") Long trainingInstanceId, @PathVariable("version") Integer version) {
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_TI_TRAINING_INSTANCES_STATUS_MOD);
+        trainingInstanceService.rejectTrainingInstanceReimb(trainingInstanceId, version);
+    }
+
 }

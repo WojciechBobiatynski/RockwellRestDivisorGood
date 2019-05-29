@@ -320,6 +320,23 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
     }
 
     @Override
+    public void rejectTrainingInstanceReimb(Long trainingInstanceId, Integer version) {
+        validateTrainingInstance(trainingInstanceId);
+
+        //GET DATA
+        TrainingInstance trainingInstance = trainingInstanceRepository.get(trainingInstanceId);
+        ElctRmbsHeadDto elctRmbsHeadDto = electronicReimbursementsDao.findEcltRmbsByTrainingInstanceId(trainingInstanceId);
+
+        //VALIDATE
+        validateTrainingInstanceVersion(trainingInstance, version);
+        validateTrainingInstance(trainingInstance, TrainingInstanceStatus.REIMB_CODE);
+
+        //REJECT RMB AND TRAINING
+        electronicReimbursementsService.rejectForReimbursementTraining(elctRmbsHeadDto.getErmbsId());
+        pbeProductInstancePoolLocalService.rejectTrainingInstanceUsedPools(trainingInstance);
+    }
+
+    @Override
     public Long updateOpinionDone(String externalId, String pesel, boolean opinionDone){
         validateUpdateOpinionDone(externalId, pesel);
 

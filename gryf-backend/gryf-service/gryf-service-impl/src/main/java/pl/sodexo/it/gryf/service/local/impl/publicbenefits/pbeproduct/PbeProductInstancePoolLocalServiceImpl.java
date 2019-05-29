@@ -154,8 +154,8 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
     public void lowerReservationPools(TrainingInstance instance, int newReservationNum){
 
         //VALIDACJA
-        if(!instance.getPollUses().isEmpty()) {
-            PbeProductInstancePool firstPool = instance.getPollUses().get(0).getProductInstancePool();
+        if(!instance.getPoolUses().isEmpty()) {
+            PbeProductInstancePool firstPool = instance.getPoolUses().get(0).getProductInstancePool();
             validatePoolReservationNum(instance.getTraining(), instance.getGrantProgram(), newReservationNum, firstPool.getProduct());
         }
 
@@ -167,7 +167,7 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
         int trainingInstanceToChangeNum = instance.getAssignedNum() - newReservationNum;
 
         //ITERACJA PO INSTANCJACH
-        List<PbeProductInstancePoolUse> poolUses = instance.getPollUses();
+        List<PbeProductInstancePoolUse> poolUses = instance.getPoolUses();
         poolUses = orderByExpiryDateDesc(poolUses);
         for(PbeProductInstancePoolUse poolUse : poolUses){
 
@@ -189,7 +189,7 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
             pool.setAvailableNum(pool.getAvailableNum() + poolUseToChangeNum);
 
             //ITERACJA PO INSTANCJACH PRODUKTU
-            removeProductInstanceFromPoolUse(instance, lowerReservationEventType, poolUse, poolUseToChangeNum);
+            removeProductInstancesFromPoolUse(instance, lowerReservationEventType, poolUse, poolUseToChangeNum);
 
             //UAKTUALNINIE
             poolUse.setAssignedNum(poolUse.getAssignedNum() - poolUseToChangeNum);
@@ -201,8 +201,8 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
     public void reduceUsedPools(TrainingInstance instance, int newUsedNum){
 
         //VALIDACJA
-        if(!instance.getPollUses().isEmpty()) {
-            PbeProductInstancePool firstPool = instance.getPollUses().get(0).getProductInstancePool();
+        if(!instance.getPoolUses().isEmpty()) {
+            PbeProductInstancePool firstPool = instance.getPoolUses().get(0).getProductInstancePool();
             validatePoolReservationNum(instance.getTraining(), instance.getGrantProgram(), newUsedNum, firstPool.getProduct());
         }
 
@@ -214,7 +214,7 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
         int trainingInstanceToChangeNum = instance.getAssignedNum() - newUsedNum;
 
         //ITERACJA PO INSTANCJACH
-        List<PbeProductInstancePoolUse> poolUses = instance.getPollUses();
+        List<PbeProductInstancePoolUse> poolUses = instance.getPoolUses();
         poolUses = orderByExpiryDateDesc(poolUses);
         for(PbeProductInstancePoolUse poolUse : poolUses){
 
@@ -230,7 +230,7 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
             reduceUsedProductInstancePool(instance.getId(), lowerUsedPoolEventType, poolUse, poolUseToChangeNum);
 
             //CHANGE POOL USE AND ADD EVENT
-            removeProductInstanceFromPoolUse(instance, lowerUsedEventType, poolUse, poolUseToChangeNum);
+            removeProductInstancesFromPoolUse(instance, lowerUsedEventType, poolUse, poolUseToChangeNum);
 
             //UAKTUALNINIE
             poolUse.setAssignedNum(poolUse.getAssignedNum() - poolUseToChangeNum);
@@ -247,7 +247,7 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
         PbeProductInstancePoolEventType unrsrvatonEventPoolType = productInstancePoolEventTypeRepository.get(PbeProductInstancePoolEventType.UNRSRVATON_CODE);
 
         //ITERACJA PO UZYCIACH PULI
-        List<PbeProductInstancePoolUse> poolUses = trainingInstance.getPollUses();
+        List<PbeProductInstancePoolUse> poolUses = trainingInstance.getPoolUses();
         for(PbeProductInstancePoolUse poolUse : poolUses){
 
             //UAKTUALNINIE PULI
@@ -259,14 +259,14 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
                     trainingInstance.getId(), poolUse.getAssignedNum());
 
             //ITERACJA PO INSTANCJACH PRODUKTU
-            List<PbeProductInstance> instances = poolUse.getPollUses();
+            List<PbeProductInstance> instances = poolUse.getProductInstances();
             for(int i = instances.size() - 1; i >= 0; i--){
 
                 PbeProductInstance ins = instances.get(i);
 
                 //ZMIANA W INSTANCJACH
                 ins.setStatus(productInstStatAssign);
-                poolUse.removePollUse(ins);
+                poolUse.removeProductInstanceFromPoolUse(ins);
                 ins.setEreimbursmentId(null);
 
                 //EVENTY DO INSTANCJI PRODUKTOW
@@ -284,7 +284,7 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
         PbeProductInstancePoolEventType usePoolEventType = productInstancePoolEventTypeRepository.get(PbeProductInstancePoolEventType.USE_CODE);
 
         //ITERACJA PO UZYCIACH PULI
-        List<PbeProductInstancePoolUse> poolUses = instance.getPollUses();
+        List<PbeProductInstancePoolUse> poolUses = instance.getPoolUses();
         for(PbeProductInstancePoolUse poolUse : poolUses){
 
             //POOL EVENT
@@ -297,13 +297,8 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
             pool.setUsedNum(pool.getUsedNum() + poolUse.getAssignedNum());
 
             //ITERACJA PO INSTANCJACH PRODUKTU
-            List<PbeProductInstance> instances = poolUse.getPollUses();
-            for(PbeProductInstance i : instances){
-                i.setStatus(productInstStatUse);
-
-                //EVENTY DO INSTANCJI PRODUKTOW
-                productInstanceEventBuilder.saveEvent(i, useEventType, instance.getId());
-            }
+            List<PbeProductInstance> instances = poolUse.getProductInstances();
+            changeProductInstances(instances, productInstStatUse, null, useEventType,instance.getId());
         }
     }
 
@@ -314,19 +309,49 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
         PbeProductInstanceEventType cancelUseEventType = productInstanceEventTypeRepository.get(PbeProductInstanceEventType.CNCLUSE_CODE);
         PbeProductInstancePoolEventType cancelUsePoolEventType = productInstancePoolEventTypeRepository.get(PbeProductInstancePoolEventType.CNCLUSE_CODE);
 
-        List<PbeProductInstancePoolUse> poolUses = trainingInstance.getPollUses();
+        List<PbeProductInstancePoolUse> poolUses = trainingInstance.getPoolUses();
         for (PbeProductInstancePoolUse poolUse : poolUses) {
             reduceUsedProductInstancePool(trainingInstance.getId(), cancelUsePoolEventType, poolUse, poolUse.getAssignedNum());
-            List<PbeProductInstance> instances = poolUse.getPollUses();
+            List<PbeProductInstance> instances = poolUse.getProductInstances();
             for(int i = instances.size() - 1; i >= 0; i--){
                 PbeProductInstance pbeProductInstance = instances.get(i);
                 pbeProductInstance.setStatus(productInstStatAssigned);
-                poolUse.removePollUse(pbeProductInstance);
+                poolUse.removeProductInstanceFromPoolUse(pbeProductInstance);
                 productInstanceEventBuilder.saveEvent(pbeProductInstance, cancelUseEventType, trainingInstance.getId());
             }
-            productInstancePoolUseRepository.delete(poolUse);
+            poolUse.setAssignedNum(0);
         }
 
+    }
+
+    @Override
+    public void rejectTrainingInstanceUsedPools(TrainingInstance trainingInstance) {
+
+        PbeProductInstanceStatus pbeProductInstanceStatus = productInstanceStatusRepository.get(PbeProductInstanceStatus.ASSIGNED_CODE);
+        PbeProductInstanceEventType pbeProductInstanceEventType = productInstanceEventTypeRepository.get(PbeProductInstanceEventType.REJECTRMBTRA_CODE);
+        PbeProductInstancePoolEventType pbeProductInstancePoolEventType = productInstancePoolEventTypeRepository.get(PbeProductInstancePoolEventType.REJECTRMBTRA_CODE);
+
+        List<PbeProductInstancePoolUse> poolUses = new ArrayList<>(trainingInstance.getPoolUses());
+        poolUses.forEach(poolUse -> {
+            //POOL EVENT
+            productInstancePoolEventBuilder.saveEvent(poolUse.getProductInstancePool(),
+                    pbeProductInstancePoolEventType, trainingInstance.getId(), poolUse.getAssignedNum());
+
+            //CHANGE POOL
+            PbeProductInstancePool pool = poolUse.getProductInstancePool();
+            pool.setRembursNum(pool.getRembursNum() - poolUse.getAssignedNum());
+            pool.setAvailableNum(pool.getAvailableNum() + poolUse.getAssignedNum());
+
+            //CHANGE INSTANCES
+            List<PbeProductInstance> instances = new ArrayList<>(poolUse.getProductInstances());
+            instances.forEach(pbeProductInstance -> {
+                pbeProductInstance.setStatus(pbeProductInstanceStatus);
+                poolUse.removeProductInstanceFromPoolUse(pbeProductInstance);
+                productInstanceEventBuilder.saveEvent(pbeProductInstance, pbeProductInstanceEventType, trainingInstance.getId());
+            });
+
+            poolUse.setAssignedNum(0);
+        });
     }
 
     @Override
@@ -342,7 +367,7 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
         int trainingInstanceToChangeNum =  instance.getAssignedNum();
 
         //ITERACJA PO INSTANCJACH
-        List<PbeProductInstancePoolUse> poolUses = instance.getPollUses();
+        List<PbeProductInstancePoolUse> poolUses = instance.getPoolUses();
         poolUses = orderByExpiryDateDesc(poolUses);
         for(PbeProductInstancePoolUse poolUse : poolUses){
 
@@ -358,11 +383,11 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
             reduceUsedProductInstancePool(ereimbursement.getId(), rejectReimbursmentPoolEventType, poolUse, poolUseToChangeNum);
 
             //ITERACJA PO INSTANCJACH PRODUKTU
-            List<PbeProductInstance> instances = poolUse.getPollUses();
+            List<PbeProductInstance> instances = poolUse.getProductInstances();
             List<PbeProductInstance> instancesToChange = new ArrayList<>(instances.subList(instances.size() - poolUseToChangeNum, instances.size()));
             for(PbeProductInstance i : instancesToChange){
                 i.setStatus(productInstStatAssigned);
-                poolUse.removePollUse(i);
+                poolUse.removeProductInstanceFromPoolUse(i);
 
                 //EVENTY DO INSTANCJI PRODUKTOW
                 productInstanceEventBuilder.saveEvent(i, rejectReimbursmentEventType, ereimbursement.getId());
@@ -383,7 +408,7 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
         PbeProductInstancePoolEventType reimbEventPoolType = productInstancePoolEventTypeRepository.get(PbeProductInstancePoolEventType.REIMB_CODE);
 
         //ITERACJA PO UZYCIACH PULI
-        List<PbeProductInstancePoolUse> poolUses = ereimbursement.getTrainingInstance().getPollUses();
+        List<PbeProductInstancePoolUse> poolUses = ereimbursement.getTrainingInstance().getPoolUses();
         for(PbeProductInstancePoolUse poolUse : poolUses){
 
             //UAKTUALNINIE PULI
@@ -395,14 +420,8 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
                                                                 ereimbursement.getId(), poolUse.getAssignedNum());
 
             //ITERACJA PO INSTANCJACH PRODUKTU
-            List<PbeProductInstance> instances = poolUse.getPollUses();
-            for(PbeProductInstance i : instances){
-                i.setStatus(reimbInstStat);
-                i.setEreimbursmentId(ereimbursement.getId());
-
-                //EVENT
-                productInstanceEventBuilder.saveEvent(i, reimbEventType, ereimbursement.getId());
-            }
+            List<PbeProductInstance> instances = poolUse.getProductInstances();
+            changeProductInstances(instances, reimbInstStat, ereimbursement.getId(), reimbEventType, ereimbursement.getId());
         }
     }
 
@@ -426,13 +445,7 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
 
         //ITERACJA PO INSTANCJACH PRODUKTU
         List<PbeProductInstance> instances = findInstancesToExpired(pool, num);
-        for(PbeProductInstance i : instances){
-            i.setStatus(expireInstStat);
-            i.setEreimbursmentId(ereimbursement.getId());
-
-            //EVENT
-            productInstanceEventBuilder.saveEvent(i, expireEventType, ereimbursement.getId());
-        }
+        changeProductInstances(instances, expireInstStat, ereimbursement.getId(), expireEventType, ereimbursement.getId());
     }
 
     @Override
@@ -454,13 +467,7 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
 
         //ITERACJA PO INSTANCJACH PRODUKTU
         List<PbeProductInstance> instances = findInstancesToExpired(pool, num);
-        for(PbeProductInstance i : instances){
-            i.setStatus(returnInstStat);
-            i.setEreimbursmentId(ereimbursement.getId());
-
-            //EVENT
-            productInstanceEventBuilder.saveEvent(i, returnEventType, ereimbursement.getId());
-        }
+        changeProductInstances(instances, returnInstStat, ereimbursement.getId(), returnEventType, ereimbursement.getId());
     }
 
     @Override
@@ -472,7 +479,7 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
         PbeProductInstancePoolEventType unreimbEventPoolType = productInstancePoolEventTypeRepository.get(PbeProductInstancePoolEventType.CNCLREIMB_CODE);
 
         //ITERACJA PO UZYCIACH PULI
-        List<PbeProductInstancePoolUse> poolUses = trainingInstance.getPollUses();
+        List<PbeProductInstancePoolUse> poolUses = trainingInstance.getPoolUses();
         for(PbeProductInstancePoolUse poolUse : poolUses){
 
             //UAKTUALNINIE PULI
@@ -484,14 +491,8 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
                     trainingInstance.getId(), poolUse.getAssignedNum());
 
             //ITERACJA PO INSTANCJACH PRODUKTU
-            List<PbeProductInstance> instances = poolUse.getPollUses();
-            for(PbeProductInstance i : instances){
-                i.setStatus(usedInstStat);
-                i.setEreimbursmentId(null);
-
-                //EVENT
-                productInstanceEventBuilder.saveEvent(i, unreimbEventType, trainingInstance.getId());
-            }
+            List<PbeProductInstance> instances = poolUse.getProductInstances();
+            changeProductInstances(instances, usedInstStat, null, unreimbEventType, trainingInstance.getId());
         }
     }
 
@@ -774,20 +775,41 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
      * @param poolUse
      * @param poolUseToChangeNum
      */
-    private void removeProductInstanceFromPoolUse(TrainingInstance instance, PbeProductInstanceEventType eventType, PbeProductInstancePoolUse poolUse, int poolUseToChangeNum) {
+    private void removeProductInstancesFromPoolUse(TrainingInstance instance, PbeProductInstanceEventType eventType, PbeProductInstancePoolUse poolUse, int poolUseToChangeNum) {
 
         PbeProductInstanceStatus productInstStatAssigned = productInstanceStatusRepository.get(PbeProductInstanceStatus.ASSIGNED_CODE);
 
         //LOOP OVER PRODUCT INSTANCES
-        List<PbeProductInstance> instances = poolUse.getPollUses();
+        List<PbeProductInstance> instances = poolUse.getProductInstances();
         List<PbeProductInstance> instancesToChange = new ArrayList<>(instances.subList(instances.size() - poolUseToChangeNum, instances.size()));
-        for(PbeProductInstance i : instancesToChange){
+        for(PbeProductInstance pbeProductInstance : instancesToChange){
             //CHANGE PRODUCT INSTANCES
-            i.setStatus(productInstStatAssigned);
-            poolUse.removePollUse(i);
+            pbeProductInstance.setStatus(productInstStatAssigned);
+            poolUse.removeProductInstanceFromPoolUse(pbeProductInstance);
 
             //ADD EVENT
-            productInstanceEventBuilder.saveEvent(i, eventType, instance.getId());
+            productInstanceEventBuilder.saveEvent(pbeProductInstance, eventType, instance.getId());
         }
+    }
+
+    /**
+     * Zmiana statusu na bonach.
+     *
+     * @param instanceList lista bonów do zmiany
+     * @param prdInstStatus nowy status bonów
+     * @param ereimbursementId id rozliczenia
+     * @param prdInstEventType typ zdarzenia na bonach
+     * @param sourceId id źródła zmiany
+     */
+    private void changeProductInstances(List<PbeProductInstance> instanceList, PbeProductInstanceStatus prdInstStatus, Long ereimbursementId, PbeProductInstanceEventType prdInstEventType, Long sourceId) {
+        List<PbeProductInstance> instances = new ArrayList<>(instanceList);
+        instances.forEach(pbeProductInstance -> {
+            //CHANGE PRODUCT INSTANCES
+            pbeProductInstance.setStatus(prdInstStatus);
+            pbeProductInstance.setEreimbursmentId(ereimbursementId);
+
+            //ADD EVENT
+            productInstanceEventBuilder.saveEvent(pbeProductInstance, prdInstEventType, sourceId);
+        });
     }
 }

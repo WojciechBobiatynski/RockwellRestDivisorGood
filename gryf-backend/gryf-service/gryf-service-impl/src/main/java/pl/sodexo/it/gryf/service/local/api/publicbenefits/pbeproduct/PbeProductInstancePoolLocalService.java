@@ -32,6 +32,12 @@ public interface PbeProductInstancePoolLocalService {
      */
     void cancelTrainingInstanceUsedPools(TrainingInstance trainingInstance);
 
+    /**
+     * Anulowanie użycia puli bonów w związku z odrzuceniem rozliczonego szkolenia.
+     * @param trainingInstance instancja szkolenia, która jest odrzucona
+     */
+    void rejectTrainingInstanceUsedPools(TrainingInstance trainingInstance);
+
     void reimbursPools(Ereimbursement ereimbursement);
 
     void expirePools(Long ermbsId);

@@ -81,7 +81,7 @@ public class PbeProductInstancePoolUse extends VersionableEntity {
         return productInstances;
     }
 
-    public List<PbeProductInstance> getPollUses() {
+    public List<PbeProductInstance> getProductInstances() {
         return Collections.unmodifiableList(getInitializedProductInstancesList());
     }
 
@@ -95,7 +95,7 @@ public class PbeProductInstancePoolUse extends VersionableEntity {
         productInstance.setProductInstancePoolUse(this);
     }
 
-    public void removePollUse(PbeProductInstance productInstance) {
+    public void removeProductInstanceFromPoolUse(PbeProductInstance productInstance) {
         getInitializedProductInstancesList().remove(productInstance);
         productInstance.setProductInstancePoolUse(null);
     }

@@ -94,6 +94,13 @@ public interface TrainingInstanceService {
     void cancelTrainingInstanceDone(Long trainingInstanceId, Integer version);
 
     /**
+     * Odrzuca rozliczenie szkolenia. Instancja zmienia status z Rozliczone na Nie rozliczone. Rozliczenie zmienai status z Rozliczone na Odrzucone.
+     * @param trainingInstanceId
+     * @param version
+     */
+    void rejectTrainingInstanceReimb(Long trainingInstanceId, Integer version);
+
+    /**
      * uaktualnai znacznik czy została dokonana ocena usługi
      * @param externalId
      * @param pesel

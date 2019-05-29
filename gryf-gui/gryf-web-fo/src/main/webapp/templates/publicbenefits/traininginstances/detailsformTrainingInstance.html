@@ -18,6 +18,10 @@
                 <a ng-click="cancelTrainingReimbursement()" class="button button-save"
                    gryf-privilege="GRF_PBE_TI_TRAINING_INSTANCES_STATUS_MOD">Anuluj rozliczenie</a>
             </li>
+            <li>
+                <a ng-click="rejectTrainingInstanceReimb()" class="button button-save"
+                   gryf-privilege="GRF_PBE_TI_TRAINING_INSTANCES_STATUS_MOD">Odrzuć rozliczenie</a>
+            </li>
         </ul>
         <ul ng-if="isInStatus('DONE')">
             <li>

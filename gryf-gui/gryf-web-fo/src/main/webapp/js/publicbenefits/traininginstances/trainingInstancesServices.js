@@ -268,12 +268,31 @@ function ($http, GryfModals, GryfPopups, GryfExceptionHandler, GryfHelpers, Gryf
         });
     };
 
+    var rejectTrainingInstanceReimb = function(trainingInstanceId, trainingInstanceVersion) {
+        var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING, {label: "Zapisuję"});
+
+        return $http.put(TRAINING_RESERVATION_URL + "rejectTrainingInstanceReimb/" + trainingInstanceId + "/" + trainingInstanceVersion
+        ).success(function() {
+            GryfPopups.setPopup("success", "Sukces", "Odrzucono rozliczenie.");
+            GryfPopups.showPopup();
+        }).error(function(error) {
+            GryfPopups.setPopup("error", "Błąd", "Nie udało się odrzucić rozliczenia");
+            GryfPopups.showPopup();
+
+            GryfExceptionHandler.handleSavingError(error, violations, null);
+
+        }).finally(function() {
+            GryfModals.closeModal(modalInstance);
+        });
+    };
+
     return {
         confirmPin: confirmPin,
         cancelTrainingReservation: cancelTrainingReservation,
         getViolations: getViolations,
         cancelTrainingReimbursement: cancelTrainingReimbursement,
         reduceProductAssignedNum: reduceProductAssignedNum,
-        cancelTrainingInstanceDone: cancelTrainingInstanceDone
+        cancelTrainingInstanceDone: cancelTrainingInstanceDone,
+        rejectTrainingInstanceReimb: rejectTrainingInstanceReimb
     };
 }]);
