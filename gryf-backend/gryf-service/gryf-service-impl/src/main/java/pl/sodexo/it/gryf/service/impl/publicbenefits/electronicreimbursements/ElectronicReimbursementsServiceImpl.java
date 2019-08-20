@@ -4,6 +4,7 @@ import com.googlecode.ehcache.annotations.Cacheable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.sodexo.it.gryf.common.GenericBuilder;
 import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.common.criteria.electronicreimbursements.ElctRmbsCriteria;
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
@@ -254,7 +255,7 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.TO_CORRECT));
         ereimbursement = ereimbursementRepository.save(ereimbursement);
         correctionService.createAndSaveCorrection(correctionDto);
-        sendMailsToTiUsers(ereimbursement.getId());
+        sendCorrectionNotificationMailsToTiUsers(ereimbursement.getId());
         return ereimbursement.getId();
     }
 
@@ -357,6 +358,7 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.CANCELED));
         setDoneReimburseStatusForTiInstance(ereimbursement);
         ereimbursementRepository.update(ereimbursement, ereimbursement.getId());
+        sendCancelEreimbMailsToTiUsers(rmbsId);
         return ereimbursement.getId();
     }
 
@@ -380,10 +382,17 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         return ereimbursement.getId();
     }
 
-    private void sendMailsToTiUsers(Long ermbsId) {
+    private void sendCorrectionNotificationMailsToTiUsers(Long ermbsId) {
         CorrectionNotificationEmailParamsDto corrNotifParamsByErmbsId = correctionService.findCorrNotifParamsByErmbsId(ermbsId);
         ErmbsGrantProgramParamsDto grantProgramParam = electronicReimbursementsDao.findGrantProgramParams(ermbsId);
         List<MailDTO> mailsToSend = mailDtoCreator.createMailDTOsForCorrecionNotification(corrNotifParamsByErmbsId, grantProgramParam);
+        mailsToSend.stream().forEach(mailDTO -> mailService.scheduleMail(mailDTO));
+    }
+
+    private void sendCancelEreimbMailsToTiUsers(Long ermbsId) {
+        CancelEreimbEmailParamsDto cancelEreimbEmailParamsDto = electronicReimbursementsDao.findCancelEreimbParamsByErmbsId(ermbsId);
+        ErmbsGrantProgramParamsDto grantProgramParam = electronicReimbursementsDao.findGrantProgramParams(ermbsId);
+        List<MailDTO> mailsToSend = mailDtoCreator.createMailDTOForCancelEreimbMail(cancelEreimbEmailParamsDto, grantProgramParam);
         mailsToSend.stream().forEach(mailDTO -> mailService.scheduleMail(mailDTO));
     }
 

@@ -7,6 +7,8 @@ package pl.sodexo.it.gryf.common.utils;
  */
 public final class GryfConstants {
 
+    private GryfConstants(){};
+
     public static final String FLAG_TRUE = "Y";
     public static final String FLAG_FALSE = "N";
 
@@ -23,6 +25,7 @@ public final class GryfConstants {
     public static final String E_REIMB_CONFIRMATION_EMAIL_TEMPLATE_CODE = "E_REIMB";
     public static final String E_REIMB_CONFIRMATION_EMAIL_TEMPLATE_CODE_FOR_UNRSV_POOL = "RET_REIMB";
     public static final String EXPI_REIMB_EMAIL_TEMPLATE_CODE = "EXPI_REIMB";
+    public static final String CANCEL_REIMB_EMAIL_TEMPLATE_CODE = "CNCL_REIMB";
     public static final String CONFIRMATION_PAYMENT_EMAIL_TEMPLATE_CODE = "CNF_PYMT";
     public static final String CONFIRMATION_PAYMENT_EMAIL_TEMPLATE_CODE_FOR_ENTERPRISE = "E_CONF_GRA";
     public static final String DEFAULT_EMAIL_TEMPLATE_CODE = "STD_EMAIL";
@@ -80,6 +83,4 @@ public final class GryfConstants {
     public static final String BUSINESS_DAYS_FOR_CORRECTION_PARAM_NAME = "D_FOR_CORR";
 
     public static final String PHONE_FOR_GRANT_PROGRAM_PARAM_NAME = "PROG_PHONE";
-
-    private GryfConstants(){};
 }

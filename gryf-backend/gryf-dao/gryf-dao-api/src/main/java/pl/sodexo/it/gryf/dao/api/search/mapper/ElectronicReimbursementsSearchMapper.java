@@ -151,4 +151,12 @@ public interface ElectronicReimbursementsSearchMapper {
      */
     String getReimbursmentStatusName(@Param("criteria") UserCriteria criteria, @Param("ermbsId")Long ermbsId);
 
+    /**
+     * Znajduje parametry potrzebne do wysyłki maila o anulowaniu rozliczenia
+     * @param criteria - krytertia użytkownika
+     * @param ermbsId - id rozliczenia
+     * @return dto z parametrami
+     */
+    CancelEreimbEmailParamsDto findCancelEreimbParamsByErmbsId(@Param("criteria") UserCriteria criteria, @Param("ermbsId") Long ermbsId);
+
 }

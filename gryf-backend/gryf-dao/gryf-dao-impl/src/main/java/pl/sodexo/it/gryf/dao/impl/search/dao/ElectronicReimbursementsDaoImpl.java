@@ -111,4 +111,9 @@ public class ElectronicReimbursementsDaoImpl implements ElectronicReimbursements
         return electronicReimbursementsSearchMapper.getReimbursmentStatusName(new UserCriteria(), ermbsId);
     }
 
+    @Override
+    public CancelEreimbEmailParamsDto findCancelEreimbParamsByErmbsId(Long ermbsId){
+        return electronicReimbursementsSearchMapper.findCancelEreimbParamsByErmbsId(new UserCriteria(), ermbsId);
+    }
+
 }

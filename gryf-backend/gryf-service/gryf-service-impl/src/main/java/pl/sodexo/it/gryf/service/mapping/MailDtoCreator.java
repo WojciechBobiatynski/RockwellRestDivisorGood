@@ -8,10 +8,7 @@ import org.springframework.stereotype.Component;
 import pl.sodexo.it.gryf.common.authentication.AEScryptographer;
 import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.common.dto.mail.MailDTO;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CorrectionNotificationEmailParamsDto;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsGrantProgramParamsDto;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsMailDto;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ErmbsMailParamsDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.*;
 import pl.sodexo.it.gryf.common.dto.security.individuals.Verifiable;
 import pl.sodexo.it.gryf.common.dto.security.trainingInstitutions.GryfTiUserDto;
 import pl.sodexo.it.gryf.common.mail.MailPlaceholders;
@@ -216,6 +213,28 @@ public class MailDtoCreator {
                     .add(GRANT_PROGRAM_PLACEHOLDER, paramsDto.getGrantProgramName());
 
             EmailTemplate emailTemplate = emailTemplateRepository.get(CORR_NOTIF_EMAIL_TEMPLATE_CODE);
+            result.add(createAndFillMailDTO(emailTemplate, mailPlaceholders,
+                    email, null,
+                    grantProgramParam.getGrantProgramEmailFrom(), grantProgramParam.getGrantProgramEmailReplay()));
+        });
+        return result;
+    }
+
+    public List<MailDTO> createMailDTOForCancelEreimbMail(CancelEreimbEmailParamsDto paramsDto, ErmbsGrantProgramParamsDto grantProgramParam){
+        List<MailDTO> result = new ArrayList<>();
+        paramsDto.getEmails().stream().forEach(email -> {
+
+            String formatDate = "";
+            if (paramsDto.getArrivalDate() != null) {
+                SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT);
+                formatDate = format.format(paramsDto.getArrivalDate());
+            }
+            MailPlaceholders mailPlaceholders = mailService.createPlaceholders()
+                    .add(ARRIVAL_DATE_PLACEHOLDER, formatDate)
+                    .add(RMBS_NUMBER_PLACEHOLDER, paramsDto.getRmbsNumber().toString())
+                    .add(GRANT_PROGRAM_PLACEHOLDER, paramsDto.getGrantProgramName());
+
+            EmailTemplate emailTemplate = emailTemplateRepository.get(CANCEL_REIMB_EMAIL_TEMPLATE_CODE);
             result.add(createAndFillMailDTO(emailTemplate, mailPlaceholders,
                     email, null,
                     grantProgramParam.getGrantProgramEmailFrom(), grantProgramParam.getGrantProgramEmailReplay()));

@@ -125,4 +125,11 @@ public interface ElectronicReimbursementsDao {
      * @return nazwa statusu
      */
     String getReimbursmentStatusName(Long ermbs);
+
+    /**
+     * Pobiera parametry potrzebne do wysyłki emaila o anulowaniu rozliczenia
+     * @param ermbs identyfikator rozliczneia
+     * @return nazwa statusu
+     */
+    CancelEreimbEmailParamsDto findCancelEreimbParamsByErmbsId(Long ermbs);
 }
