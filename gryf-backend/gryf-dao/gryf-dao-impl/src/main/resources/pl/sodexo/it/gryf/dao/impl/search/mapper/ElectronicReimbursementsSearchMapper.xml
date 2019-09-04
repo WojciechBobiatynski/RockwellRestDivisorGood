@@ -87,10 +87,10 @@
                 AND LOWER(participantSurname) like '%' || LOWER(#{criteria.participantSurname}) || '%'
             </if>
             <if test="criteria.rmbsDateFrom != null">
-                AND TRIM(rmbsDate) &gt;= TRIM(#{criteria.rmbsDateFrom})
+                AND TRUNC(rmbsDate) &gt;= TRUNC(#{criteria.rmbsDateFrom})
             </if>
             <if test="criteria.rmbsDateTo != null">
-                AND TRIM(rmbsDate) &lt;= TRIM(#{criteria.rmbsDateTo})
+                AND TRUNC(rmbsDate) &lt;= TRUNC(#{criteria.rmbsDateTo})
             </if>
             <if test="criteria.rmbsStatus != null and criteria.rmbsStatus != ''">
                 AND rmbsStatus = #{criteria.rmbsStatus}
