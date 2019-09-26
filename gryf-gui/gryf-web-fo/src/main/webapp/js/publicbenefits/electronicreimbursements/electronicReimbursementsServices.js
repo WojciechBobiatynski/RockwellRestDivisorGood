@@ -78,7 +78,7 @@ angular.module('gryf.electronicreimbursements').factory("electronicReimbursement
         var find = function(findUrl) {
             var modalInstance = GryfModals.openModal(GryfModals.MODALS_URL.WORKING);
 
-            GryfHelpers.transformDatesToString(elctRmbsModel.foundRmbs);
+            GryfHelpers.transformDatesToString(elctRmbsCriteria);
             if (!findUrl) {
                 findUrl = FIND_RMBS_LIST_URL;
             }
