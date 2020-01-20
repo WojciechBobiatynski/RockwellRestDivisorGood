@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.orders.detailsform.CreateOrderDTO;
 import pl.sodexo.it.gryf.common.dto.user.GryfUser;
 import pl.sodexo.it.gryf.common.exception.EntityConstraintViolation;
-import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.grantprograms.GrantProgramProductRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderRepository;
 import pl.sodexo.it.gryf.model.dictionaries.ZipCode;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
@@ -98,6 +97,7 @@ public abstract class OrderFlowBaseService implements OrderFlowService {
         order.setOperator(GryfUser.getLoggedUserLogin());
         order.setContract(contract);
         order.setPbeProduct(gpProduct.getPbeProduct());
+        order.setOwnContributionPercentage(contract.getOwnContributionPercentage());
 
         return order;
     }
@@ -107,11 +107,10 @@ public abstract class OrderFlowBaseService implements OrderFlowService {
         Individual individual = contract.getIndividual();
         Enterprise enterprise = contract.getEnterprise();
         GrantProgram grantProgram = contract.getGrantProgram();
-        GrantProgramParam ocpParam = paramInDateService.findGrantProgramParam(grantProgram.getId(), GrantProgramParam.OWN_CONTRIBUTION_PERCENT, new Date(), true);
         GrantProgramProduct gpProduct = paramInDateService.findGrantProgramProduct(contract.getGrantProgram().getId(),
                                                                 GrantProgramProduct.Type.PBE_PRODUCT, new Date(), true);
 
-        BigDecimal ownContributionPercent = new BigDecimal(ocpParam.getValue());
+        BigDecimal ownContributionPercent = contract.getOwnContributionPercentage();
 
         CreateOrderDTO dto = new CreateOrderDTO();
         dto.setContractId(contract.getId());
@@ -143,7 +142,7 @@ public abstract class OrderFlowBaseService implements OrderFlowService {
         dto.setOrderDate(new Date());
         dto.setProductInstanceNum(null);
         dto.setProductInstanceAmount(gpProduct.getPbeProduct().getValue());
-        dto.setOwnContributionPercen(ownContributionPercent);
+        dto.setOwnContributionPercent(ownContributionPercent);
         dto.setOwnContributionAmont(null);
         dto.setGrantAmount(null);
         dto.setOrderAmount(null);

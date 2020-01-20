@@ -9,6 +9,7 @@ import pl.sodexo.it.gryf.common.generator.IdentityGenerator;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -53,6 +54,9 @@ public class ImportContractDTO {
     @NotNull(message = "Programu nie może być pusty")
     private GrantProgramDictionaryDTO grantProgram;
 
+    @Getter
+    @Setter
+    private BigDecimal ownContributionPercentage;
 
     //EXTRA GETETRS
     public String getId( IdentityGenerator<ImportContractDTO, String> identityGenerator){

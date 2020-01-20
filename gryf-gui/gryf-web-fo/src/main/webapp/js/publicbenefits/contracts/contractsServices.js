@@ -166,6 +166,7 @@ angular.module("gryf.contracts").factory("ModifyContractService",
                 enterprise : null,
                 signDate : null,
                 expiryDate : null,
+                ownContributionPercentage: null,
                 created : null,
                 modified : null
             }

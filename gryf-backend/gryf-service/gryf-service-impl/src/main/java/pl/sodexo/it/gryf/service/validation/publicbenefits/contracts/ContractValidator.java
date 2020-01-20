@@ -12,12 +12,16 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.employments.Empl
 import pl.sodexo.it.gryf.model.accounts.AccountContractPair;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
 import pl.sodexo.it.gryf.model.publicbenefits.employment.Employment;
+import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgramParam;
 import pl.sodexo.it.gryf.service.api.patterns.DefaultPatternContext;
 import pl.sodexo.it.gryf.service.api.patterns.PatternContext;
 import pl.sodexo.it.gryf.service.api.patterns.PatternService;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
+import pl.sodexo.it.gryf.service.local.api.ParamInDateService;
 import pl.sodexo.it.gryf.service.validation.publicbenefits.AbstractValidator;
 
+import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -47,6 +51,9 @@ public class ContractValidator extends AbstractValidator {
     @Autowired
     private ContractRepository contractRepository;
 
+    @Autowired
+    private ParamInDateService paramInDateService;
+
 
     @Autowired
     @Qualifier(PatternService.GRANT_PROGRAM_PATTERN_SERVICE)
@@ -61,6 +68,7 @@ public class ContractValidator extends AbstractValidator {
         validateContractId(contract, violations);
         validateContractType(contract, violations);
         validateEnterpriseParticipant(contract, violations);
+        validateOwnContribution(contract, violations);
 
         //VALIDATE (EXCEPTION)
         addPrefixMessage(VIOLATIONS_PREFIX, violations);
@@ -78,6 +86,21 @@ public class ContractValidator extends AbstractValidator {
 
         //VALIDATE (EXCEPTION)
         gryfValidator.validate(violations);
+    }
+
+    public List<EntityConstraintViolation> validateContractIdAgreementWithPattern(ImportContractDTO importContractDTO, String externalOrderIdPatternRegexp) {
+        PatternContext importContractContext =  DefaultPatternContext.create().withCode(importContractDTO.getGrantProgram().getProgramCode())
+                .withId((Long) importContractDTO.getGrantProgram().getId()).withDefaultPattern(externalOrderIdPatternRegexp).build();
+        String grantProgramPatternServicePattern = grantProgramPatternService.getPattern(importContractContext);
+        Pattern patternCompile = Pattern.compile(grantProgramPatternServicePattern);
+        Matcher matcher = patternCompile.matcher(importContractDTO.getExternalOrderId());
+        if (!matcher.matches()) {
+            List<EntityConstraintViolation> contractViolations = Lists.newArrayList();
+            contractViolations.add(new EntityConstraintViolation(String.format("Identyfikator umowy musi być w formacie kod programu/numer/numer dla danego programu")));
+            addPrefixMessage(VIOLATIONS_PREFIX, contractViolations);
+            return contractViolations;
+        }
+        return Collections.EMPTY_LIST;
     }
 
     private void validateContractDates(Contract contract, List<EntityConstraintViolation> violations) {
@@ -181,20 +204,23 @@ public class ContractValidator extends AbstractValidator {
         return INDIVIDUAL_CONTRACT_TYPE_ID.equals(contract.getContractType().getId());
     }
 
-    public List<EntityConstraintViolation> validateContractIdAgreementWithPattern(ImportContractDTO importContractDTO, String externalOrderIdPatternRegexp) {
-        PatternContext importContractContext =  DefaultPatternContext.create().withCode(importContractDTO.getGrantProgram().getProgramCode())
-                .withId((Long) importContractDTO.getGrantProgram().getId()).withDefaultPattern(externalOrderIdPatternRegexp).build();
-        String grantProgramPatternServicePattern = grantProgramPatternService.getPattern(importContractContext);
-        Pattern patternCompile = Pattern.compile(grantProgramPatternServicePattern);
-        Matcher matcher = patternCompile.matcher(importContractDTO.getExternalOrderId());
-        if (!matcher.matches()) {
-            List<EntityConstraintViolation> contractViolations = Lists.newArrayList();
-            contractViolations.add(new EntityConstraintViolation(String.format("Identyfikator umowy musi być w formacie kod programu/numer/numer dla danego programu")));
-            addPrefixMessage(VIOLATIONS_PREFIX, contractViolations);
-            return contractViolations;
+    /**
+     * Validation of own contribution percentage with acceptable values which are get from grant program parameters.
+     * @param contract Contract entity created from import
+     * @param violations List of violations
+     */
+    private void validateOwnContribution(Contract contract, List<EntityConstraintViolation> violations) {
+        GrantProgramParam grantProgramParam = paramInDateService.findGrantProgramParam(contract.getGrantProgram().getId(), GrantProgramParam.OWN_CONTRIBUTION_PERCENT_ACCEPTABLE, contract.getSignDate(), true);
+        String result = Arrays.stream(grantProgramParam.getValue().split(";"))
+                .filter(parameterValue -> contract.getOwnContributionPercentage().compareTo(new BigDecimal(parameterValue)) == 0)
+                .findAny()
+                .orElse(null);
+        if (result == null) {
+            violations.add(new EntityConstraintViolation(
+                    Contract.OWN_CONTRIBUTION_PERCENTAGE_ATTR_NAME,
+                    "Niedopuszczalna wartość procentu kwoty wkładu własnego.",
+                    null));
         }
-        return Collections.EMPTY_LIST;
     }
-
 
 }

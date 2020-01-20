@@ -132,6 +132,12 @@
                 <gryf-validation-msg path="expiryDate"></gryf-validation-msg>
             </div>
         </div>
+        <div class="grid-100">
+            <div>
+                <strong class="label">Procent kwoty wkładu własnego</strong>
+                {{model.entity.ownContributionPercentage}}
+            </div>
+        </div>
     </section>
 
     <section data-ng-if="resignButtonVisible()">

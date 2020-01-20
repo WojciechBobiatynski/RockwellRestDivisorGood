@@ -1,5 +1,7 @@
 package pl.sodexo.it.gryf.model.publicbenefits.contracts;
 
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
 import pl.sodexo.it.gryf.model.accounts.AccountContractPairGenerable;
@@ -25,6 +27,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -54,6 +57,7 @@ public class Contract extends VersionableEntity implements AccountContractPairGe
     public static final String FIND_BY_PROGRAM_DATES_PARAMS_PROGRAM_ID = "grantProgramId";
     public static final String FIND_BY_PROGRAM_DATES_PARAMS_START_DATE = "startDate" ;
     public static final String FIND_BY_PROGRAM_PARAMS_IND_ID = "individualId" ;
+    public static final String OWN_CONTRIBUTION_PERCENTAGE_ATTR_NAME = "ownContributionPercentage" ;
 
     @Id
     @Column(name = "ID")
@@ -114,6 +118,12 @@ public class Contract extends VersionableEntity implements AccountContractPairGe
     @NotEmpty(message = "Adres korespondencyjny nie może być pusty")
     @Size(max = 200, message = "Adres korespondencyjny MŚP musi zawierać maksymalnie 200 znaków")
     private String addressCorr;
+
+    @Getter
+    @Setter
+    @Column(name = "OWN_CONTRIBUTION_PERCENTAGE")
+    @NotEmpty(message = "Procent kwoty wkładu własnego nie może być pusty")
+    private BigDecimal ownContributionPercentage;
 
     @ManyToOne
     @JoinColumn(name = "ZIP_CODE_CORR")

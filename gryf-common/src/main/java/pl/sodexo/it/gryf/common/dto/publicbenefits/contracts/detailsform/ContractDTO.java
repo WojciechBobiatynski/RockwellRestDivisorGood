@@ -10,6 +10,7 @@ import pl.sodexo.it.gryf.common.dto.publicbenefits.enterprises.searchform.Enterp
 import pl.sodexo.it.gryf.common.dto.publicbenefits.individuals.searchform.IndividualSearchResultDTO;
 import pl.sodexo.it.gryf.common.dto.zipcodes.detailsform.ZipCodeDto;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -74,5 +75,9 @@ public class ContractDTO extends VersionableDto {
     @Getter
     @Setter
     private ZipCodeDto zipCodeCorr;
+
+    @Getter
+    @Setter
+    private BigDecimal ownContributionPercentage;
 
 }

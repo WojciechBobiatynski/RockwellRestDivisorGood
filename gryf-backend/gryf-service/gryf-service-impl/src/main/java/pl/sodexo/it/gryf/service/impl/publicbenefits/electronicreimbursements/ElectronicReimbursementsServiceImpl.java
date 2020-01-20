@@ -4,7 +4,6 @@ import com.googlecode.ehcache.annotations.Cacheable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.sodexo.it.gryf.common.GenericBuilder;
 import pl.sodexo.it.gryf.common.config.ApplicationParameters;
 import pl.sodexo.it.gryf.common.criteria.electronicreimbursements.ElctRmbsCriteria;
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
@@ -22,6 +21,7 @@ import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbu
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementStatusRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementTypeRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.pbeproducts.PbeProductInstancePoolRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstanceStatusRepository;
 import pl.sodexo.it.gryf.dao.api.search.dao.ElectronicReimbursementsDao;
@@ -30,6 +30,7 @@ import pl.sodexo.it.gryf.dao.api.search.dao.ProductSearchDao;
 import pl.sodexo.it.gryf.model.api.FinanceNoteResult;
 import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.*;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgramParam;
+import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 import pl.sodexo.it.gryf.model.reports.ReportInstance;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.CorrectionAttachmentService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.CorrectionService;
@@ -135,6 +136,9 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
 
     @Autowired
     private AccountingDocumentArchiveFileService accountingDocumentArchiveFileService;
+
+    @Autowired
+    private OrderRepository orderRepository;
 
     @Override
     public List<ElctRmbsDto> findEcltRmbsListByCriteria(ElctRmbsCriteria criteria) {
@@ -432,6 +436,7 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
 
     private void calculateCharges(ElctRmbsHeadDto elctRmbsHeadDto) {
         CalculationChargesParamsDto params = getCalculationChargesParamsDto(elctRmbsHeadDto);
+        elctRmbsHeadDto.setOwnContributionPercentage(params.getOwnContributionPercentage());
         elctRmbsHeadDto.calculateChargers(params);
     }
 
@@ -471,8 +476,9 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         ereimbursement.setProductInstancePool(productInstancePoolRepository.get(pbeProductInstancePool.getId()));
         ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.TO_ERMBS));
 
-        GrantProgramParam gppOwnContributionPercentage = paramInDateService.findGrantProgramParam(pbeProductInstancePool.getGrantProgramId(), GrantProgramParam.OWN_CONTRIBUTION_PERCENT, new Date(), true);
-        BigDecimal ownContributionPercentage = new BigDecimal(gppOwnContributionPercentage.getValue()).divide(new BigDecimal("100"));
+        Order order = orderRepository.get(pbeProductInstancePool.getOrderId());
+        ereimbursement.setOwnContributionPercentage(order.getOwnContributionPercentage());
+        BigDecimal ownContributionPercentage = order.getOwnContributionPercentage().divide(new BigDecimal("100"));
 
         ereimbursement.setSxoIndAmountDueTotal(
                 BigDecimal.valueOf(pbeProductInstancePool.getAvailableNum()).multiply(pbeProductInstancePool.getProductValue()).multiply(ownContributionPercentage).setScale(2, RoundingMode.HALF_UP));

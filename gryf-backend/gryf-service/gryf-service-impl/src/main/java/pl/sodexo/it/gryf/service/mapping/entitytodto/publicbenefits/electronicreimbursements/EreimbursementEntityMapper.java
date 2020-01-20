@@ -44,6 +44,7 @@ public class EreimbursementEntityMapper extends VersionableEntityMapper<Ereimbur
         if (entity.getErmbsAttachmentList() != null && !entity.getErmbsAttachmentList().isEmpty()) {
             dto.setAttachments(ermbsAttachmentEntityMapper.convert(entity.getErmbsAttachmentList()));
         }
+        dto.setOwnContributionPercentage(entity.getOwnContributionPercentage());
     }
 
 }

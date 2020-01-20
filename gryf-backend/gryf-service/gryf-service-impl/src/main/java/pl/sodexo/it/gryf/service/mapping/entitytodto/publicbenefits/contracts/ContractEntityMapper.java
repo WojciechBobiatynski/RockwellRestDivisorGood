@@ -68,6 +68,7 @@ public class ContractEntityMapper extends VersionableEntityMapper<Contract, Cont
         dto.setAddressCorr(entity.getAddressCorr());
         dto.setZipCodeCorr(zipCodeEntityMapper.convert(entity.getZipCodeCorr()));
 
+        dto.setOwnContributionPercentage(entity.getOwnContributionPercentage());
 
     }
 }

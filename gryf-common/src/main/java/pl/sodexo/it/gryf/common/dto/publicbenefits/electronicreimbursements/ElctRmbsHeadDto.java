@@ -136,6 +136,10 @@ public class ElctRmbsHeadDto extends VersionableDto implements Serializable {
     @Setter
     private boolean automatic;
 
+    @Getter
+    @Setter
+    private BigDecimal ownContributionPercentage;
+
     public void calculateChargers(CalculationChargesParamsDto params) {
         calculateSxoTiAmount(params);
         calculateIndTiAmount(params);

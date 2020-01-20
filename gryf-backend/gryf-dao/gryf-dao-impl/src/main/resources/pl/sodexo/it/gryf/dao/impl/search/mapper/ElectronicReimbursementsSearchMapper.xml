@@ -156,8 +156,8 @@
           prd.VALUE                                     productValue,
           tr.HOURS_NUMBER                               trainingHoursNumber,
           tr.PRICE                                      trainingPrice,
-          gr_param.VALUE/100                            ownContributionPercentage,
-          (100-gr_param.VALUE)/100                      indSubsidyPercentage
+          o.OWN_CONTRIBUTION_PERCENTAGE/100             ownContributionPercentage,
+          (100-o.OWN_CONTRIBUTION_PERCENTAGE)/100       indSubsidyPercentage
         FROM
           APP_PBE.TI_TRAINING_INSTANCES tr_in
           JOIN APP_PBE.TI_TRAININGS tr ON tr.ID = tr_in.TRAINING_ID
@@ -166,7 +166,9 @@
           JOIN APP_PBE.TI_TRAINING_CATEGORY_PARAMS tr_cat_par ON (tr_cat.ID = tr_cat_par.CATEGORY_ID AND gr_pr.ID = tr_cat_par.GRANT_PROGRAM_ID)
           JOIN APP_PBE.GRANT_OWNERS gr_own ON gr_own.ID = gr_pr.GRANT_OWNER_ID
           JOIN APP_PBE.PBE_PRODUCTS prd ON prd.GRANT_OWNER_ID = gr_own.ID
-          JOIN APP_PBE.GRANT_PROGRAM_PARAMS gr_param on (gr_param.GRANT_PROGRAM_ID = gr_pr.ID AND gr_param.PARAM_ID = 'OWN_CONT_P')
+          JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOL_USES pipu on pipu.TRAINING_INSTANCE_ID = tr_in.ID
+          JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOLS pip on pip.ID = pipu.PRODUCT_INSTANCE_POOL_ID
+          JOIN APP_PBE.ORDERS o on o.ID = pip.ORDER_ID
         WHERE
           tr_in.ID = #{trainingInstanceId}
           AND NVL(tr_cat_par.DATE_FROM, SYSDATE) &lt;= SYSDATE
@@ -216,6 +218,7 @@
                 ELSE
                   0
           END                                       automatic,
+          ermbs.OWN_CONTRIBUTION_PERCENTAGE         ownContributionPercentage,
           ermbs.VERSION                             version,
 --        raporty
           report.ID                                 rep_id,
@@ -522,6 +525,7 @@
           ermbs.CREATED_TIMESTAMP                   createdTimestamp,
           ermbs.MODIFIED_USER                       modifiedUser,
           ermbs.MODIFIED_TIMESTAMP                  modifiedTimestamp,
+          ermbs.OWN_CONTRIBUTION_PERCENTAGE         ownContributionPercentage,
 --        dane osoby fizycznej
           ind.ID                                    ind_id,
           ind.FIRST_NAME                            ind_firstName,

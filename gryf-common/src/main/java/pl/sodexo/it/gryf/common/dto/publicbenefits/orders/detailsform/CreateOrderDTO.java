@@ -95,7 +95,7 @@ public class CreateOrderDTO {
 
     @Getter
     @Setter
-    private BigDecimal ownContributionPercen;
+    private BigDecimal ownContributionPercent;
 
     @Getter
     @Setter

@@ -29,7 +29,7 @@
                         </th>
                     </thead>
                     <tbody class="tableData">
-                        <tr ng-repeat="pool in userTrainingReservationData.data.productInstancePools" ng-class="{'row-even': $even, 'row-odd': $odd}">
+                        <tr ng-repeat="pool in userTrainingReservationData.data.productInstancePools" ng-if="pool.grantProgramId=training.data.grantProgramId" ng-class="{'row-even': $even, 'row-odd': $odd}">
                             <td>{{::pool.availableNum}}</td>
                             <td>{{::pool.expiryDate  | date:'yyyy-MM-dd'}}</td>
                             <td>{{::pool.grantProgramName}}</td>

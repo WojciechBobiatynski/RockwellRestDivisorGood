@@ -65,4 +65,5 @@ public class WZImportContractServiceImpl extends DefaultImportContractServiceImp
     public String getExternaOrderIdPattern() {
         return externalOrderIdPatternRegexp;
     }
+
 }

@@ -88,23 +88,22 @@ public class OrderElementComplexTypePbeProductInfoServiceImpl extends OrderEleme
     public void addPbeProductElements(Order order, Contract contract, CreateOrderDTO dto) {
         PbeProduct product = order.getPbeProduct();
         GrantProgram grantProgram = contract.getGrantProgram();
-        GrantProgramParam ocpParam = paramInDateService.findGrantProgramParam(grantProgram.getId(), GrantProgramParam.OWN_CONTRIBUTION_PERCENT, new Date(), true);
 
         BigDecimal productInstanceNum = BigDecimal.valueOf(dto.getProductInstanceNum());
         BigDecimal  productInstanceAmount = product.getValue();
-        BigDecimal ownContributionPercent = new BigDecimal(ocpParam.getValue());
+        BigDecimal ownContributionPercent = order.getOwnContributionPercentage();
 
         orderFlowElementService.addElementNumberValue(order, KK_PRODUCT_INSTANCE_NUM_ELEM_ID, productInstanceNum);
         orderFlowElementService.addElementNumberValue(order, KK_PRODUCT_INSTANCE_AMOUNT_ELEM_ID, productInstanceAmount);
         orderFlowElementService.addElementNumberValue(order, KK_OWN_CONTRIBUTION_PERCENT_ELEM_ID, ownContributionPercent);
 
 
-        BigDecimal ownContributionAmont = productInstanceNum.multiply(productInstanceAmount).
+        BigDecimal ownContributionAmount = productInstanceNum.multiply(productInstanceAmount).
                 multiply(ownContributionPercent).divide(new BigDecimal("100"));
-        BigDecimal grantAmount = productInstanceNum.multiply(productInstanceAmount).subtract(ownContributionAmont);
-        BigDecimal orderAmount = grantAmount.add(ownContributionAmont);
+        BigDecimal grantAmount = productInstanceNum.multiply(productInstanceAmount).subtract(ownContributionAmount);
+        BigDecimal orderAmount = grantAmount.add(ownContributionAmount);
 
-        orderFlowElementService.addElementNumberValue(order, KK_OWN_CONTRIBUTION_AMOUNT_ELEM_ID, ownContributionAmont);
+        orderFlowElementService.addElementNumberValue(order, KK_OWN_CONTRIBUTION_AMOUNT_ELEM_ID, ownContributionAmount);
         orderFlowElementService.addElementNumberValue(order, KK_GRANT_AMOUNT_ELEM_ID, grantAmount);
         orderFlowElementService.addElementNumberValue(order, KK_ORDER_AMOUNT_ELEM_ID, orderAmount);
     }

@@ -36,6 +36,7 @@ import pl.sodexo.it.gryf.model.enums.Sex;
 import pl.sodexo.it.gryf.model.publicbenefits.api.ContactType;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.ContractType;
+import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgramParam;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingCategory;
 import pl.sodexo.it.gryf.service.api.generator.IdentityGeneratorService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.contracts.ContractService;
@@ -44,10 +45,12 @@ import pl.sodexo.it.gryf.service.api.publicbenefits.individuals.IndividualServic
 import pl.sodexo.it.gryf.service.api.publicbenefits.orders.OrderService;
 import pl.sodexo.it.gryf.service.local.api.AccountContractPairService;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
+import pl.sodexo.it.gryf.service.local.api.ParamInDateService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.importdata.ImportDataService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.OrderServiceLocal;
 import pl.sodexo.it.gryf.service.validation.publicbenefits.contracts.ContractValidator;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -55,7 +58,6 @@ import java.util.*;
  */
 @Service(value = ImportDataService.IMPORT_CONTRACT_SERVICE)
 public class ImportContractServiceImpl extends DefaultImportContractServiceImpl {
-
 
     @Value("${gryf2.service.pattern.externalOrderIdPatternRegexp.wkk:WKK/[0-9]+/[0-9]+}")
     private String externalOrderIdPatternRegexp ;

@@ -194,7 +194,8 @@ angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementS
                     statusCode: null,
                     returnAccountPayment: null,
                     lastCorrectionDto: null,
-                    automatic: false
+                    automatic: false,
+                    ownContributionPercentage: null
                 }
             }
 
@@ -475,6 +476,7 @@ angular.module("gryf.electronicreimbursements").factory("UnreservedPoolService",
                     indTiAmountDueTotal: null,
                     indOwnContributionUsed: null,
                     indSubsidyValue: null,
+                    ownContributionPercentage: null,
                     statusCode: null,
                     reimbursementDate: null,
                     reports: [],

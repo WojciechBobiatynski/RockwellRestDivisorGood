@@ -6,7 +6,6 @@ import org.apache.poi.ss.usermodel.Row;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.dto.other.DictionaryDTO;
 import pl.sodexo.it.gryf.common.dto.other.GrantProgramDictionaryDTO;
@@ -28,6 +27,7 @@ import pl.sodexo.it.gryf.common.utils.PeselUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.dictionaries.ZipCodeRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.contracts.ContractRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.contracts.ContractTypeRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.grantprograms.GrantProgramParamRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.individuals.IndividualRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingCategoryRepository;
 import pl.sodexo.it.gryf.model.accounts.AccountContractPair;
@@ -36,6 +36,7 @@ import pl.sodexo.it.gryf.model.enums.Sex;
 import pl.sodexo.it.gryf.model.publicbenefits.api.ContactType;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.Contract;
 import pl.sodexo.it.gryf.model.publicbenefits.contracts.ContractType;
+import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgramParam;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingCategory;
 import pl.sodexo.it.gryf.service.api.generator.IdentityGeneratorService;
 import pl.sodexo.it.gryf.service.api.publicbenefits.contracts.ContractService;
@@ -44,11 +45,11 @@ import pl.sodexo.it.gryf.service.api.publicbenefits.individuals.IndividualServic
 import pl.sodexo.it.gryf.service.api.publicbenefits.orders.OrderService;
 import pl.sodexo.it.gryf.service.local.api.AccountContractPairService;
 import pl.sodexo.it.gryf.service.local.api.GryfValidator;
-import pl.sodexo.it.gryf.service.local.api.publicbenefits.importdata.ImportDataService;
+import pl.sodexo.it.gryf.service.local.api.ParamInDateService;
 import pl.sodexo.it.gryf.service.local.api.publicbenefits.orders.OrderServiceLocal;
-import pl.sodexo.it.gryf.service.local.impl.publicbenefits.importdata.ImportBaseDataServiceImpl;
 import pl.sodexo.it.gryf.service.validation.publicbenefits.contracts.ContractValidator;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -102,6 +103,12 @@ public abstract class DefaultImportContractServiceImpl extends ImportBaseDataSer
     @Qualifier(IdentityGeneratorService.CONTRACT_IDENTITY_GENERATOR_CONTRACT_ID)
     private IdentityGeneratorService identityGeneratorService;
 
+    @Autowired
+    private ParamInDateService paramInDateService;
+
+    @Autowired
+    private GrantProgramParamRepository grantProgramParamRepository;
+
     @Value("${gryf2.service.import.checkPeselDuplication:false}")
     private Boolean checkPeselDuplication;
 
@@ -128,6 +135,8 @@ public abstract class DefaultImportContractServiceImpl extends ImportBaseDataSer
         //Jezeli MSP (ENT) i brak adresu dla IND przepisz z ENT
         copyAddressDataEnterpriseToIndividual(importComplexContractDTO);
 
+        setDefaultOwnContributionPercentage(importComplexContractDTO, paramsDTO);
+
         validateImport(importComplexContractDTO);
 
         ContractType contractType = contractTypeRepository.get(importComplexContractDTO.getContract().getContractType());
@@ -142,19 +151,21 @@ public abstract class DefaultImportContractServiceImpl extends ImportBaseDataSer
         validateConnectedData(importComplexContractDTO, contractType, trainingCategories, pair,
                                 zipCodeIndividualInvoice, zipCodeEnterpriseInvoice);
 
-
         ImportResultDTO importResult = saveContractData(importComplexContractDTO, paramsDTO,
                                                         contractType, trainingCategories, pair,
                                                         zipCodeIndividualInvoice, zipCodeEnterpriseInvoice);
-        importResult.setDescrption(String.format("Poprawnie utworzono dane: umowa (%s) użytkownik (%s), MŚP (%s), zamówienie (%s).",
-                                    getIdToDescription(importResult.getContractId()),
-                                    getIdToDescription(importResult.getIndividualId()),
-                                    getIdToDescription(importResult.getEnterpriseId()),
-                                    getIdToDescription(importResult.getOrderId())));
+
+        String additionalDescription = getAdditionalDescription(importComplexContractDTO, paramsDTO);
+
+        importResult.setDescrption(String.format("%sPoprawnie utworzono dane: umowa (%s) użytkownik (%s), MŚP (%s), zamówienie (%s).",
+                additionalDescription,
+                getIdToDescription(importResult.getContractId()),
+                getIdToDescription(importResult.getIndividualId()),
+                getIdToDescription(importResult.getEnterpriseId()),
+                getIdToDescription(importResult.getOrderId())));
+
         return importResult;
     }
-
-
 
     private void copyAddressDataEnterpriseToIndividual(ImportComplexContractDTO importComplexContractDTO) {
         if (Objects.nonNull(importComplexContractDTO)) {
@@ -374,29 +385,34 @@ public abstract class DefaultImportContractServiceImpl extends ImportBaseDataSer
                     c.getIndividual().setEmail(getStringCellValue(cell));
                     break;
                 case 15:
-                    c.getEnterprise().setName(getStringCellValue(cell));
+                    // Todo: column with phone number
                     break;
                 case 16:
-                    c.getEnterprise().setVatRegNum(getStringCellValue(cell));
+                    c.getEnterprise().setName(getStringCellValue(cell));
                     break;
                 case 17:
-                    c.getEnterprise().getAddressInvoice().setStreet(getStringCellValue(cell));
+                    c.getEnterprise().setVatRegNum(getStringCellValue(cell));
                     break;
                 case 18:
-                    c.getEnterprise().getAddressInvoice().setHomeNumber(getStringCellValue(cell));
+                    c.getEnterprise().getAddressInvoice().setStreet(getStringCellValue(cell));
                     break;
                 case 19:
-                    c.getEnterprise().getAddressInvoice().setFlatNumber(getStringCellValue(cell));
+                    c.getEnterprise().getAddressInvoice().setHomeNumber(getStringCellValue(cell));
                     break;
                 case 20:
-                    c.getEnterprise().getAddressInvoice().setZipCode(getStringCellValue(cell));
+                    c.getEnterprise().getAddressInvoice().setFlatNumber(getStringCellValue(cell));
                     break;
                 case 21:
-                    c.getEnterprise().getAddressInvoice().setCity(getStringCellValue(cell));
+                    c.getEnterprise().getAddressInvoice().setZipCode(getStringCellValue(cell));
                     break;
                 case 22:
+                    c.getEnterprise().getAddressInvoice().setCity(getStringCellValue(cell));
+                    break;
+                case 23:
                     c.getEnterprise().setEmail(getStringCellValue(cell));
                     break;
+                case 24 :
+                    c.getContract().setOwnContributionPercentage(getBigDecimalCellValue(cell));
             }
         }
         return c;
@@ -516,6 +532,8 @@ public abstract class DefaultImportContractServiceImpl extends ImportBaseDataSer
             setFullAddress(dto, importIndividualDTO.getAddressInvoice(), zipCodeIndividualInvoice);
         }
 
+        dto.setOwnContributionPercentage(importContractDTO.getOwnContributionPercentage());
+
         return dto;
     }
 
@@ -533,6 +551,7 @@ public abstract class DefaultImportContractServiceImpl extends ImportBaseDataSer
         dto.setExternalOrderId(importDTO.getExternalOrderId());
         dto.setOrderDate(importDTO.getSignDate());
         dto.setProductInstanceNum(importDTO.getProductInstanceNum());
+        dto.setOwnContributionPercent(contract.getOwnContributionPercentage());
         return dto;
     }
 
@@ -552,6 +571,57 @@ public abstract class DefaultImportContractServiceImpl extends ImportBaseDataSer
 
     private void addPrefixMessage(String prefix, EntityConstraintViolation violation){
         violation.setMessage(prefix + violation.getMessage());
+    }
+
+    /**
+     * Set percentage of own contribution for contract.
+     * If not exists in file, value is get from default parameter.
+     *
+     * @param importComplexContractDTO contract import dto
+     */
+    private void setDefaultOwnContributionPercentage(ImportComplexContractDTO importComplexContractDTO, ImportParamsDTO importParamsDTO) {
+        BigDecimal ownContributionPercentageFromFile = importComplexContractDTO.getContract().getOwnContributionPercentage();
+
+        if(ownContributionPercentageFromFile == null){
+            String paramValue = paramInDateService.findGrantProgramParam(importParamsDTO.getGrantProgramId(), GrantProgramParam.OWN_CONTRIBUTION_PERCENT_DEFAULT, new Date(), false).getValue();
+            if (paramValue != null && !paramValue.isEmpty()) {
+                importComplexContractDTO.getContract().setOwnContributionPercentage(new BigDecimal(paramValue));
+            }
+        }
+    }
+
+    /**
+     * Create additional description for imported row.
+     * @param importComplexContractDTO all informations about imported contract
+     * @param paramsDTO import parameters
+     * @return additional description
+     */
+    private String getAdditionalDescription(ImportComplexContractDTO importComplexContractDTO, ImportParamsDTO paramsDTO) {
+        return validateOwnContributionImportWithParam(importComplexContractDTO, paramsDTO);
+    }
+
+    /**
+     * Check own contribution percentage from file with parameters if they're exists. If parameters exists with other values, then add description with information about this.
+     * @param importComplexContractDTO all informations about imported contract
+     * @param paramsDTO import parameters
+     * @return additional description for own contribution
+     */
+    private String validateOwnContributionImportWithParam(ImportComplexContractDTO importComplexContractDTO, ImportParamsDTO paramsDTO) {
+        String result = null;
+        BigDecimal ownContributionPercentage = importComplexContractDTO.getContract().getOwnContributionPercentage();
+        List<GrantProgramParam> params = grantProgramParamRepository.findByGrantProgramInDate(paramsDTO.getGrantProgramId(), GrantProgramParam.OWN_CONTRIBUTION_PERCENT_IMPORT_INFO, importComplexContractDTO.getContract().getSignDate());
+
+        if (params.size() > 0) {
+            GrantProgramParam grantProgramParam = params.stream()
+                    .filter(param -> (ownContributionPercentage.compareTo(new BigDecimal(param.getValue())) == 0))
+                    .findAny()
+                    .orElse(null);
+            if (grantProgramParam == null) {
+                result = "Uwaga! Rozbieżność finansowa procentu kwoty wkładu własnego. ";
+            }
+        }
+
+        return result;
     }
 
 }

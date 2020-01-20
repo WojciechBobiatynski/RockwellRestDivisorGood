@@ -2,6 +2,8 @@ package pl.sodexo.it.gryf.model.publicbenefits.orders;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import org.eclipse.persistence.annotations.OptimisticLocking;
 import pl.sodexo.it.gryf.common.utils.GryfUtils;
@@ -18,6 +20,7 @@ import pl.sodexo.it.gryf.model.stock.products.Product;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -150,6 +153,11 @@ public class Order extends VersionableEntity {
     @Size(max = 20)
     @Column(name = "OPERATOR_ID")
     private String operator;
+
+    @Getter
+    @Setter
+    @Column(name = "OWN_CONTRIBUTION_PERCENTAGE")
+    private BigDecimal ownContributionPercentage;
 
     @JsonManagedReference("orderElements")
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
