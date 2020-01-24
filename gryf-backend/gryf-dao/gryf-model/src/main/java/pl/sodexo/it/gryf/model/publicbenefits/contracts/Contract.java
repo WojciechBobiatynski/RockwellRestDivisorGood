@@ -122,7 +122,7 @@ public class Contract extends VersionableEntity implements AccountContractPairGe
     @Getter
     @Setter
     @Column(name = "OWN_CONTRIBUTION_PERCENTAGE")
-    @NotEmpty(message = "Procent kwoty wkładu własnego nie może być pusty")
+    @NotNull(message = "Procent kwoty wkładu własnego nie może być pusty")
     private BigDecimal ownContributionPercentage;
 
     @ManyToOne
