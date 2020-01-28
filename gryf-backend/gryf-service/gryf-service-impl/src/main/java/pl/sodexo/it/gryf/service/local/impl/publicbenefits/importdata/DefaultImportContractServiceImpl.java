@@ -607,7 +607,7 @@ public abstract class DefaultImportContractServiceImpl extends ImportBaseDataSer
      * @return additional description for own contribution
      */
     private String validateOwnContributionImportWithParam(ImportComplexContractDTO importComplexContractDTO, ImportParamsDTO paramsDTO) {
-        String result = null;
+        String result = "";
         BigDecimal ownContributionPercentage = importComplexContractDTO.getContract().getOwnContributionPercentage();
         List<GrantProgramParam> params = grantProgramParamRepository.findByGrantProgramInDate(paramsDTO.getGrantProgramId(), GrantProgramParam.OWN_CONTRIBUTION_PERCENT_IMPORT_INFO, importComplexContractDTO.getContract().getSignDate());
 
