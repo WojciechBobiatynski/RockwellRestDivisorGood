@@ -477,9 +477,9 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.TO_ERMBS));
 
         Order order = orderRepository.get(pbeProductInstancePool.getOrderId());
-        ereimbursement.setOwnContributionPercentage(order.getOwnContributionPercentage());
         BigDecimal ownContributionPercentage = order.getOwnContributionPercentage().divide(new BigDecimal("100"));
 
+        ereimbursement.setOwnContributionPercentage(ownContributionPercentage);
         ereimbursement.setSxoIndAmountDueTotal(
                 BigDecimal.valueOf(pbeProductInstancePool.getAvailableNum()).multiply(pbeProductInstancePool.getProductValue()).multiply(ownContributionPercentage).setScale(2, RoundingMode.HALF_UP));
         ereimbursement.setExpiredProductsNum(pbeProductInstancePool.getAvailableNum());

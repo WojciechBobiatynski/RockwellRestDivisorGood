@@ -21,10 +21,7 @@ import pl.sodexo.it.gryf.service.local.api.ParamInDateService;
 import pl.sodexo.it.gryf.service.validation.publicbenefits.AbstractValidator;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -211,8 +208,14 @@ public class ContractValidator extends AbstractValidator {
      */
     private void validateOwnContribution(Contract contract, List<EntityConstraintViolation> violations) {
         GrantProgramParam grantProgramParam = paramInDateService.findGrantProgramParam(contract.getGrantProgram().getId(), GrantProgramParam.OWN_CONTRIBUTION_PERCENT_ACCEPTABLE, contract.getSignDate(), true);
+        BigDecimal contractOwnContributionPercentage = contract.getOwnContributionPercentage();
         String result = Arrays.stream(grantProgramParam.getValue().split(";"))
-                .filter(parameterValue -> contract.getOwnContributionPercentage().compareTo(new BigDecimal(parameterValue)) == 0)
+                .filter(Objects::nonNull)
+                .filter(parameterValue -> {
+                    return contractOwnContributionPercentage!=null
+                            ? (new BigDecimal(parameterValue)).compareTo(contractOwnContributionPercentage) == 0
+                            : false;
+                })
                 .findAny()
                 .orElse(null);
         if (result == null) {

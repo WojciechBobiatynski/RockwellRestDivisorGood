@@ -611,7 +611,7 @@ public abstract class DefaultImportContractServiceImpl extends ImportBaseDataSer
         BigDecimal ownContributionPercentage = importComplexContractDTO.getContract().getOwnContributionPercentage();
         List<GrantProgramParam> params = grantProgramParamRepository.findByGrantProgramInDate(paramsDTO.getGrantProgramId(), GrantProgramParam.OWN_CONTRIBUTION_PERCENT_IMPORT_INFO, importComplexContractDTO.getContract().getSignDate());
 
-        if (params.size() > 0) {
+        if (params.size() > 0 && ownContributionPercentage != null) {
             GrantProgramParam grantProgramParam = params.stream()
                     .filter(param -> (ownContributionPercentage.compareTo(new BigDecimal(param.getValue())) == 0))
                     .findAny()
