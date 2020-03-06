@@ -15,6 +15,7 @@ angular.module("gryf.ti").controller("TrainingReservationController",
 
     $scope.loadUserTrainingReservationData = function() {
         resetViolations();
+        $scope.clear();
         TrainingReservationService.loadUserTrainingReservationData($scope.individualUser.data);
     };
 

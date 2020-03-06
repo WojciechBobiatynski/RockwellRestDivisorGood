@@ -24,6 +24,7 @@ import pl.sodexo.it.gryf.common.utils.GryfUtils;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.contracts.ContractRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.individuals.IndividualContactRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.individuals.IndividualRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstanceExtRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstanceRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstanceStatusRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingRepository;
@@ -82,6 +83,9 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
 
     @Autowired
     private TrainingInstanceRepository trainingInstanceRepository;
+
+    @Autowired
+    private TrainingInstanceExtRepository trainingInstanceExtRepository;
 
     @Autowired
     private ContractRepository contractRepository;
@@ -397,6 +401,18 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
             if(training.getStartDate().before(reservationDatePossibility)) {
                 violations.add(new EntityConstraintViolation(getReservationDatePossibilityMessage(reservationDayNumPossibility)));
             }
+        }
+
+        //CZY SZKOLENIE MOZNA ZAREZERWOWAC ZE WZGLEDU NA DATE ZAKONCZENIA I WAZNOSCI UMOWY
+        if(training != null && contract != null){
+            if(contract.getExpiryDate().before(training.getEndDate())) {
+                violations.add(new EntityConstraintViolation("Umowa uczestnika wygasa przed datą zakończenia usługi."));
+            }
+        }
+
+        // Walidacja, czy numer umowy był w pliku z BUR
+        if (!trainingInstanceExtRepository.isIndOrderExternalIdAndTrainingExternalId(contract.getId(),training.getExternalId())) {
+            violations.add(new EntityConstraintViolation("Uczestnik nie dokonał zapisu w BUR na wybrane szkolenie. Uczestnik zobowiązany jest do uprzedniego zarezerwowania usługi w BUR. W razie wątpliwości prosimy o kontakt z Operatorem Finansowym."));
         }
 
         gryfValidator.validate(violations);

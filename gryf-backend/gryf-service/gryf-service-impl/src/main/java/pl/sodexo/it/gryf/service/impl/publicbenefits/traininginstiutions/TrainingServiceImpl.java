@@ -28,6 +28,7 @@ import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.traininginst
 import pl.sodexo.it.gryf.service.mapping.entitytodto.publicbenefits.traininginstiutions.TraningCategoryEntityMapper;
 import pl.sodexo.it.gryf.service.validation.publicbenefits.traininginstiutions.TrainingValidator;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -140,13 +141,17 @@ public class TrainingServiceImpl implements TrainingService {
 
     @Override
     public List<TrainingSearchResultDTO> findTrainingsByProgramIdAndIndividualIdUsingContractsIds(TrainingSearchQueryDTO dto) {
+        List<TrainingSearchResultDTO> results = new ArrayList<>();
         if (Objects.nonNull(dto)) {
             if (dto.getIndividualId() != null) {
                 List<ContractDTO> individualOrders = contractService.findIndividualContracts(dto.getGrantProgramId(), dto.getIndividualId(), dto.getStartDateFrom());
-                dto.setIndOrderExternalIds(individualOrders.stream().map(orderDTO -> orderDTO.getId()).collect(Collectors.toList()));
+                if(!individualOrders.isEmpty()) {
+                    dto.setIndOrderExternalIds(individualOrders.stream().map(orderDTO -> orderDTO.getId()).collect(Collectors.toList()));
+                    results = trainingSearchDao.findTrainings(dto);
+                }
             }
         }
-        return trainingSearchDao.findTrainings(dto);
+        return results;
     }
 
     @Override

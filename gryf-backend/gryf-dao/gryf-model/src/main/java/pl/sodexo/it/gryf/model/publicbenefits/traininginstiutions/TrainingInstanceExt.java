@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.Objects;
 
 import static pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstanceExt.QUERY_TRAINING_INSTANCE_EXT_DELETE_ALL_TRAINING_INSTANCE_EXT;
+import static pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstanceExt.QUERY_TRAINING_INSTANCE_EXT_FIND_ORDER_WITH_TRAINING;
 
 
 /**
@@ -30,6 +31,10 @@ import static pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.Trainin
                 " and t.importJobId in (select aj.id from AsynchronizeJob  aj  " +
                 "                        where  aj.type.grantProgramId = :grantProgramId )"),
         @NamedQuery(name = "TrainingInstanceExt.findByIndOrderExternalId", query = "select count(t) from TrainingInstanceExt t where UPPER(t.indOrderExternalId) like UPPER(CONCAT('%',:externalOrderId,'%')) "),
+        @NamedQuery(name = QUERY_TRAINING_INSTANCE_EXT_FIND_ORDER_WITH_TRAINING,
+                query = "select t from TrainingInstanceExt t " +
+                        "where UPPER(t.indOrderExternalId) like UPPER(CONCAT('%',:externalOrderId,'%')) " +
+                        "and UPPER(t.trainingExternalId) like UPPER(CONCAT('%',:trainingExternalId,'%')) "),
 })
 @ToString
 @Getter
@@ -39,6 +44,8 @@ public class TrainingInstanceExt extends VersionableEntity {
     public static final String END_DATE_ATTR_NAME = "endDate";
 
     public static final String QUERY_TRAINING_INSTANCE_EXT_DELETE_ALL_TRAINING_INSTANCE_EXT = "TrainingInstanceExt.deleteAllTrainingInstanceExt";
+    public static final String QUERY_TRAINING_INSTANCE_EXT_FIND_ORDER_WITH_TRAINING = "TrainingInstanceExt.findByIndOrderExternalIdAndTrainingId";
+
     public static final String PARAMETER_GRANT_PROGRAM_ID = "grantProgramId";
 
 
