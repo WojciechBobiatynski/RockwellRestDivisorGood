@@ -12,8 +12,8 @@ import pl.sodexo.it.gryf.service.api.utils.GryfAccessCodeGenerator;
 @Component
 public class GryfAccessCodeGeneratorImpl implements GryfAccessCodeGenerator {
 
-    public static final String VER_CODE_CHARS = "qwertyuipasdfghjkzxcvbnmQWERTYUPASDFGHJKZXCVBNM123456789";
-    public static final String PIN_CHARS = "qwertyuipasdfghjkzxcvbnmQWERTYUPASDFGHJKZXCVBNM23456789";
+    public static final String VER_CODE_CHARS = "qwertyupasdfghjkzxcvbnmQWERTYUPASDFGHJKZXCVBNM123456789";
+    public static final String PIN_CHARS = "qwertyupasdfghjkzxcvbnmQWERTYUPASDFGHJKZXCVBNM23456789";
 
     @Autowired
     private ApplicationParameters applicationParameters;
