@@ -29,10 +29,7 @@ public class TrainingCategoryProdInsCalcTypeServiceImpl implements TrainingCateg
 
     @Override
     public Integer getCalculateProductInstanceForHour(ProductCalculateDto productCalculateDto) {
-        TrainingCategoryParam trainingCategoryParam = paramInDateService.findTrainingCategoryParam(productCalculateDto.getCategoryId(), productCalculateDto.getGrantProgramId(), productCalculateDto.getDate(),true);
-        if(productCalculateDto.isIndividualTraining() && trainingCategoryParam.getIndividualProductInstance()!=null) {
-            return trainingCategoryParam.getIndividualProductInstance();
-        }
+        TrainingCategoryParam trainingCategoryParam = paramInDateService.findTrainingCategoryParam(productCalculateDto,true);
         TrainingCategoryProdInsCalcType trainingCategoryProdInsCalcType = trainingCategoryProdInsCalcTypeRepository.get(trainingCategoryParam.getProductInstanceCalcType().getId());
         TrainingCategoryProdInsCalcService trainingCategoryProdInsCalcService = (TrainingCategoryProdInsCalcService) BeanUtils.findBean(context, trainingCategoryProdInsCalcType.getService());
         return trainingCategoryProdInsCalcService.calculateProductInstanceForHour(productCalculateDto);

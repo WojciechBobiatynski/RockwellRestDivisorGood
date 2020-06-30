@@ -19,11 +19,15 @@ import java.util.Objects;
 @ToString(exclude = {"grantProgram", "category"})
 @Table(name = "TI_TRAINING_CATEGORY_PARAMS", schema = "APP_PBE")
 @NamedQueries(
-        {@NamedQuery(name = "TrainingCategoryParam.findByCategoryAndGrantProgramInDate", query="select distinct tccp from TrainingCategoryParam tccp " +
-                "where tccp.category.id = :categoryId " +
-                "and  tccp.grantProgram.id = :grantProgramId " +
-                "and (tccp.dateFrom is null or tccp.dateFrom <= :date) " +
-                "and (tccp.dateTo is null or :date <= tccp.dateTo)")})
+        {@NamedQuery(name = "TrainingCategoryParam.findByCategoryAndGrantProgramAndParticipantsInDate", query =
+                "select distinct tccp from TrainingCategoryParam tccp " +
+                        "where tccp.category.id = :categoryId " +
+                        "and  tccp.grantProgram.id = :grantProgramId " +
+                        "and (tccp.minParticipants is null or tccp.minParticipants <= :participants) " +
+                        "and (tccp.maxParticipants is null or :participants <= tccp.maxParticipants) " +
+                        "and (tccp.dateFrom is null or tccp.dateFrom <= :date) " +
+                        "and (tccp.dateTo is null or :date <= tccp.dateTo) "
+        )})
 public class TrainingCategoryParam extends GryfEntity {
 
     //FIELDS
@@ -37,15 +41,18 @@ public class TrainingCategoryParam extends GryfEntity {
     @Column(name = "MAX_PRODUCT_INSTANCE")
     private Integer maxProductInstance;
 
-    @Column(name = "INDIVIDUAL_PRODUCT_INSTANCE")
-    private Integer individualProductInstance;
+    @Column(name = "MIN_PARTICIPANTS")
+    private Integer minParticipants;
+
+    @Column(name = "MAX_PARTICIPANTS")
+    private Integer maxParticipants;
 
     @ManyToOne
-    @JoinColumn(name = "CATEGORY_ID", insertable=false, updatable=false)
+    @JoinColumn(name = "CATEGORY_ID", insertable = false, updatable = false)
     private TrainingCategory category;
 
     @ManyToOne
-    @JoinColumn(name = "GRANT_PROGRAM_ID", insertable=false, updatable=false)
+    @JoinColumn(name = "GRANT_PROGRAM_ID", insertable = false, updatable = false)
     private GrantProgram grantProgram;
 
     @Column(name = "DATE_FROM")
@@ -64,10 +71,10 @@ public class TrainingCategoryParam extends GryfEntity {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o){
+        if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()){
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
         return Objects.equals(id, ((TrainingCategoryParam) o).id);

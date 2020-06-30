@@ -48,7 +48,7 @@ public class TrainingDtoMapper extends VersionableDtoMapper<TrainingDTO, Trainin
             }
         }
         entity.setReimbursmentConditions(dto.getReimbursmentConditions());
-        entity.setIndividual(dto.isIndividual());
+        entity.setMaxParticipants(dto.getMaxParticipantsCount());
 
         entity.setActive(dto.isActive());
         entity.setDeactivateUser(dto.getDeactivateUser());

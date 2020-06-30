@@ -20,7 +20,7 @@ public class TrainingCategoryProdInsCalcConstansServiceImpl implements TrainingC
 
     @Override
     public Integer calculateProductInstanceForHour(ProductCalculateDto productCalculateDto) {
-        TrainingCategoryParam trainingCategoryParam = paramInDateService.findTrainingCategoryParam(productCalculateDto.getCategoryId(), productCalculateDto.getGrantProgramId(), productCalculateDto.getDate(),true);
+        TrainingCategoryParam trainingCategoryParam = paramInDateService.findTrainingCategoryParam(productCalculateDto,true);
         return trainingCategoryParam.getProductInstanceForHour();
     }
 }

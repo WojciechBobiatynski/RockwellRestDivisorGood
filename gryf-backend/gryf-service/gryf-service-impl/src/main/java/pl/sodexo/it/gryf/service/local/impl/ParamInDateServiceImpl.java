@@ -3,6 +3,7 @@ package pl.sodexo.it.gryf.service.local.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.products.ProductCalculateDto;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.grantprograms.GrantProgramLimitRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.grantprograms.GrantProgramParamRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.grantprograms.GrantProgramProductRepository;
@@ -81,21 +82,21 @@ public class ParamInDateServiceImpl implements ParamInDateService {
     }
 
     @Override
-    public TrainingCategoryParam findTrainingCategoryParam(String categoryId, Long grantProgramId, Date date, boolean mandatory){
-        List<TrainingCategoryParam> params = trainingCategoryCatalogParamRepository.findByCategoryAndGrantProgramInDate(
-                categoryId,  grantProgramId, date);
+    public TrainingCategoryParam findTrainingCategoryParam(ProductCalculateDto productCalculateDto, boolean mandatory){
+        List<TrainingCategoryParam> params = trainingCategoryCatalogParamRepository.findByCategoryAndGrantProgramAndParticipantsInDate(
+                productCalculateDto.getCategoryId(),  productCalculateDto.getGrantProgramId(), productCalculateDto.getMaxParticipants(), productCalculateDto.getDate());
         if(params.size() == 0){
             if(!mandatory){
                 return null;
             }
             throw new RuntimeException(String.format("Błąd parmetryzacji w tabeli APP_PBE.TI_TRAINING_CATEGORY_PARAMS. Nie znaleziono żadnego "
                             + "parametru dla kategorii [%s], programu dofinansowania [%s] obowiązującego dnia [%s]",
-                    categoryId, grantProgramId, date));
+                    productCalculateDto.getCategoryId(),  productCalculateDto.getGrantProgramId(), productCalculateDto.getDate()));
         }
         if(params.size() > 1){
             throw new RuntimeException(String.format("Błąd parmetryzacji w tabeli APP_PBE.TI_TRAINING_CATEGORY_PARAMS. Dla danej "
                             + "dla kategorii [%s], programu dofinansowania [%s] znaleziono więcej niż jeden parametr obowiązujący dnia [%s]",
-                    categoryId, grantProgramId, date));
+                    productCalculateDto.getCategoryId(),  productCalculateDto.getGrantProgramId(), productCalculateDto.getDate()));
         }
         return params.get(0);
 

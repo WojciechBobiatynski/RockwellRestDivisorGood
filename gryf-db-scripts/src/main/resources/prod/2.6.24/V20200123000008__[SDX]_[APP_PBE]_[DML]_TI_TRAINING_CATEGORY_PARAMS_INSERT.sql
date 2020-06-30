@@ -1,0 +1,55 @@
+INSERT INTO APP_PBE.TI_TRAINING_CATEGORY_PARAMS (
+   ID, CATEGORY_ID, GRANT_PROGRAM_ID, 
+   PRODUCT_INSTANCE_FOR_HOUR, MAX_PRODUCT_INSTANCE, DATE_FROM, 
+   DATE_TO, PRODUCT_INSTANCE_CALC_TYPE, MIN_PARTICIPANTS, MAX_PARTICIPANTS) 
+select 30,'JAZ',100,3,NULL,NULL,TO_DATE('2020-06-30','YYYY-MM-DD'),'CONST',NULL,1 from dual
+union all select 31,'KCY',100,3,NULL,NULL,TO_DATE('2020-06-30','YYYY-MM-DD'),'CONST',NULL,1 from dual
+union all select 32,'JAZ',100,5,NULL,TO_DATE('2020-07-01','YYYY-MM-DD'),NULL,'DYNAMIC',NULL,1 from dual
+union all select 33,'JAZ',100,3,NULL,TO_DATE('2020-07-01','YYYY-MM-DD'),NULL,'DYNAMIC',2,2 from dual
+union all select 34,'JAZ',100,2,NULL,TO_DATE('2020-07-01','YYYY-MM-DD'),NULL,'DYNAMIC',3,NULL from dual
+union all select 35,'KCY',100,5,NULL,TO_DATE('2020-07-01','YYYY-MM-DD'),NULL,'DYNAMIC',NULL,1 from dual
+union all select 36,'KCY',100,4,NULL,TO_DATE('2020-07-01','YYYY-MM-DD'),NULL,'DYNAMIC',2,2 from dual
+union all select 37,'KCY',100,3,NULL,TO_DATE('2020-07-01','YYYY-MM-DD'),NULL,'DYNAMIC',3,NULL from dual
+union all select 38,'INN',100,5,NULL,TO_DATE('2020-07-01','YYYY-MM-DD'),NULL,'DYNAMIC',NULL,1 from dual
+union all select 39,'INN',100,4,NULL,TO_DATE('2020-07-01','YYYY-MM-DD'),NULL,'DYNAMIC',2,2 from dual
+union all select 40,'INN',100,3,NULL,TO_DATE('2020-07-01','YYYY-MM-DD'),NULL,'DYNAMIC',3,NULL from dual
+union all select 41,'MOTO',100,5,NULL,TO_DATE('2020-07-01','YYYY-MM-DD'),NULL,'DYNAMIC',NULL,1 from dual
+union all select 42,'MOTO',100,2,NULL,TO_DATE('2020-07-01','YYYY-MM-DD'),NULL,'DYNAMIC',2,NULL from dual
+union all select 43,'MOTCE',100,6,NULL,TO_DATE('2020-07-01','YYYY-MM-DD'),NULL,'DYNAMIC',NULL,1 from dual
+union all select 44,'MOTCE',100,4,NULL,TO_DATE('2020-07-01','YYYY-MM-DD'),NULL,'DYNAMIC',2,NULL from dual
+union all select 45,'ADM',101,6,NULL,TO_DATE('2020-07-01','YYYY-MM-DD'),NULL,'DYNAMIC',NULL,1 from dual
+union all select 46,'BUD',101,6,NULL,TO_DATE('2020-07-01','YYYY-MM-DD'),NULL,'DYNAMIC',NULL,1 from dual
+union all select 47,'ELE',101,6,NULL,TO_DATE('2020-07-01','YYYY-MM-DD'),NULL,'DYNAMIC',NULL,1 from dual
+union all select 48,'MECH',101,6,NULL,TO_DATE('2020-07-01','YYYY-MM-DD'),NULL,'DYNAMIC',NULL,1 from dual
+union all select 49,'ROL',101,6,NULL,TO_DATE('2020-07-01','YYYY-MM-DD'),NULL,'DYNAMIC',NULL,1 from dual
+union all select 50,'TUR',101,6,NULL,TO_DATE('2020-07-01','YYYY-MM-DD'),NULL,'DYNAMIC',NULL,1 from dual
+union all select 51,'MED',101,6,NULL,TO_DATE('2020-07-01','YYYY-MM-DD'),NULL,'DYNAMIC',NULL,1 from dual
+union all select 52,'ART',101,6,NULL,TO_DATE('2020-07-01','YYYY-MM-DD'),NULL,'DYNAMIC',NULL,1 from dual
+union all select 53,'EKO',101,6,NULL,TO_DATE('2020-07-01','YYYY-MM-DD'),NULL,'DYNAMIC',NULL,1 from dual
+union all select 54,'JOZ',101,6,NULL,TO_DATE('2020-07-01','YYYY-MM-DD'),NULL,'DYNAMIC',NULL,1 from dual
+union all select 55,'FIN',101,6,NULL,TO_DATE('2020-07-01','YYYY-MM-DD'),NULL,'DYNAMIC',NULL,1 from dual
+union all select 56,'SPR',101,6,NULL,TO_DATE('2020-07-01','YYYY-MM-DD'),NULL,'DYNAMIC',NULL,1 from dual
+union all select 57,'MOTOZ',101,6,NULL,TO_DATE('2020-07-01','YYYY-MM-DD'),NULL,'DYNAMIC',NULL,1 from dual
+union all select 58,'EDU',101,6,NULL,TO_DATE('2020-07-01','YYYY-MM-DD'),NULL,'DYNAMIC',NULL,1 from dual
+union all select 59,'IT',101,6,NULL,TO_DATE('2020-07-01','YYYY-MM-DD'),NULL,'DYNAMIC',NULL,1 from dual
+union all select 60,'URO',101,6,NULL,TO_DATE('2020-07-01','YYYY-MM-DD'),NULL,'DYNAMIC',NULL,1 from dual
+union all select 61,'TECH',101,6,NULL,TO_DATE('2020-07-01','YYYY-MM-DD'),NULL,'DYNAMIC',NULL,1 from dual
+union all select 62,'MET',101,6,NULL,TO_DATE('2020-07-01','YYYY-MM-DD'),NULL,'DYNAMIC',NULL,1 from dual
+union all select 63,'ADM',101,4,NULL,TO_DATE('2020-07-01','YYYY-MM-DD'),NULL,'DYNAMIC',2,NULL from dual
+union all select 64,'BUD',101,4,NULL,TO_DATE('2020-07-01','YYYY-MM-DD'),NULL,'DYNAMIC',2,NULL from dual
+union all select 65,'ELE',101,4,NULL,TO_DATE('2020-07-01','YYYY-MM-DD'),NULL,'DYNAMIC',2,NULL from dual
+union all select 66,'MECH',101,4,NULL,TO_DATE('2020-07-01','YYYY-MM-DD'),NULL,'DYNAMIC',2,NULL from dual
+union all select 67,'ROL',101,4,NULL,TO_DATE('2020-07-01','YYYY-MM-DD'),NULL,'DYNAMIC',2,NULL from dual
+union all select 68,'TUR',101,4,NULL,TO_DATE('2020-07-01','YYYY-MM-DD'),NULL,'DYNAMIC',2,NULL from dual
+union all select 69,'MED',101,4,NULL,TO_DATE('2020-07-01','YYYY-MM-DD'),NULL,'DYNAMIC',2,NULL from dual
+union all select 70,'ART',101,4,NULL,TO_DATE('2020-07-01','YYYY-MM-DD'),NULL,'DYNAMIC',2,NULL from dual
+union all select 71,'EKO',101,4,NULL,TO_DATE('2020-07-01','YYYY-MM-DD'),NULL,'DYNAMIC',2,NULL from dual
+union all select 72,'JOZ',101,4,NULL,TO_DATE('2020-07-01','YYYY-MM-DD'),NULL,'DYNAMIC',2,NULL from dual
+union all select 73,'FIN',101,4,NULL,TO_DATE('2020-07-01','YYYY-MM-DD'),NULL,'DYNAMIC',2,NULL from dual
+union all select 74,'SPR',101,4,NULL,TO_DATE('2020-07-01','YYYY-MM-DD'),NULL,'DYNAMIC',2,NULL from dual
+union all select 75,'MOTOZ',101,4,NULL,TO_DATE('2020-07-01','YYYY-MM-DD'),NULL,'DYNAMIC',2,NULL from dual
+union all select 76,'EDU',101,4,NULL,TO_DATE('2020-07-01','YYYY-MM-DD'),NULL,'DYNAMIC',2,NULL from dual
+union all select 77,'IT',101,4,NULL,TO_DATE('2020-07-01','YYYY-MM-DD'),NULL,'DYNAMIC',2,NULL from dual
+union all select 78,'URO',101,4,NULL,TO_DATE('2020-07-01','YYYY-MM-DD'),NULL,'DYNAMIC',2,NULL from dual
+union all select 79,'TECH',101,4,NULL,TO_DATE('2020-07-01','YYYY-MM-DD'),NULL,'DYNAMIC',2,NULL from dual
+union all select 80,'MET',101,4,NULL,TO_DATE('2020-07-01','YYYY-MM-DD'),NULL,'DYNAMIC',2,NULL from dual;

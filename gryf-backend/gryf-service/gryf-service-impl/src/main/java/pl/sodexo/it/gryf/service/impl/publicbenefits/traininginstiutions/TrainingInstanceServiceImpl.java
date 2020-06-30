@@ -557,7 +557,7 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
                 .with(ProductCalculateDto::setGrantProgramId, trainingReservationDto.getGrantProgramId())
                 .with(ProductCalculateDto::setDate, trainingReservationDto.getStartDate())
                 .with(ProductCalculateDto::setTrainingId, trainingReservationDto.getTrainingId())
-                .with(ProductCalculateDto::setIndividualTraining, training.isIndividual())
+                .with(ProductCalculateDto::setMaxParticipants, training.getMaxParticipants())
                 .build();
         return trainingCategoryProdInsCalcTypeService.getCalculateProductInstanceForHour(productCalculateDto);
     }

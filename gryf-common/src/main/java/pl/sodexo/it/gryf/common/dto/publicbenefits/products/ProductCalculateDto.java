@@ -22,7 +22,7 @@ public class ProductCalculateDto {
 
     private Date date;
 
-    private boolean isIndividualTraining;
+    private Integer maxParticipants;
 
 
 }

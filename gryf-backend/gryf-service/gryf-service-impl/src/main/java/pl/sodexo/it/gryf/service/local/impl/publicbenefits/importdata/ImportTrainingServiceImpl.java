@@ -391,7 +391,7 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
         dto.setCategory(trainingCategory.getId());
         dto.setTrainingCategoryCatalogId(trainingCategory.getTrainingCategoryCatalog().getId());
         dto.setReimbursmentConditions(concateReimbursmentConditions(importDTO.getCertificateRemark(), importDTO.getIndOrderExternalId()));
-        dto.setIndividual(isIndividualTraining(importDTO));
+        dto.setMaxParticipantsCount(importDTO.getMaxParticipantsCount());
 
         dto.setActive(true);
         dto.setDeactivateUser(null);
@@ -407,15 +407,6 @@ public class ImportTrainingServiceImpl extends ImportBaseDataServiceImpl {
         dto.setGrantProgramId(paramsDTO.getGrantProgramId());
 
         return dto;
-    }
-
-    /**
-     * Sprawdzenie czy importowana usługa jest indywidualna, tzn. czy jest tylko dla 1 uczestnika.
-     * @param importDTO DTO importowanej usługi
-     * @return
-     */
-    private boolean isIndividualTraining(ImportTrainingDTO importDTO) {
-        return importDTO.getMaxParticipantsCount() == 1 ? true : false;
     }
 
     private TrainingInstanceExtDTO createTrainingInstanceExtDTO(Training training, TrainingInstitution trainingInstitution,

@@ -131,9 +131,8 @@ public class Training extends VersionableEntity {
     @NotNull(message = "Usługa nie ma przypisanego programu/projektu")
     private GrantProgram grantProgram;
 
-    @Convert(converter = BooleanConverter.class)
-    @Column(name = "INDIVIDUAL")
-    private boolean isIndividual;
+    @Column(name = "MAX_PARTICIPANTS")
+    private Integer maxParticipants;
 
     //EQUALS & HASH CODE
 

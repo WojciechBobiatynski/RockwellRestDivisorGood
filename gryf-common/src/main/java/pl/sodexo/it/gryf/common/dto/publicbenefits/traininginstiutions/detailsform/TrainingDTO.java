@@ -52,5 +52,5 @@ public class TrainingDTO extends VersionableDto {
 
     private Long grantProgramId;
 
-    private boolean isIndividual;
+    private Integer maxParticipantsCount;
 }

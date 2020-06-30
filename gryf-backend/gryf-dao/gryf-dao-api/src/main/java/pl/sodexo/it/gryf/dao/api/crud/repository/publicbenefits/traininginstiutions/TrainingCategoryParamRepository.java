@@ -11,5 +11,5 @@ import java.util.List;
  */
 public interface TrainingCategoryParamRepository extends GenericRepository<TrainingCategoryParam, Long> {
 
-    List<TrainingCategoryParam> findByCategoryAndGrantProgramInDate(String categoryId, Long grantProgramId, Date date);
+    List<TrainingCategoryParam> findByCategoryAndGrantProgramAndParticipantsInDate(String categoryId, Long grantProgramId, Integer participants, Date date);
 }

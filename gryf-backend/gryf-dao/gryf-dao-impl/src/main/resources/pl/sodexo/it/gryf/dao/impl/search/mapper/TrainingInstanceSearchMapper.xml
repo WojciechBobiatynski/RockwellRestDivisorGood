@@ -131,7 +131,13 @@
         FROM APP_PBE.TI_TRAINING_INSTANCES tin
         JOIN APP_PBE.TI_TRAININGS tra ON tra.ID = tin.TRAINING_ID
         JOIN APP_PBE.TI_TRAINING_CATEGORIES cat ON cat.ID = tra.TRAINING_CATEGORY_ID
-        JOIN APP_PBE.TI_TRAINING_CATEGORY_PARAMS tr_cat_par ON (cat.ID = tr_cat_par.CATEGORY_ID AND tin.GRANT_PROGRAM_ID = tr_cat_par.GRANT_PROGRAM_ID)
+        JOIN APP_PBE.TI_TRAINING_CATEGORY_PARAMS tr_cat_par ON (
+            cat.ID = tr_cat_par.CATEGORY_ID AND tin.GRANT_PROGRAM_ID = tr_cat_par.GRANT_PROGRAM_ID
+            AND (tr_cat_par.MIN_PARTICIPANTS is null or tr_cat_par.MIN_PARTICIPANTS &lt;= tra.MAX_PARTICIPANTS)
+            AND (tr_cat_par.MAX_PARTICIPANTS is null or tra.MAX_PARTICIPANTS &lt;= tr_cat_par.MAX_PARTICIPANTS)
+            AND (tr_cat_par.DATE_FROM is null or tr_cat_par.DATE_FROM &lt;= TRUNC(tin.REGISTER_DATE) )
+            AND (tr_cat_par.DATE_TO is null or TRUNC(tin.REGISTER_DATE)  &lt;= tr_cat_par.DATE_TO)
+        )
         JOIN APP_PBE.INDIVIDUALS ind ON ind.ID = tin.INDIVIDUAL_ID
         JOIN APP_PBE.GRANT_PROGRAMS gr_pr ON gr_pr.ID = tin.GRANT_PROGRAM_ID
         JOIN APP_PBE.GRANT_OWNERS gr_own ON gr_own.ID = gr_pr.GRANT_OWNER_ID
@@ -182,7 +188,13 @@
         FROM APP_PBE.TI_TRAINING_INSTANCES tin
         JOIN APP_PBE.TI_TRAININGS tra ON tra.ID = tin.TRAINING_ID
         JOIN APP_PBE.TI_TRAINING_CATEGORIES cat ON cat.ID = tra.TRAINING_CATEGORY_ID
-        JOIN APP_PBE.TI_TRAINING_CATEGORY_PARAMS tr_cat_par ON (cat.ID = tr_cat_par.CATEGORY_ID AND tin.GRANT_PROGRAM_ID = tr_cat_par.GRANT_PROGRAM_ID)
+        JOIN APP_PBE.TI_TRAINING_CATEGORY_PARAMS tr_cat_par ON (
+            cat.ID = tr_cat_par.CATEGORY_ID AND tin.GRANT_PROGRAM_ID = tr_cat_par.GRANT_PROGRAM_ID
+        AND (tr_cat_par.MIN_PARTICIPANTS is null or tr_cat_par.MIN_PARTICIPANTS &lt;= tra.MAX_PARTICIPANTS)
+        AND (tr_cat_par.MAX_PARTICIPANTS is null or tra.MAX_PARTICIPANTS &lt;= tr_cat_par.MAX_PARTICIPANTS)
+        AND (tr_cat_par.DATE_FROM is null or tr_cat_par.DATE_FROM &lt;= TRUNC(tin.REGISTER_DATE) )
+        AND (tr_cat_par.DATE_TO is null or TRUNC(tin.REGISTER_DATE)  &lt;= tr_cat_par.DATE_TO)
+        )
         JOIN APP_PBE.INDIVIDUALS ind ON ind.ID = tin.INDIVIDUAL_ID
         JOIN APP_PBE.GRANT_PROGRAMS gr_pr ON gr_pr.ID = tin.GRANT_PROGRAM_ID
         JOIN APP_PBE.GRANT_OWNERS gr_own ON gr_own.ID = gr_pr.GRANT_OWNER_ID

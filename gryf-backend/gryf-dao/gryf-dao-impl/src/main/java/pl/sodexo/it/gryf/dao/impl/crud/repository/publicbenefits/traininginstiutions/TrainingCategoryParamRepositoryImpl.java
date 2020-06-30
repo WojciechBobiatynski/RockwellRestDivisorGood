@@ -16,10 +16,11 @@ import java.util.List;
 class TrainingCategoryParamRepositoryImpl extends GenericRepositoryImpl<TrainingCategoryParam, Long> implements TrainingCategoryParamRepository {
 
     @Override
-    public List<TrainingCategoryParam> findByCategoryAndGrantProgramInDate(String categoryId, Long grantProgramId, Date date){
-        TypedQuery<TrainingCategoryParam> query = entityManager.createNamedQuery("TrainingCategoryParam.findByCategoryAndGrantProgramInDate", TrainingCategoryParam.class);
+    public List<TrainingCategoryParam> findByCategoryAndGrantProgramAndParticipantsInDate(String categoryId, Long grantProgramId, Integer participants, Date date){
+        TypedQuery<TrainingCategoryParam> query = entityManager.createNamedQuery("TrainingCategoryParam.findByCategoryAndGrantProgramAndParticipantsInDate", TrainingCategoryParam.class);
         query.setParameter("categoryId", categoryId);
         query.setParameter("grantProgramId", grantProgramId);
+        query.setParameter("participants", participants);
         query.setParameter("date", date);
         return query.getResultList();
     }

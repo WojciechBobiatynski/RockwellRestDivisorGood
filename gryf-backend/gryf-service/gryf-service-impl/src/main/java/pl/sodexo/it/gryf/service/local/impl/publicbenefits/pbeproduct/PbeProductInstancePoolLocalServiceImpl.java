@@ -143,7 +143,7 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
         //VALIDACJA
         validatePoolReservation(toReservedNum, pools);
         if(!pools.isEmpty()){
-            validatePoolReservationNum(training, grantProgram, toReservedNum, pools.get(0).getProduct());
+            validatePoolReservationNum(trainingInstance, toReservedNum, pools.get(0).getProduct());
         }
 
         //UTWORZENIE WYKORZYSTANIA
@@ -156,7 +156,7 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
         //VALIDACJA
         if(!instance.getPoolUses().isEmpty()) {
             PbeProductInstancePool firstPool = instance.getPoolUses().get(0).getProductInstancePool();
-            validatePoolReservationNum(instance.getTraining(), instance.getGrantProgram(), newReservationNum, firstPool.getProduct());
+            validatePoolReservationNum(instance, newReservationNum, firstPool.getProduct());
         }
 
         //POBRANIE STATUSOW
@@ -203,7 +203,7 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
         //VALIDACJA
         if(!instance.getPoolUses().isEmpty()) {
             PbeProductInstancePool firstPool = instance.getPoolUses().get(0).getProductInstancePool();
-            validatePoolReservationNum(instance.getTraining(), instance.getGrantProgram(), newUsedNum, firstPool.getProduct());
+            validatePoolReservationNum(instance, newUsedNum, firstPool.getProduct());
         }
 
         //POBRANIE STATUSOW
@@ -584,21 +584,20 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
         gryfValidator.validate(violations);
     }
 
-    private void validatePoolReservationNum(Training training, GrantProgram grantProgram, Integer toReservedNum, PbeProduct product){
+    private void validatePoolReservationNum(TrainingInstance trainingInstance, Integer toReservedNum, PbeProduct product){
         List<EntityConstraintViolation> violations = Lists.newArrayList();
 
-        TrainingCategoryParam tccParam = paramInDateService.findTrainingCategoryParam(training.getCategory().getId(),
-                grantProgram.getId(), new Date(), true);
+        TrainingCategoryParam tccParam = findTrainingCategoryParam(trainingInstance.getTraining(), trainingInstance.getGrantProgram(), trainingInstance.getRegisterDate());
 
-        Integer productInstanceForHour = getCalculateProdForHour(training);
+        Integer productInstanceForHour = getCalculateProdForHour(trainingInstance.getTraining(), trainingInstance.getRegisterDate());
 
         //WALIDACJE PO GODZINACH SZKOLENIA (TYPOWE SZKOLENIE)
         if (productInstanceForHour != null) {
-            if (training.getHoursNumber() != null) {
+            if (trainingInstance.getTraining().getHoursNumber() != null) {
 
                 //ILOSC BONÓW KTÓRĄ CHCEMY PRZEZNACZY PRZEKRACZA ILOSC BOBNÓW JAKA JEST POTRZEBNA NA WSZYSTKIE GODZINY SZKOLENIA
                 //NA PRZYKLAD usługa IT: 1h = 2bony, usługa ma 10h, maksymlanie możemy przeznaczyć 20 bonów, przeznaczamy 21
-                int maxToReimbursmentNum = training.getHoursNumber() * productInstanceForHour;
+                int maxToReimbursmentNum = trainingInstance.getTraining().getHoursNumber() * productInstanceForHour;
                 if (maxToReimbursmentNum < toReservedNum) {
                     violations.add(new EntityConstraintViolation(
                             String.format(" Wskazana ilość bonów (%s) przekracza maksymalną ilość bonów (%s) " + "na rezerwację wybranego usługi.", toReservedNum, maxToReimbursmentNum)));
@@ -628,7 +627,7 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
             //NA PRZYKLAD: koszt egaminu 150PLN, cena bonu 15PLN, potrzeba 15bonów, rezerwujemy 16
             else {
                 BigDecimal productValue = product.getValue();
-                Integer maxProductInstanceCalculate = training.getPrice().divide(productValue, BIG_DECIMAL_INTEGER_SCALE, BigDecimal.ROUND_UP).intValue();
+                Integer maxProductInstanceCalculate = trainingInstance.getTraining().getPrice().divide(productValue, BIG_DECIMAL_INTEGER_SCALE, BigDecimal.ROUND_UP).intValue();
                 if (maxProductInstanceCalculate < toReservedNum) {
                     violations.add(new EntityConstraintViolation(
                             String.format(" Wskazana ilość bonów (%s) przekracza maksymalną ilość bonów (%s) " + "na rezerwację wybranego usługi.", toReservedNum, maxProductInstanceCalculate)));
@@ -636,6 +635,18 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
             }
         }
         gryfValidator.validate(violations);
+    }
+
+    private TrainingCategoryParam findTrainingCategoryParam(Training training, GrantProgram grantProgram, Date reservationDate) {
+        ProductCalculateDto productCalculateDto = GenericBuilder.of(ProductCalculateDto::new)
+                .with(ProductCalculateDto::setCategoryId, training.getCategory().getId())
+                .with(ProductCalculateDto::setGrantProgramId, grantProgram.getId())
+                .with(ProductCalculateDto::setDate, reservationDate)
+                .with(ProductCalculateDto::setTrainingId, training.getId())
+                .with(ProductCalculateDto::setMaxParticipants, training.getMaxParticipants())
+                .build();
+
+        return paramInDateService.findTrainingCategoryParam(productCalculateDto, true);
     }
 
     private PrintNumberResultDto generatePrintNumber(PbeProduct product, Contract contract, PbeProductInstance instance){
@@ -736,13 +747,13 @@ public class PbeProductInstancePoolLocalServiceImpl implements PbeProductInstanc
      * @param training szkolenie
      * @return liczba bonów rozliczajca godzinę szkolenia
      */
-    private Integer getCalculateProdForHour(Training training) {
+    private Integer getCalculateProdForHour(Training training, Date reservationDate) {
         ProductCalculateDto productCalculateDto = GenericBuilder.of(ProductCalculateDto::new)
                 .with(ProductCalculateDto::setCategoryId, training.getCategory().getId())
                 .with(ProductCalculateDto::setGrantProgramId, training.getGrantProgram().getId())
-                .with(ProductCalculateDto::setDate, new Date())
+                .with(ProductCalculateDto::setDate, reservationDate)
                 .with(ProductCalculateDto::setTrainingId, training.getId())
-                .with(ProductCalculateDto::setIndividualTraining, training.isIndividual())
+                .with(ProductCalculateDto::setMaxParticipants, training.getMaxParticipants())
                 .build();
         return trainingCategoryProdInsCalcTypeService.getCalculateProductInstanceForHour(productCalculateDto);
     }

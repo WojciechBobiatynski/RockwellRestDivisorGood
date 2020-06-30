@@ -118,7 +118,7 @@
 
     <select id="findTrainingsWithExternalId" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.searchform.TrainingWithExternalIdSearchResultDTO" parameterType="list">
         SELECT * FROM
-        (SELECT
+        (SELECT DISTINCT
         t.ID                        trainingId,
         t.TRAINING_INSTITUTION_ID   institutionId,
         i.NAME                      institutionName,
@@ -140,7 +140,14 @@
         app_pbe.ti_trainings t
         JOIN app_pbe.ti_training_categories c ON c.id = t.training_category_id
         JOIN app_pbe.training_institutions i ON i.id = t.training_institution_id
-        JOIN APP_PBE.ti_training_category_params ttcp ON ttcp.category_id = c.id
+        JOIN APP_PBE.ti_training_category_params ttcp ON
+        (
+        c.ID = ttcp.CATEGORY_ID
+        AND (ttcp.MIN_PARTICIPANTS is null or ttcp.MIN_PARTICIPANTS &lt;= t.MAX_PARTICIPANTS)
+        AND (ttcp.MAX_PARTICIPANTS is null or t.MAX_PARTICIPANTS &lt;= ttcp.MAX_PARTICIPANTS)
+        AND (ttcp.DATE_FROM is null or ttcp.DATE_FROM &lt;= TRUNC(SYSDATE) )
+        AND (ttcp.DATE_TO is null or TRUNC(SYSDATE)  &lt;= ttcp.DATE_TO)
+        )
         JOIN app_pbe.grant_programs gp ON gp.id = ttcp.grant_program_id
         LEFT JOIN app_pbe.TI_TRAINING_INSTANCES_EXT ti_ex ON ti_ex.training_id = t.id
         <where>
@@ -265,7 +272,7 @@
         t.DEACTIVATE_DATE                               deactivateDate,
         t.DEACTIVATE_JOB_ID                             deactivateJobId,
         t.GRANT_PROGRAM_ID                              grantProgramId,
-        CASE t.INDIVIDUAL WHEN 'Y' THEN 1 ELSE 0 END    isIndividual
+        t.MAX_PARTICIPANTS                                maxParticipantsCount
         FROM APP_PBE.TI_TRAININGS t
             JOIN APP_PBE.TRAINING_INSTITUTIONS i on i.ID = t.TRAINING_INSTITUTION_ID
             JOIN APP_PBE.TI_TRAINING_CATEGORIES c on c.id = t.TRAINING_CATEGORY_ID
@@ -290,14 +297,20 @@
     <select id="findTrainingPrecalculatedDetails" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.traininginstiutions.detailsform.TrainingPrecalculatedDetailsDto">
         SELECT
         <include refid="trainingDetailsData"/>,
-        cat.PRODUCT_INSTANCE_FOR_HOUR	   productInstanceForHour,
+        cat.PRODUCT_INSTANCE_FOR_HOUR	  productInstanceForHour,
         cat.MAX_PRODUCT_INSTANCE          maxProductInstance,
         prd.VALUE                         prdValue,
         gr_pr.id                          grantProgramId,
         gr_pr.program_name                grantProgramName
         FROM APP_PBE.TI_TRAININGS t
         JOIN APP_PBE.TRAINING_INSTITUTIONS i on i.ID = t.TRAINING_INSTITUTION_ID
-        JOIN APP_PBE.TI_TRAINING_CATEGORY_PARAMS cat ON (t.TRAINING_CATEGORY_ID = cat.CATEGORY_ID AND cat.GRANT_PROGRAM_ID = #{grantProgramId})
+        JOIN APP_PBE.TI_TRAINING_CATEGORY_PARAMS cat ON (
+        t.TRAINING_CATEGORY_ID = cat.CATEGORY_ID AND cat.GRANT_PROGRAM_ID = #{grantProgramId}
+        AND (cat.MIN_PARTICIPANTS is null or cat.MIN_PARTICIPANTS &lt;= t.MAX_PARTICIPANTS)
+        AND (cat.MAX_PARTICIPANTS is null or t.MAX_PARTICIPANTS &lt;= cat.MAX_PARTICIPANTS)
+        AND (cat.DATE_FROM is null or cat.DATE_FROM &lt;= TRUNC(SYSDATE) )
+        AND (cat.DATE_TO is null or TRUNC(SYSDATE)  &lt;= cat.DATE_TO)
+        )
         JOIN APP_PBE.GRANT_PROGRAMS gr_pr ON gr_pr.ID = #{grantProgramId}
         JOIN APP_PBE.GRANT_OWNERS gr_own ON gr_own.ID = gr_pr.GRANT_OWNER_ID
         JOIN APP_PBE.PBE_PRODUCTS prd ON prd.GRANT_OWNER_ID = gr_own.ID

@@ -1,5 +1,6 @@
 package pl.sodexo.it.gryf.service.local.api;
 
+import pl.sodexo.it.gryf.common.dto.publicbenefits.products.ProductCalculateDto;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgramLimit;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgramParam;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgramProduct;
@@ -17,7 +18,7 @@ public interface ParamInDateService {
 
     GrantProgramProduct findGrantProgramProduct(Long grantProgramId, GrantProgramProduct.Type type, Date date, boolean mandatory);
 
-    TrainingCategoryParam findTrainingCategoryParam(String categoryId, Long grantProgramId, Date date, boolean mandatory);
+    TrainingCategoryParam findTrainingCategoryParam(ProductCalculateDto productCalculateDto, boolean mandatory);
 
     OrderFlowForGrantProgram findOrderFlowForGrantProgram(Long grantProgramId, Date date, boolean mandatory);
 

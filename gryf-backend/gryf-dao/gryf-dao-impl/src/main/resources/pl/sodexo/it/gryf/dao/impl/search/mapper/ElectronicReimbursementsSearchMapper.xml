@@ -163,7 +163,11 @@
           JOIN APP_PBE.TI_TRAININGS tr ON tr.ID = tr_in.TRAINING_ID
           JOIN APP_PBE.TI_TRAINING_CATEGORIES tr_cat ON tr_cat.ID = tr.TRAINING_CATEGORY_ID
           JOIN APP_PBE.GRANT_PROGRAMS gr_pr ON gr_pr.ID = tr_in.GRANT_PROGRAM_ID
-          JOIN APP_PBE.TI_TRAINING_CATEGORY_PARAMS tr_cat_par ON (tr_cat.ID = tr_cat_par.CATEGORY_ID AND gr_pr.ID = tr_cat_par.GRANT_PROGRAM_ID)
+          JOIN APP_PBE.TI_TRAINING_CATEGORY_PARAMS tr_cat_par ON (
+            tr_cat.ID = tr_cat_par.CATEGORY_ID AND gr_pr.ID = tr_cat_par.GRANT_PROGRAM_ID
+            AND (tr_cat_par.MIN_PARTICIPANTS is null or tr_cat_par.MIN_PARTICIPANTS &lt;= tr.MAX_PARTICIPANTS)
+            AND (tr_cat_par.MAX_PARTICIPANTS is null or tr.MAX_PARTICIPANTS &lt;= tr_cat_par.MAX_PARTICIPANTS)
+          )
           JOIN APP_PBE.GRANT_OWNERS gr_own ON gr_own.ID = gr_pr.GRANT_OWNER_ID
           JOIN APP_PBE.PBE_PRODUCTS prd ON prd.GRANT_OWNER_ID = gr_own.ID
           JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOL_USES pipu on pipu.TRAINING_INSTANCE_ID = tr_in.ID
@@ -171,8 +175,8 @@
           JOIN APP_PBE.ORDERS o on o.ID = pip.ORDER_ID
         WHERE
           tr_in.ID = #{trainingInstanceId}
-          AND NVL(tr_cat_par.DATE_FROM, SYSDATE) &lt;= SYSDATE
-          AND NVL(tr_cat_par.DATE_TO, SYSDATE) &gt;= SYSDATE
+          AND NVL(tr_cat_par.DATE_FROM, TRUNC(tr_in.REGISTER_DATE)) &lt;= TRUNC(tr_in.REGISTER_DATE)
+          AND NVL(tr_cat_par.DATE_TO, TRUNC(tr_in.REGISTER_DATE)) &gt;= TRUNC(tr_in.REGISTER_DATE)
           <if test="criteria.gryfUser.userType == 'TRAINING_INSTITUTION'">
                 AND tr.TRAINING_INSTITUTION_ID = #{criteria.gryfUser.trainingInstitutionId}
           </if>

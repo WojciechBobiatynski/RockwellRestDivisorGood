@@ -29,7 +29,7 @@ public class TrainingCategoryProdInsCalcDynamicServiceImpl implements TrainingCa
     @Override
     public Integer calculateProductInstanceForHour(ProductCalculateDto productCalculateDto) {
         Training training = trainingRepository.get(productCalculateDto.getTrainingId());
-        TrainingCategoryParam trainingCategoryParam = paramInDateService.findTrainingCategoryParam(productCalculateDto.getCategoryId(), productCalculateDto.getGrantProgramId(), productCalculateDto.getDate(),true);
+        TrainingCategoryParam trainingCategoryParam = paramInDateService.findTrainingCategoryParam(productCalculateDto,true);
         Integer maxBonProduct = trainingCategoryParam.getProductInstanceForHour();
 
         //If not found product then will be throw exception
