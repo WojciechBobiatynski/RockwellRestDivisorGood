@@ -25,7 +25,14 @@
             app_pbe.ti_trainings t
             JOIN app_pbe.ti_training_categories c ON c.id = t.training_category_id
             JOIN app_pbe.training_institutions i ON i.id = t.training_institution_id
-            JOIN APP_PBE.ti_training_category_params ttcp ON ttcp.category_id = c.id
+            JOIN APP_PBE.ti_training_category_params ttcp ON
+        (
+        c.ID = ttcp.CATEGORY_ID
+        AND (ttcp.MIN_PARTICIPANTS is null or ttcp.MIN_PARTICIPANTS &lt;= t.MAX_PARTICIPANTS)
+        AND (ttcp.MAX_PARTICIPANTS is null or t.MAX_PARTICIPANTS &lt;= ttcp.MAX_PARTICIPANTS)
+        AND (ttcp.DATE_FROM is null or ttcp.DATE_FROM &lt;= TRUNC(SYSDATE) )
+        AND (ttcp.DATE_TO is null or TRUNC(SYSDATE)  &lt;= ttcp.DATE_TO)
+        )
             JOIN app_pbe.grant_programs gp ON gp.id = ttcp.grant_program_id
             JOIN app_pbe.TI_TRAINING_INSTANCES_EXT ti_ex ON ti_ex.training_id = t.id
         <where>
