@@ -20,13 +20,13 @@ import java.math.BigDecimal;
 @OptimisticLocking(cascade = true)
 @NamedQueries({
         @NamedQuery(name = EreimbursementLine.QUERY_E_REIMBURSEMENT_LINES_DELETE_BY_RMB_ID, query = "delete from EreimbursementLine e " +
-                " where e.ereimbursementId = :ereimbursementId"),
+                " where e.ereimbursement = :ereimbursementId"),
         @NamedQuery(name = EreimbursementLine.QUERY_E_REIMBURSEMENT_LINES_GET_AUDIT_BY_ID, query = "select new pl.sodexo.it.gryf.model.api.AuditableEntity(e.createdUser, e.createdTimestamp, e.modifiedUser, e.modifiedTimestamp) "
                 + "from EreimbursementLine e "
                 + "where e.id = :ereimbursementLineId"),
         @NamedQuery(name = EreimbursementLine.QUERY_E_REIMBURSEMENT_LINES_GET_LIST_BY_RMB_ID, query = "select e "
                 + "from EreimbursementLine e "
-                + "where e.ereimbursementId = :ereimbursementId")})
+                + "where e.ereimbursement = :ereimbursementId")})
 public class EreimbursementLine extends VersionableEntity {
 
     public static final String QUERY_E_REIMBURSEMENT_LINES_DELETE_BY_RMB_ID = "EreimbursementLine.deleteListByEreimbursementId";
