@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.sodexo.it.gryf.common.crud.Auditable;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementLineRepository;
 import pl.sodexo.it.gryf.dao.impl.crud.repository.GenericRepositoryImpl;
+import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.Ereimbursement;
 import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.EreimbursementLine;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstanceExt;
 
@@ -31,16 +32,16 @@ public class EreimbursementLineRepositoryImpl extends GenericRepositoryImpl<Erei
     }
 
     @Override
-    public List<EreimbursementLine> getListByEreimbursementId(Long ereimbursementId) {
+    public List<EreimbursementLine> getListByEreimbursement(Ereimbursement ereimbursement) {
         TypedQuery<EreimbursementLine> query = entityManager.createNamedQuery(EreimbursementLine.QUERY_E_REIMBURSEMENT_LINES_GET_LIST_BY_RMB_ID, EreimbursementLine.class);
-        query.setParameter("ereimbursementId", ereimbursementId);
+        query.setParameter("ereimbursement", ereimbursement);
         return query.getResultList();
     }
 
     @Override
-    public int deleteListByEreimbursementId(Long ereimbursementId) {
+    public int deleteListByEreimbursement(Ereimbursement ereimbursement) {
         Query query = entityManager.createNamedQuery(EreimbursementLine.QUERY_E_REIMBURSEMENT_LINES_DELETE_BY_RMB_ID);
-        query.setParameter("ereimbursementId", ereimbursementId);
+        query.setParameter("ereimbursement", ereimbursement);
         return query.executeUpdate();
     }
 

@@ -302,7 +302,7 @@ public class ElctRmbsHeadDto extends VersionableDto implements Serializable {
                     .map(elctRmbsLineDto -> {
                         BigDecimal sxoAmount = params.getProductValue()
                                 .multiply(BigDecimal.valueOf(elctRmbsLineDto.getUsedProductsNumber()))
-                                .subtract(BigDecimal.valueOf(elctRmbsLineDto.getUsedProductsNumber() / params.getProductInstanceForHour()).multiply(params.getTrainingHourPrice()))
+                                .subtract(BigDecimal.valueOf(elctRmbsLineDto.getUsedProductsNumber()/params.getProductInstanceForHour())).multiply(params.getTrainingHourPrice())
                                 .multiply(elctRmbsLineDto.getOwnContributionPercentage())
                                 .setScale(BIG_DECIMAL_SUM_SCALE, RoundingMode.HALF_UP);
                         elctRmbsLineDto.setSxoTiAmountDueTotal(sxoAmount);

@@ -49,7 +49,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -478,13 +477,17 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     }
 
     private List<Long> getElctRmbsLineIds(ElctRmbsHeadDto elctRmbsHeadDto, List<CalculationChargesOrderParamsDto> orderParams) {
-        List<EreimbursementLine> ereimbursementLines = ereimbursementLineRepository.getListByEreimbursementId(elctRmbsHeadDto.getErmbsId());
-        if(ereimbursementLines.size()==orderParams.size()){
-            return ereimbursementLines.stream().map(EreimbursementLine::getId).collect(Collectors.toList());
-        } else {
-            ereimbursementLineRepository.deleteListByEreimbursementId(elctRmbsHeadDto.getErmbsId());
-            return new ArrayList<Long>();
+        if (elctRmbsHeadDto.getErmbsId() != null) {
+            Ereimbursement ereimbursement = ereimbursementRepository.get(elctRmbsHeadDto.getErmbsId());
+            List<EreimbursementLine> ereimbursementLines = ereimbursementLineRepository.getListByEreimbursement(ereimbursement);
+
+            if (ereimbursementLines.size() == orderParams.size()) {
+                return ereimbursementLines.stream().map(EreimbursementLine::getId).collect(Collectors.toList());
+            }
+
+            ereimbursementLineRepository.deleteListByEreimbursement(ereimbursement);
         }
+        return new ArrayList<Long>();
     }
 
     private EreimbursementInvoice getEreimbursementInvoice(Ereimbursement ereimbursement) {

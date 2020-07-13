@@ -16,17 +16,16 @@ import java.math.BigDecimal;
 @Setter
 @Entity
 @Table(name = "E_REIMBURSEMENT_LINES", schema = "APP_PBE")
-@SequenceGenerator(name = "pbe_e_reimb_seq", schema = "eagle", sequenceName = "pbe_e_reimb_seq", allocationSize = 1)
 @OptimisticLocking(cascade = true)
 @NamedQueries({
         @NamedQuery(name = EreimbursementLine.QUERY_E_REIMBURSEMENT_LINES_DELETE_BY_RMB_ID, query = "delete from EreimbursementLine e " +
-                " where e.ereimbursement = :ereimbursementId"),
+                " where e.ereimbursement = :ereimbursement"),
         @NamedQuery(name = EreimbursementLine.QUERY_E_REIMBURSEMENT_LINES_GET_AUDIT_BY_ID, query = "select new pl.sodexo.it.gryf.model.api.AuditableEntity(e.createdUser, e.createdTimestamp, e.modifiedUser, e.modifiedTimestamp) "
                 + "from EreimbursementLine e "
                 + "where e.id = :ereimbursementLineId"),
         @NamedQuery(name = EreimbursementLine.QUERY_E_REIMBURSEMENT_LINES_GET_LIST_BY_RMB_ID, query = "select e "
                 + "from EreimbursementLine e "
-                + "where e.ereimbursement = :ereimbursementId")})
+                + "where e.ereimbursement = :ereimbursement")})
 public class EreimbursementLine extends VersionableEntity {
 
     public static final String QUERY_E_REIMBURSEMENT_LINES_DELETE_BY_RMB_ID = "EreimbursementLine.deleteListByEreimbursementId";

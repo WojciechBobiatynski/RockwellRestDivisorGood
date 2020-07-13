@@ -181,7 +181,7 @@
         SELECT
         DISTINCT
         o.id                                          orderId,
-        pipu.ASSIGNED_NUM                             usedProductsNumber,
+        pipu.ASSIGNED_NUM                             orderUsedProductsNumber,
         o.OWN_CONTRIBUTION_PERCENTAGE/100             ownContributionPercentage,
         (100-o.OWN_CONTRIBUTION_PERCENTAGE)/100       indSubsidyPercentage
         FROM

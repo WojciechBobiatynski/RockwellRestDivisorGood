@@ -2,6 +2,7 @@ package pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimb
 
 import pl.sodexo.it.gryf.common.crud.Auditable;
 import pl.sodexo.it.gryf.dao.api.crud.repository.GenericRepository;
+import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.Ereimbursement;
 import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.EreimbursementLine;
 
 import java.util.List;
@@ -15,7 +16,7 @@ public interface EreimbursementLineRepository extends GenericRepository<Ereimbur
 
     Auditable getAuditableInfoById(Long ereimbursementLineId);
 
-    List<EreimbursementLine> getListByEreimbursementId(Long ereimbursementId);
+    List<EreimbursementLine> getListByEreimbursement(Ereimbursement ereimbursement);
 
-    int deleteListByEreimbursementId(Long ereimbursementId);
+    int deleteListByEreimbursement(Ereimbursement ereimbursement);
 }

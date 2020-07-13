@@ -14,6 +14,4 @@ public class CalculationChargesOrderParamsDto {
     private BigDecimal ownContributionPercentage;
 
     private BigDecimal indSubsidyPercentage;
-
-    private Long ereimbursementLineId;
 }
