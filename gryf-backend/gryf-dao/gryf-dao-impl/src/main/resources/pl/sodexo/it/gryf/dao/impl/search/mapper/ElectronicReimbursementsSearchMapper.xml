@@ -329,7 +329,7 @@
 
           LEFT JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOL_USES pool_uses ON pool_uses.TRAINING_INSTANCE_ID = tr_in.ID
           LEFT JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOLS pool on pool_uses.PRODUCT_INSTANCE_POOL_ID = pool.ID
-          LEFT JOIN APP_PBE.ORDER ord on pool.ORDER_ID = ord.ID
+          LEFT JOIN APP_PBE.ORDERS ord on pool.ORDER_ID = ord.ID
 
           LEFT JOIN APP_PBE.E_RMBS_ATTACHMENTS att ON (att.E_RMBS_ID = ermbs.ID AND att.STATUS != 'DELETED')
           LEFT JOIN APP_PBE.ATTACHMENT_FILES files ON files.ID = att.FILE_ID
