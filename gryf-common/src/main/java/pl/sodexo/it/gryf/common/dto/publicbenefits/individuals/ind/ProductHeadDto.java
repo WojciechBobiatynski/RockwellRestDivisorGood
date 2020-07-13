@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import pl.sodexo.it.gryf.common.dto.api.VersionableDto;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -28,5 +29,9 @@ public class ProductHeadDto extends VersionableDto {
     @Getter
     @Setter
     private Long orderId;
+
+    @Getter
+    @Setter
+    private BigDecimal ownContributionPercentage;
 
 }

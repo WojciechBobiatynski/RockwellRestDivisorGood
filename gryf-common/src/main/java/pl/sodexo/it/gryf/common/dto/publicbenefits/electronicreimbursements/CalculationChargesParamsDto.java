@@ -42,12 +42,4 @@ public class CalculationChargesParamsDto {
     @Setter
     private BigDecimal trainingPrice;
 
-    @Getter
-    @Setter
-    private BigDecimal ownContributionPercentage;
-
-    @Getter
-    @Setter
-    private BigDecimal indSubsidyPercentage;
-
 }

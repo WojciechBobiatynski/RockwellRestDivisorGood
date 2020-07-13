@@ -155,9 +155,7 @@
           tr_in.ASSIGNED_NUM                            usedProductsNumber,
           prd.VALUE                                     productValue,
           tr.HOURS_NUMBER                               trainingHoursNumber,
-          tr.PRICE                                      trainingPrice,
-          o.OWN_CONTRIBUTION_PERCENTAGE/100             ownContributionPercentage,
-          (100-o.OWN_CONTRIBUTION_PERCENTAGE)/100       indSubsidyPercentage
+          tr.PRICE                                      trainingPrice
         FROM
           APP_PBE.TI_TRAINING_INSTANCES tr_in
           JOIN APP_PBE.TI_TRAININGS tr ON tr.ID = tr_in.TRAINING_ID
@@ -170,9 +168,6 @@
           )
           JOIN APP_PBE.GRANT_OWNERS gr_own ON gr_own.ID = gr_pr.GRANT_OWNER_ID
           JOIN APP_PBE.PBE_PRODUCTS prd ON prd.GRANT_OWNER_ID = gr_own.ID
-          JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOL_USES pipu on pipu.TRAINING_INSTANCE_ID = tr_in.ID
-          JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOLS pip on pip.ID = pipu.PRODUCT_INSTANCE_POOL_ID
-          JOIN APP_PBE.ORDERS o on o.ID = pip.ORDER_ID
         WHERE
           tr_in.ID = #{trainingInstanceId}
           AND NVL(tr_cat_par.DATE_FROM, TRUNC(tr_in.REGISTER_DATE)) &lt;= TRUNC(tr_in.REGISTER_DATE)
@@ -180,6 +175,22 @@
           <if test="criteria.gryfUser.userType == 'TRAINING_INSTITUTION'">
                 AND tr.TRAINING_INSTITUTION_ID = #{criteria.gryfUser.trainingInstitutionId}
           </if>
+    </select>
+
+    <select id="findCalculationChargesOrderParamsForTrInstId" resultType="pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CalculationChargesOrderParamsDto" parameterType="list">
+        SELECT
+        DISTINCT
+        o.id                                          orderId,
+        pipu.ASSIGNED_NUM                             usedProductsNumber,
+        o.OWN_CONTRIBUTION_PERCENTAGE/100             ownContributionPercentage,
+        (100-o.OWN_CONTRIBUTION_PERCENTAGE)/100       indSubsidyPercentage
+        FROM
+        APP_PBE.TI_TRAINING_INSTANCES tr_in
+        JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOL_USES pipu on pipu.TRAINING_INSTANCE_ID = tr_in.ID
+        JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOLS pip on pip.ID = pipu.PRODUCT_INSTANCE_POOL_ID
+        JOIN APP_PBE.ORDERS o on o.ID = pip.ORDER_ID
+        WHERE
+        tr_in.ID = #{trainingInstanceId}
     </select>
 
     <sql id="baseForReimbursement">
@@ -222,7 +233,6 @@
                 ELSE
                   0
           END                                       automatic,
-          ermbs.OWN_CONTRIBUTION_PERCENTAGE         ownContributionPercentage,
           ermbs.VERSION                             version,
 --        raporty
           report.ID                                 rep_id,
@@ -268,6 +278,7 @@
           pool.ORDER_ID                             prd_orderId,
           pool_uses.ASSIGNED_NUM                    prd_reservedProductsCount,
           pool.EXPIRY_DATE                          prd_expirationDate,
+          ord.OWN_CONTRIBUTION_PERCENTAGE           prd_ownContributionPercentage,
 --        załączniki
           att.ID                                    att_id,
           att.E_RMBS_ID                             att_ermbsId,
@@ -318,6 +329,7 @@
 
           LEFT JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOL_USES pool_uses ON pool_uses.TRAINING_INSTANCE_ID = tr_in.ID
           LEFT JOIN APP_PBE.PBE_PRODUCT_INSTANCE_POOLS pool on pool_uses.PRODUCT_INSTANCE_POOL_ID = pool.ID
+          LEFT JOIN APP_PBE.ORDER ord on pool.ORDER_ID = ord.ID
 
           LEFT JOIN APP_PBE.E_RMBS_ATTACHMENTS att ON (att.E_RMBS_ID = ermbs.ID AND att.STATUS != 'DELETED')
           LEFT JOIN APP_PBE.ATTACHMENT_FILES files ON files.ID = att.FILE_ID
@@ -529,7 +541,7 @@
           ermbs.CREATED_TIMESTAMP                   createdTimestamp,
           ermbs.MODIFIED_USER                       modifiedUser,
           ermbs.MODIFIED_TIMESTAMP                  modifiedTimestamp,
-          ermbs.OWN_CONTRIBUTION_PERCENTAGE         ownContributionPercentage,
+          ord.OWN_CONTRIBUTION_PERCENTAGE           ownContributionPercentage,
 --        dane osoby fizycznej
           ind.ID                                    ind_id,
           ind.FIRST_NAME                            ind_firstName,

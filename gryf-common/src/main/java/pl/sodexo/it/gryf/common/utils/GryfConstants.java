@@ -78,6 +78,7 @@ public final class GryfConstants {
 
     public static final Integer BIG_DECIMAL_MONEY_SCALE = 2;
     public static final Integer BIG_DECIMAL_INTEGER_SCALE = 0;
+    public static final Integer BIG_DECIMAL_SUM_SCALE = 4;
 
     public static final String BUSINESS_DAYS_FOR_REIMBURSEMENT_PARAM_NAME = "D_FOR_REIM";
     public static final String BUSINESS_DAYS_FOR_CORRECTION_PARAM_NAME = "D_FOR_CORR";

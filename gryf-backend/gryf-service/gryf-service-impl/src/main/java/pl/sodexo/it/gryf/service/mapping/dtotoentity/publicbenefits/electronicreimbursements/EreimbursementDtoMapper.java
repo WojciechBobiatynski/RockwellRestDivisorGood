@@ -63,7 +63,6 @@ public class EreimbursementDtoMapper extends VersionableDtoMapper<ElctRmbsHeadDt
         entity.setExpiredProductsNum(dto.getExpiredProductsNum());
         entity.setRejectionReasonId(dto.getRejectionReasonId());
         entity.setRejectionDetails(dto.getRejectionDetails());
-        entity.setOwnContributionPercentage(dto.getOwnContributionPercentage());
     }
 
     private void setAuditable(ElctRmbsHeadDto dto){

@@ -17,6 +17,9 @@ public class EreimbursementEntityMapper extends VersionableEntityMapper<Ereimbur
     @Autowired
     private ErmbsAttachmentEntityMapper ermbsAttachmentEntityMapper;
 
+    @Autowired
+    private EreimbursementLineEntityMapper ereimbursementLineEntityMapper;
+
     @Override
     protected ElctRmbsHeadDto initDestination() {
         return new ElctRmbsHeadDto();
@@ -44,7 +47,9 @@ public class EreimbursementEntityMapper extends VersionableEntityMapper<Ereimbur
         if (entity.getErmbsAttachmentList() != null && !entity.getErmbsAttachmentList().isEmpty()) {
             dto.setAttachments(ermbsAttachmentEntityMapper.convert(entity.getErmbsAttachmentList()));
         }
-        dto.setOwnContributionPercentage(entity.getOwnContributionPercentage());
+        if (entity.getEreimbursementLines() != null && !entity.getEreimbursementLines().isEmpty()) {
+            dto.setElctRmbsLineDtos(ereimbursementLineEntityMapper.convert(entity.getEreimbursementLines()));
+        }
     }
 
 }

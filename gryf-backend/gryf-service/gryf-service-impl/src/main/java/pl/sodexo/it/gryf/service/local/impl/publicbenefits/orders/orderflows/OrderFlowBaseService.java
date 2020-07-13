@@ -97,7 +97,7 @@ public abstract class OrderFlowBaseService implements OrderFlowService {
         order.setOperator(GryfUser.getLoggedUserLogin());
         order.setContract(contract);
         order.setPbeProduct(gpProduct.getPbeProduct());
-        order.setOwnContributionPercentage(contract.getOwnContributionPercentage());
+        order.setOwnContributionPercentage(dto.getOwnContributionPercent());
 
         return order;
     }
@@ -109,8 +109,6 @@ public abstract class OrderFlowBaseService implements OrderFlowService {
         GrantProgram grantProgram = contract.getGrantProgram();
         GrantProgramProduct gpProduct = paramInDateService.findGrantProgramProduct(contract.getGrantProgram().getId(),
                                                                 GrantProgramProduct.Type.PBE_PRODUCT, new Date(), true);
-
-        BigDecimal ownContributionPercent = contract.getOwnContributionPercentage();
 
         CreateOrderDTO dto = new CreateOrderDTO();
         dto.setContractId(contract.getId());
@@ -142,7 +140,6 @@ public abstract class OrderFlowBaseService implements OrderFlowService {
         dto.setOrderDate(new Date());
         dto.setProductInstanceNum(null);
         dto.setProductInstanceAmount(gpProduct.getPbeProduct().getValue());
-        dto.setOwnContributionPercent(ownContributionPercent);
         dto.setOwnContributionAmont(null);
         dto.setGrantAmount(null);
         dto.setOrderAmount(null);

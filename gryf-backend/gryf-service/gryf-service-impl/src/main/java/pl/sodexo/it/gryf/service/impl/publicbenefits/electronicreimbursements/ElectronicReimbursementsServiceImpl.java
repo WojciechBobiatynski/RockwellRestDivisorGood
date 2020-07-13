@@ -17,10 +17,7 @@ import pl.sodexo.it.gryf.common.exception.NoAppropriateData;
 import pl.sodexo.it.gryf.common.exception.NoCalculationParamsException;
 import pl.sodexo.it.gryf.common.utils.GryfConstants;
 import pl.sodexo.it.gryf.dao.api.crud.repository.other.GryfPLSQLRepository;
-import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementInvoiceRepository;
-import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementRepository;
-import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementStatusRepository;
-import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.EreimbursementTypeRepository;
+import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.electronicreimbursements.*;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.orders.OrderRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.pbeproducts.PbeProductInstancePoolRepository;
 import pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiutions.TrainingInstanceStatusRepository;
@@ -43,6 +40,7 @@ import pl.sodexo.it.gryf.service.local.api.publicbenefits.pbeproduct.PbeProductI
 import pl.sodexo.it.gryf.service.local.api.reports.ReportService;
 import pl.sodexo.it.gryf.service.mapping.MailDtoCreator;
 import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.electronicreimbursements.EreimbursementDtoMapper;
+import pl.sodexo.it.gryf.service.mapping.dtotoentity.publicbenefits.electronicreimbursements.EreimbursementLineDtoMapper;
 import pl.sodexo.it.gryf.service.validation.publicbenefits.electronicreimbursements.CorrectionValidator;
 import pl.sodexo.it.gryf.service.validation.publicbenefits.electronicreimbursements.ErmbsValidator;
 import pl.sodexo.it.gryf.service.validation.publicbenefits.electronicreimbursements.RejectionValidator;
@@ -51,13 +49,15 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static pl.sodexo.it.gryf.common.utils.GryfConstants.BUSINESS_DAYS_FOR_REIMBURSEMENT_PARAM_NAME;
 
 /**
  * Serwis implementujący operacje na e-rozliczeniach
- *
+ * <p>
  * Created by akmiecinski on 14.11.2016.
  */
 //TODO klasa łamię zasadę pojedynczje odpowiedzialności, dodatkowo ma mnóstwo zalezności, można zrobić z niej np. fasadę
@@ -139,6 +139,12 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
 
     @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
+    private EreimbursementLineDtoMapper ereimbursementLineDtoMapper;
+
+    @Autowired
+    private EreimbursementLineRepository ereimbursementLineRepository;
 
     @Override
     public List<ElctRmbsDto> findEcltRmbsListByCriteria(ElctRmbsCriteria criteria) {
@@ -243,8 +249,8 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     }
 
     private Integer getBusinessDaysForReimbursement(Long grantProgramId) {
-        GrantProgramParam dbDaysForReimbParam =  paramInDateService.findGrantProgramParam(grantProgramId, BUSINESS_DAYS_FOR_REIMBURSEMENT_PARAM_NAME, new Date(), false);
-        if(dbDaysForReimbParam == null) {
+        GrantProgramParam dbDaysForReimbParam = paramInDateService.findGrantProgramParam(grantProgramId, BUSINESS_DAYS_FOR_REIMBURSEMENT_PARAM_NAME, new Date(), false);
+        if (dbDaysForReimbParam == null) {
             return applicationParameters.getBusinessDaysNumberForReimbursement();
         }
         return Integer.parseInt(dbDaysForReimbParam.getValue());
@@ -270,7 +276,7 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         ereimbursement.setEreimbursementStatus(ereimbursementStatusRepository.get(EreimbursementStatus.GENERATED_DOCUMENTS));
         ereimbursementRepository.update(ereimbursement, ereimbursement.getId());
 
-        if(shouldBeCreditNoteCreated(ereimbursement)){
+        if (shouldBeCreditNoteCreated(ereimbursement)) {
             gryfPLSQLRepository.flush();
             FinanceNoteResult financeNoteResult = gryfPLSQLRepository.createCreditNoteForReimbursment(rmbsId);
 
@@ -288,7 +294,7 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     }
 
     private boolean shouldBeCreditNoteCreated(Ereimbursement ereimbursement) {
-        return ereimbursement.getSxoIndAmountDueTotal().compareTo(BigDecimal.ZERO)>0;
+        return ereimbursement.getSxoIndAmountDueTotal().compareTo(BigDecimal.ZERO) > 0;
     }
 
     @Override
@@ -297,7 +303,7 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         Ereimbursement ereimbursement = ereimbursementRepository.get(rmbsId);
         List<EreimbursementReport> ereimbursementReports = new ArrayList<>();
 
-        if(!isEreimbursementOfTrainingInstance(ereimbursement)){
+        if (!isEreimbursementOfTrainingInstance(ereimbursement)) {
             createCreditNote(ereimbursement, ereimbursementReports);
         } else {
             createCreditNote(ereimbursement, ereimbursementReports);
@@ -317,10 +323,10 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
 
     private void createGrantAidConfirmation(Ereimbursement ereimbursement, List<EreimbursementReport> ereimbursementReports) {
         Boolean isMsp = electronicReimbursementsDao.isErmbsForEnterprise(ereimbursement.getId());
-        if(isMsp == null){
+        if (isMsp == null) {
             throw new NoAppropriateData("Brak odpowiednich danych. Nie można stwierdzić czy MSP czy IND");
         }
-        if(isMsp) {
+        if (isMsp) {
             ReportInstance reportInstance = reportService.generateGrantAidConfirmationForReimbursment(ereimbursement.getId());
             EreimbursementReport report = new EreimbursementReport();
             report.setEreimbursement(ereimbursement);
@@ -340,11 +346,11 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     }
 
     private void createCreditNote(Ereimbursement ereimbursement, List<EreimbursementReport> ereimbursementReports) {
-        if(shouldBeCreditNoteCreated(ereimbursement)){
+        if (shouldBeCreditNoteCreated(ereimbursement)) {
             EreimbursementInvoice ereimbursementInvoice = getEreimbursementInvoice(ereimbursement);
             ReportInstance reportInstance = reportService.generateCreditNoteForReimbursment(ereimbursement.getId(), ereimbursementInvoice.getInvoiceNumber());
             accountingDocumentArchiveFileService.createAccountingDocument(ereimbursementInvoice.getInvoiceId(), ereimbursementInvoice.getInvoiceNumber(),
-                                                                            reportInstance.getPath(), reportInstance.getParameters());
+                    reportInstance.getPath(), reportInstance.getParameters());
 
             EreimbursementReport report = new EreimbursementReport();
             report.setEreimbursement(ereimbursement);
@@ -403,7 +409,19 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     private Ereimbursement saveErmbsData(ElctRmbsHeadDto elctRmbsHeadDto) {
         Ereimbursement ereimbursement = ereimbursementDtoMapper.convert(elctRmbsHeadDto);
         ereimbursement = ereimbursement.getId() != null ? ereimbursementRepository.update(ereimbursement, ereimbursement.getId()) : ereimbursementRepository.save(ereimbursement);
+        saveEreimbursementLines(elctRmbsHeadDto, ereimbursement);
         return ereimbursement;
+    }
+
+    private void saveEreimbursementLines(ElctRmbsHeadDto elctRmbsHeadDto, Ereimbursement ereimbursement) {
+        List<EreimbursementLine> ereimbursementLines = elctRmbsHeadDto.getElctRmbsLineDtos().stream()
+                .map(elctRmbsLineDto -> {
+                    elctRmbsLineDto.setEreimbursementId(ereimbursement.getId());
+                    EreimbursementLine ereimbursementLine = ereimbursementLineDtoMapper.convert(elctRmbsLineDto);
+                    ereimbursementLine = ereimbursementLine.getId() != null ? ereimbursementLineRepository.update(ereimbursementLine, ereimbursementLine.getId()) : ereimbursementLineRepository.save(ereimbursementLine);
+                    return ereimbursementLine;
+                }).collect(Collectors.toList());
+        ereimbursement.setEreimbursementLines(ereimbursementLines);
     }
 
     private void setErmbsDataWhenSave(Ereimbursement ereimbursement) {
@@ -436,7 +454,10 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
 
     private void calculateCharges(ElctRmbsHeadDto elctRmbsHeadDto) {
         CalculationChargesParamsDto params = getCalculationChargesParamsDto(elctRmbsHeadDto);
-        elctRmbsHeadDto.setOwnContributionPercentage(params.getOwnContributionPercentage());
+        List<CalculationChargesOrderParamsDto> orderParams = getCalculationChargesOrderParamsDto(elctRmbsHeadDto);
+        List<Long> elctRmbsLineIds = getElctRmbsLineIds(elctRmbsHeadDto, orderParams);
+
+        elctRmbsHeadDto.completeElctRmbsLines(orderParams, elctRmbsLineIds);
         elctRmbsHeadDto.calculateChargers(params);
     }
 
@@ -448,19 +469,37 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         return params;
     }
 
-    private EreimbursementInvoice getEreimbursementInvoice(Ereimbursement ereimbursement){
+    private List<CalculationChargesOrderParamsDto> getCalculationChargesOrderParamsDto(ElctRmbsHeadDto elctRmbsHeadDto) {
+        List<CalculationChargesOrderParamsDto> orderParams = electronicReimbursementsDao.findCalculationChargesOrderParamsForTrInstId(elctRmbsHeadDto.getTrainingInstanceId());
+        if (orderParams == null) {
+            throw new NoCalculationParamsException();
+        }
+        return orderParams;
+    }
+
+    private List<Long> getElctRmbsLineIds(ElctRmbsHeadDto elctRmbsHeadDto, List<CalculationChargesOrderParamsDto> orderParams) {
+        List<EreimbursementLine> ereimbursementLines = ereimbursementLineRepository.getListByEreimbursementId(elctRmbsHeadDto.getErmbsId());
+        if(ereimbursementLines.size()==orderParams.size()){
+            return ereimbursementLines.stream().map(EreimbursementLine::getId).collect(Collectors.toList());
+        } else {
+            ereimbursementLineRepository.deleteListByEreimbursementId(elctRmbsHeadDto.getErmbsId());
+            return new ArrayList<Long>();
+        }
+    }
+
+    private EreimbursementInvoice getEreimbursementInvoice(Ereimbursement ereimbursement) {
         List<EreimbursementInvoice> ereimbursementInvoices = ereimbursement.getEreimbursementInvoices();
-        if(ereimbursementInvoices.size() == 0){
+        if (ereimbursementInvoices.size() == 0) {
             throw new RuntimeException(String.format("Błąd parmetryzacji. Rozliczenie [%s] nie zawiera żadnej noty.", ereimbursement.getId()));
         }
-        if(ereimbursementInvoices.size() > 1){
+        if (ereimbursementInvoices.size() > 1) {
             throw new RuntimeException(String.format("Błąd parmetryzacji. Rozliczenie [%s] zawiera wiecej niż jedną notę.", ereimbursement.getId()));
         }
         return ereimbursementInvoices.get(0);
     }
 
     @Override
-    public boolean isEreimbursementInLoggedUserInstitution(Long ereimbursementId){
+    public boolean isEreimbursementInLoggedUserInstitution(Long ereimbursementId) {
         return ereimbursementRepository.isInLoggedUserInstitution(ereimbursementId, GryfUser.getLoggedUserLogin());
     }
 
@@ -479,7 +518,6 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         Order order = orderRepository.get(pbeProductInstancePool.getOrderId());
         BigDecimal ownContributionPercentage = order.getOwnContributionPercentage().divide(new BigDecimal("100"));
 
-        ereimbursement.setOwnContributionPercentage(ownContributionPercentage);
         ereimbursement.setSxoIndAmountDueTotal(
                 BigDecimal.valueOf(pbeProductInstancePool.getAvailableNum()).multiply(pbeProductInstancePool.getProductValue()).multiply(ownContributionPercentage).setScale(2, RoundingMode.HALF_UP));
         ereimbursement.setExpiredProductsNum(pbeProductInstancePool.getAvailableNum());
@@ -531,7 +569,7 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     }
 
     @Override
-    public String getReimbursmentStatusName(Long ermbs){
+    public String getReimbursmentStatusName(Long ermbs) {
         return electronicReimbursementsDao.getReimbursmentStatusName(ermbs);
     }
 

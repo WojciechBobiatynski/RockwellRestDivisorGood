@@ -47,6 +47,11 @@ public class ElectronicReimbursementsDaoImpl implements ElectronicReimbursements
     }
 
     @Override
+    public List<CalculationChargesOrderParamsDto> findCalculationChargesOrderParamsForTrInstId(Long trainingInstanceId) {
+        return electronicReimbursementsSearchMapper.findCalculationChargesOrderParamsForTrInstId(new UserCriteria(), trainingInstanceId);
+    }
+
+    @Override
     public ElctRmbsHeadDto findEcltRmbsById(Long ermbsId) {
         return electronicReimbursementsSearchMapper.findEcltRmbsById(new UserCriteria(), ermbsId);
     }

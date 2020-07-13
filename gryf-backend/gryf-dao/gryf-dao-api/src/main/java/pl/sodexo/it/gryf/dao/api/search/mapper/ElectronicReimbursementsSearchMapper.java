@@ -49,6 +49,15 @@ public interface ElectronicReimbursementsSearchMapper {
     CalculationChargesParamsDto findCalculationChargesParamsForTrInstId(@Param("criteria") UserCriteria criteria, @Param("trainingInstanceId") Long trainingInstanceId);
 
     /**
+     * Metoda znajdująca parametry do obliczenia składek na rolizczeniu dla instancji usługi
+     *
+     * @param criteria - kryteria użytkownika
+     * @param trainingInstanceId - id Usługodawcy
+     * @return
+     */
+    List<CalculationChargesOrderParamsDto> findCalculationChargesOrderParamsForTrInstId(@Param("criteria") UserCriteria criteria, @Param("trainingInstanceId") Long trainingInstanceId);
+
+    /**
      * Znajduje szczegóły rozliczenia dla bonów elektronicznych na podstawie Id
      * @param criteria - krytertia użytkownika
      * @param ermbsId - id rozliczenia

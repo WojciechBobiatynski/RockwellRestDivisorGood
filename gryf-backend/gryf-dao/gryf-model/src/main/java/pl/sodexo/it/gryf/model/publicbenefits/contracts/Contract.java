@@ -119,12 +119,6 @@ public class Contract extends VersionableEntity implements AccountContractPairGe
     @Size(max = 200, message = "Adres korespondencyjny MŚP musi zawierać maksymalnie 200 znaków")
     private String addressCorr;
 
-    @Getter
-    @Setter
-    @Column(name = "OWN_CONTRIBUTION_PERCENTAGE")
-    @NotNull(message = "Procent kwoty wkładu własnego nie może być pusty")
-    private BigDecimal ownContributionPercentage;
-
     @ManyToOne
     @JoinColumn(name = "ZIP_CODE_CORR")
     @NotNull(message = "Kod korespondencyjny nie może być pusty")

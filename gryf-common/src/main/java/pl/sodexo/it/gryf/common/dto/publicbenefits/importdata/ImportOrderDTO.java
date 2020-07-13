@@ -6,6 +6,7 @@ import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
 import pl.sodexo.it.gryf.common.generator.IdentityGenerator;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -28,6 +29,10 @@ public class ImportOrderDTO {
     @Setter
     @NotNull(message = "Liczba bonów nie może być pusta")
     private Integer productInstanceNum;
+
+    @Getter
+    @Setter
+    private BigDecimal ownContributionPercentage;
 
     //EXTRA GETETRS
     public String getContractId(IdentityGenerator<ImportOrderDTO, String> identityGenerator){

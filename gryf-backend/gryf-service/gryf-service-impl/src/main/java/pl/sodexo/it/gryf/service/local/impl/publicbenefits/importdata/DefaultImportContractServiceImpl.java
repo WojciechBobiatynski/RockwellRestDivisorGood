@@ -532,8 +532,6 @@ public abstract class DefaultImportContractServiceImpl extends ImportBaseDataSer
             setFullAddress(dto, importIndividualDTO.getAddressInvoice(), zipCodeIndividualInvoice);
         }
 
-        dto.setOwnContributionPercentage(importContractDTO.getOwnContributionPercentage());
-
         return dto;
     }
 
@@ -551,7 +549,7 @@ public abstract class DefaultImportContractServiceImpl extends ImportBaseDataSer
         dto.setExternalOrderId(importDTO.getExternalOrderId());
         dto.setOrderDate(importDTO.getSignDate());
         dto.setProductInstanceNum(importDTO.getProductInstanceNum());
-        dto.setOwnContributionPercent(contract.getOwnContributionPercentage());
+        dto.setOwnContributionPercent(importDTO.getOwnContributionPercentage());
         return dto;
     }
 

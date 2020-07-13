@@ -41,6 +41,14 @@ public interface ElectronicReimbursementsDao {
     CalculationChargesParamsDto findCalculationChargesParamsForTrInstId(Long trainingInstanceId);
 
     /**
+     * Metoda znajdująca parametry do obliczenia składek na rolizczeniu dla instancji usługi
+     *
+     * @param trainingInstanceId - id Usługodawcy
+     * @return
+     */
+    List<CalculationChargesOrderParamsDto> findCalculationChargesOrderParamsForTrInstId(Long trainingInstanceId);
+
+    /**
      * Znajduje szczegóły rozliczenia dla bonów elektronicznych na podstawie Id
      * @param ermbsId - id rozliczenia
      * @return Dto rozliczenia

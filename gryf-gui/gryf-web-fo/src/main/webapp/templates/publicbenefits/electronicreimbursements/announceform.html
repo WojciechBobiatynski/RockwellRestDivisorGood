@@ -187,6 +187,10 @@
             <strong class="label">Data ważności bonów</strong>
             {{prd.expirationDate  | date:'yyyy-MM-dd'}}
         </div>
+        <div class="grid-20">
+            <strong class="label">Procent kwoty wkładu własnego</strong>
+            {{prd.ownContributionPercentage}}
+        </div>
     </div>
 </section>
 <!--------------------------------------KWOTY_ROZLICZEN---------------------------------------------->
@@ -216,12 +220,6 @@
         <div class="grid-20">
             <strong class="label">Wartość dofinansowania Uczestnika</strong>
             {{eReimbObject.entity.indSubsidyValue}}
-        </div>
-    </div>
-    <div class="grid-100">
-        <div class="grid-20">
-            <strong class="label">Procent kwoty wkładu własnego</strong>
-            {{eReimbObject.entity.ownContributionPercentage}}
         </div>
     </div>
 </section>

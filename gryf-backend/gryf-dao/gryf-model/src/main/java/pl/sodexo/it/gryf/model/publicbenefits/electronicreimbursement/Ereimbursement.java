@@ -142,11 +142,6 @@ public class Ereimbursement extends VersionableEntity {
     @Setter
     private Date rejectionDate;
 
-    @Column(name = "OWN_CONTRIBUTION_PERCENTAGE")
-    @Getter
-    @Setter
-    private BigDecimal ownContributionPercentage;
-
     @OneToMany(mappedBy = "ereimbursement")
     @Getter
     @Setter
@@ -166,5 +161,10 @@ public class Ereimbursement extends VersionableEntity {
     @Getter
     @Setter
     private List<EreimbursementInvoice> ereimbursementInvoices;
+
+    @OneToMany(mappedBy = "ereimbursement")
+    @Getter
+    @Setter
+    private List<EreimbursementLine> ereimbursementLines;
 
 }

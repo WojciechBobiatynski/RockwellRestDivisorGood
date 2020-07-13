@@ -76,8 +76,4 @@ public class ContractDTO extends VersionableDto {
     @Setter
     private ZipCodeDto zipCodeCorr;
 
-    @Getter
-    @Setter
-    private BigDecimal ownContributionPercentage;
-
 }

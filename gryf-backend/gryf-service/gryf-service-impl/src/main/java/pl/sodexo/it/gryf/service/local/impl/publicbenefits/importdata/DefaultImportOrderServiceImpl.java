@@ -126,6 +126,9 @@ public abstract class DefaultImportOrderServiceImpl extends ImportBaseDataServic
                 case 2:
                     o.setProductInstanceNum(getIntegerCellValue(cell));
                     break;
+                case 3:
+                    o.setOwnContributionPercentage(getBigDecimalCellValue(cell));
+                    break;
             }
         }
         return o;
@@ -138,6 +141,7 @@ public abstract class DefaultImportOrderServiceImpl extends ImportBaseDataServic
         dto.setExternalOrderId(importDTO.getExternalOrderId());
         dto.setOrderDate(importDTO.getOrderDate());
         dto.setProductInstanceNum(importDTO.getProductInstanceNum());
+        dto.setOwnContributionPercent(importDTO.getOwnContributionPercentage());
         return dto;
     }
 

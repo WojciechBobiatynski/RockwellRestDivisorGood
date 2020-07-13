@@ -37,8 +37,6 @@ public class ContractDtoMapper extends VersionableDtoMapper<ContractDTO,Contract
         entity.setZipCodeInvoice(dto.getZipCodeInvoice() == null ? null : zipCodeDtoMapper.convert(dto.getZipCodeInvoice()));
         entity.setAddressCorr(dto.getAddressCorr());
         entity.setZipCodeCorr(dto.getZipCodeInvoice() == null ? null: zipCodeDtoMapper.convert(dto.getZipCodeCorr()));
-
-        entity.setOwnContributionPercentage(dto.getOwnContributionPercentage());
     }
 
 }

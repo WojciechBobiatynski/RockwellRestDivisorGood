@@ -65,7 +65,6 @@ public class ContractValidator extends AbstractValidator {
         validateContractId(contract, violations);
         validateContractType(contract, violations);
         validateEnterpriseParticipant(contract, violations);
-        validateOwnContribution(contract, violations);
 
         //VALIDATE (EXCEPTION)
         addPrefixMessage(VIOLATIONS_PREFIX, violations);
@@ -199,31 +198,6 @@ public class ContractValidator extends AbstractValidator {
 
     private boolean isIndividualContractType(Contract contract) {
         return INDIVIDUAL_CONTRACT_TYPE_ID.equals(contract.getContractType().getId());
-    }
-
-    /**
-     * Validation of own contribution percentage with acceptable values which are get from grant program parameters.
-     * @param contract Contract entity created from import
-     * @param violations List of violations
-     */
-    private void validateOwnContribution(Contract contract, List<EntityConstraintViolation> violations) {
-        GrantProgramParam grantProgramParam = paramInDateService.findGrantProgramParam(contract.getGrantProgram().getId(), GrantProgramParam.OWN_CONTRIBUTION_PERCENT_ACCEPTABLE, contract.getSignDate(), true);
-        BigDecimal contractOwnContributionPercentage = contract.getOwnContributionPercentage();
-        String result = Arrays.stream(grantProgramParam.getValue().split(";"))
-                .filter(Objects::nonNull)
-                .filter(parameterValue -> {
-                    return contractOwnContributionPercentage!=null
-                            ? (new BigDecimal(parameterValue)).compareTo(contractOwnContributionPercentage) == 0
-                            : false;
-                })
-                .findAny()
-                .orElse(null);
-        if (result == null) {
-            violations.add(new EntityConstraintViolation(
-                    Contract.OWN_CONTRIBUTION_PERCENTAGE_ATTR_NAME,
-                    "Niedopuszczalna wartość procentu kwoty wkładu własnego.",
-                    null));
-        }
     }
 
 }
