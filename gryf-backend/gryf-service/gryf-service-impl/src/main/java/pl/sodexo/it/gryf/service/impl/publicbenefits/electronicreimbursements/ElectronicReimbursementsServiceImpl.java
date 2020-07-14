@@ -29,10 +29,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.electronicreimbursement.*;
 import pl.sodexo.it.gryf.model.publicbenefits.grantprograms.GrantProgramParam;
 import pl.sodexo.it.gryf.model.publicbenefits.orders.Order;
 import pl.sodexo.it.gryf.model.reports.ReportInstance;
-import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.CorrectionAttachmentService;
-import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.CorrectionService;
-import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.ElectronicReimbursementsService;
-import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.ErmbsAttachmentService;
+import pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements.*;
 import pl.sodexo.it.gryf.service.local.api.AccountingDocumentArchiveFileService;
 import pl.sodexo.it.gryf.service.local.api.MailService;
 import pl.sodexo.it.gryf.service.local.api.ParamInDateService;
@@ -143,7 +140,7 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     private EreimbursementLineDtoMapper ereimbursementLineDtoMapper;
 
     @Autowired
-    private EreimbursementLineRepository ereimbursementLineRepository;
+    private ElectronicReimbursementLinesService electronicReimbursementLinesService;
 
     @Override
     public List<ElctRmbsDto> findEcltRmbsListByCriteria(ElctRmbsCriteria criteria) {
@@ -195,6 +192,7 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         setErmbsDataWhenSave(ereimbursement);
         elctRmbsHeadDto.setErmbsId(ereimbursement.getId());
         ermbsAttachmentService.manageErmbsAttachments(elctRmbsHeadDto, ErmbsAttachmentStatus.TEMP);
+        saveEreimbursementLines(elctRmbsHeadDto, ereimbursement);
         return ereimbursement.getId();
     }
 
@@ -211,6 +209,7 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         setErmbsDataWhenSendToReimburse(ereimbursement);
         elctRmbsHeadDto.setErmbsId(ereimbursement.getId());
         ermbsAttachmentService.manageErmbsAttachments(elctRmbsHeadDto, ErmbsAttachmentStatus.SENDED);
+        saveEreimbursementLines(elctRmbsHeadDto, ereimbursement);
 
         return ereimbursement.getId();
     }
@@ -224,6 +223,7 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         List<CorrectionAttachmentDto> correctionAttachmentDtoList = correctionAttachmentService.createCorrAttIfNotExistsForErmbsAttBeingChanged(elctRmbsHeadDto);
         ermbsAttachmentService.manageErmbsAttachmentsForCorrection(elctRmbsHeadDto, ErmbsAttachmentStatus.TEMP);
         correctionAttachmentService.saveCorrectionAttachments(correctionAttachmentDtoList);
+        saveEreimbursementLines(elctRmbsHeadDto, ereimbursement);
         return ereimbursement.getId();
     }
 
@@ -244,6 +244,7 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         ermbsAttachmentService.manageErmbsAttachmentsForCorrection(elctRmbsHeadDto, ErmbsAttachmentStatus.SENDED);
         correctionAttachmentService.saveCorrectionAttachments(correctionAttachmentDtoList);
         correctionService.completeCorrection(elctRmbsHeadDto.getLastCorrectionDto().getId());
+        saveEreimbursementLines(elctRmbsHeadDto, ereimbursement);
         return ereimbursement.getId();
     }
 
@@ -408,7 +409,6 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     private Ereimbursement saveErmbsData(ElctRmbsHeadDto elctRmbsHeadDto) {
         Ereimbursement ereimbursement = ereimbursementDtoMapper.convert(elctRmbsHeadDto);
         ereimbursement = ereimbursement.getId() != null ? ereimbursementRepository.update(ereimbursement, ereimbursement.getId()) : ereimbursementRepository.save(ereimbursement);
-        saveEreimbursementLines(elctRmbsHeadDto, ereimbursement);
         return ereimbursement;
     }
 
@@ -416,9 +416,9 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         List<EreimbursementLine> ereimbursementLines = elctRmbsHeadDto.getElctRmbsLineDtos().stream()
                 .map(elctRmbsLineDto -> {
                     elctRmbsLineDto.setEreimbursementId(ereimbursement.getId());
-                    EreimbursementLine ereimbursementLine = ereimbursementLineDtoMapper.convert(elctRmbsLineDto);
-                    ereimbursementLine = ereimbursementLine.getId() != null ? ereimbursementLineRepository.update(ereimbursementLine, ereimbursementLine.getId()) : ereimbursementLineRepository.save(ereimbursementLine);
-                    return ereimbursementLine;
+                    Long id = electronicReimbursementLinesService.saveEreimbursementLine(elctRmbsLineDto);
+                    elctRmbsLineDto.setId(id);
+                    return ereimbursementLineDtoMapper.convert(elctRmbsLineDto);
                 }).collect(Collectors.toList());
         ereimbursement.setEreimbursementLines(ereimbursementLines);
     }
@@ -454,7 +454,7 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     private void calculateCharges(ElctRmbsHeadDto elctRmbsHeadDto) {
         CalculationChargesParamsDto params = getCalculationChargesParamsDto(elctRmbsHeadDto);
         List<CalculationChargesOrderParamsDto> orderParams = getCalculationChargesOrderParamsDto(elctRmbsHeadDto);
-        List<Long> elctRmbsLineIds = getElctRmbsLineIds(elctRmbsHeadDto, orderParams);
+        List<Long> elctRmbsLineIds = electronicReimbursementLinesService.getElctRmbsLineIds(elctRmbsHeadDto, orderParams);
 
         elctRmbsHeadDto.completeElctRmbsLines(orderParams, elctRmbsLineIds);
         elctRmbsHeadDto.calculateChargers(params);
@@ -474,20 +474,6 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
             throw new NoCalculationParamsException();
         }
         return orderParams;
-    }
-
-    private List<Long> getElctRmbsLineIds(ElctRmbsHeadDto elctRmbsHeadDto, List<CalculationChargesOrderParamsDto> orderParams) {
-        if (elctRmbsHeadDto.getErmbsId() != null) {
-            Ereimbursement ereimbursement = ereimbursementRepository.get(elctRmbsHeadDto.getErmbsId());
-            List<EreimbursementLine> ereimbursementLines = ereimbursementLineRepository.getListByEreimbursement(ereimbursement);
-
-            if (ereimbursementLines.size() == orderParams.size()) {
-                return ereimbursementLines.stream().map(EreimbursementLine::getId).collect(Collectors.toList());
-            }
-
-            ereimbursementLineRepository.deleteListByEreimbursement(ereimbursement);
-        }
-        return new ArrayList<Long>();
     }
 
     private EreimbursementInvoice getEreimbursementInvoice(Ereimbursement ereimbursement) {

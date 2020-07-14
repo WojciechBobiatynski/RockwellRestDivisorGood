@@ -39,7 +39,7 @@ public class EreimbursementLineDtoMapper extends VersionableDtoMapper<ElctRmbsLi
         setAuditable(dto);
 
         super.map(dto, entity);
-        entity.setId(dto.getEreimbursementId());
+        entity.setId(dto.getId());
         entity.setEreimbursement(dto.getEreimbursementId() != null ? ereimbursementRepository.get(dto.getEreimbursementId()) : null);
         entity.setOrder(dto.getOrderId() != null ? orderRepository.get(dto.getOrderId()) : null);
         entity.setUsedProductsNumber(dto.getUsedProductsNumber());
