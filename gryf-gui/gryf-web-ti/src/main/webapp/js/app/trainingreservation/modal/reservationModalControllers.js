@@ -5,7 +5,8 @@ angular.module("gryf.ti").controller("ReservationModalController", ["$scope", "$
     $scope.patternNumberOnly = /^\d+$/;
     $scope.training = {data: null};
     $scope.toReservedNum = null;
-    $scope.registerDate = null;
+    $scope.registerDate = {data: null};
+    $scope.registerDateOpened = false;
     $scope.userTrainingReservationData = TrainingReservationService.getUserTrainingReservationData();
     $scope.violations = TrainingReservationService.getNewViolations();
     $scope.individualUser = UserService.getIndividualUser();
@@ -21,6 +22,10 @@ angular.module("gryf.ti").controller("ReservationModalController", ["$scope", "$
         });
     });
 
+    $scope.openRegisterDateDatepicker = function () {
+        $scope.registerDateOpened = true;
+    };
+
     $scope.reserveTraining = function() {
         resetViolations();
 
@@ -33,7 +38,7 @@ angular.module("gryf.ti").controller("ReservationModalController", ["$scope", "$
         trainingReservationDto.startDate    = $scope.training.data.startDate;
         trainingReservationDto.endDate    = $scope.training.data.endDate;
 
-        trainingReservationDto.registerDate    = $scope.registerDate;
+        trainingReservationDto.registerDate = $scope.registerDate.data;
         trainingReservationDto.toReservedNum = $scope.toReservedNum;
         trainingReservationDto.version = $scope.training.data.version;
 
