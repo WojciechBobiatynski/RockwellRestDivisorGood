@@ -5,9 +5,11 @@ angular.module("gryf.ti").controller("ReservationModalController", ["$scope", "$
     $scope.patternNumberOnly = /^\d+$/;
     $scope.training = {data: null};
     $scope.toReservedNum = null;
+    $scope.registerDate = null;
     $scope.userTrainingReservationData = TrainingReservationService.getUserTrainingReservationData();
     $scope.violations = TrainingReservationService.getNewViolations();
     $scope.individualUser = UserService.getIndividualUser();
+    $scope.loggedUserInfo = UserService.getLoggedUserInfo();
 
     TrainingSearchService.findPrecalculatedDetailsById($stateParams.trainingId, $stateParams.grantProgramId).success(function(data) {
         //@ todo add grant program name to data
@@ -31,6 +33,7 @@ angular.module("gryf.ti").controller("ReservationModalController", ["$scope", "$
         trainingReservationDto.startDate    = $scope.training.data.startDate;
         trainingReservationDto.endDate    = $scope.training.data.endDate;
 
+        trainingReservationDto.registerDate    = $scope.registerDate;
         trainingReservationDto.toReservedNum = $scope.toReservedNum;
         trainingReservationDto.version = $scope.training.data.version;
 

@@ -175,6 +175,10 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
             trainingReservationDto.setContractId(contract.getId());
         }
 
+        if (trainingReservationDto.getRegisterDate() == null) {
+            trainingReservationDto.setRegisterDate(new Date());
+        }
+
         //walidacja danych
         validateTrainingReservation(trainingReservationDto);
 
@@ -196,7 +200,7 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
         trainingInstance.setGrantProgram(contract.getGrantProgram());
         trainingInstance.setStatus(trainingInstanceStatusRepository.get(TrainingInstanceStatus.RES_CODE));
         trainingInstance.setAssignedNum(toReservedNum);
-        trainingInstance.setRegisterDate(new Date());
+        trainingInstance.setRegisterDate(trainingReservationDto.getRegisterDate());
         trainingInstance.setReimbursmentPin(AEScryptographer.encrypt(gryfAccessCodeGenerator.createReimbursmentPin()));
         trainingInstance.setProductInstanceCalcForHour(getProductInstanceForHour(trainingReservationDto));
         trainingInstance = trainingInstanceRepository.save(trainingInstance);
@@ -555,7 +559,7 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
         ProductCalculateDto productCalculateDto = GenericBuilder.of(ProductCalculateDto::new)
                 .with(ProductCalculateDto::setCategoryId, training.getCategory().getId())
                 .with(ProductCalculateDto::setGrantProgramId, trainingReservationDto.getGrantProgramId())
-                .with(ProductCalculateDto::setDate, trainingReservationDto.getStartDate())
+                .with(ProductCalculateDto::setDate, trainingReservationDto.getRegisterDate())
                 .with(ProductCalculateDto::setTrainingId, trainingReservationDto.getTrainingId())
                 .with(ProductCalculateDto::setMaxParticipants, training.getMaxParticipants())
                 .build();

@@ -56,4 +56,8 @@ public class TrainingReservationDto {
     @Getter
     @Setter
     private Date endDate;
+
+    @Getter
+    @Setter
+    private Date registerDate;
 }
