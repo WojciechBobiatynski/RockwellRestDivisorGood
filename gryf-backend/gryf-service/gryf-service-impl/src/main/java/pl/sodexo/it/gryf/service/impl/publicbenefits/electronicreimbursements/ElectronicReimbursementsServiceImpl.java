@@ -223,7 +223,6 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         List<CorrectionAttachmentDto> correctionAttachmentDtoList = correctionAttachmentService.createCorrAttIfNotExistsForErmbsAttBeingChanged(elctRmbsHeadDto);
         ermbsAttachmentService.manageErmbsAttachmentsForCorrection(elctRmbsHeadDto, ErmbsAttachmentStatus.TEMP);
         correctionAttachmentService.saveCorrectionAttachments(correctionAttachmentDtoList);
-        saveEreimbursementLines(elctRmbsHeadDto, ereimbursement);
         return ereimbursement.getId();
     }
 
