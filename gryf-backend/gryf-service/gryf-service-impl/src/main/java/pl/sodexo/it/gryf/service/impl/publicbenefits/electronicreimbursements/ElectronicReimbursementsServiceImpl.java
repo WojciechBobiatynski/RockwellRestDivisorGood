@@ -412,14 +412,16 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
     }
 
     private void saveEreimbursementLines(ElctRmbsHeadDto elctRmbsHeadDto, Ereimbursement ereimbursement) {
-        List<EreimbursementLine> ereimbursementLines = elctRmbsHeadDto.getElctRmbsLineDtos().stream()
-                .map(elctRmbsLineDto -> {
-                    elctRmbsLineDto.setEreimbursementId(ereimbursement.getId());
-                    Long id = electronicReimbursementLinesService.saveEreimbursementLine(elctRmbsLineDto);
-                    elctRmbsLineDto.setId(id);
-                    return ereimbursementLineDtoMapper.convert(elctRmbsLineDto);
-                }).collect(Collectors.toList());
-        ereimbursement.setEreimbursementLines(ereimbursementLines);
+        if (elctRmbsHeadDto!=null && elctRmbsHeadDto.getElctRmbsLineDtos()!=null && !elctRmbsHeadDto.getElctRmbsLineDtos().isEmpty()){
+            List<EreimbursementLine> ereimbursementLines = elctRmbsHeadDto.getElctRmbsLineDtos().stream()
+                    .map(elctRmbsLineDto -> {
+                        elctRmbsLineDto.setEreimbursementId(ereimbursement.getId());
+                        Long id = electronicReimbursementLinesService.saveEreimbursementLine(elctRmbsLineDto);
+                        elctRmbsLineDto.setId(id);
+                        return ereimbursementLineDtoMapper.convert(elctRmbsLineDto);
+                    }).collect(Collectors.toList());
+            ereimbursement.setEreimbursementLines(ereimbursementLines);
+        }
     }
 
     private void setErmbsDataWhenSave(Ereimbursement ereimbursement) {
