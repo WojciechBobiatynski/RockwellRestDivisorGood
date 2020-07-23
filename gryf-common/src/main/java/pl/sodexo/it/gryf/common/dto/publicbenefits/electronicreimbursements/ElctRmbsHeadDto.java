@@ -306,7 +306,7 @@ public class ElctRmbsHeadDto extends VersionableDto implements Serializable {
                                         .multiply(params.getTrainingHourPrice()))
                                 .multiply(elctRmbsLineDto.getOwnContributionPercentage())
                                 .setScale(BIG_DECIMAL_SUM_SCALE, RoundingMode.HALF_UP);
-                        elctRmbsLineDto.setSxoTiAmountDueTotal(sxoAmount);
+                        elctRmbsLineDto.setSxoIndAmountDueTotal(sxoAmount);
                         return sxoAmount;
                     })
                     .reduce(BigDecimal.ZERO, BigDecimal::add);
