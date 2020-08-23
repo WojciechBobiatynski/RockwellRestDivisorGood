@@ -29,7 +29,8 @@ angular.module("gryf.trainingInstances").factory("TrainingInstanceSearchService"
                 endDateTo: null,
                 trainingStatusId: null,
                 opinionDone: null,
-                participantCode: null
+                participantCode: null,
+                indOrderExternalId: null
             };
         }
 

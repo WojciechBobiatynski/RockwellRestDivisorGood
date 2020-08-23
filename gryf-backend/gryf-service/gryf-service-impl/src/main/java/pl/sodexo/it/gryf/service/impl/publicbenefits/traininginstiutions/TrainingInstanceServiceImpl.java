@@ -203,6 +203,7 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
         trainingInstance.setRegisterDate(trainingReservationDto.getRegisterDate());
         trainingInstance.setReimbursmentPin(AEScryptographer.encrypt(gryfAccessCodeGenerator.createReimbursmentPin()));
         trainingInstance.setProductInstanceCalcForHour(getProductInstanceForHour(trainingReservationDto));
+        trainingInstance.setIndOrderExternalId(getIndOrderExternalId(contract, training));
         trainingInstance = trainingInstanceRepository.save(trainingInstance);
 
         //RESERVE POOLS
@@ -564,5 +565,14 @@ public class TrainingInstanceServiceImpl implements TrainingInstanceService {
                 .with(ProductCalculateDto::setMaxParticipants, training.getMaxParticipants())
                 .build();
         return trainingCategoryProdInsCalcTypeService.getCalculateProductInstanceForHour(productCalculateDto);
+    }
+
+    private String getIndOrderExternalId(Contract contract, Training training) {
+        List<TrainingInstanceExt> trainingInstanceExts = trainingInstanceExtRepository.getTrainingInstanceExts(contract.getId(),training.getExternalId());
+        if (trainingInstanceExts == null || trainingInstanceExts.isEmpty()) {
+            return null;
+        } else {
+            return trainingInstanceExtRepository.getTrainingInstanceExts(contract.getId(),training.getExternalId()).get(0).getIndOrderExternalId();
+        }
     }
 }

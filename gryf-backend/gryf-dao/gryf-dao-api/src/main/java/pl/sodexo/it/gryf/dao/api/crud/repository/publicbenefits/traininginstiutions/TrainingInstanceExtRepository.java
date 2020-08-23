@@ -3,6 +3,8 @@ package pl.sodexo.it.gryf.dao.api.crud.repository.publicbenefits.traininginstiut
 import pl.sodexo.it.gryf.dao.api.crud.repository.GenericRepository;
 import pl.sodexo.it.gryf.model.publicbenefits.traininginstiutions.TrainingInstanceExt;
 
+import java.util.List;
+
 /**
  * Created by krzysztof.krawczynski on 2018-03-26.
  */
@@ -20,4 +22,6 @@ public interface TrainingInstanceExtRepository extends GenericRepository<Trainin
      * @return count of exist data rows
      */
     boolean isIndOrderExternalIdAndTrainingExternalId(String contractId, String trainingExternalId);
+
+    List<TrainingInstanceExt> getTrainingInstanceExts(String contractId, String trainingExternalId);
 }

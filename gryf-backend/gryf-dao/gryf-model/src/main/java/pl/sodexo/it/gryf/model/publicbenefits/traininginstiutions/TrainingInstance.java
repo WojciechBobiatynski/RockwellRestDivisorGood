@@ -10,6 +10,7 @@ import pl.sodexo.it.gryf.model.publicbenefits.individuals.Individual;
 import pl.sodexo.it.gryf.model.publicbenefits.pbeproduct.PbeProductInstancePoolUse;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.*;
 
 /**
@@ -76,6 +77,12 @@ public class TrainingInstance extends VersionableEntity {
     @Setter
     @Column(name = "PRODUCT_INSTANCE_CALC_FOR_HOUR")
     private Integer productInstanceCalcForHour;
+
+    @Getter
+    @Setter
+    @Column(name = "IND_ORDER_EXTERNAL_ID")
+    @Size(max = 200, message = "Pole Identyfikator wsparcia musi zawierać maksymalnie 200 znaków")
+    private String indOrderExternalId;
 
     //GETTERS & SETTERS
 

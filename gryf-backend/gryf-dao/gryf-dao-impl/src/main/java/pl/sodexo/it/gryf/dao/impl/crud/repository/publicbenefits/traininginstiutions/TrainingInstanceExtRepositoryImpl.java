@@ -43,7 +43,8 @@ public class TrainingInstanceExtRepositoryImpl extends GenericRepositoryImpl<Tra
         }
     }
 
-    private List<TrainingInstanceExt> getTrainingInstanceExts(String contractId, String trainingExternalId) {
+    @Override
+    public List<TrainingInstanceExt> getTrainingInstanceExts(String contractId, String trainingExternalId) {
         String indOrderSearchString = String.join("", "/", contractId, "/");
         TypedQuery<TrainingInstanceExt> query = entityManager.createNamedQuery(TrainingInstanceExt.QUERY_TRAINING_INSTANCE_EXT_FIND_ORDER_WITH_TRAINING, TrainingInstanceExt.class);
         query.setParameter("externalOrderId", indOrderSearchString);
