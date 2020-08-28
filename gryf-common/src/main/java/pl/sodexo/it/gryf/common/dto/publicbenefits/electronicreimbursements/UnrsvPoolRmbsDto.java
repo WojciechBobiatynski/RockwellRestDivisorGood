@@ -102,4 +102,8 @@ public class UnrsvPoolRmbsDto extends VersionableDto implements Serializable {
     @Setter
     private BigDecimal ownContributionPercentage;
 
+    @Getter
+    @Setter
+    private String foComment;
+
 }

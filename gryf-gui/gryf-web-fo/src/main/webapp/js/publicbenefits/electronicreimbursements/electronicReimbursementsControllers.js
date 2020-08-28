@@ -232,6 +232,10 @@ angular.module('gryf.electronicreimbursements').controller("announce.electronicR
             return !!$scope.eReimbObject.entity && $scope.eReimbObject.entity.statusCode === 'RJCT';
         };
 
+        $scope.saveFoComment = function () {
+            AnnounceEReimbursementService.saveFoComment();
+        };
+
     }]);
 
 angular.module('gryf.electronicreimbursements').controller("unrsv.electronicReimbursementsController",
@@ -324,5 +328,9 @@ angular.module('gryf.electronicreimbursements').controller("unrsv.electronicReim
                 };
                 $scope.showAcceptModal("Rozliczenie zostanie zatwierdzone.", callback);
             }
+
+            $scope.saveFoComment = function () {
+                UnreservedPoolService.saveFoComment();
+            };
 
     }]);

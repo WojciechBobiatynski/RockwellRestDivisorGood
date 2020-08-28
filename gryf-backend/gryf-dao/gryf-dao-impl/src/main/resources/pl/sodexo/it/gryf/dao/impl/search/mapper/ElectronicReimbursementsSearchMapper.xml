@@ -234,6 +234,7 @@
                   0
           END                                       automatic,
           ermbs.VERSION                             version,
+          ermbs.FO_COMMENT                          foComment,
 --        raporty
           report.ID                                 rep_id,
           report.E_REIMBURSEMENT_ID                 rep_ermbsId,
@@ -542,6 +543,7 @@
           ermbs.MODIFIED_USER                       modifiedUser,
           ermbs.MODIFIED_TIMESTAMP                  modifiedTimestamp,
           ord.OWN_CONTRIBUTION_PERCENTAGE           ownContributionPercentage,
+          ermbs.FO_COMMENT                          foComment,
 --        dane osoby fizycznej
           ind.ID                                    ind_id,
           ind.FIRST_NAME                            ind_firstName,

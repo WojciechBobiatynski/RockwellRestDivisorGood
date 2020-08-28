@@ -2,10 +2,7 @@ package pl.sodexo.it.gryf.service.api.publicbenefits.electronicreimbursements;
 
 import pl.sodexo.it.gryf.common.criteria.electronicreimbursements.ElctRmbsCriteria;
 import pl.sodexo.it.gryf.common.dto.api.SimpleDictionaryDto;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.CorrectionDto;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsDto;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.ElctRmbsHeadDto;
-import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.RejectionDto;
+import pl.sodexo.it.gryf.common.dto.publicbenefits.electronicreimbursements.*;
 import pl.sodexo.it.gryf.common.dto.publicbenefits.pbeproductinstancepool.PbeProductInstancePoolDto;
 
 import java.util.List;
@@ -168,4 +165,10 @@ public interface ElectronicReimbursementsService {
      * @return
      */
     String getReimbursmentStatusName(Long ermbs);
+
+    /**
+     * Metoda zapisująca dodatkowe informacje do rozliczenia
+     * @param ermbsAdditionalInformationDto - dto dodatkowych informacji rozliczenia
+     */
+    Long saveAdditionalInformation(ErmbsAdditionalInformationDto ermbsAdditionalInformationDto);
 }

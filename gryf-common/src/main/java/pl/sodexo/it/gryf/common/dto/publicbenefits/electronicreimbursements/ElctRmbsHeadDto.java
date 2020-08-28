@@ -143,6 +143,10 @@ public class ElctRmbsHeadDto extends VersionableDto implements Serializable {
     @Setter
     private List<ElctRmbsLineDto> elctRmbsLineDtos;
 
+    @Getter
+    @Setter
+    private String foComment;
+
     public void calculateChargers(CalculationChargesParamsDto params) {
         calculateSxoTiAmount(params);
         calculateIndTiAmount(params);

@@ -164,6 +164,7 @@ angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementS
             var SAVE_ATT = contextPath + "/rest/publicBenefits/electronic/reimbursements/att/save";
             var REJECT_URL = contextPath + "/rest/publicBenefits/electronic/reimbursements/reject/";
             var AUTO_CONFIRM_URL = contextPath + "/rest/publicBenefits/electronic/reimbursements/automatic/confirm/";
+            var ADD_INFO = contextPath + "/rest/publicBenefits/electronic/reimbursements/addInfo";
 
             var eReimbObject = new EReimbObject();
             var correctionObject = new CorrectionObject();
@@ -430,6 +431,27 @@ angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementS
                 return promise;
             };
 
+            function ErmbsAdditionalInformationDto() {
+                this.ermbsId = eReimbObject.entity.ermbsId;
+                this.foComment = eReimbObject.entity.foComment;
+            };
+
+            var saveFoComment = function() {
+                var addInfoDto = new ErmbsAdditionalInformationDto();
+                var promise = $http.post(ADD_INFO, addInfoDto);
+                promise
+                    .success(function(response) {
+                        GryfPopups.setPopup("success", "Sukces", "Komentarz zapisany");
+                    })
+                    .error(function() {
+                        GryfPopups.setPopup("error", "Błąd", "Nie udało się zapisać komentarza");
+                    })
+                    .finally(function() {
+                        GryfPopups.showPopup();
+                    });
+                return promise;
+            };
+
             return {
                 getNewModel: getNewModel,
                 getViolation: getViolations,
@@ -447,7 +469,8 @@ angular.module("gryf.electronicreimbursements").factory("AnnounceEReimbursementS
                 sendMail: sendMail,
                 getSaveAttUrl: getSaveAttUrl,
                 reject: reject,
-                automaticConfirm: automaticConfirm
+                automaticConfirm: automaticConfirm,
+                saveFoComment: saveFoComment
             };
         }]);
 
@@ -460,6 +483,7 @@ angular.module("gryf.electronicreimbursements").factory("UnreservedPoolService",
             var EXPIRE_URL = contextPath + "/rest/publicBenefits/unrsv/reimbursements/expire/";
             var CREATE_EMAILS_FROM_TEMPLATE = contextPath + "/rest/publicBenefits/unrsv/reimbursements/email/create/";
             var SEND_EMAILS = contextPath + "/rest/publicBenefits/electronic/reimbursements/email/send";
+            var ADD_INFO = contextPath + "/rest/publicBenefits/electronic/reimbursements/addInfo";
 
             var unReimbObject = new UnReimbObject();
 
@@ -479,7 +503,8 @@ angular.module("gryf.electronicreimbursements").factory("UnreservedPoolService",
                     reimbursementDate: null,
                     reports: [],
                     emails: [],
-                    individual: null
+                    individual: null,
+                    foComment: null
                 }
             }
 
@@ -604,6 +629,27 @@ angular.module("gryf.electronicreimbursements").factory("UnreservedPoolService",
                 return promise;
             };
 
+            function ErmbsAdditionalInformationDto() {
+                this.ermbsId = unReimbObject.entity.ermbsId;
+                this.foComment = unReimbObject.entity.foComment;
+            };
+
+            var saveFoComment = function() {
+                var addInfoDto = new ErmbsAdditionalInformationDto();
+                var promise = $http.post(ADD_INFO, addInfoDto);
+                promise
+                    .success(function(response) {
+                        GryfPopups.setPopup("success", "Sukces", "Komentarz zapisany");
+                    })
+                    .error(function() {
+                        GryfPopups.setPopup("error", "Błąd", "Nie udało się zapisać komentarza");
+                    })
+                    .finally(function() {
+                        GryfPopups.showPopup();
+                    });
+                return promise;
+            };
+
             return {
                 getNewModel: getNewModel,
                 findById: findById,
@@ -611,6 +657,7 @@ angular.module("gryf.electronicreimbursements").factory("UnreservedPoolService",
                 printReports: printReports,
                 expire: expire,
                 createEmailsFromTemplate: createEmailsFromTemplate,
-                sendMail: sendMail
+                sendMail: sendMail,
+                saveFoComment: saveFoComment
             };
         }]);

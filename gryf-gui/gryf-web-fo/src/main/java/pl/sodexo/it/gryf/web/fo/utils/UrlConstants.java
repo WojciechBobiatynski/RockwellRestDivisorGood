@@ -49,6 +49,7 @@ public final class UrlConstants {
     public static final String PATH_ELECTRONIC_REIMBURSEMENTS_ATT_SAVE= "/att/save";
     public static final String PATH_ELECTRONIC_REIMBURSEMENTS_REJECT= "/reject";
     public static final String PATH_ELECTRONIC_REIMBURSEMENTS_AUTO_CONFIRM = "/automatic/confirm/";
+    public static final String PATH_ELECTRONIC_REIMBURSEMENTS_ADD_INFO = "/addInfo";
 
     public static final String PATH_UNRESERVED_POOL_REIMBURSEMENTS = "/unrsv/reimbursements";
     public static final String PATH_UNRESERVED_POOL_REIMBURSEMENTS_FIND =  "/";

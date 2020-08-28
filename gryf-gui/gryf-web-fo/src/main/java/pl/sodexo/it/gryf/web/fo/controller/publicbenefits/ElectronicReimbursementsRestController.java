@@ -266,4 +266,12 @@ public class ElectronicReimbursementsRestController {
         return electronicReimbursementsService.findEcltRmbsById(id);
     }
 
+    @RequestMapping(value = PATH_ELECTRONIC_REIMBURSEMENTS_ADD_INFO, method = RequestMethod.POST)
+    @ResponseBody
+    public Long saveAdditionalInformation(@RequestBody ErmbsAdditionalInformationDto ermbsAdditionalInformationDto) {
+        LOGGER.debug("saveAdditionalInformation, ermbsAdditionalInformationDto={}", ermbsAdditionalInformationDto);
+        securityChecker.assertServicePrivilege(Privileges.GRF_PBE_E_REIMBURSEMENTS_MOD);
+        return electronicReimbursementsService.saveAdditionalInformation(ermbsAdditionalInformationDto);
+    }
+
 }

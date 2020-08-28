@@ -167,4 +167,9 @@ public class Ereimbursement extends VersionableEntity {
     @Setter
     private List<EreimbursementLine> ereimbursementLines;
 
+    @Column(name = "FO_COMMENT")
+    @Getter
+    @Setter
+    private String foComment;
+
 }

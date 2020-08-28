@@ -563,6 +563,14 @@ public class ElectronicReimbursementsServiceImpl implements ElectronicReimbursem
         return electronicReimbursementsDao.getReimbursmentStatusName(ermbs);
     }
 
+    @Override
+    public Long saveAdditionalInformation(ErmbsAdditionalInformationDto ermbsAdditionalInformationDto) {
+        Ereimbursement ereimbursement = ereimbursementRepository.get(ermbsAdditionalInformationDto.getErmbsId());
+        ereimbursement.setFoComment(ermbsAdditionalInformationDto.getFoComment());
+        ereimbursementRepository.update(ereimbursement, ereimbursement.getId());
+        return ereimbursement.getId();
+    }
+
     private void setNotReimbReimburseStatusForTiInstance(Ereimbursement ereimbursement) {
         ereimbursement.getTrainingInstance().setStatus(trainingInstanceStatusRepository.get(GryfConstants.NOT_REIMBURSED_TRAINING_INSTANCE_STATUS_CODE));
     }
