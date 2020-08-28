@@ -58,8 +58,8 @@ public class ApplicationParametersImpl implements ApplicationParameters {
     private String gryfPbeDefPubEmailFrom = "system.bonow.szkoleniowych@bony.sodexo.pl";
     private String gryfPbeDefPubEmailReplyTo = "tbok.kk@sodexo.com";
     private String sodexoName = "Sodexo Benefits and Rewards Services Polska Sp. z o.o.";
-    private String sodexoAddress1 = "ul. Kłobucka 25";
-    private String sodexoAddress2 = "02-699 Warszawa";
+    private String sodexoAddress1 = "ul. Rzymowskiego 53";
+    private String sodexoAddress2 = "02-697 Warszawa";
     private String sodexoVatRegNum = "5222357343";
     private String sodexoBankName = "Bank BGŻ BNP Paribas S.A.";
     private String documentGeneratePlace = "Warszawa";
