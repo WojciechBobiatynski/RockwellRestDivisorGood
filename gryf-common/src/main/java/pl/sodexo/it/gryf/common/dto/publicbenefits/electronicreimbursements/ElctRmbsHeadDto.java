@@ -270,10 +270,12 @@ public class ElctRmbsHeadDto extends VersionableDto implements Serializable {
         if (usedProductsAmount.compareTo(params.getTrainingPrice()) > 0) {
             return params.getTrainingPrice()
                     .multiply(BigDecimal.valueOf(elctRmbsLineDto.getUsedProductsNumber()))
-                    .divide(BigDecimal.valueOf(params.getUsedProductsNumber()));
+                    .divide(BigDecimal.valueOf(params.getUsedProductsNumber())
+                    .setScale(BIG_DECIMAL_SUM_SCALE, RoundingMode.HALF_UP));
         } else {
             return BigDecimal.valueOf(elctRmbsLineDto.getUsedProductsNumber())
-                    .multiply(params.getProductValue());
+                    .multiply(params.getProductValue()
+                    .setScale(BIG_DECIMAL_SUM_SCALE, RoundingMode.HALF_UP));
         }
     }
 
@@ -346,7 +348,8 @@ public class ElctRmbsHeadDto extends VersionableDto implements Serializable {
                                 .multiply(params.getProductValue())
                                 .subtract(params.getTrainingPrice()
                                         .multiply(BigDecimal.valueOf(elctRmbsLineDto.getUsedProductsNumber()))
-                                        .divide(BigDecimal.valueOf(params.getUsedProductsNumber())))
+                                        .divide(BigDecimal.valueOf(params.getUsedProductsNumber()))
+                                        .setScale(BIG_DECIMAL_SUM_SCALE, RoundingMode.HALF_UP))
                                 .multiply(elctRmbsLineDto.getOwnContributionPercentage())
                                 .setScale(BIG_DECIMAL_SUM_SCALE, RoundingMode.HALF_UP);
                         elctRmbsLineDto.setSxoIndAmountDueTotal(sxoAmount);
