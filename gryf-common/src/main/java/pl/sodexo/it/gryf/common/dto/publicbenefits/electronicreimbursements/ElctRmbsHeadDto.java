@@ -241,7 +241,7 @@ public class ElctRmbsHeadDto extends VersionableDto implements Serializable {
                 .map(elctRmbsLineDto -> {
                     BigDecimal sxoAmount = BigDecimal.valueOf(elctRmbsLineDto.getUsedProductsNumber())
                             .multiply(realHourPrice)
-                            .divide(productInstanceForHour)
+                            .divide(productInstanceForHour,BIG_DECIMAL_SUM_SCALE,RoundingMode.HALF_UP)
                             .setScale(BIG_DECIMAL_SUM_SCALE, RoundingMode.HALF_UP);
                     elctRmbsLineDto.setSxoTiAmountDueTotal(sxoAmount);
                     return sxoAmount;
@@ -270,8 +270,7 @@ public class ElctRmbsHeadDto extends VersionableDto implements Serializable {
         if (usedProductsAmount.compareTo(params.getTrainingPrice()) > 0) {
             return params.getTrainingPrice()
                     .multiply(BigDecimal.valueOf(elctRmbsLineDto.getUsedProductsNumber()))
-                    .divide(BigDecimal.valueOf(params.getUsedProductsNumber())
-                    .setScale(BIG_DECIMAL_SUM_SCALE, RoundingMode.HALF_UP));
+                    .divide(BigDecimal.valueOf(params.getUsedProductsNumber()),BIG_DECIMAL_SUM_SCALE,RoundingMode.HALF_UP);
         } else {
             return BigDecimal.valueOf(elctRmbsLineDto.getUsedProductsNumber())
                     .multiply(params.getProductValue()
@@ -348,7 +347,7 @@ public class ElctRmbsHeadDto extends VersionableDto implements Serializable {
                                 .multiply(params.getProductValue())
                                 .subtract(params.getTrainingPrice()
                                         .multiply(BigDecimal.valueOf(elctRmbsLineDto.getUsedProductsNumber()))
-                                        .divide(BigDecimal.valueOf(params.getUsedProductsNumber()))
+                                        .divide(BigDecimal.valueOf(params.getUsedProductsNumber()),BIG_DECIMAL_SUM_SCALE,RoundingMode.HALF_UP)
                                         .setScale(BIG_DECIMAL_SUM_SCALE, RoundingMode.HALF_UP))
                                 .multiply(elctRmbsLineDto.getOwnContributionPercentage())
                                 .setScale(BIG_DECIMAL_SUM_SCALE, RoundingMode.HALF_UP);
