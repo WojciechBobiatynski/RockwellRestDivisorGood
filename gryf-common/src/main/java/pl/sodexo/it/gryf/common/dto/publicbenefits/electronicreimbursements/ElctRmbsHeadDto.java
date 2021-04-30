@@ -283,12 +283,22 @@ public class ElctRmbsHeadDto extends VersionableDto implements Serializable {
     private void calculateIndTiAmountForTraining(CalculationChargesParamsDto params) {
         BigDecimal normalizedProductHourPrice = BigDecimal.valueOf(params.getProductInstanceForHour()).multiply(params.getProductValue());
         BigDecimal trainingHourDifferenceCost = BigDecimal.ZERO;
-        Integer hoursPaidWithCash = params.getTrainingHoursNumber() - params.getUsedProductsNumber() / params.getProductInstanceForHour();
+
+        BigDecimal hoursPaidWithCash =
+                BigDecimal.valueOf(params.getTrainingHoursNumber())
+                .subtract(
+                            BigDecimal.valueOf(params.getUsedProductsNumber())
+                                    .divideToIntegralValue ( BigDecimal.valueOf(params.getProductInstanceForHour()) )
+                );
         if (params.getTrainingHourPrice().compareTo(normalizedProductHourPrice) > 0) {
-            trainingHourDifferenceCost = BigDecimal.valueOf(params.getUsedProductsNumber() / params.getProductInstanceForHour())
-                    .multiply(params.getTrainingHourPrice().subtract(normalizedProductHourPrice));
+            trainingHourDifferenceCost =
+                    BigDecimal.valueOf(
+                            params.getUsedProductsNumber().doubleValue() / params.getProductInstanceForHour().doubleValue()
+                    )
+                    .multiply(params.getTrainingHourPrice()
+                            .subtract(normalizedProductHourPrice));
         }
-        BigDecimal hoursPaidWithCashCost = BigDecimal.valueOf(hoursPaidWithCash).multiply(params.getTrainingHourPrice());
+        BigDecimal hoursPaidWithCashCost = (hoursPaidWithCash).multiply(params.getTrainingHourPrice());
 
         setIndTiAmountDueTotal(trainingHourDifferenceCost.add(hoursPaidWithCashCost));
     }
@@ -307,8 +317,10 @@ public class ElctRmbsHeadDto extends VersionableDto implements Serializable {
                     .map(elctRmbsLineDto -> {
                         BigDecimal sxoAmount = params.getProductValue()
                                 .multiply(BigDecimal.valueOf(elctRmbsLineDto.getUsedProductsNumber()))
-                                .subtract(BigDecimal.valueOf(elctRmbsLineDto.getUsedProductsNumber()/params.getProductInstanceForHour())
-                                        .multiply(params.getTrainingHourPrice()))
+                                .subtract(
+                                        BigDecimal.valueOf(elctRmbsLineDto.getUsedProductsNumber().doubleValue()/params.getProductInstanceForHour().doubleValue())
+                                        .multiply(params.getTrainingHourPrice())
+                                )
                                 .multiply(elctRmbsLineDto.getOwnContributionPercentage())
                                 .setScale(BIG_DECIMAL_SUM_SCALE, RoundingMode.HALF_UP);
                         elctRmbsLineDto.setSxoIndAmountDueTotal(sxoAmount);
