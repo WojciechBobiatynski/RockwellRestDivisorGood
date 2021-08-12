@@ -1,0 +1,133 @@
+<section class="grid-30 section-promoted section-user-info">
+    <h2>{{model.entity.firstName + ' ' + model.entity.lastName}}</h2>
+    <h3>{{model.entity.pesel}}</h3>
+</section>
+
+<section class="grid-70 section-important section-contact-info">
+    <div class="section-contact-item">
+        <div class="fr">
+            <p class="description">Wszystkie informacje o projektach pn. „Kierunek Kariera Zawodowa” oraz "Kierunek Kariera" dostępne są na stronie<br><a href="http://www.pociagdokariery.pl" rel="external" title="Pociąg do Kariery">www.pociagdokariery.pl</a></p>
+            <a class="mail" href="mailto:tbok.kk@sodexo.com" title="tbok.kk@sodexo.com">tbok.kk@sodexo.com</a>
+        </div>
+        <h2>Telefoniczne Biura Obsługi Klienta</h2>
+        <div class="fl">
+            <h2>Kierunek Kariera</h2>
+            <h3 class="phone">+48 22 346 75 05</h3>
+        </div>
+        <div class="fl">
+            <h2>Kierunek Kariera Zawodowa</h2>
+            <h3 class="phone">+48 22 346 75 15</h3>
+        </div>
+    </div>
+</section>
+
+<section class="section-gryf-web-ind-index">
+    <strong class="label">Liczba bonów</strong>
+    <div class="block borderTop blue">
+        <div class="block">
+            <table id="ind-vou-table">
+                <thead class="text-left">
+                <th class="grid-10">
+                    <strong class="label">Projekt</strong>
+                </th>
+                <th class="grid-10">
+                    <strong class="label">Data ważności</strong>
+                </th>
+                <th class="grid-10">
+                    <strong class="label">Wszystkie</strong>
+                </th>
+                <th class="grid-10">
+                    <strong class="label">Zarezerwowane</strong>
+                </th>
+                <th class="grid-10">
+                    <strong class="label">Dostępne</strong>
+                </th>
+                <th class="grid-10">
+                    <strong class="label">Wykorzystane</strong>
+                </th>
+                <th class="grid-10">
+                    <strong class="label">Zwrócone</strong>
+                </th>
+                <th class="grid-10">
+                    <strong class="label">Data zamówienia</strong>
+                </th>
+                <th class="grid-10">
+                    <strong class="label">ID zamówienia</strong>
+                </th>
+
+                </thead>
+                <tbody class="tableData">
+                <tr ng-repeat="product in model.entity.products" ng-class="{'row-even': $even, 'row-odd': $odd}">
+
+                    <td>{{product.grantProgramName}}</td>
+                    <td>{{product.expirationDate  | date:'yyyy-MM-dd'}}</td>
+                    <td>{{product.grantedProductsCount}}</td>
+                    <td>{{product.reservedProductsCount}}</td>
+                    <td>{{product.availableProductsCount}}</td>
+                    <td>{{product.usedProductsCount}}</td>
+                    <td>{{product.returnedProductsCount}}</td>
+                    <td>{{product.orderDate  | date:'yyyy-MM-dd'}}</td>
+                    <td>{{product.orderId}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+
+<section class="section-gryf-web-ind-index">
+    <strong class="label">Usługi</strong>
+    <div class="block borderTop blue">
+        <div class="block">
+            <table id="ind-services-table">
+                <thead class="tableHeader-names text-left">
+                    <th class="grid-20">
+                        <strong class="label">Projekt</strong>
+                    </th>
+                    <th class="grid-20">
+                        <strong class="label">Nazwa usługi</strong>
+                    </th>
+                    <th class="grid-20">
+                        <strong class="label">Nazwa Usługodawcy</strong>
+                    </th>
+                    <th class="grid-10">
+                        <strong class="label">Liczba bonów</strong>
+                    </th>
+                    <th class="grid-10">
+                        <strong class="label">Data zapisu</strong>
+                    </th>
+                    <th class="grid-10">
+                        <strong class="label">Data rozpoczęcia</strong>
+                    </th>
+                    <th class="grid-10">
+                        <strong class="label">Data zakończenia</strong>
+                    </th>
+                    <th class="grid-10">
+                        <strong class="label">Status</strong>
+                    </th>
+                    <th class="grid-10">
+                        <strong class="label">Akcje</strong>
+                    </th>
+                </thead>
+                <tbody class="tableData">
+                <tr ng-repeat="tra in model.entity.trainings" ng-class="{'row-even': $even, 'row-odd': $odd}">
+                    <td>{{tra.grantProgramName}}</td>
+                    <td>{{tra.name}}</td>
+                    <td>{{tra.trainingInstitutionName}}</td>
+                    <td>{{tra.productsCount}}</td>
+                    <td>{{tra.signDate  | date:'yyyy-MM-dd'}}</td>
+                    <td>{{tra.startDate  | date:'yyyy-MM-dd'}}</td>
+                    <td>{{tra.endDate  | date:'yyyy-MM-dd'}}</td>
+                    <td>{{tra.trainingStatus}}</td>
+                    <td>
+                        <ul class="text-center no-margin-padding">
+                            <li role="button" ng-if="tra.trainingStatusId == 'RES'"><a ui-sref="sendPinModal({trainingInstanceId: tra.id})" class="textButton">WYŚLIJ PIN</a></li>
+                        </ul>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
