@@ -3,12 +3,10 @@
  */
 "use strict";
 
-declare var angular;
-declare var contextPath;
+
 
 angular.module("gryf.ind").factory("IndividualUserService", ["$http", "GryfModals", "GryfPopups",
     function($http, GryfModals, GryfPopups) {
-
 
         var FIND_IND_URL = contextPath + "/rest/ind/";
         var SEND_REIMBURSMENT_PIN_URL = contextPath + "/rest/ind/reimbursmentPin/resend";

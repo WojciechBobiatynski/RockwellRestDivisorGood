@@ -7,7 +7,7 @@ declare var contextPath: string;
 
 
 @Component({
-  selector: 'app-dashboard',
+  selector: 'gryf-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
@@ -15,14 +15,13 @@ declare var contextPath: string;
 export class DashboardComponent implements OnInit {
   stateProvider: any;
   urlRouterProvider: any;
+  private username: any;
+  private authService: any;
 
   ngOnInit() {
     this.username = this.authService.username;
   }
-
 }
-
-
 
 
 angular.module("gryf.ind").config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $urlRouterProvider) {
